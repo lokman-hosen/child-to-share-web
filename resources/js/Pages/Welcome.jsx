@@ -158,14 +158,22 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors focus:ring-4 focus:ring-green-200"
+                                className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors focus:ring-4 focus:ring-green-200"
                             >
                                 Log In
                             </button>
                         </form>
-                        <div className="mt-6 pt-4 border-t border-gray-200">
-                            <p className="text-center text-gray-600">Don't have an account? <a href="#" className="text-primary font-semibold hover:underline">Sign up</a></p>
-                        </div>
+                        { !auth.user &&
+                            <div className="mt-6 pt-4 border-t border-gray-200">
+                                <p className="text-center text-gray-600">Don't have an account?
+                                    <Link
+                                        href={route('register')}
+                                       className="text-primary font-semibold hover:underline">Sign up
+                                    </Link>
+                                </p>
+                            </div>
+                        }
+
                     </div>
                     <div className="bg-white auth-card p-6 rounded-xl">
                         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Join Our Community</h2>
