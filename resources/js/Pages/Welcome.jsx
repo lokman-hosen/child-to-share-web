@@ -19,7 +19,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
     return (
         <>
             <Head title="Welcome" />
-            <header className="bg-white shadow-md sticky top-0 z-50">
+            <header className="bg-white shadow-md sticky top-0 z-50 font-nunito">
                 <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center">
                     <div className="logo flex items-center">
                         <img
@@ -75,7 +75,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
                     </div>
                 </div>
             </header>
-            <main className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+            <main className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8 font-nunito">
                 <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
                     <div className="bg-white auth-card p-1 rounded-xl">
                         <div className="rounded-xl overflow-hidden">
