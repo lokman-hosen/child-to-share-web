@@ -1,10 +1,10 @@
 import React from 'react';
-import {Head} from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import {faCheck, faGift, faHandshake, faStar, faUsers} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
-export default function Welcome() {
+export default function Welcome({ auth, laravelVersion, phpVersion }) {
     const handleImageError = () => {
         document
             .getElementById('screenshot-container')
@@ -48,18 +48,30 @@ export default function Welcome() {
                         </ul>
                     </nav>
                     <div className="auth-buttons flex gap-2 mt-4 md:mt-0">
-                        <a
-                            href="#"
-                            className="px-4 py-2 rounded-full border-2 border-primary text-primary font-semibold hover:bg-primary hover:text-white transition-colors"
-                        >
-                            Log In
-                        </a>
-                        <a
-                            href="#"
-                            className="px-4 py-2 rounded-full bg-primary text-white font-semibold hover:bg-green-600 transition-colors"
-                        >
-                            Sign Up
-                        </a>
+
+                        {auth.user ? (
+                            <Link
+                                href={route('dashboard')}
+                                className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            >
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <>
+                                <Link
+                                    href={route('login')}
+                                    className="px-4 py-2 rounded-full border-2 font-semibold bg-orange-500 hover:bg-primary hover:text-white transition-colors"
+                                >
+                                    Log in
+                                </Link>
+                                <Link
+                                    href={route('register')}
+                                    className="px-4 py-2 rounded-full bg-green-500 text-white font-semibold hover:bg-green-600 transition-colors"
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </header>
