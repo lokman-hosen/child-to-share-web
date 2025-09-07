@@ -159,7 +159,7 @@ export default function Register({guardianRelations,genders}) {
                                         value={data.mobile}
                                         onChange={(e) => setData('mobile', e.target.value)}
                                         error={errors.mobile}
-                                        placeholder={data.role == 'wisher' ? 'Enter guardian mobile number' : 'Enter mobile number'}
+                                        placeholder={data.role === 'wisher' ? 'Enter guardian mobile number' : 'Enter mobile number'}
                                         required
                                     />
                                     <TextInput
