@@ -150,6 +150,7 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('name', e.target.value)}
                                         error={errors.name}
                                         placeholder="Enter name"
+                                        required
                                     />
 
                                     <TextInput
@@ -158,7 +159,8 @@ export default function Register({guardianRelations,genders}) {
                                         value={data.mobile}
                                         onChange={(e) => setData('mobile', e.target.value)}
                                         error={errors.mobile}
-                                        placeholder="Enter mobile number"
+                                        placeholder={data.role == 'wisher' ? 'Enter guardian mobile number' : 'Enter mobile number'}
+                                        required
                                     />
                                     <TextInput
                                         id="email"
@@ -177,6 +179,7 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(value) => setData('dob', value)}
                                         error={errors.dob}
                                         placeholder="Select DOB"
+                                        required
                                     />
 
                                     <SelectInput
@@ -186,6 +189,7 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('gender', e.target.value)}
                                         error={errors.gender}
                                         options={genderOptions}
+                                        required
                                     />
 
                                     <TextInput
@@ -215,6 +219,7 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('password', e.target.value)}
                                         error={errors.password}
                                         placeholder="Enter password"
+                                        required
                                     />
                                 </div>
 
@@ -229,6 +234,7 @@ export default function Register({guardianRelations,genders}) {
                                             onChange={(e) => setData('guardian_name', e.target.value)}
                                             error={errors.guardian_name}
                                             placeholder="Enter guardian number"
+                                            required
                                         />
                                         <TextInput
                                             id="guardian_phone"
@@ -237,6 +243,7 @@ export default function Register({guardianRelations,genders}) {
                                             onChange={(e) => setData('guardian_phone', e.target.value)}
                                             error={errors.guardian_phone}
                                             placeholder="Enter guardian phone number"
+                                            required
                                         />
                                         <SelectInput
                                             id="relationship"
@@ -245,6 +252,7 @@ export default function Register({guardianRelations,genders}) {
                                             onChange={(e) => setData('relationship', e.target.value)}
                                             error={errors.relationship}
                                             options={relationOptions}
+                                            required
                                         />
                                     </div>
                                 )}
