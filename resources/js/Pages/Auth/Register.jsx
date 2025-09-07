@@ -270,6 +270,7 @@ export default function Register({guardianRelations,genders}) {
                                                 className={`flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary focus:border-transparent ${(errors.latitude || errors.longitude) ? 'border-red-500' : ''}`}
                                                 value={locationText}
                                             />
+
                                             <button
                                                 type="button"
                                                 onClick={handleGetLocation}
@@ -277,13 +278,25 @@ export default function Register({guardianRelations,genders}) {
                                                 className="bg-gray-200 px-4 rounded-r-lg border border-l-0 border-gray-300 hover:bg-gray-300 transition-colors"
                                             >
                                                 {isLocating ? (
-                                                    <FontAwesomeIcon icon={faSpinner} />
+                                                    <FontAwesomeIcon icon={faSpinner}/>
                                                 ) : (
-                                                    <FontAwesomeIcon icon={faMapMarkerAlt} />
+                                                    <FontAwesomeIcon icon={faMapMarkerAlt}/>
                                                 )}
                                             </button>
                                         </div>
-                                        {(errors.latitude || errors.longitude)  && <p className="mt-1 text-sm text-red-600">Location required. Click on "location icon" to provide location</p>}
+                                        {(data.latitude || data.longitude) ?
+                                            <div id="emailHelp" className="text-green-600 text-xs">
+                                                Thanks, you set your location..
+                                            </div>
+                                            :
+                                            <div id="emailHelp" className="text-red-600 text-xs">
+                                                Location not given. Click on location icon to provide your location.
+                                            </div>
+                                        }
+
+                                        {(errors.latitude || errors.longitude) &&
+                                            <p className="mt-1 text-sm text-red-600">Location required. Click on
+                                                "location icon" to provide location</p>}
                                     </div>
 
                                     <TextareaInput
