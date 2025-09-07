@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('wishers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
             $table->string('guardian_name');
             $table->string('guardian_phone');
             $table->string('relationship');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -34,10 +35,11 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse
     {
+        //dd($request->all());
         // Use a database transaction to ensure both records are created
-        DB::beginTransaction();
+        //DB::beginTransaction();
 
         try {
             // Step 1: Handle photo upload if present
@@ -52,13 +54,14 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'password' => Hash::make($request->password),
-                'user_type' => $request->user_type,
+                'user_type' => $request->role,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
             ]);
 
             // Step 3: Create the role-specific record based on user_type
-            if ($request->user_type === 'donor') {
+            if ($request->role === 'donor') {
+               // dd($request->all());
                 $user->donor()->create([
                     'name' => $request->name,
                     'dob' => $request->dob,
@@ -67,7 +70,7 @@ class RegisteredUserController extends Controller
                     'photo' => $photoPath,
                     'gender' => $request->gender,
                 ]);
-            } elseif ($request->user_type === 'wisher') {
+            } elseif ($request->role === 'wisher') {
                 $user->wisher()->create([
                     'name' => $request->name,
                     'dob' => $request->dob,
@@ -79,7 +82,7 @@ class RegisteredUserController extends Controller
                     'guardian_phone' => $request->guardian_phone,
                     'relationship' => $request->relationship,
                 ]);
-            } elseif ($request->user_type === 'leader') {
+            } elseif ($request->role === 'leader') {
                 $user->leader()->create([
                     'name' => $request->name,
                     'dob' => $request->dob,
@@ -96,7 +99,8 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
-    }catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
             // If any part fails, roll back the transaction and return to the form with an error
             DB::rollBack();
             return back()->withErrors(['registration' => 'Registration failed. Please try again.']);

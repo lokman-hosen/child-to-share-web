@@ -8,18 +8,13 @@ import {getCommonOptions} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 import {
-    faMapMarked,
-    faMapMarkedAlt,
-    faMapMarker,
     faMapMarkerAlt,
     faSpinner,
-    faStar
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default function Register({guardianRelations,genders}) {
     // State to manage the selected role
-    const [role, setRole] = useState('donor');
     const [isLocating, setIsLocating] = useState(false);
     const [locationError, setLocationError] = useState(null);
 
@@ -39,6 +34,7 @@ export default function Register({guardianRelations,genders}) {
         guardian_phone: '',
         relationship: '',
         password: '',
+        role: 'donor',
     });
 
     const submit = (e) => {
@@ -118,8 +114,8 @@ export default function Register({guardianRelations,genders}) {
                                 <h3 className="text-xl font-semibold mb-4">I want to:</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                                     <div
-                                        onClick={() => setRole('donor')}
-                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${role === 'donor' ? 'border-green-400 shadow-md' : 'border-gray-200 hover:border-green-300'}`}
+                                        onClick={() => setData('role', 'donor')}
+                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${data.role === 'donor' ? 'border-green-400 shadow-md' : 'border-gray-200 hover:border-green-300'}`}
                                     >
                                         <div className="text-4xl mb-3">🎁</div>
                                         <h4 className="font-semibold">Donate</h4>
@@ -127,8 +123,8 @@ export default function Register({guardianRelations,genders}) {
                                     </div>
 
                                     <div
-                                        onClick={() => setRole('wisher')}
-                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${role === 'wisher' ? 'border-orange-400 shadow-md' : 'border-gray-200 hover:border-orange-300'}`}
+                                        onClick={() => setData('role', 'wisher')}
+                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${data.role === 'wisher' ? 'border-orange-400 shadow-md' : 'border-gray-200 hover:border-orange-300'}`}
                                     >
                                         <div className="text-4xl mb-3">✨</div>
                                         <h4 className="font-semibold">Make a Wish</h4>
@@ -136,8 +132,8 @@ export default function Register({guardianRelations,genders}) {
                                     </div>
 
                                     <div
-                                        onClick={() => setRole('leader')}
-                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${role === 'leader' ? 'border-blue-400 shadow-md' : 'border-gray-200 hover:border-blue-300'}`}
+                                        onClick={() => setData('role', 'leader')}
+                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${data.role === 'leader' ? 'border-blue-400 shadow-md' : 'border-gray-200 hover:border-blue-300'}`}
                                     >
                                         <div className="text-4xl mb-3">🌟</div>
                                         <h4 className="font-semibold">Lead a Community</h4>
@@ -230,7 +226,7 @@ export default function Register({guardianRelations,genders}) {
                                 </div>
 
                                 {/* Wisher-specific fields (Conditional Rendering) */}
-                                {role === 'wisher' && (
+                                {data.role === 'wisher' && (
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <TextInput

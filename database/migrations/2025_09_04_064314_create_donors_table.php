@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('donors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
             $table->date('dob')->nullable();
             $table->mediumText('address')->nullable();
             $table->string('organization')->nullable();
