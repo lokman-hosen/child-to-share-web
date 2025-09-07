@@ -150,7 +150,6 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('name', e.target.value)}
                                         error={errors.name}
                                         placeholder="Enter name"
-                                        required
                                     />
 
                                     <TextInput
@@ -160,7 +159,6 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('mobile', e.target.value)}
                                         error={errors.mobile}
                                         placeholder="Enter mobile number"
-                                        required
                                     />
                                     <TextInput
                                         id="email"
@@ -170,7 +168,6 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('email', e.target.value)}
                                         error={errors.email}
                                         placeholder="Enter email number"
-                                        required
                                     />
 
                                     <DateInput
@@ -189,7 +186,6 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('gender', e.target.value)}
                                         error={errors.gender}
                                         options={genderOptions}
-                                        required
                                     />
 
                                     <TextInput
@@ -199,7 +195,6 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('organization', e.target.value)}
                                         error={errors.organization}
                                         placeholder="Enter organization name"
-                                        required
                                     />
 
 
@@ -210,7 +205,6 @@ export default function Register({guardianRelations,genders}) {
                                         currentFileUrl={data?.photo || null}
                                         error={errors.photo}
                                         accept="image/png, image/jpg, image/jpeg"
-                                        required
                                     />
 
                                     <TextInput
@@ -221,7 +215,6 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('password', e.target.value)}
                                         error={errors.password}
                                         placeholder="Enter password"
-                                        required
                                     />
                                 </div>
 
@@ -236,7 +229,6 @@ export default function Register({guardianRelations,genders}) {
                                             onChange={(e) => setData('guardian_name', e.target.value)}
                                             error={errors.guardian_name}
                                             placeholder="Enter guardian number"
-                                            required
                                         />
                                         <TextInput
                                             id="guardian_phone"
@@ -245,7 +237,6 @@ export default function Register({guardianRelations,genders}) {
                                             onChange={(e) => setData('guardian_phone', e.target.value)}
                                             error={errors.guardian_phone}
                                             placeholder="Enter guardian phone number"
-                                            required
                                         />
                                         <SelectInput
                                             id="relationship"
@@ -254,7 +245,6 @@ export default function Register({guardianRelations,genders}) {
                                             onChange={(e) => setData('relationship', e.target.value)}
                                             error={errors.relationship}
                                             options={relationOptions}
-                                            required
                                         />
                                     </div>
                                 )}
@@ -269,9 +259,8 @@ export default function Register({guardianRelations,genders}) {
                                             <input
                                                 type="text"
                                                 readOnly
-                                                className={`flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary focus:border-transparent ${errors.location ? 'border-red-500' : ''}`}
+                                                className={`flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary focus:border-transparent ${(errors.latitude || errors.longitude) ? 'border-red-500' : ''}`}
                                                 value={locationText}
-                                                required
                                             />
                                             <button
                                                 type="button"
@@ -286,7 +275,7 @@ export default function Register({guardianRelations,genders}) {
                                                 )}
                                             </button>
                                         </div>
-                                        {errors.location && <p className="mt-1 text-sm text-red-600">{errors.location}</p>}
+                                        {(errors.latitude || errors.longitude)  && <p className="mt-1 text-sm text-red-600">Location required. Click on "location icon" to provide location</p>}
                                     </div>
 
                                     <TextareaInput
@@ -296,7 +285,6 @@ export default function Register({guardianRelations,genders}) {
                                         onChange={(e) => setData('address', e.target.value)}
                                         error={errors.address}
                                         placeholder="Enter Address"
-                                        required
                                     />
                                 </div>
 

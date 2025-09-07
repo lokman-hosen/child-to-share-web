@@ -28,10 +28,10 @@ class StoreUserRequest extends FormRequest
             'mobile' => 'required|string|max:20|unique:users,mobile',
             'email' => 'nullable|string|email|max:255|unique:users',
             //'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'password' => ['required'],
+            'password' => ['required',Rules\Password::defaults()],
             'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
-            'dob' => 'nullable|date',
-            'address' => 'nullable|string',
+            'dob' => 'required|date',
+            'address' => 'required|string',
             'organization' => 'nullable|string',
             'gender' => ['required', Rule::in(['male', 'female', 'other'])],
             'photo' => 'nullable|image|max:5000', // 5MB max
