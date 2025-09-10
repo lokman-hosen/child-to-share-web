@@ -1,16 +1,17 @@
 import { Link } from "@inertiajs/react";
-import {faChevronDown, faGift, faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faChevronDown, faGift, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 
 export default function LeftSidebar() {
     let faChevronDownown;
     return (
-        <div className="w-full lg:w-1/4 mb-6 lg:mb-0">
+        <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
             <div className="bg-white rounded-xl shadow-md p-5 sticky top-24">
                 <h2 className="text-lg font-bold text-gray-800 mb-5 flex items-center">
-                    <i className="fas fa-bars mr-2 text-blue-600"></i>
-
+                    <div className="mr-2 text-green-500">
+                        <FontAwesomeIcon icon={faBars}/>
+                    </div>
                     Menu (Donor Panel)
                 </h2>
 
@@ -27,7 +28,6 @@ export default function LeftSidebar() {
                             <div className="text-xs">
                                 <FontAwesomeIcon icon={faChevronDown}/>
                             </div>
-
 
                         </div>
                         <ul className="ml-8 mt-1 space-y-2">

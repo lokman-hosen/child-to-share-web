@@ -5,8 +5,8 @@ export default function Dashboard() {
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard"/>
-            
-            <div className="w-full lg:w-2/4 mb-6 lg:mb-0 mt-[65px]">
+
+            <div className="w-full lg:w-4/6 mb-6 lg:mb-0 mt-[65px]">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div className="dashboard-card bg-white rounded-xl p-6 shadow-md flex items-center">
                         <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mr-4">
@@ -43,7 +43,7 @@ export default function Dashboard() {
                         <h3 className="text-xl font-semibold flex items-center">
                             <i className="fas fa-gift mr-2 text-primary"></i> My Donations
                         </h3>
-                        <p className="text-sm text-gray-600">Items you created</p>
+                        <p className="text-sm text-gray-600">Recent 5 donations</p>
                     </div>
                     <div className="p-4 overflow-x-auto">
                         <table className="wish-table w-full">

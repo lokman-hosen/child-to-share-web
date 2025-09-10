@@ -2,7 +2,7 @@ import {Link} from "@inertiajs/react";
 
 export default function RightSidebar() {
     return (
-        <div className="w-full lg:w-1/4">
+        <div className="w-full lg:w-1/6">
             <div className="bg-white rounded-xl shadow-md p-5 sticky top-24">
                 <h2 className="text-lg font-bold text-gray-800 mb-5 flex items-center">
                     <i className="fas fa-star mr-2 text-secondary"></i> Popular Wishes
