@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/react';
 export default function Dashboard() {
     return (
         <AuthenticatedLayout>
-            <Head title="Donation"/>
+            <Head title="Donation Create"/>
             <div className="w-full lg:w-4/6 mb-6 lg:mb-0 mt-[65px]">
                 <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8">
                     <div className="bg-green-100 p-4">

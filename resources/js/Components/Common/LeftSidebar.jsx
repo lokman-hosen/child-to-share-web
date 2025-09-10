@@ -31,15 +31,19 @@ export default function LeftSidebar() {
 
                         </div>
                         <ul className="ml-8 mt-1 space-y-2">
-                            <li>
-                                <a href="wish.html" className="text-sm text-gray-600 hover:text-blue-600 block py-1">
+                            <li className={`${route().current('donations.*') ? 'text-blue-600' : ''}`}>
+                                <Link
+                                    href={route('donations.index')}
+                                    className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.index') ? 'text-blue-600' : 'text-gray-600'}`}>
                                     My Donations
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" onClick="openDonationModal()" className="text-sm text-gray-600 hover:text-blue-600 block py-1">
+                                <Link
+                                    href={route('donations.create')}
+                                    className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.create') ? 'text-blue-600' : 'text-gray-600'}`}>
                                     Create Donation
-                                </a>
+                                </Link>
                             </li>
                         </ul>
                     </li>
