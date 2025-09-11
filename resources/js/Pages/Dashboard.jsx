@@ -1,7 +1,16 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, Link} from '@inertiajs/react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBackward, faCancel, faEdit, faList, faSave, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {
+    faBackward,
+    faCancel,
+    faDashboard,
+    faEdit, faGift, faHandsHelping,
+    faList,
+    faSave,
+    faStar,
+    faTrash
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Dashboard() {
     return (
@@ -12,18 +21,20 @@ export default function Dashboard() {
                     <div className="bg-white rounded-xl shadow-md border border-gray-100">
                         {/* Card Header */}
                         <div className="flex items-center justify-between border-b px-6 py-4">
-                            <h2 className="text-lg font-semibold text-gray-800">
-                                Donor Dashboard
+                            <h2 className="text-lg font-semibold text-green-800">
+                                <FontAwesomeIcon icon={faDashboard}/> Donor Dashboard
                             </h2>
                         </div>
 
                         {/* Card Body */}
                         <div className="p-6">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                                <div className="dashboard-card bg-white rounded-xl p-6 shadow-md flex items-center">
+                                <div className="dashboard-card bg-white rounded-xl p-6 shadow-md flex items-center border border-gray-100">
                                     <div
                                         className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mr-4">
-                                        <i className="fas fa-star text-3xl text-purple-500"></i>
+                                        <div className="text-3xl text-purple-500">
+                                            <FontAwesomeIcon icon={faStar}/>
+                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-bold">5</h3>
@@ -31,10 +42,12 @@ export default function Dashboard() {
                                     </div>
                                 </div>
 
-                                <div className="dashboard-card bg-white rounded-xl p-6 shadow-md flex items-center">
+                                <div className="dashboard-card bg-white rounded-xl p-6 shadow-md flex items-center border border-gray-100">
                                     <div
                                         className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                                        <i className="fas fa-gift text-3xl text-accent"></i>
+                                        <div className="text-3xl text-accent">
+                                            <FontAwesomeIcon icon={faGift}/>
+                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-bold">23</h3>
@@ -42,10 +55,12 @@ export default function Dashboard() {
                                     </div>
                                 </div>
 
-                                <div className="dashboard-card bg-white rounded-xl p-6 shadow-md flex items-center">
+                                <div className="dashboard-card bg-white rounded-xl p-6 shadow-md flex items-center border border-gray-100">
                                     <div
                                         className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mr-4">
-                                        <i className="fas fa-hands-helping text-3xl text-primary"></i>
+                                        <div className="text-3xl text-blue-500">
+                                            <FontAwesomeIcon icon={faHandsHelping}/>
+                                        </div>
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-bold">3</h3>
