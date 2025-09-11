@@ -4,15 +4,12 @@ import {
     faChevronDown,
     faGift,
     faHome, faSignOutAlt,
-    faSpinner,
-    faStar,
     faUserCircle
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 
 export default function LeftSidebar() {
-    let faChevronDownown;
     return (
         <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
             <div className="bg-white rounded-xl shadow-md p-5 sticky top-24">
