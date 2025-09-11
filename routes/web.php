@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resources([
         'donations' => DonationController::class,
+        'wishes' => WishController::class,
     ]);
 });
 

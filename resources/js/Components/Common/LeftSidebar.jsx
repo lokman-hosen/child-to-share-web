@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
 import {
     faBars,
     faChevronDown,
@@ -10,6 +10,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 
 export default function LeftSidebar() {
+
+    const user = usePage().props.auth.user;
     return (
         <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
             <div className="bg-white rounded-xl shadow-md p-5 sticky top-24">
@@ -46,20 +48,42 @@ export default function LeftSidebar() {
 
                         </div>
                         <ul className="ml-8 mt-1 space-y-2">
-                            <li className={`${route().current('donations.*') ? 'text-blue-600' : ''}`}>
-                                <Link
-                                    href={route('donations.index')}
-                                    className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.index') ? 'text-blue-600' : 'text-gray-600'}`}>
-                                    My Donations
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={route('donations.create')}
-                                    className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.create') ? 'text-blue-600' : 'text-gray-600'}`}>
-                                    Create Donation
-                                </Link>
-                            </li>
+                            { user.user_type === 'donor' && (
+                                <>
+                                    <li className={`${route().current('donations.*') ? 'text-blue-600' : ''}`}>
+                                        <Link
+                                            href={route('donations.index')}
+                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.index') ? 'text-blue-600' : 'text-gray-600'}`}>
+                                            My Donations
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            href={route('donations.create')}
+                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.create') ? 'text-blue-600' : 'text-gray-600'}`}>
+                                            Create Donation
+                                        </Link>
+                                    </li>
+                                </>
+                            )}
+                            { user.user_type === 'wisher' && (
+                                <>
+                                    <li className={`${route().current('donations.*') ? 'text-blue-600' : ''}`}>
+                                        <Link
+                                            href={route('donations.index')}
+                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.index') ? 'text-blue-600' : 'text-gray-600'}`}>
+                                            My Donations
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            href={route('donations.create')}
+                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.create') ? 'text-blue-600' : 'text-gray-600'}`}>
+                                            Create Donation
+                                        </Link>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </li>
 
@@ -118,7 +142,9 @@ export default function LeftSidebar() {
                     {/*</li>*/}
                     <li>
                         <Link
-                            href="#"
+                            href={route('logout')}
+                            method="post"
+                            as="button"
                            className="flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-sky-50 hover:border-l-4 hover:border-green-500">
                             <div className="mr-3 text-blue-500">
                                 <FontAwesomeIcon icon={faSignOutAlt}/>
