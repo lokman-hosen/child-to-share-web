@@ -109,28 +109,28 @@ export default function Register({guardianRelations,genders}) {
                         <p className="text-lg">Create an account to start sharing or making wishes</p>
                     </div>
 
-                    <div className="px-6 pt-6">
-                        <div className="flex justify-between items-center mb-8">
-                            <div className="flex items-center text-purple-600">
-                                <div
-                                    className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center">1
-                                </div>
-                                <span className="ml-2 font-semibold">Select Role</span>
-                            </div>
-                            <div className="h-1 flex-grow bg-gray-200 mx-2"></div>
-                            <div className="flex items-center text-gray-400">
-                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">2
-                                </div>
-                                <span className="ml-2 font-semibold">Account Details</span>
-                            </div>
-                            <div className="h-1 flex-grow bg-gray-200 mx-2"></div>
-                            <div className="flex items-center text-gray-400">
-                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3
-                                </div>
-                                <span className="ml-2 font-semibold">Confirmation</span>
-                            </div>
-                        </div>
-                    </div>
+                    {/*<div className="px-6 pt-6">*/}
+                    {/*    <div className="flex justify-between items-center mb-8">*/}
+                    {/*        <div className="flex items-center text-purple-600">*/}
+                    {/*            <div*/}
+                    {/*                className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center">1*/}
+                    {/*            </div>*/}
+                    {/*            <span className="ml-2 font-semibold">Select Role</span>*/}
+                    {/*        </div>*/}
+                    {/*        <div className="h-1 flex-grow bg-gray-200 mx-2"></div>*/}
+                    {/*        <div className="flex items-center text-gray-400">*/}
+                    {/*            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">2*/}
+                    {/*            </div>*/}
+                    {/*            <span className="ml-2 font-semibold">Account Details</span>*/}
+                    {/*        </div>*/}
+                    {/*        <div className="h-1 flex-grow bg-gray-200 mx-2"></div>*/}
+                    {/*        <div className="flex items-center text-gray-400">*/}
+                    {/*            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3*/}
+                    {/*            </div>*/}
+                    {/*            <span className="ml-2 font-semibold">Confirmation</span>*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="px-6 pb-8">
@@ -139,7 +139,7 @@ export default function Register({guardianRelations,genders}) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                                 <div
                                     onClick={() => setData('role', 'donor')}
-                                    className="role-option p-5 text-center" data-role="donor">
+                                    className={`role-option p-5 text-center ${data.role === 'donor' ? 'selected' : ''}`} data-role="donor">
                                     <div className="text-4xl mb-3 text-green-500">🎁</div>
                                     <h3 className="font-semibold">Donate Items</h3>
                                     <p className="text-sm text-gray-600 mt-2">Share items with children in need</p>
@@ -147,7 +147,7 @@ export default function Register({guardianRelations,genders}) {
 
                                 <div
                                     onClick={() => setData('role', 'wisher')}
-                                    className="role-option p-5 text-center" data-role="wisher">
+                                    className={`role-option p-5 text-center ${data.role === 'wisher' ? 'selected' : ''}`} data-role="wisher">
                                     <div className="text-4xl mb-3 text-purple-500">✨</div>
                                     <h3 className="font-semibold">Make a Wish</h3>
                                     <p className="text-sm text-gray-600 mt-2">Request items you need</p>
@@ -155,12 +155,16 @@ export default function Register({guardianRelations,genders}) {
 
                                 <div
                                     onClick={() => setData('role', 'leader')}
-                                    className="role-option p-5 text-center" data-role="leader">
+                                    className={`role-option p-5 text-center ${data.role === 'leader' ? 'selected' : ''}`} data-role="leader">
                                     <div className="text-4xl mb-3 text-blue-500">🌟</div>
                                     <h3 className="font-semibold">Community Leader</h3>
                                     <p className="text-sm text-gray-600 mt-2">Organize sharing in your area</p>
                                 </div>
                             </div>
+                            {data.role === 'wisher' &&
+                                <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Child Information</h3>
+                            }
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <TextInput
                                     id="name"
@@ -183,12 +187,12 @@ export default function Register({guardianRelations,genders}) {
                                 />
                                 <TextInput
                                     id="email"
-                                    label="Email (optional)"
+                                    label="Email"
                                     value={data.email}
                                     type="email"
                                     onChange={(e) => setData('email', e.target.value)}
                                     error={errors.email}
-                                    placeholder="Enter email number"
+                                    placeholder="Enter email address"
                                 />
 
                                 <DateInput
@@ -213,6 +217,7 @@ export default function Register({guardianRelations,genders}) {
 
                                 <TextInput
                                     id="organization"
+                                    type="text"
                                     label="Organization/School"
                                     value={data.organization}
                                     onChange={(e) => setData('organization', e.target.value)}
@@ -244,36 +249,38 @@ export default function Register({guardianRelations,genders}) {
 
                             {/* Wisher-specific fields (Conditional Rendering) */}
                             {data.role === 'wisher' && (
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <TextInput
-                                        id="guardian_name"
-                                        label="Guardian Name"
-                                        value={data.guardian_name}
-                                        onChange={(e) => setData('guardian_name', e.target.value)}
-                                        error={errors.guardian_name}
-                                        placeholder="Enter guardian number"
-                                        required
-                                    />
-                                    <TextInput
-                                        id="guardian_phone"
-                                        label="Guardian Name"
-                                        value={data.guardian_phone}
-                                        onChange={(e) => setData('guardian_phone', e.target.value)}
-                                        error={errors.guardian_phone}
-                                        placeholder="Enter guardian phone number"
-                                        required
-                                    />
-                                    <SelectInput
-                                        id="relationship"
-                                        label="Relation with guardian"
-                                        value={data.relationship}
-                                        onChange={(e) => setData('relationship', e.target.value)}
-                                        error={errors.relationship}
-                                        options={relationOptions}
-                                        required
-                                    />
-                                </div>
+                                <>
+                                    <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian Information</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <TextInput
+                                            id="guardian_name"
+                                            label="Guardian Name"
+                                            value={data.guardian_name}
+                                            onChange={(e) => setData('guardian_name', e.target.value)}
+                                            error={errors.guardian_name}
+                                            placeholder="Enter guardian number"
+                                            required
+                                        />
+                                        <TextInput
+                                            id="guardian_phone"
+                                            label="Guardian Name"
+                                            value={data.guardian_phone}
+                                            onChange={(e) => setData('guardian_phone', e.target.value)}
+                                            error={errors.guardian_phone}
+                                            placeholder="Enter guardian phone number"
+                                            required
+                                        />
+                                        <SelectInput
+                                            id="relationship"
+                                            label="Relation with guardian"
+                                            value={data.relationship}
+                                            onChange={(e) => setData('relationship', e.target.value)}
+                                            error={errors.relationship}
+                                            options={relationOptions}
+                                            required
+                                        />
+                                    </div>
+                                </>
                             )}
 
                             <div className="grid grid-cols-1 gap-6 mt-5">
@@ -317,6 +324,8 @@ export default function Register({guardianRelations,genders}) {
                                         <p className="mt-1 text-sm text-red-600">Location required. Click on
                                             "location icon" to provide location</p>}
                                 </div>
+                            </div>
+                            <div className="grid grid-cols-1 gap-6 mt-5">
 
                                 <TextareaInput
                                     id="address"
@@ -327,9 +336,8 @@ export default function Register({guardianRelations,genders}) {
                                     placeholder="Enter Address"
                                 />
                             </div>
-
                             <button type="submit"
-                                    className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-purple-700 transition-colors focus:ring-4 focus:ring-purple-200">
+                                    className="w-full mt-5 bg-purple-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-purple-700 transition-colors focus:ring-4 focus:ring-purple-200">
                                 Create Account
                             </button>
                             <p className="text-center mt-6 text-gray-600">
