@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Fredoka', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.hero-section {
+    background: linear-gradient(rgba(92, 107, 192, 0.8), rgba(92, 107, 192, 0.8)), url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik00MCAxMEM0My4zMTM3IDEwIDQ2IDEyLjY4NjMgNDYgMTZDNDYgMTkuMzEzNyA0My4zMTM3IDIyIDQwIDIyQzM2LjY4NjMgMjIgMzQgMTkuMzEzNyAzNCAxNkMzNCAxMi42ODYzIDM2LjY4NjMgMTAgNDAgMTBaIiBmaWxsPSIjMzk0QTZGIi8+CjxwYXRoIGQ9Ik00MCA0MEM1MS4wNDU3IDQwIDYwIDMxLjA0NTcgNjAgMjBDNjAgOC45NTQzMDUgNTEuMDQ1NyAwIDQwIDBDMjguOTU0MyAwIDIwIDguOTU0MzA1IDIwIDIwQzIwIDMxLjA0NTcgMjguOTU0MyA0MCA0MCA0MFoiIGZpbGw9IiM2QjcyODAiIGZpbGwtb3BhY2l0eT0iMC4yIi8+Cjwvc3ZnPgo=');
+    background-size: cover;
+    background-position: center;
+}
+
+.card {
+    transition: all 0.3s ease;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+.wish-card, .donation-card {
+    border-left: 4px solid;
+}
+
+.wish-card {
+    border-left-color: #8B5CF6;
+}
+
+.donation-card {
+    border-left-color: #10B981;
+}
+
+.step-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 15px;
+    font-weight: bold;
+}
+
+.org-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.org-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.nav-item {
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    border-left: 4px solid #8B5CF6;
+    background-color: #f3f4f6;
+}
