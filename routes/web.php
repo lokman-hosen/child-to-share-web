@@ -14,11 +14,11 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
 // frontend routes
 Route::controller(WishController::class)->group(function () {
-    Route::get('wish', 'index');
+    Route::get('wish', 'index')->name('wish.index');
 });
 
 
