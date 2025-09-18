@@ -28,8 +28,11 @@ export default function Navbar() {
                                 Wishes
                             </Link>
 
-                            <a href="donation-new.html"
-                               className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">Donations</a>
+                            <Link
+                                href={route('donation.index')}
+                                className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                                Donations
+                            </Link>
                             <a href="#organizations"
                                className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">Organizations</a>
                         </div>

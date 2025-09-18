@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\DonationController;
+use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WishController;
 use Illuminate\Foundation\Application;
@@ -19,6 +19,9 @@ Route::get('/', function () {
 // frontend routes
 Route::controller(WishController::class)->group(function () {
     Route::get('wish', 'index')->name('wish.index');
+});
+Route::controller(DonationController::class)->group(function () {
+    Route::get('donation', 'index')->name('donation.index');
 });
 
 

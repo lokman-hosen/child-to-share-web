@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDonationRequest;
+use App\Http\Requests\UpdateDonationRequest;
+use App\Models\Donation;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DonationController extends Controller
 {
     const moduleDirectory = 'Donation/';
-    const moduleName = 'Donation List';
+    const moduleName = 'Donation List Category';
     /**
      * Display a listing of the resource.
      */
