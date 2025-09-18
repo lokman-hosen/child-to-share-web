@@ -7,10 +7,12 @@ export default function Navbar() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
-                        <div className="flex-shrink-0 flex items-center">
-                            <i className="fas fa-gift text-purple-500 text-2xl mr-2"></i>
-                            <span className="font-bold text-xl text-purple-600">ThreeWish</span>
-                        </div>
+                        <Link href={route('home')}>
+                            <div className="flex-shrink-0 flex items-center">
+                                <i className="fas fa-gift text-purple-500 text-2xl mr-2"></i>
+                                <span className="font-bold text-xl text-purple-600">ThreeWish</span>
+                            </div>
+                        </Link>
                         <div className="hidden md:ml-6 md:flex md:space-x-8">
                             <Link
                                 href={route('home')}
