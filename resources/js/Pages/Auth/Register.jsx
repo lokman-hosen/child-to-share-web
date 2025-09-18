@@ -3,7 +3,7 @@ import GuestLayout from '@/Layouts/GuestLayout';
 import TextInput from "@/Components/TextInputField.jsx";
 import DateInput from "@/Components/DateInput.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
-import {Head, useForm} from "@inertiajs/react";
+import {Head, Link, useForm} from "@inertiajs/react";
 import {getCommonOptions} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
@@ -341,14 +341,16 @@ export default function Register({guardianRelations,genders}) {
                                 Create Account
                             </button>
                             <p className="text-center mt-6 text-gray-600">
-                                Already have an account? <a href="login-new.html"
-                                                            className="text-purple-600 font-semibold hover:underline">Log
-                                In</a>
+                                Already have an account?
+                                <Link
+                                    href={route('login')}
+                                    className="text-purple-600 font-semibold hover:underline"
+                                >
+                                    Log In
+                                </Link>
                             </p>
                         </div>
                     </form>
-
-
                 </div>
             </main>
         </GuestLayout>

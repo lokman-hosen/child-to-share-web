@@ -41,7 +41,7 @@ export default function Login({ status, canResetPassword }) {
                         </div>
 
                         <div className="px-8 py-8">
-                            <form className="space-y-6">
+                            <form onSubmit={submit} className="space-y-6">
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2">Email or Phone
                                         Number</label>
@@ -50,9 +50,23 @@ export default function Login({ status, canResetPassword }) {
                                             className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="fas fa-user text-gray-400"></i>
                                         </div>
-                                        <input type="text" className="form-input w-full pl-10 pr-4 py-3"
-                                               placeholder="Enter your email or phone number" required/>
+
+                                        <TextInput
+                                            id="email"
+                                            type="email"
+                                            name="email"
+                                            value={data.email}
+                                            className="form-input w-full pl-10 pr-4 py-3"
+                                            autoComplete="username"
+                                            isFocused={true}
+                                            onChange={(e) => setData('email', e.target.value)}
+                                            placeholder="Enter your email or phone number"
+                                            required
+                                        />
+                                        <InputError message={errors.email} className="mt-2"/>
                                     </div>
+
+
                                 </div>
 
                                 <div>
@@ -62,29 +76,49 @@ export default function Login({ status, canResetPassword }) {
                                             className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <i className="fas fa-lock text-gray-400"></i>
                                         </div>
-                                        <input type="password" id="password"
-                                               className="form-input w-full pl-10 pr-10 py-3"
-                                               placeholder="Enter your password" required/>
+                                        <TextInput
+                                            id="password"
+                                            type="password"
+                                            name="password"
+                                            value={data.password}
+                                            className="form-input w-full pl-10 pr-10 py-3"
+                                            autoComplete="current-password"
+                                            onChange={(e) => setData('password', e.target.value)}
+                                            placeholder="Enter your password"
+                                            required
+                                        />
+                                        <InputError message={errors.password} className="mt-2"/>
                                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                    <span className="toggle-password text-gray-400 hover:text-gray-600"
-                                          id="togglePassword">
-                                        <i className="fas fa-eye"></i>
-                                    </span>
+                                            <span className="toggle-password text-gray-400 hover:text-gray-600"
+                                                  id="togglePassword">
+                                                <i className="fas fa-eye"></i>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center">
-                                        <input id="remember-me" name="remember-me" type="checkbox"
-                                               className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"/>
-                                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">Remember
-                                            me</label>
+                                        <Checkbox
+                                            className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                                            name="remember"
+                                            checked={data.remember}
+                                            onChange={(e) =>
+                                                setData('remember', e.target.checked)
+                                            }
+                                        />
+                                        <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">Remember me</label>
                                     </div>
 
                                     <div className="text-sm">
-                                        <a href="#" className="font-medium text-purple-600 hover:text-purple-500">Forgot
-                                            password?</a>
+                                        {canResetPassword && (
+                                            <Link
+                                                href={route('password.request')}
+                                                className="font-medium text-purple-600 hover:text-purple-500"
+                                            >
+                                                Forgot password?
+                                            </Link>
+                                        )}
                                     </div>
                                 </div>
 
@@ -92,40 +126,22 @@ export default function Login({ status, canResetPassword }) {
                                         className="login-btn w-full text-white py-3 rounded-lg font-semibold text-lg">
                                     Sign In
                                 </button>
-
-                                <div className="relative flex items-center">
-                                    <div className="flex-grow border-t border-gray-300"></div>
-                                    <span className="flex-shrink mx-4 text-gray-400">or continue with</span>
-                                    <div className="flex-grow border-t border-gray-300"></div>
-                                </div>
-
-                                Social Login
-                                <div className="grid grid-cols-2 gap-4">
-                                    <a href="#"
-                                       className="social-btn bg-white py-2 px-4 inline-flex justify-center items-center">
-                                        <i className="fab fa-google text-red-500 mr-2"></i>
-                                        <span>Google</span>
-                                    </a>
-                                    <a href="#"
-                                       className="social-btn bg-white py-2 px-4 inline-flex justify-center items-center">
-                                        <i className="fab fa-facebook text-blue-600 mr-2"></i>
-                                        <span>Facebook</span>
-                                    </a>
-                                </div>
                             </form>
 
                             <p className="text-center mt-6 text-gray-600">
-                                Don't have an account? <a href="registration-new.html"
-                                                          className="font-medium text-purple-600 hover:text-purple-500">Sign
-                                up</a>
+                                <span>Don't have an account? </span>
+                                <Link
+                                    href={route('register')}
+                                    className="font-medium text-purple-600 hover:text-purple-500"
+                                >
+                                    Sign up
+                                </Link>
                             </p>
                         </div>
                     </div>
 
                 </div>
             </main>
-
-
         </GuestLayout>
     );
 }
