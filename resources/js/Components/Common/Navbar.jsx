@@ -52,14 +52,20 @@ export default function Navbar() {
                     </div>
 
                     <div className="hidden md:flex items-center">
-                        <a href="registration-new.html"
-                           className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        <Link
+                            href={route('register')}
+                            className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        >
                             Sign Up
-                        </a>
-                        <a href="login-new.html"
-                           className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        </Link>
+
+                        <Link
+                            href={route('login')}
+                            className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        >
                             Login
-                        </a>
+                        </Link>
+
                     </div>
 
                     <div className="md:hidden flex items-center">
@@ -84,25 +90,55 @@ export default function Navbar() {
 
             <div className="md:hidden hidden" id="mobile-menu">
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <a href="index.html"
-                       className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">Home</a>
-                    <a href="#how-it-works"
-                       className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">How
-                        It Works</a>
-                    <a href="wish-new.html"
-                       className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">Wishes</a>
-                    <a href="donation-new.html"
-                       className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">Donations</a>
+                    <Link
+                        href={route('home')}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${
+                            route().current('home') && window.location.hash !== '#how-it-works'
+                                ? 'nav-item active'
+                                : ''
+                        }`}
+                    >
+                        Home
+                    </Link>
+                    <Link
+                        href={`${route('home')}#how-it-works`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${
+                            route().current('home') && window.location.hash === '#how-it-works'
+                                ? 'nav-item active'
+                                : ''
+                        }`}
+                    >
+                        How It Works
+                    </Link>
+                    <Link
+                        href={route('wish.index')}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}>
+                        Wishes
+                    </Link>
+
+                    <Link
+                        href={route('donation.index')}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}>
+                        Donations
+                    </Link>
                     <a href="#organizations"
                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">Organizations</a>
                 </div>
                 <div className="pt-4 pb-3 border-t border-gray-200">
                     <div className="mt-3 px-2 space-y-1">
-                        <a href="registration-new.html"
-                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">Sign
-                            Up</a>
-                        <a href="login-new.html"
-                           className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">Login</a>
+                        <Link
+                            href={route('register')}
+                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                        >
+                            Sign Up
+                        </Link>
+
+                        <Link
+                            href={route('login')}
+                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                        >
+                            Login
+                        </Link>
                     </div>
                 </div>
             </div>
