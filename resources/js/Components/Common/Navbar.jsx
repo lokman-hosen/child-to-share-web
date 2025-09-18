@@ -1,7 +1,13 @@
-import {Link} from "@inertiajs/react";
-import React from "react";
+import { Link } from "@inertiajs/react";
+import React, { useState } from "react";
 
 export default function Navbar() {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
     return (
         <nav className="bg-white shadow-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,30 +71,45 @@ export default function Navbar() {
                         >
                             Login
                         </Link>
-
                     </div>
 
                     <div className="md:hidden flex items-center">
-                        <button type="button" id="mobile-menu-button"
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
-                                aria-expanded="false">
+                        <button
+                            type="button"
+                            onClick={toggleMobileMenu}
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
+                            aria-expanded={isMobileMenuOpen}
+                        >
                             <span className="sr-only">Open main menu</span>
-                            <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M4 6h16M4 12h16M4 18h16"/>
+                            {/* Hamburger icon */}
+                            <svg
+                                className={`h-6 w-6 ${isMobileMenuOpen ? 'hidden' : 'block'}`}
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
-                            <svg className="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M6 18L18 6M6 6l12 12"/>
+                            {/* X icon */}
+                            <svg
+                                className={`h-6 w-6 ${isMobileMenuOpen ? 'block' : 'hidden'}`}
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div className="md:hidden hidden" id="mobile-menu">
+            {/* Mobile menu, show/hide based on menu state */}
+            <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <Link
                         href={route('home')}
@@ -97,6 +118,7 @@ export default function Navbar() {
                                 ? 'nav-item active'
                                 : ''
                         }`}
+                        onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Home
                     </Link>
@@ -107,28 +129,39 @@ export default function Navbar() {
                                 ? 'nav-item active'
                                 : ''
                         }`}
+                        onClick={() => setIsMobileMenuOpen(false)}
                     >
                         How It Works
                     </Link>
                     <Link
                         href={route('wish.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}>
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
                         Wishes
                     </Link>
 
                     <Link
                         href={route('donation.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}>
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('donation.index') ? 'nav-item active' : ''}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
                         Donations
                     </Link>
-                    <a href="#organizations"
-                       className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600">Organizations</a>
+                    <a
+                        href="#organizations"
+                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        Organizations
+                    </a>
                 </div>
                 <div className="pt-4 pb-3 border-t border-gray-200">
                     <div className="mt-3 px-2 space-y-1">
                         <Link
                             href={route('register')}
                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                            onClick={() => setIsMobileMenuOpen(false)}
                         >
                             Sign Up
                         </Link>
@@ -136,6 +169,7 @@ export default function Navbar() {
                         <Link
                             href={route('login')}
                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                            onClick={() => setIsMobileMenuOpen(false)}
                         >
                             Login
                         </Link>
