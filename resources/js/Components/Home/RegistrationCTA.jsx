@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "@inertiajs/react";
 
 const RegistrationCTA = () => {
     return (
@@ -8,18 +9,25 @@ const RegistrationCTA = () => {
                 <p className="text-xl mb-8 max-w-3xl mx-auto">Join ThreeWish today and become part of a community that
                     believes in the power of sharing and caring</p>
                 <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="registration-new.html"
-                       className="px-6 py-3 border-2 border-white text-base font-medium rounded-md shadow-sm text-white bg-transparent hover:bg-white hover:text-purple-600 transition duration-300">
+                    <Link
+                        href={route('register')}
+                        className="px-6 py-3 border-2 border-white text-base font-medium rounded-md shadow-sm text-white bg-transparent hover:bg-white hover:text-purple-600 transition duration-300">
                         Sign Up as Donor
-                    </a>
-                    <a href="registration-new.html"
-                       className="px-6 py-3 border-2 border-white text-base font-medium rounded-md shadow-sm text-white bg-transparent hover:bg-white hover:text-purple-600 transition duration-300">
+                    </Link>
+
+                    <Link
+                        href={route('register')}
+                        className="px-6 py-3 border-2 border-white text-base font-medium rounded-md shadow-sm text-white bg-transparent hover:bg-white hover:text-purple-600 transition duration-300">
                         Sign Up as Wisher
-                    </a>
+                    </Link>
                 </div>
-                <p className="mt-6 text-purple-100">Already have an account? <a target="_blank" href="login-new.html"
-                                                                                className="text-white font-semibold underline">Log
-                    in</a></p>
+                <p className="mt-6 text-purple-100">Already have an account?
+                    <Link
+                        href={route('register')}
+                        className="text-white font-semibold underline ml-1">
+                        Log in
+                    </Link>
+                </p>
             </div>
         </section>
     );

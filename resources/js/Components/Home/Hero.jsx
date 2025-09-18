@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "@inertiajs/react";
 
 const Hero = () => {
     return (
@@ -7,11 +8,13 @@ const Hero = () => {
                 <h1 className="text-4xl md:text-5xl font-bold mb-6">Where Children Learn the Joy of Giving</h1>
                 <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">A platform that connects children who have
                     items to share with those who have wishes to fulfill</p>
-                <a href="registration-new.html"
-                   className="cta-button inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white">
+
+                <Link
+                    href={route('register')}
+                    className="cta-button inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white">
                     Join ThreeWish Today
                     <i className="fas fa-arrow-right ml-2"></i>
-                </a>
+                </Link>
             </div>
         </section>
     );

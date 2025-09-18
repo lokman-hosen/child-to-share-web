@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "@inertiajs/react";
 
 const DonationList = () => {
     return (
@@ -66,8 +67,17 @@ const DonationList = () => {
                 </div>
                 <div className="text-center mt-8">
                     <p className="text-gray-600">
-                        <a className="text-blue-600" href="registration-new.html">Register</a> to see more
-                        <a className="text-blue-600" href="donation-new.html"> donations </a>
+                        <Link
+                            href={route('register')}
+                            className="text-blue-600 mr-1">
+                            Register
+                        </Link>
+                        to see more
+                        <Link
+                            href={route('register')}
+                            className="text-blue-600 mx-1">
+                            donations
+                        </Link>
                         and create your own
                     </p>
                 </div>

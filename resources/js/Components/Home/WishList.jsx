@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "@inertiajs/react";
 
 const WishList = () => {
     return (
@@ -66,8 +67,18 @@ const WishList = () => {
                 </div>
                 <div className="text-center mt-8">
                     <p className="text-gray-600">
-                        <a className="text-blue-600" href="registration-new.html">Sign up</a> to see more
-                        <a className="text-blue-600" href="wish-new.html"> wishes </a> and fulfill them
+                        <Link
+                            href={route('register')}
+                            className="text-blue-600 mr-1">
+                            Sign Up
+                        </Link>
+                        to see more
+                        <Link
+                            href={route('register')}
+                            className="text-blue-600 mx-1">
+                            wishes
+                        </Link>
+                        and fulfill them
                     </p>
                 </div>
             </div>
