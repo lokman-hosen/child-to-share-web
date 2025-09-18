@@ -101,225 +101,248 @@ export default function Register({guardianRelations,genders}) {
 
     return (
         <GuestLayout>
-            <Head title="Register" />
-            <div className="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 font-sans antialiased">
-                <div className="container w-full lg:w-1/2 xl:w-1/2 mx-auto px-4">
-                    <div className="bg-white rounded-xl shadow-md overflow-hidden">
-                        <div className="bg-gradient-to-r from-green-100 to-green-200 p-6 text-center">
-                            <h2 className="text-3xl md:text-4xl font-bold section-title">Join Our Community</h2>
-                            <p className="text-lg text-gray-600 mt-2">Create an account to start sharing or making wishes</p>
+            <Head title="Register"/>
+            <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div className="card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-8 px-6 text-center">
+                        <h1 className="text-3xl font-bold mb-2">Join ThreeWish</h1>
+                        <p className="text-lg">Create an account to start sharing or making wishes</p>
+                    </div>
+
+                    <div className="px-6 pt-6">
+                        <div className="flex justify-between items-center mb-8">
+                            <div className="flex items-center text-purple-600">
+                                <div
+                                    className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center">1
+                                </div>
+                                <span className="ml-2 font-semibold">Select Role</span>
+                            </div>
+                            <div className="h-1 flex-grow bg-gray-200 mx-2"></div>
+                            <div className="flex items-center text-gray-400">
+                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">2
+                                </div>
+                                <span className="ml-2 font-semibold">Account Details</span>
+                            </div>
+                            <div className="h-1 flex-grow bg-gray-200 mx-2"></div>
+                            <div className="flex items-center text-gray-400">
+                                <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3
+                                </div>
+                                <span className="ml-2 font-semibold">Confirmation</span>
+                            </div>
                         </div>
-                        <form onSubmit={submit} className="space-y-6">
-                            <div className="px-6 pb-8">
-                                <h3 className="text-xl font-semibold mb-4">I want to:</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                                    <div
-                                        onClick={() => setData('role', 'donor')}
-                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${data.role === 'donor' ? 'border-green-400 shadow-md' : 'border-gray-200 hover:border-green-300'}`}
-                                    >
-                                        <div className="text-4xl mb-3">🎁</div>
-                                        <h4 className="font-semibold">Donate</h4>
-                                        <p className="text-sm text-gray-600 mt-2">Share items with children in need</p>
-                                    </div>
+                    </div>
 
-                                    <div
-                                        onClick={() => setData('role', 'wisher')}
-                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${data.role === 'wisher' ? 'border-orange-400 shadow-md' : 'border-gray-200 hover:border-orange-300'}`}
-                                    >
-                                        <div className="text-4xl mb-3">✨</div>
-                                        <h4 className="font-semibold">Make a Wish</h4>
-                                        <p className="text-sm text-gray-600 mt-2">Request items you need</p>
-                                    </div>
-
-                                    <div
-                                        onClick={() => setData('role', 'leader')}
-                                        className={`role-option bg-gray-100 rounded-xl p-5 text-center cursor-pointer border-2 transition-colors ${data.role === 'leader' ? 'border-blue-400 shadow-md' : 'border-gray-200 hover:border-blue-300'}`}
-                                    >
-                                        <div className="text-4xl mb-3">🌟</div>
-                                        <h4 className="font-semibold">Lead a Community</h4>
-                                        <p className="text-sm text-gray-600 mt-2">Organize sharing in your area</p>
-                                    </div>
+                    <form onSubmit={submit} className="space-y-6">
+                        <div className="px-6 pb-8">
+                            <br/>
+                            <h2 className="text-xl font-semibold mb-4">I want to:</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                                <div
+                                    onClick={() => setData('role', 'donor')}
+                                    className="role-option p-5 text-center" data-role="donor">
+                                    <div className="text-4xl mb-3 text-green-500">🎁</div>
+                                    <h3 className="font-semibold">Donate Items</h3>
+                                    <p className="text-sm text-gray-600 mt-2">Share items with children in need</p>
                                 </div>
 
-                                {/* Common Fields for all roles */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <TextInput
-                                        id="name"
-                                        label="Full Name"
-                                        value={data.name}
-                                        onChange={(e) => setData('name', e.target.value)}
-                                        error={errors.name}
-                                        placeholder="Enter name"
-                                        required
-                                    />
-
-                                    <TextInput
-                                        id="mobile"
-                                        label="Mobile"
-                                        value={data.mobile}
-                                        onChange={(e) => setData('mobile', e.target.value)}
-                                        error={errors.mobile}
-                                        placeholder={data.role === 'wisher' ? 'Enter guardian mobile number' : 'Enter mobile number'}
-                                        required
-                                    />
-                                    <TextInput
-                                        id="email"
-                                        label="Email (optional)"
-                                        value={data.email}
-                                        type="email"
-                                        onChange={(e) => setData('email', e.target.value)}
-                                        error={errors.email}
-                                        placeholder="Enter email number"
-                                    />
-
-                                    <DateInput
-                                        id="dob"
-                                        label="Date of Birth"
-                                        value={data.dob}
-                                        onChange={(value) => setData('dob', value)}
-                                        error={errors.dob}
-                                        placeholder="Select DOB"
-                                        required
-                                    />
-
-                                    <SelectInput
-                                        id="gender"
-                                        label="Select Gender"
-                                        value={data.gender}
-                                        onChange={(e) => setData('gender', e.target.value)}
-                                        error={errors.gender}
-                                        options={genderOptions}
-                                        required
-                                    />
-
-                                    <TextInput
-                                        id="organization"
-                                        label="Organization/School"
-                                        value={data.organization}
-                                        onChange={(e) => setData('organization', e.target.value)}
-                                        error={errors.organization}
-                                        placeholder="Enter organization name"
-                                    />
-
-
-                                    <FileInput
-                                        id="photo"
-                                        label="Photo"
-                                        onFileChange={(file) => handleFileChange('photo', file)}
-                                        currentFileUrl={data?.photo || null}
-                                        error={errors.photo}
-                                        accept="image/png, image/jpg, image/jpeg"
-                                    />
-
-                                    <TextInput
-                                        id="password"
-                                        label="Password"
-                                        value={data.password}
-                                        type="password"
-                                        onChange={(e) => setData('password', e.target.value)}
-                                        error={errors.password}
-                                        placeholder="Enter password"
-                                        required
-                                    />
+                                <div
+                                    onClick={() => setData('role', 'wisher')}
+                                    className="role-option p-5 text-center" data-role="wisher">
+                                    <div className="text-4xl mb-3 text-purple-500">✨</div>
+                                    <h3 className="font-semibold">Make a Wish</h3>
+                                    <p className="text-sm text-gray-600 mt-2">Request items you need</p>
                                 </div>
 
-                                {/* Wisher-specific fields (Conditional Rendering) */}
-                                {data.role === 'wisher' && (
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <TextInput
-                                            id="guardian_name"
-                                            label="Guardian Name"
-                                            value={data.guardian_name}
-                                            onChange={(e) => setData('guardian_name', e.target.value)}
-                                            error={errors.guardian_name}
-                                            placeholder="Enter guardian number"
-                                            required
-                                        />
-                                        <TextInput
-                                            id="guardian_phone"
-                                            label="Guardian Name"
-                                            value={data.guardian_phone}
-                                            onChange={(e) => setData('guardian_phone', e.target.value)}
-                                            error={errors.guardian_phone}
-                                            placeholder="Enter guardian phone number"
-                                            required
-                                        />
-                                        <SelectInput
-                                            id="relationship"
-                                            label="Relation with guardian"
-                                            value={data.relationship}
-                                            onChange={(e) => setData('relationship', e.target.value)}
-                                            error={errors.relationship}
-                                            options={relationOptions}
-                                            required
-                                        />
-                                    </div>
-                                )}
-
-                                <div className="grid grid-cols-1 gap-6 mt-5">
-                                    <div className="col-span-1 md:col-span-2">
-                                        <label className="block text-gray-700 font-semibold mb-2">
-                                            Location
-                                            <span className="text-red-500">*</span>
-                                        </label>
-                                        <div className="flex">
-                                            <input
-                                                type="text"
-                                                readOnly
-                                                className={`flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary focus:border-transparent ${(errors.latitude || errors.longitude) ? 'border-red-500' : ''}`}
-                                                value={locationText}
-                                            />
-
-                                            <button
-                                                type="button"
-                                                onClick={handleGetLocation}
-                                                disabled={isLocating}
-                                                className="bg-gray-200 px-4 rounded-r-lg border border-l-0 border-gray-300 hover:bg-gray-300 transition-colors"
-                                            >
-                                                {isLocating ? (
-                                                    <FontAwesomeIcon icon={faSpinner}/>
-                                                ) : (
-                                                    <FontAwesomeIcon icon={faMapMarkerAlt}/>
-                                                )}
-                                            </button>
-                                        </div>
-                                        {(data.latitude || data.longitude) ?
-                                            <div id="emailHelp" className="text-green-600 text-xs">
-                                                Thanks, you set your location..
-                                            </div>
-                                            :
-                                            <div id="emailHelp" className="text-red-600 text-xs">
-                                                Location not given. Click on location icon to provide your location.
-                                            </div>
-                                        }
-
-                                        {(errors.latitude || errors.longitude) &&
-                                            <p className="mt-1 text-sm text-red-600">Location required. Click on
-                                                "location icon" to provide location</p>}
-                                    </div>
-
-                                    <TextareaInput
-                                        id="address"
-                                        label="Permanent Address"
-                                        value={data.address}
-                                        onChange={(e) => setData('address', e.target.value)}
-                                        error={errors.address}
-                                        placeholder="Enter Address"
-                                    />
-                                </div>
-
-                                <div className="flex items-center justify-center mt-4">
-                                    <button type="submit"
-                                            className="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 ms-4">
-                                        Register
-                                    </button>
+                                <div
+                                    onClick={() => setData('role', 'leader')}
+                                    className="role-option p-5 text-center" data-role="leader">
+                                    <div className="text-4xl mb-3 text-blue-500">🌟</div>
+                                    <h3 className="font-semibold">Community Leader</h3>
+                                    <p className="text-sm text-gray-600 mt-2">Organize sharing in your area</p>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <TextInput
+                                    id="name"
+                                    label="Full Name"
+                                    value={data.name}
+                                    onChange={(e) => setData('name', e.target.value)}
+                                    error={errors.name}
+                                    placeholder="Enter name"
+                                    required
+                                />
+
+                                <TextInput
+                                    id="mobile"
+                                    label="Mobile"
+                                    value={data.mobile}
+                                    onChange={(e) => setData('mobile', e.target.value)}
+                                    error={errors.mobile}
+                                    placeholder={data.role === 'wisher' ? 'Enter guardian mobile number' : 'Enter mobile number'}
+                                    required
+                                />
+                                <TextInput
+                                    id="email"
+                                    label="Email (optional)"
+                                    value={data.email}
+                                    type="email"
+                                    onChange={(e) => setData('email', e.target.value)}
+                                    error={errors.email}
+                                    placeholder="Enter email number"
+                                />
+
+                                <DateInput
+                                    id="dob"
+                                    label="Date of Birth"
+                                    value={data.dob}
+                                    onChange={(value) => setData('dob', value)}
+                                    error={errors.dob}
+                                    placeholder="Select DOB"
+                                    required
+                                />
+
+                                <SelectInput
+                                    id="gender"
+                                    label="Select Gender"
+                                    value={data.gender}
+                                    onChange={(e) => setData('gender', e.target.value)}
+                                    error={errors.gender}
+                                    options={genderOptions}
+                                    required
+                                />
+
+                                <TextInput
+                                    id="organization"
+                                    label="Organization/School"
+                                    value={data.organization}
+                                    onChange={(e) => setData('organization', e.target.value)}
+                                    error={errors.organization}
+                                    placeholder="Enter organization name"
+                                />
+
+
+                                <FileInput
+                                    id="photo"
+                                    label="Photo"
+                                    onFileChange={(file) => handleFileChange('photo', file)}
+                                    currentFileUrl={data?.photo || null}
+                                    error={errors.photo}
+                                    accept="image/png, image/jpg, image/jpeg"
+                                />
+
+                                <TextInput
+                                    id="password"
+                                    label="Password"
+                                    value={data.password}
+                                    type="password"
+                                    onChange={(e) => setData('password', e.target.value)}
+                                    error={errors.password}
+                                    placeholder="Enter password"
+                                    required
+                                />
+                            </div>
+
+                            {/* Wisher-specific fields (Conditional Rendering) */}
+                            {data.role === 'wisher' && (
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <TextInput
+                                        id="guardian_name"
+                                        label="Guardian Name"
+                                        value={data.guardian_name}
+                                        onChange={(e) => setData('guardian_name', e.target.value)}
+                                        error={errors.guardian_name}
+                                        placeholder="Enter guardian number"
+                                        required
+                                    />
+                                    <TextInput
+                                        id="guardian_phone"
+                                        label="Guardian Name"
+                                        value={data.guardian_phone}
+                                        onChange={(e) => setData('guardian_phone', e.target.value)}
+                                        error={errors.guardian_phone}
+                                        placeholder="Enter guardian phone number"
+                                        required
+                                    />
+                                    <SelectInput
+                                        id="relationship"
+                                        label="Relation with guardian"
+                                        value={data.relationship}
+                                        onChange={(e) => setData('relationship', e.target.value)}
+                                        error={errors.relationship}
+                                        options={relationOptions}
+                                        required
+                                    />
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 gap-6 mt-5">
+                                <div className="col-span-1 md:col-span-2">
+                                    <label className="block text-gray-700 font-semibold mb-2">
+                                        Location
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <div className="flex">
+                                        <input
+                                            type="text"
+                                            readOnly
+                                            className={`flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary focus:border-transparent ${(errors.latitude || errors.longitude) ? 'border-red-500' : ''}`}
+                                            value={locationText}
+                                        />
+
+                                        <button
+                                            type="button"
+                                            onClick={handleGetLocation}
+                                            disabled={isLocating}
+                                            className="bg-gray-200 px-4 rounded-r-lg border border-l-0 border-gray-300 hover:bg-gray-300 transition-colors"
+                                        >
+                                            {isLocating ? (
+                                                <FontAwesomeIcon icon={faSpinner}/>
+                                            ) : (
+                                                <FontAwesomeIcon icon={faMapMarkerAlt}/>
+                                            )}
+                                        </button>
+                                    </div>
+                                    {(data.latitude || data.longitude) ?
+                                        <div id="emailHelp" className="text-green-600 text-xs">
+                                            Thanks, you set your location..
+                                        </div>
+                                        :
+                                        <div id="emailHelp" className="text-red-600 text-xs">
+                                            Location not given. Click on location icon to provide your location.
+                                        </div>
+                                    }
+
+                                    {(errors.latitude || errors.longitude) &&
+                                        <p className="mt-1 text-sm text-red-600">Location required. Click on
+                                            "location icon" to provide location</p>}
+                                </div>
+
+                                <TextareaInput
+                                    id="address"
+                                    label="Permanent Address"
+                                    value={data.address}
+                                    onChange={(e) => setData('address', e.target.value)}
+                                    error={errors.address}
+                                    placeholder="Enter Address"
+                                />
+                            </div>
+
+                            <button type="submit"
+                                    className="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-purple-700 transition-colors focus:ring-4 focus:ring-purple-200">
+                                Create Account
+                            </button>
+                            <p className="text-center mt-6 text-gray-600">
+                                Already have an account? <a href="login-new.html"
+                                                            className="text-purple-600 font-semibold hover:underline">Log
+                                In</a>
+                            </p>
+                        </div>
+                    </form>
+
+
                 </div>
-            </div>
+            </main>
         </GuestLayout>
     );
 }
