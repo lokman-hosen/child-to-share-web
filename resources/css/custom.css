@@ -181,3 +181,69 @@ body {
     border-left: 4px solid #8B5CF6;
     background-color: #f3f4f6;
 }
+
+/*login page*/
+
+.login-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-input {
+    transition: all 0.3s ease;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+}
+
+.form-input:focus {
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.login-btn {
+    background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(139, 92, 246, 0.3);
+}
+
+.social-btn {
+    transition: all 0.3s ease;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+}
+
+.social-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-password {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toggle-password:hover {
+    color: #8B5CF6;
+}
+
+.footer-link {
+    transition: all 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #8B5CF6;
+}
+.nav-item {
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    border-left: 4px solid #8B5CF6;
+    background-color: #f3f4f6;
+}
