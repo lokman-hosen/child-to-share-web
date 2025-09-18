@@ -14,23 +14,34 @@ export default function Navbar() {
                         <div className="hidden md:ml-6 md:flex md:space-x-8">
                             <Link
                                 href={route('home')}
-                                  className="nav-item active text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                                    route().current('home') && window.location.hash !== '#how-it-works'
+                                        ? 'nav-item active'
+                                        : ''
+                                }`}
+                            >
                                 Home
                             </Link>
+
                             <Link
                                 href={`${route('home')}#how-it-works`}
-                                  className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${
+                                    route().current('home') && window.location.hash === '#how-it-works'
+                                        ? 'nav-item active'
+                                        : ''
+                                }`}
+                            >
                                 How It Works
                             </Link>
                             <Link
                                 href={route('wish.index')}
-                                className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('wish.index') ? 'nav-item active' : ''}`}>
                                 Wishes
                             </Link>
 
                             <Link
                                 href={route('donation.index')}
-                                className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('donation.index') ? 'nav-item active' : ''}`}>
                                 Donations
                             </Link>
                             <a href="#organizations"
