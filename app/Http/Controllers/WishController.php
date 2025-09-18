@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class WishController extends Controller
 {
+    const moduleDirectory = 'Wish/';
+    const moduleName = 'Wish List';
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Index', [
+            'module' => self::moduleName,
+        ]);
     }
 
     /**

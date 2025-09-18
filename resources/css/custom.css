@@ -95,3 +95,39 @@ body {
     border-left: 4px solid #8B5CF6;
     background-color: #f3f4f6;
 }
+
+/*Wish page css*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #D1D5DB;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pagination button:hover {
+    background: #EDE9FE;
+    border-color: #8B5CF6;
+}
+
+.pagination button.active {
+    background: #8B5CF6;
+    color: white;
+    border-color: #8B5CF6;
+}
+
+.filter-section {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
