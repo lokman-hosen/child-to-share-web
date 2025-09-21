@@ -20,7 +20,6 @@ export default function Dashboard() {
         <AuthenticatedLayout>
             <Head title="Dashboard"/>
             { user.user_type === 'donor' && <Donor/> }
-
         </AuthenticatedLayout>
     );
 }

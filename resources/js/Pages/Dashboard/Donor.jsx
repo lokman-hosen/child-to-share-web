@@ -25,7 +25,6 @@ const Index = () => {
 
                 <Cards/>
                 <Activity/>
-
                 <WishList/>
             </div>
         </div>
