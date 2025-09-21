@@ -17,7 +17,7 @@ Route::get('/', function () {
 })->name('home');
 
 // frontend routes
-Route::controller(WishController::class)->group(function () {
+Route::controller( \App\Http\Controllers\WishController::class)->group(function () {
     Route::get('wish', 'index')->name('wish.index');
 });
 Route::controller(DonationController::class)->group(function () {
@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resources([
         'donations' => DonationController::class,
-        //'wishes' => WishController::class,
+        'wishes' => WishController::class,
     ]);
 });
 
