@@ -13,165 +13,62 @@ export default function LeftSidebar() {
 
     const user = usePage().props.auth.user;
     return (
-        <div className="w-full lg:w-1/6 mb-6 lg:mb-0">
-            <div className="bg-white rounded-xl shadow-md p-5 sticky top-24">
-                <h2 className="text-lg font-bold text-gray-800 mb-5 flex items-center">
-                    <div className="mr-2 text-green-500">
-                        <FontAwesomeIcon icon={faBars}/>
+        <div className="w-64 bg-white h-screen shadow-md fixed hidden md:block" id="sidebar">
+            <div className="p-4">
+                <div className="flex items-left mb-6">
+                    <div className="md:hidden flex items-center">
+                        <button type="button" id="close-sidebar-button"
+                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
+                                aria-expanded="false">
+                            <span className="sr-only">Open main menu</span>
+                            <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
                     </div>
-                    Menu (Donor Panel)
-                </h2>
-
-                <ul className="space-y-2">
-                    <li>
-                        <Link
-                            href="#"
-                            className="py-2 pl-3 flex items-center rounded-lg cursor-pointer transition-all duration-200 hover:bg-sky-50 hover:border-l-4 hover:border-green-500">
-                            <div className="mr-3 text-blue-500">
-                                <FontAwesomeIcon icon={faHome}/> Feeds
-                            </div>
-                        </Link>
+                    <h2 className="text-lg font-semibold text-gray-700 mt-1">Donor Navigation</h2>
+                </div>
+                <ul className="mt-4">
+                    <li className="mb-1">
+                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded active"
+                           onClick="showPage('dashboard-page')">
+                            <i className="fas fa-home mr-2"></i> Dashboard
+                        </a>
                     </li>
-                    {/* Donations */}
-                    <li>
-                        <div
-                            className="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-sky-50 hover:border-l-4 hover:border-green-500">
-                            <div className="flex items-center">
-                                <div className="mr-3 text-blue-500">
-                                    <FontAwesomeIcon icon={faGift}/>
-                                </div>
-                                <span>Donations</span>
-                            </div>
-                            <div className="text-xs">
-                                <FontAwesomeIcon icon={faChevronDown}/>
-                            </div>
-
-                        </div>
-                        <ul className="ml-8 mt-1 space-y-2">
-                            { user.user_type === 'donor' && (
-                                <>
-                                    <li className={`${route().current('donations.*') ? 'text-blue-600' : ''}`}>
-                                        <Link
-                                            href={route('donations.index')}
-                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.index') ? 'text-blue-600' : 'text-gray-600'}`}>
-                                            My Donations
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            href={route('donations.create')}
-                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.create') ? 'text-blue-600' : 'text-gray-600'}`}>
-                                            Create Donation
-                                        </Link>
-                                    </li>
-                                </>
-                            )}
-                            { user.user_type === 'wisher' && (
-                                <>
-                                    <li className={`${route().current('donations.*') ? 'text-blue-600' : ''}`}>
-                                        <Link
-                                            href={route('donations.index')}
-                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.index') ? 'text-blue-600' : 'text-gray-600'}`}>
-                                            My Donations
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link
-                                            href={route('donations.create')}
-                                            className={`text-sm hover:text-blue-600 block py-1 ${route().current('donations.create') ? 'text-blue-600' : 'text-gray-600'}`}>
-                                            Create Donation
-                                        </Link>
-                                    </li>
-                                </>
-                            )}
-                        </ul>
+                    <li className="mb-1">
+                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                           onClick="showPage('browse-wishes-page')">
+                            <i className="fas fa-search mr-2"></i> Browse Wishes
+                        </a>
                     </li>
-
-                    {/* My Profile */}
-                    <li>
-                        <div
-                            className="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-sky-50 hover:border-l-4 hover:border-green-500">
-                            <div className="flex items-center">
-                                <div className="mr-3 text-blue-500">
-                                    <FontAwesomeIcon icon={faUserCircle}/>
-                                </div>
-                                <span>My Profile</span>
-                            </div>
-                            <div className="text-xs">
-                                <FontAwesomeIcon icon={faChevronDown}/>
-                            </div>
-                        </div>
-                        <ul className="ml-8 mt-1 space-y-2">
-                            <li><a href="#" className="text-sm text-gray-600 hover:text-blue-600 block py-1">Personal
-                                Info</a></li>
-                            <li><a href="#" className="text-sm text-gray-600 hover:text-blue-600 block py-1">Account
-                                Settings</a></li>
-                            <li><a href="#" className="text-sm text-gray-600 hover:text-blue-600 block py-1">Privacy</a>
-                            </li>
-                        </ul>
+                    <li className="mb-1">
+                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                           onClick="showPage('create-donation-page')">
+                            <i className="fas fa-plus-circle mr-2"></i> Create Donation
+                        </a>
                     </li>
-
-                    {/* Settings */}
-                    {/*<li>*/}
-                    {/*    <div*/}
-                    {/*        className="flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-sky-50 hover:border-l-4 hover:border-green-500">*/}
-                    {/*        <div className="flex items-center">*/}
-                    {/*            <i className="fas fa-cog mr-3 text-gray-600"></i>*/}
-                    {/*            <span>Settings</span>*/}
-                    {/*        </div>*/}
-                    {/*        <i className="fas fa-chevron-down text-xs"></i>*/}
-                    {/*    </div>*/}
-                    {/*    <ul className="ml-8 mt-1 space-y-2">*/}
-                    {/*        <li><a href="#"*/}
-                    {/*               className="text-sm text-gray-600 hover:text-blue-600 block py-1">Notifications</a>*/}
-                    {/*        </li>*/}
-                    {/*        <li><a href="#"*/}
-                    {/*               className="text-sm text-gray-600 hover:text-blue-600 block py-1">Security</a></li>*/}
-                    {/*        <li><a href="#"*/}
-                    {/*               className="text-sm text-gray-600 hover:text-blue-600 block py-1">Preferences</a></li>*/}
-                    {/*    </ul>*/}
-                    {/*</li>*/}
-
-                    {/* Help & Logout */}
-                    {/*<li>*/}
-                    {/*    <a href="#"*/}
-                    {/*       className="flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-sky-50 hover:border-l-4 hover:border-green-500">*/}
-                    {/*        <i className="fas fa-question-circle mr-3 text-gray-600"></i>*/}
-                    {/*        <span>Help & Support</span>*/}
-                    {/*    </a>*/}
-                    {/*</li>*/}
-                    <li>
-                        <Link
-                            href={route('logout')}
-                            method="post"
-                            as="button"
-                           className="flex items-center p-3 rounded-lg transition-all duration-200 hover:bg-sky-50 hover:border-l-4 hover:border-green-500">
-                            <div className="mr-3 text-blue-500">
-                                <FontAwesomeIcon icon={faSignOutAlt}/>
-                            </div>
-                            <span>Logout</span>
-                        </Link>
+                    <li className="mb-1">
+                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                           onClick="showPage('my-donations-page')">
+                            <i className="fas fa-gift mr-2"></i> My Donations
+                        </a>
+                    </li>
+                    <li className="mb-1">
+                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                           onClick="showPage('messages-page')">
+                            <i className="fas fa-comments mr-2"></i> Messages
+                            <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
+                        </a>
+                    </li>
+                    <li className="mb-1">
+                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                           onClick="showPage('organizations-page')">
+                            <i className="fas fa-building mr-2"></i> Organizations
+                        </a>
                     </li>
                 </ul>
-
-                {/* Quick Stats */}
-                <div className="mt-8 pt-5 border-t border-gray-200">
-                    <h3 className="text-sm font-semibold text-gray-700 mb-3">Quick Stats</h3>
-                    <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">Wishes Made</span>
-                            <span className="font-semibold">5</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">Wishes Granted</span>
-                            <span className="font-semibold">3</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">Items Donated</span>
-                            <span className="font-semibold">2</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );

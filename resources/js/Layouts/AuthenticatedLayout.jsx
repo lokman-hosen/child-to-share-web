@@ -4,7 +4,7 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import Navbar from "@/Components/Common/Navbar.jsx";
+import Navbar from "@/Components/Common/Admin/Navbar.jsx";
 import LeftSidebar from "@/Components/Common/LeftSidebar.jsx";
 import RightSidebar from "@/Components/Common/RightSidebar.jsx";
 
@@ -17,11 +17,13 @@ export default function AuthenticatedLayout({ header, children }) {
     return (
         <>
             <Navbar/>
-            <main className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-6">
+            <div className="flex pt-16">
                 <LeftSidebar/>
-                {children}
-                <RightSidebar/>
-            </main>
+                <div className="flex-1 md:ml-64">
+                    {children}
+                </div>
+
+            </div>
 
         </>
     );
