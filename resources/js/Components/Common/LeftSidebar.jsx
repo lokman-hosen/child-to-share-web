@@ -68,6 +68,16 @@ export default function LeftSidebar() {
                             <i className="fas fa-building mr-2"></i> Organizations
                         </a>
                     </li>
+                    <li className="mb-1">
+                        <Link
+                            href={route('logout')}
+                            method="post"
+                            as="button"
+                            className="nav-item block px-4 py-2 text-gray-700 rounded">
+                            <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                        </Link>
+
+                    </li>
                 </ul>
             </div>
         </div>
