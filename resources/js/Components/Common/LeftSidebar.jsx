@@ -38,10 +38,11 @@ export default function LeftSidebar() {
                         </a>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                        <Link href={route('wishes.index')}
+                              className="nav-item block px-4 py-2 text-gray-700 rounded"
                            onClick="showPage('browse-wishes-page')">
                             <i className="fas fa-search mr-2"></i> Browse Wishes
-                        </a>
+                        </Link>
                     </li>
                     <li className="mb-1">
                         <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
