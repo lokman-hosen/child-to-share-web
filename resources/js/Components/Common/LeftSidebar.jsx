@@ -63,10 +63,10 @@ export default function LeftSidebar() {
                         </Link>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                           onClick="showPage('organizations-page')">
+                        <Link href={route('organizations.index')}
+                              className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('organizations.index') ? 'active' : ''}`}>
                             <i className="fas fa-building mr-2"></i> Organizations
-                        </a>
+                        </Link>
                     </li>
                     <li className="mb-1">
                         <Link

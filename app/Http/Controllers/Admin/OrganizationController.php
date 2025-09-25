@@ -6,15 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class OrganizationController extends Controller
 {
+    const moduleDirectory = 'Admin/Organization/';
+    const moduleName = 'Organization List';
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Index', [
+            'module' => self::moduleName,
+        ]);
     }
 
     /**
