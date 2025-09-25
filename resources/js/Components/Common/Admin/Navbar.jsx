@@ -1,11 +1,16 @@
-import { Link } from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
 import React, { useState } from "react";
 
 export default function Navbar() {
+    const user = usePage().props.auth.user;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+    const toggleProfileVisibility = () => {
+        setIsProfileOpen(!isProfileOpen);
     };
 
     return (
@@ -29,22 +34,26 @@ export default function Navbar() {
                         </div>
                         <div className="relative">
                             <button className="flex items-center text-sm text-gray-700 focus:outline-none"
-                                    onClick="toggleDropdown()">
+                                    onClick={toggleProfileVisibility} >
                                 <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
                                     <span className="font-medium text-blue-600">D</span>
                                 </div>
-                                <span className="ml-2">Donor User</span>
+                                <span className="ml-2">{user.name}</span>
                                 <i className="fas fa-chevron-down ml-1 text-xs"></i>
                             </button>
-                            <div id="user-dropdown"
-                                 className="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                   onClick="showPage('profile-page')">Your Profile</a>
-                                <a href="#"
-                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign
-                                    out</a>
-                            </div>
+                            { isProfileOpen && (
+                                <div
+                                     className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                                    <Link
+                                        href={route('my.profile')}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your
+                                        Profile</Link>
+                                    <a href="#"
+                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign
+                                        out</a>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
