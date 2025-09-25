@@ -1,17 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, usePage} from '@inertiajs/react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faBackward,
-    faCancel,
-    faDashboard,
-    faEdit, faGift, faHandsHelping,
-    faList,
-    faSave,
-    faStar,
-    faTrash
-} from "@fortawesome/free-solid-svg-icons";
-import Donor from "@/Pages/Dashboard/Donor.jsx";
+import {Head, usePage} from '@inertiajs/react';
 import WisherDashboard from "@/Pages/Dashboard/WIsher.jsx";
 import DonorDashboard from "@/Pages/Dashboard/Donor.jsx";
 
