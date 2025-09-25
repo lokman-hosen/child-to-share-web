@@ -3,7 +3,7 @@ import Activity from "@/Components/Common/Admin/Donor/Activity.jsx";
 import Cards from "@/Components/Common/Admin/Donor/Cards.jsx";
 import WishList from "@/Components/Common/Admin/Donor/WishList.jsx";
 
-const Index = () => {
+const DonorDashboard = () => {
     return (
         <div id="dashboard-page" className="page active-page">
             <div className="px-10 py-8">
@@ -31,4 +31,4 @@ const Index = () => {
     );
 };
 
-export default Index;
+export default DonorDashboard;
