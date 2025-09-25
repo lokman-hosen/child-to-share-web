@@ -32,33 +32,35 @@ export default function LeftSidebar() {
                 </div>
                 <ul className="mt-4">
                     <li className="mb-1">
-                        <a href={route('dashboard')} className="nav-item block px-4 py-2 text-gray-700 rounded active">
+                        <Link href={route('dashboard')}
+                              className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('dashboard') ? 'active' : ''}`}>
                             <i className="fas fa-home mr-2"></i> Dashboard
-                        </a>
+                        </Link>
                     </li>
                     <li className="mb-1">
                         <Link href={route('wishes.index')}
-                              className="nav-item block px-4 py-2 text-gray-700 rounded"
-                           onClick="showPage('browse-wishes-page')">
+                              className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.*') ? 'active' : ''}`}>
                             <i className="fas fa-search mr-2"></i> Browse Wishes
                         </Link>
                     </li>
                     <li className="mb-1">
-                        <Link href={route('donations.create')} className="nav-item block px-4 py-2 text-gray-700 rounded">
+                        <Link href={route('donations.create')}
+                              className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('donations.create') ? 'active' : ''}`}>
                             <i className="fas fa-plus-circle mr-2"></i> Create Donation
                         </Link>
                     </li>
                     <li className="mb-1">
-                        <Link href={route('donations.index')} className="nav-item block px-4 py-2 text-gray-700 rounded"
-                           onClick="showPage('my-donations-page')">
+                        <Link href={route('donations.index')}
+                              className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('donations.index') ? 'active' : ''}`}>
                             <i className="fas fa-gift mr-2"></i> My Donations
                         </Link>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
+                        <Link href={route('messages.index')}
+                              className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('messages.index') ? 'active' : ''}`}>
                             <i className="fas fa-comments mr-2"></i> Messages
                             <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className="mb-1">
                         <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"

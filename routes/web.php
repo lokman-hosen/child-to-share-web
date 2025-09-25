@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DonationController;
+use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\WishController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::resources([
         'donations' => DonationController::class,
         'wishes' => WishController::class,
+        'messages' => MessageController::class,
     ]);
 });
 

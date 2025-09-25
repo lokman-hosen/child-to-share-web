@@ -6,15 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Message;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class MessageController extends Controller
 {
+    const moduleDirectory = 'Admin/Message/';
+    const moduleName = 'Chatting';
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Index', [
+            'module' => self::moduleName,
+        ]);
     }
 
     /**
