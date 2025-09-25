@@ -50,8 +50,12 @@ export default function Navbar() {
                                         Profile</Link>
                                     <a href="#"
                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign
-                                        out</a>
+                                    <Link  href={route('logout')}
+                                        method="post"
+                                        as="button"
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        Sign out
+                                    </Link>
                                 </div>
                             )}
                         </div>
