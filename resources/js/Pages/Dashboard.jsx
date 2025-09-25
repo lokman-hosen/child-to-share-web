@@ -12,6 +12,7 @@ import {
     faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import Donor from "@/Pages/Dashboard/Donor.jsx";
+import WisherDashboard from "@/Pages/Dashboard/WIsher.jsx";
 
 export default function Dashboard() {
 
@@ -20,6 +21,7 @@ export default function Dashboard() {
         <AuthenticatedLayout>
             <Head title="Dashboard"/>
             { user.user_type === 'donor' && <Donor/> }
+            { user.user_type === 'wisher' && <WisherDashboard/> }
         </AuthenticatedLayout>
     );
 }

@@ -3,9 +3,8 @@ import Activity from "@/Components/Common/Admin/Donor/Activity.jsx";
 import Cards from "@/Components/Common/Admin/Donor/Cards.jsx";
 import WishList from "@/Components/Common/Admin/Donor/WishList.jsx";
 
-const Index = () => {
+const WisherDashboard = () => {
     return (
-        <div id="dashboard-page" className="page active-page">
             <div className="px-10 py-8">
                 <div className="flex items-left mb-6">
                     <div className="md:hidden flex items-center">
@@ -20,15 +19,15 @@ const Index = () => {
                             </svg>
                         </button>
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-900 mt-1">Donor Dashboard</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 mt-1">Wisher Dashboard</h1>
                 </div>
 
-                <Cards userType = 'donor'/>
+                <Cards userType = 'wisher'/>
                 <Activity/>
-                <WishList userType = 'donor'/>
+                <WishList userType = 'wisher'/>
+
             </div>
-        </div>
     );
 };
 
-export default Index;
+export default WisherDashboard;
