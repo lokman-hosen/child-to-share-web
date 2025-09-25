@@ -25,7 +25,6 @@ const WisherDashboard = () => {
                 <Cards userType = 'wisher'/>
                 <Activity/>
                 <WishList userType = 'wisher'/>
-
             </div>
     );
 };
