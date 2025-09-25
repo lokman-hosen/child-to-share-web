@@ -44,19 +44,18 @@ export default function LeftSidebar() {
                         </Link>
                     </li>
                     <li className="mb-1">
-                        <a href={route('donations.create')} className="nav-item block px-4 py-2 text-gray-700 rounded">
+                        <Link href={route('donations.create')} className="nav-item block px-4 py-2 text-gray-700 rounded">
                             <i className="fas fa-plus-circle mr-2"></i> Create Donation
-                        </a>
+                        </Link>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                        <Link href={route('donations.index')} className="nav-item block px-4 py-2 text-gray-700 rounded"
                            onClick="showPage('my-donations-page')">
                             <i className="fas fa-gift mr-2"></i> My Donations
-                        </a>
+                        </Link>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                           onClick="showPage('messages-page')">
+                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
                             <i className="fas fa-comments mr-2"></i> Messages
                             <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
                         </a>
