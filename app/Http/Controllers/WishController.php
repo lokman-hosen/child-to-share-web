@@ -10,7 +10,7 @@ use Inertia\Response;
 
 class WishController extends Controller
 {
-    const moduleDirectory = 'Admin/Wish/';
+    const moduleDirectory = 'Wish/';
     const moduleName = 'Wish List';
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class WishController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**

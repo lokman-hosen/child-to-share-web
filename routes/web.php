@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DonationController;
+use App\Http\Controllers\Admin\WishController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\WishController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,7 +20,7 @@ Route::get('/', function () {
 Route::controller( \App\Http\Controllers\WishController::class)->group(function () {
     Route::get('wish', 'index')->name('wish.index');
 });
-Route::controller(DonationController::class)->group(function () {
+Route::controller(\App\Http\Controllers\DonationController::class)->group(function () {
     Route::get('donation', 'index')->name('donation.index');
 });
 

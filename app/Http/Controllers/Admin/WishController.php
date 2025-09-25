@@ -11,7 +11,7 @@ use Inertia\Response;
 
 class WishController extends Controller
 {
-    const moduleDirectory = 'Wish/';
+    const moduleDirectory = 'Admin/Wish/';
     const moduleName = 'Wish List';
     /**
      * Display a listing of the resource.

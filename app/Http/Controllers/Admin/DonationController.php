@@ -11,7 +11,7 @@ use Inertia\Response;
 
 class DonationController extends Controller
 {
-    const moduleDirectory = 'Donation/';
+    const moduleDirectory = 'Admin/Donation/';
     const moduleName = 'Donation List Category';
     /**
      * Display a listing of the resource.

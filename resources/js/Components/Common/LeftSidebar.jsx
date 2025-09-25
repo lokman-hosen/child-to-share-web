@@ -32,8 +32,7 @@ export default function LeftSidebar() {
                 </div>
                 <ul className="mt-4">
                     <li className="mb-1">
-                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded active"
-                           onClick="showPage('dashboard-page')">
+                        <a href={route('dashboard')} className="nav-item block px-4 py-2 text-gray-700 rounded active">
                             <i className="fas fa-home mr-2"></i> Dashboard
                         </a>
                     </li>
@@ -45,8 +44,7 @@ export default function LeftSidebar() {
                         </Link>
                     </li>
                     <li className="mb-1">
-                        <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                           onClick="showPage('create-donation-page')">
+                        <a href={route('donations.create')} className="nav-item block px-4 py-2 text-gray-700 rounded">
                             <i className="fas fa-plus-circle mr-2"></i> Create Donation
                         </a>
                     </li>
