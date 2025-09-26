@@ -43,9 +43,12 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Organization $organization)
+    //public function show(Organization $organization): Response
+    public function show(string $id): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'View', [
+            'module' => self::moduleName,
+        ]);
     }
 
     /**

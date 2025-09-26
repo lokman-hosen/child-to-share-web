@@ -77,7 +77,6 @@ export default function LeftSidebar() {
                                 className="nav-item block px-4 py-2 text-gray-700 rounded">
                                 <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
                             </Link>
-
                         </li>
                     </ul>
                 </div>
@@ -113,25 +112,33 @@ export default function LeftSidebar() {
                             </Link>
                         </Link>
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
+                            <Link href={route('wishes.index')}
+                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.index') ? 'active' : ''}`}>
                                 <i className="fas fa-star mr-2"></i> My Wishes
-                            </a>
+                            </Link>
                         </li>
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
+                            <Link href={route('messages.index')}
+                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('messages.index') ? 'active' : ''}`}>
                                 <i className="fas fa-comments mr-2"></i> Messages
-                                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">1</span>
-                            </a>
+                                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
+                            </Link>
                         </li>
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
+                            <Link href={route('organizations.index')}
+                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('organizations.*') ? 'active' : ''}`}>
                                 <i className="fas fa-building mr-2"></i> Organizations
-                            </a>
+                            </Link>
                         </li>
+
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
-                                <i className="fas fa-shield-alt mr-2"></i> Guardian Verification
-                            </a>
+                            <Link
+                                href={route('logout')}
+                                method="post"
+                                as="button"
+                                className="nav-item block px-4 py-2 text-gray-700 rounded">
+                                <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                            </Link>
                         </li>
                     </ul>
                 </div>

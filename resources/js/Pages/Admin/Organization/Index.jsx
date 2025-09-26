@@ -26,22 +26,13 @@ export default function Index() {
                                         <i className="fas fa-building text-blue-500"></i>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-medium text-gray-900">
-                                            <a
-                                                href="#"
-                                                onClick="showPage('organization-detail-page')">
-                                                Community Center A
-                                            </a>
-
-                                        </h3>
+                                        <h3 className="text-lg font-medium text-gray-900">Community Center A</h3>
                                         <p className="text-sm text-gray-500">15 members • 32 wishes fulfilled</p>
                                     </div>
                                 </div>
                                 <div className="mt-4">
-                                    <a
-                                        href="#"
-                                        onClick="showPage('organization-detail-page')"
-                                        className="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <a href={route('organizations.show', 1)}
+                                       className="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                         View Organization
                                     </a>
                                 </div>
@@ -50,7 +41,7 @@ export default function Index() {
                                 <div className="flex items-center">
                                     <div
                                         className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
-                                        <i className="fas fa-school text-green-500"></i>
+                                    <i className="fas fa-school text-green-500"></i>
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-medium text-gray-900">School B</h3>
@@ -87,12 +78,11 @@ export default function Index() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-medium text-gray-900">
-                                                <a
-                                                    href="#"
-                                                    onClick="showPage('organization-detail-page')"
+                                                <Link
+                                                    href={route('organizations.show', 1)}
                                                     className="text-blue-500 hover:text-blue-700">
                                                     Community Center A
-                                                </a>
+                                                </Link>
                                             </h3>
                                             <p className="text-sm text-gray-500">Serving the downtown community since
                                                 2010</p>
@@ -115,12 +105,11 @@ export default function Index() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-medium text-gray-900">
-                                                <a
-                                                    href="#"
-                                                    onClick="showPage('organization-detail-page')"
+                                                <Link
+                                                    href={route('organizations.show', 1)}
                                                     className="text-blue-500 hover:text-blue-700">
                                                     School B
-                                                </a>
+                                                </Link>
                                             </h3>
                                             <p className="text-sm text-gray-500">Elementary school serving grades
                                                 K-5</p>
@@ -143,12 +132,11 @@ export default function Index() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-medium text-gray-900">
-                                                <a
-                                                    href="#"
-                                                    onClick="showPage('organization-detail-page')"
+                                                <Link
+                                                    href={route('organizations.show', 1)}
                                                     className="text-blue-500 hover:text-blue-700">
                                                     Youth Program C
-                                                </a>
+                                                </Link>
                                             </h3>
                                             <p className="text-sm text-gray-500">After-school programs for teens</p>
                                         </div>
@@ -170,12 +158,11 @@ export default function Index() {
                                         </div>
                                         <div>
                                             <h3 className="text-lg font-medium text-gray-900">
-                                                <a
-                                                    href="#"
-                                                    onClick="showPage('organization-detail-page')"
+                                                <Link
+                                                    href={route('organizations.show', 1)}
                                                     className="text-blue-500 hover:text-blue-700">
                                                     Sports League D
-                                                </a>
+                                                </Link>
                                             </h3>
                                             <p className="text-sm text-gray-500">Community sports organization</p>
                                         </div>
