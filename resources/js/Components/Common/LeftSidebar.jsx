@@ -143,6 +143,69 @@ export default function LeftSidebar() {
                     </ul>
                 </div>
             }
+            {(user.user_type === 'super_admin' || user.user_type === 'admin') &&
+                <div className="w-64 bg-white h-screen shadow-md fixed hidden md:block">
+                    <div className="p-4">
+                        <h2 className="text-lg font-semibold text-gray-700">Admin Navigation</h2>
+                        <ul className="mt-4">
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded active"
+                                   onClick="showPage('admin-dashboard-page')">
+                                    <i className="fas fa-tachometer-alt mr-2"></i> Dashboard
+                                </a>
+                            </li>
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                                   onClick="showPage('user-management-page')">
+                                    <i className="fas fa-users mr-2"></i> User Management
+                                    <span
+                                        className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">5</span>
+                                </a>
+                            </li>
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                                   onClick="showPage('content-moderation-page')">
+                                    <i className="fas fa-clipboard-check mr-2"></i> Content Moderation
+                                    <span
+                                        className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">12</span>
+                                </a>
+                            </li>
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                                   onClick="showPage('org-management-page')">
+                                    <i className="fas fa-building mr-2"></i> Organizations
+                                </a>
+                            </li>
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                                   onClick="showPage('admin-inbox-page')">
+                                    <i className="fas fa-inbox mr-2"></i> Admin Inbox
+                                    <span
+                                        className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">8</span>
+                                </a>
+                            </li>
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                                   onClick="showPage('logistics-page')">
+                                    <i className="fas fa-tasks mr-2"></i> Logistics Tasks
+                                </a>
+                            </li>
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                                   onClick="showPage('activity-logs-page')">
+                                    <i className="fas fa-history mr-2"></i> Activity Logs
+                                </a>
+                            </li>
+                            <li className="mb-1">
+                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
+                                   onClick="showPage('comms-page')">
+                                    <i className="fas fa-phone mr-2"></i> Communications
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
         </div>
     );
 }
