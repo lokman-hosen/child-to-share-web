@@ -106,34 +106,30 @@ export default function LeftSidebar() {
                                 <i className="fas fa-home mr-2"></i> Dashboard
                             </Link>
                         </li>
-                        <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                               onClick="showPage('create-wish-page')">
+                        <Link className="mb-1">
+                            <Link href={route('wishes.create')}
+                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.create') ? 'active' : ''}`}>
                                 <i className="fas fa-plus-circle mr-2"></i> Create Wish
-                            </a>
-                        </li>
+                            </Link>
+                        </Link>
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                               onClick="showPage('my-wishes-page')">
+                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
                                 <i className="fas fa-star mr-2"></i> My Wishes
                             </a>
                         </li>
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                               onClick="showPage('wisher-messages-page')">
+                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
                                 <i className="fas fa-comments mr-2"></i> Messages
                                 <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">1</span>
                             </a>
                         </li>
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                               onClick="showPage('wisher-organizations-page')">
+                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
                                 <i className="fas fa-building mr-2"></i> Organizations
                             </a>
                         </li>
                         <li className="mb-1">
-                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                               onClick="showPage('guardian-verification-page')">
+                            <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded">
                                 <i className="fas fa-shield-alt mr-2"></i> Guardian Verification
                             </a>
                         </li>
