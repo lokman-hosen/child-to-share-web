@@ -19,9 +19,15 @@ class MessageController extends Controller
      */
     public function index(): Response
     {
-        return Inertia::render(self::moduleDirectory.'Index', [
-            'module' => self::moduleName,
-        ]);
+        if (checkAdmin()){
+            return Inertia::render(self::moduleDirectory.'List', [
+                'module' => self::moduleName,
+            ]);
+        }else{
+            return Inertia::render(self::moduleDirectory.'Index', [
+                'module' => self::moduleName,
+            ]);
+        }
     }
 
     /**

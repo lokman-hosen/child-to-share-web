@@ -157,18 +157,18 @@ export default function LeftSidebar() {
                             <li className="mb-1">
                                 <Link href={route('users.index')}
                                       className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('users.index') ? 'active' : ''}`}>
-                                    <i className="fas fa-users mr-2"></i> User Management
+                                    <i className="fas fa-users mr-2"></i> Users
                                 </Link>
 
                             </li>
-                            <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                                   onClick="showPage('content-moderation-page')">
-                                    <i className="fas fa-clipboard-check mr-2"></i> Content Moderation
-                                    <span
-                                        className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">12</span>
-                                </a>
-                            </li>
+                            {/*<li className="mb-1">*/}
+                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
+                            {/*       onClick="showPage('content-moderation-page')">*/}
+                            {/*        <i className="fas fa-clipboard-check mr-2"></i> Content Moderation*/}
+                            {/*        <span*/}
+                            {/*            className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">12</span>*/}
+                            {/*    </a>*/}
+                            {/*</li>*/}
                             <li className="mb-1">
                                 <Link href={route('wishes.index')}
                                       className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.*') ? 'active' : ''}`}>
@@ -182,36 +182,46 @@ export default function LeftSidebar() {
                                 </Link>
                             </li>
                             <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                                   onClick="showPage('org-management-page')">
+                                <Link href={route('organizations.index')}
+                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('organizations.index') ? 'active' : ''}`}>
                                     <i className="fas fa-building mr-2"></i> Organizations
-                                </a>
+                                </Link>
                             </li>
+
                             <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                                   onClick="showPage('admin-inbox-page')">
+                                <Link href={route('messages.index')}
+                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('messages.index') ? 'active' : ''}`}>
                                     <i className="fas fa-inbox mr-2"></i> Admin Inbox
-                                    <span
-                                        className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">8</span>
-                                </a>
+                                    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full ml-1">8</span>
+                                </Link>
                             </li>
+                            {/*<li className="mb-1">*/}
+                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
+                            {/*       onClick="showPage('logistics-page')">*/}
+                            {/*        <i className="fas fa-tasks mr-2"></i> Logistics Tasks*/}
+                            {/*    </a>*/}
+                            {/*</li>*/}
+                            {/*<li className="mb-1">*/}
+                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
+                            {/*       onClick="showPage('activity-logs-page')">*/}
+                            {/*        <i className="fas fa-history mr-2"></i> Activity Logs*/}
+                            {/*    </a>*/}
+                            {/*</li>*/}
+                            {/*<li className="mb-1">*/}
+                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
+                            {/*       onClick="showPage('comms-page')">*/}
+                            {/*        <i className="fas fa-phone mr-2"></i> Communications*/}
+                            {/*    </a>*/}
+                            {/*</li>*/}
+
                             <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                                   onClick="showPage('logistics-page')">
-                                    <i className="fas fa-tasks mr-2"></i> Logistics Tasks
-                                </a>
-                            </li>
-                            <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                                   onClick="showPage('activity-logs-page')">
-                                    <i className="fas fa-history mr-2"></i> Activity Logs
-                                </a>
-                            </li>
-                            <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                                   onClick="showPage('comms-page')">
-                                    <i className="fas fa-phone mr-2"></i> Communications
-                                </a>
+                                <Link
+                                    href={route('logout')}
+                                    method="post"
+                                    as="button"
+                                    className="nav-item block px-4 py-2 text-gray-700 rounded">
+                                    <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                                </Link>
                             </li>
                         </ul>
                     </div>
