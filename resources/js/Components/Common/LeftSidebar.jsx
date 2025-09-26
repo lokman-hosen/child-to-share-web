@@ -170,6 +170,18 @@ export default function LeftSidebar() {
                                 </a>
                             </li>
                             <li className="mb-1">
+                                <Link href={route('wishes.index')}
+                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.*') ? 'active' : ''}`}>
+                                    <i className="fas fa-star mr-2"></i> Wishes
+                                </Link>
+                            </li>
+                            <li className="mb-1">
+                                <Link href={route('donations.index')}
+                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('donations.index') ? 'active' : ''}`}>
+                                    <i className="fas fa-gift mr-2"></i> Donations
+                                </Link>
+                            </li>
+                            <li className="mb-1">
                                 <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
                                    onClick="showPage('org-management-page')">
                                     <i className="fas fa-building mr-2"></i> Organizations
