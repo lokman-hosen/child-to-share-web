@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\OrganizationController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WishController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resources([
+        'users' => UserController::class,
         'donations' => DonationController::class,
         'wishes' => WishController::class,
         'messages' => MessageController::class,

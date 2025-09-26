@@ -149,18 +149,17 @@ export default function LeftSidebar() {
                         <h2 className="text-lg font-semibold text-gray-700">Admin Navigation</h2>
                         <ul className="mt-4">
                             <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded active"
-                                   onClick="showPage('admin-dashboard-page')">
-                                    <i className="fas fa-tachometer-alt mr-2"></i> Dashboard
-                                </a>
+                                <Link href={route('dashboard')}
+                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('dashboard') ? 'active' : ''}`}>
+                                    <i className="fas fa-home mr-2"></i> Dashboard
+                                </Link>
                             </li>
                             <li className="mb-1">
-                                <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
-                                   onClick="showPage('user-management-page')">
+                                <Link href={route('users.index')}
+                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('users.index') ? 'active' : ''}`}>
                                     <i className="fas fa-users mr-2"></i> User Management
-                                    <span
-                                        className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">5</span>
-                                </a>
+                                </Link>
+
                             </li>
                             <li className="mb-1">
                                 <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"
