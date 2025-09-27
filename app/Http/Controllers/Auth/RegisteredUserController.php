@@ -54,12 +54,12 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'mobile' => $request->mobile,
                 'password' => Hash::make($request->password),
-                'user_type' => $request->role,
+                'role' => $request->role,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
             ]);
 
-            // Step 3: Create the role-specific record based on user_type
+            // Step 3: Create the role-specific record based on role
             if ($request->role === 'donor') {
                // dd($request->all());
                 $user->donor()->create([

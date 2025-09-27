@@ -13,7 +13,7 @@ export default function LeftSidebar() {
     const user = usePage().props.auth.user;
     return (
         <div className="w-64 bg-white h-screen shadow-md fixed hidden md:block" id="sidebar">
-            {user.user_type === 'donor' &&
+            {user.role === 'donor' &&
                 <div className="p-4">
                     <div className="flex items-left mb-6">
                         <div className="md:hidden flex items-center">
@@ -81,7 +81,7 @@ export default function LeftSidebar() {
                     </ul>
                 </div>
             }
-            {user.user_type === 'wisher' &&
+            {user.role === 'wisher' &&
                 <div className="p-4">
                     <div className="flex items-left mb-6">
                         <div className="md:hidden flex items-center">
@@ -143,7 +143,7 @@ export default function LeftSidebar() {
                     </ul>
                 </div>
             }
-            {(user.user_type === 'super_admin' || user.user_type === 'admin') &&
+            {(user.role === 'super_admin' || user.role === 'admin') &&
                 <div className="w-64 bg-white h-screen shadow-md fixed hidden md:block">
                     <div className="p-4">
                         <h2 className="text-lg font-semibold text-gray-700">Admin Navigation</h2>

@@ -42,18 +42,18 @@ export default function Index({ users }) {
                                             <td className="px-4 py-2 text-sm">
                                                     <span
                                                         className={`px-2 py-1 rounded text-white text-xs ${
-                                                            user.user_type === "super_admin"
+                                                            user.role === "super_admin"
                                                                 ? "bg-red-600"
-                                                                : user.user_type === "admin"
+                                                                : user.role === "admin"
                                                                     ? "bg-blue-600"
-                                                                    : user.user_type === "donor"
+                                                                    : user.role === "donor"
                                                                         ? "bg-green-600"
-                                                                        : user.user_type === "wisher"
+                                                                        : user.role === "wisher"
                                                                             ? "bg-purple-600"
                                                                             : "bg-yellow-500"
                                                         }`}
                                                     >
-                                                        {user.user_type.replace("_", " ")}
+                                                        {user.role.replace("_", " ")}
                                                     </span>
                                             </td>
                                             <td className="p-3">

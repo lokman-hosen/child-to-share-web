@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 function checkAdmin(): bool
 {
     if (Auth::check()){
-        return in_array(Auth::user()->getRawOriginal('user_type'), ['super_admin', 'admin']);
+        return in_array(Auth::user()->getRawOriginal('role'), ['super_admin', 'admin']);
     }else{
         return false;
     }
@@ -15,7 +15,7 @@ function checkAdmin(): bool
 function checkMember(): bool
 {
     if (Auth::check()){
-        return Auth::user()->getRawOriginal('user_type') == 'member';
+        return Auth::user()->getRawOriginal('role') == 'member';
     }else{
         return false;
     }

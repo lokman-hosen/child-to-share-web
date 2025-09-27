@@ -9,7 +9,7 @@ class CommonHelper
     public function __construct(protected User $user){}
     public static function isAdmin(User $user): bool
     {
-        return in_array($user->user_type, ['super_admin', 'admin']);
+        return in_array($user->role, ['super_admin', 'admin']);
     }
 
     public static function guardianRelations(): array

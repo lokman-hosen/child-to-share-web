@@ -10,9 +10,9 @@ export default function Dashboard() {
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard"/>
-            { user.user_type === 'donor' && <DonorDashboard/> }
-            { user.user_type === 'wisher' && <WisherDashboard/> }
-            { (user.user_type === 'super_admin' || user.user_type === 'admin') && <AdminDashboard/> }
+            { user.role === 'donor' && <DonorDashboard/> }
+            { user.role === 'wisher' && <WisherDashboard/> }
+            { (user.role === 'super_admin' || user.role === 'admin') && <AdminDashboard/> }
         </AuthenticatedLayout>
     );
 }

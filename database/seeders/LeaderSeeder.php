@@ -10,7 +10,7 @@ class LeaderSeeder extends Seeder
 {
     public function run(): void
     {
-        $leaders = User::where('user_type', 'leader')->get();
+        $leaders = User::where('role', 'leader')->get();
 
         foreach ($leaders as $index => $user) {
             Leader::create([
