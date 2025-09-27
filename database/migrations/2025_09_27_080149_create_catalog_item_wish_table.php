@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('catalog_item_wish', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('catalog_item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('catalog_id')->constrained()->onDelete('cascade');
             $table->foreignId('wish_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->unique(['catalog_item_id', 'wish_id']);
+            //$table->unique(['catalog_item_id', 'wish_id']);
         });
     }
 
