@@ -10,7 +10,7 @@ class WisherSeeder extends Seeder
 {
     public function run(): void
     {
-        $wishers = User::where('user_type', 'wisher')->get();
+        $wishers = User::where('role', 'wisher')->get();
 
         foreach ($wishers as $index => $user) {
             Wisher::create([
@@ -20,9 +20,9 @@ class WisherSeeder extends Seeder
                 'guardian_phone' => "0181000000{$index}",
                 'relationship' => "Father",
                 'dob' => now()->subYears(15 + $index),
-                'address' => "Wisher Address {$index}",
-                'organization' => "Wisher Org {$index}",
                 'gender' => $index % 2 === 0 ? 'male' : 'female',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

@@ -19,9 +19,6 @@ return new class extends Migration
             $table->string('guardian_phone');
             $table->string('relationship');
             $table->date('dob')->nullable();
-            $table->mediumText('address')->nullable();
-            $table->string('organization')->nullable();
-            $table->string('photo')->nullable();
             $table->enum('gender', ['male','female','other'])->default('male');
             $table->timestamps();
             $table->softDeletes();
