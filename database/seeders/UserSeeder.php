@@ -46,6 +46,8 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'is_verified' => $i % 2 === 0,
                 'is_active' => $i % 2 === 0,
+                'latitude' => 34.0522,
+                'longitude' => -118.2437,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -61,6 +63,8 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'is_verified' => $i % 2 === 0,
                 'is_active' => $i % 2 === 0,
+                'latitude' => 34.0522,
+                'longitude' => -118.2437,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -73,6 +77,8 @@ class UserSeeder extends Seeder
                 'email' => "leader{$i}@example.com",
                 'mobile' => "0174000000{$i}",
                 'role' => 'leader',
+                'latitude' => 34.0522,
+                'longitude' => -118.2437,
                 'password' => Hash::make('password'),
                 'is_verified' => false,
                 'is_active' => false,
