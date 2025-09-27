@@ -24,17 +24,21 @@ class UserSeeder extends Seeder
         ]);
 
         // Admin
-        User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'phone' => '01710000002',
-            'role' => 'admin',
-            'is_verified' => true,
-            'is_active' => true,
-            'password' => Hash::make('password'),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        for ($i = 1; $i <= 5; $i++) {
+            User::create([
+                'name' => "Admin User {$i}",
+                'email' => "admin{$i}@example.com",
+                'phone' => "0172330000{$i}",
+                'role' => 'admin',
+                'password' => Hash::make('password'),
+                'is_verified' => $i % 2 === 0,
+                'is_active' => $i % 2 === 0,
+                'latitude' => 34.0522,
+                'longitude' => -118.2437,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
 
         // Donors
         for ($i = 1; $i <= 5; $i++) {
