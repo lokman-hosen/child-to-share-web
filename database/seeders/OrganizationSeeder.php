@@ -13,10 +13,13 @@ class OrganizationSeeder extends Seeder
             Organization::create([
                 'name' => "Organization {$i}",
                 'logo' => null,
-                'phone' => "0191000000{$i}",
-                'email' => "org{$i}@example.com",
+                'contact_email' => "org{$i}@example.com",
+                'contact_phone' => "0191000000{$i}",
                 'address' => "Organization {$i} Address",
                 'description' => "This is a description of organization {$i}",
+                'is_active' => $i % 2 === 0,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }
