@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('fulfillments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('wish_id')->constrained()->onDelete('cascade');
-            $table->foreignId('donation_item_id')->constrained()->onDelete('cascade');
+            $table->foreignId('donation_id')->constrained()->onDelete('cascade');
             $table->foreignId('donor_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('wisher_id')->constrained('users')->onDelete('cascade');
             $table->enum('status', ['pending', 'scheduled', 'in_progress', 'delivered', 'cancelled'])->default('pending');
