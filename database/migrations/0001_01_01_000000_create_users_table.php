@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique()->nullable();
-            $table->string('mobile')->unique();
-            $table->enum('user_type', ['super_admin','admin','donor','wisher','leader'])->default('donor');
-            $table->decimal('latitude', 10, 7)->nullable();
-            $table->decimal('longitude', 10, 7)->nullable();
+            $table->string('email')->unique();
+            $table->string('phone')->nullable();
+            $table->string('image')->nullable();
+            $table->enum('role', ['donor', 'wisher', 'community_leader', 'admin'])->default('donor');
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
+            $table->string('address')->nullable();
+            $table->foreignId('organization_id')->nullable()->constrained()->onDelete('set null');
+            $table->boolean('is_verified')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
