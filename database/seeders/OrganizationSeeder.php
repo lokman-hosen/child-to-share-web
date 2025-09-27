@@ -12,7 +12,7 @@ class OrganizationSeeder extends Seeder
         for ($i = 1; $i <= 5; $i++) {
             Organization::create([
                 'name' => "Organization {$i}",
-                'logo' => null,
+                'logo' => 'default-logo.png',
                 'contact_email' => "org{$i}@example.com",
                 'contact_phone' => "0191000000{$i}",
                 'address' => "Organization {$i} Address",
