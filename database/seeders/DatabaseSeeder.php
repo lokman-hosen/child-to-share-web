@@ -17,10 +17,19 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
+            CategorySeeder::class,
+            OrganizationSeeder::class,
             DonorSeeder::class,
             WisherSeeder::class,
             LeaderSeeder::class,
-            OrganizationSeeder::class,
+            CatalogSeeder::class,
+            DonationSeeder::class,
+            WishSeeder::class,
+            FulfillmentSeeder::class,
+            MessageSeeder::class,
+            ModerationLogSeeder::class,
+            NotificationSeeder::class,
+            TaskSeeder::class,
         ]);
     }
 }
