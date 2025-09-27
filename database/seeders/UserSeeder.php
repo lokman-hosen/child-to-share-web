@@ -15,8 +15,12 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'superadmin@example.com',
             'mobile' => '01710000001',
-            'user_type' => 'super_admin',
+            'role' => 'super_admin',
             'password' => Hash::make('password'),
+            'is_verified' => true,
+            'is_active' => true,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         // Admin
@@ -24,8 +28,12 @@ class UserSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'mobile' => '01710000002',
-            'user_type' => 'admin',
+            'role' => 'admin',
+            'is_verified' => true,
+            'is_active' => true,
             'password' => Hash::make('password'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         // Donors
@@ -34,8 +42,12 @@ class UserSeeder extends Seeder
                 'name' => "Donor User {$i}",
                 'email' => "donor{$i}@example.com",
                 'mobile' => "0172000000{$i}",
-                'user_type' => 'donor',
+                'role' => 'donor',
                 'password' => Hash::make('password'),
+                'is_verified' => $i % 2 === 0,
+                'is_active' => $i % 2 === 0,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -45,8 +57,12 @@ class UserSeeder extends Seeder
                 'name' => "Wisher User {$i}",
                 'email' => "wisher{$i}@example.com",
                 'mobile' => "0173000000{$i}",
-                'user_type' => 'wisher',
+                'role' => 'wisher',
                 'password' => Hash::make('password'),
+                'is_verified' => $i % 2 === 0,
+                'is_active' => $i % 2 === 0,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
 
@@ -56,8 +72,12 @@ class UserSeeder extends Seeder
                 'name' => "Leader User {$i}",
                 'email' => "leader{$i}@example.com",
                 'mobile' => "0174000000{$i}",
-                'user_type' => 'leader',
+                'role' => 'leader',
                 'password' => Hash::make('password'),
+                'is_verified' => false,
+                'is_active' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }

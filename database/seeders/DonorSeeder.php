@@ -10,16 +10,16 @@ class DonorSeeder extends Seeder
 {
     public function run(): void
     {
-        $donors = User::where('user_type', 'donor')->get();
+        $donors = User::where('role', 'donor')->get();
 
         foreach ($donors as $index => $user) {
             Donor::create([
                 'name' => $user->name,
                 'user_id' => $user->id,
                 'dob' => now()->subYears(25 + $index),
-                'address' => "Donor Address {$index}",
-                'organization' => "Donor Org {$index}",
                 'gender' => $index % 2 === 0 ? 'male' : 'female',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
     }
