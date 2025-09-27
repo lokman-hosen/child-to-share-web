@@ -38,6 +38,7 @@ class WishSeeder extends Seeder
                 'auto_tags' => json_encode(['books', 'science', 'educational', 'children']),
                 'nsfw_flagged' => false,
                 'status' => 'pending',
+                'fulfilled_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -52,6 +53,7 @@ class WishSeeder extends Seeder
                 'auto_tags' => json_encode(['toys', 'building blocks', 'creative', 'educational']),
                 'nsfw_flagged' => false,
                 'status' => 'approved',
+                'fulfilled_at' => now(),
                 'created_at' => now()->subDays(3),
                 'updated_at' => now()->subDays(3),
             ],
@@ -66,6 +68,7 @@ class WishSeeder extends Seeder
                 'auto_tags' => json_encode(['clothes', 'winter', 'jacket', 'boy']),
                 'nsfw_flagged' => false,
                 'status' => 'pending',
+                'fulfilled_at' => now(),
                 'created_at' => now()->subDays(1),
                 'updated_at' => now()->subDays(1),
             ],
@@ -80,6 +83,7 @@ class WishSeeder extends Seeder
                 'auto_tags' => json_encode(['school', 'backpack', 'supplies', 'stationery']),
                 'nsfw_flagged' => false,
                 'status' => 'approved',
+                'fulfilled_at' => now(),
                 'created_at' => now()->subDays(7),
                 'updated_at' => now()->subDays(7),
             ],
@@ -94,14 +98,12 @@ class WishSeeder extends Seeder
                 'auto_tags' => json_encode(['sports', 'soccer', 'community', 'outdoor']),
                 'nsfw_flagged' => false,
                 'status' => 'fulfilled',
-                'fulfilled_at' => now()->subDays(2),
+                'fulfilled_at' => now(),
                 'created_at' => now()->subDays(14),
                 'updated_at' => now()->subDays(2),
             ]
         ];
 
         DB::table('wishes')->insert($wishes);
-
-        $this->command->info('5 wish items seeded successfully!');
     }
 }

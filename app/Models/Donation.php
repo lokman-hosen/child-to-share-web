@@ -11,4 +11,8 @@ class Donation extends Model
     /** @use HasFactory<\Database\Factories\DonationFactory> */
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'auto_tags' => 'array',
+    ];
 }

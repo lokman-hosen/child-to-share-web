@@ -12,4 +12,8 @@ class Wish extends Model
     use HasFactory;
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'auto_tags' => 'array',
+    ];
 }
