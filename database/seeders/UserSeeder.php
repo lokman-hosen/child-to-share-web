@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Super Admin',
             'email' => 'superadmin@example.com',
-            'mobile' => '01710000001',
+            'phone' => '01710000001',
             'role' => 'super_admin',
             'password' => Hash::make('password'),
             'is_verified' => true,
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'mobile' => '01710000002',
+            'phone' => '01710000002',
             'role' => 'admin',
             'is_verified' => true,
             'is_active' => true,
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => "Donor User {$i}",
                 'email' => "donor{$i}@example.com",
-                'mobile' => "0172000000{$i}",
+                'phone' => "0172000000{$i}",
                 'role' => 'donor',
                 'password' => Hash::make('password'),
                 'is_verified' => $i % 2 === 0,
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => "Wisher User {$i}",
                 'email' => "wisher{$i}@example.com",
-                'mobile' => "0173000000{$i}",
+                'phone' => "0173000000{$i}",
                 'role' => 'wisher',
                 'password' => Hash::make('password'),
                 'is_verified' => $i % 2 === 0,
@@ -75,8 +75,8 @@ class UserSeeder extends Seeder
             User::create([
                 'name' => "Leader User {$i}",
                 'email' => "leader{$i}@example.com",
-                'mobile' => "0174000000{$i}",
-                'role' => 'leader',
+                'phone' => "0174000000{$i}",
+                'role' => 'community_leader',
                 'latitude' => 34.0522,
                 'longitude' => -118.2437,
                 'password' => Hash::make('password'),
