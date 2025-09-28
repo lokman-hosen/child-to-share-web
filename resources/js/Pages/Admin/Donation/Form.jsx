@@ -5,35 +5,79 @@ import SelectInput from '@/Components/SelectInput.jsx';
 import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faEdit, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
+import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
+import TextareaInput from "@/Components/TextareaInput.jsx";
+import FileInputField from "@/Components/FileInputField.jsx";
 
-const TransferTypeForm = ({categories, donation, statuses, module}) => {
+const Form = ({categories, donation, statuses, module}) => {
+    // Convert auto_tags from string/array to the format MultiSelect expects
+    const formatTags = (tags) => {
+        if (!tags) return [];
+        if (Array.isArray(tags)) {
+            return tags.map(tag => ({
+                label: tag,
+                value: tag
+            }));
+        }
+        if (typeof tags === 'string') {
+            try {
+                const parsedTags = JSON.parse(tags);
+                if (Array.isArray(parsedTags)) {
+                    return parsedTags.map(tag => ({
+                        label: tag,
+                        value: tag
+                    }));
+                }
+            } catch (e) {
+                // If it's a comma-separated string
+                return tags.split(',').map(tag => tag.trim()).filter(tag => tag).map(tag => ({
+                    label: tag,
+                    value: tag
+                }));
+            }
+        }
+        return [];
+    };
+
     const { data, setData, post, put, processing, errors, reset } = useForm({
         title: donation?.title || '',
         item_condition: donation?.item_condition || '',
         category_id: donation?.category_id || '',
         description: donation?.description || '',
-        auto_tags: donation?.auto_tags || '',
+        auto_tags: donation?.auto_tags || [],
+        attachments: donation?.attachments || [],
         status: donation?.status || '',
     });
 
-    // We don't need a useEffect to set _method, Inertia handles that automatically
-    // when you use `post` or `put`.
+    // Convert auto_tags to the format MultiSelect expects
+    const [tags, setTags] = React.useState(formatTags(donation?.auto_tags));
+
+    // Update form data when tags change
+    useEffect(() => {
+        // Convert tags back to array of strings for form submission
+        const tagValues = tags.map(tag => tag.value);
+        setData('auto_tags', tagValues);
+    }, [tags, setData]);
+
     useEffect(() => {
         if (donation) {
+            const formattedTags = formatTags(donation.auto_tags);
+            setTags(formattedTags);
             setData((prevData) => ({
                 ...prevData,
                 title: donation?.title || '',
                 item_condition: donation?.item_condition || '',
                 category_id: donation?.category_id || '',
                 description: donation?.description || '',
-                auto_tags: donation?.auto_tags || '',
+                auto_tags: formattedTags.map(tag => tag.value),
+                attachments: donation?.attachments || '',
                 status: donation?.status || '',
             }));
         } else {
             reset();
+            setTags([]);
         }
     }, [donation, setData, reset]);
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -59,12 +103,20 @@ const TransferTypeForm = ({categories, donation, statuses, module}) => {
             post(submitRoute, {
                 onSuccess: () => {
                     reset();
+                    setTags([]);
                 },
                 onError: (submissionErrors) => {
                     console.error("Form submission errors:", submissionErrors);
                 },
                 preserveScroll: true,
             });
+        }
+    };
+
+    const handleFileChange = (field, file) => {
+        setData(field, file);
+        if (file !== null) {
+            setData(`${field}_removed`, false);
         }
     };
 
@@ -110,6 +162,15 @@ const TransferTypeForm = ({categories, donation, statuses, module}) => {
                     options={categoryOptions}
                     required
                 />
+                <MultiSelectTextField
+                    id="auto_tags"
+                    label="Tags"
+                    required={false}
+                    value={tags}
+                    onChange={setTags}
+                    placeholder="Type tag and press enter..."
+                    error={errors.auto_tags}
+                />
                 <SelectInput
                     id="status"
                     label="Status"
@@ -120,6 +181,28 @@ const TransferTypeForm = ({categories, donation, statuses, module}) => {
                     required
                 />
 
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+                <TextareaInput
+                    id="description"
+                    label="Description"
+                    value={data.description}
+                    onChange={(e) => setData('description', e.target.value)}
+                    error={errors.description}
+                    placeholder="Enter iteam description"
+                    required
+                />
+
+                <FileInputField
+                    id="attachments"
+                    label="Transaction File (PDF/Image)"
+                    onFileChange={(file) => handleFileChange('attachments', file)}
+                    currentFileUrl={data?.attachments || null}
+                    error={errors.attachments}
+                    accept="image/*,.pdf"
+                    required={!donation}
+                />
             </div>
 
             <div className="mt-8 flex justify-center">
@@ -147,4 +230,4 @@ const TransferTypeForm = ({categories, donation, statuses, module}) => {
     );
 };
 
-export default TransferTypeForm;
+export default Form;
