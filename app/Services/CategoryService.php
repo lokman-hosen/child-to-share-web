@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Service;
+namespace App\Services;
 
 use App\Models\Category;
-use App\Services\BaseService;
 
 class CategoryService extends BaseService
 {

@@ -15,4 +15,8 @@ class Donation extends Model
     protected $casts = [
         'auto_tags' => 'array',
     ];
+
+    public function media(){
+        return $this->hasMany(Media::class);
+    }
 }

@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDonationRequest;
 use App\Http\Requests\UpdateDonationRequest;
 use App\Models\Donation;
-use App\Service\CategoryService;
+use App\Services\CategoryService;
+use App\Services\DonationService;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,6 +16,7 @@ class DonationController extends Controller
 {
     public function __construct(
         protected CategoryService $categoryService,
+        protected DonationService $donationService
 
     ){}
     const moduleDirectory = 'Admin/Donation/';
@@ -51,9 +54,13 @@ class DonationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDonationRequest $request)
+    public function store(StoreDonationRequest $request): RedirectResponse
     {
-        //$donation = $this->d
+        $donation = $this->donationService->createDonation($request);
+        if ($donation){
+            return redirect()->route('donations.index')->with('success', 'Donation created successfully!');
+        }
+        return redirect()->route('donations.index')->with('error', 'Error to created donation');
 
     }
 

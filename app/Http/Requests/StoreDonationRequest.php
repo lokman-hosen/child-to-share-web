@@ -22,13 +22,13 @@ class StoreDonationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string'],
+            'title' => 'required|string|max:255',
             'item_condition' => ['required', 'string'],
-            'category_id' => ['required'],
-            'description' => ['required', 'string'],
             'auto_tags' => ['required'],
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'attachments.*' => 'file|mimes:jpeg,png,jpg,gif,mp4,avi,mov|max:10240', // 10MB max
             'status' => ['required'],
-            'attachments' => ['required'],
         ];
     }
 }
