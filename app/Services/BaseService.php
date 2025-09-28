@@ -19,8 +19,6 @@ class BaseService
         return $this->model->get();
     }
 
-
-
     public function getActiveData()
     {
         return $this->model->where('is_active', 1)->get();
