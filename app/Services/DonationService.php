@@ -58,16 +58,18 @@ class DonationService extends BaseService
 
         // Handle file uploads
         if ($request->hasFile('attachments')) {
+            //dd($request->file('attachments'));
             $this->handleAttachments($request->file('attachments'), $donation);
         }
         return $donation;
     }
 
 
-    private function handleAttachments($attachments, Donation $donation)
+    private function handleAttachments($attachments, $donation)
     {
         //$order = isset($donation->media) ? $donation->media?->count() : 1; // Start order from current count
         $order = 1; // Start order from current count
+        //dd($attachments);
 
         foreach ($attachments as $attachment) {
             $order++;
@@ -109,13 +111,15 @@ class DonationService extends BaseService
     private function handleImageUpload($image, $filePath)
     {
         // Create intervention image instance
-        //$img = Image::make($image->getRealPath());
-        $img = ImageManager::imagick()->read($image->getRealPath());
-
+        $img = Image::make($image->getRealPath());
 
         // Resize and optimize image
-        $img->resize(500, 400);
-        // Save to storage
-        Storage::disk('public')->put($filePath, $img->stream());
+        $img->resize(800, 800, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        // Save to storage using response method
+        Storage::disk('public')->put($filePath, $img->response('jpg', 85)->content());
     }
 }

@@ -6,6 +6,17 @@
       0 => 'Inertia\\ServiceProvider',
     ),
   ),
+  'intervention/image' => 
+  array (
+    'aliases' => 
+    array (
+      'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
+    ),
+  ),
   'laravel/breeze' => 
   array (
     'providers' => 
@@ -60,6 +71,13 @@
     'providers' => 
     array (
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    ),
+  ),
+  'phiki/phiki' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Phiki\\Adapters\\Laravel\\PhikiServiceProvider',
     ),
   ),
   'tightenco/ziggy' => 

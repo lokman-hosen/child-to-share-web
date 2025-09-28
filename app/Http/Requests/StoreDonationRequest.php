@@ -23,12 +23,12 @@ class StoreDonationRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'item_condition' => ['required', 'string'],
-            'auto_tags' => ['required'],
             'description' => 'required|string',
             'category_id' => 'required|exists:categories,id',
+            'item_condition' => 'required|string',
+            'status' => 'required|string',
+            'auto_tags' => 'sometimes|array',
             'attachments.*' => 'file|mimes:jpeg,png,jpg,gif,mp4,avi,mov|max:10240', // 10MB max
-            'status' => ['required'],
         ];
     }
 }
