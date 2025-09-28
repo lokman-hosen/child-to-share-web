@@ -13,7 +13,8 @@ use Inertia\Response;
 class DonationController extends Controller
 {
     public function __construct(
-        protected CategoryService $categoryService
+        protected CategoryService $categoryService,
+
     ){}
     const moduleDirectory = 'Admin/Donation/';
     const moduleName = 'Donation List';
@@ -52,7 +53,8 @@ class DonationController extends Controller
      */
     public function store(StoreDonationRequest $request)
     {
-        //
+        //$donation = $this->d
+
     }
 
     /**
