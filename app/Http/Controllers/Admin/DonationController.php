@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDonationRequest;
 use App\Http\Requests\UpdateDonationRequest;
 use App\Models\Donation;
+use App\Service\CategoryService;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DonationController extends Controller
 {
+    public function __construct(
+        protected CategoryService $categoryService
+    ){}
     const moduleDirectory = 'Admin/Donation/';
     const moduleName = 'Donation List';
     /**
@@ -34,8 +38,10 @@ class DonationController extends Controller
      */
     public function create(): Response
     {
+        $categories = $this->categoryService->listByStatus();
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
+            'categories' => $categories
         ]);
     }
 
