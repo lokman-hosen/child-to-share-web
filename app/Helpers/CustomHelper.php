@@ -12,14 +12,12 @@ function checkAdmin(): bool
         return false;
     }
 }
-function checkMember(): bool
+
+function donationStatus(): array
 {
-    if (Auth::check()){
-        return Auth::user()->getRawOriginal('role') == 'member';
-    }else{
-        return false;
-    }
+    return ['available' => 'Available', 'donated' => 'Donated', 'reserved' => 'Reserved'];
 }
+
 function checkEmpty($value){
     return isset($value) ? (!empty($value) ? $value : null) : null;
 }

@@ -11,8 +11,8 @@ export const getDropdownOptions = (data, valueKey, labelKey) => {
 export const getStatusOptions = (statusObject) => {
     if (!statusObject) {
         return [
-            { value: 'active', label: 'Active' },
-            { value: 'inactive', label: 'Inactive' },
+            { value: '1', label: 'Active' },
+            { value: '0', label: 'Inactive' },
         ]
     }
     return Object.entries(statusObject).map(([value, label]) => ({

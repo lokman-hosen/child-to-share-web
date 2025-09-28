@@ -39,9 +39,11 @@ class DonationController extends Controller
     public function create(): Response
     {
         $categories = $this->categoryService->listByStatus();
+        $statuses = donationStatus();
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
-            'categories' => $categories
+            'categories' => $categories,
+            'statuses' => $statuses,
         ]);
     }
 
