@@ -8,6 +8,7 @@ import {faEdit, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInputField from "@/Components/FileInputField.jsx";
+import Checkbox from "@/Components/Checkbox.jsx";
 
 const Form = ({categories, donation, statuses, module}) => {
     // Convert auto_tags from string/array to the format MultiSelect expects
@@ -203,6 +204,18 @@ const Form = ({categories, donation, statuses, module}) => {
                     accept="image/*,.pdf"
                     required={!donation}
                 />
+
+                <div className="flex items-center">
+                    <Checkbox
+                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                        name="remember"
+                        checked={data.remember}
+                        onChange={(e) =>
+                            setData('remember', e.target.checked)
+                        }
+                    />
+                    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">Request admin assistance for pickup/delivery</label>
+                </div>
             </div>
 
             <div className="mt-8 flex justify-center">
