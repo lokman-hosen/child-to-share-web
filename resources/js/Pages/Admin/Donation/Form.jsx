@@ -203,7 +203,10 @@ const Form = ({categories, donation, statuses, module}) => {
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
                         Attachments (images(min size: 500x400) & Videos(max length: 30s))
-                        <span className="text-red-500">*</span>
+                        {!donation && (
+                            <span className="text-red-500">*</span>
+                        )}
+
                     </label>
 
                     {/* Main File Input */}

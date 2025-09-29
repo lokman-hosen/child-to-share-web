@@ -2,6 +2,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link} from '@inertiajs/react';
 import React from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 
 export default function List({module, donation}) {
 
@@ -179,23 +181,22 @@ export default function List({module, donation}) {
                                     <div className="bg-gray-50 rounded-lg p-4">
                                         <h3 className="text-lg font-medium text-gray-900 mb-3">Tags</h3>
                                         <div className="flex flex-wrap gap-2">
-
                                             {donation.auto_tags && (
                                                 Array.isArray(donation.auto_tags)
                                                     ? donation.auto_tags.map((tag, index) => (
                                                         <span
                                                             key={index}
                                                             className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                                                            {tag}
-                                                                        </span>
+                                                            {tag}
+                                                        </span>
                                                     ))
                                                     : donation.auto_tags.split(',').map((tag, index) => (
                                                         <span
                                                             key={index}
                                                             className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2"
                                                         >
-                                                                            {tag.trim()}
-                                                                        </span>
+                                                            {tag.trim()}
+                                                        </span>
                                                     ))
                                             )}
                                         </div>
@@ -211,17 +212,18 @@ export default function List({module, donation}) {
                                 </div>
 
                                 {/* Action Buttons */}
-                                <div className="flex space-x-3">
+                                <div className="flex space-x-3 text-center">
                                     {donation.status === 'available' && (
                                         <button
-                                            className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                            Delete Item
+                                            className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                           <FontAwesomeIcon icon={faTrash}/> Delete Item
                                         </button>
                                     )}
-                                    <button
-                                        className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                        Edit Item
-                                    </button>
+                                    <a
+                                        href={route('donations.edit',donation.id)}
+                                        className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                        <FontAwesomeIcon icon={faEdit}/> Edit Item
+                                    </a>
                                 </div>
                             </div>
                         </div>

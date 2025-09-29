@@ -84,6 +84,7 @@ class DonationController extends Controller
             'category',
             'files' // Make sure this matches your relationship name
         ]);
+
         return Inertia::render(self::moduleDirectory.'Show', [
             'module' => self::moduleName,
             'donation' => $donation,
@@ -95,7 +96,20 @@ class DonationController extends Controller
      */
     public function edit(Donation $donation)
     {
-        //
+        $donation->load([
+            'user',
+            'organization',
+            'category',
+            'files' // Make sure this matches your relationship name
+        ]);
+        $categories = $this->categoryService->listByStatus();
+        $statuses = donationStatus();
+        return Inertia::render(self::moduleDirectory.'Edit', [
+            'module' => self::moduleName,
+            'donation' => $donation,
+            'categories' => $categories,
+            'statuses' => $statuses,
+        ]);
     }
 
     /**
