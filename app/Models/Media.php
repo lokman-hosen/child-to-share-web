@@ -23,10 +23,10 @@ class Media extends Model
     /**
      * Get the parent mediable model (donation, user, etc.).
      */
-//    public function mediable(): MorphTo
-//    {
-//        return $this->morphTo();
-//    }
+    public function mediable(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     /**
      * Get the full URL to the media file.
