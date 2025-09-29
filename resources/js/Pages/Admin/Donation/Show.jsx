@@ -131,19 +131,19 @@ export default function List({module, donation}) {
                                     <h3 className="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
                                     <dl className="space-y-3">
                                         <div>
-                                            <dt className="text-sm font-medium text-gray-500">Category</dt>
+                                            <dt className="text-sm font-medium text-gray-500">Category:</dt>
                                             <dd className="text-sm text-gray-900">
                                                 {donation.category?.name || 'N/A'}
                                             </dd>
                                         </div>
                                         <div>
-                                            <dt className="text-sm font-medium text-gray-500">Condition</dt>
+                                            <dt className="text-sm font-medium text-gray-500">Item Condition:</dt>
                                             <dd className="text-sm text-gray-900 capitalize">
                                                 {donation.item_condition}
                                             </dd>
                                         </div>
                                         <div>
-                                            <dt className="text-sm font-medium text-gray-500">Status</dt>
+                                            <dt className="text-sm font-medium text-gray-500">Status:</dt>
                                             <dd className="text-sm">
                                                 <span
                                                     className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getStatusColor(donation.status)}`}>
@@ -152,23 +152,23 @@ export default function List({module, donation}) {
                                             </dd>
                                         </div>
                                         <div>
-                                            <dt className="text-sm font-medium text-gray-500">Posted By</dt>
+                                            <dt className="text-sm font-medium text-gray-500">Posted By:</dt>
                                             <dd className="text-sm text-gray-900">
                                                 {donation.user?.name || 'Anonymous'}
                                             </dd>
                                         </div>
                                         {donation.organization && (
                                             <div>
-                                                <dt className="text-sm font-medium text-gray-500">Organization</dt>
+                                                <dt className="text-sm font-medium text-gray-500">Organization:</dt>
                                                 <dd className="text-sm text-gray-900">
                                                     {donation.organization.name}
                                                 </dd>
                                             </div>
                                         )}
                                         <div>
-                                            <dt className="text-sm font-medium text-gray-500">Created</dt>
+                                            <dt className="text-sm font-medium text-gray-500">Created:</dt>
                                             <dd className="text-sm text-gray-900">
-                                                {new Date(donation.created_at).toLocaleDateString()}
+                                                {donation.created_at}
                                             </dd>
                                         </div>
                                     </dl>
