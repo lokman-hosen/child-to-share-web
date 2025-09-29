@@ -45,6 +45,10 @@ class DonationService extends BaseService
 
     public function createDonation($request)
     {
+        //dd($request->all());
+        $autoTags = $request->auto_tags;
+        $autoTagsString = is_array($autoTags) ? implode(',', $autoTags) : $autoTags;
+
 
         $donation = $this->donation->create([
             'title' => $request->title,
@@ -52,7 +56,7 @@ class DonationService extends BaseService
             'item_condition' => $request->item_condition,
             'user_id' => Auth::id(),
             'category_id' => $request->category_id,
-            'auto_tags' => implode(',', $request->auto_tags),
+            'auto_tags' => $autoTagsString,
             'status' => $request->status,
         ]);
 
@@ -65,46 +69,53 @@ class DonationService extends BaseService
     }
 
 
-    private function handleAttachments($attachments, $donation)
+    private function handleAttachments($attachments, Donation $donation)
     {
-        //$order = isset($donation->media) ? $donation->media?->count() : 1; // Start order from current count
+        //$order = $donation->media()->count(); // Start order from current count
         $order = 1; // Start order from current count
-        //dd($attachments);
 
         foreach ($attachments as $attachment) {
             $order++;
 
-            // Determine if file is image or video
-            $mimeType = $attachment->getMimeType();
-            $fileType = str_starts_with($mimeType, 'image/') ? 'image' : 'video';
-            $originalName = $attachment->getClientOriginalName();
-            $fileSize = $attachment->getSize();
+            try {
+                // Determine if file is image or video
+                $mimeType = $attachment->getMimeType();
+                $fileType = str_starts_with($mimeType, 'image/') ? 'image' : 'video';
+                $originalName = $attachment->getClientOriginalName();
+                $fileSize = $attachment->getSize();
 
-            // Generate unique filename
-            $extension = $attachment->getClientOriginalExtension();
-            $filename = 'donation_' . $donation->id . '_' . time() . '_' . uniqid() . '.' . $extension;
-            $filePath = "donations/{$filename}";
+                // Generate unique filename
+                $extension = $attachment->getClientOriginalExtension();
+                $filename = 'donation_' . $donation->id . '_' . time() . '_' . uniqid() . '.' . $extension;
+                $filePath = "donations/{$filename}";
 
-            if ($fileType === 'image') {
-                // Handle image with Intervention Image
-                $this->handleImageUpload($attachment, $filePath);
-            } else {
-                // Handle video - store directly
-                Storage::disk('public')->put($filePath, file_get_contents($attachment));
+                if ($fileType === 'image') {
+                    // Handle image with Intervention Image
+                    $this->handleImageUpload($attachment, $filePath);
+                } else {
+                    // Handle video - store directly
+                    Storage::disk('public')->put($filePath, file_get_contents($attachment));
+                }
+
+                // Create media record - FIXED: uncommented required fields
+                Media::create([
+                    'mediable_type' => Donation::class,
+                    //'mediable_type' => 'App\Models\Donation',
+                    'mediable_id' => $donation->id,
+                    'file_path' => $filePath,
+                    'file_name' => $originalName, // Uncommented
+                    'file_type' => $fileType,
+                    'mime_type' => $mimeType,
+                    'file_size' => $fileSize, // Uncommented and fixed variable name
+                    'order' => $order,
+                    'is_featured' => $order === 1, // First file is featured
+                ]);
+
+            } catch (\Exception $e) {
+                // Log the error and continue with next file
+                \Log::error('Error uploading attachment: ' . $e->getMessage());
+                continue;
             }
-
-            // Create media record
-            Media::create([
-                'mediable_type' => Donation::class,
-                'mediable_id' => $donation->id,
-                'file_path' => $filePath,
-                'file_name' => $originalName,
-                'file_type' => $fileType,
-                'mime_type' => $mimeType,
-                'file_size' => $fileSize,
-                'order' => $order,
-                'is_featured' => $order === 1, // First file is featured
-            ]);
         }
     }
 
@@ -114,12 +125,15 @@ class DonationService extends BaseService
         $img = Image::make($image->getRealPath());
 
         // Resize and optimize image
-        $img->resize(800, 800, function ($constraint) {
+        $img->resize(500, 400, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
 
-        // Save to storage using response method
-        Storage::disk('public')->put($filePath, $img->response('jpg', 85)->content());
+        // Encode and save with optimization
+        $img->encode('jpg', 85); // 85% quality for good balance
+
+        // Save to storage
+        Storage::disk('public')->put($filePath, $img->stream());
     }
 }
