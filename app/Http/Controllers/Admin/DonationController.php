@@ -9,6 +9,7 @@ use App\Models\Donation;
 use App\Services\CategoryService;
 use App\Services\DonationService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,17 +25,23 @@ class DonationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        if (checkAdmin()){
-            return Inertia::render(self::moduleDirectory.'List', [
-                'module' => self::moduleName,
-            ]);
-        }else{
-            return Inertia::render(self::moduleDirectory.'Index', [
-                'module' => self::moduleName,
-            ]);
-        }
+        $donations = $this->donationService->getListWithFilter($request);
+//        if (checkAdmin()){
+//            return Inertia::render(self::moduleDirectory.'List', [
+//                'module' => self::moduleName,
+//            ]);
+//        }else{
+//            return Inertia::render(self::moduleDirectory.'Index', [
+//                'module' => self::moduleName,
+//            ]);
+
+        return Inertia::render(self::moduleDirectory.'List', [
+            'module' => self::moduleName,
+            'donations' => $donations,
+        ]);
+//        }
     }
 
     /**
