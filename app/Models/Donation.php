@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
@@ -26,6 +27,7 @@ class Donation extends Model
             get: fn ($value) => Carbon::parse($value)->diffForHumans(),
         );
     }
+
 
     /**
      * Get all of the donation's media.
@@ -63,7 +65,7 @@ class Donation extends Model
     /**
      * Get the featured image for the donation.
      */
-    public function featuredImage(): \Illuminate\Database\Eloquent\Relations\MorphOne
+    public function featuredImage(): MorphOne
     {
         return $this->morphOne(File::class, 'fileable')
             ->where('is_featured', true);

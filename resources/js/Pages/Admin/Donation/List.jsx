@@ -22,7 +22,7 @@ export default function List({module, donations}) {
                                     {/*<th className="text-left px-3 py-5 border border-gray-300">#</th>*/}
                                     <th className="text-left px-3 py-5 border-2 border-gray-300">Item Info.</th>
                                     <th className="text-left px-3 py-5 border-2 border-gray-300">Donor Name</th>
-                                    <th className="text-left px-3 py-5 border-2 border-gray-300">Action</th>
+                                    <th className="text-right px-3 py-5 border-2 border-gray-300">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
@@ -35,20 +35,20 @@ export default function List({module, donations}) {
                                             <td className="p-3 border border-gray-200">
                                                 <div className="flex items-center">
                                                     <div
-                                                        className="h-16 w-16 bg-blue-100 rounded-md flex items-center justify-center mr-4">
-
-                                                        {donation.featuredImage?.file_path ? (
+                                                        className="h-32 w-32 bg-blue-100 rounded-md flex items-center justify-center mr-4 overflow-hidden">
+                                                        {donation.featured_image?.file_path ? (
                                                             <img
-                                                                src={donation.featuredImage?.file_path}
+                                                                src={`/storage/${donation.featured_image.file_path}`}
                                                                 alt={`${donation.name}'s image`}
-                                                                className="h-10 w-10 rounded-full object-cover"
+                                                                className="w-full h-full object-cover"
                                                             />
                                                         ) : (
-                                                            <div className="h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 text-sm">
+                                                            <div
+                                                                className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
                                                                 <img
                                                                     src="https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png"
                                                                     alt={`${donation.name}'s image`}
-                                                                    className="h-10 w-10 rounded-full object-cover"
+                                                                    className="w-full h-full object-cover"
                                                                 />
                                                             </div>
                                                         )}
