@@ -15,14 +15,14 @@ export default function List({module, donations}) {
                 <h1 className="text-2xl font-bold text-gray-900 mb-6">Donations List</h1>
                 <div className="bg-white shadow rounded-lg p-6">
                     <div className="w-2xl space-y-8">
-                        <div className="overflow-x-auto bg-white shadow rounded-lg">
+                        <div className="overflow-x-auto bg-white shadow rounded-lg px-1 py-2">
                             <table className="wish-table w-full">
                                 <thead className="bg-gray-50">
                                 <tr>
                                     {/*<th className="text-left px-3 py-5 border border-gray-300">#</th>*/}
-                                    <th className="text-left px-3 py-5 border border-gray-300">Item Info.</th>
-                                    <th className="text-left px-3 py-5 border border-gray-300">Donor Name</th>
-                                    <th className="text-left px-3 py-5 border border-gray-300">Action</th>
+                                    <th className="text-left px-3 py-5 border-2 border-gray-300">Item Info.</th>
+                                    <th className="text-left px-3 py-5 border-2 border-gray-300">Donor Name</th>
+                                    <th className="text-left px-3 py-5 border-2 border-gray-300">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
