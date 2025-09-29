@@ -96,11 +96,16 @@ export default function List({module, donation}) {
                                             {donation.files.map((file, index) => (
                                                 <div key={file.id} className="relative group mb-2">
                                                     {file.file_type === 'image' ? (
-                                                        <img
-                                                            src={`/storage/${file.file_path}`}
-                                                            alt={`${donation.title} - Image ${index + 1}`}
-                                                            className="w-full object-cover rounded-lg shadow-md cursor-pointer hover:shadow-md transition-shadow"
-                                                        />
+                                                        <a
+                                                            href={`/storage/${file.file_path}`}
+                                                            target = "_blank"
+                                                        >
+                                                            <img
+                                                                src={`/storage/${file.file_path}`}
+                                                                alt={`${donation.title} - Image ${index + 1}`}
+                                                                className="w-full object-cover rounded-lg shadow-md cursor-pointer hover:shadow-md transition-shadow"
+                                                            />
+                                                        </a>
                                                     ) : (
                                                         <div
                                                             className="w-full object-cover bg-gray-100 rounded-lg shadow-md flex items-center justify-center cursor-pointer hover:shadow-md transition-shadow">

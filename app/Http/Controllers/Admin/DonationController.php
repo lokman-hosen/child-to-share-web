@@ -117,6 +117,7 @@ class DonationController extends Controller
      */
     public function update(UpdateDonationRequest $request, Donation $donation): RedirectResponse
     {
+        //dd($request->all());
         $updateDonation = $this->donationService->updateDonation($request, $donation);
         if ($updateDonation){
             return redirect()->route('donations.index')->with('success', 'Donation updated successfully!');

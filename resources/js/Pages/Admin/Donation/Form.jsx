@@ -50,6 +50,9 @@ const Form = ({categories, donation, statuses, module}) => {
         attachments: [], // Always start with empty array for new files
         status: donation?.status || 'available',
         remember: false, // Add remember field for the checkbox
+
+        // We will add the _method field dynamically in handleSubmit
+        _method: donation ? 'PUT' : 'POST',
     });
 
     // Convert auto_tags to the format MultiSelect expects
@@ -75,8 +78,10 @@ const Form = ({categories, donation, statuses, module}) => {
                 auto_tags: formattedTags.map(tag => tag.value),
                 status: donation?.status || 'available',
                 // Don't set attachments from donation as they're already stored
+                _method: 'PUT', // Ensure method spoofing is set for updates
             }));
         } else {
+            setData('_method', 'POST'); // Reset for new member creation
             reset();
             setTags([]);
         }
@@ -89,30 +94,17 @@ const Form = ({categories, donation, statuses, module}) => {
             ? route('donations.update', donation.id)
             : route('donations.store');
 
-        if (donation) {
-            put(submitRoute, {
-                forceFormData: true,
-                onSuccess: () => {
-                    // No need to reset on update
-                },
-                onError: (submissionErrors) => {
-                    console.error("Form submission errors:", submissionErrors);
-                },
-                preserveScroll: true,
-            });
-        } else {
-            post(submitRoute, {
-                forceFormData: true,
-                onSuccess: () => {
-                    reset();
-                    setTags([]);
-                },
-                onError: (submissionErrors) => {
-                    console.error("Form submission errors:", submissionErrors);
-                },
-                preserveScroll: true,
-            });
-        }
+        post(submitRoute, {
+            forceFormData: true,
+            onSuccess: () => {
+                reset();
+                setTags([]);
+            },
+            onError: (submissionErrors) => {
+                console.error("Form submission errors:", submissionErrors);
+            },
+            preserveScroll: true,
+        });
     };
 
     const handleFileChange = (e) => {
