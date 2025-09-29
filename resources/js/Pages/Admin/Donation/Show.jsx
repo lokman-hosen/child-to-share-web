@@ -101,10 +101,13 @@ export default function List({module, donation}) {
                                                         />
                                                     ) : (
                                                         <div
-                                                            className="w-full h-32 bg-gray-100 rounded-lg shadow-md flex items-center justify-center cursor-pointer hover:shadow-md transition-shadow">
+                                                            className="w-full object-cover bg-gray-100 rounded-lg shadow-md flex items-center justify-center cursor-pointer hover:shadow-md transition-shadow">
                                                             <div className="text-center">
-                                                                <div className="text-2xl mb-1">🎥</div>
-                                                                <span className="text-xs text-gray-600">Video</span>
+                                                                <video width="500" height="400" controls>
+                                                                    <source src={`/storage/${file.file_path}`} type="video/mp4"/>
+                                                                    <source src={`/storage/${file.file_path}`} type="video/ogg"/>
+                                                                    Your browser does not support the video tag.
+                                                                </video>
                                                             </div>
                                                         </div>
                                                     )}
