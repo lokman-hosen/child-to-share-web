@@ -61,12 +61,32 @@ class DonationService extends BaseService
         return $donation;
     }
 
+    public function updateDonation($request, $donation)
+    {
+        $autoTags = $request->auto_tags;
+        $autoTagsString = is_array($autoTags) ? implode(',', $autoTags) : $autoTags;
+        // Update donation
+        $donation->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'item_condition' => $request->item_condition,
+            'category_id' => $request->category_id,
+            'auto_tags' => $autoTagsString,
+            'status' => $request->status,
+        ]);
+
+        // Handle new file uploads
+        if ($request->hasFile('attachments')) {
+            $this->handleAttachments($request->file('attachments'), $donation);
+        }
+
+        return $donation;
+    }
+
 
     private function handleAttachments($attachments, Donation $donation)
     {
         $order = $donation->files()->count(); // Start order from current count
-        //$order = 1; // Start order from current count
-
         foreach ($attachments as $attachment) {
             $order++;
 

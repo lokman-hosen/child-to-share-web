@@ -176,16 +176,17 @@ const Form = ({categories, donation, statuses, module}) => {
                     error={errors.auto_tags}
                     required
                 />
-                {/*<SelectInput*/}
-                {/*    id="status"*/}
-                {/*    label="Status"*/}
-                {/*    value={data.status}*/}
-                {/*    onChange={(e) => setData('status', e.target.value)}*/}
-                {/*    error={errors.status}*/}
-                {/*    options={statusOptions}*/}
-                {/*    required*/}
-                {/*/>*/}
-
+                { donation &&
+                    <SelectInput
+                        id="status"
+                        label="Status"
+                        value={data.status}
+                        onChange={(e) => setData('status', e.target.value)}
+                        error={errors.status}
+                        options={statusOptions}
+                        required
+                    />
+                }
             </div>
 
             <div className="grid grid-cols-1 gap-6">

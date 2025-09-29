@@ -115,9 +115,13 @@ class DonationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDonationRequest $request, Donation $donation)
+    public function update(UpdateDonationRequest $request, Donation $donation): RedirectResponse
     {
-        //
+        $updateDonation = $this->donationService->updateDonation($request, $donation);
+        if ($updateDonation){
+            return redirect()->route('donations.index')->with('success', 'Donation updated successfully!');
+        }
+        return redirect()->route('donations.index')->with('error', 'Error to updated donation');
     }
 
     /**
