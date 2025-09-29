@@ -1,11 +1,13 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link} from '@inertiajs/react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBackward, faEdit, faList, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 
 export default function List({module, donations}) {
+
+    const donationListData = donations?.data || [];
+    const donationsLinks = donations?.links || [];
+
     return (
         <AuthenticatedLayout>
             <Head title="Donation List"/>
@@ -24,8 +26,8 @@ export default function List({module, donations}) {
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
-                                {donations.data.length > 0 ? (
-                                    donations.data.map((donation, index) => (
+                                {donationListData.length > 0 ? (
+                                    donationListData.map((donation, index) => (
                                         <tr className="hover:bg-gray-50">
                                             {/*<td className="px-3 border border-gray-200 text-sm font-medium text-gray-800">*/}
                                             {/*    {donations?.from + index}*/}
@@ -113,7 +115,7 @@ export default function List({module, donations}) {
                                 </tbody>
                             </table>
                         </div>
-                        <Pagination/>
+                        {donationsLinks.length > 1 && <Pagination links={donationsLinks} />}
                     </div>
                 </div>
             </div>

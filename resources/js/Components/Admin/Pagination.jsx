@@ -1,20 +1,34 @@
-export default function Pagination() {
+import {Link} from "@inertiajs/react";
+import React from "react";
+
+const Pagination = ({ links }) => {
+    if (links.length < 2) {
+        return null; // No pagination needed if only one page or no pages
+    }
     return (
         <div className="mt-4 flex justify-between items-center">
-            <p
-                className="text-sm text-gray-600">Showing 1 to 5 of 17 users</p>
-            <div className="flex space-x-1"><a
-                className="px-3 py-1 rounded text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 cursor-not-allowed opacity-50"
-                href="">« Previous</a><a className="px-3 py-1 rounded text-sm bg-indigo-600 text-white "
-                                         href="http://127.0.0.1:8000/users?page=1">1</a><a
-                className="px-3 py-1 rounded text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 "
-                href="http://127.0.0.1:8000/users?page=2">2</a><a
-                className="px-3 py-1 rounded text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 "
-                href="http://127.0.0.1:8000/users?page=3">3</a><a
-                className="px-3 py-1 rounded text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 "
-                href="http://127.0.0.1:8000/users?page=4">4</a><a
-                className="px-3 py-1 rounded text-sm bg-gray-200 text-gray-700 hover:bg-gray-300 "
-                href="http://127.0.0.1:8000/users?page=2">Next »</a></div>
+            <p className="text-sm text-gray-600">
+                Showing {links.from} to {links.to} of {links.total} users
+            </p>
+            <div className="flex space-x-1">
+                {links.map((link, index) => (
+                    <div key={index}>
+                        <Link
+                            key={index}
+                            href={link.url || "#"}
+                            className={`px-3 py-1 rounded text-sm ${
+                                link.active
+                                    ? "bg-indigo-600 text-white"
+                                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                            } ${!link.url ? "cursor-not-allowed opacity-50" : ""}`}
+                            dangerouslySetInnerHTML={{ __html: link.label }}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
-    );
+
+    )
+        ;
 }
+export default Pagination;

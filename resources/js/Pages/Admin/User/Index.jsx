@@ -81,7 +81,7 @@ export default function Index({ users }) {
                             </table>
                         </div>
                         <div className="mt-4 flex justify-between items-center">
-                        <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-600">
                                 Showing {users.from} to {users.to} of {users.total} users
                             </p>
                             <div className="flex space-x-1">
