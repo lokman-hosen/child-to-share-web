@@ -52,7 +52,7 @@ export default function LeftSidebar() {
                         </li>
                         <li className="mb-1">
                             <Link href={route('donations.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('donations.index') ? 'active' : ''}`}>
+                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${(route().current('donations.index') || route().current('donations.show')) ? 'active' : ''}`}>
                                 <i className="fas fa-gift mr-2"></i> My Donations
                             </Link>
                         </li>

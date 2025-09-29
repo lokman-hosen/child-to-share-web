@@ -19,6 +19,8 @@ class DonationService extends BaseService
 
     public function getListWithFilter($request)
     {
+        $sortColumn = $request->input('sort', 'created_at');
+        $sortDirection = $request->input('direction', 'desc');
         $searchName = $request->input('search_name');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
@@ -32,6 +34,7 @@ class DonationService extends BaseService
             ->when($filterStatus, function ($query, $filterStatus) {
                 $query->where('status', $filterStatus);
             })
+            ->orderBy($sortColumn, $sortDirection)
             ->paginate(5) // Pagination: 10 items per page
             ->withQueryString();
     }

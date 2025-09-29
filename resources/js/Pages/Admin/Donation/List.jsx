@@ -35,7 +35,7 @@ export default function List({module, donations}) {
                                             <td className="p-3 border-b-1 border-gray-100">
                                                 <div className="flex items-center">
                                                     <div
-                                                        className="h-[100px] w-[100px] bg-blue-100 rounded-md flex items-center justify-center mr-4 overflow-hidden">
+                                                        className="h-[100px] w-[100px] bg-blue-100 rounded-md flex items-center justify-center mr-4 overflow-hidden border border-gray-100">
                                                         {donation.featured_image?.file_path ? (
                                                             <img
                                                                 src={`/storage/${donation.featured_image.file_path}`}
@@ -92,10 +92,11 @@ export default function List({module, donations}) {
                                                 <div className="flex flex-col items-end">
                                                     <p className="text-sm text-gray-500">Created {donation.created_at}</p>
                                                     <div className="mt-2">
-                                                        <button
+                                                        <Link
+                                                            href={route('donations.show', donation.id)}
                                                             className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                                             View Details
-                                                        </button>
+                                                        </Link>
                                                     </div>
                                                 </div>
                                             </td>

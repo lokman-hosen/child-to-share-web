@@ -76,9 +76,18 @@ class DonationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Donation $donation)
+    public function show(Donation $donation): Response
     {
-        //
+        $donation->load([
+            'user',
+            'organization',
+            'category',
+            'files' // Make sure this matches your relationship name
+        ]);
+        return Inertia::render(self::moduleDirectory.'Show', [
+            'module' => self::moduleName,
+            'donation' => $donation,
+        ]);
     }
 
     /**
