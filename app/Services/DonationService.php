@@ -41,11 +41,8 @@ class DonationService extends BaseService
 
     public function createDonation($request)
     {
-        //dd($request->all());
         $autoTags = $request->auto_tags;
         $autoTagsString = is_array($autoTags) ? implode(',', $autoTags) : $autoTags;
-
-
         $donation = $this->donation->create([
             'title' => $request->title,
             'description' => $request->description,
@@ -53,7 +50,7 @@ class DonationService extends BaseService
             'user_id' => Auth::id(),
             'category_id' => $request->category_id,
             'auto_tags' => $autoTagsString,
-            'status' => $request->status,
+            'status' => 'available',
         ]);
 
         // Handle file uploads

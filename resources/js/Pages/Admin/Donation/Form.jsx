@@ -48,7 +48,7 @@ const Form = ({categories, donation, statuses, module}) => {
         description: donation?.description || '',
         auto_tags: donation?.auto_tags || [],
         attachments: [], // Always start with empty array for new files
-        status: donation?.status || '',
+        status: donation?.status || 'available',
         remember: false, // Add remember field for the checkbox
     });
 
@@ -73,7 +73,7 @@ const Form = ({categories, donation, statuses, module}) => {
                 category_id: donation?.category_id || '',
                 description: donation?.description || '',
                 auto_tags: formattedTags.map(tag => tag.value),
-                status: donation?.status || '',
+                status: donation?.status || 'available',
                 // Don't set attachments from donation as they're already stored
             }));
         } else {
@@ -160,7 +160,7 @@ const Form = ({categories, donation, statuses, module}) => {
                 />
                 <SelectInput
                     id="category_id"
-                    label="Category"
+                    label="Select category"
                     value={data.category_id}
                     onChange={(e) => setData('category_id', e.target.value)}
                     error={errors.category_id}
@@ -169,22 +169,22 @@ const Form = ({categories, donation, statuses, module}) => {
                 />
                 <MultiSelectTextField
                     id="auto_tags"
-                    label="Tags"
-                    required={false}
+                    label="Tags(write and press enter)"
                     value={tags}
                     onChange={setTags}
                     placeholder="Type tag and press enter..."
                     error={errors.auto_tags}
-                />
-                <SelectInput
-                    id="status"
-                    label="Status"
-                    value={data.status}
-                    onChange={(e) => setData('status', e.target.value)}
-                    error={errors.status}
-                    options={statusOptions}
                     required
                 />
+                {/*<SelectInput*/}
+                {/*    id="status"*/}
+                {/*    label="Status"*/}
+                {/*    value={data.status}*/}
+                {/*    onChange={(e) => setData('status', e.target.value)}*/}
+                {/*    error={errors.status}*/}
+                {/*    options={statusOptions}*/}
+                {/*    required*/}
+                {/*/>*/}
 
             </div>
 
@@ -202,7 +202,8 @@ const Form = ({categories, donation, statuses, module}) => {
                 {/* File Upload Section */}
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
-                        Attachments (Images & Videos)
+                        Attachments (images(min size: 500x400) & Videos(max length: 30s))
+                        <span className="text-red-500">*</span>
                     </label>
 
                     {/* Main File Input */}
@@ -211,20 +212,20 @@ const Form = ({categories, donation, statuses, module}) => {
                             type="file"
                             ref={fileInputRef}
                             multiple
-                            accept="image/*,video/*"
+                            accept="image/png, image/jpg, image/jpeg,video/mp4"
                             onChange={handleFileChange}
                             className="hidden"
                         />
                         <button
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm"
+                            className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md shadow-sm"
                         >
                             <FontAwesomeIcon icon={faUpload} className="mr-2" />
                             {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
                         </button>
                         <p className="mt-2 text-sm text-gray-500">
-                            Upload images and videos. Images will be automatically optimized.
+                            Upload images(min size: 500x400) and videos(max length: 30s). Images will be automatically optimized.
                         </p>
                     </div>
 
@@ -234,7 +235,7 @@ const Form = ({categories, donation, statuses, module}) => {
                             <input
                                 type="file"
                                 multiple
-                                accept="image/*,video/*"
+                                accept="image/png, image/jpg, image/jpeg,video/mp4"
                                 onChange={handleAddMoreFiles}
                                 id="add-more-files"
                                 className="hidden"
