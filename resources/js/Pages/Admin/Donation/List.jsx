@@ -34,7 +34,22 @@ export default function List({module, donations}) {
                                                 <div className="flex items-center">
                                                     <div
                                                         className="h-16 w-16 bg-blue-100 rounded-md flex items-center justify-center mr-4">
-                                                        <i className="fas fa-tshirt text-blue-500 text-xl"></i>
+
+                                                        {donation.featuredImage?.file_path ? (
+                                                            <img
+                                                                src={donation.featuredImage?.file_path}
+                                                                alt={`${donation.name}'s image`}
+                                                                className="h-10 w-10 rounded-full object-cover"
+                                                            />
+                                                        ) : (
+                                                            <div className="h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-400 text-sm">
+                                                                <img
+                                                                    src="https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png"
+                                                                    alt={`${donation.name}'s image`}
+                                                                    className="h-10 w-10 rounded-full object-cover"
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </div>
                                                     <div>
                                                         <h3 className="text-lg font-medium text-gray-900">{donation.title}</h3>

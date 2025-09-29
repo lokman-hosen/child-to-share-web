@@ -65,7 +65,7 @@ class Donation extends Model
      */
     public function featuredImage(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
-        return $this->morphOne(Media::class, 'fileable')
+        return $this->morphOne(File::class, 'fileable')
             ->where('is_featured', true);
     }
 

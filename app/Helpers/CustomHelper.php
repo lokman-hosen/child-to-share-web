@@ -13,6 +13,21 @@ function checkAdmin(): bool
     }
 }
 
+function checkDonor(): bool
+{
+    if (Auth::check()){
+        return Auth::user()->getRawOriginal('role') === 'donor';
+    }
+    return false;
+}
+function checkWisher(): bool
+{
+    if (Auth::check()){
+        return Auth::user()->getRawOriginal('role') === 'wisher';
+    }
+    return false;
+}
+
 function donationStatus(): array
 {
     return ['available' => 'Available', 'donated' => 'Donated', 'reserved' => 'Reserved'];

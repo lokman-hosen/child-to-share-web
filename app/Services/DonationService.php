@@ -22,7 +22,11 @@ class DonationService extends BaseService
         $searchName = $request->input('search_name');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
-        return $this->donation->with(['user'])->where('user_id', Auth::id())->when($searchName, function ($query, $searchName) {
+        $query = $this->donation->with(['user', 'files', 'featuredImage']);
+        if (checkDonor()){
+            $query->where('user_id', Auth::id());
+        }
+        return $query->when($searchName, function ($query, $searchName) {
                 $query->where('name', 'like', '%' . $searchName . '%');
             })
             ->when($filterStatus, function ($query, $filterStatus) {
@@ -60,8 +64,8 @@ class DonationService extends BaseService
 
     private function handleAttachments($attachments, Donation $donation)
     {
-        //$order = $donation->media()->count(); // Start order from current count
-        $order = 1; // Start order from current count
+        $order = $donation->files()->count(); // Start order from current count
+        //$order = 1; // Start order from current count
 
         foreach ($attachments as $attachment) {
             $order++;
