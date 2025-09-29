@@ -1,11 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link} from '@inertiajs/react';
-import React from "react";
-import Pagination from "@/Components/Admin/Pagination.jsx";
+import React, { useState } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faTrash, faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
 export default function List({module, donation}) {
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -34,6 +34,23 @@ export default function List({module, donation}) {
             default:
                 return 'bg-gray-100 text-gray-800';
         }
+    };
+
+    // Carousel navigation functions
+    const nextSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === donation.files.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    const prevSlide = () => {
+        setCurrentIndex((prevIndex) =>
+            prevIndex === 0 ? donation.files.length - 1 : prevIndex - 1
+        );
+    };
+
+    const goToSlide = (index) => {
+        setCurrentIndex(index);
     };
 
     return (
@@ -75,57 +92,124 @@ export default function List({module, donation}) {
 
                     <div className="border-t border-gray-200">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
-                            {/* Left Column - Media Gallery */}
+                            {/* Left Column - Media Carousel */}
                             <div className="lg:col-span-2">
-                                {/* Featured Image */}
-                                {donation.featured_image && (
-                                    <div className="mb-6">
-                                        <img
-                                            src={`/storage/${donation.featured_image.file_path}`}
-                                            alt={donation.title}
-                                            className="w-full h-96 object-cover rounded-lg shadow-md"
-                                        />
+                                {/* Main Carousel */}
+                                {donation.files && donation.files.length > 0 && (
+                                    <div className="relative">
+                                        <h3 className="text-lg font-medium text-gray-900 mb-4">Media Gallery</h3>
+
+                                        {/* Main Carousel Container */}
+                                        <div className="relative bg-gray-100 rounded-lg overflow-hidden">
+                                            {/* Navigation Arrows */}
+                                            {donation.files.length > 1 && (
+                                                <>
+                                                    <button
+                                                        onClick={prevSlide}
+                                                        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all z-10"
+                                                    >
+                                                        <FontAwesomeIcon icon={faChevronLeft} className="w-4 h-4" />
+                                                    </button>
+                                                    <button
+                                                        onClick={nextSlide}
+                                                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all z-10"
+                                                    >
+                                                        <FontAwesomeIcon icon={faChevronRight} className="w-4 h-4" />
+                                                    </button>
+                                                </>
+                                            )}
+
+                                            {/* Current Slide Indicator */}
+                                            {donation.files.length > 1 && (
+                                                <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm z-10">
+                                                    {currentIndex + 1} / {donation.files.length}
+                                                </div>
+                                            )}
+
+                                            {/* Featured Badge */}
+                                            {donation.files[currentIndex]?.is_featured === 1 && (
+                                                <span className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
+                                                    Featured
+                                                </span>
+                                            )}
+
+                                            {/* Main Media Display */}
+                                            <div className="aspect-video flex items-center justify-center">
+                                                {donation.files[currentIndex]?.file_type === 'image' ? (
+                                                    <img
+                                                        src={`/storage/${donation.files[currentIndex].file_path}`}
+                                                        alt={`${donation.title} - Image ${currentIndex + 1}`}
+                                                        className="w-full h-full object-contain max-h-96"
+                                                    />
+                                                ) : (
+                                                    <video
+                                                        controls
+                                                        className="w-full h-full max-h-96"
+                                                    >
+                                                        <source
+                                                            src={`/storage/${donation.files[currentIndex].file_path}`}
+                                                            type={donation.files[currentIndex].mime_type}
+                                                        />
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Thumbnail Navigation */}
+                                        {donation.files.length > 1 && (
+                                            <div className="mt-4">
+                                                <div className="flex space-x-2 overflow-x-auto pb-2">
+                                                    {donation.files.map((file, index) => (
+                                                        <button
+                                                            key={file.id}
+                                                            onClick={() => goToSlide(index)}
+                                                            className={`flex-shrink-0 w-20 h-20 border-2 rounded-lg overflow-hidden ${
+                                                                index === currentIndex
+                                                                    ? 'border-blue-500 ring-2 ring-blue-200'
+                                                                    : 'border-gray-300 hover:border-gray-400'
+                                                            }`}
+                                                        >
+                                                            {file.file_type === 'image' ? (
+                                                                <img
+                                                                    src={`/storage/${file.file_path}`}
+                                                                    alt={`Thumbnail ${index + 1}`}
+                                                                    className="w-full h-full object-cover"
+                                                                />
+                                                            ) : (
+                                                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                                    <div className="text-center">
+                                                                        <div className="text-lg">🎥</div>
+                                                                        <span className="text-xs text-gray-600">Video</span>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Download/View Full Button */}
+                                        <div className="mt-4 text-center">
+                                            <a
+                                                href={`/storage/${donation.files[currentIndex].file_path}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md text-sm font-medium transition-colors"
+                                            >
+                                                {donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
+                                            </a>
+                                        </div>
                                     </div>
                                 )}
 
-                                {/* Media Gallery */}
-                                {donation.files && donation.files.length > 0 && (
-                                    <div>
-                                        <h3 className="text-lg font-medium text-gray-900 mb-4">Media Gallery</h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                            {donation.files.map((file, index) => (
-                                                <div key={file.id} className="relative group mb-2">
-                                                    {file.file_type === 'image' ? (
-                                                        <a
-                                                            href={`/storage/${file.file_path}`}
-                                                            target = "_blank"
-                                                        >
-                                                            <img
-                                                                src={`/storage/${file.file_path}`}
-                                                                alt={`${donation.title} - Image ${index + 1}`}
-                                                                className="w-full object-cover rounded-lg shadow-md cursor-pointer hover:shadow-md transition-shadow"
-                                                            />
-                                                        </a>
-                                                    ) : (
-                                                        <div
-                                                            className="w-full object-cover bg-gray-100 rounded-lg shadow-md flex items-center justify-center cursor-pointer hover:shadow-md transition-shadow">
-                                                            <div className="text-center">
-                                                                <video width="500" height="400" controls>
-                                                                    <source src={`/storage/${file.file_path}`} type="video/mp4"/>
-                                                                    <source src={`/storage/${file.file_path}`} type="video/ogg"/>
-                                                                    Your browser does not support the video tag.
-                                                                </video>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                    {file.is_featured === 1 && (
-                                                        <span
-                                                            className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
-                                                            Featured
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            ))}
+                                {/* Fallback if no files */}
+                                {(!donation.files || donation.files.length === 0) && (
+                                    <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                                        <div className="text-center text-gray-500">
+                                            <div className="text-4xl mb-2">📷</div>
+                                            <p>No media available</p>
                                         </div>
                                     </div>
                                 )}
@@ -221,7 +305,7 @@ export default function List({module, donation}) {
                                     {donation.status === 'available' && (
                                         <button
                                             className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                           <FontAwesomeIcon icon={faTrash}/> Delete Item
+                                            <FontAwesomeIcon icon={faTrash}/> Delete Item
                                         </button>
                                     )}
                                     <a
