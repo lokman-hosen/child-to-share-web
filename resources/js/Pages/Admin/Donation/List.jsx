@@ -105,10 +105,10 @@ export default function List({module, donations}) {
                                 ) : (
                                     <tr>
                                         <td
-                                            colSpan="6"
+                                            colSpan="3"
                                             className="px-4 py-3 text-center text-gray-500 text-sm"
                                         >
-                                            No users found
+                                            No data found
                                         </td>
                                     </tr>
                                 )}
@@ -116,7 +116,7 @@ export default function List({module, donations}) {
                                 </tbody>
                             </table>
                         </div>
-                        {donationsLinks.length > 1 && <Pagination data={donations} links={donationsLinks} />}
+                        {donations.data.length > 1 && <Pagination data={donations} links={donationsLinks} />}
                     </div>
                 </div>
             </div>

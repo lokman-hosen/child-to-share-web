@@ -111,21 +111,19 @@ class DonationService extends BaseService
         }
     }
 
-    private function handleImageUpload($image, $filePath)
+    private function handleImageUpload($image, $filePath): void
     {
         // Create intervention image instance
         $img = Image::make($image->getRealPath());
-
         // Resize and optimize image
         $img->resize(500, 400, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
 
-        // Encode and save with optimization
-        $img->encode('jpg', 85); // 85% quality for good balance
-
+        $canvas = Image::canvas(500,400);
+        $canvas->insert($img, 'center');
         // Save to storage
-        Storage::disk('public')->put($filePath, $img->stream());
+        Storage::disk('public')->put($filePath, $canvas->stream());
     }
 }
