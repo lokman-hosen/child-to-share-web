@@ -32,7 +32,7 @@ class DonationService extends BaseService
             ->when($filterStatus, function ($query, $filterStatus) {
                 $query->where('status', $filterStatus);
             })
-            ->paginate(10) // Pagination: 10 items per page
+            ->paginate(5) // Pagination: 10 items per page
             ->withQueryString();
     }
 

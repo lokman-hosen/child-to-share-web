@@ -115,7 +115,7 @@ export default function List({module, donations}) {
                                 </tbody>
                             </table>
                         </div>
-                        {donationsLinks.length > 1 && <Pagination links={donationsLinks} />}
+                        {donationsLinks.length > 1 && <Pagination data={donations} links={donationsLinks} />}
                     </div>
                 </div>
             </div>

@@ -1,14 +1,14 @@
 import {Link} from "@inertiajs/react";
 import React from "react";
 
-const Pagination = ({ links }) => {
+const Pagination = ({ links, data }) => {
     if (links.length < 2) {
         return null; // No pagination needed if only one page or no pages
     }
     return (
         <div className="mt-4 flex justify-between items-center">
             <p className="text-sm text-gray-600">
-                Showing {links.from} to {links.to} of {links.total} users
+                Showing {data.from} to {data.to} of {data.total} users
             </p>
             <div className="flex space-x-1">
                 {links.map((link, index) => (
@@ -29,6 +29,5 @@ const Pagination = ({ links }) => {
         </div>
 
     )
-        ;
 }
 export default Pagination;
