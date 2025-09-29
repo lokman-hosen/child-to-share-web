@@ -195,7 +195,7 @@ const Form = ({categories, donation, statuses, module}) => {
                 {/* File Upload Section */}
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
-                        Attachments (images(min size: 500x400) & Videos(max length: 30s))
+                        Attachments (images(min size: 800x500) & Videos(max length: 30s))
                         {!donation && (
                             <span className="text-red-500">*</span>
                         )}
@@ -221,7 +221,7 @@ const Form = ({categories, donation, statuses, module}) => {
                             {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
                         </button>
                         <p className="mt-2 text-sm text-gray-500">
-                            Upload images(min size: 500x400) and videos(max length: 30s). Images will be automatically optimized.
+                            Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.
                         </p>
                     </div>
 

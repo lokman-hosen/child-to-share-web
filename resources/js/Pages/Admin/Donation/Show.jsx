@@ -159,7 +159,7 @@ export default function List({module, donation}) {
                                         {/* Thumbnail Navigation */}
                                         {donation.files.length > 1 && (
                                             <div className="mt-4">
-                                                <div className="flex space-x-2 overflow-x-auto pb-2">
+                                                <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
                                                     {donation.files.map((file, index) => (
                                                         <button
                                                             key={file.id}
@@ -191,12 +191,12 @@ export default function List({module, donation}) {
                                         )}
 
                                         {/* Download/View Full Button */}
-                                        <div className="mt-4 text-center">
+                                        <div className="mt-4 text-center flex justify-center">
                                             <a
                                                 href={`/storage/${donation.files[currentIndex].file_path}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md text-sm font-medium transition-colors"
+                                                className="inline-flex items-center px-4 py-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-md text-sm font-medium transition-colors"
                                             >
                                                 {donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
                                             </a>
