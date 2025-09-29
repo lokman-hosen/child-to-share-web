@@ -81,8 +81,8 @@ class DonationService extends BaseService
                 // Determine if file is image or video
                 $mimeType = $attachment->getMimeType();
                 $fileType = str_starts_with($mimeType, 'image/') ? 'image' : 'video';
-                $originalName = $attachment->getClientOriginalName();
-                $fileSize = $attachment->getSize();
+                //$originalName = $attachment->getClientOriginalName();
+                //$fileSize = $attachment->getSize();
 
                 // Generate unique filename
                 $extension = $attachment->getClientOriginalExtension();
@@ -98,16 +98,12 @@ class DonationService extends BaseService
                 }
 
                 // Create media record - FIXED: uncommented required fields
-                Media::create([
-                    'mediable_type' => Donation::class,
-                    //'mediable_type' => 'App\Models\Donation',
-                    'mediable_id' => $donation->id,
+                $donation->files()->create([
                     'file_path' => $filePath,
-                    'file_name' => $originalName, // Uncommented
                     'file_type' => $fileType,
                     'mime_type' => $mimeType,
-                    'file_size' => $fileSize, // Uncommented and fixed variable name
-                    'order' => $order,
+                    //'file_size' => $fileSize, // Uncommented and fixed variable name
+                    //'order' => $order,
                     'is_featured' => $order === 1, // First file is featured
                 ]);
 

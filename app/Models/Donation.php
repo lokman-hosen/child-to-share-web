@@ -21,9 +21,9 @@ class Donation extends Model
     /**
      * Get all of the donation's media.
      */
-    public function media(): MorphMany
+    public function files()
     {
-        return $this->morphMany(Media::class, 'mediable');
+        return $this->morphMany(File::class, 'fileable');
     }
 
     /**
@@ -56,9 +56,8 @@ class Donation extends Model
      */
     public function featuredImage(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
-        return $this->morphOne(Media::class, 'mediable')
-            ->where('is_featured', true)
-            ->orderBy('order');
+        return $this->morphOne(Media::class, 'fileable')
+            ->where('is_featured', true);
     }
 
     /**
@@ -66,9 +65,8 @@ class Donation extends Model
      */
     public function images(): MorphMany
     {
-        return $this->morphMany(Media::class, 'mediable')
-            ->where('file_type', 'image')
-            ->orderBy('order');
+        return $this->morphMany(Media::class, 'fileable')
+            ->where('file_type', 'image');
     }
 
     /**
@@ -76,8 +74,7 @@ class Donation extends Model
      */
     public function videos(): MorphMany
     {
-        return $this->morphMany(Media::class, 'mediable')
-            ->where('file_type', 'video')
-            ->orderBy('order');
+        return $this->morphMany(Media::class, 'fileable')
+            ->where('file_type', 'video');
     }
 }
