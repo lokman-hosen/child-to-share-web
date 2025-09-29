@@ -20,9 +20,9 @@ export default function List({module, donations}) {
                                 <thead className="bg-gray-50">
                                 <tr>
                                     {/*<th className="text-left px-3 py-5 border border-gray-300">#</th>*/}
-                                    <th className="text-left px-3 py-5 border-2 border-gray-300">Item Info.</th>
-                                    <th className="text-left px-3 py-5 border-2 border-gray-300">Donor Name</th>
-                                    <th className="text-right px-3 py-5 border-2 border-gray-300">Action</th>
+                                    <th className="text-left px-3 py-5 border-b-2 border-gray-300">Item Info.</th>
+                                    <th className="text-left px-3 py-5 border-b-2 border-gray-300">Donor Name</th>
+                                    <th className="text-right px-3 py-5 border-b-2 border-gray-300">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200">
@@ -32,10 +32,10 @@ export default function List({module, donations}) {
                                             {/*<td className="px-3 border border-gray-200 text-sm font-medium text-gray-800">*/}
                                             {/*    {donations?.from + index}*/}
                                             {/*</td>*/}
-                                            <td className="p-3 border border-gray-200">
+                                            <td className="p-3 border-b-1 border-gray-100">
                                                 <div className="flex items-center">
                                                     <div
-                                                        className="h-32 w-32 bg-blue-100 rounded-md flex items-center justify-center mr-4 overflow-hidden">
+                                                        className="h-[100px] w-[100px] bg-blue-100 rounded-md flex items-center justify-center mr-4 overflow-hidden">
                                                         {donation.featured_image?.file_path ? (
                                                             <img
                                                                 src={`/storage/${donation.featured_image.file_path}`}
@@ -87,8 +87,8 @@ export default function List({module, donations}) {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="p-3 border border-gray-200">{donation.user.name}</td>
-                                            <td className="p-3 border border-gray-200">
+                                            <td className="p-3 border-b-1 border-gray-100">{donation.user.name}</td>
+                                            <td className="p-3 border-b-1 border-gray-100">
                                                 <div className="flex flex-col items-end">
                                                     <p className="text-sm text-gray-500">Created {donation.created_at}</p>
                                                     <div className="mt-2">
