@@ -23,7 +23,7 @@ class Donation extends Model
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('Y-m-d g:i a'),
+            get: fn ($value) => Carbon::parse($value)->diffForHumans(),
         );
     }
 

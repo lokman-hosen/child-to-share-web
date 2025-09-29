@@ -31,17 +31,19 @@ class DonationController extends Controller
 //        if (checkAdmin()){
 //            return Inertia::render(self::moduleDirectory.'List', [
 //                'module' => self::moduleName,
+//                'donations' => $donations,
 //            ]);
 //        }else{
 //            return Inertia::render(self::moduleDirectory.'Index', [
 //                'module' => self::moduleName,
+//                'donations' => $donations,
 //            ]);
 
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
             'donations' => $donations,
         ]);
-//        }
+       // }
     }
 
     /**

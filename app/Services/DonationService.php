@@ -22,7 +22,7 @@ class DonationService extends BaseService
         $searchName = $request->input('search_name');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
-        return $this->donation->with(['user'])->when($searchName, function ($query, $searchName) {
+        return $this->donation->with(['user'])->where('user_id', Auth::id())->when($searchName, function ($query, $searchName) {
                 $query->where('name', 'like', '%' . $searchName . '%');
             })
             ->when($filterStatus, function ($query, $filterStatus) {
