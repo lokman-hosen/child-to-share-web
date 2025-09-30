@@ -55,47 +55,48 @@ class RegisteredUserController extends Controller
                 $photoPath = $request->file('photo')->store('photos', 'public');
             }
 
+            $organization = $this->organizationService->findByName($request->organization);
+
             // Step 2: Create the user record
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'mobile' => $request->mobile,
-                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'image' => $photoPath,
                 'role' => $request->role,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
+                'address' => checkEmpty($request->address),
+                'is_verified' => true,
+                'is_active' => true,
+                'password' => Hash::make($request->password),
             ]);
+
+            // tah organization
+            if ($organization and $user){
+                $user->organizations()->attach([$organization->id]);
+            }
 
             // Step 3: Create the role-specific record based on role
             if ($request->role === 'donor') {
-               // dd($request->all());
                 $user->donor()->create([
                     'name' => $request->name,
                     'dob' => $request->dob,
-                    'address' => $request->address,
-                    'organization' => $request->organization,
-                    'photo' => $photoPath,
                     'gender' => $request->gender,
                 ]);
             } elseif ($request->role === 'wisher') {
                 $user->wisher()->create([
                     'name' => $request->name,
-                    'dob' => $request->dob,
-                    'address' => $request->address,
-                    'organization' => $request->organization,
-                    'photo' => $photoPath,
-                    'gender' => $request->gender,
                     'guardian_name' => $request->guardian_name,
                     'guardian_phone' => $request->guardian_phone,
                     'relationship' => $request->relationship,
+                    'dob' => $request->dob,
+                    'gender' => $request->gender,
                 ]);
             } elseif ($request->role === 'leader') {
                 $user->leader()->create([
                     'name' => $request->name,
                     'dob' => $request->dob,
-                    'address' => $request->address,
-                    'organization' => $request->organization,
-                    'photo' => $photoPath,
                     'gender' => $request->gender,
                 ]);
             }

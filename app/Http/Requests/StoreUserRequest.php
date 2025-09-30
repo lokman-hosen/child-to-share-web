@@ -25,14 +25,14 @@ class StoreUserRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|string|max:255',
-            'mobile' => 'required|string|max:20|unique:users,mobile',
-            'email' => 'nullable|string|email|max:255|unique:users',
+            'phone' => ['required', 'numeric','digits:11', 'regex:/(01)[0-9]{9}/', 'unique:users'],
+            'email' => 'required|string|email|max:255|unique:users',
             //'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'password' => ['required',Rules\Password::defaults()],
             'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
             'dob' => 'required|date',
-            'address' => 'required|string',
-            'organization' => 'nullable|string',
+            'address' => 'nullable|string',
+            'organization' => 'required|string',
             'gender' => ['required', Rule::in(['male', 'female', 'other'])],
             'photo' => 'nullable|image|max:5000', // 5MB max
             'latitude' => 'required|numeric',

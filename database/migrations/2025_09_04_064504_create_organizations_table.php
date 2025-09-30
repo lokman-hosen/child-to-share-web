@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->string('logo')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('contact_phone')->nullable();

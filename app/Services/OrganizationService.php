@@ -11,6 +11,15 @@ class OrganizationService extends BaseService
     ){
         $this->model = $this->organization;
     }
-
+    public function findByName(string $name)
+    {
+       $organization = $this->organization->where('name', 'like', '%' . $name . '%')->first();
+       if (!isset($organization)) {
+           $organization = $this->organization->create([
+               'name' => $name,
+           ]);
+       }
+       return $organization;
+    }
 
 }

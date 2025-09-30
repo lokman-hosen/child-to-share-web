@@ -4,7 +4,7 @@ import TextInput from "@/Components/TextInputField.jsx";
 import DateInput from "@/Components/DateInput.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import {Head, Link, useForm} from "@inertiajs/react";
-import {getCommonOptions} from "@/utils.jsx";
+import {getCommonOptions, getDropdownOptions} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 import {
@@ -12,8 +12,9 @@ import {
     faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
-export default function Register({guardianRelations,genders}) {
+export default function Register({guardianRelations,genders, organizations}) {
     // State to manage the selected role
     const [isLocating, setIsLocating] = useState(false);
     const [locationError, setLocationError] = useState(null);
@@ -22,7 +23,7 @@ export default function Register({guardianRelations,genders}) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
-        mobile: '',
+        phone: '',
         dob: '',
         address: '',
         organization: '',
@@ -99,6 +100,8 @@ export default function Register({guardianRelations,genders}) {
         ? `Location acquired: (${setData.latitude.toFixed(2)}, ${setData.longitude.toFixed(2)})`
         : "Click the button to get your location.";
 
+    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+
     return (
         <GuestLayout>
             <Head title="Register"/>
@@ -108,29 +111,6 @@ export default function Register({guardianRelations,genders}) {
                         <h1 className="text-3xl font-bold mb-2">Join ThreeWish</h1>
                         <p className="text-lg">Create an account to start sharing or making wishes</p>
                     </div>
-
-                    {/*<div className="px-6 pt-6">*/}
-                    {/*    <div className="flex justify-between items-center mb-8">*/}
-                    {/*        <div className="flex items-center text-purple-600">*/}
-                    {/*            <div*/}
-                    {/*                className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center">1*/}
-                    {/*            </div>*/}
-                    {/*            <span className="ml-2 font-semibold">Select Role</span>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="h-1 flex-grow bg-gray-200 mx-2"></div>*/}
-                    {/*        <div className="flex items-center text-gray-400">*/}
-                    {/*            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">2*/}
-                    {/*            </div>*/}
-                    {/*            <span className="ml-2 font-semibold">Account Details</span>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="h-1 flex-grow bg-gray-200 mx-2"></div>*/}
-                    {/*        <div className="flex items-center text-gray-400">*/}
-                    {/*            <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">3*/}
-                    {/*            </div>*/}
-                    {/*            <span className="ml-2 font-semibold">Confirmation</span>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="px-6 pb-8">
@@ -177,12 +157,13 @@ export default function Register({guardianRelations,genders}) {
                                 />
 
                                 <TextInput
-                                    id="mobile"
-                                    label="Mobile"
-                                    value={data.mobile}
-                                    onChange={(e) => setData('mobile', e.target.value)}
-                                    error={errors.mobile}
-                                    placeholder={data.role === 'wisher' ? 'Enter guardian mobile number' : 'Enter mobile number'}
+                                    id="phone"
+                                    label="Phone Number"
+                                    type="number"
+                                    value={data.phone}
+                                    onChange={(e) => setData('phone', e.target.value)}
+                                    error={errors.phone}
+                                    placeholder={data.role === 'wisher' ? 'Enter guardian phone number' : 'Enter phone number'}
                                     required
                                 />
                                 <TextInput
@@ -193,6 +174,7 @@ export default function Register({guardianRelations,genders}) {
                                     onChange={(e) => setData('email', e.target.value)}
                                     error={errors.email}
                                     placeholder="Enter email address"
+                                    required
                                 />
 
                                 <DateInput
@@ -215,14 +197,25 @@ export default function Register({guardianRelations,genders}) {
                                     required
                                 />
 
-                                <TextInput
+                                {/*<TextInput*/}
+                                {/*    id="organization"*/}
+                                {/*    type="text"*/}
+                                {/*    label="Organization/School"*/}
+                                {/*    value={data.organization}*/}
+                                {/*    onChange={(e) => setData('organization', e.target.value)}*/}
+                                {/*    error={errors.organization}*/}
+                                {/*    placeholder="Enter organization name"*/}
+                                {/*/>*/}
+
+                                <CustomCreatableSelect
                                     id="organization"
-                                    type="text"
                                     label="Organization/School"
                                     value={data.organization}
-                                    onChange={(e) => setData('organization', e.target.value)}
+                                    onChange={(value) => setData('organization', value)}
+                                    options={organizations}
                                     error={errors.organization}
-                                    placeholder="Enter organization name"
+                                    placeholder="Select or type to create new organization"
+                                    required
                                 />
 
 
@@ -329,7 +322,7 @@ export default function Register({guardianRelations,genders}) {
 
                                 <TextareaInput
                                     id="address"
-                                    label="Permanent Address"
+                                    label="Present Address"
                                     value={data.address}
                                     onChange={(e) => setData('address', e.target.value)}
                                     error={errors.address}
