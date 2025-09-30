@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
 class Donation extends Model
 {
@@ -20,6 +22,15 @@ class Donation extends Model
     protected $casts = [
         'auto_tags' => 'array',
     ];
+
+    /**
+     * Scope a query to only include popular users.
+     */
+    #[Scope]
+    protected function available(Builder $query): void
+    {
+        $query->where('status',  'available');
+    }
 
     protected function createdAt(): Attribute
     {

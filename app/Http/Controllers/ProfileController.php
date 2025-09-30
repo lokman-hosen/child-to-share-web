@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Donation;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -14,11 +15,25 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    const moduleDirectory = 'Profile/';
+    const moduleName = 'Profile';
     public function show(string $id = null): Response
     {
         $user = $id ? User::find($id) :  Auth::user();
-        return Inertia::render('Profile/Partials/Profile', [
+        $availableDonationCount = 0;
+        $donatedDonationCount = 0;
+        if (checkDonor()){
+            $user->load(['donor', 'organizations']);
+            $availableDonationCount = Donation::where('user_id',$user->id)->where('status', 'available')->count();
+            $donatedDonationCount = Donation::where('user_id',$user->id)->where('status', 'donated')->count();
+        }elseif (checkWisher()){
+            $user->load(['donor', 'organizations']);
+        }
+        return Inertia::render(self::moduleDirectory.'Partials/Profile', [
+            'module' => self::moduleName,
             'user' => $user,
+            'availableDonationCount' => $availableDonationCount,
+            'donatedDonationCount' => $donatedDonationCount,
         ]);
     }
     /**
@@ -26,7 +41,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Profile/Edit', [
+        return Inertia::render(self::moduleDirectory.'Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);

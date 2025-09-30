@@ -27,4 +27,14 @@ export const getCommonOptions = (dropdownObject) => {
     }));
 };
 
+export const checkAdmin = (role) =>{
+    return (role === 'super_admin' || role === 'admin');
+}
+export const checkDonor = (role) =>{
+    return role === 'donor';
+}
+export const checkWisher = (role) =>{
+    return role === 'wisher';
+}
+
 
