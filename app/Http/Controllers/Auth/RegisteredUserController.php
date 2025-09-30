@@ -6,6 +6,7 @@ use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
+use App\Services\OrganizationService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,14 +20,20 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
+    public function __construct(
+        protected OrganizationService $organizationService,
+
+    ){}
     /**
      * Display the registration view.
      */
     public function create(): Response
     {
+        $organizations =  $this->organizationService->listByStatus();
         return Inertia::render('Auth/Register',[
             'guardianRelations' => CommonHelper::guardianRelations(),
             'genders' => CommonHelper::genders(),
+            'organizations' => $organizations
         ]);
     }
 
