@@ -2,7 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link, router} from '@inertiajs/react';
 import React, { useState } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash, faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faTrash, faChevronLeft, faChevronRight, faEye} from "@fortawesome/free-solid-svg-icons";
 
 export default function List({module, donation}) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -206,14 +206,14 @@ export default function List({module, donation}) {
                                                 rel="noopener noreferrer"
                                                 className="inline-flex items-center px-4 py-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-md text-sm font-medium transition-colors"
                                             >
-                                                {donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
+                                                <FontAwesomeIcon icon={faEye}/> {donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
                                             </a>
 
                                             <button title="Delete"
                                                     onClick={() => handleDelete(donation.files[currentIndex].id)}
                                                     className="inline-flex items-center ml-2 px-4 py-2 bg-red-200 hover:bg-red-300 text-red-800 rounded-md text-sm font-medium transition-colors"
                                             >
-                                                <FontAwesomeIcon icon={faTrash}/> Delete File
+                                                <FontAwesomeIcon icon={faTrash}/> Delete Selected File
                                             </button>
                                         </div>
                                     </div>
