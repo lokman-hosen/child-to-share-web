@@ -48,8 +48,10 @@ export default function Navbar() {
                                         href={route('my.profile')}
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your
                                         Profile</Link>
-                                    <a href="#"
-                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                    <Link
+                                        href={route('user.password.form')}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Change Password
+                                    </Link>
                                     <Link  href={route('logout')}
                                         method="post"
                                         as="button"

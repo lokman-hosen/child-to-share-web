@@ -61,7 +61,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                             className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
                             {user.image ? (
                                 <img
-                                    src={user.image}
+                                    src={`/storage/${user.image}`}
                                     alt={user.name}
                                     className="w-full h-full object-cover"
                                 />

@@ -14,12 +14,26 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                 <div className="bg-white shadow rounded-lg p-6">
                     <div className="flex items-center border-b border-gray-200 pb-6">
-                        <div className="h-24 w-24 rounded-full bg-blue-100 flex items-center justify-center mr-6">
-                            <span className="font-medium text-blue-600 text-2xl">D</span>
+                        <div
+                            className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
+                            {user.image ? (
+                                <img
+                                    src={`/storage/${user.image}`}
+                                    alt={user.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <img
+                                    src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                    alt={user.name}
+                                    className="w-full h-full object-cover"
+                                />
+                            )}
                         </div>
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
-                            <p className="text-sm text-gray-500">Member Since {format(new Date(user.created_at), 'MMMM do, yyyy')}</p>
+                            <p className="text-sm text-gray-500">Member
+                                Since {format(new Date(user.created_at), 'MMMM do, yyyy')}</p>
                             {checkDonor(user.role) &&
                                 <div className="mt-2 flex items-center">
                                     <span
