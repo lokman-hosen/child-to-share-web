@@ -28,22 +28,10 @@ class DonationController extends Controller
     public function index(Request $request): Response
     {
         $donations = $this->donationService->getListWithFilter($request);
-//        if (checkAdmin()){
-//            return Inertia::render(self::moduleDirectory.'List', [
-//                'module' => self::moduleName,
-//                'donations' => $donations,
-//            ]);
-//        }else{
-//            return Inertia::render(self::moduleDirectory.'Index', [
-//                'module' => self::moduleName,
-//                'donations' => $donations,
-//            ]);
-
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
             'donations' => $donations,
         ]);
-       // }
     }
 
     /**
@@ -94,7 +82,7 @@ class DonationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Donation $donation)
+    public function edit(Donation $donation): Response
     {
         $donation->load([
             'user',
