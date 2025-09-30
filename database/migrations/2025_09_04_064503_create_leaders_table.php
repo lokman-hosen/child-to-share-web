@@ -15,9 +15,6 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
             $table->date('dob')->nullable();
-            $table->mediumText('address')->nullable();
-            $table->string('organization')->nullable();
-            $table->string('photo')->nullable();
             $table->enum('gender', ['male','female','other'])->default('male');
             $table->timestamps();
             $table->softDeletes();
