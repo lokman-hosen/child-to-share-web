@@ -5,7 +5,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {checkDonor} from "@/utils.jsx";
 
 export default function Profile({ user,availableDonationCount,donatedDonationCount }) {
-    console.log(availableDonationCount,donatedDonationCount)
 
     return (
         <AuthenticatedLayout>
