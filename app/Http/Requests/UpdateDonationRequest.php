@@ -22,7 +22,14 @@ class UpdateDonationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'item_condition' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'status' => 'required|string',
+            'auto_tags' => 'sometimes|array', // Change to array validation
+            'auto_tags.*' => 'required|string', // Each tag should be a string
+            'attachments.*' => 'file|mimes:jpeg,png,jpg,mp4|max:10240', // 10MB max
         ];
     }
 }

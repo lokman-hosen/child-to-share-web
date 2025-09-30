@@ -29,7 +29,7 @@ class StoreDonationRequest extends FormRequest
             //'status' => 'required|string',
             'auto_tags' => 'sometimes|array', // Change to array validation
             'auto_tags.*' => 'required|string', // Each tag should be a string
-            'attachments.*' => 'file|mimes:jpeg,png,jpg,gif,mp4,avi,mov|max:10240', // 10MB max
+            'attachments.*' => 'required|file|mimes:jpeg,png,jpg,mp4|max:10240', // 10MB max
         ];
     }
 }
