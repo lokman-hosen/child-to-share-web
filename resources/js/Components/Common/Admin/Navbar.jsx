@@ -36,7 +36,19 @@ export default function Navbar() {
                             <button className="flex items-center text-sm text-gray-700 focus:outline-none"
                                     onClick={toggleProfileVisibility} >
                                 <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
-                                    <span className="font-medium text-blue-600">D</span>
+                                    {user.image ? (
+                                        <img
+                                            src={`/storage/${user.image}`}
+                                            alt={user.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <img
+                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                            alt={user.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
                                 </div>
                                 <span className="ml-2">{user.name}</span>
                                 <i className="fas fa-chevron-down ml-1 text-xs"></i>
