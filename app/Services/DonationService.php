@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Donation;
+use App\Models\File;
 use App\Models\Media;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -142,5 +143,15 @@ class DonationService extends BaseService
         $canvas->insert($img, 'center');
         // Save to storage
         Storage::disk('public')->put($filePath, $canvas->stream());
+    }
+
+    public function deleteSingleFile($fileId)
+    {
+        $donationFile = File::findOrFail($fileId);
+        if ($donationFile->file_path) {
+            Storage::disk('public')->delete($donationFile->file_path);
+        }
+        return $donationFile->delete();
+
     }
 }

@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {Head, Link} from '@inertiajs/react';
+import {Head, Link, router} from '@inertiajs/react';
 import React, { useState } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash, faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
@@ -51,6 +51,14 @@ export default function List({module, donation}) {
 
     const goToSlide = (index) => {
         setCurrentIndex(index);
+    };
+
+    const handleDelete = (fileId) => {
+        if (confirm('Are you sure you want to delete?')) {
+            router.delete(route('donations.file.delete', fileId), {
+                preserveScroll: true,
+            });
+        }
     };
 
     return (
@@ -200,6 +208,13 @@ export default function List({module, donation}) {
                                             >
                                                 {donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
                                             </a>
+
+                                            <button title="Delete"
+                                                    onClick={() => handleDelete(donation.files[currentIndex].id)}
+                                                    className="inline-flex items-center ml-2 px-4 py-2 bg-red-200 hover:bg-red-300 text-red-800 rounded-md text-sm font-medium transition-colors"
+                                            >
+                                                <FontAwesomeIcon icon={faTrash}/> Delete File
+                                            </button>
                                         </div>
                                     </div>
                                 )}
@@ -302,12 +317,12 @@ export default function List({module, donation}) {
 
                                 {/* Action Buttons */}
                                 <div className="flex space-x-3 text-center">
-                                    {donation.status === 'available' && (
-                                        <button
-                                            className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                            <FontAwesomeIcon icon={faTrash}/> Delete Item
-                                        </button>
-                                    )}
+                                    {/*{donation.status === 'available' && (*/}
+                                    {/*    <button*/}
+                                    {/*        className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">*/}
+                                    {/*        <FontAwesomeIcon icon={faTrash}/> Delete Item*/}
+                                    {/*    </button>*/}
+                                    {/*)}*/}
                                     <a
                                         href={route('donations.edit',donation.id)}
                                         className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">

@@ -132,4 +132,13 @@ class DonationController extends Controller
     {
         //
     }
+
+    public function deleteDonationFile(string $fileId): RedirectResponse
+    {
+        $donationFile = $this->donationService->deleteSingleFile($fileId);
+        if ($donationFile){
+            return redirect()->back()->with('success', 'Donation file deleted successfully!');
+        }
+        return redirect()->back()->with('error', 'Error to delete donation file');
+    }
 }

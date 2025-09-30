@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function () {
         'messages' => MessageController::class,
         'organizations' => OrganizationController::class,
     ]);
+
+    Route::controller(DonationController::class)->group(function () {
+        Route::delete('donation-file/{fileId}', 'deleteDonationFile')->name('donations.file.delete');
+    });
 });
 
 require __DIR__.'/auth.php';

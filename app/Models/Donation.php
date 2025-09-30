@@ -28,7 +28,6 @@ class Donation extends Model
         );
     }
 
-
     /**
      * Get all of the donation's media.
      */
