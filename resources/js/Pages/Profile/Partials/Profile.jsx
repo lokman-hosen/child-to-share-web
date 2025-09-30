@@ -1,4 +1,4 @@
-import {Head} from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import React from "react";
 import { format } from 'date-fns';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
@@ -112,10 +112,11 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                             <i className="fas fa-edit mr-2"></i> Edit Profile
                         </button>
-                        <button
+                        <Link
+                            href={route('user.password.form')}
                             className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
                             <i className="fas fa-lock mr-2"></i> Change Password
-                        </button>
+                        </Link>
                     </div>
                 </div>
 

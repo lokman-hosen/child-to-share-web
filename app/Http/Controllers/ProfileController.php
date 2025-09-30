@@ -83,4 +83,9 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function passwordChangeForm(): Response
+    {
+        return Inertia::render(self::moduleDirectory.'Partials/UpdatePasswordForm');
+    }
 }

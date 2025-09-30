@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('user-password', [ProfileController::class, 'passwordChangeForm'])->name('user.password.form');
 
     Route::resources([
         'users' => UserController::class,
