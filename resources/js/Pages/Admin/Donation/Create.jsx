@@ -38,7 +38,7 @@ export default function Create({module,categories,statuses}) {
                                 className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                             >
                                 <FontAwesomeIcon icon={faList} className="text-blue-600" />
-                                <span>View Donations</span>
+                                <span>View {module} List</span>
                             </Link>
                         </div>
                     </div>
