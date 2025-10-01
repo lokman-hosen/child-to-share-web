@@ -27,7 +27,7 @@ const DonorDashboard = () => {
                 </div>
                 <Cards userType = 'donor'/>
                 <Activity/>
-                <WishList userType = 'donor'/>
+                {/*<WishList userType = 'donor'/>*/}
             </div>
         </div>
     );
