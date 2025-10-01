@@ -6,22 +6,44 @@ import Toast from "@/Components/Toast.jsx";
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
+
+    const closeSidebar = () => {
+        setSidebarOpen(false);
+    };
 
     return (
         <>
-            <Navbar/>
+            <Navbar onMenuClick={toggleSidebar} />
             <div className="flex pt-16">
-                <LeftSidebar/>
-                <div className="flex-1 md:ml-64">
-                    {children}
-                    <Toast/>
+                {/* Mobile Overlay */}
+                {sidebarOpen && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                        onClick={closeSidebar}
+                    ></div>
+                )}
+
+                {/* Sidebar */}
+                <div className={`
+                    fixed md:static inset-y-0 left-0 z-50
+                    transform transition-transform duration-300 ease-in-out
+                    ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+                    w-64 bg-white h-screen shadow-md
+                `}>
+                    <LeftSidebar onClose={closeSidebar} />
                 </div>
 
+                {/* Main Content */}
+                <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-0'}`}>
+                    {children}
+                    <Toast />
+                </div>
             </div>
-
         </>
     );
 }

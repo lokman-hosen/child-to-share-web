@@ -3,70 +3,106 @@ import {
     faBars,
     faChevronDown,
     faGift,
-    faHome, faSignOutAlt,
-    faUserCircle
+    faHome,
+    faSignOutAlt,
+    faUserCircle,
+    faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
 
-export default function LeftSidebar() {
+export default function LeftSidebar({ onClose }) {
     const user = usePage().props.auth.user;
+
     return (
-        <div className="w-64 bg-white h-screen shadow-md fixed hidden md:block" id="sidebar">
-            {user.role === 'donor' &&
-                <div className="p-4">
-                    <div className="flex items-left mb-6">
-                        <div className="md:hidden flex items-center">
-                            <button type="button" id="close-sidebar-button"
-                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
-                                    aria-expanded="false">
-                                <span className="sr-only">Open main menu</span>
-                                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <h2 className="text-lg font-semibold text-gray-700 mt-1">Donor Navigation</h2>
-                    </div>
+        <div className="w-full bg-white h-full overflow-y-auto">
+            {/* Mobile Header with Close Button */}
+            <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200">
+                <h2 className="text-lg font-semibold text-gray-700">
+                    {user.role === 'donor' && 'Donor Navigation'}
+                    {user.role === 'wisher' && 'Wisher Navigation'}
+                    {(user.role === 'super_admin' || user.role === 'admin') && 'Admin Navigation'}
+                </h2>
+                <button
+                    onClick={onClose}
+                    className="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
+                >
+                    <FontAwesomeIcon icon={faTimes} className="h-5 w-5" />
+                </button>
+            </div>
+
+            {/* Sidebar Content */}
+            <div className="p-4">
+                {/* Desktop Title - Hidden on mobile */}
+                <div className="hidden md:block mb-6">
+                    <h2 className="text-lg font-semibold text-gray-700">
+                        {user.role === 'donor' && 'Donor Navigation'}
+                        {user.role === 'wisher' && 'Wisher Navigation'}
+                        {(user.role === 'super_admin' || user.role === 'admin') && 'Admin Navigation'}
+                    </h2>
+                </div>
+
+                {user.role === 'donor' && (
                     <ul className="mt-4">
                         <li className="mb-1">
-                            <Link href={route('dashboard')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('dashboard') ? 'active' : ''}`}>
-                                <i className="fas fa-home mr-2"></i> Dashboard
+                            <Link
+                                href={route('dashboard')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('dashboard') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faHome} className="mr-2" />
+                                Dashboard
                             </Link>
                         </li>
                         <li className="mb-1">
-                            <Link href={route('wishes.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.*') ? 'active' : ''}`}>
-                                <i className="fas fa-search mr-2"></i> Browse Wishes
+                            <Link
+                                href={route('wishes.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wishes.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Browse Wishes
                             </Link>
                         </li>
                         <li className="mb-1">
-                            <Link href={route('donations.create')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('donations.create') ? 'active' : ''}`}>
-                                <i className="fas fa-plus-circle mr-2"></i> Create Donation
+                            <Link
+                                href={route('donations.create')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('donations.create') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faGift} className="mr-2" />
+                                Create Donation
                             </Link>
                         </li>
                         <li className="mb-1">
-                            <Link href={route('donations.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${(route().current('donations.index') || route().current('donations.show')) ? 'active' : ''}`}>
-                                <i className="fas fa-gift mr-2"></i> My Donations
+                            <Link
+                                href={route('donations.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${(route().current('donations.index') || route().current('donations.show')) ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faGift} className="mr-2" />
+                                My Donations
                             </Link>
                         </li>
                         <li className="mb-1">
-                            <Link href={route('messages.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('messages.index') ? 'active' : ''}`}>
-                                <i className="fas fa-comments mr-2"></i> Messages
+                            <Link
+                                href={route('messages.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('messages.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Messages
                                 <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
                             </Link>
                         </li>
                         <li className="mb-1">
-                            <Link href={route('organizations.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('organizations.index') ? 'active' : ''}`}>
-                                <i className="fas fa-building mr-2"></i> Organizations
+                            <Link
+                                href={route('organizations.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Organizations
                             </Link>
                         </li>
                         <li className="mb-1">
@@ -74,159 +110,162 @@ export default function LeftSidebar() {
                                 href={route('logout')}
                                 method="post"
                                 as="button"
-                                className="nav-item block px-4 py-2 text-gray-700 rounded">
-                                <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                                onClick={onClose}
+                                className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors w-full text-left"
+                            >
+                                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                                Logout
                             </Link>
                         </li>
                     </ul>
-                </div>
-            }
-            {user.role === 'wisher' &&
-                <div className="p-4">
-                    <div className="flex items-left mb-6">
-                        <div className="md:hidden flex items-center">
-                            <button type="button" id="close-sidebar-button"
-                                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
-                                    aria-expanded="false">
-                                <span className="sr-only">Open main menu</span>
-                                <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                     viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                        </div>
-                        <h2 className="text-lg font-semibold text-gray-700 mt-1">Wisher Navigation</h2>
-                    </div>
+                )}
+
+                {user.role === 'wisher' && (
                     <ul className="mt-4">
                         <li className="mb-1">
-                            <Link href={route('dashboard')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('dashboard') ? 'active' : ''}`}>
-                                <i className="fas fa-home mr-2"></i> Dashboard
-                            </Link>
-                        </li>
-                        <Link className="mb-1">
-                            <Link href={route('wishes.create')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.create') ? 'active' : ''}`}>
-                                <i className="fas fa-plus-circle mr-2"></i> Create Wish
-                            </Link>
-                        </Link>
-                        <li className="mb-1">
-                            <Link href={route('wishes.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.index') ? 'active' : ''}`}>
-                                <i className="fas fa-star mr-2"></i> My Wishes
+                            <Link
+                                href={route('dashboard')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('dashboard') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faHome} className="mr-2" />
+                                Dashboard
                             </Link>
                         </li>
                         <li className="mb-1">
-                            <Link href={route('messages.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('messages.index') ? 'active' : ''}`}>
-                                <i className="fas fa-comments mr-2"></i> Messages
+                            <Link
+                                href={route('wishes.create')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wishes.create') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faGift} className="mr-2" />
+                                Create Wish
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('wishes.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wishes.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                My Wishes
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('messages.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('messages.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Messages
                                 <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
                             </Link>
                         </li>
                         <li className="mb-1">
-                            <Link href={route('organizations.index')}
-                                  className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('organizations.*') ? 'active' : ''}`}>
-                                <i className="fas fa-building mr-2"></i> Organizations
+                            <Link
+                                href={route('organizations.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Organizations
                             </Link>
                         </li>
-
                         <li className="mb-1">
                             <Link
                                 href={route('logout')}
                                 method="post"
                                 as="button"
-                                className="nav-item block px-4 py-2 text-gray-700 rounded">
-                                <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                                onClick={onClose}
+                                className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors w-full text-left"
+                            >
+                                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                                Logout
                             </Link>
                         </li>
                     </ul>
-                </div>
-            }
-            {(user.role === 'super_admin' || user.role === 'admin') &&
-                <div className="w-64 bg-white h-screen shadow-md fixed hidden md:block">
-                    <div className="p-4">
-                        <h2 className="text-lg font-semibold text-gray-700">Admin Navigation</h2>
-                        <ul className="mt-4">
-                            <li className="mb-1">
-                                <Link href={route('dashboard')}
-                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('dashboard') ? 'active' : ''}`}>
-                                    <i className="fas fa-home mr-2"></i> Dashboard
-                                </Link>
-                            </li>
-                            <li className="mb-1">
-                                <Link href={route('users.index')}
-                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('users.index') ? 'active' : ''}`}>
-                                    <i className="fas fa-users mr-2"></i> Users
-                                </Link>
+                )}
 
-                            </li>
-                            {/*<li className="mb-1">*/}
-                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
-                            {/*       onClick="showPage('content-moderation-page')">*/}
-                            {/*        <i className="fas fa-clipboard-check mr-2"></i> Content Moderation*/}
-                            {/*        <span*/}
-                            {/*            className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">12</span>*/}
-                            {/*    </a>*/}
-                            {/*</li>*/}
-                            <li className="mb-1">
-                                <Link href={route('wishes.index')}
-                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('wishes.*') ? 'active' : ''}`}>
-                                    <i className="fas fa-star mr-2"></i> Wishes
-                                </Link>
-                            </li>
-                            <li className="mb-1">
-                                <Link href={route('donations.index')}
-                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('donations.index') ? 'active' : ''}`}>
-                                    <i className="fas fa-gift mr-2"></i> Donations
-                                </Link>
-                            </li>
-                            <li className="mb-1">
-                                <Link href={route('organizations.index')}
-                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('organizations.index') ? 'active' : ''}`}>
-                                    <i className="fas fa-building mr-2"></i> Organizations
-                                </Link>
-                            </li>
-
-                            <li className="mb-1">
-                                <Link href={route('messages.index')}
-                                      className={`nav-item block px-4 py-2 text-gray-700 rounded ${route().current('messages.index') ? 'active' : ''}`}>
-                                    <i className="fas fa-inbox mr-2"></i> Admin Inbox
-                                    <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full ml-1">8</span>
-                                </Link>
-                            </li>
-                            {/*<li className="mb-1">*/}
-                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
-                            {/*       onClick="showPage('logistics-page')">*/}
-                            {/*        <i className="fas fa-tasks mr-2"></i> Logistics Tasks*/}
-                            {/*    </a>*/}
-                            {/*</li>*/}
-                            {/*<li className="mb-1">*/}
-                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
-                            {/*       onClick="showPage('activity-logs-page')">*/}
-                            {/*        <i className="fas fa-history mr-2"></i> Activity Logs*/}
-                            {/*    </a>*/}
-                            {/*</li>*/}
-                            {/*<li className="mb-1">*/}
-                            {/*    <a href="#" className="nav-item block px-4 py-2 text-gray-700 rounded"*/}
-                            {/*       onClick="showPage('comms-page')">*/}
-                            {/*        <i className="fas fa-phone mr-2"></i> Communications*/}
-                            {/*    </a>*/}
-                            {/*</li>*/}
-
-                            <li className="mb-1">
-                                <Link
-                                    href={route('logout')}
-                                    method="post"
-                                    as="button"
-                                    className="nav-item block px-4 py-2 text-gray-700 rounded">
-                                    <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            }
+                {(user.role === 'super_admin' || user.role === 'admin') && (
+                    <ul className="mt-4">
+                        <li className="mb-1">
+                            <Link
+                                href={route('dashboard')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('dashboard') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faHome} className="mr-2" />
+                                Dashboard
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('users.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('users.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Users
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('wishes.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wishes.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Wishes
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('donations.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('donations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faGift} className="mr-2" />
+                                Donations
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('organizations.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Organizations
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('messages.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('messages.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Admin Inbox
+                                <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full ml-1">8</span>
+                            </Link>
+                        </li>
+                        <li className="mb-1">
+                            <Link
+                                href={route('logout')}
+                                method="post"
+                                as="button"
+                                onClick={onClose}
+                                className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors w-full text-left"
+                            >
+                                <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
+                                Logout
+                            </Link>
+                        </li>
+                    </ul>
+                )}
+            </div>
         </div>
     );
 }
