@@ -133,13 +133,13 @@ export default function Navbar() {
                     >
                         How It Works
                     </Link>
-                    <Link
-                        href={route('wish.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Wishes
-                    </Link>
+                    {/*<Link*/}
+                    {/*    href={route('wish.index')}*/}
+                    {/*    className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}*/}
+                    {/*    onClick={() => setIsMobileMenuOpen(false)}*/}
+                    {/*>*/}
+                    {/*    Wishes*/}
+                    {/*</Link>*/}
 
                     <Link
                         href={route('donation.index')}
@@ -148,13 +148,13 @@ export default function Navbar() {
                     >
                         Donations
                     </Link>
-                    <a
-                        href="#organizations"
-                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Organizations
-                    </a>
+                    {/*<a*/}
+                    {/*    href="#organizations"*/}
+                    {/*    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"*/}
+                    {/*    onClick={() => setIsMobileMenuOpen(false)}*/}
+                    {/*>*/}
+                    {/*    Organizations*/}
+                    {/*</a>*/}
                 </div>
                 <div className="pt-4 pb-3 border-t border-gray-200">
                     <div className="mt-3 px-2 space-y-1">
