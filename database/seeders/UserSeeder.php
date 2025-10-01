@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
         ]);
 
         // Admin
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 1; $i++) {
             User::create([
                 'name' => "Admin User {$i}",
                 'email' => "admin{$i}@example.com",
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
         }
 
         // Donors
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 1; $i++) {
             User::create([
                 'name' => "Donor User {$i}",
                 'email' => "donor{$i}@example.com",
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
         }
 
         // Wishers
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 1; $i++) {
             User::create([
                 'name' => "Wisher User {$i}",
                 'email' => "wisher{$i}@example.com",
@@ -75,7 +75,7 @@ class UserSeeder extends Seeder
         }
 
         // Leaders
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 1; $i++) {
             User::create([
                 'name' => "Leader User {$i}",
                 'email' => "leader{$i}@example.com",
