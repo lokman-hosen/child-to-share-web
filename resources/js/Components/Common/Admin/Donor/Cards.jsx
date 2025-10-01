@@ -3,7 +3,7 @@ import {Link} from "@inertiajs/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 
-const Cards = ({userType}) => {
+const Cards = ({userType,availableDonationCount,donatedDonationCount}) => {
     return (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
             { userType  === 'wisher' &&
@@ -76,7 +76,7 @@ const Cards = ({userType}) => {
                                     <dl>
                                         <dt className="text-sm font-medium text-gray-500 truncate">Wishes Fulfilled</dt>
                                         <dd className="flex items-baseline">
-                                            <div className="text-2xl font-semibold text-gray-900">12</div>
+                                            <div className="text-2xl font-semibold text-gray-900">{donatedDonationCount}</div>
                                         </dd>
                                     </dl>
                                 </div>
@@ -93,7 +93,7 @@ const Cards = ({userType}) => {
                                     <dl>
                                         <dt className="text-sm font-medium text-gray-500 truncate">Active Donations</dt>
                                         <dd className="flex items-baseline">
-                                            <div className="text-2xl font-semibold text-gray-900">5</div>
+                                            <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
                                         </dd>
                                     </dl>
                                 </div>

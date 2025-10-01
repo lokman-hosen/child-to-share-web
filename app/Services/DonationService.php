@@ -154,4 +154,17 @@ class DonationService extends BaseService
         return $donationFile->delete();
 
     }
+
+    public function donationContByStatus($status = null, $resource = 'list')
+    {
+        $query = Donation::query();
+        if (checkDonor()){
+            $query->where('user_id', Auth::id());
+        }
+        if (isset($status)) {
+            $query->where('status', $status);
+        }
+        return $resource === 'count' ? $query->count() :  $query->get();
+
+    }
 }
