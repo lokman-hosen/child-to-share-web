@@ -45,7 +45,6 @@ export default function ForgotPassword({ status }) {
                                     placeholder="Enter your email(used in registration)"
                                     required
                                 />
-
                                 <InputError message={errors.email} className="mt-2" />
 
                                 <div className="mt-4 flex items-center justify-end">
