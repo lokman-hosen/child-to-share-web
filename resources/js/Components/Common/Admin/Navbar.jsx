@@ -20,7 +20,7 @@ export default function Navbar() {
                     <div className="flex items-center">
                         <div className="flex-shrink-0 flex items-center">
                             <i className="fas fa-gift text-blue-500 text-2xl mr-2"></i>
-                            <span className="font-bold text-xl text-blue-600">ThreeWish Donor Panel</span>
+                            <span className="font-bold text-xl text-blue-600">ThreeWish</span>
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
