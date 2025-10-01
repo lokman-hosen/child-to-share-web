@@ -10,7 +10,7 @@ import TextareaInput from "@/Components/TextareaInput.jsx";
 import Checkbox from "@/Components/Checkbox.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
-const Form = ({categories, donation, statuses, module}) => {
+const Form = ({categories, donation, statuses, module, itemConditions}) => {
     const fileInputRef = useRef(null);
 
     // Convert auto_tags from string/array to the format MultiSelect expects
@@ -142,11 +142,22 @@ const Form = ({categories, donation, statuses, module}) => {
                     placeholder="e.g., Winter Coat, Story Books, etc."
                     required
                 />
-                <TextInput
+                {/*<TextInput*/}
+                {/*    id="item_condition"*/}
+                {/*    label="Item condition"*/}
+                {/*    value={data.item_condition}*/}
+                {/*    onChange={(e) => setData('item_condition', e.target.value)}*/}
+                {/*    error={errors.item_condition}*/}
+                {/*    placeholder="e.g., good, new, Like new or excellent etc."*/}
+                {/*    required*/}
+                {/*/>*/}
+
+                <CustomCreatableSelect
                     id="item_condition"
-                    label="Item condition"
+                    label="Item condition(type to create new)"
                     value={data.item_condition}
-                    onChange={(e) => setData('item_condition', e.target.value)}
+                    onChange={(value) => setData('item_condition', value)}
+                    options={itemConditions}
                     error={errors.item_condition}
                     placeholder="e.g., good, new, Like new or excellent etc."
                     required

@@ -166,6 +166,10 @@ class DonationService extends BaseService
             $query->where('status', $status);
         }
         return $resource === 'count' ? $query->count() :  $query->get();
+    }
 
+    public function getItemConditions()
+    {
+        return $this->donation->pluck('item_condition')->unique();
     }
 }

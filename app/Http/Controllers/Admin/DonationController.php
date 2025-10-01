@@ -41,10 +41,12 @@ class DonationController extends Controller
     {
         $categories = $this->categoryService->listByStatus();
         $statuses = donationStatus();
+        $itemConditions = $this->donationService->getItemConditions();
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
             'categories' => $categories,
             'statuses' => $statuses,
+            'itemConditions' => $itemConditions,
         ]);
     }
 
@@ -92,11 +94,13 @@ class DonationController extends Controller
         ]);
         $categories = $this->categoryService->listByStatus();
         $statuses = donationStatus();
+        $itemConditions = $this->donationService->getItemConditions();
         return Inertia::render(self::moduleDirectory.'Edit', [
             'module' => self::moduleName,
             'donation' => $donation,
             'categories' => $categories,
             'statuses' => $statuses,
+            'itemConditions' => $itemConditions,
         ]);
     }
 
