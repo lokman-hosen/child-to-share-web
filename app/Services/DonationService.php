@@ -4,16 +4,15 @@ namespace App\Services;
 
 use App\Models\Donation;
 use App\Models\File;
-use App\Models\Media;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use Intervention\Image\ImageManager;
 
 class DonationService extends BaseService
 {
     public function __construct(
         protected Donation $donation,
+        protected CategoryService $categoryService,
     ){
         $this->model = $this->donation;
     }
@@ -44,12 +43,14 @@ class DonationService extends BaseService
     {
         $autoTags = $request->auto_tags;
         $autoTagsString = is_array($autoTags) ? implode(',', $autoTags) : $autoTags;
+
+        $category = $this->categoryService->findByName($request->category);
         $donation = $this->donation->create([
             'title' => $request->title,
             'description' => $request->description,
             'item_condition' => $request->item_condition,
             'user_id' => Auth::id(),
-            'category_id' => $request->category_id,
+            'category_id' => $category->id,
             'auto_tags' => $autoTagsString,
             'status' => 'available',
         ]);

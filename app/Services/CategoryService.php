@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 
 class CategoryService extends BaseService
 {
@@ -43,5 +44,19 @@ class CategoryService extends BaseService
     {
         return $this->category->orderBy('name')->get(['id', 'name']);
 
+    }
+
+    public function findByName($name)
+    {
+        $category = $this->category->where('name', 'like', '%' . $name . '%')->first();
+        if (!isset($category)) {
+            $category = $this->category->create([
+                'name' => $name,
+                'slug' => Str::slug($name),
+                'icon' => null,
+                'order' => 14,
+            ]);
+        }
+        return $category;
     }
 }

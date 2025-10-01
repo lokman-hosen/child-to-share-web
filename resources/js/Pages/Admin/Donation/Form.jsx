@@ -8,6 +8,7 @@ import {faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-s
 import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import Checkbox from "@/Components/Checkbox.jsx";
+import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
 const Form = ({categories, donation, statuses, module}) => {
     const fileInputRef = useRef(null);
@@ -44,7 +45,7 @@ const Form = ({categories, donation, statuses, module}) => {
     const { data, setData, post, put, processing, errors, reset } = useForm({
         title: donation?.title || '',
         item_condition: donation?.item_condition || '',
-        category_id: donation?.category_id || '',
+        category: donation?.category || '',
         description: donation?.description || '',
         auto_tags: donation?.auto_tags || [],
         attachments: [], // Always start with empty array for new files
@@ -73,7 +74,7 @@ const Form = ({categories, donation, statuses, module}) => {
                 ...prevData,
                 title: donation?.title || '',
                 item_condition: donation?.item_condition || '',
-                category_id: donation?.category_id || '',
+                category: donation?.category || '',
                 description: donation?.description || '',
                 auto_tags: formattedTags.map(tag => tag.value),
                 status: donation?.status || 'available',
@@ -150,13 +151,24 @@ const Form = ({categories, donation, statuses, module}) => {
                     placeholder="e.g., good, new, Like new or excellent etc."
                     required
                 />
-                <SelectInput
-                    id="category_id"
-                    label="Select category"
-                    value={data.category_id}
-                    onChange={(e) => setData('category_id', e.target.value)}
-                    error={errors.category_id}
-                    options={categoryOptions}
+                {/*<SelectInput*/}
+                {/*    id="category_id"*/}
+                {/*    label="Select category"*/}
+                {/*    value={data.category_id}*/}
+                {/*    onChange={(e) => setData('category_id', e.target.value)}*/}
+                {/*    error={errors.category_id}*/}
+                {/*    options={categoryOptions}*/}
+                {/*    required*/}
+                {/*/>*/}
+
+                <CustomCreatableSelect
+                    id="category"
+                    label="Category(type to create new)"
+                    value={data.category}
+                    onChange={(value) => setData('category', value)}
+                    options={categories}
+                    error={errors.category}
+                    placeholder="Select or type to create new category"
                     required
                 />
                 <MultiSelectTextField

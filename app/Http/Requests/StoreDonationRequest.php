@@ -25,7 +25,8 @@ class StoreDonationRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'item_condition' => 'required|string',
-            'category_id' => 'required|exists:categories,id',
+            //'category_id' => 'required|exists:categories,id',
+            'category' => 'required|string',
             //'status' => 'required|string',
             'auto_tags' => 'sometimes|array', // Change to array validation
             'auto_tags.*' => 'required|string', // Each tag should be a string
