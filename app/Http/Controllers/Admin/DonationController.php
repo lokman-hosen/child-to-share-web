@@ -21,7 +21,7 @@ class DonationController extends Controller
 
     ){}
     const moduleDirectory = 'Admin/Donation/';
-    const moduleName = 'Donation List';
+    const moduleName = 'Donation';
     /**
      * Display a listing of the resource.
      */
