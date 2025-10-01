@@ -8,7 +8,7 @@ import {faEdit, faGift, faList, faSquarePlus} from "@fortawesome/free-solid-svg-
 export default function Create({module,categories,statuses}) {
     return (
         <AuthenticatedLayout>
-            <Head title="Donation Create" />
+            <Head title={`${module} Create`} />
             <div className="px-4 sm:px-6 lg:px-8 py-6">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     {/* Beautiful Card Header */}
