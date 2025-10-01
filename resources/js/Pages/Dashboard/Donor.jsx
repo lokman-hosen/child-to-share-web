@@ -12,7 +12,7 @@ const DonorDashboard = ({availableDonationCount, donatedDonationCount}) => {
                 <div className="flex items-center">
                     <FontAwesomeIcon icon={faInfoCircle} className="h-5 w-5 text-blue-500 mr-3" />
                     <div>
-                        <p className="text-blue-800 text-3xl">
+                        <p className="text-blue-800 text-xl">
                             ThreeWish is Under Development
                         </p>
                         <p className="text-blue-600 text-md mt-1">

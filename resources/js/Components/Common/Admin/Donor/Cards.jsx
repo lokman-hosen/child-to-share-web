@@ -68,36 +68,40 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount}) => {
 
                     <div className="bg-white overflow-hidden shadow rounded-lg">
                         <div className="px-4 py-5 sm:p-6">
-                            <div className="flex items-center">
-                                <div className="flex-shrink-0 bg-blue-500 rounded-md p-3">
-                                    <i className="fas fa-star text-white"></i>
+                            <Link href={route('donations.index')}>
+                                <div className="flex items-center">
+                                    <div className="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                                        <i className="fas fa-star text-white"></i>
+                                    </div>
+                                    <div className="ml-5 w-0 flex-1">
+                                        <dl>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Wishes Fulfilled</dt>
+                                            <dd className="flex items-baseline">
+                                                <div className="text-2xl font-semibold text-gray-900">{donatedDonationCount}</div>
+                                            </dd>
+                                        </dl>
+                                    </div>
                                 </div>
-                                <div className="ml-5 w-0 flex-1">
-                                    <dl>
-                                        <dt className="text-sm font-medium text-gray-500 truncate">Wishes Fulfilled</dt>
-                                        <dd className="flex items-baseline">
-                                            <div className="text-2xl font-semibold text-gray-900">{donatedDonationCount}</div>
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                     <div className="bg-white overflow-hidden shadow rounded-lg">
                         <div className="px-4 py-5 sm:p-6">
-                            <div className="flex items-center">
-                                <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
-                                    <i className="fas fa-gift text-white"></i>
+                            <Link href={route('donations.index')}>
+                                <div className="flex items-center">
+                                    <div className="flex-shrink-0 bg-green-500 rounded-md p-3">
+                                        <i className="fas fa-gift text-white"></i>
+                                    </div>
+                                    <div className="ml-5 w-0 flex-1">
+                                        <dl>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Active Donations</dt>
+                                            <dd className="flex items-baseline">
+                                                <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
+                                            </dd>
+                                        </dl>
+                                    </div>
                                 </div>
-                                <div className="ml-5 w-0 flex-1">
-                                    <dl>
-                                        <dt className="text-sm font-medium text-gray-500 truncate">Active Donations</dt>
-                                        <dd className="flex items-baseline">
-                                            <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </>
@@ -105,36 +109,40 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount}) => {
 
             <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                        <div className="flex-shrink-0 bg-yellow-500 rounded-md p-3">
-                            <i className="fas fa-comments text-white"></i>
+                    <Link href={route('messages.index')}>
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                                <i className="fas fa-comments text-white"></i>
+                            </div>
+                            <div className="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt className="text-sm font-medium text-gray-500 truncate">Unread Messages</dt>
+                                    <dd className="flex items-baseline">
+                                        <div className="text-2xl font-semibold text-gray-900">0</div>
+                                    </dd>
+                                </dl>
+                            </div>
                         </div>
-                        <div className="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt className="text-sm font-medium text-gray-500 truncate">Unread Messages</dt>
-                                <dd className="flex items-baseline">
-                                    <div className="text-2xl font-semibold text-gray-900">0</div>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                        <div className="flex-shrink-0 bg-purple-500 rounded-md p-3">
-                            <i className="fas fa-users text-white"></i>
+                    <Link href={route('organizations.index')}>
+                        <div className="flex items-center">
+                            <div className="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                                <i className="fas fa-users text-white"></i>
+                            </div>
+                            <div className="ml-5 w-0 flex-1">
+                                <dl>
+                                    <dt className="text-sm font-medium text-gray-500 truncate">Organizations</dt>
+                                    <dd className="flex items-baseline">
+                                        <div className="text-2xl font-semibold text-gray-900">0</div>
+                                    </dd>
+                                </dl>
+                            </div>
                         </div>
-                        <div className="ml-5 w-0 flex-1">
-                            <dl>
-                                <dt className="text-sm font-medium text-gray-500 truncate">Organizations</dt>
-                                <dd className="flex items-baseline">
-                                    <div className="text-2xl font-semibold text-gray-900">0</div>
-                                </dd>
-                            </dl>
-                        </div>
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>
