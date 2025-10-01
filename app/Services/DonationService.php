@@ -57,7 +57,6 @@ class DonationService extends BaseService
 
         // Handle file uploads
         if ($request->hasFile('attachments')) {
-            //dd($request->file('attachments'));
             $this->handleAttachments($request->file('attachments'), $donation);
         }
         return $donation;
@@ -67,12 +66,13 @@ class DonationService extends BaseService
     {
         $autoTags = $request->auto_tags;
         $autoTagsString = is_array($autoTags) ? implode(',', $autoTags) : $autoTags;
+        $category = $this->categoryService->findByName($request->category);
         // Update donation
         $donation->update([
             'title' => $request->title,
             'description' => $request->description,
             'item_condition' => $request->item_condition,
-            'category_id' => $request->category_id,
+            'category_id' => $category->id,
             'auto_tags' => $autoTagsString,
             'status' => $request->status,
         ]);

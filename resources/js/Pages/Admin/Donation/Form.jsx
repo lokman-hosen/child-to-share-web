@@ -45,7 +45,7 @@ const Form = ({categories, donation, statuses, module}) => {
     const { data, setData, post, put, processing, errors, reset } = useForm({
         title: donation?.title || '',
         item_condition: donation?.item_condition || '',
-        category: donation?.category || '',
+        category: donation?.category.name || '',
         description: donation?.description || '',
         auto_tags: donation?.auto_tags || [],
         attachments: [], // Always start with empty array for new files
@@ -74,7 +74,7 @@ const Form = ({categories, donation, statuses, module}) => {
                 ...prevData,
                 title: donation?.title || '',
                 item_condition: donation?.item_condition || '',
-                category: donation?.category || '',
+                category: donation?.category.name || '',
                 description: donation?.description || '',
                 auto_tags: formattedTags.map(tag => tag.value),
                 status: donation?.status || 'available',
