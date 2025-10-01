@@ -28,9 +28,9 @@ export default function AuthenticatedLayout({ header, children }) {
                     ></div>
                 )}
 
-                {/* Sidebar */}
+                {/* Sidebar - Fixed on all screens */}
                 <div className={`
-                    fixed md:static inset-y-0 left-0 z-50
+                    fixed inset-y-0 left-0 z-50
                     transform transition-transform duration-300 ease-in-out
                     ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
                     w-64 bg-white h-screen shadow-md
@@ -38,8 +38,8 @@ export default function AuthenticatedLayout({ header, children }) {
                     <LeftSidebar onClose={closeSidebar} />
                 </div>
 
-                {/* Main Content */}
-                <div className={`flex-1 transition-all duration-300 ${sidebarOpen ? 'md:ml-64' : 'md:ml-0'}`}>
+                {/* Main Content - Always has margin on desktop */}
+                <div className="flex-1 md:ml-64">
                     {children}
                     <Toast />
                 </div>

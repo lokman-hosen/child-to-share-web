@@ -15,14 +15,18 @@ export default function LeftSidebar({ onClose }) {
     const user = usePage().props.auth.user;
 
     return (
-        <div className="w-full bg-white h-full overflow-y-auto">
+        <div className="w-full bg-white h-full overflow-y-auto fixed md:fixed inset-y-0 left-0 z-40">
             {/* Mobile Header with Close Button */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-700">
-                    {user.role === 'donor' && 'Donor Navigation'}
-                    {user.role === 'wisher' && 'Wisher Navigation'}
-                    {(user.role === 'super_admin' || user.role === 'admin') && 'Admin Navigation'}
-                </h2>
+                <div className="flex-shrink-0 flex items-center">
+                    <FontAwesomeIcon icon={faGift} className="text-blue-500 text-2xl mr-2" />
+                    <span className="font-bold text-xl text-blue-600">ThreeWish</span>
+                </div>
+                {/*<h2 className="text-lg font-semibold text-gray-700">*/}
+                {/*    {user.role === 'donor' && 'Donor Navigation'}*/}
+                {/*    {user.role === 'wisher' && 'Wisher Navigation'}*/}
+                {/*    {(user.role === 'super_admin' || user.role === 'admin') && 'Admin Navigation'}*/}
+                {/*</h2>*/}
                 <button
                     onClick={onClose}
                     className="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
@@ -35,11 +39,15 @@ export default function LeftSidebar({ onClose }) {
             <div className="p-4">
                 {/* Desktop Title - Hidden on mobile */}
                 <div className="hidden md:block mb-6">
-                    <h2 className="text-lg font-semibold text-gray-700">
-                        {user.role === 'donor' && 'Donor Navigation'}
-                        {user.role === 'wisher' && 'Wisher Navigation'}
-                        {(user.role === 'super_admin' || user.role === 'admin') && 'Admin Navigation'}
-                    </h2>
+                    <div className="flex-shrink-0 flex items-center">
+                        <FontAwesomeIcon icon={faGift} className="text-blue-500 text-2xl mr-2" />
+                        <span className="font-bold text-xl text-blue-600">ThreeWish</span>
+                    </div>
+                    {/*<h2 className="text-lg font-semibold text-gray-700">*/}
+                    {/*    {user.role === 'donor' && 'Donor Navigation'}*/}
+                    {/*    {user.role === 'wisher' && 'Wisher Navigation'}*/}
+                    {/*    {(user.role === 'super_admin' || user.role === 'admin') && 'Admin Navigation'}*/}
+                    {/*</h2>*/}
                 </div>
 
                 {user.role === 'donor' && (
