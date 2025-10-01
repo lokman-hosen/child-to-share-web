@@ -120,7 +120,6 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount}) => {
                     </div>
                 </div>
             </div>
-
             <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                     <div className="flex items-center">
