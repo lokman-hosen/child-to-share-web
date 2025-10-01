@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\OrganizationController;
@@ -28,9 +29,14 @@ Route::controller(\App\Http\Controllers\DonationController::class)->group(functi
 });
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return Inertia::render('Dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/my-profile/{id?}', [ProfileController::class, 'show'])->name('my.profile');
