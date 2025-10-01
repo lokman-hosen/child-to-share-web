@@ -81,7 +81,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         </div>
                     </div>
 
-                    <div className="mt-6 mb-10 mx-10 grid grid-cols-1 gap-6">
+                    <div className="mt-6 lg:mb-10 lg:mx-10 grid grid-cols-1 gap-6">
                         <div className="w-2xs rounded p-10 shadow-md">
                             <header>
                                 <h2 className="text-lg font-medium text-gray-900">

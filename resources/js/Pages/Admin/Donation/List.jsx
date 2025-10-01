@@ -104,11 +104,13 @@ export default function List({module, donations}) {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td
-                                            colSpan="3"
-                                            className="px-4 py-3 text-center text-gray-500 text-sm"
-                                        >
-                                            No data found
+                                        <td colSpan="3" className="px-4 py-3 text-center text-gray-500 text-sm">
+                                            No data found.
+                                            <Link
+                                            href={route('donations.create')}
+                                            class="underline text-blue-500 ml-1">
+                                            create new
+                                            </Link>
                                         </td>
                                     </tr>
                                 )}
