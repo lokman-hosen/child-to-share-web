@@ -5,7 +5,9 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import {useEffect} from "react";
+import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash, faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,6 +15,12 @@ export default function Login({ status, canResetPassword }) {
         password: '',
         remember: false,
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -43,12 +51,11 @@ export default function Login({ status, canResetPassword }) {
                         <div className="px-8 py-8">
                             <form onSubmit={submit} className="space-y-6">
                                 <div>
-                                    <label className="block text-gray-700 font-medium mb-2">Email or Phone
-                                        Number</label>
+                                    <label className="block text-gray-700 font-medium mb-2">Email or Phone Number</label>
                                     <div className="relative">
                                         <div
                                             className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i className="fas fa-user text-gray-400"></i>
+                                            <FontAwesomeIcon icon={faUser} className="text-gray-400" />
                                         </div>
 
                                         <TextInput
@@ -65,8 +72,6 @@ export default function Login({ status, canResetPassword }) {
                                         />
                                         <InputError message={errors.email} className="mt-2"/>
                                     </div>
-
-
                                 </div>
 
                                 <div>
@@ -74,11 +79,11 @@ export default function Login({ status, canResetPassword }) {
                                     <div className="relative">
                                         <div
                                             className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <i className="fas fa-lock text-gray-400"></i>
+                                            <FontAwesomeIcon icon={faLock} className="text-gray-400" />
                                         </div>
                                         <TextInput
                                             id="password"
-                                            type="password"
+                                            type={showPassword ? "text" : "password"}
                                             name="password"
                                             value={data.password}
                                             className="form-input w-full pl-10 pr-10 py-3"
@@ -89,10 +94,16 @@ export default function Login({ status, canResetPassword }) {
                                         />
                                         <InputError message={errors.password} className="mt-2"/>
                                         <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                            <span className="toggle-password text-gray-400 hover:text-gray-600"
-                                                  id="togglePassword">
-                                                <i className="fas fa-eye"></i>
-                                            </span>
+                                            <button
+                                                type="button"
+                                                onClick={togglePasswordVisibility}
+                                                className="toggle-password text-gray-400 hover:text-gray-600 focus:outline-none"
+                                            >
+                                                <FontAwesomeIcon
+                                                    icon={showPassword ? faEyeSlash : faEye}
+                                                    className="h-5 w-5"
+                                                />
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -122,9 +133,12 @@ export default function Login({ status, canResetPassword }) {
                                     </div>
                                 </div>
 
-                                <button type="submit"
-                                        className="login-btn w-full text-white py-3 rounded-lg font-semibold text-lg">
-                                    Sign In
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="login-btn w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-semibold text-lg transition-colors disabled:opacity-50"
+                                >
+                                    {processing ? 'Signing In...' : 'Sign In'}
                                 </button>
                             </form>
 
@@ -139,7 +153,6 @@ export default function Login({ status, canResetPassword }) {
                             </p>
                         </div>
                     </div>
-
                 </div>
             </main>
         </GuestLayout>
