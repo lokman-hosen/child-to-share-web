@@ -128,7 +128,7 @@ const Form = ({categories, donation, statuses, module}) => {
     };
 
     const statusOptions = getStatusOptions(statuses);
-    const categoryOptions = getDropdownOptions(categories, 'id', 'name');
+    //const categoryOptions = getDropdownOptions(categories, 'id', 'name');
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
