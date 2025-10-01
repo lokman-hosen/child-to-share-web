@@ -41,19 +41,19 @@ export default function Navbar() {
                             >
                                 How It Works
                             </Link>
-                            <Link
-                                href={route('wish.index')}
-                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('wish.index') ? 'nav-item active' : ''}`}>
-                                Wishes
-                            </Link>
+                            {/*<Link*/}
+                            {/*    href={route('wish.index')}*/}
+                            {/*    className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('wish.index') ? 'nav-item active' : ''}`}>*/}
+                            {/*    Wishes*/}
+                            {/*</Link>*/}
 
                             <Link
                                 href={route('donation.index')}
                                 className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('donation.index') ? 'nav-item active' : ''}`}>
                                 Donations
                             </Link>
-                            <a href="#organizations"
-                               className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">Organizations</a>
+                            {/*<a href="#organizations"*/}
+                            {/*   className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">Organizations</a>*/}
                         </div>
                     </div>
 
