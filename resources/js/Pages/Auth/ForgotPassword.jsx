@@ -21,14 +21,15 @@ export default function ForgotPassword({ status }) {
 
             <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-xl w-full">
-                    <div className="login-card bg-white rounded-lg shadow-lg overflow-hidden h-96">
+                    <div className="login-card bg-white rounded-lg shadow-lg overflow-hidden">
                         <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-8 px-6 text-center">
                             <h1 className="text-3xl font-bold mb-2">Forgot your password?</h1>
                             <p className="text-lg"> No problem. Share your email and we’ll send you a reset link to set a new password</p>
                         </div>
                         {status && (
-                            <div className="mb-4 text-sm font-medium text-green-600">
+                            <div className="mt-4 text-md text-center font-medium text-green-600">
                                 {status}
+                                <p className="text-indigo-600">If you dont get mail. Contact to admin</p>
                             </div>
                         )}
                         <div className="px-8 py-8">
@@ -54,7 +55,7 @@ export default function ForgotPassword({ status }) {
                                 </div>
                             </form>
 
-                            <p className="text-center mt-6 text-gray-600">
+                            <p className="text-center mt-6 text-gray-600 mb-5">
                                 <span>Want to login? </span>
                                 <Link
                                     href={route('login')}
