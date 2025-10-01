@@ -131,7 +131,7 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount}) => {
                             <dl>
                                 <dt className="text-sm font-medium text-gray-500 truncate">Organizations</dt>
                                 <dd className="flex items-baseline">
-                                    <div className="text-2xl font-semibold text-gray-900">3</div>
+                                    <div className="text-2xl font-semibold text-gray-900">0</div>
                                 </dd>
                             </dl>
                         </div>
