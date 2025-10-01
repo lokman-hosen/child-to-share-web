@@ -209,7 +209,7 @@ export default function Register({guardianRelations,genders, organizations}) {
 
                                 <CustomCreatableSelect
                                     id="organization"
-                                    label="Organization/School"
+                                    label="Organization/School(type to create new)"
                                     value={data.organization}
                                     onChange={(value) => setData('organization', value)}
                                     options={organizations}
@@ -221,7 +221,7 @@ export default function Register({guardianRelations,genders, organizations}) {
 
                                 <FileInput
                                     id="photo"
-                                    label="Photo"
+                                    label="Profile Photo(png,jpg,jpeg)"
                                     onFileChange={(file) => handleFileChange('photo', file)}
                                     currentFileUrl={data?.photo || null}
                                     error={errors.photo}

@@ -161,7 +161,7 @@ const Form = ({categories, donation, statuses, module}) => {
                 />
                 <MultiSelectTextField
                     id="auto_tags"
-                    label="Tags(write and press enter)"
+                    label="Multiple tags(write and press enter)"
                     value={tags}
                     onChange={setTags}
                     placeholder="Type tag and press enter..."
@@ -300,7 +300,7 @@ const Form = ({categories, donation, statuses, module}) => {
                         // Button content for Update User
                         <div className="flex items-center space-x-2">
                             <FontAwesomeIcon icon={faEdit}/>
-                            <span>Edit Donation</span>
+                            <span>Update Donation</span>
                         </div>
                     ) : (
                         <div className="flex items-center space-x-2">
