@@ -3,7 +3,7 @@ import {Head, Link} from '@inertiajs/react';
 import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift, faList, faPlus, faSquarePlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
+import {faGift, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
 
 export default function List({module, donations}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -81,7 +81,9 @@ export default function List({module, donations}) {
                                     href={route('donations.create')}
                                     className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                                 >
-                                    <FontAwesomeIcon icon={faPlus} className="text-blue-600" />
+                                    <div className="animate-bounce">
+                                        <FontAwesomeIcon icon={faPlus} className="text-blue-600" />
+                                    </div>
                                     <span>Create New</span>
                                 </Link>
                             </div>
