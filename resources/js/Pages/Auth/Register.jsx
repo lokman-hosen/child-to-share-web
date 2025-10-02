@@ -121,7 +121,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     onClick={() => setData('role', 'donor')}
                                     className={`role-option p-5 text-center ${data.role === 'donor' ? 'selected' : ''}`} data-role="donor">
                                     <div className="text-4xl mb-3 text-green-500">🎁</div>
-                                    <h3 className="font-semibold">Donate Items</h3>
+                                    <h3 className="font-semibold">Donate Items(Donor)</h3>
                                     <p className="text-sm text-gray-600 mt-2">Share items with children in need</p>
                                 </div>
 
@@ -129,7 +129,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     onClick={() => setData('role', 'wisher')}
                                     className={`role-option p-5 text-center ${data.role === 'wisher' ? 'selected' : ''}`} data-role="wisher">
                                     <div className="text-4xl mb-3 text-purple-500">✨</div>
-                                    <h3 className="font-semibold">Make a Wish</h3>
+                                    <h3 className="font-semibold">Make a Wish(Wisher)</h3>
                                     <p className="text-sm text-gray-600 mt-2">Request items you need</p>
                                 </div>
                             </div>
