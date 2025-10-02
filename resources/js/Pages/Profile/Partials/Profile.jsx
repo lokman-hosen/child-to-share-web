@@ -38,7 +38,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                 <div className="mt-2 flex items-center">
                                     <span
                                         className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                        12 Wishes Fulfilled
+                                        0 Wishes Fulfilled
                                     </span>
                                     <span
                                         className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
@@ -138,11 +138,11 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                         <h2 className="text-lg font-medium text-gray-900 mb-4">Your Impact</h2>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-blue-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-blue-600">12</div>
+                                <div className="text-3xl font-bold text-blue-600">0</div>
                                 <div className="text-sm font-medium text-gray-700">Wishes Fulfilled</div>
                             </div>
                             <div className="bg-green-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-green-600">8</div>
+                                <div className="text-3xl font-bold text-green-600">0</div>
                                 <div className="text-sm font-medium text-gray-700">Children Helped</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
