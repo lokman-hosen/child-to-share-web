@@ -10,6 +10,8 @@ import FileInput from "@/Components/FileInput.jsx";
 import {
     faInfoCircle,
     faSpinner,
+    faSearch,
+    faMapMarkerAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
@@ -19,6 +21,9 @@ import Checkbox from "@/Components/Checkbox.jsx";
 export default function Register({guardianRelations,genders, organizations}) {
     // State to manage the selected role
     const [selectedLocation, setSelectedLocation] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchSuggestions, setSearchSuggestions] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
 
     // State to manage all form data
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -66,9 +71,73 @@ export default function Register({guardianRelations,genders, organizations}) {
             latitude: location.lat,
             longitude: location.lng
         });
+
+        // Reverse geocode to get address when user clicks on map
+        reverseGeocode(location.lat, location.lng);
     };
 
-    //const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+    // Search for locations using OpenStreetMap Nominatim API
+    const handleSearch = async (query) => {
+        setSearchQuery(query);
+
+        if (query.length < 3) {
+            setSearchSuggestions([]);
+            return;
+        }
+
+        setIsSearching(true);
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`
+            );
+            const results = await response.json();
+            setSearchSuggestions(results);
+        } catch (error) {
+            console.error('Search error:', error);
+            setSearchSuggestions([]);
+        } finally {
+            setIsSearching(false);
+        }
+    };
+
+    // Handle selection from search suggestions
+    const handleSuggestionSelect = (suggestion) => {
+        const location = {
+            lat: parseFloat(suggestion.lat),
+            lng: parseFloat(suggestion.lon)
+        };
+
+        setSelectedLocation(location);
+        setData({
+            ...data,
+            latitude: location.lat,
+            longitude: location.lng
+        });
+        setSearchQuery(suggestion.display_name);
+        setSearchSuggestions([]);
+
+        // Update address field with the selected location
+        if (suggestion.display_name) {
+            setData('address', suggestion.display_name);
+        }
+    };
+
+    // Reverse geocode to get address from coordinates
+    const reverseGeocode = async (lat, lng) => {
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`
+            );
+            const result = await response.json();
+            if (result.display_name) {
+                setSearchQuery(result.display_name);
+                setData('address', result.display_name);
+            }
+        } catch (error) {
+            console.error('Reverse geocode error:', error);
+        }
+    };
+
     const calculateAge = (dobString) => {
         if (!dobString) return 0;
         const today = new Date();
@@ -214,7 +283,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 </div>
                                 <div>
                                     { data.be_leader &&
-                                       <span className="text-blue-500 font-semibold">
+                                        <span className="text-blue-500 font-semibold">
                                            <FontAwesomeIcon icon={faInfoCircle} /> Community leaders help facilitate and validate the donation process
                                        </span>
                                     }
@@ -260,9 +329,61 @@ export default function Register({guardianRelations,genders, organizations}) {
                             {/* Location Picker Section */}
                             <div className="mt-6">
                                 <label className="block text-gray-700 font-semibold mb-4">
-                                    Select Your Location
+                                    Select Your Location(Search or pick from map)
                                     <span className="text-red-500">*</span>
                                 </label>
+
+                                {/* Location Search */}
+                                <div className="mb-4 relative">
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            value={searchQuery}
+                                            onChange={(e) => handleSearch(e.target.value)}
+                                            placeholder="Search for your location (address, city, landmark...)"
+                                            className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        />
+                                        <FontAwesomeIcon
+                                            icon={faSearch}
+                                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                        />
+                                        {isSearching && (
+                                            <FontAwesomeIcon
+                                                icon={faSpinner}
+                                                spin
+                                                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                            />
+                                        )}
+                                    </div>
+
+                                    {/* Search Suggestions */}
+                                    {searchSuggestions.length > 0 && (
+                                        <div className="absolute z-[9999] w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                            {searchSuggestions.map((suggestion, index) => (
+                                                <div
+                                                    key={index}
+                                                    onClick={() => handleSuggestionSelect(suggestion)}
+                                                    className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                                                >
+                                                    <div className="flex items-start">
+                                                        <FontAwesomeIcon
+                                                            icon={faMapMarkerAlt}
+                                                            className="text-blue-500 mt-1 mr-3 flex-shrink-0"
+                                                        />
+                                                        <div>
+                                                            <div className="font-medium text-gray-900">
+                                                                {suggestion.display_name.split(',').slice(0, 2).join(',')}
+                                                            </div>
+                                                            <div className="text-sm text-gray-500">
+                                                                {suggestion.display_name.split(',').slice(2).join(',')}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
 
                                 <LocationPicker
                                     onLocationSelect={handleLocationSelect}
@@ -280,7 +401,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 ) : (
                                     <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                                         <p className="text-yellow-700 text-sm">
-                                            Please select your location on the map above. You can click "Use My Current Location" or click anywhere on the map.
+                                            Please select your location. You can search above, click "Use My Current Location", or click anywhere on the map.
                                         </p>
                                     </div>
                                 )}
@@ -299,7 +420,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     value={data.address}
                                     onChange={(e) => setData('address', e.target.value)}
                                     error={errors.address}
-                                    placeholder="Enter Address"
+                                    placeholder="Enter Address (will be auto-filled when you select a location)"
                                 />
                             </div>
                             <button

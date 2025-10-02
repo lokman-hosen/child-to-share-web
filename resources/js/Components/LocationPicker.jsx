@@ -81,16 +81,16 @@ const LocationPicker = ({ onLocationSelect, initialPosition }) => {
     return (
         <div className="location-picker">
             <div className="mb-4 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0">
-                <button
-                    type="button"
-                    onClick={handleUseCurrentLocation}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
-                >
-                    Use My Current Location
-                </button>
-                <p className="text-sm text-gray-600 flex items-center">
-                    Or click on the map to select your location
-                </p>
+                {/*<button*/}
+                {/*    type="button"*/}
+                {/*    onClick={handleUseCurrentLocation}*/}
+                {/*    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"*/}
+                {/*>*/}
+                {/*    Use My Current Location*/}
+                {/*</button>*/}
+                {/*<p className="text-sm text-gray-600 flex items-center">*/}
+                {/*    Or click on the map to select your location*/}
+                {/*</p>*/}
             </div>
 
             <div className="border rounded-lg overflow-hidden">
