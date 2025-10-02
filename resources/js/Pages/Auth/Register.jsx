@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import TextInput from "@/Components/TextInputField.jsx";
 import DateInput from "@/Components/DateInput.jsx";
@@ -25,6 +25,7 @@ export default function Register({guardianRelations,genders, organizations}) {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchSuggestions, setSearchSuggestions] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
+    const searchTimeoutRef = useRef(null);
 
     // State to manage all form data
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -77,8 +78,39 @@ export default function Register({guardianRelations,genders, organizations}) {
         reverseGeocode(location.lat, location.lng);
     };
 
-    // Search for locations using OpenStreetMap Nominatim API
-    const handleSearch = async (query) => {
+    // Search for locations using OpenStreetMap Nominatim API with debouncing
+    // const handleSearch = (query) => {
+    //     setSearchQuery(query);
+    //
+    //     if (query.length < 3) {
+    //         setSearchSuggestions([]);
+    //         return;
+    //     }
+    //
+    //     // Clear previous timeout
+    //     if (searchTimeoutRef.current) {
+    //         clearTimeout(searchTimeoutRef.current);
+    //     }
+    //
+    //     // Set new timeout for debouncing (500ms delay)
+    //     searchTimeoutRef.current = setTimeout(async () => {
+    //         setIsSearching(true);
+    //         try {
+    //             const response = await fetch(
+    //                 `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`
+    //             );
+    //             const results = await response.json();
+    //             setSearchSuggestions(results);
+    //         } catch (error) {
+    //             console.error('Search error:', error);
+    //             setSearchSuggestions([]);
+    //         } finally {
+    //             setIsSearching(false);
+    //         }
+    //     }, 500);
+    // };
+
+    const handleSearch = (query) => {
         setSearchQuery(query);
 
         if (query.length < 3) {
@@ -86,19 +118,57 @@ export default function Register({guardianRelations,genders, organizations}) {
             return;
         }
 
-        setIsSearching(true);
-        try {
-            const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`
-            );
-            const results = await response.json();
-            setSearchSuggestions(results);
-        } catch (error) {
-            console.error('Search error:', error);
-            setSearchSuggestions([]);
-        } finally {
-            setIsSearching(false);
+        // Clear previous timeout
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
         }
+
+        // Set new timeout for debouncing (500ms delay)
+        searchTimeoutRef.current = setTimeout(async () => {
+            setIsSearching(true);
+            try {
+                // Format the query for better partial matching
+                const formattedQuery = query
+                    .trim()
+                    .replace(/\s+/g, ' ') // Remove extra spaces
+                    .toLowerCase();
+
+                // Add Bangladesh viewbox to prioritize local results
+                // Bangladesh bounding box: [88.01, 20.52, 92.68, 26.64]
+                const viewbox = '88.01,20.52,92.68,26.64';
+
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?` +
+                    `format=json&` +
+                    `q=${encodeURIComponent(formattedQuery)}&` +
+                    `countrycodes=bd&` + // Restrict to Bangladesh
+                    `viewbox=${viewbox}&` + // Prioritize results within Bangladesh
+                    `bounded=1&` + // Only return results within viewbox
+                    `dedupe=1&` + // Remove duplicates
+                    `limit=10&` + // Increase limit for better matching
+                    `addressdetails=1`
+                );
+
+                const results = await response.json();
+
+                // Filter results to improve relevance for partial matches
+                const filteredResults = results.filter(place => {
+                    const displayName = place.display_name.toLowerCase();
+                    // Check if any word in the query matches the display name
+                    const queryWords = formattedQuery.split(' ');
+                    return queryWords.some(word =>
+                        displayName.includes(word) && word.length > 2
+                    );
+                });
+
+                setSearchSuggestions(filteredResults);
+            } catch (error) {
+                console.error('Search error:', error);
+                setSearchSuggestions([]);
+            } finally {
+                setIsSearching(false);
+            }
+        }, 500);
     };
 
     // Handle selection from search suggestions
@@ -120,6 +190,16 @@ export default function Register({guardianRelations,genders, organizations}) {
         // Update address field with the selected location
         if (suggestion.display_name) {
             setData('address', suggestion.display_name);
+        }
+    };
+
+    // Clear search input
+    const handleClearSearch = () => {
+        setSearchQuery('');
+        setSearchSuggestions([]);
+        // Clear any pending timeout
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
         }
     };
 
@@ -328,7 +408,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                             )}
 
                             {/* Location Picker Section */}
-                            <div className="mt-6 hidden">
+                            <div className="mt-6">
                                 <label className="block text-gray-700 font-semibold mb-4">
                                     Your Location(Search and select)
                                     {/*<span className="text-red-500">*</span>*/}
@@ -352,18 +432,18 @@ export default function Register({guardianRelations,genders, organizations}) {
                                             <FontAwesomeIcon
                                                 icon={faSpinner}
                                                 spin
-                                                className="absolute right-12 top-1/3 transform -translate-y-1/2 text-gray-400"
+                                                className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-400"
                                             />
                                         )}
 
-                                        <Button
-                                         onClick={(e) => setSearchQuery('')}
-                                        >
-                                            <FontAwesomeIcon
-                                                icon={faClose}
-                                                className="absolute right-4 top-1/2 transform -translate-y-1/2"
-                                            />
-                                        </Button>
+                                        {searchQuery && (
+                                            <Button
+                                                onClick={handleClearSearch}
+                                                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                            >
+                                                <FontAwesomeIcon icon={faClose} />
+                                            </Button>
+                                        )}
                                     </div>
 
                                     {/* Search Suggestions */}
@@ -440,7 +520,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 disabled={processing}
                                 className={`w-full mt-5 py-3 rounded-lg font-semibold text-lg transition-colors focus:ring-4 focus:ring-purple-200 ${
                                     // !selectedLocation || processing
-                                        processing
+                                    processing
                                         ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                                         : 'bg-purple-600 text-white hover:bg-purple-700'
                                 }`}
