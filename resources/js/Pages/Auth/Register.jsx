@@ -409,7 +409,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                         </p>
                                     </div>
                                 ) : (
-                                    <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                    <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
                                         <p className="text-yellow-700 text-sm">
                                             Please select your location. You can search above, click "Use My Current Location", or click anywhere on the map.
                                         </p>
