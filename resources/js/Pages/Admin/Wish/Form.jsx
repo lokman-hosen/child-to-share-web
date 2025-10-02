@@ -1,0 +1,230 @@
+import React, { useEffect, useRef } from 'react';
+import { useForm } from '@inertiajs/react';
+import TextInput from '@/Components/TextInputField.jsx';
+import SelectInput from '@/Components/SelectInput.jsx';
+import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
+import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
+import TextareaInput from "@/Components/TextareaInput.jsx";
+import Checkbox from "@/Components/Checkbox.jsx";
+import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
+
+const Form = ({categories, wish, statuses, module}) => {
+    const fileInputRef = useRef(null);
+
+    const { data, setData, post, put, processing, errors, reset } = useForm({
+        category: wish?.category.name || '',
+        description: wish?.description || '',
+        attachments: [], // Always start with empty array for new files
+        status: wish?.status || 'available',
+        // We will add the _method field dynamically in handleSubmit
+        _method: wish ? 'PUT' : 'POST',
+    });
+
+    // Convert auto_tags to the format MultiSelect expects
+
+
+    useEffect(() => {
+        if (wish) {
+            setData((prevData) => ({
+                ...prevData,
+                category: wish?.category.name || '',
+                description: wish?.description || '',
+                status: wish?.status || 'available',
+                // Don't set attachments from wish as they're already stored
+                _method: 'PUT', // Ensure method spoofing is set for updates
+            }));
+        } else {
+            setData('_method', 'POST'); // Reset for new member creation
+            reset();
+        }
+    }, [wish, setData, reset]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const submitRoute = wish
+            ? route('wishes.update', wish.id)
+            : route('wishes.store');
+
+        post(submitRoute, {
+            forceFormData: true,
+            onSuccess: () => {
+                reset();
+            },
+            onError: (submissionErrors) => {
+                console.error("Form submission errors:", submissionErrors);
+            },
+            preserveScroll: true,
+        });
+    };
+
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        setData('attachments', files);
+        // Clear the input so the same file can be selected again if needed
+        e.target.value = '';
+    };
+
+    const handleAddMoreFiles = (e) => {
+        const files = Array.from(e.target.files);
+        setData('attachments', [...data.attachments, ...files]);
+        // Clear the input
+        e.target.value = '';
+    };
+
+    const removeFile = (index) => {
+        const newAttachments = data.attachments.filter((_, i) => i !== index);
+        setData('attachments', newAttachments);
+    };
+
+    const statusOptions = getStatusOptions(statuses);
+
+    return (
+        <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <CustomCreatableSelect
+                    id="category"
+                    label="Category(type to create new)"
+                    value={data.category}
+                    onChange={(value) => setData('category', value)}
+                    options={categories}
+                    error={errors.category}
+                    placeholder="Select or type to create new category"
+                    required
+                />
+                { wish &&
+                    <SelectInput
+                        id="status"
+                        label="Status"
+                        value={data.status}
+                        onChange={(e) => setData('status', e.target.value)}
+                        error={errors.status}
+                        options={statusOptions}
+                        required
+                    />
+                }
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+                <TextareaInput
+                    id="description"
+                    label="Description"
+                    value={data.description}
+                    onChange={(e) => setData('description', e.target.value)}
+                    error={errors.description}
+                    placeholder="Enter item description"
+                />
+
+                {/* File Upload Section */}
+                <div className="space-y-4">
+                    <label className="block text-sm font-medium text-gray-700">
+                        Attachments (images(min size: 800x500) & Videos(max length: 30s))
+                        {!wish && (
+                            <span className="text-red-500">*</span>
+                        )}
+
+                    </label>
+
+                    {/* Main File Input */}
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            multiple
+                            accept="image/png, image/jpg, image/jpeg,video/mp4"
+                            onChange={handleFileChange}
+                            className="hidden"
+                        />
+                        <button
+                            type="button"
+                            onClick={() => fileInputRef.current?.click()}
+                            className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md shadow-sm"
+                        >
+                            <FontAwesomeIcon icon={faUpload} className="mr-2" />
+                            {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
+                        </button>
+                        <p className="mt-2 text-sm text-gray-500">
+                            Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.
+                        </p>
+                    </div>
+
+                    {/* Add More Files Button - Only show if there are already files */}
+                    {data.attachments.length > 0 && (
+                        <div className="text-center">
+                            <input
+                                type="file"
+                                multiple
+                                accept="image/png, image/jpg, image/jpeg,video/mp4"
+                                onChange={handleAddMoreFiles}
+                                id="add-more-files"
+                                className="hidden"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => document.getElementById('add-more-files')?.click()}
+                                className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                            >
+                                <FontAwesomeIcon icon={faSquarePlus} className="mr-1" />
+                                Add More Files
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Selected Files Preview */}
+                    {data.attachments.length > 0 && (
+                        <div className="mt-4">
+                            <h4 className="text-sm font-medium text-gray-700 mb-2">Selected Files:</h4>
+                            <div className="space-y-2">
+                                {data.attachments.map((file, index) => (
+                                    <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                        <div className="flex items-center">
+                                            <span className="text-sm text-gray-700">
+                                                {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                                            </span>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => removeFile(index)}
+                                            className="text-red-600 hover:text-red-800"
+                                        >
+                                            <FontAwesomeIcon icon={faTrash} />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {errors.attachments && (
+                        <p className="mt-1 text-sm text-red-600">{errors.attachments}</p>
+                    )}
+                </div>
+            </div>
+
+            <div className="mt-8 flex justify-center">
+                <button
+                    type="submit"
+                    disabled={processing}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                >
+                    {wish ? (
+                        // Button content for Update User
+                        <div className="flex items-center space-x-2">
+                            <FontAwesomeIcon icon={faEdit}/>
+                            <span>Update Donation</span>
+                        </div>
+                    ) : (
+                        <div className="flex items-center space-x-2">
+                            <FontAwesomeIcon icon={faSquarePlus}/>
+                            <span>Create Donation</span>
+                        </div>
+                    )}
+                </button>
+            </div>
+        </form>
+    );
+};
+
+export default Form;

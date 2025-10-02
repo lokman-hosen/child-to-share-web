@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
+use App\Services\CategoryService;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class WishController extends Controller
 {
+    public function __construct(
+        protected CategoryService $categoryService,
+
+    ){}
     const moduleDirectory = 'Admin/Wish/';
     const moduleName = 'Wish List';
     /**
@@ -34,8 +39,10 @@ class WishController extends Controller
      */
     public function create(): Response
     {
+        $categories = $this->categoryService->listByStatus();
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
+            'categories' => $categories,
         ]);
     }
 
