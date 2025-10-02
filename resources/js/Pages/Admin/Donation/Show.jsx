@@ -152,6 +152,27 @@ export default function List({module, donation}) {
                                                 </span>
                                                     )}
 
+                                                    {/* Action Buttons Container - Positioned at bottom right */}
+                                                    <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
+                                                        <a
+                                                            href={`/storage/${donation.files[currentIndex].file_path}`}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center justify-center w-10 h-10 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                            title={donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
+                                                        >
+                                                            <FontAwesomeIcon icon={faEye} className="w-4 h-4"/>
+                                                        </a>
+
+                                                        <button
+                                                            title="Delete"
+                                                            onClick={() => handleDelete(donation.files[currentIndex].id)}
+                                                            className="inline-flex items-center justify-center w-10 h-10 bg-red-200 hover:bg-red-300 text-red-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                        >
+                                                            <FontAwesomeIcon icon={faTrash} className="w-4 h-4"/>
+                                                        </button>
+                                                    </div>
+
                                                     {/* Main Media Display */}
                                                     <div className="aspect-video flex items-center justify-center">
                                                         {donation.files[currentIndex]?.file_type === 'image' ? (
@@ -175,9 +196,9 @@ export default function List({module, donation}) {
                                                     </div>
                                                 </div>
 
-                                                {/* Thumbnail Navigation */}
+                                                {/* Thumbnail Navigation - Hidden on mobile, visible on desktop */}
                                                 {donation.files.length > 1 && (
-                                                    <div className="mt-4">
+                                                    <div className="mt-4 hidden lg:block">
                                                         <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
                                                             {donation.files.map((file, index) => (
                                                                 <button
@@ -208,25 +229,6 @@ export default function List({module, donation}) {
                                                         </div>
                                                     </div>
                                                 )}
-
-                                                {/* Download/View Full Button */}
-                                                <div className="mt-4 text-center flex justify-center">
-                                                    <a
-                                                        href={`/storage/${donation.files[currentIndex].file_path}`}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="inline-flex items-center px-4 py-2 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-md text-sm font-medium transition-colors"
-                                                    >
-                                                        <FontAwesomeIcon icon={faEye}/> {donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
-                                                    </a>
-
-                                                    <button title="Delete"
-                                                            onClick={() => handleDelete(donation.files[currentIndex].id)}
-                                                            className="inline-flex items-center ml-2 px-4 py-2 bg-red-200 hover:bg-red-300 text-red-800 rounded-md text-sm font-medium transition-colors"
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrash}/> Delete Selected File
-                                                    </button>
-                                                </div>
                                             </div>
                                         )}
 
@@ -328,12 +330,6 @@ export default function List({module, donation}) {
 
                                         {/* Action Buttons */}
                                         <div className="flex space-x-3 text-center">
-                                            {/*{donation.status === 'available' && (*/}
-                                            {/*    <button*/}
-                                            {/*        className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">*/}
-                                            {/*        <FontAwesomeIcon icon={faTrash}/> Delete Item*/}
-                                            {/*    </button>*/}
-                                            {/*)}*/}
                                             <a
                                                 href={route('donations.edit',donation.id)}
                                                 className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
