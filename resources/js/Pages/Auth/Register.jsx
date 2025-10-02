@@ -413,7 +413,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-1 gap-6 mt-5">
+                            <div className="grid grid-cols-1 gap-6 mt-5 hidden">
                                 <TextareaInput
                                     id="address"
                                     label="Present Address(optional)"
