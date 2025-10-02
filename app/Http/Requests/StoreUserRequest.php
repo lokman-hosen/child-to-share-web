@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
@@ -47,7 +48,21 @@ class StoreUserRequest extends FormRequest
                 'relationship' => 'required|string|max:255',
             ]);
         }
+        $checkAge = $this->ageCalculate($this->dob);
+        if (($this->role === 'donor') and $checkAge <= 18 ) {
+            $rules = array_merge($rules, [
+                'guardian_name' => 'required|string|max:255',
+                'guardian_phone' => 'required|string|max:20',
+                'relationship' => 'required|string|max:255',
+            ]);
+        }
 
         return $rules;
+    }
+
+    private function ageCalculate($date)
+    {
+       return Carbon::parse($date)->diffInYears(now());
+       //return Carbon::parse($date)->diffInYears(now()) <= 18;
     }
 }

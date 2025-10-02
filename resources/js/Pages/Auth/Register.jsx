@@ -68,7 +68,19 @@ export default function Register({guardianRelations,genders, organizations}) {
         });
     };
 
-    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+    //const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+    const calculateAge = (dobString) => {
+        if (!dobString) return 0;
+        const today = new Date();
+        const birthDate = new Date(dobString);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
 
     return (
         <GuestLayout>
@@ -123,7 +135,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     value={data.phone}
                                     onChange={(e) => setData('phone', e.target.value)}
                                     error={errors.phone}
-                                    placeholder={data.role === 'wisher' ? 'Enter guardian phone number' : 'Enter phone number'}
+                                    placeholder={data.role === 'wisher' ? 'Guardian phone: 017********' : 'Phone number: 017********'}
                                     required
                                 />
                                 <TextInput
@@ -210,7 +222,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                             </div>
 
                             {/* Wisher-specific fields (Conditional Rendering) */}
-                            {data.role === 'wisher' && (
+                            {(data.role === 'wisher' || (data.role === 'donor' && calculateAge(data.dob) < 18)) && (
                                 <>
                                     <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian Information</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -220,7 +232,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                             value={data.guardian_name}
                                             onChange={(e) => setData('guardian_name', e.target.value)}
                                             error={errors.guardian_name}
-                                            placeholder="Enter guardian number"
+                                            placeholder="Enter guardian name"
                                             required
                                         />
                                         <TextInput
@@ -229,7 +241,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                             value={data.guardian_phone}
                                             onChange={(e) => setData('guardian_phone', e.target.value)}
                                             error={errors.guardian_phone}
-                                            placeholder="Enter guardian phone number"
+                                            placeholder="Guardian phone: 017********"
                                             required
                                         />
                                         <SelectInput

@@ -82,6 +82,9 @@ class RegisteredUserController extends Controller
             if ($request->role === 'donor') {
                 $user->donor()->create([
                     'name' => $request->name,
+                    'guardian_name' => checkEmpty($request->guardian_name),
+                    'guardian_phone' => checkEmpty($request->guardian_phone),
+                    'relationship' => checkEmpty($request->relationship),
                     'dob' => $request->dob,
                     'gender' => $request->gender,
                 ]);

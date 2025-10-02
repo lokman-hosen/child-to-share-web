@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('user_id')->unique()->constrained()->onDelete('cascade');
+            $table->string('guardian_name')->nullable();
+            $table->string('guardian_phone')->nullable();
+            $table->string('relationship')->nullable();
             $table->date('dob')->nullable();
             //$table->string('organization')->nullable();
             $table->enum('gender', ['male','female','other'])->default('male');
