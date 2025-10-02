@@ -8,11 +8,13 @@ import {getCommonOptions, getDropdownOptions} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 import {
+    faInfoCircle,
     faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 import LocationPicker from '@/Components/LocationPicker';
+import Checkbox from "@/Components/Checkbox.jsx";
 
 export default function Register({guardianRelations,genders, organizations}) {
     // State to manage the selected role
@@ -35,6 +37,7 @@ export default function Register({guardianRelations,genders, organizations}) {
         relationship: '',
         password: '',
         role: 'donor',
+        be_leader: false,
     });
 
     const submit = (e) => {
@@ -184,6 +187,26 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     placeholder="Enter password"
                                     required
                                 />
+                            </div>
+                            <div className="grid grid-cols-1 gap-6">
+                                <div className="flex items-center mt-3">
+                                    <Checkbox
+                                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                                        name="be_leader"
+                                        checked={data.be_leader}
+                                        onChange={(e) =>
+                                            setData('be_leader', e.target.checked)
+                                        }
+                                    />
+                                    <label htmlFor="be_leader-me" className="ml-2 block text-sm text-gray-700">Want to be community leader?</label>
+                                </div>
+                                <div>
+                                    { data.be_leader &&
+                                       <span className="text-blue-500 font-semibold">
+                                           <FontAwesomeIcon icon={faInfoCircle} /> Community leaders help facilitate and validate the donation process
+                                       </span>
+                                    }
+                                </div>
                             </div>
 
                             {/* Wisher-specific fields (Conditional Rendering) */}

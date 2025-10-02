@@ -67,6 +67,7 @@ class RegisteredUserController extends Controller
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'address' => checkEmpty($request->address),
+                'be_leader' => $request->be_leader,
                 'is_verified' => true,
                 'is_active' => true,
                 'password' => Hash::make($request->password),
