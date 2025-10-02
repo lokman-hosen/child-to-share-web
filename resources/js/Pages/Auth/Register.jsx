@@ -330,7 +330,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                             {/* Location Picker Section */}
                             <div className="mt-6">
                                 <label className="block text-gray-700 font-semibold mb-4">
-                                    Select Your Location(Search or pick from map)
+                                    Your Location(Search and select)
                                     <span className="text-red-500">*</span>
                                 </label>
 
@@ -341,7 +341,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                             type="text"
                                             value={searchQuery}
                                             onChange={(e) => handleSearch(e.target.value)}
-                                            placeholder="Search for your location (address, city, landmark...)"
+                                            placeholder="Search location (address, city, landmark...)"
                                             className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         />
                                         <FontAwesomeIcon
