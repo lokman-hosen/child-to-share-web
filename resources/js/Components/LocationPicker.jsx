@@ -111,7 +111,7 @@ const LocationPicker = ({ onLocationSelect, initialPosition }) => {
             </div>
 
             {position && (
-                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg hidden">
                     <p className="text-sm text-gray-700">
                         <strong>Selected Location:</strong><br />
                         Latitude: {position.lat.toFixed(6)}<br />

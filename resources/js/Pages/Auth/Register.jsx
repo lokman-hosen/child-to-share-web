@@ -11,12 +11,13 @@ import {
     faInfoCircle,
     faSpinner,
     faSearch,
-    faMapMarkerAlt,
+    faMapMarkerAlt, faCross, faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 import LocationPicker from '@/Components/LocationPicker';
 import Checkbox from "@/Components/Checkbox.jsx";
+import {Button} from "@headlessui/react";
 
 export default function Register({guardianRelations,genders, organizations}) {
     // State to manage the selected role
@@ -351,9 +352,18 @@ export default function Register({guardianRelations,genders, organizations}) {
                                             <FontAwesomeIcon
                                                 icon={faSpinner}
                                                 spin
-                                                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                                className="absolute right-12 top-1/3 transform -translate-y-1/2 text-gray-400"
                                             />
                                         )}
+
+                                        <Button
+                                         onClick={(e) => setSearchQuery('')}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faClose}
+                                                className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                                            />
+                                        </Button>
                                     </div>
 
                                     {/* Search Suggestions */}
@@ -385,13 +395,13 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     )}
                                 </div>
 
-                                <LocationPicker
-                                    onLocationSelect={handleLocationSelect}
-                                    initialPosition={selectedLocation}
-                                />
+                                {/*<LocationPicker*/}
+                                {/*    onLocationSelect={handleLocationSelect}*/}
+                                {/*    initialPosition={selectedLocation}*/}
+                                {/*/>*/}
 
                                 {selectedLocation ? (
-                                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg hidden">
                                         <p className="text-green-700 text-sm">
                                             <strong>Location set successfully!</strong><br />
                                             Latitude: {selectedLocation.lat.toFixed(6)}<br />
