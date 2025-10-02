@@ -8,16 +8,15 @@ import {getCommonOptions, getDropdownOptions} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 import {
-    faMapMarkerAlt,
     faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
+import LocationPicker from '@/Components/LocationPicker';
 
 export default function Register({guardianRelations,genders, organizations}) {
     // State to manage the selected role
-    const [isLocating, setIsLocating] = useState(false);
-    const [locationError, setLocationError] = useState(null);
+    const [selectedLocation, setSelectedLocation] = useState(null);
 
     // State to manage all form data
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -46,7 +45,6 @@ export default function Register({guardianRelations,genders, organizations}) {
         });
     };
 
-
     const genderOptions = getCommonOptions(genders);
     const relationOptions = getCommonOptions(guardianRelations);
 
@@ -57,48 +55,15 @@ export default function Register({guardianRelations,genders, organizations}) {
         }
     };
 
-    // Handle location retrieval
-    const handleGetLocation = () => {
-        if (!navigator.geolocation) {
-            setLocationError("Geolocation is not supported by your browser.");
-            return;
-        }
-
-        setIsLocating(true);
-        setLocationError(null);
-
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setData(prevData => ({
-                    ...prevData,
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                }));
-                setIsLocating(false);
-            },
-            (error) => {
-                setIsLocating(false);
-                switch (error.code) {
-                    case error.PERMISSION_DENIED:
-                        setLocationError("You have denied the request for Geolocation. Please enable it in your browser settings.");
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        setLocationError("Location information is unavailable.");
-                        break;
-                    case error.TIMEOUT:
-                        setLocationError("The request to get user location timed out.");
-                        break;
-                    default:
-                        setLocationError("An unknown error occurred.");
-                        break;
-                }
-            }
-        );
+    // Handle location selection from map
+    const handleLocationSelect = (location) => {
+        setSelectedLocation(location);
+        setData({
+            ...data,
+            latitude: location.lat,
+            longitude: location.lng
+        });
     };
-
-    const locationText = setData.latitude && setData.longitude
-        ? `Location acquired: (${setData.latitude.toFixed(2)}, ${setData.longitude.toFixed(2)})`
-        : "Click the button to get your location.";
 
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
 
@@ -189,16 +154,6 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     required
                                 />
 
-                                {/*<TextInput*/}
-                                {/*    id="organization"*/}
-                                {/*    type="text"*/}
-                                {/*    label="Organization/School"*/}
-                                {/*    value={data.organization}*/}
-                                {/*    onChange={(e) => setData('organization', e.target.value)}*/}
-                                {/*    error={errors.organization}*/}
-                                {/*    placeholder="Enter organization name"*/}
-                                {/*/>*/}
-
                                 <CustomCreatableSelect
                                     id="organization"
                                     label="Organization/School(type to create new)"
@@ -209,7 +164,6 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     placeholder="Select or type to create new organization"
                                     required
                                 />
-
 
                                 <FileInput
                                     id="photo"
@@ -248,7 +202,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                         />
                                         <TextInput
                                             id="guardian_phone"
-                                            label="Guardian Name"
+                                            label="Guardian Phone"
                                             value={data.guardian_phone}
                                             onChange={(e) => setData('guardian_phone', e.target.value)}
                                             error={errors.guardian_phone}
@@ -268,68 +222,74 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 </>
                             )}
 
-                            <div className="grid grid-cols-1 gap-6 mt-5">
-                                <div className="col-span-1 md:col-span-2">
-                                    <label className="block text-gray-700 font-semibold mb-2">
-                                        Location
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="flex">
-                                        <input
-                                            type="text"
-                                            readOnly
-                                            className={`flex-grow px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-primary focus:border-transparent ${(errors.latitude || errors.longitude) ? 'border-red-500' : ''}`}
-                                            value={locationText}
-                                        />
+                            {/* Location Picker Section */}
+                            <div className="mt-6">
+                                <label className="block text-gray-700 font-semibold mb-4">
+                                    Select Your Location
+                                    <span className="text-red-500">*</span>
+                                </label>
 
-                                        <button
-                                            type="button"
-                                            onClick={handleGetLocation}
-                                            disabled={isLocating}
-                                            className="bg-gray-200 px-4 rounded-r-lg border border-l-0 border-gray-300 hover:bg-gray-300 transition-colors"
-                                        >
-                                            {isLocating ? (
-                                                <FontAwesomeIcon icon={faSpinner}/>
-                                            ) : (
-                                                <FontAwesomeIcon icon={faMapMarkerAlt}/>
-                                            )}
-                                        </button>
+                                <LocationPicker
+                                    onLocationSelect={handleLocationSelect}
+                                    initialPosition={selectedLocation}
+                                />
+
+                                {selectedLocation ? (
+                                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                        <p className="text-green-700 text-sm">
+                                            <strong>Location set successfully!</strong><br />
+                                            Latitude: {selectedLocation.lat.toFixed(6)}<br />
+                                            Longitude: {selectedLocation.lng.toFixed(6)}
+                                        </p>
                                     </div>
-                                    {(data.latitude || data.longitude) ?
-                                        <div id="emailHelp" className="text-green-600 text-xs">
-                                            Thanks, you set your location..
-                                        </div>
-                                        :
-                                        <div id="emailHelp" className="text-red-600 text-xs">
-                                            Location not set. Click the location icon and allow browser permission. If it fails, try another browser or browser private mode
-                                        </div>
-                                    }
+                                ) : (
+                                    <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                        <p className="text-yellow-700 text-sm">
+                                            Please select your location on the map above. You can click "Use My Current Location" or click anywhere on the map.
+                                        </p>
+                                    </div>
+                                )}
 
-                                    {(errors.latitude || errors.longitude) &&
-                                        <p className="mt-1 text-sm text-red-600">Location required. Click on
-                                            "location icon" to provide location</p>}
-                                </div>
+                                {(errors.latitude || errors.longitude) && (
+                                    <p className="mt-2 text-sm text-red-600">
+                                        Location is required. Please select your location on the map.
+                                    </p>
+                                )}
                             </div>
-                            <div className="grid grid-cols-1 gap-6 mt-5">
 
+                            <div className="grid grid-cols-1 gap-6 mt-5">
                                 <TextareaInput
                                     id="address"
-                                    label="Present Address"
+                                    label="Present Address(optional)"
                                     value={data.address}
                                     onChange={(e) => setData('address', e.target.value)}
                                     error={errors.address}
                                     placeholder="Enter Address"
                                 />
                             </div>
-                            <button type="submit"
-                                    className="w-full mt-5 bg-purple-600 text-white py-3 rounded-lg font-semibold text-lg hover:bg-purple-700 transition-colors focus:ring-4 focus:ring-purple-200">
-                                Create Account
+                            <button
+                                type="submit"
+                                disabled={!selectedLocation || processing}
+                                className={`w-full mt-5 py-3 rounded-lg font-semibold text-lg transition-colors focus:ring-4 focus:ring-purple-200 ${
+                                    !selectedLocation || processing
+                                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                                        : 'bg-purple-600 text-white hover:bg-purple-700'
+                                }`}
+                            >
+                                {processing ? (
+                                    <>
+                                        <FontAwesomeIcon icon={faSpinner} spin className="mr-2" />
+                                        Creating Account...
+                                    </>
+                                ) : (
+                                    'Create Account'
+                                )}
                             </button>
                             <p className="text-center mt-6 text-gray-600">
                                 Already have an account?
                                 <Link
                                     href={route('login')}
-                                    className="text-purple-600 font-semibold hover:underline"
+                                    className="text-purple-600 font-semibold hover:underline ml-1"
                                 >
                                     Log In
                                 </Link>
