@@ -328,7 +328,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                             )}
 
                             {/* Location Picker Section */}
-                            <div className="mt-6">
+                            <div className="mt-6 hidden">
                                 <label className="block text-gray-700 font-semibold mb-4">
                                     Your Location(Search and select)
                                     {/*<span className="text-red-500">*</span>*/}
