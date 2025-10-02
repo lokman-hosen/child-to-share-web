@@ -68,17 +68,11 @@ const WishList = () => {
                 <div className="text-center mt-8">
                     <p className="text-gray-600">
                         <Link
-                            href={route('register')}
+                            href={route('login')}
                             className="text-blue-600 mr-1">
-                            Sign Up
+                            Sign In
                         </Link>
-                        to see more
-                        <Link
-                            href={route('register')}
-                            className="text-blue-600 mx-1">
-                            wishes
-                        </Link>
-                        and fulfill them
+                        to see more wishes and fulfill them
                     </p>
                 </div>
             </div>

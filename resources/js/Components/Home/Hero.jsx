@@ -10,9 +10,9 @@ const Hero = () => {
                     items to share with those who have wishes to fulfill</p>
 
                 <Link
-                    href={route('register')}
+                    href={route('login')}
                     className="cta-button inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white">
-                    Join ThreeWish Today
+                    Sign In ThreeWish
                     <i className="fas fa-arrow-right ml-2"></i>
                 </Link>
             </div>

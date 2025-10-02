@@ -68,17 +68,11 @@ const DonationList = () => {
                 <div className="text-center mt-8">
                     <p className="text-gray-600">
                         <Link
-                            href={route('register')}
+                            href={route('login')}
                             className="text-blue-600 mr-1">
-                            Register
+                            Sign In
                         </Link>
-                        to see more
-                        <Link
-                            href={route('register')}
-                            className="text-blue-600 mx-1">
-                            donations
-                        </Link>
-                        and create your own
+                        to see more donations and create your own
                     </p>
                 </div>
             </div>
