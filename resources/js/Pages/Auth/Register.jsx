@@ -309,7 +309,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                         </div>
                                         :
                                         <div id="emailHelp" className="text-red-600 text-xs">
-                                            Location not given. Click on location icon to provide your location.
+                                            Location not set. Click the location icon and allow browser permission. If it fails, try another browser or browser private mode
                                         </div>
                                     }
 
