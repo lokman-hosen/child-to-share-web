@@ -331,7 +331,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                             <div className="mt-6">
                                 <label className="block text-gray-700 font-semibold mb-4">
                                     Your Location(Search and select)
-                                    <span className="text-red-500">*</span>
+                                    {/*<span className="text-red-500">*</span>*/}
                                 </label>
 
                                 {/* Location Search */}
@@ -423,21 +423,24 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 )}
                             </div>
 
-                            <div className="grid grid-cols-1 gap-6 mt-5 hidden">
+                            <div className="grid grid-cols-1 gap-6 mt-5">
                                 <TextareaInput
                                     id="address"
-                                    label="Present Address(optional)"
+                                    label="Present Address"
                                     value={data.address}
                                     onChange={(e) => setData('address', e.target.value)}
                                     error={errors.address}
-                                    placeholder="Enter Address (will be auto-filled when you select a location)"
+                                    placeholder="Enter your Address"
+                                    required
                                 />
                             </div>
                             <button
                                 type="submit"
-                                disabled={!selectedLocation || processing}
+                                // disabled={!selectedLocation || processing}
+                                disabled={processing}
                                 className={`w-full mt-5 py-3 rounded-lg font-semibold text-lg transition-colors focus:ring-4 focus:ring-purple-200 ${
-                                    !selectedLocation || processing
+                                    // !selectedLocation || processing
+                                        processing
                                         ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                                         : 'bg-purple-600 text-white hover:bg-purple-700'
                                 }`}

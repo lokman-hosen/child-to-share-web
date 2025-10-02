@@ -36,8 +36,8 @@ class StoreUserRequest extends FormRequest
             'organization' => 'required|string',
             'gender' => ['required', Rule::in(['male', 'female', 'other'])],
             'photo' => 'nullable|image|max:5000', // 5MB max
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
+            //'latitude' => 'required|numeric',
+            //'longitude' => 'required|numeric',
         ];
 
         // Add conditional validation for 'wisher'
