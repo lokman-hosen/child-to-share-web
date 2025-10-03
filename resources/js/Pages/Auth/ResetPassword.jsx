@@ -97,21 +97,12 @@ export default function ResetPassword({ token, email }) {
                                 </div>
 
                                 <div className="mt-4 flex items-center justify-end">
-                                    <PrimaryButton className="ms-4" disabled={processing}>
+                                    <PrimaryButton className="login-btn w-full text-center text-white py-3 rounded-lg font-semibold text-lg" disabled={processing}>
                                         Reset Password
                                     </PrimaryButton>
                                 </div>
                             </form>
 
-                            <p className="text-center mt-6 text-gray-600 mb-5">
-                                <span>Want to login? </span>
-                                <Link
-                                    href={route('login')}
-                                    className="font-medium text-purple-600 hover:text-purple-500"
-                                >
-                                    Login
-                                </Link>
-                            </p>
                         </div>
                     </div>
                 </div>
