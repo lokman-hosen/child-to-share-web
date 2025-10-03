@@ -32,7 +32,7 @@ class StoreUserRequest extends FormRequest
             'password' => ['required',Rules\Password::defaults()],
             'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
             'dob' => 'required|date',
-            'address' => 'nullable|string',
+            'address' => 'required|string',
             'organization' => 'required|string',
             'gender' => ['required', Rule::in(['male', 'female', 'other'])],
             'photo' => 'nullable|image|max:5000', // 5MB max

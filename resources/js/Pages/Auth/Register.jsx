@@ -321,7 +321,7 @@ export default function Register({guardianRelations,genders, organizations}) {
 
                                 <CustomCreatableSelect
                                     id="organization"
-                                    label="Organization/School(type to create new)"
+                                    label="Organization/Institution/School(type to create new)"
                                     value={data.organization}
                                     onChange={(value) => setData('organization', value)}
                                     options={organizations}
@@ -408,9 +408,9 @@ export default function Register({guardianRelations,genders, organizations}) {
                             )}
 
                             {/* Location Picker Section */}
-                            <div className="mt-6">
+                            <div className="mt-6 hidden">
                                 <label className="block text-gray-700 font-semibold mb-4">
-                                    Your Location(Search and select)
+                                    Your Location Optional(Search and select)
                                     {/*<span className="text-red-500">*</span>*/}
                                 </label>
 
