@@ -1,6 +1,6 @@
 import React from 'react';
 
-const List = () => {
+const List = (donations, module) => {
     return (
         <>
             <div className="filter-section">

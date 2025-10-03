@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Donation;
 use App\Models\File;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -173,13 +175,12 @@ class DonationService extends BaseService
         return $this->donation->orderBy('item_condition', 'asc')->get(['id','item_condition as name'])->unique('item_condition');
     }
 
-    public function getListByStatus($request, string $status = 'available')
+    public function getListByStatus($request, string $status)
     {
-        $query = Donation::query();
+        $query = $this->donation->with(['user', 'category', 'files', 'featuredImage']);
         if (isset($status)) {
             $query->where('status', $status);
         }
-        return $query->get();
-
+        return $query->paginate(5);
     }
 }

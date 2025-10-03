@@ -22,10 +22,6 @@ class DonationController extends Controller
      */
     public function index(Request $request): Response
     {
-        return Inertia::render(self::moduleDirectory.'Index', [
-            'module' => self::moduleName,
-        ]);
-
         $donations = $this->donationService->getListByStatus($request, 'available');
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
