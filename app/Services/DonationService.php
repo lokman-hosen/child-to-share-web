@@ -170,7 +170,7 @@ class DonationService extends BaseService
 
     public function getItemConditions()
     {
-        return $this->donation->pluck('item_condition')->unique();
+        return $this->donation->orderBy('item_condition', 'asc')->get(['id','item_condition as name'])->unique('item_condition');
     }
 
     public function getListByStatus($request, string $status = 'available')
