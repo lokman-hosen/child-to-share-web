@@ -40,7 +40,7 @@ export default function ResetPassword({ token, email }) {
                         <div className="px-8 py-8">
                             <form onSubmit={submit} className="space-y-6">
                                 <div>
-                                    <InputLabel htmlFor="email" value="Email" />
+                                    <InputLabel htmlFor="email" value="Email*" />
 
                                     <TextInput
                                         id="email"
@@ -56,7 +56,7 @@ export default function ResetPassword({ token, email }) {
                                 </div>
 
                                 <div className="mt-4">
-                                    <InputLabel htmlFor="password" value="Password" />
+                                    <InputLabel htmlFor="password" value="Password*" />
 
                                     <TextInput
                                         id="password"
@@ -67,6 +67,7 @@ export default function ResetPassword({ token, email }) {
                                         autoComplete="new-password"
                                         isFocused={true}
                                         onChange={(e) => setData('password', e.target.value)}
+                                        placeholder="Enter new password"
                                     />
 
                                     <InputError message={errors.password} className="mt-2" />
@@ -75,7 +76,7 @@ export default function ResetPassword({ token, email }) {
                                 <div className="mt-4">
                                     <InputLabel
                                         htmlFor="password_confirmation"
-                                        value="Confirm Password"
+                                        value="Confirm Password *"
                                     />
 
                                     <TextInput
@@ -88,6 +89,7 @@ export default function ResetPassword({ token, email }) {
                                         onChange={(e) =>
                                             setData('password_confirmation', e.target.value)
                                         }
+                                        placeholder="Confirmation new password"
                                     />
 
                                     <InputError
