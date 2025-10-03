@@ -34,11 +34,13 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in"/>
 
-            {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
+           <div className="text-center ">
+               {status && (
+                   <div className="mt-4 font-medium text-lg text-green-600">
+                       {status}
+                   </div>
+               )}
+           </div>
 
             <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full">
