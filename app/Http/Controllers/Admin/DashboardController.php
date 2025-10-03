@@ -19,8 +19,8 @@ class DashboardController extends Controller
 
     public function index(): Response
     {
-        $availableDonationCount = $this->donationService->donationContByStatus('available', 'count');
-        $donatedDonationCount = $this->donationService->donationContByStatus('donated', 'count');
+        $availableDonationCount = $this->donationService->donationByStatus('available', 'count');
+        $donatedDonationCount = $this->donationService->donationByStatus('donated', 'count');
         return Inertia::render('Dashboard', [
             'module' => self::moduleName,
             'availableDonationCount' => $availableDonationCount,

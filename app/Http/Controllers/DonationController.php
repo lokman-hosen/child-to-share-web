@@ -3,20 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\DonationService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DonationController extends Controller
 {
+    public function __construct(
+        //protected CategoryService $categoryService,
+        protected DonationService $donationService
+
+    ){}
     const moduleDirectory = 'Donation/';
     const moduleName = 'Donation List';
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
+        ]);
+
+        $donations = $this->donationService->getListByStatus($request, 'available');
+        return Inertia::render(self::moduleDirectory.'Index', [
+            'module' => self::moduleName,
+            'donations' => $donations,
         ]);
     }
 

@@ -156,7 +156,7 @@ class DonationService extends BaseService
 
     }
 
-    public function donationContByStatus($status = null, $resource = 'list')
+    public function donationByStatus($status = null, $resource = 'list')
     {
         $query = Donation::query();
         if (checkDonor()){
@@ -171,5 +171,15 @@ class DonationService extends BaseService
     public function getItemConditions()
     {
         return $this->donation->pluck('item_condition')->unique();
+    }
+
+    public function getListByStatus($request, string $status = 'available')
+    {
+        $query = Donation::query();
+        if (isset($status)) {
+            $query->where('status', $status);
+        }
+        return $query->get();
+
     }
 }
