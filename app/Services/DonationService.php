@@ -175,7 +175,7 @@ class DonationService extends BaseService
         return $this->donation->orderBy('item_condition', 'asc')->get(['id','item_condition as name'])->unique('item_condition');
     }
 
-    public function getListByStatus($request, string $status)
+    public function getListByStatus($request, string $status): LengthAwarePaginator
     {
         $query = $this->donation->with(['user', 'category', 'files', 'featuredImage']);
         if (isset($status)) {
