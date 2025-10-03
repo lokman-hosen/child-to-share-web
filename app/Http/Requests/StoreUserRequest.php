@@ -32,12 +32,12 @@ class StoreUserRequest extends FormRequest
             'password' => ['required',Rules\Password::defaults()],
             'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
             'dob' => 'required|date',
-            'address' => 'required|string',
+            'address' => 'nullable|string',
             'organization' => 'required|string',
             'gender' => ['required', Rule::in(['male', 'female', 'other'])],
             'photo' => 'nullable|image|max:5000', // 5MB max
-            //'latitude' => 'required|numeric',
-            //'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ];
 
         // Add conditional validation for 'wisher'
