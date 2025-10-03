@@ -170,6 +170,7 @@ class DonationService extends BaseService
 
     public function getItemConditions()
     {
-        return $this->donation->pluck('item_condition')->unique();
+        //return $this->donation->pluck('item_condition')->unique();
+        return [];
     }
 }
