@@ -231,7 +231,8 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                             type="file"
                             ref={fileInputRef}
                             multiple
-                            accept="image/png, image/jpg, image/jpeg,video/mp4"
+                            // accept="image/png, image/jpg, image/jpeg,video/mp4"
+                            accept="image/png, image/jpg, image/jpeg"
                             onChange={handleFileChange}
                             className="hidden"
                         />
@@ -244,7 +245,8 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                             {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
                         </button>
                         <p className="mt-2 text-sm text-gray-500">
-                            Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.
+                            {/*Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.*/}
+                            Upload images(min size: 800x500). Images will be automatically optimized.
                         </p>
                     </div>
 
