@@ -27,9 +27,11 @@ Route::controller( \App\Http\Controllers\HomeController::class)->group(function 
 
 Route::controller( \App\Http\Controllers\WishController::class)->group(function () {
     Route::get('wish', 'index')->name('wish.index');
+    Route::get('wish/{id}', 'show')->name('wish.show');
 });
 Route::controller(\App\Http\Controllers\DonationController::class)->group(function () {
     Route::get('donation', 'index')->name('donation.index');
+    Route::get('donation/{id}', 'show')->name('donation.show');
 });
 
 
