@@ -28,7 +28,19 @@ const SingleDonationItem = ({donation}) => {
                 </p>
                 <div className="flex items-center mt-4">
                     <div className="bg-green-100 rounded-full h-10 w-10 flex items-center justify-center">
-                        <span className="text-green-600 font-medium">D</span>
+                        {donation.user.image ? (
+                            <img
+                                src={`/storage/${donation.user.image}`}
+                                alt={donation.user.name}
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <img
+                                src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                alt={donation.user.name}
+                                className="w-full h-full object-cover"
+                            />
+                        )}
                     </div>
                     <div className="ml-3">
                         <p className="text-sm font-medium text-gray-900">{donation.user.name}</p>
