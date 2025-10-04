@@ -14,7 +14,7 @@ import Footer from "@/Components/Common/Footer.jsx";
 import Navbar from "@/Components/Common/Navbar.jsx";
 
 
-export default function Welcome({ auth, laravelVersion, phpVersion }) {
+export default function Welcome({ auth, donations }) {
     return (
         <>
             <Head title="Welcome"/>
@@ -23,7 +23,7 @@ export default function Welcome({ auth, laravelVersion, phpVersion }) {
             <Summary/>
             <HowWorks/>
             <WishList/>
-            <DonationList/>
+            {donations.length > 0 &&  <DonationList donations={donations} />}
             <OrganizationList/>
             <RegistrationCTA/>
             <Faq/>
