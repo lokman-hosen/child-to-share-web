@@ -27,6 +27,7 @@ const MultiSelectTextField = ({
         switch (event.key) {
             case 'Enter':
             case 'Tab':
+            case ' ':
                 onChange([...value, createOption(inputValue)]);
                 setInputValue('');
                 event.preventDefault();
