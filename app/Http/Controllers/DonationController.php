@@ -46,7 +46,7 @@ class DonationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDonationRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -57,6 +57,12 @@ class DonationController extends Controller
     public function show(string $id): Response
     {
         $donation = $this->donationService->find($id);
+        $donation->load([
+            'user',
+            'organization',
+            'category',
+            'files' // Make sure this matches your relationship name
+        ]);
         return Inertia::render(self::moduleDirectory.'Show', [
             'module' => self::moduleName,
             'donation' => $donation,
@@ -74,7 +80,7 @@ class DonationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateDonationRequest $request, Donation $donation)
+    public function update(Request $request, Donation $donation)
     {
         //
     }
