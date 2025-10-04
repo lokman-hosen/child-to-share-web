@@ -64,8 +64,11 @@ const Show = ({donation, module}) => {
     };
     return (
         <GuestLayout>
-            <Head title="Donations"/>
-            <Hero/>
+            <Head title="Item Detail"/>
+            <Hero
+                title = {donation.title}
+                subTitle = {donation.description}
+            />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     {/* Card Body */}
@@ -78,7 +81,7 @@ const Show = ({donation, module}) => {
                                         {/* Main Carousel */}
                                         {donation.files && donation.files.length > 0 && (
                                             <div className="relative">
-                                                <h3 className="text-lg font-medium text-gray-900 mb-4">Media Gallery</h3>
+                                                <h3 className="text-lg font-medium text-gray-900 mb-4">Item: {donation.title}</h3>
 
                                                 {/* Main Carousel Container */}
                                                 <div className="relative bg-gray-100 rounded-lg overflow-hidden">
