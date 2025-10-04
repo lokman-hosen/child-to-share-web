@@ -160,7 +160,7 @@ class DonationService extends BaseService
 
     public function donationByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend'): Collection|int
     {
-        $query = Donation::with(['user', 'category', 'files', 'featuredImage']);
+        $query = Donation::with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
         if ($for === 'admin') {
             if (checkDonor()){
                 $query->where('user_id', Auth::id());

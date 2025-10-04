@@ -14,15 +14,20 @@ import Footer from "@/Components/Common/Footer.jsx";
 import Navbar from "@/Components/Common/Navbar.jsx";
 
 
-export default function Welcome({ auth, donations }) {
+export default function Welcome({ auth, donations,activeDonorCount, activeWisherCount,fulfilWishCount,community}) {
     return (
         <>
             <Head title="Welcome"/>
             <Navbar/>
             <Hero/>
-            <Summary/>
+            <Summary
+                activeDonorCount = {activeDonorCount}
+                activeWisherCount = {activeWisherCount}
+                fulfilWishCount = {fulfilWishCount}
+                community = {community}
+            />
             <HowWorks/>
-            <WishList/>
+            {/*<WishList/>*/}
             {donations.length > 0 &&  <DonationList donations={donations} />}
             {/*<OrganizationList/>*/}
             <RegistrationCTA/>
