@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Donation;
 use App\Services\CategoryService;
 use App\Services\DonationService;
 use Illuminate\Http\Request;
@@ -53,9 +54,13 @@ class DonationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Donation $donation)
+    public function show(string $id): Response
     {
-        //
+        $donation = $this->donationService->find($id);
+        return Inertia::render(self::moduleDirectory.'Show', [
+            'module' => self::moduleName,
+            'donation' => $donation,
+        ]);
     }
 
     /**
