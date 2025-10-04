@@ -49,30 +49,37 @@ const SingleDonationItem = ({donation}) => {
                            {/*<p className="text-xs text-gray-500">2.5 km away</p>*/}
                        </div>
                    </div>
-                   <div className="mt-4 flex items-center">
-                       {/* Tags */}
-                       {donation.auto_tags && (
-                           <>
-                               {Array.isArray(donation.auto_tags)
-                                   ? donation.auto_tags.map((tag, tagIndex) => (
-                                       <span key={tagIndex}
-                                             className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                            {tag}
-                                                        </span>
-                                   ))
-                                   : donation.auto_tags.split(',').map((tag, tagIndex) => (
-                                       <span key={tagIndex}
-                                             className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                            {tag.trim()}
-                                                        </span>
-                                   ))
-                               }
-                           </>
-                       )}
+                   <div className="mt-4">
+                       {/* Tags Section */}
+                       <div className="flex flex-wrap gap-2 mb-2">
+                           {donation.auto_tags && (
+                               <>
+                                   {Array.isArray(donation.auto_tags)
+                                       ? donation.auto_tags.map((tag, tagIndex) => (
+                                           <span
+                                               key={tagIndex}
+                                               className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded flex-shrink-0">
+                                                {tag}
+                                           </span>
+                                       ))
+                                       : donation.auto_tags.split(',').map((tag, tagIndex) => (
+                                           <span
+                                               key={tagIndex}
+                                               className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded flex-shrink-0">
+                                                {tag.trim()}
+                                           </span>
+                                       ))
+                                   }
+                               </>
+                           )}
+                       </div>
 
-                       <span className="ml-2 bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                            {donation.category.name}
-                                        </span>
+                       {/* Category Tag - Always on its own line or with other tags if space */}
+                       <div className="flex flex-wrap gap-2">
+                        <span className="bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded flex-shrink-0">
+                            {donation.category.name}
+                        </span>
+                       </div>
                    </div>
                </div>
            </div>
