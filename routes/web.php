@@ -11,16 +11,20 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('home');
+//Route::get('/', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//})->name('home');
 
 // frontend routes
+Route::controller( \App\Http\Controllers\HomeController::class)->group(function () {
+    Route::get('/', 'index')->name('home');
+});
+
 Route::controller( \App\Http\Controllers\WishController::class)->group(function () {
     Route::get('wish', 'index')->name('wish.index');
 });

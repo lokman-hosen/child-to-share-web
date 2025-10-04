@@ -158,14 +158,19 @@ class DonationService extends BaseService
 
     }
 
-    public function donationByStatus($status = null, $resource = 'list')
+    public function donationByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend'): Collection|int
     {
         $query = Donation::query();
-        if (checkDonor()){
-            $query->where('user_id', Auth::id());
+        if ($for === 'admin') {
+            if (checkDonor()){
+                $query->where('user_id', Auth::id());
+            }
         }
         if (isset($status)) {
             $query->where('status', $status);
+        }
+        if (isset($limit)) {
+            $query->limit($limit);
         }
         return $resource === 'count' ? $query->count() :  $query->get();
     }
