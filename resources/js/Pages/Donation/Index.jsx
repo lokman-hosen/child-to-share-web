@@ -13,7 +13,7 @@ const Index = ({donations, categories, filters, module}) => {
     const donationListData = donations?.data || [];
     const donationsLinks = donations?.links || [];
     const safeFilters = filters || [];
-    const [filterCategory, setFilterCategory] = useState((safeFilters?.filter_category) || '');
+    const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
 
     // Use a ref to prevent useEffect from running on initial render for filters/sort
@@ -26,47 +26,54 @@ const Index = ({donations, categories, filters, module}) => {
         }
 
         const query = {
-            filter_category: filterCategory,
+            category_id: categoryId,
         };
 
         router.get(route('donation.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [filterCategory]);
+    }, [categoryId]);
     return (
         <GuestLayout>
             <Head title="Donations"/>
             <Hero/>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                {/*<div className="filter-section">*/}
-                {/*    <div className="flex justify-items-between gap-4">*/}
-                {/*        <h2 className="text-xl font-semibold text-gray-900 mb-4 md:mb-0">Filter Donations</h2>*/}
-                {/*        <div>*/}
-                {/*            <SelectInput*/}
-                {/*                id="filter_category"*/}
-                {/*                label="Select Bank"*/}
-                {/*                value={filterCategory}*/}
-                {/*                onChange={(e) => setFilterCategory(e.target.value)}*/}
-                {/*                options={categoryOptions}*/}
-                {/*            />*/}
-                {/*            <select*/}
-                {/*                className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">*/}
-                {/*                <option>All Locations</option>*/}
-                {/*                <option>Within 5 km</option>*/}
-                {/*                <option>Within 10 km</option>*/}
-                {/*                <option>Within 25 km</option>*/}
-                {/*                <option>Within 50 km</option>*/}
-                {/*            </select>*/}
-                {/*            <select*/}
-                {/*                className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">*/}
-                {/*                <option>Sort By: Newest</option>*/}
-                {/*                <option>Sort By: Closest</option>*/}
-                {/*                <option>Sort By: Most Popular</option>*/}
-                {/*            </select>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className="filter-section">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        {/* Left Title */}
+                        <h2 className="text-xl font-semibold text-gray-900">Filter Donations</h2>
+
+                        {/* Right Filters */}
+                        <div className="flex flex-col sm:flex-row gap-2">
+                            <SelectInput
+                                className="w-[350px]"
+                                id="category_id"
+                                label="Select Category"
+                                value={categoryId}
+                                onChange={(e) => setCategoryId(e.target.value)}
+                                options={categoryOptions}
+                            />
+                            {/*<select*/}
+                            {/*    className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500"*/}
+                            {/*>*/}
+                            {/*    <option>All Locations</option>*/}
+                            {/*    <option>Within 5 km</option>*/}
+                            {/*    <option>Within 10 km</option>*/}
+                            {/*    <option>Within 25 km</option>*/}
+                            {/*    <option>Within 50 km</option>*/}
+                            {/*</select>*/}
+                            {/*<select*/}
+                            {/*    className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500"*/}
+                            {/*>*/}
+                            {/*    <option>Sort By: Newest</option>*/}
+                            {/*    <option>Sort By: Closest</option>*/}
+                            {/*    <option>Sort By: Most Popular</option>*/}
+                            {/*</select>*/}
+                        </div>
+                    </div>
+
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     {donationListData.length > 0 ? (
                         donationListData.map((donation, index) => (
@@ -136,13 +143,13 @@ const Index = ({donations, categories, filters, module}) => {
                     }
 
                 </div>
-                {/*<div className="pagination">*/}
-                {/*        <button className="prev">&laquo; Previous</button>*/}
-                {/*        <button className="active">1</button>*/}
-                {/*        <button>2</button>*/}
-                {/*        <button>3</button>*/}
-                {/*        <button className="next">Next &raquo;</button>*/}
-                {/*    </div>*/}
+                <div className="pagination">
+                        <button className="prev">&laquo; Previous</button>
+                        <button className="active">1</button>
+                        <button>2</button>
+                        <button>3</button>
+                        <button className="next">Next &raquo;</button>
+                    </div>
             </main>
             <CTA/>
         </GuestLayout>
