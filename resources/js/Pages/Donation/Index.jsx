@@ -8,10 +8,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift} from "@fortawesome/free-solid-svg-icons";
 import {getDropdownOptions, textLimit} from "@/utils.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
+import Pagination from "@/Components/Pagination.jsx";
 
 const Index = ({donations, categories, filters, module}) => {
     const donationListData = donations?.data || [];
-    //const donationsLinks = donations?.links || [];
+    const donationsLinks = donations?.links || [];
     const safeFilters = filters || [];
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
@@ -58,9 +59,10 @@ const Index = ({donations, categories, filters, module}) => {
                     </div>
 
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                    {donationListData.length > 0 ? (
-                        donationListData.map((donation, index) => (
+
+                {donationListData.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        {donationListData.map((donation) => (
                             <div key={donation.id} className="card donation-card bg-white rounded-lg shadow">
                                 <div className="h-48 bg-green-100 flex items-center justify-center">
                                     <div className="h-48 w-full bg-gray-100 overflow-hidden">
@@ -99,14 +101,14 @@ const Index = ({donations, categories, filters, module}) => {
                                                     ? donation.auto_tags.map((tag, tagIndex) => (
                                                         <span key={tagIndex}
                                                               className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                              {tag}
-                                                        </span>
+                                            {tag}
+                                        </span>
                                                     ))
                                                     : donation.auto_tags.split(',').map((tag, tagIndex) => (
                                                         <span key={tagIndex}
-                                                            className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                            {tag.trim()}
-                                                        </span>
+                                                              className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                            {tag.trim()}
+                                        </span>
                                                     ))
                                                 }
                                             </>
@@ -114,17 +116,20 @@ const Index = ({donations, categories, filters, module}) => {
 
                                         <span
                                             className="ml-2 bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                            {donation.category.name}
-                                        </span>
+                            {donation.category.name}
+                        </span>
                                     </div>
                                 </div>
                             </div>
-                        ))
-                    ) : (
-                        <div><p className="text-center">No data found</p></div>
-                    )}
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 gap-6 mb-8">
+                        <div className="grid grid-cols-1"><p className="text-center">No data found</p></div>
+                    </div>
+                )}
 
-                </div>
+                {(donationsLinks.length > 1 && donationListData.length > 1)   && <Pagination links={donationsLinks} />}
             </main>
             <CTA/>
         </GuestLayout>

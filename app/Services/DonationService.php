@@ -184,6 +184,6 @@ class DonationService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
-        return $query->paginate(5)->withQueryString();
+        return $query->paginate(20)->withQueryString();
     }
 }
