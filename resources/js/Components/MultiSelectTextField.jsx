@@ -35,6 +35,19 @@ const MultiSelectTextField = ({
         }
     };
 
+    const handleInputChange = (input) => {
+        // Check if user typed comma or space
+        if (input.endsWith(',') || input.endsWith(' ')) {
+            const cleanValue = input.slice(0, -1).trim(); // remove last comma/space
+            if (cleanValue) {
+                onChange([...value, createOption(cleanValue)]);
+            }
+            setInputValue(''); // clear input field
+        } else {
+            setInputValue(input);
+        }
+    };
+
     return (
         <div className={className}>
             <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -48,7 +61,8 @@ const MultiSelectTextField = ({
                 isMulti
                 menuIsOpen={false}
                 onChange={onChange}
-                onInputChange={(newValue) => setInputValue(newValue)}
+                onInputChange={handleInputChange}
+                //onInputChange={(newValue) => setInputValue(newValue)}
                 onKeyDown={handleKeyDown}
                 placeholder={placeholder}
                 value={value}
