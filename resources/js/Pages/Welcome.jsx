@@ -24,7 +24,7 @@ export default function Welcome({ auth, donations }) {
             <HowWorks/>
             <WishList/>
             {donations.length > 0 &&  <DonationList donations={donations} />}
-            <OrganizationList/>
+            {/*<OrganizationList/>*/}
             <RegistrationCTA/>
             <Faq/>
             <Footer/>
