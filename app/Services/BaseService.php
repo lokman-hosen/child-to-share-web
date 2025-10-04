@@ -75,7 +75,7 @@ class BaseService
 
     public function listByStatus()
     {
-        return $this->model->orderBy('name', 'asc')->get(['name', 'id']);
+        return $this->model->where('is_active', true)->orderBy('name', 'asc')->get(['name', 'id']);
     }
 
     public function list()

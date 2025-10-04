@@ -1,51 +1,72 @@
-import React from 'react';
-import {Head} from "@inertiajs/react";
+import React, {useEffect, useRef, useState} from 'react';
+import {Head, router} from "@inertiajs/react";
 import Hero from "@/Components/Donation/Hero.jsx";
 import List from "@/Components/Donation/List.jsx";
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import CTA from "@/Components/Donation/CTA.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift} from "@fortawesome/free-solid-svg-icons";
-import {textLimit} from "@/utils.jsx";
+import {getDropdownOptions, textLimit} from "@/utils.jsx";
+import SelectInput from "@/Components/SelectInput.jsx";
 
-const Index = ({donations, module}) => {
+const Index = ({donations, categories, filters, module}) => {
     const donationListData = donations?.data || [];
     const donationsLinks = donations?.links || [];
+    const safeFilters = filters || [];
+    const [filterCategory, setFilterCategory] = useState((safeFilters?.filter_category) || '');
+    const categoryOptions = getDropdownOptions(categories, 'id', 'name');
+
+    // Use a ref to prevent useEffect from running on initial render for filters/sort
+    const initialRender = useRef(true);
+
+    useEffect(() => {
+        if (initialRender.current) {
+            initialRender.current = false;
+            return;
+        }
+
+        const query = {
+            filter_category: filterCategory,
+        };
+
+        router.get(route('donation.index'), query, {
+            preserveState: true,
+            replace: true,
+        });
+    }, [filterCategory]);
     return (
         <GuestLayout>
             <Head title="Donations"/>
             <Hero/>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="filter-section">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                        <h2 className="text-xl font-semibold text-gray-900 mb-4 md:mb-0">Filter Donations</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <select
-                                className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-                                <option>All Categories</option>
-                                <option>Books</option>
-                                <option>Clothing</option>
-                                <option>Toys</option>
-                                <option>Electronics</option>
-                                <option>Sports Equipment</option>
-                            </select>
-                            <select
-                                className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-                                <option>All Locations</option>
-                                <option>Within 5 km</option>
-                                <option>Within 10 km</option>
-                                <option>Within 25 km</option>
-                                <option>Within 50 km</option>
-                            </select>
-                            <select
-                                className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-                                <option>Sort By: Newest</option>
-                                <option>Sort By: Closest</option>
-                                <option>Sort By: Most Popular</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="filter-section">*/}
+                {/*    <div className="flex justify-items-between gap-4">*/}
+                {/*        <h2 className="text-xl font-semibold text-gray-900 mb-4 md:mb-0">Filter Donations</h2>*/}
+                {/*        <div>*/}
+                {/*            <SelectInput*/}
+                {/*                id="filter_category"*/}
+                {/*                label="Select Bank"*/}
+                {/*                value={filterCategory}*/}
+                {/*                onChange={(e) => setFilterCategory(e.target.value)}*/}
+                {/*                options={categoryOptions}*/}
+                {/*            />*/}
+                {/*            <select*/}
+                {/*                className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">*/}
+                {/*                <option>All Locations</option>*/}
+                {/*                <option>Within 5 km</option>*/}
+                {/*                <option>Within 10 km</option>*/}
+                {/*                <option>Within 25 km</option>*/}
+                {/*                <option>Within 50 km</option>*/}
+                {/*            </select>*/}
+                {/*            <select*/}
+                {/*                className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">*/}
+                {/*                <option>Sort By: Newest</option>*/}
+                {/*                <option>Sort By: Closest</option>*/}
+                {/*                <option>Sort By: Most Popular</option>*/}
+                {/*            </select>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     {donationListData.length > 0 ? (
                         donationListData.map((donation, index) => (
@@ -76,7 +97,7 @@ const Index = ({donations, module}) => {
                                         </div>
                                         <div className="ml-3">
                                             <p className="text-sm font-medium text-gray-900">{donation.user.name}</p>
-                                            <p className="text-xs text-gray-500">2.5 km away</p>
+                                            {/*<p className="text-xs text-gray-500">2.5 km away</p>*/}
                                         </div>
                                     </div>
                                     <div className="mt-4 flex items-center">
@@ -109,19 +130,19 @@ const Index = ({donations, module}) => {
                             </div>
                         ))
                     ) : (
-                        <p>xcvxv</p>
+                        <div><p className="text-center">No data found</p></div>
                     )
 
                     }
 
                 </div>
-                <div className="pagination">
-                        <button className="prev">&laquo; Previous</button>
-                        <button className="active">1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button className="next">Next &raquo;</button>
-                    </div>
+                {/*<div className="pagination">*/}
+                {/*        <button className="prev">&laquo; Previous</button>*/}
+                {/*        <button className="active">1</button>*/}
+                {/*        <button>2</button>*/}
+                {/*        <button>3</button>*/}
+                {/*        <button className="next">Next &raquo;</button>*/}
+                {/*    </div>*/}
             </main>
             <CTA/>
         </GuestLayout>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Services\CategoryService;
 use App\Services\DonationService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,7 +12,7 @@ use Inertia\Response;
 class DonationController extends Controller
 {
     public function __construct(
-        //protected CategoryService $categoryService,
+        protected CategoryService $categoryService,
         protected DonationService $donationService
 
     ){}
@@ -22,10 +23,12 @@ class DonationController extends Controller
      */
     public function index(Request $request): Response
     {
+        $categories = $this->categoryService->listByStatus();
         $donations = $this->donationService->getListByStatus($request, 'available');
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'donations' => $donations,
+            'categories' => $categories,
         ]);
     }
 
