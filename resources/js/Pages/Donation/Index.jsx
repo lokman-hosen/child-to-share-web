@@ -11,7 +11,7 @@ import SelectInput from "@/Components/SelectInput.jsx";
 
 const Index = ({donations, categories, filters, module}) => {
     const donationListData = donations?.data || [];
-    const donationsLinks = donations?.links || [];
+    //const donationsLinks = donations?.links || [];
     const safeFilters = filters || [];
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
@@ -54,22 +54,6 @@ const Index = ({donations, categories, filters, module}) => {
                                 onChange={(e) => setCategoryId(e.target.value)}
                                 options={categoryOptions}
                             />
-                            {/*<select*/}
-                            {/*    className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500"*/}
-                            {/*>*/}
-                            {/*    <option>All Locations</option>*/}
-                            {/*    <option>Within 5 km</option>*/}
-                            {/*    <option>Within 10 km</option>*/}
-                            {/*    <option>Within 25 km</option>*/}
-                            {/*    <option>Within 50 km</option>*/}
-                            {/*</select>*/}
-                            {/*<select*/}
-                            {/*    className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500"*/}
-                            {/*>*/}
-                            {/*    <option>Sort By: Newest</option>*/}
-                            {/*    <option>Sort By: Closest</option>*/}
-                            {/*    <option>Sort By: Most Popular</option>*/}
-                            {/*</select>*/}
                         </div>
                     </div>
 
@@ -138,18 +122,9 @@ const Index = ({donations, categories, filters, module}) => {
                         ))
                     ) : (
                         <div><p className="text-center">No data found</p></div>
-                    )
-
-                    }
+                    )}
 
                 </div>
-                <div className="pagination">
-                        <button className="prev">&laquo; Previous</button>
-                        <button className="active">1</button>
-                        <button>2</button>
-                        <button>3</button>
-                        <button className="next">Next &raquo;</button>
-                    </div>
             </main>
             <CTA/>
         </GuestLayout>
