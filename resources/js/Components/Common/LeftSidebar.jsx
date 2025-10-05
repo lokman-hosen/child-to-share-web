@@ -18,8 +18,16 @@ export default function LeftSidebar({ onClose }) {
         <div className="w-full bg-white h-full overflow-y-auto fixed md:fixed inset-y-0 left-0 z-40">
             {/* Mobile Header with Close Button */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200">
-                <div className="flex-shrink-0 flex items-center">
-                    <FontAwesomeIcon icon={faGift} className="text-blue-500 text-2xl mr-2" />
+
+                <div className="flex-shrink-0 flex items-center space-x-2">
+                    <img
+                        src="/images/thee-wish.jpeg"
+                        alt="ThreeWish Logo"
+                        className="h-10 w-10 object-cover rounded" // Better styling
+                        onError={(e) => {
+                            e.target.style.display = 'none'; // Hide broken images
+                        }}
+                    />
                     <span className="font-bold text-xl text-blue-600">ThreeWish</span>
                 </div>
                 {/*<h2 className="text-lg font-semibold text-gray-700">*/}
@@ -31,7 +39,7 @@ export default function LeftSidebar({ onClose }) {
                     onClick={onClose}
                     className="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
                 >
-                    <FontAwesomeIcon icon={faTimes} className="h-5 w-5" />
+                    <FontAwesomeIcon icon={faTimes} className="h-5 w-5"/>
                 </button>
             </div>
 
@@ -39,8 +47,15 @@ export default function LeftSidebar({ onClose }) {
             <div className="p-4">
                 {/* Desktop Title - Hidden on mobile */}
                 <div className="hidden md:block mb-6">
-                    <div className="flex-shrink-0 flex items-center">
-                        <FontAwesomeIcon icon={faGift} className="text-blue-500 text-2xl mr-2" />
+                    <div className="flex-shrink-0 flex items-center space-x-2">
+                        <img
+                            src="/images/thee-wish.jpeg"
+                            alt="ThreeWish Logo"
+                            className="h-10 w-10 object-cover rounded" // Better styling
+                            onError={(e) => {
+                                e.target.style.display = 'none'; // Hide broken images
+                            }}
+                        />
                         <span className="font-bold text-xl text-blue-600">ThreeWish</span>
                     </div>
                     {/*<h2 className="text-lg font-semibold text-gray-700">*/}
@@ -58,7 +73,7 @@ export default function LeftSidebar({ onClose }) {
                                 onClick={onClose}
                                 className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('dashboard') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
                             >
-                                <FontAwesomeIcon icon={faHome} className="mr-2" />
+                            <FontAwesomeIcon icon={faHome} className="mr-2" />
                                 Dashboard
                             </Link>
                         </li>

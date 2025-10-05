@@ -21,11 +21,18 @@ export default function Navbar({ onMenuClick }) {
                             onClick={onMenuClick}
                             className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 mr-2"
                         >
-                            <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+                            <FontAwesomeIcon icon={faBars} className="h-5 w-5"/>
                         </button>
 
-                        <div className="flex-shrink-0 flex items-center">
-                            <FontAwesomeIcon icon={faGift} className="text-blue-500 text-2xl mr-2" />
+                        <div className="flex-shrink-0 flex items-center space-x-2">
+                            <img
+                                src="/images/thee-wish.jpeg"
+                                alt="ThreeWish Logo"
+                                className="h-10 w-10 object-cover rounded" // Better styling
+                                onError={(e) => {
+                                    e.target.style.display = 'none'; // Hide broken images
+                                }}
+                            />
                             <span className="font-bold text-xl text-blue-600">ThreeWish</span>
                         </div>
                     </div>
@@ -33,7 +40,7 @@ export default function Navbar({ onMenuClick }) {
                         <div className="relative">
                             <button
                                 className="p-1 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                <FontAwesomeIcon icon={faBell} className="text-xl" />
+                                <FontAwesomeIcon icon={faBell} className="text-xl"/>
                                 <span
                                     className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">3</span>
                             </button>

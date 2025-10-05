@@ -14,10 +14,19 @@ export default function Navbar() {
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
                         <Link href={route('home')}>
-                            <div className="flex-shrink-0 flex items-center">
-                                <i className="fas fa-gift text-purple-500 text-2xl mr-2"></i>
-                                <span className="font-bold text-xl text-purple-600">ThreeWish</span>
-                            </div>
+                            <Link href={route('home')}>
+                                <div className="flex-shrink-0 flex items-center space-x-2">
+                                    <img
+                                        src="/images/thee-wish.jpeg"
+                                        alt="ThreeWish Logo"
+                                        className="h-10 w-10 object-cover rounded" // Better styling
+                                        onError={(e) => {
+                                            e.target.style.display = 'none'; // Hide broken images
+                                        }}
+                                    />
+                                    <span className="font-bold text-xl text-purple-600">ThreeWish</span>
+                                </div>
+                            </Link>
                         </Link>
                         <div className="hidden md:ml-6 md:flex md:space-x-8">
                             <Link
