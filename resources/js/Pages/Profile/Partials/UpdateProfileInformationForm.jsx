@@ -41,10 +41,6 @@ export default function UpdateProfileInformation({
             dob: user.role === 'donor' ? user.donor?.dob : user.wisher?.dob,
         });
 
-    // const submit = (e) => {
-    //     e.preventDefault();
-    //     patch(route('profile.update'));
-    // };
     const submit = (e) => {
         e.preventDefault();
         post(route('user.profile.update'),{
