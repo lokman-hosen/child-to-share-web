@@ -165,7 +165,7 @@ export default function List({module, donation}) {
                                                         </a>
 
                                                         <button
-                                                            title="Delete"
+                                                            title={donation.files[currentIndex].file_type === 'image' ? 'Delete Image' : 'Delete Video'}
                                                             onClick={() => handleDelete(donation.files[currentIndex].id)}
                                                             className="inline-flex items-center justify-center w-10 h-10 bg-red-200 hover:bg-red-300 text-red-800 rounded-full text-sm font-medium transition-colors shadow-md"
                                                         >
@@ -330,11 +330,16 @@ export default function List({module, donation}) {
 
                                         {/* Action Buttons */}
                                         <div className="flex space-x-3 text-center">
-                                            <a
+                                            <Link
+                                                href={route('donations.edit',donation.id)}
+                                                className="flex-1 bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                                <FontAwesomeIcon icon={faTrash}/> Delete Item
+                                            </Link>
+                                            <Link
                                                 href={route('donations.edit',donation.id)}
                                                 className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
                                                 <FontAwesomeIcon icon={faEdit}/> Edit Item
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
