@@ -63,6 +63,5 @@ class StoreUserRequest extends FormRequest
     private function ageCalculate($date)
     {
        return Carbon::parse($date)->diffInYears(now());
-       //return Carbon::parse($date)->diffInYears(now()) <= 18;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
@@ -15,7 +16,7 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
@@ -35,5 +36,29 @@ class ProfileUpdateRequest extends FormRequest
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
         ];
+
+        // Add conditional validation for 'wisher'
+        if ($this->user()->role === 'wisher') {
+            $rules = array_merge($rules, [
+                'guardian_name' => 'required|string|max:255',
+                'guardian_phone' => 'required|string|max:20',
+                'relationship' => 'required|string|max:255',
+            ]);
+        }
+        $checkAge = $this->ageCalculate($this->dob);
+        if (($this->user()->role === 'donor') and $checkAge <= 18 ) {
+            $rules = array_merge($rules, [
+                'guardian_name' => 'required|string|max:255',
+                'guardian_phone' => 'required|string|max:20',
+                'relationship' => 'required|string|max:255',
+            ]);
+        }
+        return $rules;
     }
+
+    private function ageCalculate($date)
+    {
+        return Carbon::parse($date)->diffInYears(now());
+    }
+
 }
