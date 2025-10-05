@@ -32,7 +32,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
+        if (Auth::check()){
+            if (checkDonor()){
+                return redirect()->intended(route('home', absolute: false));
+            }
+        }
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
