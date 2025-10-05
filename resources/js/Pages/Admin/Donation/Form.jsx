@@ -218,7 +218,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 {/* File Upload Section */}
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
-                        Attachments images(png,jpg,jpeg. Min size: 800x500)
+                        Attachment images(png,jpg,jpeg. Min size: 800x500)
                         {!donation && (
                             <span className="text-red-500">*</span>
                         )}
