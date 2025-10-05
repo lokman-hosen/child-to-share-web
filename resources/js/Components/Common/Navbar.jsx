@@ -63,13 +63,6 @@ export default function Navbar() {
                                 Donations
                             </Link>
 
-                            {user &&
-                                <Link
-                                    href={route('dashboard')}
-                                    className="text-purple-500 hover:text-purple-700 inline-flex items-center px-1 pt-1 text-sm font-medium">
-                                    Dashboard
-                                </Link>
-                            }
                         </div>
                     </div>
 

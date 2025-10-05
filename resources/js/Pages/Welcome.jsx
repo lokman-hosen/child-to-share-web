@@ -17,7 +17,9 @@ export default function Welcome({ auth, donations, activeDonorCount, activeWishe
         <>
             <Head title="Welcome"/>
             <Navbar/>
-            <Hero/>
+            <Hero
+                user={user}
+            />
             <Summary
                 activeDonorCount={activeDonorCount}
                 activeWisherCount={activeWisherCount}
@@ -25,8 +27,15 @@ export default function Welcome({ auth, donations, activeDonorCount, activeWishe
                 community={community}
             />
             <HowWorks/>
-            {donations.length > 0 && <DonationList donations={donations} />}
-            <RegistrationCTA/>
+            {donations.length > 0 && (
+                <DonationList
+                    donations={donations}
+                    user={user}
+                />
+            )}
+            <RegistrationCTA
+                user={user}
+            />
             <Faq/>
             <Footer/>
 

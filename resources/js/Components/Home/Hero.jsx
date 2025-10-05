@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "@inertiajs/react";
 
-const Hero = () => {
+const Hero = ({user}) => {
     return (
         <section className="hero-section text-white py-16 md:py-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -9,12 +9,14 @@ const Hero = () => {
                 <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">A platform that connects children who have
                     items to share with those who have wishes to fulfill</p>
 
-                <Link
-                    href={route('login')}
-                    className="cta-button inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white">
-                    Sign In ThreeWish
-                    <i className="fas fa-arrow-right ml-2"></i>
-                </Link>
+                {!user && (
+                    <Link
+                        href={route('login')}
+                        className="cta-button inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white">
+                        Sign In ThreeWish
+                        <i className="fas fa-arrow-right ml-2"></i>
+                    </Link>
+                )}
             </div>
         </section>
     );

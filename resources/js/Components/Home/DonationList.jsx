@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from "@inertiajs/react";
 import SingleDonationItem from "@/Components/Common/SingleDonationIteam.jsx";
 
-const DonationList = ({donations}) => {
+const DonationList = ({donations, user}) => {
     return (
         // <section id="donations" className="py-16 bg-gray-50">
         <section id="donations" className="py-16 bg-white">
@@ -13,16 +13,19 @@ const DonationList = ({donations}) => {
                         <SingleDonationItem key={index} donation={donation} />
                     ))}
                 </div>
-                <div className="text-center mt-8">
-                    <p className="text-gray-600">
-                        <Link
-                            href={route('login')}
-                            className="text-blue-600 mr-1">
-                            Sign In
-                        </Link>
-                        to see more donations and create your own
-                    </p>
-                </div>
+                {!user && (
+                    <div className="text-center mt-8">
+                        <p className="text-gray-600">
+                            <Link
+                                href={route('login')}
+                                className="text-blue-600 mr-1">
+                                Sign In
+                            </Link>
+                            to see more donations and create your own
+                        </p>
+                    </div>
+                )}
+
             </div>
         </section>
     );
