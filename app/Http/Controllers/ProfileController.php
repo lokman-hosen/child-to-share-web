@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CommonHelper;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Donation;
 use App\Models\User;
@@ -27,7 +28,7 @@ class ProfileController extends Controller
             $availableDonationCount = Donation::where('user_id',$user->id)->where('status', 'available')->count();
             $donatedDonationCount = Donation::where('user_id',$user->id)->where('status', 'donated')->count();
         }elseif (checkWisher()){
-            $user->load(['donor', 'organizations']);
+            $user->load(['wisher', 'organizations']);
         }
         return Inertia::render(self::moduleDirectory.'Partials/Profile', [
             'module' => self::moduleName,
@@ -41,9 +42,18 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $user = Auth::user();
+        if (checkDonor()){
+            $user->load('donor');
+        }elseif (checkWisher()){
+            $user->load('wisher');
+        }
         return Inertia::render(self::moduleDirectory.'Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'user' => $user,
+            'guardianRelations' => CommonHelper::guardianRelations(),
+            'genders' => CommonHelper::genders(),
         ]);
     }
 

@@ -1,21 +1,35 @@
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
+import TextInput from '@/Components/TextInputField';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import SelectInput from "@/Components/SelectInput.jsx";
+import React from "react";
+import {getCommonOptions} from "@/utils.jsx";
+import DateInput from "@/Components/DateInput.jsx";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
     status,
     className = '',
+    user,
+    guardianRelations,
+    genders
 }) {
-    const user = usePage().props.auth.user;
+    //const user = usePage().props.auth.user;
+    console.log(user)
 
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
             email: user.email,
+            phone: user.phone,
+            guardian_name: user.role === 'donor' ? user.donor?.guardian_name : user.wisher?.guardian_name,
+            guardian_phone: user.role === 'donor' ? user.donor?.guardian_phone : user.wisher?.guardian_phone,
+            relationship: user.role === 'donor' ? user.donor?.relationship : user.wisher?.relationship,
+            gender: user.role === 'donor' ? user.donor?.gender : user.wisher?.gender,
+            dob: user.role === 'donor' ? user.donor?.dob : user.wisher?.dob,
         });
 
     const submit = (e) => {
@@ -24,50 +38,111 @@ export default function UpdateProfileInformation({
         patch(route('profile.update'));
     };
 
+    const relationOptions = getCommonOptions(guardianRelations);
+    const genderOptions = getCommonOptions(genders);
+
     return (
-        <section className={className}>
+        <section>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">
+                <h2 className="text-2xl font-medium text-gray-900">
                     Profile Information
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="mt-1 text-md text-gray-600">
                     Update your account's profile information and email address.
                 </p>
             </header>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
+                        label="Name"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
-                        required
+                        error={errors.name}
                         isFocused
                         autoComplete="name"
+                        placeholder="Your name"
+                        required
                     />
-
-                    <InputError className="mt-2" message={errors.name} />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
 
                     <TextInput
                         id="email"
+                        label="Email"
                         type="email"
-                        className="mt-1 block w-full"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
-                        required
                         autoComplete="username"
+                        error={errors.email}
+                        placeholder="Your email"
+                        required
                     />
 
-                    <InputError className="mt-2" message={errors.email} />
+                    <TextInput
+                        id="phone"
+                        label="Phone"
+                        type="number"
+                        value={data.phone}
+                        onChange={(e) => setData('phone', e.target.value)}
+                        error={errors.phone}
+                        placeholder="Your phone"
+                        required
+                    />
+                    <SelectInput
+                        id="gender"
+                        label="Select Gender"
+                        value={data.gender}
+                        onChange={(e) => setData('gender', e.target.value)}
+                        error={errors.gender}
+                        options={genderOptions}
+                        required
+                    />
+
                 </div>
+                {user.role === 'donor' && (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <DateInput
+                            id="dob"
+                            label="Date of Birth"
+                            value={data.dob}
+                            onChange={(value) => setData('dob', value)}
+                            error={errors.dob}
+                            placeholder="Select DOB"
+                            required
+                        />
+                        <TextInput
+                            id="guardian_name"
+                            label="Guardian name"
+                            type="text"
+                            value={data.guardian_name}
+                            onChange={(e) => setData('guardian_name', e.target.value)}
+                            error={errors.guardian_name}
+                            placeholder="Your guardian name"
+                            required
+                        />
+                        <TextInput
+                            id="guardian_phone"
+                            label="Guardian Phone"
+                            type="number"
+                            value={data.guardian_phone}
+                            onChange={(e) => setData('guardian_phone', e.target.value)}
+                            error={errors.guardian_phone}
+                            placeholder="Your guardian phone"
+                            required
+                        />
+
+                        <SelectInput
+                            id="relationship"
+                            label="Relation with guardian"
+                            value={data.relationship}
+                            onChange={(e) => setData('relationship', e.target.value)}
+                            error={errors.relationship}
+                            options={relationOptions}
+                            required
+                        />
+                    </div>
+                )}
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
