@@ -1,7 +1,9 @@
-import { Link } from "@inertiajs/react";
+import {Link, usePage} from "@inertiajs/react";
 import React, { useState } from "react";
 
 export default function Navbar() {
+    const user = usePage().props.auth.user;
+
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const toggleMobileMenu = () => {
@@ -56,13 +58,24 @@ export default function Navbar() {
                             {/*    Wishes*/}
                             {/*</Link>*/}
 
+
                             <Link
                                 href={route('donation.index')}
                                 className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('donation.index') ? 'nav-item active' : ''}`}>
                                 Donations
                             </Link>
+
+
                             {/*<a href="#organizations"*/}
                             {/*   className="text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium">Organizations</a>*/}
+
+                            {user &&
+                                <Link
+                                    href={route('dashboard')}
+                                    className= "text-purple-500 hover:text-purple-700 inline-flex items-center px-1 pt-1 text-sm font-medium ">
+                                    Dashboard
+                                </Link>
+                            }
                         </div>
                     </div>
 
@@ -164,6 +177,14 @@ export default function Navbar() {
                     {/*>*/}
                     {/*    Organizations*/}
                     {/*</a>*/}
+
+                    {user &&
+                        <Link
+                            href={route('dashboard')}
+                            className="block px-3 py-2 rounded-md text-base font-medium text-purple-700 hover:text-white hover:bg-purple-600">
+                            Dashboard
+                        </Link>
+                    }
                 </div>
                 <div className="pt-4 pb-3 border-t border-gray-200">
                     <div className="mt-3 px-2 space-y-1">
