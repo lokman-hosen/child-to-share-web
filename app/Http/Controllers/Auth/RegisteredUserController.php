@@ -109,8 +109,11 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        if ($user->role === 'donor') {
+            return redirect(route('home'));
+        }else{
+            return redirect(route('dashboard', absolute: false));
+        }
     }
     catch (\Exception $e) {
             // If any part fails, roll back the transaction and return to the form with an error
