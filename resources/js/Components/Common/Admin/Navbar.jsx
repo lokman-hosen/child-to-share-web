@@ -1,7 +1,7 @@
 import {Link, usePage} from "@inertiajs/react";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faBell, faChevronDown, faGift } from "@fortawesome/free-solid-svg-icons";
+import {faBars, faBell, faChevronDown, faGift, faHome} from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar({ onMenuClick }) {
     const user = usePage().props.auth.user;
@@ -33,10 +33,22 @@ export default function Navbar({ onMenuClick }) {
                                     e.target.style.display = 'none'; // Hide broken images
                                 }}
                             />
-                            <span className="font-bold text-xl text-blue-600">ThreeWish</span>
+                            <span className="font-bold text-xl text-blue-600 hidden sm:block">ThreeWish</span>
                         </div>
                     </div>
                     <div className="flex items-center space-x-4">
+                        <div className="relative">
+                            <a
+                                href={route('home')}
+                                title="Visit Website"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-1 rounded-full text-purple-500 hover:text-purple-700 focus:outline-none"
+                            >
+                                <FontAwesomeIcon icon={faHome} className="text-xl"/>
+                            </a>
+
+                        </div>
                         <div className="relative">
                             <button
                                 className="p-1 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
