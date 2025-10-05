@@ -8,6 +8,7 @@ import SelectInput from "@/Components/SelectInput.jsx";
 import React from "react";
 import {getCommonOptions} from "@/utils.jsx";
 import DateInput from "@/Components/DateInput.jsx";
+import FileInput from "@/Components/FileInput.jsx";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -36,6 +37,13 @@ export default function UpdateProfileInformation({
         e.preventDefault();
 
         patch(route('profile.update'));
+    };
+
+    const handleFileChange = (field, file) => {
+        setData(field, file);
+        if (file !== null) {
+            setData(`${field}_removed`, false);
+        }
     };
 
     const relationOptions = getCommonOptions(guardianRelations);
@@ -143,6 +151,17 @@ export default function UpdateProfileInformation({
                         />
                     </div>
                 )}
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <FileInput
+                        id="photo"
+                        label="Profile Photo(png,jpg,jpeg)"
+                        onFileChange={(file) => handleFileChange('photo', file)}
+                        currentFileUrl={data?.photo || null}
+                        error={errors.photo}
+                        accept="image/png, image/jpg, image/jpeg"
+                    />
+                </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
