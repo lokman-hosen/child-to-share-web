@@ -187,7 +187,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                     label="Multiple tags(Type and press Enter, comma, or space)"
                     value={tags}
                     onChange={setTags}
-                    placeholder="Type tag and press enter..."
+                    placeholder="e.g., toy, baby, like new etc"
                     error={errors.auto_tags}
                     required
                 />
@@ -218,7 +218,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 {/* File Upload Section */}
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
-                        Attachments (images(min size: 800x500) & Videos(max length: 30s))
+                        Attachments images(png,jpg,jpeg. Min size: 800x500)
                         {!donation && (
                             <span className="text-red-500">*</span>
                         )}
