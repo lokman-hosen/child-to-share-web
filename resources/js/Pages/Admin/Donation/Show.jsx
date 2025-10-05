@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faTrash, faChevronLeft, faChevronRight, faEye, faGift, faList} from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/Donation/Form.jsx";
+import {Button} from "@headlessui/react";
 
 export default function List({module, donation}) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -57,6 +58,14 @@ export default function List({module, donation}) {
     const handleDelete = (fileId) => {
         if (confirm('Are you sure you want to delete?')) {
             router.delete(route('donations.file.delete', fileId), {
+                preserveScroll: true,
+            });
+        }
+    };
+
+    const handleItemDelete = (itemId) => {
+        if (confirm('Are you sure you want to delete this user?')) {
+            router.delete(route('donations.destroy', itemId), {
                 preserveScroll: true,
             });
         }
@@ -330,11 +339,11 @@ export default function List({module, donation}) {
 
                                         {/* Action Buttons */}
                                         <div className="flex space-x-3 text-center">
-                                            <Link
-                                                href={route('donations.edit',donation.id)}
+                                            <Button
+                                                onClick={() => handleItemDelete(donation.id)}
                                                 className="flex-1 bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
                                                 <FontAwesomeIcon icon={faTrash}/> Delete Item
-                                            </Link>
+                                            </Button>
                                             <Link
                                                 href={route('donations.edit',donation.id)}
                                                 className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">

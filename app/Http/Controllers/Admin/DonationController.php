@@ -122,7 +122,11 @@ class DonationController extends Controller
      */
     public function destroy(Donation $donation)
     {
-        //
+        $deleteDonationItem = $this->donationService->deleteDonation($donation);
+        if ($deleteDonationItem){
+            return redirect()->route('donations.index')->with('success', 'Donation item deleted successfully.');
+        }
+        return redirect()->route('donations.index')->with('error', 'Opps... Failed to delete donation item.');
     }
 
     public function deleteDonationFile(string $fileId): RedirectResponse

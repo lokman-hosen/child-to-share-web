@@ -191,4 +191,16 @@ class DonationService extends BaseService
         }
         return $query->paginate(20)->withQueryString();
     }
+
+    public function deleteDonation($donation)
+    {
+        foreach ($donation->files as $file) {
+            if ($file->file_path && Storage::disk('public')->exists($file->file_path )) {
+                Storage::disk('public')->delete(getFileRealPath($file->file_path));
+                $file->delete();
+            }
+        }
+        return $donation->delete();
+
+    }
 }
