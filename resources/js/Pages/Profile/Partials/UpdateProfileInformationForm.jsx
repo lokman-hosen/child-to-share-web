@@ -29,7 +29,7 @@ export default function UpdateProfileInformation({
     const placesService = useRef(null);
 
     //const user = usePage().props.auth.user;
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
+    const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
             email: user.email,
@@ -41,9 +41,20 @@ export default function UpdateProfileInformation({
             dob: user.role === 'donor' ? user.donor?.dob : user.wisher?.dob,
         });
 
+    // const submit = (e) => {
+    //     e.preventDefault();
+    //     patch(route('profile.update'));
+    // };
     const submit = (e) => {
         e.preventDefault();
-        patch(route('profile.update'));
+        post(route('user.profile.update'),{
+            forceFormData: true,
+            onSuccess: () => {},
+            onError: (submissionErrors) => {
+                console.error("Form submission errors:", submissionErrors);
+            },
+            preserveScroll: true,
+        });
     };
 
     const handleFileChange = (field, file) => {

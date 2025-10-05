@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -60,23 +61,72 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-//        $request->user()->fill($request->validated());
-//
-//        if ($request->user()->isDirty('email')) {
-//            $request->user()->email_verified_at = null;
-//        }
-//
-//        $request->user()->save();
+        $request->user()->fill($request->validated());
 
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+        return Redirect::route('profile.edit');
+    }
+
+    public function updateProfile(ProfileUpdateRequest $request)
+    {
         $user = Auth::user();
+        //try {
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('photos', 'public');
+        }
+        //DB::beginTransaction();
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'image' => $photoPath,
+            'latitude' => $request->latitude ?? $user->latitude,
+            'longitude' => $request->longitude ?? $user->longitude,
+            'address' => $request->address ?? $user->address,
         ]);
 
-        return Redirect::route('profile.edit');
+        if ($user->role === 'donor') {
+            $user->donor()->update([
+                'name' => $request->name,
+                'guardian_name' => checkEmpty($request->guardian_name),
+                'guardian_phone' => checkEmpty($request->guardian_phone),
+                'relationship' => checkEmpty($request->relationship),
+                'dob' => $request->dob,
+                'gender' => $request->gender,
+            ]);
+        } elseif ($user->role === 'wisher') {
+            $user->wisher()->update([
+                'name' => $request->name,
+                'guardian_name' => $request->guardian_name,
+                'guardian_phone' => $request->guardian_phone,
+                'relationship' => $request->relationship,
+                'dob' => $request->dob,
+                'gender' => $request->gender,
+            ]);
+        } elseif ($user->role === 'leader') {
+            $user->leader()->update([
+                'name' => $request->name,
+                'dob' => $request->dob,
+                'gender' => $request->gender,
+            ]);
+        }
+        //DB::commit();
+        //return $user;
+//        }catch (\Exception $exception){
+//            DB::rollBack();
+//            //return false;
+//        }
+        if ($user){
+            return Redirect::back()->with('success', 'Profile updated successfully.');
+        }
+        return Redirect::back()->with('error', 'Error to updated Profile.');
     }
 
     /**

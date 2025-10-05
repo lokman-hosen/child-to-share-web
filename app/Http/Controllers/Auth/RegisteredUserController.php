@@ -105,7 +105,7 @@ class RegisteredUserController extends Controller
                 ]);
             }
             // If everything is successful, commit the transaction
-            DB::commit();
+            //DB::commit();
 
         event(new Registered($user));
         Auth::login($user);
