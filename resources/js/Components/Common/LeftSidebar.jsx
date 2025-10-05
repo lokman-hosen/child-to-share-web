@@ -23,7 +23,7 @@ export default function LeftSidebar({ onClose }) {
                     <img
                         src="/images/thee-wish.jpeg"
                         alt="ThreeWish Logo"
-                        className="h-10 w-10 object-cover rounded" // Better styling
+                        className="h-12 w-10 object-cover rounded" // Better styling
                         onError={(e) => {
                             e.target.style.display = 'none'; // Hide broken images
                         }}
@@ -51,7 +51,7 @@ export default function LeftSidebar({ onClose }) {
                         <img
                             src="/images/thee-wish.jpeg"
                             alt="ThreeWish Logo"
-                            className="h-10 w-10 object-cover rounded" // Better styling
+                            className="h-12 w-10 object-cover rounded" // Better styling
                             onError={(e) => {
                                 e.target.style.display = 'none'; // Hide broken images
                             }}
