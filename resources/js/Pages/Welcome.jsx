@@ -9,7 +9,7 @@ import Faq from "@/Components/Home/Faq.jsx";
 import Footer from "@/Components/Common/Footer.jsx";
 import Navbar from "@/Components/Common/Navbar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGift } from '@fortawesome/free-solid-svg-icons';
+import {faGift, faPlug, faPlus} from '@fortawesome/free-solid-svg-icons';
 
 export default function Welcome({ auth, donations, activeDonorCount, activeWisherCount, fulfilWishCount, community }) {
     const user = usePage().props.auth.user;
@@ -42,7 +42,7 @@ export default function Welcome({ auth, donations, activeDonorCount, activeWishe
 
                         {/* Main button with text */}
                         <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full sm:rounded-2xl p-4 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2">
-                            <FontAwesomeIcon icon={faGift} className="w-6 h-6 flex-shrink-0" />
+                            <FontAwesomeIcon icon={faPlus} className="w-6 h-6 flex-shrink-0" />
                             <span className="hidden sm:block font-semibold text-sm">Donate Item</span>
                         </div>
 
