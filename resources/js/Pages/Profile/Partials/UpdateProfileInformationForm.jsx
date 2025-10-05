@@ -10,7 +10,7 @@ import {getCommonOptions} from "@/utils.jsx";
 import DateInput from "@/Components/DateInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faClose, faMapMarkerAlt, faSearch, faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {faClose, faEdit, faMapMarkerAlt, faSearch, faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -494,7 +494,11 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <PrimaryButton
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                        disabled={processing}>
+                        <FontAwesomeIcon icon={faEdit}/> Update Profile
+                    </PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
