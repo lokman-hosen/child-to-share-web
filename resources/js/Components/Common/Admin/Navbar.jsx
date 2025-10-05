@@ -75,7 +75,7 @@ export default function Navbar({ onMenuClick }) {
                                         />
                                     )}
                                 </div>
-                                <span className="ml-2">{user.name}</span>
+                                <span className="ml-2 font-bold text-purple-500">{user.name}</span>
                                 <FontAwesomeIcon icon={faChevronDown} className="ml-1 text-xs" />
                             </button>
                             { isProfileOpen && (
@@ -87,6 +87,20 @@ export default function Navbar({ onMenuClick }) {
                                         onClick={() => setIsProfileOpen(false)}
                                     >
                                         Your Profile
+                                    </Link>
+                                    <Link
+                                        href={route('donations.index')}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        onClick={() => setIsProfileOpen(false)}
+                                    >
+                                        My Donations
+                                    </Link>
+                                    <Link
+                                        href={route('donations.create')}
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        onClick={() => setIsProfileOpen(false)}
+                                    >
+                                        Create Donation
                                     </Link>
                                     <Link
                                         href={route('user.password.form')}
