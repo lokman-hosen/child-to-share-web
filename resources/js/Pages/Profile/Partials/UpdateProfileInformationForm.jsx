@@ -242,8 +242,10 @@ export default function UpdateProfileInformation({
 
     return (
         <section>
-            <div className="flex items-center border-b border-gray-200 pb-6">
-                <div className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
+            <div className="flex flex-col sm:flex-row items-center border-b border-gray-200 pb-6 gap-6">
+                {/* User Image */}
+                <div
+                    className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md flex-shrink-0 order-2 sm:order-1">
                     {user.image ? (
                         <img
                             src={`/storage/${user.image}`}
@@ -259,7 +261,8 @@ export default function UpdateProfileInformation({
                     )}
                 </div>
 
-                <div>
+                {/* Text Content */}
+                <div className="text-center sm:text-left order-1 sm:order-2">
                     <h2 className="text-2xl font-medium text-gray-900">
                         Profile Information
                     </h2>
