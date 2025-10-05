@@ -2,13 +2,15 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInputField';
-import { Transition } from '@headlessui/react';
+import {Button, Transition} from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import SelectInput from "@/Components/SelectInput.jsx";
-import React from "react";
+import React, {useRef, useState} from "react";
 import {getCommonOptions} from "@/utils.jsx";
 import DateInput from "@/Components/DateInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faClose, faMapMarkerAlt, faSearch, faSpinner} from "@fortawesome/free-solid-svg-icons";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -18,9 +20,15 @@ export default function UpdateProfileInformation({
     guardianRelations,
     genders
 }) {
-    //const user = usePage().props.auth.user;
-    console.log(user)
 
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchSuggestions, setSearchSuggestions] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const searchTimeoutRef = useRef(null);
+    const autocompleteService = useRef(null);
+    const placesService = useRef(null);
+
+    //const user = usePage().props.auth.user;
     const { data, setData, patch, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
@@ -35,7 +43,6 @@ export default function UpdateProfileInformation({
 
     const submit = (e) => {
         e.preventDefault();
-
         patch(route('profile.update'));
     };
 
@@ -45,6 +52,180 @@ export default function UpdateProfileInformation({
             setData(`${field}_removed`, false);
         }
     };
+
+    // Initialize Google Maps services
+    React.useEffect(() => {
+        if (window.google) {
+            autocompleteService.current = new window.google.maps.places.AutocompleteService();
+            placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
+        } else {
+            // Load Google Maps JavaScript API
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAiV7CEW81cpKDTZtZ_AR3hL1BcW4b6PzM&libraries=places`;
+            script.async = true;
+            script.defer = true;
+            script.onload = () => {
+                autocompleteService.current = new window.google.maps.places.AutocompleteService();
+                placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
+            };
+            document.head.appendChild(script);
+        }
+    }, []);
+
+    // Search for locations using Google Maps Places Autocomplete
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+
+        if (query.length < 2) {
+            setSearchSuggestions([]);
+            return;
+        }
+
+        // Clear previous timeout
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+
+        // Set new timeout for debouncing (300ms delay)
+        searchTimeoutRef.current = setTimeout(async () => {
+            if (!autocompleteService.current) {
+                console.error('Google Maps Autocomplete service not available');
+                return;
+            }
+
+            setIsSearching(true);
+            try {
+                // Use Google Maps Places Autocomplete
+                autocompleteService.current.getPlacePredictions(
+                    {
+                        input: query,
+                        componentRestrictions: { country: 'bd' }, // Restrict to Bangladesh
+                        types: ['geocode', 'establishment'], // Get addresses and places
+                    },
+                    (predictions, status) => {
+                        if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
+                            setSearchSuggestions(predictions);
+                        } else {
+                            setSearchSuggestions([]);
+                        }
+                        setIsSearching(false);
+                    }
+                );
+            } catch (error) {
+                console.error('Search error:', error);
+                setSearchSuggestions([]);
+                setIsSearching(false);
+            }
+        }, 300);
+    };
+
+    // Handle selection from search suggestions
+    const handleSuggestionSelect = (prediction) => {
+        if (!placesService.current) {
+            console.error('Google Maps Places service not available');
+            return;
+        }
+
+        setIsSearching(true);
+
+        // Get place details to get coordinates
+        placesService.current.getDetails(
+            {
+                placeId: prediction.place_id,
+                fields: ['geometry', 'formatted_address', 'name']
+            },
+            (place, status) => {
+                if (status === window.google.maps.places.PlacesServiceStatus.OK && place) {
+                    const location = {
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng()
+                    };
+
+                    setData({
+                        ...data,
+                        latitude: location.lat,
+                        longitude: location.lng,
+                        address: place.formatted_address || prediction.description
+                    });
+
+                    setSearchQuery(place.formatted_address || prediction.description);
+                    setSearchSuggestions([]);
+                }
+                setIsSearching(false);
+            }
+        );
+    };
+    // Alternative: Use OpenStreetMap as fallback if Google Maps is not available
+    const handleSearchFallback = (query) => {
+        setSearchQuery(query);
+
+        if (query.length < 3) {
+            setSearchSuggestions([]);
+            return;
+        }
+
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+
+        searchTimeoutRef.current = setTimeout(async () => {
+            setIsSearching(true);
+            try {
+                const response = await fetch(
+                    `https://nominatim.openstreetmap.org/search?` +
+                    `format=json&` +
+                    `q=${encodeURIComponent(query)}&` +
+                    `countrycodes=bd&` +
+                    `limit=8&` +
+                    `addressdetails=1`
+                );
+
+                const results = await response.json();
+                setSearchSuggestions(results);
+            } catch (error) {
+                console.error('Search error:', error);
+                setSearchSuggestions([]);
+            } finally {
+                setIsSearching(false);
+            }
+        }, 500);
+    };
+
+    // Handle selection from OpenStreetMap fallback
+    const handleSuggestionSelectFallback = (suggestion) => {
+        const location = {
+            lat: parseFloat(suggestion.lat),
+            lng: parseFloat(suggestion.lon)
+        };
+
+        setData({
+            ...data,
+            latitude: location.lat,
+            longitude: location.lng,
+            address: suggestion.display_name
+        });
+
+        setSearchQuery(suggestion.display_name);
+        setSearchSuggestions([]);
+    };
+
+    // Clear search input
+    const handleClearSearch = () => {
+        setSearchQuery('');
+        setSearchSuggestions([]);
+        setData({
+            ...data,
+            latitude: '',
+            longitude: ''
+        });
+
+        if (searchTimeoutRef.current) {
+            clearTimeout(searchTimeoutRef.current);
+        }
+    };
+
+    // Check if Google Maps is available
+    const isGoogleMapsAvailable = !!window.google;
 
     const relationOptions = getCommonOptions(guardianRelations);
     const genderOptions = getCommonOptions(genders);
@@ -127,7 +308,6 @@ export default function UpdateProfileInformation({
                             onChange={(e) => setData('guardian_name', e.target.value)}
                             error={errors.guardian_name}
                             placeholder="Your guardian name"
-                            required
                         />
                         <TextInput
                             id="guardian_phone"
@@ -137,7 +317,6 @@ export default function UpdateProfileInformation({
                             onChange={(e) => setData('guardian_phone', e.target.value)}
                             error={errors.guardian_phone}
                             placeholder="Your guardian phone"
-                            required
                         />
 
                         <SelectInput
@@ -147,7 +326,6 @@ export default function UpdateProfileInformation({
                             onChange={(e) => setData('relationship', e.target.value)}
                             error={errors.relationship}
                             options={relationOptions}
-                            required
                         />
                     </div>
                 )}
@@ -162,6 +340,107 @@ export default function UpdateProfileInformation({
                         accept="image/png, image/jpg, image/jpeg"
                     />
                 </div>
+                {(user.role === 'donor' || user.role === 'wisher') && (
+                    <div className="grid grid-cols-1 gap-6">
+                        {/* Location Search Section */}
+                        <div className="mt-1">
+                            <label className="block text-gray-700 font-semibold mb-2">
+                                Your Location (Search and select)
+                            </label>
+
+                            {/* Location Search */}
+                            <div className="mb-4 relative">
+                                <div className="relative">
+                                    <input
+                                        type="text"
+                                        value={searchQuery}
+                                        onChange={(e) =>
+                                            isGoogleMapsAvailable
+                                                ? handleSearch(e.target.value)
+                                                : handleSearchFallback(e.target.value)
+                                        }
+                                        placeholder="Search location (address, city, landmark...)"
+                                        className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faSearch}
+                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                    />
+                                    {isSearching && (
+                                        <FontAwesomeIcon
+                                            icon={faSpinner}
+                                            spin
+                                            className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                        />
+                                    )}
+
+                                    {searchQuery && (
+                                        <Button
+                                            onClick={handleClearSearch}
+                                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        >
+                                            <FontAwesomeIcon icon={faClose}/>
+                                        </Button>
+                                    )}
+                                </div>
+
+                                {/* Search Suggestions */}
+                                {searchSuggestions.length > 0 && (
+                                    <div
+                                        className="absolute z-[9999] w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                        {searchSuggestions.map((suggestion, index) => (
+                                            <div
+                                                key={isGoogleMapsAvailable ? suggestion.place_id : index}
+                                                onClick={() =>
+                                                    isGoogleMapsAvailable
+                                                        ? handleSuggestionSelect(suggestion)
+                                                        : handleSuggestionSelectFallback(suggestion)
+                                                }
+                                                className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                                            >
+                                                <div className="flex items-start">
+                                                    <FontAwesomeIcon
+                                                        icon={faMapMarkerAlt}
+                                                        className="text-blue-500 mt-1 mr-3 flex-shrink-0"
+                                                    />
+                                                    <div>
+                                                        <div className="font-medium text-gray-900">
+                                                            {isGoogleMapsAvailable
+                                                                ? suggestion.structured_formatting.main_text
+                                                                : suggestion.display_name.split(',').slice(0, 2).join(',')
+                                                            }
+                                                        </div>
+                                                        <div className="text-sm text-gray-500">
+                                                            {isGoogleMapsAvailable
+                                                                ? suggestion.structured_formatting.secondary_text
+                                                                : suggestion.display_name.split(',').slice(2).join(',')
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {(errors.latitude || errors.longitude) && (
+                                <p className="mt-2 text-sm text-red-600">
+                                    Location is required. Please search and select your location.
+                                </p>
+                            )}
+
+                            {data.latitude && data.longitude && (
+                                <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                    <p className="text-green-700 text-sm">
+                                        <strong>Location set successfully!</strong><br/>
+                                        Coordinates captured for better service matching.
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>

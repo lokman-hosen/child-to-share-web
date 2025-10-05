@@ -135,7 +135,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <TextInput
                     id="title"
-                    label="Title"
+                    label="Iteam Title/Name"
                     value={data.title}
                     onChange={(e) => setData('title', e.target.value)}
                     error={errors.title}
