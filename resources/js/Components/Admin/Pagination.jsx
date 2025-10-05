@@ -7,11 +7,11 @@ const Pagination = ({ links, data }) => {
     }
     return (
         <div className="mt-4 flex justify-between items-center">
-            <p className="text-sm text-gray-600">
+            <p className="hidden sm:block text-sm text-gray-600">
                 Showing {data.from} to {data.to} of {data.total} entries
             </p>
             <div className="flex space-x-1">
-                {links.map((link, index) => (
+            {links.map((link, index) => (
                     <div key={index}>
                         <Link
                             key={index}

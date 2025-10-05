@@ -184,7 +184,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 />
                 <MultiSelectTextField
                     id="auto_tags"
-                    label="Multiple tags(Type and press Enter, comma, or space)"
+                    label="Add multiple tags (use comma, space, or Enter)"
                     value={tags}
                     onChange={setTags}
                     placeholder="e.g., toy, baby, like new etc"
