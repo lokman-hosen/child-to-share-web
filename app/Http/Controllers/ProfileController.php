@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -76,12 +77,16 @@ class ProfileController extends Controller
     public function updateProfile(ProfileUpdateRequest $request)
     {
         $user = Auth::user();
-        //try {
-        $photoPath = null;
+        $photoPath = $user->image;
+
         if ($request->hasFile('photo')) {
+            // Delete old image from 'public' disk
+            if ($user->image && Storage::disk('public')->exists($user->image)) {
+                Storage::disk('public')->delete($user->image);
+            }
+            // Store new image
             $photoPath = $request->file('photo')->store('photos', 'public');
         }
-        //DB::beginTransaction();
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -117,12 +122,6 @@ class ProfileController extends Controller
                 'gender' => $request->gender,
             ]);
         }
-        //DB::commit();
-        //return $user;
-//        }catch (\Exception $exception){
-//            DB::rollBack();
-//            //return false;
-//        }
         if ($user){
             return Redirect::back()->with('success', 'Profile updated successfully.');
         }

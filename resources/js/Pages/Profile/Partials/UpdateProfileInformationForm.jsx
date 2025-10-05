@@ -49,7 +49,10 @@ export default function UpdateProfileInformation({
         e.preventDefault();
         post(route('user.profile.update'),{
             forceFormData: true,
-            onSuccess: () => {},
+            onSuccess: () => {
+                //reset();
+                //setTags([]);
+            },
             onError: (submissionErrors) => {
                 console.error("Form submission errors:", submissionErrors);
             },
@@ -243,15 +246,33 @@ export default function UpdateProfileInformation({
 
     return (
         <section>
-            <header>
-                <h2 className="text-2xl font-medium text-gray-900">
-                    Profile Information
-                </h2>
+            <div className="flex items-center border-b border-gray-200 pb-6">
+                <div className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
+                    {user.image ? (
+                        <img
+                            src={`/storage/${user.image}`}
+                            alt={user.name}
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <img
+                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                            alt={user.name}
+                            className="w-full h-full object-cover"
+                        />
+                    )}
+                </div>
 
-                <p className="mt-1 text-md text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
+                <div>
+                    <h2 className="text-2xl font-medium text-gray-900">
+                        Profile Information
+                    </h2>
+
+                    <p className="mt-1 text-md text-gray-600">
+                        Update your account's profile information and email address.
+                    </p>
+                </div>
+            </div>
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
