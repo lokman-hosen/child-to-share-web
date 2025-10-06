@@ -137,12 +137,12 @@ class DonationService extends BaseService
         // Create intervention image instance
         $img = Image::make($image->getRealPath());
         // Resize and optimize image
-        $img->resize(800, 500, function ($constraint) {
+        $img->resize(500, 400, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
 
-        $canvas = Image::canvas(800,500);
+        $canvas = Image::canvas(500,400);
         $canvas->insert($img, 'center');
         // Save to storage
         Storage::disk('public')->put($filePath, $canvas->stream());

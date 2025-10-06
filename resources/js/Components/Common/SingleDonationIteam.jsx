@@ -8,8 +8,8 @@ const SingleDonationItem = ({donation}) => {
     return (
        <Link href={route('donation.show', { id: donation.id })}>
            <div key={donation.id} className="card donation-card bg-white rounded-lg shadow">
-               <div className="h-48 bg-green-100 flex items-center justify-center">
-                   <div className="h-48 w-full bg-gray-100 overflow-hidden">
+               <div className="h-[300px] bg-green-100 flex items-center justify-center">
+                   <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
                        {donation.featured_image?.file_path ? (
                            <img
                                src={`/storage/${donation.featured_image.file_path}`}

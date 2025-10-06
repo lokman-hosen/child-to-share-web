@@ -102,7 +102,7 @@ export default function List({module, donations}) {
                                             <div key={donation.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                                                 {/* Card Image */}
                                                 <div className="relative">
-                                                    <div className="h-48 w-full bg-gray-100 overflow-hidden">
+                                                    <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
                                                         {donation.featured_image?.file_path ? (
                                                             <img
                                                                 src={`/storage/${donation.featured_image.file_path}`}
@@ -322,7 +322,7 @@ export default function List({module, donations}) {
                                                     <div key={donation.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
                                                         {/* Card Image */}
                                                         <div className="relative">
-                                                            <div className="h-48 w-full bg-gray-100 overflow-hidden">
+                                                            <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
                                                                 {donation.featured_image?.file_path ? (
                                                                     <img
                                                                         src={`/storage/${donation.featured_image.file_path}`}
