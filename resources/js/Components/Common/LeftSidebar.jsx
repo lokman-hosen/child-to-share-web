@@ -18,18 +18,20 @@ export default function LeftSidebar({ onClose }) {
         <div className="w-full bg-white h-full overflow-y-auto fixed md:fixed inset-y-0 left-0 z-40">
             {/* Mobile Header with Close Button */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-gray-200">
+                <Link href={route('home')}>
+                    <div className="flex-shrink-0 flex items-center space-x-2">
+                        <img
+                            src="/images/thee-wish.jpeg"
+                            alt="ThreeWish Logo"
+                            className="h-12 w-10 object-cover rounded" // Better styling
+                            onError={(e) => {
+                                e.target.style.display = 'none'; // Hide broken images
+                            }}
+                        />
+                        <span className="font-bold text-xl text-blue-600">ThreeWish</span>
+                    </div>
+                </Link>
 
-                <div className="flex-shrink-0 flex items-center space-x-2">
-                    <img
-                        src="/images/thee-wish.jpeg"
-                        alt="ThreeWish Logo"
-                        className="h-12 w-10 object-cover rounded" // Better styling
-                        onError={(e) => {
-                            e.target.style.display = 'none'; // Hide broken images
-                        }}
-                    />
-                    <span className="font-bold text-xl text-blue-600">ThreeWish</span>
-                </div>
                 {/*<h2 className="text-lg font-semibold text-gray-700">*/}
                 {/*    {user.role === 'donor' && 'Donor Navigation'}*/}
                 {/*    {user.role === 'wisher' && 'Wisher Navigation'}*/}
@@ -47,17 +49,19 @@ export default function LeftSidebar({ onClose }) {
             <div className="p-4">
                 {/* Desktop Title - Hidden on mobile */}
                 <div className="hidden md:block mb-6">
-                    <div className="flex-shrink-0 flex items-center space-x-2">
-                        <img
-                            src="/images/thee-wish.jpeg"
-                            alt="ThreeWish Logo"
-                            className="h-12 w-10 object-cover rounded" // Better styling
-                            onError={(e) => {
-                                e.target.style.display = 'none'; // Hide broken images
-                            }}
-                        />
-                        <span className="font-bold text-xl text-blue-600">ThreeWish</span>
-                    </div>
+                    <Link href={route('home')}>
+                        <div className="flex-shrink-0 flex items-center space-x-2">
+                            <img
+                                src="/images/thee-wish.jpeg"
+                                alt="ThreeWish Logo"
+                                className="h-12 w-10 object-cover rounded" // Better styling
+                                onError={(e) => {
+                                    e.target.style.display = 'none'; // Hide broken images
+                                }}
+                            />
+                            <span className="font-bold text-xl text-blue-600">ThreeWish</span>
+                        </div>
+                    </Link>
                     {/*<h2 className="text-lg font-semibold text-gray-700">*/}
                     {/*    {user.role === 'donor' && 'Donor Navigation'}*/}
                     {/*    {user.role === 'wisher' && 'Wisher Navigation'}*/}
@@ -67,17 +71,6 @@ export default function LeftSidebar({ onClose }) {
 
                 {user.role === 'donor' && (
                     <ul className="mt-4">
-                        <li className="mb-1">
-                            <a
-                                href={route('home')}
-                                title="Visit Website"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors"
-                            >
-                                <FontAwesomeIcon icon={faHome} className="text-xl"/> Website
-                            </a>
-                        </li>
                         <li className="mb-1">
                             <Link
                                 href={route('dashboard')}
@@ -158,15 +151,13 @@ export default function LeftSidebar({ onClose }) {
                 {user.role === 'wisher' && (
                     <ul className="mt-4">
                         <li className="mb-1">
-                            <a
+                            <Link
                                 href={route('home')}
                                 title="Visit Website"
-                                target="_blank"
-                                rel="noopener noreferrer"
                                 className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors"
                             >
                                 <FontAwesomeIcon icon={faHome} className="text-xl"/> Website
-                            </a>
+                            </Link>
                         </li>
                         <li className="mb-1">
                             <Link
@@ -237,15 +228,13 @@ export default function LeftSidebar({ onClose }) {
                 {(user.role === 'super_admin' || user.role === 'admin') && (
                     <ul className="mt-4">
                         <li className="mb-1">
-                            <a
+                            <Link
                                 href={route('home')}
                                 title="Visit Website"
-                                target="_blank"
-                                rel="noopener noreferrer"
                                 className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors"
                             >
                                 <FontAwesomeIcon icon={faHome} className="text-xl"/> Website
-                            </a>
+                            </Link>
                         </li>
                         <li className="mb-1">
                             <Link
