@@ -27,9 +27,24 @@ const MultiSelectTextField = ({
         switch (event.key) {
             case 'Enter':
             case 'Tab':
+            case ' ':
+            case ',':
                 onChange([...value, createOption(inputValue)]);
                 setInputValue('');
                 event.preventDefault();
+        }
+    };
+
+    const handleInputChange = (input) => {
+        // Check if user typed comma or space
+        if (input.endsWith(',') || input.endsWith(' ')) {
+            const cleanValue = input.slice(0, -1).trim(); // remove last comma/space
+            if (cleanValue) {
+                onChange([...value, createOption(cleanValue)]);
+            }
+            setInputValue(''); // clear input field
+        } else {
+            setInputValue(input);
         }
     };
 
@@ -46,7 +61,8 @@ const MultiSelectTextField = ({
                 isMulti
                 menuIsOpen={false}
                 onChange={onChange}
-                onInputChange={(newValue) => setInputValue(newValue)}
+                onInputChange={handleInputChange}
+                //onInputChange={(newValue) => setInputValue(newValue)}
                 onKeyDown={handleKeyDown}
                 placeholder={placeholder}
                 value={value}

@@ -1,13 +1,20 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {Head, Link, router} from '@inertiajs/react';
-import React, { useState } from "react";
+import React, {useState} from 'react';
+import {Head, Link} from "@inertiajs/react";
+import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash, faChevronLeft, faChevronRight, faEye, faGift, faList} from "@fortawesome/free-solid-svg-icons";
-import Form from "@/Pages/Admin/Donation/Form.jsx";
-import {Button} from "@headlessui/react";
+import {
+    faBackward,
+    faChevronLeft,
+    faChevronRight,
+    faEdit,
+    faEye,
+    faGift,
+    faList,
+    faTrash
+} from "@fortawesome/free-solid-svg-icons";
+import Hero from "@/Components/Donation/Hero.jsx";
 
-export default function List({module, donation}) {
-
+const Show = ({donation, module}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const getStatusColor = (status) => {
@@ -55,67 +62,15 @@ export default function List({module, donation}) {
     const goToSlide = (index) => {
         setCurrentIndex(index);
     };
-
-    const handleDelete = (fileId) => {
-        if (confirm('Are you sure you want to delete?')) {
-            router.delete(route('donations.file.delete', fileId), {
-                preserveScroll: true,
-            });
-        }
-    };
-
-    const handleItemDelete = (itemId) => {
-        if (confirm('Are you sure you want to delete this user?')) {
-            router.delete(route('donations.destroy', itemId), {
-                preserveScroll: true,
-            });
-        }
-    };
-
     return (
-        <AuthenticatedLayout>
-            <Head title="Donation List"/>
-            <div className="px-4 sm:px-6 lg:px-8 py-6">
+        <GuestLayout>
+            <Head title="Item Detail"/>
+            <Hero
+                title = {donation.title}
+                subTitle = {donation.description}
+            />
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
-                    {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-8 sm:px-8 sm:py-10">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                            {/* Title Section */}
-                            <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-                                <div className="h-12 w-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                                    <FontAwesomeIcon
-                                        icon={faGift}
-                                        className="text-white text-xl"
-                                    />
-                                </div>
-                                <div>
-                                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        Item: {donation.title}
-                                    </h1>
-                                    <p className="text-blue-100 text-sm mt-1">
-                                        <span
-                                            className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mr-1 ${getStatusColor(donation.status)}`}>
-                                            {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
-                                        </span>
-                                        <span
-                                            className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mr-1 ${getConditionColor(donation.item_condition)}`}>
-                                            {donation.item_condition}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Action Button */}
-                            <Link
-                                href={route('donations.index')}
-                                className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
-                            >
-                                <FontAwesomeIcon icon={faList} className="text-blue-600" />
-                                <span>View {module} List</span>
-                            </Link>
-                        </div>
-                    </div>
-
                     {/* Card Body */}
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
@@ -126,7 +81,7 @@ export default function List({module, donation}) {
                                         {/* Main Carousel */}
                                         {donation.files && donation.files.length > 0 && (
                                             <div className="relative">
-                                                <h3 className="text-lg font-medium text-gray-900 mb-4">Media Gallery</h3>
+                                                <h3 className="text-lg font-medium text-gray-900 mb-4">Item: {donation.title}</h3>
 
                                                 {/* Main Carousel Container */}
                                                 <div className="relative bg-gray-100 rounded-lg overflow-hidden">
@@ -173,14 +128,6 @@ export default function List({module, donation}) {
                                                         >
                                                             <FontAwesomeIcon icon={faEye} className="w-4 h-4"/>
                                                         </a>
-
-                                                        <button
-                                                            title={donation.files[currentIndex].file_type === 'image' ? 'Delete Image' : 'Delete Video'}
-                                                            onClick={() => handleDelete(donation.files[currentIndex].id)}
-                                                            className="inline-flex items-center justify-center w-10 h-10 bg-red-200 hover:bg-red-300 text-red-800 rounded-full text-sm font-medium transition-colors shadow-md"
-                                                        >
-                                                            <FontAwesomeIcon icon={faTrash} className="w-4 h-4"/>
-                                                        </button>
                                                     </div>
 
                                                     {/* Main Media Display */}
@@ -340,15 +287,15 @@ export default function List({module, donation}) {
 
                                         {/* Action Buttons */}
                                         <div className="flex space-x-3 text-center">
-                                            <Button
-                                                onClick={() => handleItemDelete(donation.id)}
-                                                className="flex-1 bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                                <FontAwesomeIcon icon={faTrash}/> Delete Item
-                                            </Button>
                                             <Link
-                                                href={route('donations.edit',donation.id)}
-                                                className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                                <FontAwesomeIcon icon={faEdit}/> Edit Item
+                                                href="#"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    window.history.back();
+                                                }}
+                                                className="flex-1 bg-purple-400 hover:bg-purple-300 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors"
+                                            >
+                                                <FontAwesomeIcon icon={faBackward}/> Back
                                             </Link>
                                         </div>
                                     </div>
@@ -357,8 +304,9 @@ export default function List({module, donation}) {
                         </div>
                     </div>
                 </div>
-            </div>
-
-        </AuthenticatedLayout>
+            </main>
+        </GuestLayout>
     );
-}
+};
+
+export default Show;

@@ -64,8 +64,8 @@ class RegisteredUserController extends Controller
                 'phone' => $request->phone,
                 'image' => $photoPath,
                 'role' => $request->role,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
+                'latitude' => checkEmpty($request->latitude),
+                'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
                 'be_leader' => $request->be_leader,
                 'is_verified' => true,
@@ -105,12 +105,15 @@ class RegisteredUserController extends Controller
                 ]);
             }
             // If everything is successful, commit the transaction
-            DB::commit();
+            //DB::commit();
 
         event(new Registered($user));
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        if ($user->role === 'donor') {
+            return redirect(route('home'));
+        }else{
+            return redirect(route('dashboard', absolute: false));
+        }
     }
     catch (\Exception $e) {
             // If any part fails, roll back the transaction and return to the form with an error

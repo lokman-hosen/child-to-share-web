@@ -135,7 +135,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <TextInput
                     id="title"
-                    label="Title"
+                    label="Iteam Title/Name"
                     value={data.title}
                     onChange={(e) => setData('title', e.target.value)}
                     error={errors.title}
@@ -184,10 +184,10 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 />
                 <MultiSelectTextField
                     id="auto_tags"
-                    label="Multiple tags(write and press enter)"
+                    label="Add multiple tags (use comma, space, or Enter)"
                     value={tags}
                     onChange={setTags}
-                    placeholder="Type tag and press enter..."
+                    placeholder="e.g., toy, baby, like new etc"
                     error={errors.auto_tags}
                     required
                 />
@@ -218,7 +218,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 {/* File Upload Section */}
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
-                        Attachments (images(min size: 800x500) & Videos(max length: 30s))
+                        Attachment images(png,jpg,jpeg. Min size: 800x500)
                         {!donation && (
                             <span className="text-red-500">*</span>
                         )}
@@ -231,7 +231,8 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                             type="file"
                             ref={fileInputRef}
                             multiple
-                            accept="image/png, image/jpg, image/jpeg,video/mp4"
+                            // accept="image/png, image/jpg, image/jpeg,video/mp4"
+                            accept="image/png, image/jpg, image/jpeg"
                             onChange={handleFileChange}
                             className="hidden"
                         />
@@ -244,7 +245,8 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                             {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
                         </button>
                         <p className="mt-2 text-sm text-gray-500">
-                            Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.
+                            {/*Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.*/}
+                            Upload images(min size: 800x500). Images will be automatically optimized.
                         </p>
                     </div>
 

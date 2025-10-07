@@ -38,7 +38,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                 <div className="mt-2 flex items-center">
                                     <span
                                         className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                        12 Wishes Fulfilled
+                                        0 Wishes Fulfilled
                                     </span>
                                     <span
                                         className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
@@ -72,59 +72,60 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             </dl>
                         </div>
 
-                        <div>
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">Preferences</h3>
-                            <dl className="space-y-2">
-                                <div>
-                                    <dt className="text-sm font-medium text-gray-500">Default Search Radius</dt>
-                                    <dd className="text-sm text-gray-900">10 km</dd>
-                                </div>
-                                <div>
-                                    <dt className="text-sm font-medium text-gray-500">Notification Settings</dt>
-                                    <dd className="text-sm text-gray-900">Email & In-App</dd>
-                                </div>
-                                <div>
-                                    <dt className="text-sm font-medium text-gray-500">Admin Assistance</dt>
-                                    <dd className="text-sm text-gray-900">Enabled by default</dd>
-                                </div>
-                            </dl>
-                        </div>
+                        {/*<div>*/}
+                        {/*    <h3 className="text-lg font-medium text-gray-900 mb-2">Preferences</h3>*/}
+                        {/*    <dl className="space-y-2">*/}
+                        {/*        <div>*/}
+                        {/*            <dt className="text-sm font-medium text-gray-500">Default Search Radius</dt>*/}
+                        {/*            <dd className="text-sm text-gray-900">10 km</dd>*/}
+                        {/*        </div>*/}
+                        {/*        <div>*/}
+                        {/*            <dt className="text-sm font-medium text-gray-500">Notification Settings</dt>*/}
+                        {/*            <dd className="text-sm text-gray-900">Email & In-App</dd>*/}
+                        {/*        </div>*/}
+                        {/*        <div>*/}
+                        {/*            <dt className="text-sm font-medium text-gray-500">Admin Assistance</dt>*/}
+                        {/*            <dd className="text-sm text-gray-900">Enabled by default</dd>*/}
+                        {/*        </div>*/}
+                        {/*    </dl>*/}
+                        {/*</div>*/}
                     </div>
 
-                    {user.organizations.length > 0 && (
-                        <div className="mt-6">
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">Your Organizations</h3>
-                            <ul className="space-y-2">
-                                <li className="flex items-center">
-                                    <div
-                                        className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">
-                                        <i className="fas fa-building text-blue-500 text-sm"></i>
-                                    </div>
-                                    <span className="text-sm text-gray-900">Community Center A</span>
-                                </li>
-                                <li className="flex items-center">
-                                    <div
-                                        className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center mr-2">
-                                        <i className="fas fa-school text-green-500 text-sm"></i>
-                                    </div>
-                                    <span className="text-sm text-gray-900">School B</span>
-                                </li>
-                                <li className="flex items-center">
-                                    <div
-                                        className="h-8 w-8 bg-purple-100 rounded-full flex items-center justify-center mr-2">
-                                        <i className="fas fa-child text-purple-500 text-sm"></i>
-                                    </div>
-                                    <span className="text-sm text-gray-900">Youth Program C</span>
-                                </li>
-                            </ul>
-                        </div>
-                    )}
+                    {/*{user.organizations.length > 0 && (*/}
+                    {/*    <div className="mt-6">*/}
+                    {/*        <h3 className="text-lg font-medium text-gray-900 mb-2">Your Organizations</h3>*/}
+                    {/*        <ul className="space-y-2">*/}
+                    {/*            <li className="flex items-center">*/}
+                    {/*                <div*/}
+                    {/*                    className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">*/}
+                    {/*                    <i className="fas fa-building text-blue-500 text-sm"></i>*/}
+                    {/*                </div>*/}
+                    {/*                <span className="text-sm text-gray-900">Community Center A</span>*/}
+                    {/*            </li>*/}
+                    {/*            <li className="flex items-center">*/}
+                    {/*                <div*/}
+                    {/*                    className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center mr-2">*/}
+                    {/*                    <i className="fas fa-school text-green-500 text-sm"></i>*/}
+                    {/*                </div>*/}
+                    {/*                <span className="text-sm text-gray-900">School B</span>*/}
+                    {/*            </li>*/}
+                    {/*            <li className="flex items-center">*/}
+                    {/*                <div*/}
+                    {/*                    className="h-8 w-8 bg-purple-100 rounded-full flex items-center justify-center mr-2">*/}
+                    {/*                    <i className="fas fa-child text-purple-500 text-sm"></i>*/}
+                    {/*                </div>*/}
+                    {/*                <span className="text-sm text-gray-900">Youth Program C</span>*/}
+                    {/*            </li>*/}
+                    {/*        </ul>*/}
+                    {/*    </div>*/}
+                    {/*)}*/}
 
                     <div className="mt-6 flex">
-                        <button
-                            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <Link
+                            href={route('profile.update')}
+                            className="inline-flex items-center px-4 py-2 border border-yellow-300 rounded-md shadow-sm text-sm font-medium text-yellow-700 bg-yellow-300 hover:bg-yellow-50">
                             <i className="fas fa-edit mr-2"></i> Edit Profile
-                        </button>
+                        </Link>
                         <Link
                             href={route('user.password.form')}
                             className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
@@ -138,11 +139,11 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                         <h2 className="text-lg font-medium text-gray-900 mb-4">Your Impact</h2>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="bg-blue-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-blue-600">12</div>
+                                <div className="text-3xl font-bold text-blue-600">0</div>
                                 <div className="text-sm font-medium text-gray-700">Wishes Fulfilled</div>
                             </div>
                             <div className="bg-green-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-green-600">8</div>
+                                <div className="text-3xl font-bold text-green-600">0</div>
                                 <div className="text-sm font-medium text-gray-700">Children Helped</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">

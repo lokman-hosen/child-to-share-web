@@ -31,7 +31,7 @@ class StoreUserRequest extends FormRequest
             //'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'password' => ['required',Rules\Password::defaults()],
             'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
-            'dob' => 'required|date',
+            'dob' => 'required|date|before:today',
             'address' => 'nullable|string',
             'organization' => 'required|string',
             'gender' => ['required', Rule::in(['male', 'female', 'other'])],
@@ -63,6 +63,5 @@ class StoreUserRequest extends FormRequest
     private function ageCalculate($date)
     {
        return Carbon::parse($date)->diffInYears(now());
-       //return Carbon::parse($date)->diffInYears(now()) <= 18;
     }
 }

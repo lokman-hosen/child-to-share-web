@@ -10,6 +10,7 @@ use App\Services\CategoryService;
 use App\Services\DonationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -86,6 +87,12 @@ class DonationController extends Controller
      */
     public function edit(Donation $donation): Response
     {
+        if (checkDonor()){
+            if (!($donation->user_id == Auth::id())){
+                abort(403);
+            }
+        }
+
         $donation->load([
             'user',
             'organization',
@@ -109,7 +116,11 @@ class DonationController extends Controller
      */
     public function update(UpdateDonationRequest $request, Donation $donation): RedirectResponse
     {
-        //dd($request->all());
+        if (checkDonor()){
+            if (!($donation->user_id == Auth::id())){
+                abort(403);
+            }
+        }
         $updateDonation = $this->donationService->updateDonation($request, $donation);
         if ($updateDonation){
             return redirect()->route('donations.index')->with('success', 'Donation updated successfully!');
@@ -122,7 +133,16 @@ class DonationController extends Controller
      */
     public function destroy(Donation $donation)
     {
-        //
+        if (checkDonor()){
+            if (!($donation->user_id == Auth::id())){
+                abort(403);
+            }
+        }
+        $deleteDonationItem = $this->donationService->deleteDonation($donation);
+        if ($deleteDonationItem){
+            return redirect()->route('donations.index')->with('success', 'Donation item deleted successfully.');
+        }
+        return redirect()->route('donations.index')->with('error', 'Opps... Failed to delete donation item.');
     }
 
     public function deleteDonationFile(string $fileId): RedirectResponse

@@ -11,22 +11,21 @@ import {
     faInfoCircle,
     faSpinner,
     faSearch,
-    faMapMarkerAlt,
-    faClose,
+    faMapMarkerAlt, faCross, faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
+import LocationPicker from '@/Components/LocationPicker';
 import Checkbox from "@/Components/Checkbox.jsx";
 import {Button} from "@headlessui/react";
 
 export default function Register({guardianRelations,genders, organizations}) {
     // State to manage the selected role
+    const [selectedLocation, setSelectedLocation] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchSuggestions, setSearchSuggestions] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const searchTimeoutRef = useRef(null);
-    const autocompleteService = useRef(null);
-    const placesService = useRef(null);
 
     // State to manage all form data
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -48,27 +47,9 @@ export default function Register({guardianRelations,genders, organizations}) {
         be_leader: false,
     });
 
-    // Initialize Google Maps services
-    React.useEffect(() => {
-        if (window.google) {
-            autocompleteService.current = new window.google.maps.places.AutocompleteService();
-            placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
-        } else {
-            // Load Google Maps JavaScript API
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAiV7CEW81cpKDTZtZ_AR3hL1BcW4b6PzM&libraries=places`;
-            script.async = true;
-            script.defer = true;
-            script.onload = () => {
-                autocompleteService.current = new window.google.maps.places.AutocompleteService();
-                placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
-            };
-            document.head.appendChild(script);
-        }
-    }, []);
-
     const submit = (e) => {
         e.preventDefault();
+
         post(route('register'), {
             onFinish: () => reset('password'),
         });
@@ -84,11 +65,55 @@ export default function Register({guardianRelations,genders, organizations}) {
         }
     };
 
-    // Search for locations using Google Maps Places Autocomplete
+    // Handle location selection from map
+    const handleLocationSelect = (location) => {
+        setSelectedLocation(location);
+        setData({
+            ...data,
+            latitude: location.lat,
+            longitude: location.lng
+        });
+
+        // Reverse geocode to get address when user clicks on map
+        reverseGeocode(location.lat, location.lng);
+    };
+
+    // Search for locations using OpenStreetMap Nominatim API with debouncing
+    // const handleSearch = (query) => {
+    //     setSearchQuery(query);
+    //
+    //     if (query.length < 3) {
+    //         setSearchSuggestions([]);
+    //         return;
+    //     }
+    //
+    //     // Clear previous timeout
+    //     if (searchTimeoutRef.current) {
+    //         clearTimeout(searchTimeoutRef.current);
+    //     }
+    //
+    //     // Set new timeout for debouncing (500ms delay)
+    //     searchTimeoutRef.current = setTimeout(async () => {
+    //         setIsSearching(true);
+    //         try {
+    //             const response = await fetch(
+    //                 `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1`
+    //             );
+    //             const results = await response.json();
+    //             setSearchSuggestions(results);
+    //         } catch (error) {
+    //             console.error('Search error:', error);
+    //             setSearchSuggestions([]);
+    //         } finally {
+    //             setIsSearching(false);
+    //         }
+    //     }, 500);
+    // };
+
     const handleSearch = (query) => {
         setSearchQuery(query);
 
-        if (query.length < 2) {
+        if (query.length < 3) {
             setSearchSuggestions([]);
             return;
         }
@@ -98,103 +123,45 @@ export default function Register({guardianRelations,genders, organizations}) {
             clearTimeout(searchTimeoutRef.current);
         }
 
-        // Set new timeout for debouncing (300ms delay)
-        searchTimeoutRef.current = setTimeout(async () => {
-            if (!autocompleteService.current) {
-                console.error('Google Maps Autocomplete service not available');
-                return;
-            }
-
-            setIsSearching(true);
-            try {
-                // Use Google Maps Places Autocomplete
-                autocompleteService.current.getPlacePredictions(
-                    {
-                        input: query,
-                        componentRestrictions: { country: 'bd' }, // Restrict to Bangladesh
-                        types: ['geocode', 'establishment'], // Get addresses and places
-                    },
-                    (predictions, status) => {
-                        if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
-                            setSearchSuggestions(predictions);
-                        } else {
-                            setSearchSuggestions([]);
-                        }
-                        setIsSearching(false);
-                    }
-                );
-            } catch (error) {
-                console.error('Search error:', error);
-                setSearchSuggestions([]);
-                setIsSearching(false);
-            }
-        }, 300);
-    };
-
-    // Handle selection from search suggestions
-    const handleSuggestionSelect = (prediction) => {
-        if (!placesService.current) {
-            console.error('Google Maps Places service not available');
-            return;
-        }
-
-        setIsSearching(true);
-
-        // Get place details to get coordinates
-        placesService.current.getDetails(
-            {
-                placeId: prediction.place_id,
-                fields: ['geometry', 'formatted_address', 'name']
-            },
-            (place, status) => {
-                if (status === window.google.maps.places.PlacesServiceStatus.OK && place) {
-                    const location = {
-                        lat: place.geometry.location.lat(),
-                        lng: place.geometry.location.lng()
-                    };
-
-                    setData({
-                        ...data,
-                        latitude: location.lat,
-                        longitude: location.lng,
-                        address: place.formatted_address || prediction.description
-                    });
-
-                    setSearchQuery(place.formatted_address || prediction.description);
-                    setSearchSuggestions([]);
-                }
-                setIsSearching(false);
-            }
-        );
-    };
-
-    // Alternative: Use OpenStreetMap as fallback if Google Maps is not available
-    const handleSearchFallback = (query) => {
-        setSearchQuery(query);
-
-        if (query.length < 3) {
-            setSearchSuggestions([]);
-            return;
-        }
-
-        if (searchTimeoutRef.current) {
-            clearTimeout(searchTimeoutRef.current);
-        }
-
+        // Set new timeout for debouncing (500ms delay)
         searchTimeoutRef.current = setTimeout(async () => {
             setIsSearching(true);
             try {
+                // Format the query for better partial matching
+                const formattedQuery = query
+                    .trim()
+                    .replace(/\s+/g, ' ') // Remove extra spaces
+                    .toLowerCase();
+
+                // Add Bangladesh viewbox to prioritize local results
+                // Bangladesh bounding box: [88.01, 20.52, 92.68, 26.64]
+                const viewbox = '88.01,20.52,92.68,26.64';
+
                 const response = await fetch(
                     `https://nominatim.openstreetmap.org/search?` +
                     `format=json&` +
-                    `q=${encodeURIComponent(query)}&` +
-                    `countrycodes=bd&` +
-                    `limit=8&` +
+                    `q=${encodeURIComponent(formattedQuery)}&` +
+                    `countrycodes=bd&` + // Restrict to Bangladesh
+                    `viewbox=${viewbox}&` + // Prioritize results within Bangladesh
+                    `bounded=1&` + // Only return results within viewbox
+                    `dedupe=1&` + // Remove duplicates
+                    `limit=10&` + // Increase limit for better matching
                     `addressdetails=1`
                 );
 
                 const results = await response.json();
-                setSearchSuggestions(results);
+
+                // Filter results to improve relevance for partial matches
+                const filteredResults = results.filter(place => {
+                    const displayName = place.display_name.toLowerCase();
+                    // Check if any word in the query matches the display name
+                    const queryWords = formattedQuery.split(' ');
+                    return queryWords.some(word =>
+                        displayName.includes(word) && word.length > 2
+                    );
+                });
+
+                setSearchSuggestions(filteredResults);
             } catch (error) {
                 console.error('Search error:', error);
                 setSearchSuggestions([]);
@@ -204,36 +171,51 @@ export default function Register({guardianRelations,genders, organizations}) {
         }, 500);
     };
 
-    // Handle selection from OpenStreetMap fallback
-    const handleSuggestionSelectFallback = (suggestion) => {
+    // Handle selection from search suggestions
+    const handleSuggestionSelect = (suggestion) => {
         const location = {
             lat: parseFloat(suggestion.lat),
             lng: parseFloat(suggestion.lon)
         };
 
+        setSelectedLocation(location);
         setData({
             ...data,
             latitude: location.lat,
-            longitude: location.lng,
-            address: suggestion.display_name
+            longitude: location.lng
         });
-
         setSearchQuery(suggestion.display_name);
         setSearchSuggestions([]);
+
+        // Update address field with the selected location
+        if (suggestion.display_name) {
+            setData('address', suggestion.display_name);
+        }
     };
 
     // Clear search input
     const handleClearSearch = () => {
         setSearchQuery('');
         setSearchSuggestions([]);
-        setData({
-            ...data,
-            latitude: '',
-            longitude: ''
-        });
-
+        // Clear any pending timeout
         if (searchTimeoutRef.current) {
             clearTimeout(searchTimeoutRef.current);
+        }
+    };
+
+    // Reverse geocode to get address from coordinates
+    const reverseGeocode = async (lat, lng) => {
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&addressdetails=1`
+            );
+            const result = await response.json();
+            if (result.display_name) {
+                setSearchQuery(result.display_name);
+                setData('address', result.display_name);
+            }
+        } catch (error) {
+            console.error('Reverse geocode error:', error);
         }
     };
 
@@ -249,9 +231,6 @@ export default function Register({guardianRelations,genders, organizations}) {
         }
         return age;
     };
-
-    // Check if Google Maps is available
-    const isGoogleMapsAvailable = !!window.google;
 
     return (
         <GuestLayout>
@@ -362,12 +341,12 @@ export default function Register({guardianRelations,genders, organizations}) {
 
                                 <TextInput
                                     id="password"
-                                    label="Password(min 8 character)"
+                                    label="Password"
                                     value={data.password}
                                     type="password"
                                     onChange={(e) => setData('password', e.target.value)}
                                     error={errors.password}
-                                    placeholder="Enter password. Min 8 character"
+                                    placeholder="Enter password"
                                     required
                                 />
                             </div>
@@ -428,11 +407,11 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 </>
                             )}
 
-                            {/* Location Search Section */}
+                            {/* Location Picker Section */}
                             <div className="mt-6">
                                 <label className="block text-gray-700 font-semibold mb-4">
-                                    Your Location (Search and select)
-                                    <span className="text-red-600">*</span>
+                                    Your Location Optional(Search and select)
+                                    {/*<span className="text-red-500">*</span>*/}
                                 </label>
 
                                 {/* Location Search */}
@@ -441,11 +420,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                         <input
                                             type="text"
                                             value={searchQuery}
-                                            onChange={(e) =>
-                                                isGoogleMapsAvailable
-                                                    ? handleSearch(e.target.value)
-                                                    : handleSearchFallback(e.target.value)
-                                            }
+                                            onChange={(e) => handleSearch(e.target.value)}
                                             placeholder="Search location (address, city, landmark...)"
                                             className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         />
@@ -476,12 +451,8 @@ export default function Register({guardianRelations,genders, organizations}) {
                                         <div className="absolute z-[9999] w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                             {searchSuggestions.map((suggestion, index) => (
                                                 <div
-                                                    key={isGoogleMapsAvailable ? suggestion.place_id : index}
-                                                    onClick={() =>
-                                                        isGoogleMapsAvailable
-                                                            ? handleSuggestionSelect(suggestion)
-                                                            : handleSuggestionSelectFallback(suggestion)
-                                                    }
+                                                    key={index}
+                                                    onClick={() => handleSuggestionSelect(suggestion)}
                                                     className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
                                                 >
                                                     <div className="flex items-start">
@@ -491,16 +462,10 @@ export default function Register({guardianRelations,genders, organizations}) {
                                                         />
                                                         <div>
                                                             <div className="font-medium text-gray-900">
-                                                                {isGoogleMapsAvailable
-                                                                    ? suggestion.structured_formatting.main_text
-                                                                    : suggestion.display_name.split(',').slice(0, 2).join(',')
-                                                                }
+                                                                {suggestion.display_name.split(',').slice(0, 2).join(',')}
                                                             </div>
                                                             <div className="text-sm text-gray-500">
-                                                                {isGoogleMapsAvailable
-                                                                    ? suggestion.structured_formatting.secondary_text
-                                                                    : suggestion.display_name.split(',').slice(2).join(',')
-                                                                }
+                                                                {suggestion.display_name.split(',').slice(2).join(',')}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -510,23 +475,35 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     )}
                                 </div>
 
-                                {(errors.latitude || errors.longitude) && (
-                                    <p className="mt-2 text-sm text-red-600">
-                                        Location is required. Please search and select your location.
-                                    </p>
-                                )}
+                                {/*<LocationPicker*/}
+                                {/*    onLocationSelect={handleLocationSelect}*/}
+                                {/*    initialPosition={selectedLocation}*/}
+                                {/*/>*/}
 
-                                {data.latitude && data.longitude && (
-                                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                {selectedLocation ? (
+                                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg hidden">
                                         <p className="text-green-700 text-sm">
                                             <strong>Location set successfully!</strong><br />
-                                            Coordinates captured for better service matching.
+                                            Latitude: {selectedLocation.lat.toFixed(6)}<br />
+                                            Longitude: {selectedLocation.lng.toFixed(6)}
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
+                                        <p className="text-yellow-700 text-sm">
+                                            Please select your location. You can search above, click "Use My Current Location", or click anywhere on the map.
                                         </p>
                                     </div>
                                 )}
+
+                                {(errors.latitude || errors.longitude) && (
+                                    <p className="mt-2 text-sm text-red-600">
+                                        Location is required. Please select your location on the map.
+                                    </p>
+                                )}
                             </div>
 
-                            <div className="grid grid-cols-1 gap-6 mt-5 hidden">
+                            <div className="grid grid-cols-1 gap-6 mt-5">
                                 <TextareaInput
                                     id="address"
                                     label="Present Address"
@@ -539,8 +516,10 @@ export default function Register({guardianRelations,genders, organizations}) {
                             </div>
                             <button
                                 type="submit"
+                                // disabled={!selectedLocation || processing}
                                 disabled={processing}
                                 className={`w-full mt-5 py-3 rounded-lg font-semibold text-lg transition-colors focus:ring-4 focus:ring-purple-200 ${
+                                    // !selectedLocation || processing
                                     processing
                                         ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                                         : 'bg-purple-600 text-white hover:bg-purple-700'

@@ -34,11 +34,13 @@ export default function Login({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Log in"/>
 
-            {status && (
-                <div className="mb-4 text-sm font-medium text-green-600">
-                    {status}
-                </div>
-            )}
+           <div className="text-center ">
+               {status && (
+                   <div className="mt-4 font-medium text-lg text-green-600">
+                       {status}
+                   </div>
+               )}
+           </div>
 
             <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full">
@@ -51,7 +53,8 @@ export default function Login({ status, canResetPassword }) {
                         <div className="px-8 py-8">
                             <form onSubmit={submit} className="space-y-6">
                                 <div>
-                                    <label className="block text-gray-700 font-medium mb-2">Email or Phone Number</label>
+                                    <label className="block text-gray-700 font-medium mb-2">Email<span className="text-red-500">*</span>
+                                    </label>
                                     <div className="relative">
                                         <div
                                             className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -67,7 +70,7 @@ export default function Login({ status, canResetPassword }) {
                                             autoComplete="username"
                                             isFocused={true}
                                             onChange={(e) => setData('email', e.target.value)}
-                                            placeholder="Enter your email or phone number"
+                                            placeholder="Enter your email"
                                             required
                                         />
                                         <InputError message={errors.email} className="mt-2"/>
@@ -75,41 +78,43 @@ export default function Login({ status, canResetPassword }) {
                                 </div>
 
                                 <div>
-                                    <label className="block text-gray-700 font-medium mb-2">Password</label>
-                                    <div className="relative">
-                                        <div
-                                            className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <FontAwesomeIcon icon={faLock} className="text-gray-400" />
+                                    <label className="block text-gray-700 font-medium mb-2">Password<span
+                                        className="text-red-500">*</span>
+                                    </label>
+                                        <div className="relative">
+                                            <div
+                                                className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <FontAwesomeIcon icon={faLock} className="text-gray-400"/>
+                                            </div>
+                                            <TextInput
+                                                id="password"
+                                                type={showPassword ? "text" : "password"}
+                                                name="password"
+                                                value={data.password}
+                                                className="form-input w-full pl-10 pr-10 py-3"
+                                                autoComplete="current-password"
+                                                onChange={(e) => setData('password', e.target.value)}
+                                                placeholder="Enter your password"
+                                                required
+                                            />
+                                            <InputError message={errors.password} className="mt-2"/>
+                                            <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                                <button
+                                                    type="button"
+                                                    onClick={togglePasswordVisibility}
+                                                    className="toggle-password text-gray-400 hover:text-gray-600 focus:outline-none"
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={showPassword ? faEyeSlash : faEye}
+                                                        className="h-5 w-5"
+                                                    />
+                                                </button>
+                                            </div>
                                         </div>
-                                        <TextInput
-                                            id="password"
-                                            type={showPassword ? "text" : "password"}
-                                            name="password"
-                                            value={data.password}
-                                            className="form-input w-full pl-10 pr-10 py-3"
-                                            autoComplete="current-password"
-                                            onChange={(e) => setData('password', e.target.value)}
-                                            placeholder="Enter your password"
-                                            required
-                                        />
-                                        <InputError message={errors.password} className="mt-2"/>
-                                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                            <button
-                                                type="button"
-                                                onClick={togglePasswordVisibility}
-                                                className="toggle-password text-gray-400 hover:text-gray-600 focus:outline-none"
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={showPassword ? faEyeSlash : faEye}
-                                                    className="h-5 w-5"
-                                                />
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
+                                <div className="flex items-center">
                                         <Checkbox
                                             className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
                                             name="remember"

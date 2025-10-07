@@ -3,7 +3,7 @@ import {Head, Link} from '@inertiajs/react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBackward, faEdit, faList, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 
-export default function Dashboard() {
+export default function Index() {
     return (
         <AuthenticatedLayout>
             <Head title="Donation List"/>

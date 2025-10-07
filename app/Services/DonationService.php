@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Donation;
 use App\Models\File;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -135,12 +137,12 @@ class DonationService extends BaseService
         // Create intervention image instance
         $img = Image::make($image->getRealPath());
         // Resize and optimize image
-        $img->resize(800, 500, function ($constraint) {
+        $img->resize(500, 400, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
 
-        $canvas = Image::canvas(800,500);
+        $canvas = Image::canvas(500,400);
         $canvas->insert($img, 'center');
         // Save to storage
         Storage::disk('public')->put($filePath, $canvas->stream());
@@ -156,20 +158,49 @@ class DonationService extends BaseService
 
     }
 
-    public function donationContByStatus($status = null, $resource = 'list')
+    public function donationByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend'): Collection|int
     {
-        $query = Donation::query();
-        if (checkDonor()){
-            $query->where('user_id', Auth::id());
+        $query = Donation::with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
+        if ($for === 'admin') {
+            if (checkDonor()){
+                $query->where('user_id', Auth::id());
+            }
         }
         if (isset($status)) {
             $query->where('status', $status);
+        }
+        if (isset($limit)) {
+            $query->limit($limit);
         }
         return $resource === 'count' ? $query->count() :  $query->get();
     }
 
     public function getItemConditions()
     {
-        return $this->donation->pluck('item_condition')->unique();
+        return $this->donation->orderBy('item_condition', 'asc')->get(['id','item_condition as name'])->unique('item_condition');
+    }
+
+    public function getListByStatus($request, string $status): LengthAwarePaginator
+    {
+        $query = $this->donation->with(['user', 'category', 'files', 'featuredImage']);
+        if (isset($status)) {
+            $query->where('status', $status);
+        }
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        return $query->paginate(20)->withQueryString();
+    }
+
+    public function deleteDonation($donation)
+    {
+        foreach ($donation->files as $file) {
+            if ($file->file_path && Storage::disk('public')->exists($file->file_path )) {
+                Storage::disk('public')->delete(getFileRealPath($file->file_path));
+                $file->delete();
+            }
+        }
+        return $donation->delete();
+
     }
 }
