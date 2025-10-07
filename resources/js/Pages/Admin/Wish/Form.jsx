@@ -5,15 +5,13 @@ import SelectInput from '@/Components/SelectInput.jsx';
 import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
-import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
-import Checkbox from "@/Components/Checkbox.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
 const Form = ({categories, wish, module, ageRanges}) => {
     const fileInputRef = useRef(null);
     const [donationImages, setDonationImages] = useState([]);
-    const [selectedExistingImages, setSelectedExistingImages] = useState([]);
+    const [selectedExistingImage, setSelectedExistingImage] = useState(null);
     const [isLoadingImages, setIsLoadingImages] = useState(false);
 
     const { data, setData, post, put, processing, errors, reset } = useForm({
@@ -22,7 +20,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
         description: wish?.description || '',
         age_range: wish?.age_range || '',
         attachments: [], // For new file uploads
-        existing_attachments: [], // For selected existing donation images
+        existing_attachment: null, // For single selected existing donation image
         status: wish?.status || 'available',
         _method: wish ? 'PUT' : 'POST',
     });
@@ -33,7 +31,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
             fetchDonationImages(data.category);
         } else {
             setDonationImages([]);
-            setSelectedExistingImages([]);
+            setSelectedExistingImage(null);
         }
     }, [data.category]);
 
@@ -47,13 +45,13 @@ const Form = ({categories, wish, module, ageRanges}) => {
                 category: wish?.category.name || '',
                 description: wish?.description || '',
                 status: wish?.status || 'available',
-                existing_attachments: wish?.existing_attachments || [],
+                existing_attachment: wish?.existing_attachment || null,
                 _method: 'PUT',
             }));
 
-            // Set selected existing images if editing
-            if (wish.existing_attachments) {
-                setSelectedExistingImages(wish.existing_attachments);
+            // Set selected existing image if editing
+            if (wish.existing_attachment) {
+                setSelectedExistingImage(wish.existing_attachment);
             }
         } else {
             setData('_method', 'POST');
@@ -83,21 +81,23 @@ const Form = ({categories, wish, module, ageRanges}) => {
         }
     };
 
-    // Handle selection of existing donation images
+    // Handle selection of existing donation image (single selection)
     const handleExistingImageSelect = (image) => {
-        const isSelected = selectedExistingImages.some(selected => selected.id === image.id);
-
-        let newSelectedImages;
-        if (isSelected) {
-            // Remove if already selected
-            newSelectedImages = selectedExistingImages.filter(selected => selected.id !== image.id);
+        if (selectedExistingImage?.id === image.id) {
+            // If clicking the same image, deselect it
+            setSelectedExistingImage(null);
+            setData('existing_attachment', null);
         } else {
-            // Add to selection
-            newSelectedImages = [...selectedExistingImages, image];
+            // Select new image
+            setSelectedExistingImage(image);
+            setData('existing_attachment', image.id);
         }
+    };
 
-        setSelectedExistingImages(newSelectedImages);
-        setData('existing_attachments', newSelectedImages.map(img => img.id));
+    // Clear selected existing image
+    const clearSelectedImage = () => {
+        setSelectedExistingImage(null);
+        setData('existing_attachment', null);
     };
 
     const handleSubmit = (e) => {
@@ -111,7 +111,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
             forceFormData: true,
             onSuccess: () => {
                 reset();
-                setSelectedExistingImages([]);
+                setSelectedExistingImage(null);
                 setDonationImages([]);
             },
             onError: (submissionErrors) => {
@@ -192,7 +192,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
                 <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? '' : 'hidden'}`}>
                     <div className="space-y-4">
                         <label className="block text-sm font-medium text-gray-700">
-                            Choose from existing donation images
+                            Choose one image from existing donation images
                         </label>
 
                         {isLoadingImages ? (
@@ -202,17 +202,50 @@ const Form = ({categories, wish, module, ageRanges}) => {
                         ) : donationImages.length > 0 ? (
                             <div className="border border-gray-200 rounded-lg p-4">
                                 <p className="text-sm text-gray-600 mb-3">
-                                    Select images from previous donations in this category:
+                                    Select one image from previous donations in this category:
                                 </p>
+
+                                {/* Selected Image Preview */}
+                                {selectedExistingImage && (
+                                    <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center space-x-3">
+                                                <img
+                                                    src={selectedExistingImage.url}
+                                                    alt={selectedExistingImage.alt_text || 'Selected donation image'}
+                                                    className="w-16 h-16 object-cover rounded-md"
+                                                />
+                                                <div>
+                                                    <p className="text-sm font-medium text-green-800">
+                                                        Selected Image
+                                                    </p>
+                                                    <p className="text-xs text-green-600">
+                                                        {selectedExistingImage.file_name}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={clearSelectedImage}
+                                                className="text-red-600 hover:text-red-800 text-sm font-medium"
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} className="mr-1" />
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Image Grid */}
                                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                                     {donationImages.map((image) => {
-                                        const isSelected = selectedExistingImages.some(selected => selected.id === image.id);
+                                        const isSelected = selectedExistingImage?.id === image.id;
                                         return (
                                             <div
                                                 key={image.id}
                                                 className={`relative border-2 rounded-lg cursor-pointer transition-all ${
                                                     isSelected
-                                                        ? 'border-indigo-500 ring-2 ring-indigo-200'
+                                                        ? 'border-green-500 ring-2 ring-green-200'
                                                         : 'border-gray-200 hover:border-gray-400'
                                                 }`}
                                                 onClick={() => handleExistingImageSelect(image)}
@@ -223,7 +256,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
                                                     className="w-full h-24 object-cover rounded-md"
                                                 />
                                                 {isSelected && (
-                                                    <div className="absolute top-1 right-1 bg-indigo-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                                                    <div className="absolute top-1 right-1 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
                                                         ✓
                                                     </div>
                                                 )}
@@ -232,7 +265,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
                                     })}
                                 </div>
                                 <p className="text-xs text-gray-500 mt-2">
-                                    {selectedExistingImages.length} image(s) selected
+                                    {selectedExistingImage ? '1 image selected' : 'Click to select one image'}
                                 </p>
                             </div>
                         ) : (
@@ -246,12 +279,15 @@ const Form = ({categories, wish, module, ageRanges}) => {
                 </div>
             )}
 
-            {/* File Upload Section for new files */}
-            <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? 'hidden' : ''}`}>
+            {/* File Upload Section for new files - Show when no existing images or user wants to upload */}
+            <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? '' : 'hidden'}`}>
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
-                        Upload new images (png,jpg,jpeg. Min size: 800x500)
-                        {!wish && data.existing_attachments.length === 0 && (
+                        {donationImages.length > 0
+                            ? "Or upload new images (png,jpg,jpeg. Min size: 800x500)"
+                            : "Upload new images (png,jpg,jpeg. Min size: 800x500)"
+                        }
+                        {!wish && !selectedExistingImage && (
                             <span className="text-red-500">*</span>
                         )}
                     </label>
