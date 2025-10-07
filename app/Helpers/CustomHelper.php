@@ -40,3 +40,20 @@ function getFileRealPath(?string $filePath): string
 {
     return Str::after($filePath, 'storage/');
 }
+
+function wishStatus(): array
+{
+    return ['pending' => 'Pending', 'approved' => 'Approved', 'fulfilled' => 'Fulfilled', 'cancelled' => 'Cancelled'];
+}
+
+function ageRanges(): array
+{
+    return [
+        '0-2' => '0 - 2 years',
+        '3-5' => '3 - 5 years',
+        '6-8' => '6 - 8 years',
+        '9-11' => '9 - 11 years',
+        '12-14' => '12 - 14 years',
+        '15-18' => '15 - 18 years',
+    ];
+}

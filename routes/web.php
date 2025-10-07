@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonationController;
 use App\Http\Controllers\Admin\MessageController;
@@ -63,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::controller(DonationController::class)->group(function () {
         Route::delete('donation-file/{fileId}', 'deleteDonationFile')->name('donations.file.delete');
     });
+    Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });
 
 require __DIR__.'/auth.php';

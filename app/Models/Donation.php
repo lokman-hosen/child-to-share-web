@@ -42,7 +42,7 @@ class Donation extends Model
     /**
      * Get all of the donation's media.
      */
-    public function files()
+    public function files(): MorphMany
     {
         return $this->morphMany(File::class, 'fileable');
     }
@@ -86,7 +86,7 @@ class Donation extends Model
      */
     public function images(): MorphMany
     {
-        return $this->morphMany(Media::class, 'fileable')
+        return $this->morphMany(File::class, 'fileable')
             ->where('file_type', 'image');
     }
 
@@ -95,7 +95,7 @@ class Donation extends Model
      */
     public function videos(): MorphMany
     {
-        return $this->morphMany(Media::class, 'fileable')
+        return $this->morphMany(File::class, 'fileable')
             ->where('file_type', 'video');
     }
 }

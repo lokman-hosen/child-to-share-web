@@ -17,7 +17,7 @@ class WishController extends Controller
 
     ){}
     const moduleDirectory = 'Admin/Wish/';
-    const moduleName = 'Wish List';
+    const moduleName = 'Wish';
     /**
      * Display a listing of the resource.
      */
@@ -43,6 +43,7 @@ class WishController extends Controller
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
             'categories' => $categories,
+            'ageRanges' => ageRanges()
         ]);
     }
 
@@ -51,7 +52,7 @@ class WishController extends Controller
      */
     public function store(StoreWishRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
