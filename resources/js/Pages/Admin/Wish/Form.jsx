@@ -189,7 +189,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
 
             {/* Donation Images Section - Show only when category is selected */}
             {data.category && (
-                <div className="grid grid-cols-1 gap-6">
+                <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? '' : 'hidden'}`}>
                     <div className="space-y-4">
                         <label className="block text-sm font-medium text-gray-700">
                             Choose from existing donation images
@@ -247,10 +247,10 @@ const Form = ({categories, wish, module, ageRanges}) => {
             )}
 
             {/* File Upload Section for new files */}
-            <div className="grid grid-cols-1 gap-6">
+            <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? 'hidden' : ''}`}>
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
-                        Or upload new images (png,jpg,jpeg. Min size: 800x500)
+                        Upload new images (png,jpg,jpeg. Min size: 800x500)
                         {!wish && data.existing_attachments.length === 0 && (
                             <span className="text-red-500">*</span>
                         )}
