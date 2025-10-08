@@ -280,7 +280,7 @@ const Form = ({categories, wish, module, ageRanges}) => {
             )}
 
             {/* File Upload Section for new files - Show when no existing images or user wants to upload */}
-            <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? '' : 'hidden'}`}>
+            <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? 'hidden' : ''}`}>
                 <div className="space-y-4">
                     <label className="block text-sm font-medium text-gray-700">
                         {donationImages.length > 0

@@ -7,12 +7,14 @@ use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
 use App\Services\CategoryService;
+use App\Services\WishService;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class WishController extends Controller
 {
     public function __construct(
+        protected WishService $wishService,
         protected CategoryService $categoryService,
 
     ){}
@@ -53,6 +55,7 @@ class WishController extends Controller
     public function store(StoreWishRequest $request)
     {
         dd($request->all());
+        $wish = $this->wishService->createWish($request);
     }
 
     /**
