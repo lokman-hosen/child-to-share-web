@@ -22,7 +22,11 @@ class StoreWishRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'age_range' => 'required|string',
+            'category' => 'required|string',
+            //'attachments.*' => 'required|file|mimes:jpeg,png,jpg,mp4|max:10240', // 10MB max
         ];
     }
 }

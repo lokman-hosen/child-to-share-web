@@ -9,12 +9,14 @@ use App\Models\Wish;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class WishService extends BaseService
 {
     public function __construct(
         protected Wish $wish,
         protected File $file,
+        protected CategoryService $categoryService,
     ){
         $this->model = $this->wish;
     }
@@ -37,27 +39,93 @@ class WishService extends BaseService
 
     public function createWish($request)
     {
+        $category = $this->categoryService->findByName($request->category);
         $wish = $this->wish->create([
             'title' => $request->title,
             'description' => $request->description,
             'age_range' => $request->age_range,
             'user_id' => Auth::id(),
-            'category_id' => $request->category_id,
+            'category_id' => $category->id,
             'status' => 'approved',
         ]);
         if ($request->filled('existing_attachment')) {
-             $selectedFile = $this->file->find($request->existing_attachment)->file_path;
-            Storage::copy('old/file.jpg', 'new/file.jpg');
+             $selectedFile = $this->file->find($request->existing_attachment);
+            $extension = $selectedFile->getClientOriginalExtension();
+            $filename = 'donation_' . $wish->id . '_' . time() . '_' . uniqid() . '.' . $extension;
+            $filePath = "donations/{$filename}";
+            Storage::copy($selectedFile, 'new/file.jpg');
             $wish->files()->create([
                 'file_path' => $filePath,
-                'file_type' => $fileType,
-                'mime_type' => $mimeType,
-                //'file_size' => $fileSize, // Uncommented and fixed variable name
-                //'order' => $order,
-                'is_featured' => $order === 1, // First file is featured
+                'file_type' => $selectedFile->file_type,
+                'mime_type' => $selectedFile->mime_type,
+                'is_featured' => 1, // First file is featured
             ]);
 
+        }// Handle new file uploads
+        if ($request->hasFile('attachments')) {
+            $this->handleAttachments($request->file('attachments'), $wish);
         }
 
+        return $this->wish;
+    }
+
+    private function handleAttachments($attachments, Wish $wish)
+    {
+        $order = $wish->files()->count(); // Start order from current count
+        foreach ($attachments as $attachment) {
+            $order++;
+
+            try {
+                // Determine if file is image or video
+                $mimeType = $attachment->getMimeType();
+                $fileType = str_starts_with($mimeType, 'image/') ? 'image' : 'video';
+                //$originalName = $attachment->getClientOriginalName();
+                //$fileSize = $attachment->getSize();
+
+                // Generate unique filename
+                $extension = $attachment->getClientOriginalExtension();
+                $filename = 'wish_' . $wish->id . '_' . time() . '_' . uniqid() . '.' . $extension;
+                $filePath = "wishes/{$filename}";
+
+                if ($fileType === 'image') {
+                    // Handle image with Intervention Image
+                    $this->handleImageUpload($attachment, $filePath);
+                } else {
+                    // Handle video - store directly
+                    Storage::disk('public')->put($filePath, file_get_contents($attachment));
+                }
+
+                // Create media record - FIXED: uncommented required fields
+                $wish->files()->create([
+                    'file_path' => $filePath,
+                    'file_type' => $fileType,
+                    'mime_type' => $mimeType,
+                    //'file_size' => $fileSize, // Uncommented and fixed variable name
+                    //'order' => $order,
+                    'is_featured' => $order === 1, // First file is featured
+                ]);
+
+            } catch (\Exception $e) {
+                // Log the error and continue with next file
+                //\Log::error('Error uploading attachment: ' . $e->getMessage());
+                continue;
+            }
+        }
+    }
+
+    private function handleImageUpload($image, $filePath): void
+    {
+        // Create intervention image instance
+        $img = Image::make($image->getRealPath());
+        // Resize and optimize image
+        $img->resize(500, 400, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        $canvas = Image::canvas(500,400);
+        $canvas->insert($img, 'center');
+        // Save to storage
+        Storage::disk('public')->put($filePath, $canvas->stream());
     }
 }

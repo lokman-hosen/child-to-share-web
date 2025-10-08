@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wish extends Model
@@ -13,7 +16,67 @@ class Wish extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'auto_tags' => 'array',
-    ];
+//    protected $casts = [
+//        'auto_tags' => 'array',
+//    ];
+
+    /**
+     * Get all of the donation's media.
+     */
+    public function files(): MorphMany
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
+    /**
+     * Get the user that owns the donation.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the organization that owns the donation.
+     */
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    /**
+     * Get the category that owns the donation.
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+
+    /**
+     * Get the featured image for the donation.
+     */
+    public function featuredImage(): MorphOne
+    {
+        return $this->morphOne(File::class, 'fileable')
+            ->where('is_featured', true);
+    }
+
+    /**
+     * Get all images for the donation.
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(File::class, 'fileable')
+            ->where('file_type', 'image');
+    }
+
+    /**
+     * Get all videos for the donation.
+     */
+    public function videos(): MorphMany
+    {
+        return $this->morphMany(File::class, 'fileable')
+            ->where('file_type', 'video');
+    }
 }

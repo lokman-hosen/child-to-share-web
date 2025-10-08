@@ -54,8 +54,12 @@ class WishController extends Controller
      */
     public function store(StoreWishRequest $request)
     {
-        dd($request->all());
+        //dd($request->all());
         $wish = $this->wishService->createWish($request);
+        if ($wish){
+            return redirect()->route('wishes.index')->with('success', 'Donation created successfully!');
+        }
+        return redirect()->route('wishes.index')->with('error', 'Error to created donation');
     }
 
     /**
