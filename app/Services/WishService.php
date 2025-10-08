@@ -20,6 +20,29 @@ class WishService extends BaseService
     ){
         $this->model = $this->wish;
     }
+
+    public function getListWithFilter($request)
+    {
+        $sortColumn = $request->input('sort', 'created_at');
+        $sortDirection = $request->input('direction', 'desc');
+        $searchName = $request->input('search_name');
+        $filterStatus = $request->input('filter_status');
+        // Keep query parameters when paginating
+        $query = $this->wish->with(['user', 'files', 'featuredImage']);
+        if (checkWisher()){
+            $query->where('user_id', Auth::id());
+        }
+        return $query->when($searchName, function ($query, $searchName) {
+            $query->where('name', 'like', '%' . $searchName . '%');
+        })
+            ->when($filterStatus, function ($query, $filterStatus) {
+                $query->where('status', $filterStatus);
+            })
+            ->orderBy($sortColumn, $sortDirection)
+            ->paginate(5) // Pagination: 10 items per page
+            ->withQueryString();
+    }
+
     public function donationByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend'): Collection|int
     {
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);

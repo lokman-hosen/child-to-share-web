@@ -9,6 +9,7 @@ use App\Models\Wish;
 use App\Services\CategoryService;
 use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,17 +25,13 @@ class WishController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        if (checkAdmin()){
-            return Inertia::render(self::moduleDirectory.'List', [
-                'module' => self::moduleName,
-            ]);
-        }else{
-            return Inertia::render(self::moduleDirectory.'Index', [
-                'module' => self::moduleName,
-            ]);
-        }
+        $wishes = $this->wishService->getListWithFilter($request);
+        return Inertia::render(self::moduleDirectory.'List', [
+            'module' => self::moduleName,
+            'wishes' => $wishes,
+        ]);
     }
 
     /**
