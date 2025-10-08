@@ -186,7 +186,7 @@ export default function List({module, wishes}) {
                                                 <thead className="bg-gray-50">
                                                 <tr>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Donor Name</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher Name</th>
                                                     <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
@@ -195,35 +195,48 @@ export default function List({module, wishes}) {
                                                     wishListData.map((wish, index) => (
                                                         <tr key={wish.id} className="hover:bg-gray-50 transition-colors">
                                                             <td className="p-6 border-b border-gray-100">
-                                                                <div className="flex items-center">
-                                                                    <div className="h-20 w-20 bg-blue-100 rounded-lg flex items-center justify-center mr-4 overflow-hidden border border-gray-200 flex-shrink-0">
-                                                                        {wish.featured_image?.file_path ? (
-                                                                            <img
-                                                                                src={`/storage/${wish.featured_image.file_path}`}
-                                                                                alt={wish.title}
-                                                                                className="w-full h-full object-cover"
-                                                                            />
-                                                                        ) : (
-                                                                            <div className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                                                                                <FontAwesomeIcon icon={faGift} className="text-gray-400" />
+                                                                <div className="flex items-center justify-between">
+                                                                    <div className="flex items-center">
+                                                                        <div className="h-16 w-16 bg-purple-100 rounded-md flex items-center justify-center mr-4">
+                                                                            {wish.featured_image?.file_path ? (
+                                                                                <img
+                                                                                    src={`/storage/${wish.featured_image.file_path}`}
+                                                                                    alt={wish.title}
+                                                                                    className="w-full h-full object-cover"
+                                                                                />
+                                                                            ) : (
+                                                                                <div className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                                                                                    <FontAwesomeIcon icon={faGift} className="text-gray-400"/>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                        <div>
+                                                                            <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
+                                                                            <p className="text-sm text-gray-500">Age range: {wish.age_range}, {wish.description}</p>
+                                                                            <div className="mt-1 flex items-center">
+                                                                            <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                                {wish.status}
+                                                                            </span>
+                                                                            <span
+                                                                                className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                                {wish.created_at}
+                                                                            </span>
                                                                             </div>
-                                                                        )}
+                                                                        </div>
                                                                     </div>
+
                                                                 </div>
+
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
                                                                 {wish.user.name}
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
-                                                                <div className="flex flex-col items-end space-y-2">
-                                                                    <p className="text-sm text-gray-500 whitespace-nowrap">
-                                                                        {wish.created_at}
-                                                                    </p>
-                                                                    <div className="flex space-x-2">
+                                                                <div className="flex flex-col items-end">
+                                                                    <div className="mt-2">
                                                                         <Link
                                                                             href={route('wishes.show', wish.id)}
-                                                                            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-                                                                        >
+                                                                            className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                                                             View Details
                                                                         </Link>
                                                                     </div>
@@ -235,8 +248,10 @@ export default function List({module, wishes}) {
                                                     <tr>
                                                         <td colSpan="3" className="px-6 py-12 text-center">
                                                             <div className="text-center">
-                                                                <FontAwesomeIcon icon={faGift} className="text-gray-300 text-5xl mb-4" />
-                                                                <p className="text-gray-500 text-lg mb-2">No donations found</p>
+                                                                <FontAwesomeIcon icon={faGift}
+                                                                                 className="text-gray-300 text-5xl mb-4"/>
+                                                                <p className="text-gray-500 text-lg mb-2">No donations
+                                                                    found</p>
                                                                 <p className="text-gray-400 text-sm mb-6">
                                                                     Start by creating your first donation item
                                                                 </p>
