@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
 use App\Services\CategoryService;
 use App\Services\WishService;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -52,7 +53,7 @@ class WishController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreWishRequest $request)
+    public function store(StoreWishRequest $request): RedirectResponse
     {
         //dd($request->all());
         $wish = $this->wishService->createWish($request);

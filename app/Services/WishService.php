@@ -49,17 +49,29 @@ class WishService extends BaseService
             'status' => 'approved',
         ]);
         if ($request->filled('existing_attachment')) {
-             $selectedFile = $this->file->find($request->existing_attachment);
-            $extension = $selectedFile->getClientOriginalExtension();
-            $filename = 'donation_' . $wish->id . '_' . time() . '_' . uniqid() . '.' . $extension;
-            $filePath = "donations/{$filename}";
-            Storage::copy($selectedFile, 'new/file.jpg');
-            $wish->files()->create([
-                'file_path' => $filePath,
-                'file_type' => $selectedFile->file_type,
-                'mime_type' => $selectedFile->mime_type,
-                'is_featured' => 1, // First file is featured
-            ]);
+            $selectedFile = $this->file->find($request->existing_attachment);
+            if ($selectedFile) {
+                // Get the original file path and extension
+                $originalPath = $selectedFile->file_path;
+                $extension = pathinfo($originalPath, PATHINFO_EXTENSION);
+
+                // Generate new filename for the wish
+                $filename = 'wish_' . $wish->id . '_' . time() . '_' . uniqid() . '.' . $extension;
+                $newFilePath = "wishes/{$filename}";
+
+                // Copy the file to new location
+                if (Storage::disk('public')->exists($originalPath)) {
+                    Storage::disk('public')->copy($originalPath, $newFilePath);
+
+                    // Create new file record for the wish
+                    $wish->files()->create([
+                        'file_path' => $newFilePath,
+                        'file_type' => $selectedFile->file_type,
+                        'mime_type' => $selectedFile->mime_type,
+                        'is_featured' => true, // Mark as featured since it's the selected image
+                    ]);
+                }
+            }
 
         }// Handle new file uploads
         if ($request->hasFile('attachments')) {
