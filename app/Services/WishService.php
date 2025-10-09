@@ -7,6 +7,7 @@ use App\Models\File;
 use App\Models\Organization;
 use App\Models\Wish;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -233,5 +234,17 @@ class WishService extends BaseService
         }
         return $wish->delete();
 
+    }
+
+    public function getListByStatus($request, string $status): LengthAwarePaginator
+    {
+        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
+        if (isset($status)) {
+            $query->where('status', $status);
+        }
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        return $query->paginate(20)->withQueryString();
     }
 }
