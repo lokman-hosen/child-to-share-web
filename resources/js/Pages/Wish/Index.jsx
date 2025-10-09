@@ -5,6 +5,7 @@ import {Head} from "@inertiajs/react";
 import List from "@/Components/Wish/List.jsx";
 import CTA from "@/Components/Wish/CTA.jsx";
 import SingleWishItem from "@/Components/Common/SingleWishItem.jsx";
+import Pagination from "@/Components/Pagination.jsx";
 
 const Index = ({wishes,categories,module}) => {
     const wishListData = wishes?.data || [];
@@ -55,6 +56,8 @@ const Index = ({wishes,categories,module}) => {
                         <div className="grid grid-cols-1"><p className="text-center">No data found</p></div>
                     </div>
                 )}
+
+                {(wishesLinks.length > 1 && wishListData.length > 1)   && <Pagination links={wishesLinks} />}
             </main>
             <CTA/>
         </GuestLayout>

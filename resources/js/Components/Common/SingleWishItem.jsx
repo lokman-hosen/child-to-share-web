@@ -1,6 +1,6 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift} from "@fortawesome/free-solid-svg-icons";
+import {faGift, faStar} from "@fortawesome/free-solid-svg-icons";
 import {textLimit} from "@/utils.jsx";
 import {Link} from "@inertiajs/react";
 
@@ -8,8 +8,22 @@ const SingleWishItem = ({wish}) => {
     return (
         <Link href={route('donation.show', {id: wish.id})}>
             <div className="card wish-card bg-white rounded-lg shadow">
+
                 <div className="h-48 bg-purple-100 flex items-center justify-center">
-                    <i className="fas fa-book-open text-purple-500 text-5xl"></i>
+                    <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                        {wish.featured_image?.file_path ? (
+                            <img
+                                src={`/storage/${wish.featured_image.file_path}`}
+                                alt={wish.title}
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            <div
+                                className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl"/>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className="p-5">
                     <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
