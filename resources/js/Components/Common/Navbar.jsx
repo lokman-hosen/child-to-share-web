@@ -108,20 +108,42 @@ export default function Navbar() {
                                         >
                                             Your Profile
                                         </Link>
-                                        <Link
-                                            href={route('donations.index')}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            My Donations
-                                        </Link>
-                                        <Link
-                                            href={route('donations.create')}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            Create Donation
-                                        </Link>
+                                        {user.role === 'donor' && (
+                                         <>
+                                             <Link
+                                                 href={route('donations.index')}
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 onClick={() => setIsMobileMenuOpen(false)}
+                                             >
+                                                 My Donations
+                                             </Link>
+                                             <Link
+                                                 href={route('donations.create')}
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 onClick={() => setIsMobileMenuOpen(false)}
+                                             >
+                                                 Create Donation
+                                             </Link>
+                                         </>
+                                        )}
+                                        {user.role === 'wisher' && (
+                                         <>
+                                             <Link
+                                                 href={route('wishes.index')}
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 onClick={() => setIsMobileMenuOpen(false)}
+                                             >
+                                                 My Wishes
+                                             </Link>
+                                             <Link
+                                                 href={route('wishes.create')}
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 onClick={() => setIsMobileMenuOpen(false)}
+                                             >
+                                                 Create Wish
+                                             </Link>
+                                         </>
+                                        )}
                                         <Link
                                             href={route('user.password.form')}
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
@@ -229,6 +251,14 @@ export default function Navbar() {
                         Donations
                     </Link>
 
+                    <Link
+                        href={route('wish.index')}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        Wishes
+                    </Link>
+
                 </div>
 
                 {/* Mobile Authentication Section */}
@@ -261,20 +291,44 @@ export default function Navbar() {
                             >
                                 Your Profile
                             </Link>
-                            <Link
-                                href={route('donations.index')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                My Donations
-                            </Link>
-                            <Link
-                                href={route('donations.create')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Create Donation
-                            </Link>
+                            {user.role === 'donor' && (
+                                <>
+                                    <Link
+                                        href={route('donations.index')}
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        My Donations
+                                    </Link>
+                                    <Link
+                                        href={route('donations.create')}
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Create Donation
+                                    </Link>
+                                </>
+                            )}
+
+                            {user.role === 'wisher' && (
+                                <>
+                                    <Link
+                                        href={route('wishes.index')}
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        My Wishes
+                                    </Link>
+                                    <Link
+                                        href={route('wishes.create')}
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Create Wish
+                                    </Link>
+                                </>
+                            )}
+
                             <Link
                                 href={route('user.password.form')}
                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
