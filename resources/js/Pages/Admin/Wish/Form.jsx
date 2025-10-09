@@ -8,7 +8,7 @@ import {faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-s
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
-const Form = ({categories, wish, module, ageRanges}) => {
+const Form = ({categories, wish, statuses, module, ageRanges}) => {
     const fileInputRef = useRef(null);
     const [donationImages, setDonationImages] = useState([]);
     const [selectedExistingImage, setSelectedExistingImage] = useState(null);
@@ -38,7 +38,6 @@ const Form = ({categories, wish, module, ageRanges}) => {
     // Initialize form data when wish is provided (for editing)
     useEffect(() => {
         if (wish) {
-            const formattedTags = formatTags(wish.auto_tags);
             setData((prevData) => ({
                 ...prevData,
                 title: wish?.title || '',

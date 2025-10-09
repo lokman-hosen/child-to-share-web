@@ -10,6 +10,7 @@ use App\Services\CategoryService;
 use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -81,7 +82,27 @@ class WishController extends Controller
      */
     public function edit(Wish $wish)
     {
-        //
+        if (checkDonor()){
+            if (!($wish->user_id == Auth::id())){
+                abort(403);
+            }
+        }
+
+        $wish->load([
+            'user',
+            'organization',
+            'category',
+            'files' // Make sure this matches your relationship name
+        ]);
+        $categories = $this->categoryService->listByStatus();
+        $statuses = wishStatus();
+        return Inertia::render(self::moduleDirectory.'Edit', [
+            'module' => self::moduleName,
+            'categories' => $categories,
+            'ageRanges' => ageRanges(),
+            'wish' => $wish,
+            'statuses' => $statuses,
+        ]);
     }
 
     /**
