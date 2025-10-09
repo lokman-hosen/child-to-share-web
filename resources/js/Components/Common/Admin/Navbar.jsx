@@ -88,20 +88,42 @@ export default function Navbar({ onMenuClick }) {
                                     >
                                         Your Profile
                                     </Link>
-                                    <Link
-                                        href={route('donations.index')}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        onClick={() => setIsProfileOpen(false)}
-                                    >
-                                        My Donations
-                                    </Link>
-                                    <Link
-                                        href={route('donations.create')}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        onClick={() => setIsProfileOpen(false)}
-                                    >
-                                        Create Donation
-                                    </Link>
+                                    {user.role === 'donor' && (
+                                        <>
+                                            <Link
+                                                href={route('donations.index')}
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setIsProfileOpen(false)}
+                                            >
+                                                My Donations
+                                            </Link>
+                                            <Link
+                                                href={route('donations.create')}
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setIsProfileOpen(false)}
+                                            >
+                                                Create Donation
+                                            </Link>
+                                        </>
+                                    )}
+                                    {user.role === 'wisher' && (
+                                        <>
+                                            <Link
+                                                href={route('wishes.index')}
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setIsProfileOpen(false)}
+                                            >
+                                                My Wishes
+                                            </Link>
+                                            <Link
+                                                href={route('wishes.create')}
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                                onClick={() => setIsProfileOpen(false)}
+                                            >
+                                                Create Wish
+                                            </Link>
+                                        </>
+                                    )}
                                     <Link
                                         href={route('user.password.form')}
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
