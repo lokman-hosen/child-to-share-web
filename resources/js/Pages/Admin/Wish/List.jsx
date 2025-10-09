@@ -46,7 +46,7 @@ export default function List({module, wishes}) {
                                         {module} Items
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
-                                        Share your items and make wishes come true
+                                        Start making wishes and find the items you need
                                     </p>
                                 </div>
                             </div>
@@ -131,11 +131,11 @@ export default function List({module, wishes}) {
 
                                                     <div className="space-y-2 mb-4">
                                                         <div className="flex items-center text-sm text-gray-600">
-                                                            <span className="font-medium mr-2">Condition:</span>
-                                                            <span className="capitalize">{wish.item_condition}</span>
+                                                            <span className="font-medium mr-2">Age Range:</span>
+                                                            <span className="capitalize">{wish.age_range}</span>
                                                         </div>
                                                         <div className="flex items-center text-sm text-gray-600">
-                                                            <span className="font-medium mr-2">Donor:</span>
+                                                            <span className="font-medium mr-2">Wisher:</span>
                                                             <span>{wish.user.name}</span>
                                                         </div>
                                                         <div className="flex items-center text-sm text-gray-600">
@@ -162,9 +162,9 @@ export default function List({module, wishes}) {
                                     ) : (
                                         <div className="text-center py-12">
                                             <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4" />
-                                            <p className="text-gray-500 text-lg mb-2">No donations found</p>
+                                            <p className="text-gray-500 text-lg mb-2">No wishes found</p>
                                             <p className="text-gray-400 text-sm mb-6">
-                                                Start sharing items and make wishes come true
+                                                Start making wishes and find the items you need
                                             </p>
                                             <Link
                                                 href={route('wishes.create')}
@@ -250,7 +250,7 @@ export default function List({module, wishes}) {
                                                             <div className="text-center">
                                                                 <FontAwesomeIcon icon={faStar}
                                                                                  className="text-gray-300 text-5xl mb-4"/>
-                                                                <p className="text-gray-500 text-lg mb-2">No donations
+                                                                <p className="text-gray-500 text-lg mb-2">No wishes
                                                                     found</p>
                                                                 <p className="text-gray-400 text-sm mb-6">
                                                                     Start by creating your first donation item
@@ -306,11 +306,11 @@ export default function List({module, wishes}) {
 
                                                             <div className="space-y-2 mb-4">
                                                                 <div className="flex items-center text-sm text-gray-600">
-                                                                    <span className="font-medium mr-2">Condition:</span>
-                                                                    <span className="capitalize">{wish.item_condition}</span>
+                                                                    <span className="font-medium mr-2">Age Range:</span>
+                                                                    <span className="capitalize">{wish.age_range}</span>
                                                                 </div>
                                                                 <div className="flex items-center text-sm text-gray-600">
-                                                                    <span className="font-medium mr-2">Donor:</span>
+                                                                    <span className="font-medium mr-2">Wisher:</span>
                                                                     <span>{wish.user.name}</span>
                                                                 </div>
                                                             </div>
@@ -333,7 +333,7 @@ export default function List({module, wishes}) {
                                             ) : (
                                                 <div className="col-span-full text-center py-12">
                                                     <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4" />
-                                                    <p className="text-gray-500 text-lg mb-2">No donations found</p>
+                                                    <p className="text-gray-500 text-lg mb-2">No wishes found</p>
                                                     <p className="text-gray-400 text-sm mb-6">
                                                         Start sharing items and make wishes come true
                                                     </p>
