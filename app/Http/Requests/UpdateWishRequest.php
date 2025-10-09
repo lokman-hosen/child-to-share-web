@@ -11,7 +11,7 @@ class UpdateWishRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,21 @@ class UpdateWishRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'age_range' => 'required|string',
+            'category' => 'required|string',
+            //'existing_attachment' => 'nullable|exists:files,id',
+            'attachments' => 'nullable|array',
+            'attachments.*' => 'file|mimes:jpeg,png,jpg,mp4|max:10240',
         ];
+
+        // Add conditional requirement for attachments
+//        if (empty($this->existing_attachment)) {
+//            $rules['attachments'] = 'required|array|min:1';
+//        }
+
+        return $rules;
     }
 }

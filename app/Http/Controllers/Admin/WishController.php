@@ -82,7 +82,7 @@ class WishController extends Controller
      */
     public function edit(Wish $wish)
     {
-        if (checkDonor()){
+        if (checkWisher()){
             if (!($wish->user_id == Auth::id())){
                 abort(403);
             }
@@ -110,7 +110,16 @@ class WishController extends Controller
      */
     public function update(UpdateWishRequest $request, Wish $wish)
     {
-        //
+        if (checkDonor()){
+            if (!($wish->user_id == Auth::id())){
+                abort(403);
+            }
+        }
+        $updateWish = $this->wishService->updateWish($request, $wish);
+        if ($updateWish){
+            return redirect()->route('wishes.index')->with('success', 'Wish updated successfully!');
+        }
+        return redirect()->route('wishes.index')->with('error', 'Error to updated wish');
     }
 
     /**
