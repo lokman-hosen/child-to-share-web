@@ -3,7 +3,7 @@ import {Head, Link} from '@inertiajs/react';
 import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
+import {faStar, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
 
 export default function List({module, wishes}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -37,7 +37,7 @@ export default function List({module, wishes}) {
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
                                 <div className="h-12 w-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                                     <FontAwesomeIcon
-                                        icon={faGift}
+                                        icon={faStar}
                                         className="text-white text-xl"
                                     />
                                 </div>
@@ -111,7 +111,7 @@ export default function List({module, wishes}) {
                                                             />
                                                         ) : (
                                                             <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                                <FontAwesomeIcon icon={faGift} className="text-gray-400 text-4xl" />
+                                                                <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl" />
                                                             </div>
                                                         )}
                                                     </div>
@@ -161,7 +161,7 @@ export default function List({module, wishes}) {
                                         ))
                                     ) : (
                                         <div className="text-center py-12">
-                                            <FontAwesomeIcon icon={faGift} className="text-gray-300 text-6xl mb-4" />
+                                            <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4" />
                                             <p className="text-gray-500 text-lg mb-2">No donations found</p>
                                             <p className="text-gray-400 text-sm mb-6">
                                                 Start sharing items and make wishes come true
@@ -206,7 +206,7 @@ export default function List({module, wishes}) {
                                                                                 />
                                                                             ) : (
                                                                                 <div className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                                                                                    <FontAwesomeIcon icon={faGift} className="text-gray-400"/>
+                                                                                    <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
                                                                                 </div>
                                                                             )}
                                                                         </div>
@@ -248,7 +248,7 @@ export default function List({module, wishes}) {
                                                     <tr>
                                                         <td colSpan="3" className="px-6 py-12 text-center">
                                                             <div className="text-center">
-                                                                <FontAwesomeIcon icon={faGift}
+                                                                <FontAwesomeIcon icon={faStar}
                                                                                  className="text-gray-300 text-5xl mb-4"/>
                                                                 <p className="text-gray-500 text-lg mb-2">No donations
                                                                     found</p>
@@ -286,7 +286,7 @@ export default function List({module, wishes}) {
                                                                     />
                                                                 ) : (
                                                                     <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                                        <FontAwesomeIcon icon={faGift} className="text-gray-400 text-5xl" />
+                                                                        <FontAwesomeIcon icon={faStar} className="text-gray-400 text-5xl" />
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -332,7 +332,7 @@ export default function List({module, wishes}) {
                                                 ))
                                             ) : (
                                                 <div className="col-span-full text-center py-12">
-                                                    <FontAwesomeIcon icon={faGift} className="text-gray-300 text-6xl mb-4" />
+                                                    <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4" />
                                                     <p className="text-gray-500 text-lg mb-2">No donations found</p>
                                                     <p className="text-gray-400 text-sm mb-6">
                                                         Start sharing items and make wishes come true

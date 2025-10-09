@@ -2,7 +2,16 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link, router} from '@inertiajs/react';
 import React, { useState } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash, faChevronLeft, faChevronRight, faEye, faGift, faList} from "@fortawesome/free-solid-svg-icons";
+import {
+    faEdit,
+    faTrash,
+    faChevronLeft,
+    faChevronRight,
+    faEye,
+    faGift,
+    faList,
+    faStar
+} from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/Donation/Form.jsx";
 import {Button} from "@headlessui/react";
 
@@ -65,7 +74,7 @@ export default function Show({module, wish}) {
     };
 
     const handleItemDelete = (itemId) => {
-        if (confirm('Are you sure you want to delete this user?')) {
+        if (confirm('Are you sure you want to delete?')) {
             router.delete(route('wishes.destroy', itemId), {
                 preserveScroll: true,
             });
@@ -78,13 +87,13 @@ export default function Show({module, wish}) {
             <div className="px-4 sm:px-6 lg:px-8 py-6">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="bg-gradient-to-r from-purple-600 to-blue-700 px-6 py-8 sm:px-8 sm:py-10">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
                                 <div className="h-12 w-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
                                     <FontAwesomeIcon
-                                        icon={faGift}
+                                        icon={faStar}
                                         className="text-white text-xl"
                                     />
                                 </div>
@@ -311,7 +320,7 @@ export default function Show({module, wish}) {
                                         <div className="flex space-x-3 text-center">
                                             <Button
                                                 onClick={() => handleItemDelete(wish.id)}
-                                                className="flex-1 bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                                className="flex-1 bg-red-500 hover:bg-red-400 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
                                                 <FontAwesomeIcon icon={faTrash}/> Delete Item
                                             </Button>
                                             <Link

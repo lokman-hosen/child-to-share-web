@@ -65,7 +65,7 @@ export default function List({module, donation}) {
     };
 
     const handleItemDelete = (itemId) => {
-        if (confirm('Are you sure you want to delete this user?')) {
+        if (confirm('Are you sure you want to delete?')) {
             router.delete(route('donations.destroy', itemId), {
                 preserveScroll: true,
             });
@@ -342,7 +342,7 @@ export default function List({module, donation}) {
                                         <div className="flex space-x-3 text-center">
                                             <Button
                                                 onClick={() => handleItemDelete(donation.id)}
-                                                className="flex-1 bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                                className="flex-1 bg-red-500 hover:bg-red-400 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
                                                 <FontAwesomeIcon icon={faTrash}/> Delete Item
                                             </Button>
                                             <Link

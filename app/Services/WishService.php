@@ -222,4 +222,16 @@ class WishService extends BaseService
         return $wishFile->delete();
 
     }
+
+    public function deleteWish($wish)
+    {
+        foreach ($wish->files as $file) {
+            if ($file->file_path && Storage::disk('public')->exists($file->file_path )) {
+                Storage::disk('public')->delete(getFileRealPath($file->file_path));
+                $file->delete();
+            }
+        }
+        return $wish->delete();
+
+    }
 }

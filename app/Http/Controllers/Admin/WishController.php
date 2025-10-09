@@ -125,9 +125,18 @@ class WishController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Wish $wish)
+    public function destroy(Wish $wish): RedirectResponse
     {
-        //
+        if (checkWisher()){
+            if (!($wish->user_id == Auth::id())){
+                abort(403);
+            }
+        }
+        $deleteWishItem = $this->wishService->deleteWish($wish);
+        if ($deleteWishItem){
+            return redirect()->route('wishes.index')->with('success', 'Wish item deleted successfully.');
+        }
+        return redirect()->route('wishes.index')->with('error', 'Opps... Failed to delete wish item.');
     }
 
     public function deleteWishFile(string $fileId): RedirectResponse
