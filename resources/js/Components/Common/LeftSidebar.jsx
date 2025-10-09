@@ -6,7 +6,7 @@ import {
     faHome,
     faSignOutAlt,
     faUserCircle,
-    faTimes, faDashboard
+    faTimes, faDashboard, faStar
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -152,15 +152,6 @@ export default function LeftSidebar({ onClose }) {
                     <ul className="mt-4">
                         <li className="mb-1">
                             <Link
-                                href={route('home')}
-                                title="Visit Website"
-                                className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors"
-                            >
-                                <FontAwesomeIcon icon={faHome} className="text-xl"/> Website
-                            </Link>
-                        </li>
-                        <li className="mb-1">
-                            <Link
                                 href={route('dashboard')}
                                 onClick={onClose}
                                 className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('dashboard') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
@@ -175,7 +166,7 @@ export default function LeftSidebar({ onClose }) {
                                 onClick={onClose}
                                 className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wishes.create') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
                             >
-                                <FontAwesomeIcon icon={faGift} className="mr-2"/>
+                                <FontAwesomeIcon icon={faStar} className="mr-2"/>
                                 Create Wish
                             </Link>
                         </li>
@@ -183,33 +174,33 @@ export default function LeftSidebar({ onClose }) {
                             <Link
                                 href={route('wishes.index')}
                                 onClick={onClose}
-                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wishes.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${(route().current('wishes.index') || route().current('wishes.show')) ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
                             >
-                                <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
+                                <FontAwesomeIcon icon={faStar} className="mr-2"/>
                                 My Wishes
                             </Link>
                         </li>
-                        <li className="mb-1">
-                            <Link
-                                href={route('messages.index')}
-                                onClick={onClose}
-                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('messages.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
-                            >
-                                <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
-                                Messages
-                                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
-                            </Link>
-                        </li>
-                        <li className="mb-1">
-                            <Link
-                                href={route('organizations.index')}
-                                onClick={onClose}
-                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
-                            >
-                                <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
-                                Organizations
-                            </Link>
-                        </li>
+                        {/*<li className="mb-1">*/}
+                        {/*    <Link*/}
+                        {/*        href={route('messages.index')}*/}
+                        {/*        onClick={onClose}*/}
+                        {/*        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('messages.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
+                        {/*    >*/}
+                        {/*        <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>*/}
+                        {/*        Messages*/}
+                        {/*        <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>*/}
+                        {/*    </Link>*/}
+                        {/*</li>*/}
+                        {/*<li className="mb-1">*/}
+                        {/*    <Link*/}
+                        {/*        href={route('organizations.index')}*/}
+                        {/*        onClick={onClose}*/}
+                        {/*        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
+                        {/*    >*/}
+                        {/*        <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>*/}
+                        {/*        Organizations*/}
+                        {/*    </Link>*/}
+                        {/*</li>*/}
                         <li className="mb-1">
                             <Link
                                 href={route('logout')}
