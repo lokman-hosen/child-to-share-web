@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import Hero from "@/Components/Wish/Hero.jsx";
-import {Head, router} from "@inertiajs/react";
+import {Head, router, usePage} from "@inertiajs/react";
 import List from "@/Components/Wish/List.jsx";
 import CTA from "@/Components/Wish/CTA.jsx";
 import SingleWishItem from "@/Components/Common/SingleWishItem.jsx";
@@ -10,6 +10,7 @@ import SelectInput from "@/Components/SelectInput.jsx";
 import {getDropdownOptions} from "@/utils.jsx";
 
 const Index = ({wishes,categories, filters, module}) => {
+    const user = usePage().props.auth.user;
     const wishListData = wishes?.data || [];
     const wishesLinks = wishes?.links || [];
     const safeFilters = filters || [];
@@ -73,7 +74,7 @@ const Index = ({wishes,categories, filters, module}) => {
 
                 {(wishesLinks.length > 1 && wishListData.length > 1) && <Pagination links={wishesLinks}/>}
             </main>
-            <CTA/>
+            <CTA user={user}/>
         </GuestLayout>
     );
 };
