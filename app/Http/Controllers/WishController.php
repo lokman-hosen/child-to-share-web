@@ -54,9 +54,19 @@ class WishController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Wish $wish)
+    public function show(string $id): Response
     {
-        //
+        $wish = $this->wishService->find($id);
+        $wish->load([
+            'user',
+            'organization',
+            'category',
+            'files' // Make sure this matches your relationship name
+        ]);
+        return Inertia::render(self::moduleDirectory.'Show', [
+            'module' => self::moduleName,
+            'wish' => $wish,
+        ]);
     }
 
     /**

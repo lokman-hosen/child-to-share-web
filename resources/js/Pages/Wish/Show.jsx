@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Hero from "@/Components/Donation/Hero.jsx";
 
-const Show = ({donation, module}) => {
+const Show = ({wish, module}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const getStatusColor = (status) => {
@@ -49,13 +49,13 @@ const Show = ({donation, module}) => {
     // Carousel navigation functions
     const nextSlide = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex === donation.files.length - 1 ? 0 : prevIndex + 1
+            prevIndex === wish.files.length - 1 ? 0 : prevIndex + 1
         );
     };
 
     const prevSlide = () => {
         setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? donation.files.length - 1 : prevIndex - 1
+            prevIndex === 0 ? wish.files.length - 1 : prevIndex - 1
         );
     };
 
@@ -66,8 +66,8 @@ const Show = ({donation, module}) => {
         <GuestLayout>
             <Head title="Item Detail"/>
             <Hero
-                title = {donation.title}
-                subTitle = {donation.description}
+                title = {wish.title}
+                subTitle = {wish.description}
             />
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
@@ -79,14 +79,14 @@ const Show = ({donation, module}) => {
                                     {/* Left Column - Media Carousel */}
                                     <div className="lg:col-span-2">
                                         {/* Main Carousel */}
-                                        {donation.files && donation.files.length > 0 && (
+                                        {wish.files && wish.files.length > 0 && (
                                             <div className="relative">
-                                                <h3 className="text-lg font-medium text-gray-900 mb-4">Item: {donation.title}</h3>
+                                                <h3 className="text-lg font-medium text-gray-900 mb-4">Item: {wish.title}</h3>
 
                                                 {/* Main Carousel Container */}
                                                 <div className="relative bg-gray-100 rounded-lg overflow-hidden">
                                                     {/* Navigation Arrows */}
-                                                    {donation.files.length > 1 && (
+                                                    {wish.files.length > 1 && (
                                                         <>
                                                             <button
                                                                 onClick={prevSlide}
@@ -104,14 +104,14 @@ const Show = ({donation, module}) => {
                                                     )}
 
                                                     {/* Current Slide Indicator */}
-                                                    {donation.files.length > 1 && (
+                                                    {wish.files.length > 1 && (
                                                         <div className="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm z-10">
-                                                            {currentIndex + 1} / {donation.files.length}
+                                                            {currentIndex + 1} / {wish.files.length}
                                                         </div>
                                                     )}
 
                                                     {/* Featured Badge */}
-                                                    {donation.files[currentIndex]?.is_featured === 1 && (
+                                                    {wish.files[currentIndex]?.is_featured === 1 && (
                                                         <span className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
                                                     Featured
                                                 </span>
@@ -120,11 +120,11 @@ const Show = ({donation, module}) => {
                                                     {/* Action Buttons Container - Positioned at bottom right */}
                                                     <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
                                                         <a
-                                                            href={`/storage/${donation.files[currentIndex].file_path}`}
+                                                            href={`/storage/${wish.files[currentIndex].file_path}`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="inline-flex items-center justify-center w-10 h-10 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-full text-sm font-medium transition-colors shadow-md"
-                                                            title={donation.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
+                                                            title={wish.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
                                                         >
                                                             <FontAwesomeIcon icon={faEye} className="w-4 h-4"/>
                                                         </a>
@@ -132,10 +132,10 @@ const Show = ({donation, module}) => {
 
                                                     {/* Main Media Display */}
                                                     <div className="aspect-video flex items-center justify-center">
-                                                        {donation.files[currentIndex]?.file_type === 'image' ? (
+                                                        {wish.files[currentIndex]?.file_type === 'image' ? (
                                                             <img
-                                                                src={`/storage/${donation.files[currentIndex].file_path}`}
-                                                                alt={`${donation.title} - Image ${currentIndex + 1}`}
+                                                                src={`/storage/${wish.files[currentIndex].file_path}`}
+                                                                alt={`${wish.title} - Image ${currentIndex + 1}`}
                                                                 className="w-full h-full object-contain max-h-96"
                                                             />
                                                         ) : (
@@ -144,8 +144,8 @@ const Show = ({donation, module}) => {
                                                                 className="w-full h-full max-h-96"
                                                             >
                                                                 <source
-                                                                    src={`/storage/${donation.files[currentIndex].file_path}`}
-                                                                    type={donation.files[currentIndex].mime_type}
+                                                                    src={`/storage/${wish.files[currentIndex].file_path}`}
+                                                                    type={wish.files[currentIndex].mime_type}
                                                                 />
                                                                 Your browser does not support the video tag.
                                                             </video>
@@ -154,10 +154,10 @@ const Show = ({donation, module}) => {
                                                 </div>
 
                                                 {/* Thumbnail Navigation - Hidden on mobile, visible on desktop */}
-                                                {donation.files.length > 1 && (
+                                                {wish.files.length > 1 && (
                                                     <div className="mt-4 hidden lg:block">
                                                         <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
-                                                            {donation.files.map((file, index) => (
+                                                            {wish.files.map((file, index) => (
                                                                 <button
                                                                     key={file.id}
                                                                     onClick={() => goToSlide(index)}
@@ -190,7 +190,7 @@ const Show = ({donation, module}) => {
                                         )}
 
                                         {/* Fallback if no files */}
-                                        {(!donation.files || donation.files.length === 0) && (
+                                        {(!wish.files || wish.files.length === 0) && (
                                             <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
                                                 <div className="text-center text-gray-500">
                                                     <div className="text-4xl mb-2">📷</div>
@@ -209,79 +209,52 @@ const Show = ({donation, module}) => {
                                                 <div>
                                                     <dt className="text-sm font-medium text-gray-500">Category:</dt>
                                                     <dd className="text-sm text-gray-900">
-                                                        {donation.category?.name || 'N/A'}
+                                                        {wish.category?.name || 'N/A'}
                                                     </dd>
                                                 </div>
                                                 <div>
                                                     <dt className="text-sm font-medium text-gray-500">Item Condition:</dt>
                                                     <dd className="text-sm text-gray-900 capitalize">
-                                                        {donation.item_condition}
+                                                        {wish.item_condition}
                                                     </dd>
                                                 </div>
                                                 <div>
                                                     <dt className="text-sm font-medium text-gray-500">Status:</dt>
                                                     <dd className="text-sm">
                                                 <span
-                                                    className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getStatusColor(donation.status)}`}>
-                                                    {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
+                                                    className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getStatusColor(wish.status)}`}>
+                                                    {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
                                                 </span>
                                                     </dd>
                                                 </div>
                                                 <div>
                                                     <dt className="text-sm font-medium text-gray-500">Posted By:</dt>
                                                     <dd className="text-sm text-gray-900">
-                                                        {donation.user?.name || 'Anonymous'}
+                                                        {wish.user?.name || 'Anonymous'}
                                                     </dd>
                                                 </div>
-                                                {donation.organization && (
+                                                {wish.organization && (
                                                     <div>
                                                         <dt className="text-sm font-medium text-gray-500">Organization:</dt>
                                                         <dd className="text-sm text-gray-900">
-                                                            {donation.organization.name}
+                                                            {wish.organization.name}
                                                         </dd>
                                                     </div>
                                                 )}
                                                 <div>
                                                     <dt className="text-sm font-medium text-gray-500">Created:</dt>
                                                     <dd className="text-sm text-gray-900">
-                                                        {donation.created_at}
+                                                        {wish.created_at}
                                                     </dd>
                                                 </div>
                                             </dl>
                                         </div>
 
-                                        {/* Tags */}
-                                        {donation.auto_tags && donation.auto_tags.length > 0 && (
-                                            <div className="bg-gray-50 rounded-lg p-4">
-                                                <h3 className="text-lg font-medium text-gray-900 mb-3">Tags</h3>
-                                                <div className="flex flex-wrap gap-2">
-                                                    {donation.auto_tags && (
-                                                        Array.isArray(donation.auto_tags)
-                                                            ? donation.auto_tags.map((tag, index) => (
-                                                                <span
-                                                                    key={index}
-                                                                    className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                                            {tag}
-                                                        </span>
-                                                            ))
-                                                            : donation.auto_tags.split(',').map((tag, index) => (
-                                                                <span
-                                                                    key={index}
-                                                                    className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2"
-                                                                >
-                                                            {tag.trim()}
-                                                        </span>
-                                                            ))
-                                                    )}
-                                                </div>
-                                            </div>
-                                        )}
-
                                         {/* Description */}
                                         <div className="bg-gray-50 rounded-lg p-4">
                                             <h3 className="text-lg font-medium text-gray-900 mb-3">Description</h3>
                                             <p className="text-sm text-gray-700 whitespace-pre-line">
-                                                {donation.description || 'No description provided.'}
+                                                {wish.description || 'No description provided.'}
                                             </p>
                                         </div>
 

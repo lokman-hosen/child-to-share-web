@@ -6,7 +6,7 @@ import {Link} from "@inertiajs/react";
 
 const SingleWishItem = ({wish}) => {
     return (
-        <Link href={route('donation.show', {id: wish.id})}>
+        <Link href={route('wish.show', {id: wish.id})}>
             <div className="card wish-card bg-white rounded-lg shadow">
 
                 <div className="h-48 bg-purple-100 flex items-center justify-center">
