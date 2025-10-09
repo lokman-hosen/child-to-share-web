@@ -64,6 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::controller(DonationController::class)->group(function () {
         Route::delete('donation-file/{fileId}', 'deleteDonationFile')->name('donations.file.delete');
     });
+    Route::controller(WishController::class)->group(function () {
+        Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
+    });
     Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });
 

@@ -212,4 +212,14 @@ class WishService extends BaseService
         return $updatedWish;
 
     }
+
+    public function deleteSingleFile($fileId)
+    {
+        $wishFile = File::findOrFail($fileId);
+        if ($wishFile->file_path) {
+            Storage::disk('public')->delete($wishFile->file_path);
+        }
+        return $wishFile->delete();
+
+    }
 }
