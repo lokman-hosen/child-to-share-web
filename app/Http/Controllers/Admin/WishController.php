@@ -52,7 +52,6 @@ class WishController extends Controller
      */
     public function store(StoreWishRequest $request): RedirectResponse
     {
-        //dd($request->all());
         $wish = $this->wishService->createWish($request);
         if ($wish){
             return redirect()->route('wishes.index')->with('success', 'Donation created successfully!');
@@ -63,9 +62,18 @@ class WishController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Wish $wish)
+    public function show(Wish $wish): Response
     {
-        //
+        $wish->load([
+            'user',
+            'organization',
+            'category',
+            'files' // Make sure this matches your relationship name
+        ]);
+        return Inertia::render(self::moduleDirectory.'Show', [
+            'module' => self::moduleName,
+            'wish' => $wish,
+        ]);
     }
 
     /**
