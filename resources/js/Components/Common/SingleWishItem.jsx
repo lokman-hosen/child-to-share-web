@@ -9,8 +9,8 @@ const SingleWishItem = ({wish}) => {
         <Link href={route('wish.show', {id: wish.id})}>
             <div className="card wish-card bg-white rounded-lg shadow">
 
-                <div className="h-48 bg-purple-100 flex items-center justify-center">
-                    <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                <div className="h-[240px] bg-purple-100 flex items-center justify-center">
+                    <div className="h-[240px] w-full bg-gray-100 overflow-hidden">
                         {wish.featured_image?.file_path ? (
                             <img
                                 src={`/storage/${wish.featured_image.file_path}`}
