@@ -28,7 +28,8 @@ const SingleWishItemMobile = ({wish}) => {
                className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200"
            >
                {/* Image */}
-               <div className="aspect-square bg-gray-100">
+               {/*<div className="aspect-square bg-gray-100">*/}
+               <div className="bg-gray-100">
                    {wish.featured_image?.file_path ? (
                        <img
                            src={`/storage/${wish.featured_image.file_path}`}
