@@ -153,4 +153,15 @@ class DonationController extends Controller
         }
         return redirect()->back()->with('error', 'Error to delete donation file');
     }
+
+    public function makeFeatureFile(string $fileId): RedirectResponse
+    {
+        $donationFile = $this->donationService->makeFeatureFile($fileId);
+        if ($donationFile){
+            return redirect()->back()->with('success', 'Make file featured successfully!');
+        }
+        return redirect()->back()->with('error', 'Error to make feature file');
+    }
+
+
 }

@@ -234,6 +234,17 @@ class WishService extends BaseService
 
     }
 
+    public function makeFeatureFile($fileId){
+        $wishFile = File::findOrFail($fileId);
+        if ($wishFile){
+            File::where('fileable_type', Wish::class)
+                ->where('fileable_id', $wishFile->fileable_id)
+                ->update(['is_featured' => false]);
+            $wishFile->update(['is_featured' => true]);
+        }
+        return $wishFile;
+    }
+
     public function deleteWish($wish)
     {
         foreach ($wish->files as $file) {

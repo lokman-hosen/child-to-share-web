@@ -141,10 +141,19 @@ class WishController extends Controller
 
     public function deleteWishFile(string $fileId): RedirectResponse
     {
-        $donationFile = $this->wishService->deleteSingleFile($fileId);
-        if ($donationFile){
+        $wishFile = $this->wishService->deleteSingleFile($fileId);
+        if ($wishFile){
             return redirect()->back()->with('success', 'Wish file deleted successfully!');
         }
         return redirect()->back()->with('error', 'Error to delete wish file');
+    }
+
+    public function makeFeatureFile(string $fileId): RedirectResponse
+    {
+        $wishFile = $this->wishService->makeFeatureFile($fileId);
+        if ($wishFile){
+            return redirect()->back()->with('success', 'Make file featured successfully!');
+        }
+        return redirect()->back()->with('error', 'Error to make feature file');
     }
 }

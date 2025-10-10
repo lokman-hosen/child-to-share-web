@@ -206,11 +206,21 @@ class DonationService extends BaseService
     {
         foreach ($donation->files as $file) {
             if ($file->file_path && Storage::disk('public')->exists($file->file_path )) {
-                Storage::disk('public')->delete(getFileRealPath($file->file_path));
+                Storage::disk('public')->delete($file->file_path);
                 $file->delete();
             }
         }
         return $donation->delete();
+    }
 
+    public function makeFeatureFile($fileId){
+        $donorFile = File::findOrFail($fileId);
+        if ($donorFile){
+            File::where('fileable_type', Donation::class)
+                ->where('fileable_id', $donorFile->fileable_id)
+                ->update(['is_featured' => false]);
+            $donorFile->update(['is_featured' => true]);
+        }
+        return $donorFile;
     }
 }

@@ -10,7 +10,7 @@ import {
     faEye,
     faGift,
     faList,
-    faStar
+    faStar, faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/Donation/Form.jsx";
 import {Button} from "@headlessui/react";
@@ -68,6 +68,14 @@ export default function Show({module, wish}) {
     const handleDelete = (fileId) => {
         if (confirm('Are you sure you want to delete?')) {
             router.delete(route('wishes.file.delete', fileId), {
+                preserveScroll: true,
+            });
+        }
+    };
+
+    const handleFeatureImage = (fileId) => {
+        if (confirm('Are you sure you want to make feature file?')) {
+            router.get(route('wishes.file.feature', fileId), {
                 preserveScroll: true,
             });
         }
@@ -169,6 +177,15 @@ export default function Show({module, wish}) {
 
                                                     {/* Action Buttons Container - Positioned at bottom right */}
                                                     <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
+                                                        {! wish.files[currentIndex].is_featured &&
+                                                            <button
+                                                                title={wish.files[currentIndex].file_type === 'image' ? 'Make Feature Image' : 'Make Feature Video'}
+                                                                onClick={() => handleFeatureImage(wish.files[currentIndex].id)}
+                                                                className="inline-flex items-center justify-center w-10 h-10 bg-yellow-200 hover:bg-yellow-300 text-yellow-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                            >
+                                                                <FontAwesomeIcon icon={faCheck} className="w-4 h-4"/>
+                                                            </button>
+                                                        }
                                                         <a
                                                             href={`/storage/${wish.files[currentIndex].file_path}`}
                                                             target="_blank"
