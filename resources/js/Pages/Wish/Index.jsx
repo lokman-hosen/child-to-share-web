@@ -8,6 +8,7 @@ import SingleWishItem from "@/Components/Common/SingleWishItem.jsx";
 import Pagination from "@/Components/Pagination.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import {getDropdownOptions} from "@/utils.jsx";
+import SingleWishItemMobile from "@/Components/Common/SingleWishItemMobile.jsx";
 
 const Index = ({wishes,categories, filters, module}) => {
     const user = usePage().props.auth.user;
@@ -61,11 +62,22 @@ const Index = ({wishes,categories, filters, module}) => {
 
                 </div>
                 {wishListData.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                        {wishListData.map((wish, index) => (
-                            <SingleWishItem key={index} wish={wish}/>
-                        ))}
-                    </div>
+                    <>
+                        {/* Mobile View - 2 columns */}
+                        <div className="block md:hidden">
+                            <div className="grid grid-cols-2 gap-3 mb-6">
+                                {wishListData.map((wish, index) => (
+                                    <SingleWishItemMobile wish={wish} key={index} />
+                                ))}
+                            </div>
+                        </div>
+                        {/* Desktop View - Original layout */}
+                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                            {wishListData.map((wish, index) => (
+                                <SingleWishItem key={index} wish={wish}/>
+                            ))}
+                        </div>
+                    </>
                 ) : (
                     <div className="grid grid-cols-1 gap-6 mb-8">
                         <div className="grid grid-cols-1"><p className="text-center">No data found</p></div>

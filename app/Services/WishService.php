@@ -154,14 +154,24 @@ class WishService extends BaseService
     {
         // Create intervention image instance
         $img = Image::make($image->getRealPath());
+
         // Resize and optimize image
         $img->resize(500, 400, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
 
-        $canvas = Image::canvas(500,400);
+        // Create canvas with a background
+        $canvas = Image::canvas(500, 400, '#dbd7d7'); // Dark gray background
+
+        // Insert the image centered on dark canvas
         $canvas->insert($img, 'center');
+
+        // Add a semi-transparent dark overlay on top of the image
+        $canvas->rectangle(0, 0, 500, 400, function ($draw) {
+            $draw->background('rgba(0, 0, 0, 0.2)'); // 30% black overlay
+        });
+
         // Save to storage
         Storage::disk('public')->put($filePath, $canvas->stream());
     }
