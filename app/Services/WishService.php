@@ -44,7 +44,7 @@ class WishService extends BaseService
             ->withQueryString();
     }
 
-    public function donationByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend'): Collection|int
+    public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend'): Collection|int
     {
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
         if ($for === 'admin') {

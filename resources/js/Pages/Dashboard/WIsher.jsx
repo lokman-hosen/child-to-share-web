@@ -5,7 +5,7 @@ import WishList from "@/Components/Common/Admin/Donor/WishList.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
-const WisherDashboard = () => {
+const WisherDashboard = ({activeWishCount,fulfilledWishCount}) => {
     return (
             <div className="page active-page">
                 <div className="bg-yellow-300 border border-yellow-500 rounded-lg p-4 m-6">
@@ -26,7 +26,11 @@ const WisherDashboard = () => {
                    <div className="flex items-left mb-6">
                        <h1 className="text-2xl font-bold text-gray-900 mt-1">Wisher Dashboard</h1>
                    </div>
-                   <Cards userType = 'wisher'/>
+                   <Cards
+                       userType = 'wisher'
+                       activeWishCount = {activeWishCount}
+                       fulfilledWishCount = {fulfilledWishCount}
+                   />
                    <Activity/>
                    {/*<WishList userType = 'wisher'/>*/}
                </div>
