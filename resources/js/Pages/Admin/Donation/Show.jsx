@@ -2,7 +2,16 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link, router} from '@inertiajs/react';
 import React, { useState } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrash, faChevronLeft, faChevronRight, faEye, faGift, faList} from "@fortawesome/free-solid-svg-icons";
+import {
+    faEdit,
+    faTrash,
+    faChevronLeft,
+    faChevronRight,
+    faEye,
+    faGift,
+    faList,
+    faCheck
+} from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/Donation/Form.jsx";
 import {Button} from "@headlessui/react";
 
@@ -57,15 +66,23 @@ export default function List({module, donation}) {
     };
 
     const handleDelete = (fileId) => {
-        if (confirm('Are you sure you want to delete?')) {
+        if (confirm('Are you sure want to delete?')) {
             router.delete(route('donations.file.delete', fileId), {
                 preserveScroll: true,
             });
         }
     };
 
+    const handleFeatureImage = (fileId) => {
+        if (confirm('Are you sure want to make feature file?')) {
+            router.get(route('donations.file.feature', fileId), {
+                preserveScroll: true,
+            });
+        }
+    };
+
     const handleItemDelete = (itemId) => {
-        if (confirm('Are you sure you want to delete?')) {
+        if (confirm('Are you sure want to delete?')) {
             router.delete(route('donations.destroy', itemId), {
                 preserveScroll: true,
             });
@@ -164,6 +181,15 @@ export default function List({module, donation}) {
 
                                                     {/* Action Buttons Container - Positioned at bottom right */}
                                                     <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
+                                                        {! donation.files[currentIndex].is_featured &&
+                                                            <button
+                                                                title={donation.files[currentIndex].file_type === 'image' ? 'Make Feature Image' : 'Make Feature Video'}
+                                                                onClick={() => handleFeatureImage(donation.files[currentIndex].id)}
+                                                                className="inline-flex items-center justify-center w-10 h-10 bg-yellow-200 hover:bg-yellow-300 text-yellow-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                            >
+                                                                <FontAwesomeIcon icon={faCheck} className="w-4 h-4"/>
+                                                            </button>
+                                                        }
                                                         <a
                                                             href={`/storage/${donation.files[currentIndex].file_path}`}
                                                             target="_blank"

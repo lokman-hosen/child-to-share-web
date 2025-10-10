@@ -66,7 +66,7 @@ export default function Show({module, wish}) {
     };
 
     const handleDelete = (fileId) => {
-        if (confirm('Are you sure you want to delete?')) {
+        if (confirm('Are you sure want to delete?')) {
             router.delete(route('wishes.file.delete', fileId), {
                 preserveScroll: true,
             });
@@ -74,7 +74,7 @@ export default function Show({module, wish}) {
     };
 
     const handleFeatureImage = (fileId) => {
-        if (confirm('Are you sure you want to make feature file?')) {
+        if (confirm('Are you sure want to make feature file?')) {
             router.get(route('wishes.file.feature', fileId), {
                 preserveScroll: true,
             });
@@ -82,7 +82,7 @@ export default function Show({module, wish}) {
     };
 
     const handleItemDelete = (itemId) => {
-        if (confirm('Are you sure you want to delete?')) {
+        if (confirm('Are you sure want to delete?')) {
             router.delete(route('wishes.destroy', itemId), {
                 preserveScroll: true,
             });
