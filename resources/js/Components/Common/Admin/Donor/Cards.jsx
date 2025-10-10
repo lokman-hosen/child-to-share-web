@@ -8,6 +8,21 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount}) => {
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
             { userType  === 'wisher' &&
                 <>
+                    <div className="bg-white overflow-hidden shadow rounded-lg md:hidden border-2 border-blue-300 animate-pulse hover:animate-none hover:border-blue-500 transition-all duration-300">
+                        <Link href={route('wishes.create')} className="block">
+                            <div className="px-4 py-4 text-center">
+                                <div className="flex items-center justify-left space-x-3">
+                                    <div className="h-10 w-10 bg-blue-500 rounded-full flex items-center justify-center animate-bounce">
+                                        <FontAwesomeIcon icon={faPlus} className="text-white" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-semibold text-gray-900">Create Wish</h3>
+                                        <p className="text-sm text-gray-600">Tap to have items</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
                     <div className="bg-white overflow-hidden shadow rounded-lg">
                         <div className="px-4 py-5 sm:p-6">
                             <div className="flex items-center">
