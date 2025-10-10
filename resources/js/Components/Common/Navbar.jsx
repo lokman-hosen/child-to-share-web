@@ -59,13 +59,13 @@ export default function Navbar() {
 
                             <Link
                                 href={route('donation.index')}
-                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('donation.index') ? 'nav-item active' : ''}`}>
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active' : ''}`}>
                                 Donations
                             </Link>
 
                             <Link
                                 href={route('wish.index')}
-                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('wish.index') ? 'nav-item active' : ''}`}>
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active' : ''}`}>
                                 Wishes
                             </Link>
 
@@ -245,7 +245,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={route('donation.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('donation.index') ? 'nav-item active' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Donations
@@ -253,7 +253,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('wish.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${route().current('wish.index') ? 'nav-item active' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Wishes
