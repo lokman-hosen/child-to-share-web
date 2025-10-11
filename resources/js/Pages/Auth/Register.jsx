@@ -75,14 +75,14 @@ export default function Register({guardianRelations,genders, organizations}) {
     };
 
     const genderOptions = getCommonOptions(genders);
-    const relationOptions = getCommonOptions(guardianRelations);
+    //const relationOptions = getCommonOptions(guardianRelations);
 
-    const handleFileChange = (field, file) => {
-        setData(field, file);
-        if (file !== null) {
-            setData(`${field}_removed`, false);
-        }
-    };
+    // const handleFileChange = (field, file) => {
+    //     setData(field, file);
+    //     if (file !== null) {
+    //         setData(`${field}_removed`, false);
+    //     }
+    // };
 
     // Search for locations using Google Maps Places Autocomplete
     const handleSearch = (query) => {
@@ -237,18 +237,18 @@ export default function Register({guardianRelations,genders, organizations}) {
         }
     };
 
-    const calculateAge = (dobString) => {
-        if (!dobString) return 0;
-        const today = new Date();
-        const birthDate = new Date(dobString);
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    };
+    // const calculateAge = (dobString) => {
+    //     if (!dobString) return 0;
+    //     const today = new Date();
+    //     const birthDate = new Date(dobString);
+    //     let age = today.getFullYear() - birthDate.getFullYear();
+    //     const monthDiff = today.getMonth() - birthDate.getMonth();
+    //
+    //     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    //         age--;
+    //     }
+    //     return age;
+    // };
 
     // Check if Google Maps is available
     const isGoogleMapsAvailable = !!window.google;
@@ -285,7 +285,10 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 </div>
                             </div>
                             {data.role === 'wisher' &&
-                                <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Child Information</h3>
+                                <div className="mb-3">
+                                    <h3 className="text-lg font-semibold mt-4 text-gray-800">Child Information</h3>
+                                    <p className="text-sm text-indigo-500">User guardian email and phone if you dont have</p>
+                                </div>
                             }
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -340,25 +343,25 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     required
                                 />
 
-                                <CustomCreatableSelect
-                                    id="organization"
-                                    label="Organization/Institution/School(type to create new)"
-                                    value={data.organization}
-                                    onChange={(value) => setData('organization', value)}
-                                    options={organizations}
-                                    error={errors.organization}
-                                    placeholder="Select or type to create new organization"
-                                    required
-                                />
+                                {/*<CustomCreatableSelect*/}
+                                {/*    id="organization"*/}
+                                {/*    label="Organization/Institution/School(type to create new)"*/}
+                                {/*    value={data.organization}*/}
+                                {/*    onChange={(value) => setData('organization', value)}*/}
+                                {/*    options={organizations}*/}
+                                {/*    error={errors.organization}*/}
+                                {/*    placeholder="Select or type to create new organization"*/}
+                                {/*    required*/}
+                                {/*/>*/}
 
-                                <FileInput
-                                    id="photo"
-                                    label="Profile Photo(png,jpg,jpeg)"
-                                    onFileChange={(file) => handleFileChange('photo', file)}
-                                    currentFileUrl={data?.photo || null}
-                                    error={errors.photo}
-                                    accept="image/png, image/jpg, image/jpeg"
-                                />
+                                {/*<FileInput*/}
+                                {/*    id="photo"*/}
+                                {/*    label="Profile Photo(png,jpg,jpeg)"*/}
+                                {/*    onFileChange={(file) => handleFileChange('photo', file)}*/}
+                                {/*    currentFileUrl={data?.photo || null}*/}
+                                {/*    error={errors.photo}*/}
+                                {/*    accept="image/png, image/jpg, image/jpeg"*/}
+                                {/*/>*/}
 
                                 <TextInput
                                     id="password"
@@ -371,62 +374,62 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     required
                                 />
                             </div>
-                            <div className="grid grid-cols-1 gap-6">
-                                <div className="flex items-center mt-3">
-                                    <Checkbox
-                                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-                                        name="be_leader"
-                                        checked={data.be_leader}
-                                        onChange={(e) =>
-                                            setData('be_leader', e.target.checked)
-                                        }
-                                    />
-                                    <label htmlFor="be_leader-me" className="ml-2 block text-sm text-gray-700">Want to be community leader?</label>
-                                </div>
-                                <div>
-                                    { data.be_leader &&
-                                        <span className="text-blue-500 font-semibold">
-                                           <FontAwesomeIcon icon={faInfoCircle} /> Community leaders help facilitate and validate the donation process
-                                       </span>
-                                    }
-                                </div>
-                            </div>
+                            {/*<div className="grid grid-cols-1 gap-6">*/}
+                            {/*    <div className="flex items-center mt-3">*/}
+                            {/*        <Checkbox*/}
+                            {/*            className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"*/}
+                            {/*            name="be_leader"*/}
+                            {/*            checked={data.be_leader}*/}
+                            {/*            onChange={(e) =>*/}
+                            {/*                setData('be_leader', e.target.checked)*/}
+                            {/*            }*/}
+                            {/*        />*/}
+                            {/*        <label htmlFor="be_leader-me" className="ml-2 block text-sm text-gray-700">Want to be community leader?</label>*/}
+                            {/*    </div>*/}
+                            {/*    <div>*/}
+                            {/*        { data.be_leader &&*/}
+                            {/*            <span className="text-blue-500 font-semibold">*/}
+                            {/*               <FontAwesomeIcon icon={faInfoCircle} /> Community leaders help facilitate and validate the donation process*/}
+                            {/*           </span>*/}
+                            {/*        }*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
 
                             {/* Wisher-specific fields (Conditional Rendering) */}
-                            {(data.role === 'wisher' || (data.role === 'donor' && calculateAge(data.dob) < 18)) && (
-                                <>
-                                    <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian Information</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <TextInput
-                                            id="guardian_name"
-                                            label="Guardian Name"
-                                            value={data.guardian_name}
-                                            onChange={(e) => setData('guardian_name', e.target.value)}
-                                            error={errors.guardian_name}
-                                            placeholder="Enter guardian name"
-                                            required
-                                        />
-                                        <TextInput
-                                            id="guardian_phone"
-                                            label="Guardian Phone"
-                                            value={data.guardian_phone}
-                                            onChange={(e) => setData('guardian_phone', e.target.value)}
-                                            error={errors.guardian_phone}
-                                            placeholder="Guardian phone: 017********"
-                                            required
-                                        />
-                                        <SelectInput
-                                            id="relationship"
-                                            label="Relation with guardian"
-                                            value={data.relationship}
-                                            onChange={(e) => setData('relationship', e.target.value)}
-                                            error={errors.relationship}
-                                            options={relationOptions}
-                                            required
-                                        />
-                                    </div>
-                                </>
-                            )}
+                            {/*{(data.role === 'wisher' || (data.role === 'donor' && calculateAge(data.dob) < 18)) && (*/}
+                            {/*    <>*/}
+                            {/*        <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian Information</h3>*/}
+                            {/*        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">*/}
+                            {/*            <TextInput*/}
+                            {/*                id="guardian_name"*/}
+                            {/*                label="Guardian Name"*/}
+                            {/*                value={data.guardian_name}*/}
+                            {/*                onChange={(e) => setData('guardian_name', e.target.value)}*/}
+                            {/*                error={errors.guardian_name}*/}
+                            {/*                placeholder="Enter guardian name"*/}
+                            {/*                required*/}
+                            {/*            />*/}
+                            {/*            <TextInput*/}
+                            {/*                id="guardian_phone"*/}
+                            {/*                label="Guardian Phone"*/}
+                            {/*                value={data.guardian_phone}*/}
+                            {/*                onChange={(e) => setData('guardian_phone', e.target.value)}*/}
+                            {/*                error={errors.guardian_phone}*/}
+                            {/*                placeholder="Guardian phone: 017********"*/}
+                            {/*                required*/}
+                            {/*            />*/}
+                            {/*            <SelectInput*/}
+                            {/*                id="relationship"*/}
+                            {/*                label="Relation with guardian"*/}
+                            {/*                value={data.relationship}*/}
+                            {/*                onChange={(e) => setData('relationship', e.target.value)}*/}
+                            {/*                error={errors.relationship}*/}
+                            {/*                options={relationOptions}*/}
+                            {/*                required*/}
+                            {/*            />*/}
+                            {/*        </div>*/}
+                            {/*    </>*/}
+                            {/*)}*/}
 
                             {/* Location Search Section */}
                             <div className="mt-6">

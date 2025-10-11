@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
         return Inertia::render('Auth/Register',[
             'guardianRelations' => CommonHelper::guardianRelations(),
             'genders' => CommonHelper::genders(),
-            'organizations' => $organizations
+            //'organizations' => $organizations
         ]);
     }
 
@@ -48,14 +48,16 @@ class RegisteredUserController extends Controller
         // Use a database transaction to ensure both records are created
         //DB::beginTransaction();
 
-        try {
+        //try {
             // Step 1: Handle photo upload if present
             $photoPath = null;
             if ($request->hasFile('photo')) {
                 $photoPath = $request->file('photo')->store('photos', 'public');
             }
-
-            $organization = $this->organizationService->findByName($request->organization);
+            $organization = null;
+            if ($request->filled('organization')) {
+                $organization = $this->organizationService->findByName($request->organization);
+            }
 
             // Step 2: Create the user record
             $user = User::create([
@@ -67,14 +69,14 @@ class RegisteredUserController extends Controller
                 'latitude' => checkEmpty($request->latitude),
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
-                'be_leader' => $request->be_leader,
+                //'be_leader' => $request->be_leader,
                 'is_verified' => true,
                 'is_active' => true,
                 'password' => Hash::make($request->password),
             ]);
 
             // tah organization
-            if ($organization and $user){
+            if (isset($organization) and $user){
                 $user->organizations()->attach([$organization->id]);
             }
 
@@ -91,9 +93,9 @@ class RegisteredUserController extends Controller
             } elseif ($request->role === 'wisher') {
                 $user->wisher()->create([
                     'name' => $request->name,
-                    'guardian_name' => $request->guardian_name,
-                    'guardian_phone' => $request->guardian_phone,
-                    'relationship' => $request->relationship,
+                    'guardian_name' => checkEmpty($request->guardian_name),
+                    'guardian_phone' => checkEmpty($request->guardian_phone),
+                    'relationship' => checkEmpty($request->relationship),
                     'dob' => $request->dob,
                     'gender' => $request->gender,
                 ]);
@@ -109,16 +111,18 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
         Auth::login($user);
-        if ($user->role === 'donor') {
-            return redirect(route('home'));
-        }else{
+        if ($user->role === 'donor'){
+            return redirect()->intended(route('donation.index', absolute: false));
+        }elseif ($user->role === 'wisher'){
+            return redirect()->intended(route('wish.index', absolute: false));
+        } else{
             return redirect(route('dashboard', absolute: false));
         }
-    }
-    catch (\Exception $e) {
-            // If any part fails, roll back the transaction and return to the form with an error
-            DB::rollBack();
-            return back()->withErrors(['registration' => 'Registration failed. Please try again.']);
-        }
+//    }
+//    catch (\Exception $e) {
+//            // If any part fails, roll back the transaction and return to the form with an error
+//            DB::rollBack();
+//            return back()->withErrors(['registration' => 'Registration failed. Please try again.']);
+//        }
     }
 }

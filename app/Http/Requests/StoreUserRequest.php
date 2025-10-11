@@ -33,7 +33,7 @@ class StoreUserRequest extends FormRequest
             'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
             'dob' => 'required|date|before:today',
             'address' => 'nullable|string',
-            'organization' => 'required|string',
+            //'organization' => 'required|string',
             'gender' => ['required', Rule::in(['male', 'female', 'other'])],
             'photo' => 'nullable|image|max:5000', // 5MB max
             'latitude' => 'required|numeric',
@@ -41,27 +41,27 @@ class StoreUserRequest extends FormRequest
         ];
 
         // Add conditional validation for 'wisher'
-        if ($this->role === 'wisher') {
-            $rules = array_merge($rules, [
-                'guardian_name' => 'required|string|max:255',
-                'guardian_phone' => 'required|string|max:20',
-                'relationship' => 'required|string|max:255',
-            ]);
-        }
-        $checkAge = $this->ageCalculate($this->dob);
-        if (($this->role === 'donor') and $checkAge <= 18 ) {
-            $rules = array_merge($rules, [
-                'guardian_name' => 'required|string|max:255',
-                'guardian_phone' => 'required|string|max:20',
-                'relationship' => 'required|string|max:255',
-            ]);
-        }
+//        if ($this->role === 'wisher') {
+//            $rules = array_merge($rules, [
+//                'guardian_name' => 'required|string|max:255',
+//                'guardian_phone' => 'required|string|max:20',
+//                'relationship' => 'required|string|max:255',
+//            ]);
+//        }
+//        $checkAge = $this->ageCalculate($this->dob);
+//        if (($this->role === 'donor') and $checkAge <= 18 ) {
+//            $rules = array_merge($rules, [
+//                'guardian_name' => 'required|string|max:255',
+//                'guardian_phone' => 'required|string|max:20',
+//                'relationship' => 'required|string|max:255',
+//            ]);
+//        }
 
         return $rules;
     }
 
-    private function ageCalculate($date)
-    {
-       return Carbon::parse($date)->diffInYears(now());
-    }
+//    private function ageCalculate($date)
+//    {
+//       return Carbon::parse($date)->diffInYears(now());
+//    }
 }

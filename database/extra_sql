@@ -1,3 +1,8 @@
 ----USER TABLE PASSWORD Table-----
 UPDATE ALL USER PASSWORD TO 1-8
 1. UPDATE users SET users.password = '$2y$10$r59CptWXU.RaQvBiQv9/COzIZLJCFh3DLX7qnOGynJ7jZ/kQrawJq';
+
+1. ALTER TABLE `wishers` CHANGE `guardian_name` `guardian_name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+2. ALTER TABLE `wishers` CHANGE `guardian_phone` `guardian_phone` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+3. ALTER TABLE `wishers` CHANGE `relationship` `relationship` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
+
