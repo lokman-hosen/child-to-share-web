@@ -15,7 +15,7 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
     const user = usePage().props.auth.user;
     return (
         <>
-            <Head title="Welcome"/>
+            <Head title="Home"/>
             <Navbar/>
             <Hero
                 user={user}
