@@ -6,6 +6,8 @@ use App\Helpers\CommonHelper;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Donation;
 use App\Models\User;
+use App\Services\DonationService;
+use App\Services\WishService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,25 +20,47 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    public function __construct(
+        protected WishService $wishService,
+        protected DonationService $donationService,
+
+    ){}
     const moduleDirectory = 'Profile/';
     const moduleName = 'Profile';
     public function show(string $id = null): Response
     {
         $user = $id ? User::find($id) :  Auth::user();
-        $availableDonationCount = 0;
-        $donatedDonationCount = 0;
+        $availableDonationCount = $donatedDonationCount = $activeWishCount = $fulfilledWishCount = $totalWishCount = 0;
         if (checkDonor()){
-            $user->load(['donor', 'organizations']);
-            $availableDonationCount = Donation::where('user_id',$user->id)->where('status', 'available')->count();
-            $donatedDonationCount = Donation::where('user_id',$user->id)->where('status', 'donated')->count();
+            $user->load(
+                ['donor', 'organizations']
+            );
+            // donation
+            $availableDonationCount = $this->donationService
+                ->donationByStatus('available', 'count',  null,'admin');
+            $donatedDonationCount = $this->donationService
+                ->donationByStatus('donated', 'count',  null,'admin');
         }elseif (checkWisher()){
-            $user->load(['wisher', 'organizations']);
+            $user->load(
+                ['wisher', 'organizations']
+            );
+            $totalWishCount = $this->wishService
+                ->wishByStatus(null, 'count',  null,'admin');
+
+            $activeWishCount = $this->wishService
+                ->wishByStatus('approved', 'count',  null,'admin');
+            $fulfilledWishCount = $this->wishService
+                ->wishByStatus('fulfilled', 'count',  null,'admin');
+
         }
         return Inertia::render(self::moduleDirectory.'Partials/Profile', [
             'module' => self::moduleName,
             'user' => $user,
             'availableDonationCount' => $availableDonationCount,
             'donatedDonationCount' => $donatedDonationCount,
+            'totalWishCount'  => $totalWishCount,
+            'activeWishCount'  => $activeWishCount,
+            'fulfilledWishCount'  => $fulfilledWishCount,
         ]);
     }
     /**

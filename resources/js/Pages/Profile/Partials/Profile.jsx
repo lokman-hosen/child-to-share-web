@@ -2,9 +2,9 @@ import {Head, Link} from "@inertiajs/react";
 import React from "react";
 import { format } from 'date-fns';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {checkDonor} from "@/utils.jsx";
+import {checkDonor, checkWisher} from "@/utils.jsx";
 
-export default function Profile({ user,availableDonationCount,donatedDonationCount }) {
+export default function Profile({ user,availableDonationCount,donatedDonationCount,fulfilledWishCount,activeWishCount,totalWishCount }) {
 
     return (
         <AuthenticatedLayout>
@@ -43,6 +43,19 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                     <span
                                         className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                         {availableDonationCount} Active Donations
+                                    </span>
+                                </div>
+                            }
+
+                            {checkWisher(user.role) &&
+                                <div className="mt-2 flex items-center">
+                                    <span
+                                        className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
+                                        {totalWishCount} Wishes Created
+                                    </span>
+                                    <span
+                                        className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                        {fulfilledWishCount} Wishes Fulfilled
                                     </span>
                                 </div>
                             }
@@ -153,6 +166,30 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             <div className="bg-purple-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-purple-600">{donatedDonationCount}</div>
                                 <div className="text-sm font-medium text-gray-700">Items Donated</div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                { checkWisher(user.role) && (
+                    <div className="bg-white shadow rounded-lg p-6 mt-6">
+                        <h2 className="text-lg font-medium text-gray-900 mb-4">Your Wish History</h2>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-purple-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-purple-600">{totalWishCount}</div>
+                                <div className="text-sm font-medium text-gray-700">Wishes Created</div>
+                            </div>
+                            <div className="bg-green-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-green-600">{fulfilledWishCount}</div>
+                                <div className="text-sm font-medium text-gray-700">Wishes Fulfilled</div>
+                            </div>
+                            <div className="blue-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-blue-600">{activeWishCount}</div>
+                                <div className="text-sm font-medium text-gray-700">Active Wishes</div>
+                            </div>
+                            <div className="bg-yellow-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-yellow-600">0</div>
+                                <div className="text-sm font-medium text-gray-700">Donor Connections</div>
                             </div>
                         </div>
                     </div>

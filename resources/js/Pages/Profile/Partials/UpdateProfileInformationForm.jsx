@@ -320,7 +320,7 @@ export default function UpdateProfileInformation({
                     />
 
                 </div>
-                {user.role === 'donor' && (
+                {(user.role === 'donor' || user.role === 'wisher') && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <DateInput
                             id="dob"
