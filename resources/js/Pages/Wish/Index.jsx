@@ -50,7 +50,7 @@ const Index = ({wishes,categories, filters, module}) => {
                         {/* Right Filters */}
                         <div className="flex flex-col sm:flex-row gap-2">
                             <SelectInput
-                                className="w-[350px]"
+                                className="w-full sm:w-auto md:w-[350px]"
                                 id="category_id"
                                 label="Select Category"
                                 value={categoryId}
