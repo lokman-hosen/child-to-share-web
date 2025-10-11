@@ -14,7 +14,7 @@ const Summary = ({activeDonorCount,totalWishCount,fulfilWishCount,community}) =>
                         <div className="text-sm text-gray-600">Active Donors</div>
                     </div>
                     <div>
-                        <div className="stat-number">{totalWishCount}</div>
+                        <div className="stat-number">{totalWishCount ?? 0}</div>
                         <div className="text-sm text-gray-600">Happy Wishers</div>
                     </div>
                     <div>
