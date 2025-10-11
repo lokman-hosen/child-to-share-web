@@ -11,7 +11,7 @@ import Navbar from "@/Components/Common/Navbar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGift, faPlug, faPlus} from '@fortawesome/free-solid-svg-icons';
 
-export default function Welcome({ auth, donations, activeDonorCount, activeWisherCount, fulfilWishCount, community }) {
+export default function Welcome({ auth, donations, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
     const user = usePage().props.auth.user;
     return (
         <>
@@ -22,7 +22,7 @@ export default function Welcome({ auth, donations, activeDonorCount, activeWishe
             />
             <Summary
                 activeDonorCount={activeDonorCount}
-                activeWisherCount={activeWisherCount}
+                totalWishCount={totalWishCount}
                 fulfilWishCount={fulfilWishCount}
                 community={community}
             />

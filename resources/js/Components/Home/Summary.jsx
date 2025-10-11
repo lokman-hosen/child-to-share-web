@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Summary = ({activeDonorCount,activeWisherCount,fulfilWishCount,community}) => {
+const Summary = ({activeDonorCount,totalWishCount,fulfilWishCount,community}) => {
     return (
         <section className="py-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,7 +14,7 @@ const Summary = ({activeDonorCount,activeWisherCount,fulfilWishCount,community})
                         <div className="text-sm text-gray-600">Active Donors</div>
                     </div>
                     <div>
-                        <div className="stat-number">{activeWisherCount}</div>
+                        <div className="stat-number">{totalWishCount}</div>
                         <div className="text-sm text-gray-600">Happy Wishers</div>
                     </div>
                     <div>
