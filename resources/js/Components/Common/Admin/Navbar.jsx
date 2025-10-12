@@ -24,29 +24,29 @@ export default function Navbar({ onMenuClick }) {
                             <FontAwesomeIcon icon={faBars} className="h-5 w-5"/>
                         </button>
 
-                        <div className="flex-shrink-0 flex items-center space-x-2">
-                            <img
-                                src="/images/thee-wish.jpeg"
-                                alt="ThreeWish Logo"
-                                className="h-12 w-10 object-cover rounded" // Better styling
-                                onError={(e) => {
-                                    e.target.style.display = 'none'; // Hide broken images
-                                }}
-                            />
-                            <span className="font-bold text-xl text-blue-600 hidden sm:block">ThreeWish</span>
-                        </div>
+                        <Link href={route('home')} >
+                            <div className="flex-shrink-0 flex items-center space-x-2">
+                                <img
+                                    src="/images/thee-wish.jpeg"
+                                    alt="ThreeWish Logo"
+                                    className="h-12 w-10 object-cover rounded" // Better styling
+                                    onError={(e) => {
+                                        e.target.style.display = 'none'; // Hide broken images
+                                    }}
+                                />
+                                <span className="font-bold text-xl text-blue-600 hidden sm:block">ThreeWish</span>
+                            </div>
+                        </Link>
                     </div>
                     <div className="flex items-center space-x-4">
                         <div className="relative">
-                            <a
+                            <Link
                                 href={route('home')}
                                 title="Visit Website"
-                                target="_blank"
-                                rel="noopener noreferrer"
                                 className="p-1 rounded-full text-purple-500 hover:text-purple-700 focus:outline-none"
                             >
                                 <FontAwesomeIcon icon={faHome} className="text-xl"/>
-                            </a>
+                            </Link>
 
                         </div>
                         {/*<div className="relative">*/}

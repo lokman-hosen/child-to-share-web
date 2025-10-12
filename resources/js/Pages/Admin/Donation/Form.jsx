@@ -133,6 +133,17 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <CustomCreatableSelect
+                    id="item_condition"
+                    label="Item condition(type to create new)"
+                    value={data.item_condition}
+                    onChange={(value) => setData('item_condition', value)}
+                    options={itemConditions}
+                    error={errors.item_condition}
+                    placeholder="e.g., good, new, Like new or excellent etc."
+                    required
+                />
+
                 <TextInput
                     id="title"
                     label="Iteam Title/Name"
@@ -152,16 +163,6 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 {/*    required*/}
                 {/*/>*/}
 
-                <CustomCreatableSelect
-                    id="item_condition"
-                    label="Item condition(type to create new)"
-                    value={data.item_condition}
-                    onChange={(value) => setData('item_condition', value)}
-                    options={itemConditions}
-                    error={errors.item_condition}
-                    placeholder="e.g., good, new, Like new or excellent etc."
-                    required
-                />
                 {/*<SelectInput*/}
                 {/*    id="category_id"*/}
                 {/*    label="Select category"*/}

@@ -10,7 +10,7 @@ import {
     faEye,
     faGift,
     faList,
-    faStar, faCheck
+    faStar, faCheck, faArrowLeft
 } from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/Donation/Form.jsx";
 import {Button} from "@headlessui/react";
@@ -335,15 +335,26 @@ export default function Show({module, wish}) {
 
                                         {/* Action Buttons */}
                                         <div className="flex space-x-3 text-center">
+                                            {/* Back Button */}
+                                            <button
+                                                type="button"
+                                                onClick={() => window.history.back()}
+                                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                            >
+                                                <div className="flex items-center space-x-2">
+                                                    <FontAwesomeIcon icon={faArrowLeft}/>
+                                                    <span>Back</span>
+                                                </div>
+                                            </button>
                                             <Button
                                                 onClick={() => handleItemDelete(wish.id)}
                                                 className="flex-1 bg-red-500 hover:bg-red-400 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                                <FontAwesomeIcon icon={faTrash}/> Delete Item
+                                                <FontAwesomeIcon icon={faTrash}/> Delete
                                             </Button>
                                             <Link
                                                 href={route('wishes.edit',wish.id)}
                                                 className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                                <FontAwesomeIcon icon={faEdit}/> Edit Item
+                                                <FontAwesomeIcon icon={faEdit}/> Edit
                                             </Link>
                                         </div>
                                     </div>

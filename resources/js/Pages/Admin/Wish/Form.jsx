@@ -4,7 +4,7 @@ import TextInput from '@/Components/TextInputField.jsx';
 import SelectInput from '@/Components/SelectInput.jsx';
 import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
@@ -142,16 +142,6 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <TextInput
-                    id="title"
-                    label="Item Title/Name"
-                    value={data.title}
-                    onChange={(e) => setData('title', e.target.value)}
-                    error={errors.title}
-                    placeholder="e.g., Winter Coat, Story Books, etc."
-                    required
-                />
-
                 <CustomCreatableSelect
                     id="category"
                     label="Category(type to create new)"
@@ -160,6 +150,15 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                     options={categories}
                     error={errors.category}
                     placeholder="Select or type to create new category"
+                    required
+                />
+                <TextInput
+                    id="title"
+                    label="Item Title/Name"
+                    value={data.title}
+                    onChange={(e) => setData('title', e.target.value)}
+                    error={errors.title}
+                    placeholder="e.g., Winter Coat, Story Books, etc."
                     required
                 />
 
@@ -228,7 +227,7 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                                                 onClick={clearSelectedImage}
                                                 className="text-red-600 hover:text-red-800 text-sm font-medium"
                                             >
-                                                <FontAwesomeIcon icon={faTrash} className="mr-1" />
+                                                <FontAwesomeIcon icon={faTrash} className="mr-1"/>
                                                 Remove
                                             </button>
                                         </div>
@@ -255,7 +254,8 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                                                     className="w-full h-24 object-cover rounded-md"
                                                 />
                                                 {isSelected && (
-                                                    <div className="absolute top-1 right-1 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
+                                                    <div
+                                                        className="absolute top-1 right-1 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center">
                                                         ✓
                                                     </div>
                                                 )}
@@ -342,7 +342,8 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                             <h4 className="text-sm font-medium text-gray-700 mb-2">New Files to Upload:</h4>
                             <div className="space-y-2">
                                 {data.attachments.map((file, index) => (
-                                    <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                    <div key={index}
+                                         className="flex items-center justify-between bg-gray-50 p-3 rounded">
                                         <div className="flex items-center">
                                             <span className="text-sm text-gray-700">
                                                 {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
@@ -367,11 +368,24 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                 </div>
             </div>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-center space-x-4">
+                {/* Back Button */}
+                <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                >
+                    <div className="flex items-center space-x-2">
+                        <FontAwesomeIcon icon={faArrowLeft}/>
+                        <span>Back</span>
+                    </div>
+                </button>
+
+                {/* Submit Button */}
                 <button
                     type="submit"
                     disabled={processing}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
                 >
                     {wish ? (
                         <div className="flex items-center space-x-2">
