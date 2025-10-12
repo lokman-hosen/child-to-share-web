@@ -64,7 +64,7 @@ const Index = ({wishes,categories, filters, ageRanges, module}) => {
                             <SelectInput
                                 className="w-full sm:w-auto md:w-[250px]"
                                 id="age_range"
-                                label="Age range(Child)"
+                                label="Age Range(Child)"
                                 value={ageRange}
                                 onChange={(e) => setAgeRange(e.target.value)}
                                 options={ageRangeOptions}
