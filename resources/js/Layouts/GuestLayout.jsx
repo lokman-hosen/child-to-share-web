@@ -4,13 +4,43 @@ import Navbar from "@/Components/Common/Navbar.jsx";
 import Footer from "@/Components/Common/Footer.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift, faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import React, {useEffect} from "react";
 
 export default function GuestLayout({ children }) {
     const user = usePage().props.auth.user;
+
+    // useEffect(() => {
+    //     // Add Google Translate script
+    //     const script = document.createElement('script');
+    //     script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    //     script.async = true;
+    //     document.head.appendChild(script);
+    //
+    //     // Initialize translation widget
+    //     window.googleTranslateElementInit = () => {
+    //         new window.google.translate.TranslateElement({
+    //             pageLanguage: 'en',
+    //             includedLanguages: 'bn,en',
+    //             //includedLanguages: 'es,fr,de,zh,hi,ar,ru,ja,ko,pt',
+    //             layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE
+    //         }, 'google_translate_element');
+    //     };
+    //
+    //     return () => {
+    //         // Cleanup
+    //         if (window.google && window.google.translate) {
+    //             delete window.google.translate;
+    //         }
+    //     };
+    // }, []);
+
     return (
         <>
             <Navbar/>
+            {/* Language Selector */}
+            {/*<div className="fixed top-4 right-4 z-50">*/}
+            {/*    <div id="google_translate_element"></div>*/}
+            {/*</div>*/}
            <div>
                {children}
            </div>
