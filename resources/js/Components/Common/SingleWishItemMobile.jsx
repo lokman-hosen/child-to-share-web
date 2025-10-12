@@ -53,6 +53,11 @@ const SingleWishItemMobile = ({wish}) => {
                    {/* Status */}
                    <div className="flex justify-between items-center">
                        {getStatusBadge(wish.status)}
+                       {wish?.distance ? (
+                           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-500">{wish?.distance} km away</span>
+                       ): (
+                           <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-500">Age : {wish.age_range}</span>
+                       )}
                    </div>
                </div>
            </div>

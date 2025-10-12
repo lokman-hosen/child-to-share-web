@@ -8,6 +8,7 @@ use App\Models\Wish;
 use App\Services\CategoryService;
 use App\Services\WishService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -56,13 +57,16 @@ class WishController extends Controller
      */
     public function show(string $id): Response
     {
-        $wish = $this->wishService->find($id);
+        $user = Auth::user();
+        $wish = $this->wishService->findWithDistance($id, $user);
+
         $wish->load([
             'user',
             'organization',
             'category',
-            'files' // Make sure this matches your relationship name
+            'files'
         ]);
+
         return Inertia::render(self::moduleDirectory.'Show', [
             'module' => self::moduleName,
             'wish' => $wish,

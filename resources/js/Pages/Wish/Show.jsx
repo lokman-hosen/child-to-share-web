@@ -206,10 +206,19 @@ const Show = ({wish, module}) => {
                                         <div className="bg-gray-50 rounded-lg p-4">
                                             <h3 className="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
                                             <dl className="space-y-3">
+                                                {wish?.distance &&
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500">Distance:</dt>
+                                                        <dd className="text-sm text-gray-900">
+                                                           {wish.distance} km away from you
+                                                        </dd>
+                                                    </div>
+                                                }
                                                 <div>
                                                     <dt className="text-sm font-medium text-gray-500">Category:</dt>
                                                     <dd className="text-sm text-gray-900">
                                                         {wish.category?.name || 'N/A'}
+
                                                     </dd>
                                                 </div>
                                                 <div>

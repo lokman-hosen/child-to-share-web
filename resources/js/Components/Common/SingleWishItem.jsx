@@ -46,8 +46,13 @@ const SingleWishItem = ({wish}) => {
                         </div>
                         <div className="ml-3">
                             <p className="text-sm font-medium text-gray-900">{wish.user.name}</p>
-                            <p className="text-xs text-gray-500">{wish.age_range} years</p>
-                            {/*<p className="text-xs text-gray-500">3.2 km away</p>*/}
+                            <p className="text-xs text-gray-500">
+                                {wish?.distance ? (
+                                    <span className="ml-1">{wish?.distance} km away</span>
+                                    ): (
+                                    <span className="ml-1">Age : {wish.age_range}</span>
+                                )}
+                            </p>
                         </div>
                     </div>
                     <div className="mt-4 flex items-center">
@@ -58,6 +63,13 @@ const SingleWishItem = ({wish}) => {
                             className="ml-2 bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                             {wish.status}
                         </span>
+                        {wish.distance &&
+                            <span
+                                className="ml-2 bg-indigo-100 text-indigo-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                Age: {wish.age_range} years
+                            </span>
+                        }
+
                     </div>
                 </div>
             </div>

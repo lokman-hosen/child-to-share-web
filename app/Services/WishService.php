@@ -257,15 +257,112 @@ class WishService extends BaseService
 
     }
 
+//    public function getListByStatus($request, string $status): LengthAwarePaginator
+//    {
+//        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
+//        if (isset($status)) {
+//            $query->where('status', $status);
+//        }
+//        if ($request->filled('category_id')) {
+//            $query->where('category_id', $request->category_id);
+//        }
+//        return $query->paginate(10)->withQueryString();
+//    }
+
     public function getListByStatus($request, string $status): LengthAwarePaginator
     {
+        $user = Auth::user();
+        $isDonor = $user && ($user->role === 'donor');
+
+        if ($isDonor && $user->latitude && $user->longitude) {
+            return $this->getWishesWithDistance($request, $status, $user);
+        }
+
+        return $this->getWishesWithoutDistance($request, $status);
+    }
+
+    private function getWishesWithDistance($request, string $status, $user): LengthAwarePaginator
+    {
+        $earthRadius = 6371;
+
+        $query = Wish::query()
+            ->with(['user', 'category', 'files', 'featuredImage'])
+            ->join('users', 'wishes.user_id', '=', 'users.id')
+            ->select('wishes.*')
+            ->selectRaw(
+                "ROUND(? * ACOS(COS(RADIANS(?)) * COS(RADIANS(users.latitude)) *
+            COS(RADIANS(users.longitude) - RADIANS(?)) +
+            SIN(RADIANS(?)) * SIN(RADIANS(users.latitude))), 2) AS distance",
+                [$earthRadius, $user->latitude, $user->longitude, $user->latitude]
+            );
+
+        // Apply filters
+        if (isset($status)) {
+            $query->where('wishes.status', $status);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('wishes.category_id', $request->category_id);
+        }
+
+        // Distance filter (optional)
+        if ($request->filled('max_distance')) {
+            $query->having('distance', '<=', $request->max_distance);
+        }
+
+        // Only include wishes where wisher has location data
+        $query->whereNotNull('users.latitude')
+            ->whereNotNull('users.longitude');
+
+        // Sort by distance ascending (nearest first)
+        $query->orderBy('distance', 'asc');
+
+        return $query->paginate(10)->withQueryString();
+    }
+
+    private function getWishesWithoutDistance($request, string $status): LengthAwarePaginator
+    {
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
+
         if (isset($status)) {
             $query->where('status', $status);
         }
+
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
+
         return $query->paginate(10)->withQueryString();
+    }
+
+    public function findWithDistance(string $id, $user = null)
+    {
+        if ($user && ($user->role == 'donor') && $user->latitude && $user->longitude) {
+            return $this->findWishWithDistanceQuery($id, $user);
+        }
+
+        return $this->wish->with(['user', 'category', 'files', 'featuredImage'])->findOrFail($id);
+    }
+
+    private function findWishWithDistanceQuery(string $id, $user)
+    {
+        $earthRadius = 6371;
+
+        $wish = Wish::query()
+            ->with(['user', 'category', 'files', 'featuredImage'])
+            ->join('users', 'wishes.user_id', '=', 'users.id')
+            ->select('wishes.*')
+            ->selectRaw(
+                "ROUND(? * ACOS(COS(RADIANS(?)) * COS(RADIANS(users.latitude)) *
+            COS(RADIANS(users.longitude) - RADIANS(?)) +
+            SIN(RADIANS(?)) * SIN(RADIANS(users.latitude))), 2) AS distance",
+                [$earthRadius, $user->latitude, $user->longitude, $user->latitude]
+            )
+            ->where('wishes.id', $id)
+            ->whereNotNull('users.latitude')
+            ->whereNotNull('users.longitude')
+            ->firstOrFail();
+
+        return $wish;
     }
 }
