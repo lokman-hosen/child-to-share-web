@@ -309,8 +309,15 @@ class WishService extends BaseService
         }
 
         // Distance filter (optional)
-        if ($request->filled('max_distance')) {
-            $query->having('distance', '<=', $request->max_distance);
+        if ($request->filled('distance_range')) {
+            // $request->distance_range should be in format "1-10" or "5-50"
+            $distanceArray = explode("-", $request->distance_range);
+
+            if (count($distanceArray) === 2) {
+                $minDistance = (float) trim($distanceArray[0]);
+                $maxDistance = (float) trim($distanceArray[1]);
+                $query->havingBetween('distance', [$minDistance, $maxDistance]);
+            }
         }
 
         // Only include wishes where wisher has location data
