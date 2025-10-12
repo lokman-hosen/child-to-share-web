@@ -7,15 +7,16 @@ import CTA from "@/Components/Wish/CTA.jsx";
 import SingleWishItem from "@/Components/Common/SingleWishItem.jsx";
 import Pagination from "@/Components/Pagination.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
-import {getDropdownOptions} from "@/utils.jsx";
+import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
 import SingleWishItemMobile from "@/Components/Common/SingleWishItemMobile.jsx";
 
-const Index = ({wishes,categories, filters, module}) => {
+const Index = ({wishes,categories, filters, ageRanges, module}) => {
     const user = usePage().props.auth.user;
     const wishListData = wishes?.data || [];
     const wishesLinks = wishes?.links || [];
     const safeFilters = filters || [];
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
+    const [ageRange, setAgeRange] = useState((safeFilters?.age_range) || '');
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
 
     // Use a ref to prevent useEffect from running on initial render for filters/sort
@@ -29,13 +30,16 @@ const Index = ({wishes,categories, filters, module}) => {
 
         const query = {
             category_id: categoryId,
+            age_range: ageRange,
         };
 
-        router.get(route('donation.index'), query, {
+        router.get(route('wish.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [categoryId]);
+    }, [categoryId,ageRange]);
+
+    const ageRangeOptions = getStatusOptions(ageRanges);
 
     return (
         <GuestLayout>
@@ -43,19 +47,27 @@ const Index = ({wishes,categories, filters, module}) => {
             <Hero/>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="filter-section">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                         {/* Left Title */}
-                        <h2 className="text-xl font-semibold text-gray-900">Filter Donations</h2>
+                        <h2 className="text-xl font-semibold text-gray-900">Filter Wishes</h2>
 
                         {/* Right Filters */}
-                        <div className="flex flex-col sm:flex-row gap-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <SelectInput
-                                className="w-full sm:w-auto md:w-[350px]"
+                                className="w-full sm:w-auto md:w-[250px]"
                                 id="category_id"
-                                label="Select Category"
+                                label="Category"
                                 value={categoryId}
                                 onChange={(e) => setCategoryId(e.target.value)}
                                 options={categoryOptions}
+                            />
+                            <SelectInput
+                                className="w-full sm:w-auto md:w-[250px]"
+                                id="age_range"
+                                label="Age range(Child)"
+                                value={ageRange}
+                                onChange={(e) => setAgeRange(e.target.value)}
+                                options={ageRangeOptions}
                             />
                         </div>
                     </div>

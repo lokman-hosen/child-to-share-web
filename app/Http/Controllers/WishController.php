@@ -33,6 +33,7 @@ class WishController extends Controller
             'module' => self::moduleName,
             'wishes' => $wishes,
             'categories' => $categories,
+            'ageRanges' => ageRanges()
         ]);
     }
 

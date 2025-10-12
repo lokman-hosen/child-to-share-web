@@ -304,6 +304,9 @@ class WishService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('wishes.category_id', $request->category_id);
         }
+        if ($request->filled('age_range')) {
+            $query->where('wishes.age_range', $request->age_range);
+        }
 
         // Distance filter (optional)
         if ($request->filled('max_distance')) {
@@ -330,6 +333,9 @@ class WishService extends BaseService
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
+        }
+        if ($request->filled('age_range')) {
+            $query->where('wishes.age_range', $request->age_range);
         }
 
         return $query->paginate(10)->withQueryString();
