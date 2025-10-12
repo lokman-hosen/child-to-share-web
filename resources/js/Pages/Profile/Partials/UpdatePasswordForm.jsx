@@ -8,6 +8,8 @@ import React, { useRef } from 'react';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
 import {checkDonor} from "@/utils.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft, faSave} from "@fortawesome/free-solid-svg-icons";
 
 export default function UpdatePasswordForm({ className = '' }) {
     const user = usePage().props.auth.user;
@@ -155,8 +157,21 @@ export default function UpdatePasswordForm({ className = '' }) {
                                 </div>
 
                                 <div className="flex items-center gap-4">
+                                    {/* Back Button */}
+                                    <button
+                                        type="button"
+                                        onClick={() => window.history.back()}
+                                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                    >
+                                        <div className="flex items-center space-x-2">
+                                            <FontAwesomeIcon icon={faArrowLeft}/>
+                                            <span>Back</span>
+                                        </div>
+                                    </button>
                                     <PrimaryButton className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
-                                        disabled={processing}>Update Password</PrimaryButton>
+                                        disabled={processing}>
+                                        <FontAwesomeIcon icon={faSave}/> Update
+                                    </PrimaryButton>
 
                                     <Transition
                                         show={recentlySuccessful}

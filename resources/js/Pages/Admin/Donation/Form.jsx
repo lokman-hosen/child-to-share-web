@@ -4,7 +4,7 @@ import TextInput from '@/Components/TextInputField.jsx';
 import SelectInput from '@/Components/SelectInput.jsx';
 import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
+import {faArrowLeft, faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
 import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import Checkbox from "@/Components/Checkbox.jsx";
@@ -316,7 +316,18 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 </div>
             </div>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex justify-center space-x-4">
+                {/* Back Button */}
+                <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                >
+                    <div className="flex items-center space-x-2">
+                        <FontAwesomeIcon icon={faArrowLeft}/>
+                        <span>Back</span>
+                    </div>
+                </button>
                 <button
                     type="submit"
                     disabled={processing}
@@ -326,12 +337,12 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                         // Button content for Update User
                         <div className="flex items-center space-x-2">
                             <FontAwesomeIcon icon={faEdit}/>
-                            <span>Update Donation</span>
+                            <span>Update</span>
                         </div>
                     ) : (
                         <div className="flex items-center space-x-2">
                             <FontAwesomeIcon icon={faSquarePlus}/>
-                            <span>Create Donation</span>
+                            <span>Create</span>
                         </div>
                     )}
                 </button>
