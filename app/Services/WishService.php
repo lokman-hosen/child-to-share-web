@@ -345,7 +345,7 @@ class WishService extends BaseService
             $query->where('wishes.age_range', $request->age_range);
         }
 
-        return $query->paginate(10)->withQueryString();
+        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
     }
 
     public function findWithDistance(string $id, $user = null)
