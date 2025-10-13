@@ -204,13 +204,14 @@ const Show = ({wish, module}) => {
                                     <div className="space-y-6">
                                         {/* Basic Information */}
                                         <div className="bg-gray-50 rounded-lg p-4">
-                                            <h3 className="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
+                                            <h3 className="text-lg font-medium text-gray-900 mb-4">Basic
+                                                Information</h3>
                                             <dl className="space-y-3">
                                                 {wish?.distance &&
                                                     <div>
                                                         <dt className="text-sm font-medium text-gray-500">Distance:</dt>
                                                         <dd className="text-sm text-gray-900">
-                                                           {wish.distance} km away from you
+                                                            {wish.distance} km away from you
                                                         </dd>
                                                     </div>
                                                 }
@@ -222,7 +223,8 @@ const Show = ({wish, module}) => {
                                                     </dd>
                                                 </div>
                                                 <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Item Condition:</dt>
+                                                    <dt className="text-sm font-medium text-gray-500">Item Condition:
+                                                    </dt>
                                                     <dd className="text-sm text-gray-900 capitalize">
                                                         {wish.item_condition}
                                                     </dd>
@@ -234,12 +236,6 @@ const Show = ({wish, module}) => {
                                                     className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getStatusColor(wish.status)}`}>
                                                     {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
                                                 </span>
-                                                    </dd>
-                                                </div>
-                                                <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Posted By:</dt>
-                                                    <dd className="text-sm text-gray-900">
-                                                        {wish.user?.name || 'Anonymous'}
                                                     </dd>
                                                 </div>
                                                 {wish.organization && (
@@ -259,7 +255,61 @@ const Show = ({wish, module}) => {
                                             </dl>
                                         </div>
 
-                                        {/* Description */}
+                                        {/* Wisher Info */}
+                                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100 shadow-sm">
+                                            <p className="text-xs font-medium text-blue-800 uppercase tracking-wide mb-3">Wish Creator</p>
+                                            <Link href={route('my.profile', wish.user_id)} className="group">
+                                                <div className="flex items-center space-x-4">
+                                                    {/* User Avatar */}
+                                                    <div className="relative flex-shrink-0">
+                                                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-0.5 group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-200">
+                                                            <div className="w-full h-full bg-white rounded-full p-1">
+                                                                {wish.user.image ? (
+                                                                    <img
+                                                                        src={`/storage/${wish.user.image}`}
+                                                                        alt={wish.user.name}
+                                                                        className="w-full h-full object-cover rounded-full"
+                                                                    />
+                                                                ) : (
+                                                                    <img
+                                                                        src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                                                        alt={wish.user.name}
+                                                                        className="w-full h-full object-cover rounded-full"
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        {/* Online indicator */}
+                                                        <div className="absolute bottom-1 right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
+                                                    </div>
+
+                                                    {/* User Info */}
+                                                    <div className="flex-1 min-w-0">
+                                                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 truncate">
+                                                            {wish.user.name}
+                                                        </h3>
+                                                        <div className="flex items-center space-x-2 mt-1">
+                                                            {wish?.distance ? (
+                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                                    📍 {wish.distance} km away
+                                                                </span>
+                                                            ) : (
+                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                                    👶 Age: {wish.age_range} yrs
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Chevron Icon */}
+                                                    <div className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
+                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </div>
                                         <div className="bg-gray-50 rounded-lg p-4">
                                             <h3 className="text-lg font-medium text-gray-900 mb-3">Description</h3>
                                             <p className="text-sm text-gray-700 whitespace-pre-line">

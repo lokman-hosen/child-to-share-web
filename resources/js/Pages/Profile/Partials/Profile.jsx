@@ -1,10 +1,11 @@
-import {Head, Link} from "@inertiajs/react";
+import {Head, Link, usePage} from "@inertiajs/react";
 import React from "react";
 import { format } from 'date-fns';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {checkDonor, checkWisher} from "@/utils.jsx";
 
 export default function Profile({ user,availableDonationCount,donatedDonationCount,fulfilledWishCount,activeWishCount,totalWishCount }) {
+    const authUser = usePage().props.auth.user;
 
     return (
         <AuthenticatedLayout>
@@ -75,7 +76,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                     <dd className="text-sm text-gray-900">{user.phone}</dd>
                                 </div>
                                 <div>
-                                    <dt className="text-sm font-medium text-gray-500">Location</dt>
+                                    <dt className="text-sm font-medium text-gray-500">Location/Address</dt>
                                     <dd className="text-sm text-gray-900">{user.address ?? 'n/a'}</dd>
                                 </div>
                                 <div>
@@ -133,18 +134,22 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                     {/*    </div>*/}
                     {/*)}*/}
 
-                    <div className="mt-6 flex">
-                        <Link
-                            href={route('profile.update')}
-                            className="inline-flex items-center px-4 py-2 border border-yellow-300 rounded-md shadow-sm text-sm font-medium text-yellow-700 bg-yellow-300 hover:bg-yellow-50">
-                            <i className="fas fa-edit mr-2"></i> Edit Profile
-                        </Link>
-                        <Link
-                            href={route('user.password.form')}
-                            className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
-                            <i className="fas fa-lock mr-2"></i> Change Password
-                        </Link>
-                    </div>
+                    {(authUser.role === 'super_admin' && authUser.role === 'admin') || (authUser.id === user.id) &&
+                        <div className="mt-6 flex">
+                            <Link
+                                href={route('profile.update')}
+                                className="inline-flex items-center px-4 py-2 border border-yellow-300 rounded-md shadow-sm text-sm font-medium text-yellow-700 bg-yellow-300 hover:bg-yellow-50">
+                                <i className="fas fa-edit mr-2"></i> Edit Profile
+                            </Link>
+                            <Link
+                                href={route('user.password.form')}
+                                className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                <i className="fas fa-lock mr-2"></i> Change Password
+                            </Link>
+                        </div>
+                    }
+
+
                 </div>
 
                 {checkDonor(user.role) && (
