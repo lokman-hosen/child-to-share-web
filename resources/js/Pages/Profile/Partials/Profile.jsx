@@ -71,10 +71,14 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                     <dt className="text-sm font-medium text-gray-500">Email</dt>
                                     <dd className="text-sm text-gray-900">{user.email}</dd>
                                 </div>
-                                <div>
-                                    <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                    <dd className="text-sm text-gray-900">{user.phone}</dd>
-                                </div>
+
+                                {(authUser.role === 'super_admin' && authUser.role === 'admin') || (authUser.id === user.id) &&
+                                    <div>
+                                        <dt className="text-sm font-medium text-gray-500">Phone</dt>
+                                        <dd className="text-sm text-gray-900">{user.phone}</dd>
+                                    </div>
+                                }
+
                                 <div>
                                     <dt className="text-sm font-medium text-gray-500">Location/Address</dt>
                                     <dd className="text-sm text-gray-900">{user.address ?? 'n/a'}</dd>

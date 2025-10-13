@@ -44,13 +44,14 @@ class WishService extends BaseService
             ->withQueryString();
     }
 
-    public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend'): Collection|int
+    public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend', $userId = null): Collection|int
     {
+        $userId = $userId ?? Auth::id();
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
         if ($for === 'admin') {
-            if (checkWisher()){
-                $query->where('user_id', Auth::id());
-            }
+            //if (checkWisher()){
+                $query->where('user_id', $userId);
+            //}
         }
         if (isset($status)) {
             $query->where('status', $status);

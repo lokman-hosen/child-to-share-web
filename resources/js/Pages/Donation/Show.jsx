@@ -227,12 +227,6 @@ const Show = ({donation, module}) => {
                                                 </span>
                                                     </dd>
                                                 </div>
-                                                <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Posted By:</dt>
-                                                    <dd className="text-sm text-gray-900">
-                                                        {donation.user?.name || 'Anonymous'}
-                                                    </dd>
-                                                </div>
                                                 {donation.organization && (
                                                     <div>
                                                         <dt className="text-sm font-medium text-gray-500">Organization:</dt>
@@ -276,6 +270,62 @@ const Show = ({donation, module}) => {
                                                 </div>
                                             </div>
                                         )}
+
+                                        {/* Wisher Info */}
+                                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100 shadow-sm">
+                                            <p className="text-xs font-medium text-blue-800 uppercase tracking-wide mb-3">Donor</p>
+                                            <Link href={route('my.profile', donation.user_id)} className="group">
+                                                <div className="flex items-center space-x-4">
+                                                    {/* User Avatar */}
+                                                    <div className="relative flex-shrink-0">
+                                                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-0.5 group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-200">
+                                                            <div className="w-full h-full bg-white rounded-full p-1">
+                                                                {donation.user.image ? (
+                                                                    <img
+                                                                        src={`/storage/${donation.user.image}`}
+                                                                        alt={donation.user.name}
+                                                                        className="w-full h-full object-cover rounded-full"
+                                                                    />
+                                                                ) : (
+                                                                    <img
+                                                                        src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                                                        alt={donation.user.name}
+                                                                        className="w-full h-full object-cover rounded-full"
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        {/* Online indicator */}
+                                                        <div className="absolute bottom-1 right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
+                                                    </div>
+
+                                                    {/* User Info */}
+                                                    <div className="flex-1 min-w-0">
+                                                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 truncate">
+                                                            {donation.user.name}
+                                                        </h3>
+                                                        <div className="flex items-center space-x-2 mt-1">
+                                                            {donation?.distance ? (
+                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                                    📍 {donation.distance} km away
+                                                                </span>
+                                                            ) : (
+                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                                     Distance: "n/a"
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Chevron Icon */}
+                                                    <div className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
+                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </div>
 
                                         {/* Description */}
                                         <div className="bg-gray-50 rounded-lg p-4">

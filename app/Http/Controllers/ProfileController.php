@@ -31,26 +31,26 @@ class ProfileController extends Controller
     {
         $user = $id ? User::find($id) :  Auth::user();
         $availableDonationCount = $donatedDonationCount = $activeWishCount = $fulfilledWishCount = $totalWishCount = 0;
-        if (checkDonor()){
+        if ($user->role == 'donor'){
             $user->load(
                 ['donor', 'organizations']
             );
             // donation
             $availableDonationCount = $this->donationService
-                ->donationByStatus('available', 'count',  null,'admin');
+                ->donationByStatus('available', 'count',  null,'admin', $id);
             $donatedDonationCount = $this->donationService
-                ->donationByStatus('donated', 'count',  null,'admin');
-        }elseif (checkWisher()){
+                ->donationByStatus('donated', 'count',  null,'admin', $id);
+        }elseif ($user->role == 'wisher'){
             $user->load(
                 ['wisher', 'organizations']
             );
             $totalWishCount = $this->wishService
-                ->wishByStatus(null, 'count',  null,'admin');
+                ->wishByStatus(null, 'count',  null,'admin', $id);
 
             $activeWishCount = $this->wishService
-                ->wishByStatus('approved', 'count',  null,'admin');
+                ->wishByStatus('approved', 'count',  null,'admin', $id);
             $fulfilledWishCount = $this->wishService
-                ->wishByStatus('fulfilled', 'count',  null,'admin');
+                ->wishByStatus('fulfilled', 'count',  null,'admin', $id);
 
         }
         return Inertia::render(self::moduleDirectory.'Partials/Profile', [
