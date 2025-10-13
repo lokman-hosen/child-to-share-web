@@ -40,7 +40,7 @@ class WishService extends BaseService
                 $query->where('status', $filterStatus);
             })
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate(5) // Pagination: 10 items per page
+            ->paginate(10) // Pagination: 10 items per page
             ->withQueryString();
     }
 
