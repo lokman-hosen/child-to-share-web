@@ -77,12 +77,12 @@ export default function Register({guardianRelations,genders, organizations}) {
     const genderOptions = getCommonOptions(genders);
     //const relationOptions = getCommonOptions(guardianRelations);
 
-    // const handleFileChange = (field, file) => {
-    //     setData(field, file);
-    //     if (file !== null) {
-    //         setData(`${field}_removed`, false);
-    //     }
-    // };
+    const handleFileChange = (field, file) => {
+        setData(field, file);
+        if (file !== null) {
+            setData(`${field}_removed`, false);
+        }
+    };
 
     // Search for locations using Google Maps Places Autocomplete
     const handleSearch = (query) => {
@@ -354,14 +354,17 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 {/*    required*/}
                                 {/*/>*/}
 
-                                {/*<FileInput*/}
-                                {/*    id="photo"*/}
-                                {/*    label="Profile Photo(png,jpg,jpeg)"*/}
-                                {/*    onFileChange={(file) => handleFileChange('photo', file)}*/}
-                                {/*    currentFileUrl={data?.photo || null}*/}
-                                {/*    error={errors.photo}*/}
-                                {/*    accept="image/png, image/jpg, image/jpeg"*/}
-                                {/*/>*/}
+                                {data?.role === 'wisher' &&
+                                    <FileInput
+                                        id="photo"
+                                        label="Profile Photo(png,jpg,jpeg)"
+                                        onFileChange={(file) => handleFileChange('photo', file)}
+                                        currentFileUrl={data?.photo || null}
+                                        error={errors.photo}
+                                        accept="image/png, image/jpg, image/jpeg"
+                                        required
+                                    />
+                                }
 
                                 <TextInput
                                     id="password"
