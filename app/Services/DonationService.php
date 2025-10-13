@@ -199,7 +199,7 @@ class DonationService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
-        return $query->paginate(20)->withQueryString();
+        return $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
     }
 
     public function deleteDonation($donation)
