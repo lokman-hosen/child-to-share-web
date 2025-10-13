@@ -152,8 +152,6 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             </Link>
                         </div>
                     }
-
-
                 </div>
 
                 {checkDonor(user.role) && (
