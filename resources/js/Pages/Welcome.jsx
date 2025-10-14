@@ -110,7 +110,7 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                 </div>
 
                 {/* Safe area for iOS */}
-                <div className="h-4 bg-transparent"></div>
+                {/*<div className="h-4 bg-transparent"></div>*/}
             </div>
 
             {/* Floating Donate Item Button with Text - Updated position for mobile */}

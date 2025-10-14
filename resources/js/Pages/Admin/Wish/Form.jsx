@@ -25,6 +25,7 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
         _method: wish ? 'PUT' : 'POST',
     });
 
+
     // Fetch donation images when category changes
     useEffect(() => {
         if (data.category) {
@@ -263,6 +264,9 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                                         );
                                     })}
                                 </div>
+                                {errors.attachments &&
+                                    <p className="text-red-500">{errors.attachments}</p>
+                                }
                                 <p className="text-xs text-gray-500 mt-2">
                                     {selectedExistingImage ? '1 image selected' : 'Click to select one image'}
                                 </p>

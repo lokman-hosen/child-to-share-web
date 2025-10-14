@@ -121,7 +121,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
 
                     {/* Safe area for iOS */}
-                    <div className="h-4 bg-transparent"></div>
+                    {/*<div className="h-4 bg-transparent"></div>*/}
                 </div>
             )}
         </>
