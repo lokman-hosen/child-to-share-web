@@ -11,6 +11,7 @@ use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -28,6 +29,7 @@ class WishController extends Controller
      */
     public function index(Request $request): Response
     {
+        Gate::authorize('viewAny', Wish::class);
         $wishes = $this->wishService->getListWithFilter($request);
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
@@ -40,6 +42,7 @@ class WishController extends Controller
      */
     public function create(): Response
     {
+        Gate::authorize('create', Wish::class);
         $categories = $this->categoryService->listByStatus();
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
@@ -53,6 +56,7 @@ class WishController extends Controller
      */
     public function store(StoreWishRequest $request): RedirectResponse
     {
+        Gate::authorize('create', Wish::class);
         $wish = $this->wishService->createWish($request);
         if ($wish){
             return redirect()->route('wishes.index')->with('success', 'Donation created successfully!');
@@ -65,6 +69,7 @@ class WishController extends Controller
      */
     public function show(Wish $wish): Response
     {
+        Gate::authorize('view', $wish);
         $wish->load([
             'user',
             'organization',
@@ -80,14 +85,9 @@ class WishController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Wish $wish)
+    public function edit(Wish $wish): Response
     {
-        if (checkWisher()){
-            if (!($wish->user_id == Auth::id())){
-                abort(403);
-            }
-        }
-
+        Gate::authorize('update', $wish);
         $wish->load([
             'user',
             'organization',
@@ -108,13 +108,9 @@ class WishController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateWishRequest $request, Wish $wish)
+    public function update(UpdateWishRequest $request, Wish $wish): RedirectResponse
     {
-        if (checkDonor()){
-            if (!($wish->user_id == Auth::id())){
-                abort(403);
-            }
-        }
+        Gate::authorize('update', $wish);
         $updateWish = $this->wishService->updateWish($request, $wish);
         if ($updateWish){
             return redirect()->route('wishes.index')->with('success', 'Wish updated successfully!');
@@ -127,11 +123,7 @@ class WishController extends Controller
      */
     public function destroy(Wish $wish): RedirectResponse
     {
-        if (checkWisher()){
-            if (!($wish->user_id == Auth::id())){
-                abort(403);
-            }
-        }
+        Gate::authorize('delete', $wish);
         $deleteWishItem = $this->wishService->deleteWish($wish);
         if ($deleteWishItem){
             return redirect()->route('wishes.index')->with('success', 'Wish item deleted successfully.');

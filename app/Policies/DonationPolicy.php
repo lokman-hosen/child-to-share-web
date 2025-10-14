@@ -13,6 +13,9 @@ class DonationPolicy
      */
     public function viewAny(User $user): bool
     {
+        if (checkAdmin() or checkDonor()){
+            return true;
+        }
         return false;
     }
 
@@ -21,6 +24,11 @@ class DonationPolicy
      */
     public function view(User $user, Donation $donation): bool
     {
+        if (checkAdmin()){
+            return true;
+        }elseif (checkDonor()){
+            return $user->id == $donation->user_id;
+        }
         return false;
     }
 
@@ -29,6 +37,9 @@ class DonationPolicy
      */
     public function create(User $user): bool
     {
+        if (checkDonor()){
+            return true;
+        }
         return false;
     }
 
@@ -37,6 +48,11 @@ class DonationPolicy
      */
     public function update(User $user, Donation $donation): bool
     {
+        if (checkAdmin()){
+            return true;
+        }elseif (checkDonor()){
+            return $user->id == $donation->user_id;
+        }
         return false;
     }
 
@@ -45,6 +61,11 @@ class DonationPolicy
      */
     public function delete(User $user, Donation $donation): bool
     {
+        if (checkAdmin()){
+            return true;
+        }elseif (checkDonor()){
+            return $user->id == $donation->user_id;
+        }
         return false;
     }
 

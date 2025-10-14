@@ -13,6 +13,9 @@ class WishPolicy
      */
     public function viewAny(User $user): bool
     {
+        if (checkAdmin() or checkWisher()){
+            return true;
+        }
         return false;
     }
 
@@ -21,6 +24,11 @@ class WishPolicy
      */
     public function view(User $user, Wish $wish): bool
     {
+        if (checkAdmin()){
+            return true;
+        }elseif (checkWisher()){
+            return $user->id == $wish->user_id;
+        }
         return false;
     }
 
@@ -29,6 +37,9 @@ class WishPolicy
      */
     public function create(User $user): bool
     {
+        if (checkWisher()){
+            return true;
+        }
         return false;
     }
 
@@ -37,6 +48,11 @@ class WishPolicy
      */
     public function update(User $user, Wish $wish): bool
     {
+        if (checkAdmin()){
+            return true;
+        }elseif (checkWisher()){
+            return $user->id == $wish->user_id;
+        }
         return false;
     }
 
@@ -45,6 +61,11 @@ class WishPolicy
      */
     public function delete(User $user, Wish $wish): bool
     {
+        if (checkAdmin()){
+            return true;
+        }elseif (checkWisher()){
+            return $user->id == $wish->user_id;
+        }
         return false;
     }
 
@@ -53,7 +74,7 @@ class WishPolicy
      */
     public function restore(User $user, Wish $wish): bool
     {
-        return false;
+       return false;
     }
 
     /**

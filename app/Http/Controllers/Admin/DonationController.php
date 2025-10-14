@@ -11,6 +11,7 @@ use App\Services\DonationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -28,6 +29,7 @@ class DonationController extends Controller
      */
     public function index(Request $request): Response
     {
+        Gate::authorize('viewAny', Donation::class);
         $donations = $this->donationService->getListWithFilter($request);
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
@@ -40,6 +42,7 @@ class DonationController extends Controller
      */
     public function create(): Response
     {
+        Gate::authorize('create', Donation::class);
         $categories = $this->categoryService->listByStatus();
         $statuses = donationStatus();
         $itemConditions = $this->donationService->getItemConditions();
@@ -56,6 +59,7 @@ class DonationController extends Controller
      */
     public function store(StoreDonationRequest $request): RedirectResponse
     {
+        Gate::authorize('create', Donation::class);
         $donation = $this->donationService->createDonation($request);
         if ($donation){
             return redirect()->route('donations.index')->with('success', 'Donation created successfully!');
@@ -69,6 +73,7 @@ class DonationController extends Controller
      */
     public function show(Donation $donation): Response
     {
+        Gate::authorize('view', $donation);
         $donation->load([
             'user',
             'organization',
@@ -87,11 +92,7 @@ class DonationController extends Controller
      */
     public function edit(Donation $donation): Response
     {
-        if (checkDonor()){
-            if (!($donation->user_id == Auth::id())){
-                abort(403);
-            }
-        }
+        Gate::authorize('update', $donation);
 
         $donation->load([
             'user',
@@ -116,11 +117,7 @@ class DonationController extends Controller
      */
     public function update(UpdateDonationRequest $request, Donation $donation): RedirectResponse
     {
-        if (checkDonor()){
-            if (!($donation->user_id == Auth::id())){
-                abort(403);
-            }
-        }
+        Gate::authorize('update', $donation);
         $updateDonation = $this->donationService->updateDonation($request, $donation);
         if ($updateDonation){
             return redirect()->route('donations.index')->with('success', 'Donation updated successfully!');
@@ -131,13 +128,9 @@ class DonationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Donation $donation)
+    public function destroy(Donation $donation): RedirectResponse
     {
-        if (checkDonor()){
-            if (!($donation->user_id == Auth::id())){
-                abort(403);
-            }
-        }
+        Gate::authorize('delete', $donation);
         $deleteDonationItem = $this->donationService->deleteDonation($donation);
         if ($deleteDonationItem){
             return redirect()->route('donations.index')->with('success', 'Donation item deleted successfully.');
