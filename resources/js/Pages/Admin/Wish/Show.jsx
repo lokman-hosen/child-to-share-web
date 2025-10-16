@@ -169,7 +169,7 @@ export default function Show({module, wish}) {
                                                     )}
 
                                                     {/* Featured Badge */}
-                                                    {wish.files[currentIndex]?.is_featured === 1 && (
+                                                    {wish.files[currentIndex]?.is_featured == 1 && (
                                                         <span className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
                                                     Featured
                                                 </span>
@@ -177,7 +177,7 @@ export default function Show({module, wish}) {
 
                                                     {/* Action Buttons Container - Positioned at bottom right */}
                                                     <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
-                                                        {wish.files[currentIndex].is_featured === 0 &&
+                                                        {/*{wish.files[currentIndex].is_featured == 0 &&*/}
                                                             <button
                                                                 title={wish.files[currentIndex].file_type === 'image' ? 'Make Feature Image' : 'Make Feature Video'}
                                                                 onClick={() => handleFeatureImage(wish.files[currentIndex].id)}
@@ -185,7 +185,7 @@ export default function Show({module, wish}) {
                                                             >
                                                                 <FontAwesomeIcon icon={faCheck} className="w-4 h-4"/>
                                                             </button>
-                                                        }
+                                                        {/*}*/}
                                                         <a
                                                             href={`/storage/${wish.files[currentIndex].file_path}`}
                                                             target="_blank"

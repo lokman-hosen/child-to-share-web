@@ -181,7 +181,7 @@ export default function List({module, donation}) {
 
                                                     {/* Action Buttons Container - Positioned at bottom right */}
                                                     <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
-                                                        {! donation.files[currentIndex].is_featured &&
+                                                        {/*{! donation.files[currentIndex].is_featured &&*/}
                                                             <button
                                                                 title={donation.files[currentIndex].file_type === 'image' ? 'Make Feature Image' : 'Make Feature Video'}
                                                                 onClick={() => handleFeatureImage(donation.files[currentIndex].id)}
@@ -189,7 +189,7 @@ export default function List({module, donation}) {
                                                             >
                                                                 <FontAwesomeIcon icon={faCheck} className="w-4 h-4"/>
                                                             </button>
-                                                        }
+                                                        {/*}*/}
                                                         <a
                                                             href={`/storage/${donation.files[currentIndex].file_path}`}
                                                             target="_blank"
