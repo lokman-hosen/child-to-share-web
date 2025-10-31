@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from "@inertiajs/react";
 
 const Footer = () => {
     return (
@@ -12,10 +13,18 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
                         <ul className="space-y-2">
-                            <li><a href="#" className="text-gray-400 hover:text-white">Home</a></li>
-                            <li><a href="#how-it-works" className="text-gray-400 hover:text-white">How It Works</a></li>
-                            <li><a href="#wishes" className="text-gray-400 hover:text-white">Wishes</a></li>
-                            <li><a href="#donations" className="text-gray-400 hover:text-white">Donations</a></li>
+                            <li>
+                                <Link href={route('home')} className="text-gray-400 hover:text-white">Home</Link>
+                            </li>
+                            <li>
+                                <Link href={`${route('home')}#how-it-works`} className="text-gray-400 hover:text-white">How It Works</Link>
+                            </li>
+                            <li>
+                                <Link href={route('wish.index')} className="text-gray-400 hover:text-white">Wishes</Link>
+                            </li>
+                            <li>
+                                <Link href={route('donation.index')} className="text-gray-400 hover:text-white">Donations</Link>
+                            </li>
                         </ul>
                     </div>
                     <div>
@@ -40,7 +49,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="border-t border-gray-700 mt-8 pt-8 text-sm text-gray-400 text-center">
-                    <p>&copy; 2023 ThreeWish. All rights reserved.</p>
+                    <p>&copy;  {new Date().getFullYear()} ThreeWish. All rights reserved.</p>
                 </div>
             </div>
         </footer>
