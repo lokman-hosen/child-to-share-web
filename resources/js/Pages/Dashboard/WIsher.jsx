@@ -31,7 +31,7 @@ const WisherDashboard = ({activeWishCount,fulfilledWishCount}) => {
                        activeWishCount = {activeWishCount}
                        fulfilledWishCount = {fulfilledWishCount}
                    />
-                   <Activity/>
+                   {/*<Activity/>*/}
                    {/*<WishList userType = 'wisher'/>*/}
                </div>
             </div>
