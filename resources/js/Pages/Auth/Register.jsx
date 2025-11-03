@@ -430,7 +430,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 <p className="text-gray-600">We'll send a verification code to your email address</p>
                             </div>
 
-                            <div className="max-w-md mx-auto">
+                            <div className="w-full max-w-md mx-auto px-4 sm:px-0">
                                 <TextInput
                                     id="email"
                                     label="Email Address"
@@ -476,7 +476,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                 </p>
                             </div>
 
-                            <div className="max-w-md mx-auto">
+                            <div className="w-full max-w-md mx-auto px-4 sm:px-0">
                                 <div className="mb-4">
                                     <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
                                         Enter 4-digit OTP
@@ -530,7 +530,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     </button>
                                 </div>
 
-                                <div className="text-center mt-4">
+                                <div className="text-center mt-4 mb-5">
                                     <button
                                         type="button"
                                         onClick={() => setCurrentStep('email')}
