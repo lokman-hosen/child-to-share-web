@@ -119,7 +119,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                 setOtpError(result.message || 'Failed to send OTP. Please try again.');
             }
         } catch (error) {
-            setOtpError('Network error. Please check your connection and try again.');
+            setOtpError('Network error. Please check your connection/refresh page and try again.');
         } finally {
             setIsSendingOtp(false);
         }
