@@ -14,10 +14,9 @@ class OtpVerify extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public string $otp)
-    {
-        //
-    }
+    public function __construct(
+        public string $otp
+    ){}
 
     /**
      * Get the notification's delivery channels.
