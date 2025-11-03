@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Otp;
+use App\Models\User;
 use App\Notifications\AssignmentNotification;
 use App\Notifications\OtpVerify;
 use Illuminate\Http\Request;
@@ -12,6 +13,11 @@ use Illuminate\Support\Str;
 
 class OtpController extends Controller
 {
+    public function __construct(
+        protected Otp $otp,
+        protected User $user,
+
+    ){}
     public function sendOtp(Request $request)
     {
         $request->validate([
@@ -19,14 +25,22 @@ class OtpController extends Controller
             'type' => 'required|in:email,phone'
         ]);
 
+        $checkExist = $this->user->where('email', $request->email)->first();
+        if ($checkExist){
+            return response()->json([
+                'success' => false,
+                'message' => 'This email already taken. Try by another one.'
+            ]);
+        }
+
         // Generate 4-digit OTP
         $otpCode = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
         // Delete any existing OTP for this email
-        Otp::where('email', $request->email)->delete();
+        $this->otp->where('email', $request->email)->delete();
 
         // Create new OTP record
-        $otp = Otp::create([
+        $this->otp->create([
             'type' => $request->type,
             'email' => $request->email,
             'otp' => $otpCode,
@@ -38,11 +52,6 @@ class OtpController extends Controller
             Notification::route('mail', [
                 $request->email => 'ThreeWish',
             ])->notify(new OtpVerify($otpCode));
-
-//            Mail::send('emails.otp', ['otp' => $otpCode], function ($message) use ($request) {
-//                $message->to($request->email)
-//                    ->subject('Your ThreeWish Verification Code');
-//            });
 
             return response()->json([
                 'success' => true,

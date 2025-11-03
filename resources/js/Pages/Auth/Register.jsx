@@ -110,7 +110,6 @@ export default function Register({guardianRelations,genders, organizations}) {
             });
 
             const result = await response.json();
-            console.log(result)
 
             if (result.success) {
                 setOtpSent(true);
