@@ -155,7 +155,7 @@ export default function Navbar() {
                                             href={route('logout')}
                                             method="post"
                                             as="button"
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                            className="block px-3 py-2 rounded-md text-left font-medium text-gray-700 hover:text-white hover:bg-purple-600 w-full"
                                             onClick={() => setIsProfileOpen(false)}
                                         >
                                             Sign out
