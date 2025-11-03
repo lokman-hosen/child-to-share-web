@@ -34,6 +34,10 @@ Route::controller(\App\Http\Controllers\DonationController::class)->group(functi
     Route::get('donation', 'index')->name('donation.index');
     Route::get('donation/{id}', 'show')->name('donation.show');
 });
+Route::controller(\App\Http\Controllers\OtpController::class)->group(function () {
+    Route::post('/send-otp', 'sendOtp')->name('otp.send');
+    Route::post('/verify-otp', 'verifyOtp')->name('otp.verify');
+});
 
 
 //Route::get('/dashboard', function () {
