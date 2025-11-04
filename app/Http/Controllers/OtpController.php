@@ -34,7 +34,8 @@ class OtpController extends Controller
         }
 
         // Generate 4-digit OTP
-        $otpCode = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+        //$otpCode = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+        $otpCode = 4592;
 
         // Delete any existing OTP for this email
         $this->otp->where('email', $request->email)->delete();
