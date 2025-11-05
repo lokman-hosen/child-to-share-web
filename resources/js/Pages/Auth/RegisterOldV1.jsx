@@ -4,19 +4,22 @@ import TextInput from "@/Components/TextInputField.jsx";
 import DateInput from "@/Components/DateInput.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import {Head, Link, useForm} from "@inertiajs/react";
-import {getCommonOptions} from "@/utils.jsx";
+import {getCommonOptions, getDropdownOptions} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 import {
+    faInfoCircle,
     faSpinner,
     faSearch,
     faMapMarkerAlt,
     faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
+import Checkbox from "@/Components/Checkbox.jsx";
 import {Button} from "@headlessui/react";
 
-export default function Register({genders}) {
+export default function Register({guardianRelations,genders, organizations}) {
     // State to manage the selected role
     const [searchQuery, setSearchQuery] = useState('');
     const [searchSuggestions, setSearchSuggestions] = useState([]);
@@ -32,11 +35,17 @@ export default function Register({genders}) {
         phone: '',
         dob: '',
         address: '',
+        organization: '',
         photo: null,
         gender: '',
         latitude: '',
         longitude: '',
+        guardian_name: '',
+        guardian_phone: '',
+        relationship: '',
         password: '',
+        role: 'donor',
+        be_leader: false,
     });
 
     // Initialize Google Maps services
@@ -228,6 +237,19 @@ export default function Register({genders}) {
         }
     };
 
+    // const calculateAge = (dobString) => {
+    //     if (!dobString) return 0;
+    //     const today = new Date();
+    //     const birthDate = new Date(dobString);
+    //     let age = today.getFullYear() - birthDate.getFullYear();
+    //     const monthDiff = today.getMonth() - birthDate.getMonth();
+    //
+    //     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    //         age--;
+    //     }
+    //     return age;
+    // };
+
     // Check if Google Maps is available
     const isGoogleMapsAvailable = !!window.google;
 
@@ -242,11 +264,37 @@ export default function Register({genders}) {
                     </div>
 
                     <form onSubmit={submit} className="space-y-6">
-                        <div className="px-6 pb-8 mt-5">
+                        <div className="px-6 pb-8">
+                            <br/>
+                            <h2 className="text-xl font-semibold mb-4">I want to:</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                <div
+                                    onClick={() => setData('role', 'donor')}
+                                    className={`role-option p-5 text-center ${data.role === 'donor' ? 'selected' : ''}`} data-role="donor">
+                                    <div className="text-4xl mb-3 text-green-500">🎁</div>
+                                    <h3 className="font-semibold">Donate Items(Donor)</h3>
+                                    <p className="text-sm text-gray-600 mt-2">Share items with children in need</p>
+                                </div>
+
+                                <div
+                                    onClick={() => setData('role', 'wisher')}
+                                    className={`role-option p-5 text-center ${data.role === 'wisher' ? 'selected' : ''}`} data-role="wisher">
+                                    <div className="text-4xl mb-3 text-purple-500">✨</div>
+                                    <h3 className="font-semibold">Make a Wish(Wisher)</h3>
+                                    <p className="text-sm text-gray-600 mt-2">Request items you need</p>
+                                </div>
+                            </div>
+                            {data.role === 'wisher' &&
+                                <div className="mb-3">
+                                    <h3 className="text-lg font-semibold mt-4 text-gray-800">Child Information</h3>
+                                    <p className="text-sm text-indigo-500">User guardian email and phone if you dont have</p>
+                                </div>
+                            }
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <TextInput
                                     id="name"
-                                    label="Enter Full Name"
+                                    label="Full Name"
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
                                     error={errors.name}
@@ -256,12 +304,12 @@ export default function Register({genders}) {
 
                                 <TextInput
                                     id="phone"
-                                    label="Phone(11 digit)"
+                                    label="Phone Number"
                                     type="number"
                                     value={data.phone}
                                     onChange={(e) => setData('phone', e.target.value)}
                                     error={errors.phone}
-                                    placeholder="Phone number: 017********"
+                                    placeholder={data.role === 'wisher' ? 'Guardian phone: 017********' : 'Phone number: 017********'}
                                     required
                                 />
                                 <TextInput
@@ -272,6 +320,7 @@ export default function Register({genders}) {
                                     onChange={(e) => setData('email', e.target.value)}
                                     error={errors.email}
                                     placeholder="Enter email address"
+                                    required
                                 />
 
                                 <DateInput
@@ -294,6 +343,29 @@ export default function Register({genders}) {
                                     required
                                 />
 
+                                {/*<CustomCreatableSelect*/}
+                                {/*    id="organization"*/}
+                                {/*    label="Organization/Institution/School(type to create new)"*/}
+                                {/*    value={data.organization}*/}
+                                {/*    onChange={(value) => setData('organization', value)}*/}
+                                {/*    options={organizations}*/}
+                                {/*    error={errors.organization}*/}
+                                {/*    placeholder="Select or type to create new organization"*/}
+                                {/*    required*/}
+                                {/*/>*/}
+
+                                {data?.role === 'wisher' &&
+                                    <FileInput
+                                        id="photo"
+                                        label="Profile Photo(png,jpg,jpeg)"
+                                        onFileChange={(file) => handleFileChange('photo', file)}
+                                        currentFileUrl={data?.photo || null}
+                                        error={errors.photo}
+                                        accept="image/png, image/jpg, image/jpeg"
+                                        required
+                                    />
+                                }
+
                                 <TextInput
                                     id="password"
                                     label="Password(min 8 character)"
@@ -305,17 +377,62 @@ export default function Register({genders}) {
                                     required
                                 />
                             </div>
+                            {/*<div className="grid grid-cols-1 gap-6">*/}
+                            {/*    <div className="flex items-center mt-3">*/}
+                            {/*        <Checkbox*/}
+                            {/*            className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"*/}
+                            {/*            name="be_leader"*/}
+                            {/*            checked={data.be_leader}*/}
+                            {/*            onChange={(e) =>*/}
+                            {/*                setData('be_leader', e.target.checked)*/}
+                            {/*            }*/}
+                            {/*        />*/}
+                            {/*        <label htmlFor="be_leader-me" className="ml-2 block text-sm text-gray-700">Want to be community leader?</label>*/}
+                            {/*    </div>*/}
+                            {/*    <div>*/}
+                            {/*        { data.be_leader &&*/}
+                            {/*            <span className="text-blue-500 font-semibold">*/}
+                            {/*               <FontAwesomeIcon icon={faInfoCircle} /> Community leaders help facilitate and validate the donation process*/}
+                            {/*           </span>*/}
+                            {/*        }*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
 
-                            <div className="grid grid-cols-1 gap-6 mt-5">
-                                <FileInput
-                                    id="photo"
-                                    label="Profile Photo(png,jpg,jpeg)"
-                                    onFileChange={(file) => handleFileChange('photo', file)}
-                                    currentFileUrl={data?.photo || null}
-                                    error={errors.photo}
-                                    accept="image/png, image/jpg, image/jpeg"
-                                />
-                            </div>
+                            {/* Wisher-specific fields (Conditional Rendering) */}
+                            {/*{(data.role === 'wisher' || (data.role === 'donor' && calculateAge(data.dob) < 18)) && (*/}
+                            {/*    <>*/}
+                            {/*        <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian Information</h3>*/}
+                            {/*        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">*/}
+                            {/*            <TextInput*/}
+                            {/*                id="guardian_name"*/}
+                            {/*                label="Guardian Name"*/}
+                            {/*                value={data.guardian_name}*/}
+                            {/*                onChange={(e) => setData('guardian_name', e.target.value)}*/}
+                            {/*                error={errors.guardian_name}*/}
+                            {/*                placeholder="Enter guardian name"*/}
+                            {/*                required*/}
+                            {/*            />*/}
+                            {/*            <TextInput*/}
+                            {/*                id="guardian_phone"*/}
+                            {/*                label="Guardian Phone"*/}
+                            {/*                value={data.guardian_phone}*/}
+                            {/*                onChange={(e) => setData('guardian_phone', e.target.value)}*/}
+                            {/*                error={errors.guardian_phone}*/}
+                            {/*                placeholder="Guardian phone: 017********"*/}
+                            {/*                required*/}
+                            {/*            />*/}
+                            {/*            <SelectInput*/}
+                            {/*                id="relationship"*/}
+                            {/*                label="Relation with guardian"*/}
+                            {/*                value={data.relationship}*/}
+                            {/*                onChange={(e) => setData('relationship', e.target.value)}*/}
+                            {/*                error={errors.relationship}*/}
+                            {/*                options={relationOptions}*/}
+                            {/*                required*/}
+                            {/*            />*/}
+                            {/*        </div>*/}
+                            {/*    </>*/}
+                            {/*)}*/}
 
                             {/* Location Search Section */}
                             <div className="mt-6">
