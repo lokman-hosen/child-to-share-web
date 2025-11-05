@@ -54,10 +54,10 @@ class RegisteredUserController extends Controller
             if ($request->hasFile('photo')) {
                 $photoPath = $request->file('photo')->store('photos', 'public');
             }
-            $organization = null;
-            if ($request->filled('organization')) {
-                $organization = $this->organizationService->findByName($request->organization);
-            }
+//            $organization = null;
+//            if ($request->filled('organization')) {
+//                $organization = $this->organizationService->findByName($request->organization);
+//            }
 
             // Step 2: Create the user record
             $user = User::create([
@@ -65,17 +65,19 @@ class RegisteredUserController extends Controller
                 'email' => checkEmpty($request->email),
                 'phone' => $request->phone,
                 'image' => $photoPath,
-                //'role' => $request->role,
+                'dob' => $request->dob,
+                'gender' => $request->gender,
                 'latitude' => checkEmpty($request->latitude),
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
                 //'be_leader' => $request->be_leader,
-                'dob' => $request->dob,
-                'gender' => $request->gender,
                 'is_verified' => true,
                 'is_active' => true,
                 'password' => Hash::make($request->password),
             ]);
+            if ($user){
+                $user->roles()->attach([3,4]);
+            }
 
             // tah organization
 //            if (isset($organization) and $user){
