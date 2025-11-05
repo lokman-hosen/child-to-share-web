@@ -327,7 +327,7 @@ export default function UpdateProfileInformation({
                     />
 
                 </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <DateInput
                             id="dob"
                             label="Date of Birth"
@@ -364,7 +364,7 @@ export default function UpdateProfileInformation({
                             error={errors.relationship}
                             options={relationOptions}
                         />
-                    </div>
+                </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <FileInput
@@ -376,7 +376,7 @@ export default function UpdateProfileInformation({
                         accept="image/png, image/jpg, image/jpeg"
                     />
                 </div>
-                    <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 gap-6">
                         {/* Location Search Section */}
                         <div className="mt-1">
                             <label className="block text-gray-700 font-semibold mb-2">
