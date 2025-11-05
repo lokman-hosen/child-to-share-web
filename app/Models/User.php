@@ -51,6 +51,16 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Find user by email or phone for authentication
+     */
+    public function findForPassport($login)
+    {
+        return $this->where('email', $login)
+            ->orWhere('phone', $login)
+            ->first();
+    }
+
     public function donor(): HasOne
     {
         return $this->hasOne(Donor::class);

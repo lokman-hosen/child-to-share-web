@@ -32,6 +32,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
         if (Auth::check()){
             if (checkDonor()){
                 return redirect()->intended(route('donation.index', absolute: false));
