@@ -113,39 +113,18 @@ class ProfileController extends Controller
         }
         $user->update([
             'name' => $request->name,
-            'email' => $request->email,
+            'email' => checkEmpty($request->email),
             'phone' => $request->phone,
             'image' => $photoPath,
+            'guardian_name' => checkEmpty($request->guardian_name),
+            'guardian_phone' => checkEmpty($request->guardian_phone),
+            'relationship' => checkEmpty($request->relationship),
+            'dob' => $request->dob,
+            'gender' => $request->gender,
             'latitude' => $request->latitude ?? $user->latitude,
             'longitude' => $request->longitude ?? $user->longitude,
             'address' => $request->address ?? $user->address,
         ]);
-
-        if ($user->role === 'donor') {
-            $user->donor()->update([
-                'name' => $request->name,
-                'guardian_name' => checkEmpty($request->guardian_name),
-                'guardian_phone' => checkEmpty($request->guardian_phone),
-                'relationship' => checkEmpty($request->relationship),
-                'dob' => $request->dob,
-                'gender' => $request->gender,
-            ]);
-        } elseif ($user->role === 'wisher') {
-            $user->wisher()->update([
-                'name' => $request->name,
-                'guardian_name' => $request->guardian_name,
-                'guardian_phone' => $request->guardian_phone,
-                'relationship' => $request->relationship,
-                'dob' => $request->dob,
-                'gender' => $request->gender,
-            ]);
-        } elseif ($user->role === 'leader') {
-            $user->leader()->update([
-                'name' => $request->name,
-                'dob' => $request->dob,
-                'gender' => $request->gender,
-            ]);
-        }
         if ($user){
             return Redirect::back()->with('success', 'Profile updated successfully.');
         }

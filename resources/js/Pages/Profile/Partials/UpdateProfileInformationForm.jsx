@@ -327,7 +327,6 @@ export default function UpdateProfileInformation({
                     />
 
                 </div>
-                {(user.role === 'donor' || user.role === 'wisher') && (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <DateInput
                             id="dob"
@@ -366,7 +365,6 @@ export default function UpdateProfileInformation({
                             options={relationOptions}
                         />
                     </div>
-                )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <FileInput
@@ -378,7 +376,6 @@ export default function UpdateProfileInformation({
                         accept="image/png, image/jpg, image/jpeg"
                     />
                 </div>
-                {(user.role === 'donor' || user.role === 'wisher') && (
                     <div className="grid grid-cols-1 gap-6">
                         {/* Location Search Section */}
                         <div className="mt-1">
@@ -478,7 +475,6 @@ export default function UpdateProfileInformation({
                             )}
                         </div>
                     </div>
-                )}
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
