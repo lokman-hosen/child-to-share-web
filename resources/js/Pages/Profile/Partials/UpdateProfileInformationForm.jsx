@@ -42,11 +42,11 @@ export default function UpdateProfileInformation({
             name: user.name,
             email: user.email,
             phone: user.phone,
-            guardian_name: user.role === 'donor' ? user.donor?.guardian_name : user.wisher?.guardian_name,
-            guardian_phone: user.role === 'donor' ? user.donor?.guardian_phone : user.wisher?.guardian_phone,
-            relationship: user.role === 'donor' ? user.donor?.relationship : user.wisher?.relationship,
-            gender: user.role === 'donor' ? user.donor?.gender : user.wisher?.gender,
-            dob: user.role === 'donor' ? user.donor?.dob : user.wisher?.dob,
+            guardian_name: user?.guardian_name,
+            guardian_phone: user?.guardian_phone,
+            relationship: user?.relationship,
+            gender: user?.gender,
+            dob: user?.dob,
         });
 
     const submit = (e) => {
