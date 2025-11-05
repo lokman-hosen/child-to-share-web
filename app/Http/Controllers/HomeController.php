@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index(): Response
     {
         $donations = $this->donationService->donationByStatus('available', 'list', 3, 'frontend');
-        $activeDonorCount = Donor::count();
+        $activeDonorCount = 10;
         $totalWishCount = $this->wishService
             ->wishByStatus(null, 'count',  null,'frontend');
         return Inertia::render('Welcome', [
