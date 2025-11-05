@@ -60,6 +60,10 @@ class User extends Authenticatable
             ->orWhere('phone', $login)
             ->first();
     }
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
 
     public function organizations(): BelongsToMany
     {
