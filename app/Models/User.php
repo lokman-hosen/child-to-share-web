@@ -61,19 +61,6 @@ class User extends Authenticatable
             ->first();
     }
 
-    public function donor(): HasOne
-    {
-        return $this->hasOne(Donor::class);
-    }
-    public function wisher(): HasOne
-    {
-        return $this->hasOne(Wisher::class);
-    }
-    public function leader(): HasOne
-    {
-        return $this->hasOne(Leader::class);
-    }
-
     public function organizations(): BelongsToMany
     {
         return $this->belongsToMany(Organization::class);
