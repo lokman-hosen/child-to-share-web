@@ -29,9 +29,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        $organizations =  $this->organizationService->listByStatus();
+        //$organizations =  $this->organizationService->listByStatus();
         return Inertia::render('Auth/Register',[
-            'guardianRelations' => CommonHelper::guardianRelations(),
+            //'guardianRelations' => CommonHelper::guardianRelations(),
             'genders' => CommonHelper::genders(),
             //'organizations' => $organizations
         ]);
@@ -62,62 +62,65 @@ class RegisteredUserController extends Controller
             // Step 2: Create the user record
             $user = User::create([
                 'name' => $request->name,
-                'email' => $request->email,
+                'email' => checkEmpty($request->email),
                 'phone' => $request->phone,
                 'image' => $photoPath,
-                'role' => $request->role,
+                //'role' => $request->role,
                 'latitude' => checkEmpty($request->latitude),
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
                 //'be_leader' => $request->be_leader,
+                'dob' => $request->dob,
+                'gender' => $request->gender,
                 'is_verified' => true,
                 'is_active' => true,
                 'password' => Hash::make($request->password),
             ]);
 
             // tah organization
-            if (isset($organization) and $user){
-                $user->organizations()->attach([$organization->id]);
-            }
+//            if (isset($organization) and $user){
+//                $user->organizations()->attach([$organization->id]);
+//            }
 
             // Step 3: Create the role-specific record based on role
-            if ($request->role === 'donor') {
-                $user->donor()->create([
-                    'name' => $request->name,
-                    'guardian_name' => checkEmpty($request->guardian_name),
-                    'guardian_phone' => checkEmpty($request->guardian_phone),
-                    'relationship' => checkEmpty($request->relationship),
-                    'dob' => $request->dob,
-                    'gender' => $request->gender,
-                ]);
-            } elseif ($request->role === 'wisher') {
-                $user->wisher()->create([
-                    'name' => $request->name,
-                    'guardian_name' => checkEmpty($request->guardian_name),
-                    'guardian_phone' => checkEmpty($request->guardian_phone),
-                    'relationship' => checkEmpty($request->relationship),
-                    'dob' => $request->dob,
-                    'gender' => $request->gender,
-                ]);
-            } elseif ($request->role === 'leader') {
-                $user->leader()->create([
-                    'name' => $request->name,
-                    'dob' => $request->dob,
-                    'gender' => $request->gender,
-                ]);
-            }
+//            if ($request->role === 'donor') {
+//                $user->donor()->create([
+//                    'name' => $request->name,
+//                    'guardian_name' => checkEmpty($request->guardian_name),
+//                    'guardian_phone' => checkEmpty($request->guardian_phone),
+//                    'relationship' => checkEmpty($request->relationship),
+//                    'dob' => $request->dob,
+//                    'gender' => $request->gender,
+//                ]);
+//            } elseif ($request->role === 'wisher') {
+//                $user->wisher()->create([
+//                    'name' => $request->name,
+//                    'guardian_name' => checkEmpty($request->guardian_name),
+//                    'guardian_phone' => checkEmpty($request->guardian_phone),
+//                    'relationship' => checkEmpty($request->relationship),
+//                    'dob' => $request->dob,
+//                    'gender' => $request->gender,
+//                ]);
+//            } elseif ($request->role === 'leader') {
+//                $user->leader()->create([
+//                    'name' => $request->name,
+//                    'dob' => $request->dob,
+//                    'gender' => $request->gender,
+//                ]);
+//            }
             // If everything is successful, commit the transaction
             //DB::commit();
 
         event(new Registered($user));
         Auth::login($user);
-        if ($user->role === 'donor'){
-            return redirect()->intended(route('donation.index', absolute: false));
-        }elseif ($user->role === 'wisher'){
-            return redirect()->intended(route('wish.index', absolute: false));
-        } else{
-            return redirect(route('dashboard', absolute: false));
-        }
+        return redirect()->intended(route('home', absolute: false));
+//        if ($user->role === 'donor'){
+//            return redirect()->intended(route('donation.index', absolute: false));
+//        }elseif ($user->role === 'wisher'){
+//            return redirect()->intended(route('wish.index', absolute: false));
+//        } else{
+//            return redirect(route('dashboard', absolute: false));
+//        }
 //    }
 //    catch (\Exception $e) {
 //            // If any part fails, roll back the transaction and return to the form with an error
