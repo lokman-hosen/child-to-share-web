@@ -304,7 +304,6 @@ export default function UpdateProfileInformation({
                         autoComplete="username"
                         error={errors.email}
                         placeholder="Your email"
-                        required
                     />
 
                     <TextInput
