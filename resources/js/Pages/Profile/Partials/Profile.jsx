@@ -2,7 +2,7 @@ import {Head, Link, usePage} from "@inertiajs/react";
 import React from "react";
 import { format } from 'date-fns';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {checkDonor, checkWisher} from "@/utils.jsx";
+import {checkDonor, checkDonorWisher, checkWisher} from "@/utils.jsx";
 
 export default function Profile({ user,availableDonationCount,donatedDonationCount,fulfilledWishCount,activeWishCount,totalWishCount }) {
     const authUser = usePage().props.auth.user;
@@ -35,6 +35,23 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
                             <p className="text-sm text-gray-500">Member
                                 Since {format(new Date(user.created_at), 'MMMM do, yyyy')}</p>
+                            {checkDonorWisher(user.role) &&
+                                <div className="mt-2 flex items-center">
+                                     <span
+                                         className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
+                                        {totalWishCount} Wishes Created
+                                    </span>
+                                    <span
+                                        className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
+                                        0 Wishes Fulfilled
+                                    </span>
+                                    <span
+                                        className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                        {availableDonationCount} Active Donations
+                                    </span>
+                                </div>
+                            }
+
                             {checkDonor(user.role) &&
                                 <div className="mt-2 flex items-center">
                                     <span
@@ -85,7 +102,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                 </div>
                                 <div>
                                     <dt className="text-sm font-medium text-gray-500">Gender</dt>
-                                    <dd className="text-sm text-gray-900">{user.donor?.gender ?? 'n/a'}</dd>
+                                    <dd className="text-sm text-gray-900 uppercase">{user.gender ?? 'n/a'}</dd>
                                 </div>
                             </dl>
                         </div>
