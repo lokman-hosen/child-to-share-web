@@ -24,7 +24,7 @@ const DonorWisherDashboard = ({availableDonationCount, donatedDonationCount,acti
 
                <div className="px-10 py-8">
                    <div className="flex items-left mb-6">
-                       <h1 className="text-2xl font-bold text-gray-900 mt-1">Wisher Dashboard</h1>
+                       <h1 className="text-2xl font-bold text-gray-900 mt-1">Dashboard</h1>
                    </div>
                    <Cards
                        userType = 'donor-wisher'
