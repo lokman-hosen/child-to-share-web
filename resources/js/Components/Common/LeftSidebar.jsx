@@ -78,6 +78,7 @@ export default function LeftSidebar({ onClose }) {
                                 Dashboard
                             </Link>
                         </li>
+                        <hr/>
 
                         {/*<li className="mb-1">*/}
                         {/*    <Link*/}
@@ -151,6 +152,7 @@ export default function LeftSidebar({ onClose }) {
                         {/*        Organizations*/}
                         {/*    </Link>*/}
                         {/*</li>*/}
+                        <hr/>
                         <li className="mb-1">
                             <Link
                                 href={route('logout')}
@@ -233,6 +235,7 @@ export default function LeftSidebar({ onClose }) {
                         {/*        Organizations*/}
                         {/*    </Link>*/}
                         {/*</li>*/}
+                        <hr/>
                         <li className="mb-1">
                             <Link
                                 href={route('logout')}
@@ -303,6 +306,7 @@ export default function LeftSidebar({ onClose }) {
                         {/*        Organizations*/}
                         {/*    </Link>*/}
                         {/*</li>*/}
+                        <hr/>
                         <li className="mb-1">
                             <Link
                                 href={route('logout')}
