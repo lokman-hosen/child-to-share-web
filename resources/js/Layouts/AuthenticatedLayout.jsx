@@ -25,7 +25,7 @@ export default function AuthenticatedLayout({ header, children }) {
     };
 
     // Show bottom nav only for donor and wisher roles, not admin
-    const showBottomNav = user && (user.role === 'donor' || user.role === 'wisher');
+    const showBottomNav = user && (user.role === 'donor' || user.role === 'wisher' || user.role === 'donor-wisher');
 
     return (
         <>
