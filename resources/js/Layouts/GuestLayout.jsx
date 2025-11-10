@@ -5,6 +5,7 @@ import Footer from "@/Components/Common/Footer.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect} from "react";
+import {checkDonorWisher} from "@/utils.jsx";
 
 export default function GuestLayout({ children }) {
     const user = usePage().props.auth.user;
@@ -14,6 +15,7 @@ export default function GuestLayout({ children }) {
     const isActiveRoute = (route) => {
         return url === route || url.startsWith(route + '/');
     };
+
 
     return (
         <>
@@ -93,7 +95,7 @@ export default function GuestLayout({ children }) {
             </div>
 
             {/* Floating Donate Item Button with Text - Updated position for mobile */}
-            { user?.role === 'donor' && (
+            { ((user?.role === 'donor' || checkDonorWisher(user?.role)) && (url === '/donation')) && (
                 <Link
                     href={route('donations.create')}
                     className="fixed bottom-20 right-6 z-40 md:bottom-6 group"
@@ -115,7 +117,7 @@ export default function GuestLayout({ children }) {
                     </div>
                 </Link>
             )}
-            { user?.role === 'wisher' && (
+            { ((user?.role === 'wisher' || checkDonorWisher(user?.role)) && (url === '/wish')) && (
                 <Link
                     href={route('wishes.create')}
                     className="fixed bottom-20 right-6 z-40 md:bottom-6 group"
