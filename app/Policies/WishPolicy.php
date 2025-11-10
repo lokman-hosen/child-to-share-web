@@ -13,7 +13,7 @@ class WishPolicy
      */
     public function viewAny(User $user): bool
     {
-        if (checkAdmin() or checkWisher()){
+        if (checkAdmin() or checkDonorWisher() or checkWisher()){
             return true;
         }
         return false;
@@ -26,7 +26,7 @@ class WishPolicy
     {
         if (checkAdmin()){
             return true;
-        }elseif (checkWisher()){
+        }elseif (checkDonorWisher() or checkWisher()){
             return $user->id == $wish->user_id;
         }
         return false;
@@ -37,7 +37,7 @@ class WishPolicy
      */
     public function create(User $user): bool
     {
-        if (checkWisher()){
+        if (checkDonorWisher() or checkWisher()){
             return true;
         }
         return false;
@@ -50,7 +50,7 @@ class WishPolicy
     {
         if (checkAdmin()){
             return true;
-        }elseif (checkWisher()){
+        }elseif (checkDonorWisher() or checkWisher()){
             return $user->id == $wish->user_id;
         }
         return false;
@@ -63,7 +63,7 @@ class WishPolicy
     {
         if (checkAdmin()){
             return true;
-        }elseif (checkWisher()){
+        }elseif (checkDonorWisher() or checkWisher()){
             return $user->id == $wish->user_id;
         }
         return false;
