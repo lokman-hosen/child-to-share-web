@@ -78,7 +78,8 @@ export default function UpdatePasswordForm({ className = '' }) {
                         <div>
                             <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
                             <p className="text-sm text-gray-500">Member
-                                Since {format(new Date(user.created_at), 'MMMM do, yyyy')}</p>
+                                Since {format(new Date(user.created_at), 'MMMM do, yyyy')}
+                            </p>
                             <p className="text-sm text-indigo-500 uppercase font-bold">{user.role}</p>
                         </div>
                     </div>

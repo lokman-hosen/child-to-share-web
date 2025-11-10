@@ -20,10 +20,13 @@ class PasswordController extends Controller
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        $request->user()->update([
+        $passwordChange = $request->user()->update([
             'password' => Hash::make($validated['password']),
         ]);
+        if ($passwordChange){
+            return redirect()->back()->with('success', 'Password changed successfully!');
+        }
+        return redirect()->back()->with('error', 'Ops, something went wrong!');
 
-        return back();
     }
 }
