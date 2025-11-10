@@ -46,7 +46,7 @@ class User extends Authenticatable
         return Attribute::get(function () {
             $roles = $this->roles->pluck('slug');
             if ($roles->contains('donor') and $roles->contains('wisher')){
-                return 'both';
+                return 'donor-wisher';
             }
             elseif ($roles->contains('donor')){
                 return 'donor';
