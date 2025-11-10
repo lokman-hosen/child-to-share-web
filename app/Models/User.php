@@ -39,6 +39,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'latitude',
+        'longitude',
+        'deleted_at',
+        'is_active',
     ];
 
     protected function role(): Attribute
