@@ -171,6 +171,43 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                     }
                 </div>
 
+                {checkDonorWisher(user.role) && (
+                    <div className="bg-white shadow rounded-lg p-6 mt-6">
+                        <h2 className="text-lg font-medium text-gray-900 mb-4">Your Impact</h2>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="bg-blue-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-blue-600">0</div>
+                                <div className="text-sm font-medium text-gray-700">Wishes Fulfilled</div>
+                            </div>
+                            <div className="bg-green-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-green-600">0</div>
+                                <div className="text-sm font-medium text-gray-700">Children Helped</div>
+                            </div>
+                            <div className="bg-yellow-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-yellow-600">{user?.organizations?.length ?? 0}</div>
+                                <div className="text-sm font-medium text-gray-700">Organizations Supported</div>
+                            </div>
+                            <div className="bg-purple-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-purple-600">{donatedDonationCount}</div>
+                                <div className="text-sm font-medium text-gray-700">Items Donated</div>
+                            </div>
+
+                            <div className="bg-purple-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-purple-600">{totalWishCount}</div>
+                                <div className="text-sm font-medium text-gray-700">Wishes Created</div>
+                            </div>
+                            <div className="blue-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-blue-600">{activeWishCount}</div>
+                                <div className="text-sm font-medium text-gray-700">Active Wishes</div>
+                            </div>
+                            <div className="bg-yellow-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-yellow-600">0</div>
+                                <div className="text-sm font-medium text-gray-700">Donor Connections</div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {checkDonor(user.role) && (
                     <div className="bg-white shadow rounded-lg p-6 mt-6">
                         <h2 className="text-lg font-medium text-gray-900 mb-4">Your Impact</h2>
@@ -184,7 +221,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                 <div className="text-sm font-medium text-gray-700">Children Helped</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-yellow-600">{user.organizations.length}</div>
+                                <div className="text-3xl font-bold text-yellow-600">{user.organizations?.length ?? 0}</div>
                                 <div className="text-sm font-medium text-gray-700">Organizations Supported</div>
                             </div>
                             <div className="bg-purple-50 p-4 rounded-lg">
