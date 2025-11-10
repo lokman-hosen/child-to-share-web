@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 
 class User extends Authenticatable
 {
@@ -27,6 +29,7 @@ class User extends Authenticatable
 //        'email',
 //        'password',
 //    ];
+    protected $appends = ['role'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -37,6 +40,26 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected function role(): Attribute
+    {
+        return Attribute::get(function () {
+            $roles = $this->roles->pluck('slug');
+            if ($roles->contains('donor') and $roles->contains('wisher')){
+                return 'both';
+            }
+            elseif ($roles->contains('donor')){
+                return 'donor';
+            }elseif ($roles->contains('wisher')){
+                return 'wisher';
+            }elseif ($roles->contains('admin')){
+                return 'admin';
+            }elseif ($roles->contains('super-admin')){
+                return 'super-admin';
+            }
+            return 'user';
+        });
+    }
 
     /**
      * Get the attributes that should be cast.

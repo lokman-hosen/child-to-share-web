@@ -14,13 +14,10 @@ export default function Dashboard({module,availableDonationCount,donatedDonation
                 <DonorDashboard
                     availableDonationCount = {availableDonationCount}
                     donatedDonationCount = {donatedDonationCount}
+                    activeWishCount = {activeWishCount}
+                    fulfilledWishCount = {fulfilledWishCount}
                 />
             }
-            { user.role === 'wisher' &&
-                <WisherDashboard
-                activeWishCount = {activeWishCount}
-                fulfilledWishCount = {fulfilledWishCount}
-            /> }
             { (user.role === 'super_admin' || user.role === 'admin') && <AdminDashboard/> }
         </AuthenticatedLayout>
     );
