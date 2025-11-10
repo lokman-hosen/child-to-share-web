@@ -6,7 +6,7 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons";
 const Cards = ({userType,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount}) => {
     return (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-            { userType  === 'wisher' &&
+            { (userType  === 'wisher' || userType  === 'donor-wisher') &&
                 <>
                     <div className="bg-white overflow-hidden shadow rounded-lg md:hidden border-2 border-blue-300 animate-pulse hover:animate-none hover:border-blue-500 transition-all duration-300">
                         <Link href={route('wishes.create')} className="block">
@@ -62,7 +62,7 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount, activeWish
                 </>
             }
 
-            { userType === 'donor' &&
+            { (userType  === 'donor' || userType  === 'donor-wisher') &&
                 <>
                     <div className="bg-white overflow-hidden shadow rounded-lg md:hidden border-2 border-blue-300 animate-pulse hover:animate-none hover:border-blue-500 transition-all duration-300">
                         <Link href={route('donations.create')} className="block">
