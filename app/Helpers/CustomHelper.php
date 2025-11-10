@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 function checkAdmin(): bool
 {
     if (Auth::check()){
-        return in_array(Auth::user()->getRawOriginal('role'), ['super_admin', 'admin']);
+        return in_array(Auth::user()->role, ['super_admin', 'admin']);
     }else{
         return false;
     }
@@ -16,14 +16,21 @@ function checkAdmin(): bool
 function checkDonor(): bool
 {
     if (Auth::check()){
-        return Auth::user()->getRawOriginal('role') === 'donor';
+        return Auth::user()->role === 'donor';
     }
     return false;
 }
 function checkWisher(): bool
 {
     if (Auth::check()){
-        return Auth::user()->getRawOriginal('role') === 'wisher';
+        return Auth::user()->role === 'wisher';
+    }
+    return false;
+}
+function checkDonorWisher(): bool
+{
+    if (Auth::check()){
+        return Auth::user()->role === 'donor-wisher';
     }
     return false;
 }

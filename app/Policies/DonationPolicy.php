@@ -13,7 +13,7 @@ class DonationPolicy
      */
     public function viewAny(User $user): bool
     {
-        if (checkAdmin() or checkDonor()){
+        if (checkAdmin() or checkDonorWisher() or checkDonor()){
             return true;
         }
         return false;
@@ -26,7 +26,7 @@ class DonationPolicy
     {
         if (checkAdmin()){
             return true;
-        }elseif (checkDonor()){
+        }elseif (checkDonorWisher() or checkDonor()){
             return $user->id == $donation->user_id;
         }
         return false;
@@ -37,7 +37,7 @@ class DonationPolicy
      */
     public function create(User $user): bool
     {
-        if (checkDonor()){
+        if (checkDonorWisher() or checkDonor()){
             return true;
         }
         return false;
@@ -50,7 +50,7 @@ class DonationPolicy
     {
         if (checkAdmin()){
             return true;
-        }elseif (checkDonor()){
+        }elseif (checkDonorWisher() or checkDonor()){
             return $user->id == $donation->user_id;
         }
         return false;
@@ -63,7 +63,7 @@ class DonationPolicy
     {
         if (checkAdmin()){
             return true;
-        }elseif (checkDonor()){
+        }elseif (checkDonorWisher() or checkDonor()){
             return $user->id == $donation->user_id;
         }
         return false;
