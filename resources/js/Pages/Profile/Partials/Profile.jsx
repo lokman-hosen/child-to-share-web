@@ -14,69 +14,77 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                 <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Profile</h1>
 
                 <div className="bg-white shadow rounded-lg p-6">
-                    <div className="flex items-center border-b border-gray-200 pb-6">
-                        <div
-                            className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
-                            {user.image ? (
-                                <img
-                                    src={`/storage/${user.image}`}
-                                    alt={user.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <img
-                                    src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                    alt={user.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            )}
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
-                            <p className="text-sm text-gray-500">Member
-                                Since {format(new Date(user.created_at), 'MMMM do, yyyy')}</p>
-                            {checkDonorWisher(user.role) &&
-                                <div className="mt-2 flex items-center">
-                                     <span
-                                         className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                        {totalWishCount} Wishes Created
-                                    </span>
-                                    <span
-                                        className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                        0 Wishes Fulfilled
-                                    </span>
-                                    <span
-                                        className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                        {availableDonationCount} Active Donations
-                                    </span>
+                    <div className="border-b border-gray-200 pb-6">
+                        <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
+                            {/* Profile Image - First Column */}
+                            <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
+                                <div
+                                    className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                    {user.image ? (
+                                        <img
+                                            src={`/storage/${user.image}`}
+                                            alt={user.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <img
+                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                            alt={user.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
                                 </div>
-                            }
+                            </div>
 
-                            {checkDonor(user.role) &&
-                                <div className="mt-2 flex items-center">
-                                    <span
-                                        className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                        0 Wishes Fulfilled
-                                    </span>
-                                    <span
-                                        className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                        {availableDonationCount} Active Donations
-                                    </span>
-                                </div>
-                            }
+                            {/* User Info - Second Column */}
+                            <div className="flex-1 text-center md:text-left w-full">
+                                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{user.name}</h2>
+                                <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                    Member Since {format(new Date(user.created_at), 'MMMM do, yyyy')}
+                                </p>
 
-                            {checkWisher(user.role) &&
-                                <div className="mt-2 flex items-center">
-                                    <span
-                                        className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded mr-2">
-                                        {totalWishCount} Wishes Created
-                                    </span>
-                                    <span
-                                        className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                        {fulfilledWishCount} Wishes Fulfilled
-                                    </span>
+                                {/* Stats Container */}
+                                <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                                    {checkDonorWisher(user.role) && (
+                                        <>
+                                            <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                {totalWishCount} Wishes Created
+                                            </span>
+                                            <span
+                                                className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                0 Wishes Fulfilled
+                                            </span>
+                                            <span
+                                                className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                {availableDonationCount} Active Donations
+                                            </span>
+                                        </>
+                                    )}
+
+                                    {checkDonor(user.role) && (
+                                        <>
+                                            <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                0 Wishes Fulfilled
+                                            </span>
+                                            <span
+                                                className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                {availableDonationCount} Active Donations
+                                            </span>
+                                        </>
+                                    )}
+
+                                    {checkWisher(user.role) && (
+                                        <>
+                                            <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                {totalWishCount} Wishes Created
+                                            </span>
+                                            <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                {fulfilledWishCount} Wishes Fulfilled
+                                            </span>
+                                        </>
+                                    )}
                                 </div>
-                            }
+                            </div>
                         </div>
                     </div>
 
@@ -184,7 +192,8 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                 <div className="text-sm font-medium text-gray-700">Children Helped</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-yellow-600">{user?.organizations?.length ?? 0}</div>
+                                <div
+                                    className="text-3xl font-bold text-yellow-600">{user?.organizations?.length ?? 0}</div>
                                 <div className="text-sm font-medium text-gray-700">Organizations Supported</div>
                             </div>
                             <div className="bg-purple-50 p-4 rounded-lg">
