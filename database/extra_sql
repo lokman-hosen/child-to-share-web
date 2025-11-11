@@ -6,3 +6,9 @@ UPDATE ALL USER PASSWORD TO 1-8
 2. ALTER TABLE `wishers` CHANGE `guardian_phone` `guardian_phone` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 3. ALTER TABLE `wishers` CHANGE `relationship` `relationship` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL;
 
+NEW Migrations
+1. ALTER TABLE `users` ADD `guardian_name` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `dob`;
+2. ALTER TABLE `users` ADD `guardian_phone` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `guardian_name`;
+3. ALTER TABLE `users` ADD `relationship` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `guardian_phone`;
+4. ALTER TABLE `users` ADD `gender` ENUM('male','female','other') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'male' AFTER `relationship`;
+5. ALTER TABLE `users` ADD `phone_verified_at` TIMESTAMP NULL DEFAULT NULL AFTER `email_verified_at`;
