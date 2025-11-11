@@ -81,11 +81,14 @@ class ProfileController extends Controller
     public function edit(Request $request): Response
     {
         $user = Auth::user();
-        if (checkDonor()){
-            $user->load('donor');
-        }elseif (checkWisher()){
-            $user->load('wisher');
-        }
+//        if (checkDonorWisher()){
+//            $user->load('donor');
+//        }elseif (checkDonor()){
+//            $user->load('donor');
+//        }elseif (checkWisher()){
+//            $user->load('wisher');
+//        }
+        //dd($request->user() instanceof MustVerifyEmail);
         return Inertia::render(self::moduleDirectory.'Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
