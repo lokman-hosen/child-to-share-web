@@ -1,8 +1,10 @@
 import {Head, Link, usePage} from "@inertiajs/react";
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {checkDonor, checkDonorWisher, checkWisher} from "@/utils.jsx";
+import { faCheckCircle, faTimesCircle, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
 export default function Profile({ user,availableDonationCount,donatedDonationCount,fulfilledWishCount,activeWishCount,totalWishCount }) {
     const authUser = usePage().props.auth.user;
@@ -92,18 +94,65 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                         <div>
                             <h3 className="text-lg font-medium text-gray-900 mb-2">Contact Information</h3>
                             <dl className="space-y-2">
+                                {/* Email with Verification */}
                                 <div>
-                                    <dt className="text-sm font-medium text-gray-500">Email</dt>
-                                    <dd className="text-sm text-gray-900">{user.email}</dd>
+                                    <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                        <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
+                                        <span>Email</span>
+                                    </dt>
+                                    <dd className="text-sm text-gray-900 flex items-center space-x-2 mt-1">
+                                        <span>{user.email}</span>
+                                        {user.email_verified_at ? (
+                                            <div title="Email Verified">
+                                                <FontAwesomeIcon
+                                                    icon={faCheckCircle}
+                                                    className="w-4 h-4 text-green-500"
+                                                    title="Email Verified"
+                                                />
+                                            </div>
+
+                                        ) : (
+                                            <div title="Email Not Verified">
+                                                <FontAwesomeIcon
+                                                    icon={faTimesCircle}
+                                                    className="w-4 h-4 text-gray-400"
+                                                    title="Email Not Verified"
+                                                />
+                                            </div>
+                                        )}
+                                    </dd>
                                 </div>
 
-                                {(authUser.role === 'super_admin' && authUser.role === 'admin') || (authUser.id === user.id) &&
+                                {/* Phone with Verification - Conditional Display */}
+                                {(authUser.role === 'super_admin' || authUser.role === 'admin' || authUser.id === user.id) && (
                                     <div>
-                                        <dt className="text-sm font-medium text-gray-500">Phone</dt>
-                                        <dd className="text-sm text-gray-900">{user.phone}</dd>
-                                    </div>
-                                }
+                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                            <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
+                                            <span>Phone</span>
+                                        </dt>
+                                        <dd className="text-sm text-gray-900 flex items-center space-x-2 mt-1">
+                                            <span>{user.phone}</span>
+                                            {user.phone_verified_at ? (
+                                                <div title="Phone Verified">
+                                                    <FontAwesomeIcon
+                                                        icon={faCheckCircle}
+                                                        className="w-4 h-4 text-green-500"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <div title="Phone Not Verified">
+                                                    <FontAwesomeIcon
+                                                        icon={faTimesCircle}
+                                                        className="w-4 h-4 text-gray-400"
+                                                    />
+                                                </div>
 
+                                            )}
+                                        </dd>
+                                    </div>
+                                )}
+
+                                {/* Other fields */}
                                 <div>
                                     <dt className="text-sm font-medium text-gray-500">Location/Address</dt>
                                     <dd className="text-sm text-gray-900">{user.address ?? 'n/a'}</dd>
