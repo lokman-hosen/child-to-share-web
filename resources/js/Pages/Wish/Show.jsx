@@ -352,10 +352,10 @@ const Show = ({wish, module}) => {
 
                                             <div className="fixed inset-0 flex items-center justify-center p-4">
                                                 <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all">
-                                                    {/* Header */}
+                                                    {/* Header with Larger Square Image */}
                                                     <div className="relative">
                                                         {/* Background Gradient */}
-                                                        <div className="h-32 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+                                                        <div className="h-40 bg-gradient-to-r from-blue-500 to-purple-600"></div>
 
                                                         {/* Close Button */}
                                                         <button
@@ -365,39 +365,33 @@ const Show = ({wish, module}) => {
                                                             <FontAwesomeIcon icon={faXmark} className="w-4 h-4" />
                                                         </button>
 
-                                                        {/* User Avatar */}
-                                                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
-                                                            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-1.5 shadow-lg">
-                                                                <div className="w-full h-full bg-white rounded-full p-1.5">
+                                                        {/* Large Square User Image */}
+                                                        <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
+                                                            <div className="w-48 h-48 bg-gradient-to-br from-blue-200 to-purple-200 p-2 shadow-2xl rounded-2xl">
+                                                                <div className="w-full h-full bg-white rounded-xl overflow-hidden">
                                                                     {selectedUser?.image ? (
                                                                         <img
                                                                             src={`/storage/${selectedUser.image}`}
                                                                             alt={selectedUser.name}
-                                                                            className="w-full h-full object-cover rounded-full"
+                                                                            className="w-full h-full object-cover object-center"
                                                                         />
                                                                     ) : (
                                                                         <img
                                                                             src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
                                                                             alt={selectedUser?.name}
-                                                                            className="w-full h-full object-cover rounded-full"
+                                                                            className="w-full h-full object-cover object-center"
                                                                         />
                                                                     )}
                                                                 </div>
                                                             </div>
-                                                            {/* Online Status */}
-                                                            <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></div>
                                                         </div>
                                                     </div>
 
-                                                    {/* Content */}
-                                                    <div className="pt-12 pb-6 px-6">
+                                                    {/* Content - Adjusted padding for larger image */}
+                                                    <div className="pt-20 pb-6 px-6">
                                                         {/* User Name and Role */}
                                                         <div className="text-center mb-6">
-                                                            <h2 className="text-2xl font-bold text-gray-900 mb-1">{selectedUser?.name}</h2>
-                                                            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium">
-                                                                <FontAwesomeIcon icon={faUser} className="w-3 h-3 mr-1" />
-                                                                {selectedUser?.role === 'wisher' ? 'Wisher' : 'Donor'}
-                                                            </div>
+                                                            <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedUser?.name}</h2>
                                                         </div>
 
                                                         {/* User Information */}
@@ -474,14 +468,14 @@ const Show = ({wish, module}) => {
 
                                                         {/* Action Buttons */}
                                                         <div className="flex space-x-3 mt-6">
-                                                            {user &&
+                                                            {user && (
                                                                 <Link
                                                                     href={route('my.profile', selectedUser?.id)}
                                                                     className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-center hover:bg-blue-700 transition-colors"
                                                                 >
                                                                     View Full Profile
                                                                 </Link>
-                                                            }
+                                                            )}
                                                             <button
                                                                 onClick={closeUserModal}
                                                                 className="flex-1 border bg-orange-200 border-gray-300 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-orange-400 transition-colors"
