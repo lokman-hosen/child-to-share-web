@@ -30,33 +30,35 @@ const SingleWishItemMobile = ({wish}) => {
                 {/* Feature Image Container with Wisher Image Overlay */}
                 <div className="relative bg-gray-100">
                     {/* Feature Image */}
-                    {wish.featured_image?.file_path ? (
+                    {wish.user?.image ? (
                         <img
-                            src={`/storage/${wish.featured_image.file_path}`}
-                            alt={wish.title}
+                            src={`/storage/${wish.user.image}`}
+                            alt={wish.user?.name || 'Wisher'}
                             className="w-full h-32 object-cover"
                         />
                     ) : (
-                        <div className="w-full h-32 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                            <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl"/>
-                        </div>
+                        <img
+                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                            alt={wish.user?.name || 'Wisher'}
+                            className="w-full h-32 object-cover"
+                        />
                     )}
+
 
                     {/* Wisher Image - Bottom Right Corner */}
                     <div className="absolute bottom-2 right-2">
-                        <div className="bg-white rounded-full h-8 w-8 flex items-center justify-center shadow-md border border-gray-200" title={wish.user?.name || 'Wisher'}>
-                            {wish.user?.image ? (
+                        <div className="bg-white rounded-full h-14 w-14 flex items-center justify-center shadow-md border border-gray-200" title={wish.user?.name || 'Wisher'}>
+
+                            {wish.featured_image?.file_path ? (
                                 <img
-                                    src={`/storage/${wish.user.image}`}
-                                    alt={wish.user?.name || 'Wisher'}
+                                    src={`/storage/${wish.featured_image.file_path}`}
+                                    alt={wish.title}
                                     className="w-full h-full object-cover rounded-full"
                                 />
                             ) : (
-                                <img
-                                    src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                    alt={wish.user?.name || 'Wisher'}
-                                    className="w-full h-full object-cover rounded-full"
-                                />
+                                <div className="w-full h-32 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                    <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl"/>
+                                </div>
                             )}
                         </div>
                     </div>
@@ -66,7 +68,7 @@ const SingleWishItemMobile = ({wish}) => {
                 <div className="p-3">
                     {/* Title */}
                     <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-2 leading-tight">
-                        {textLimit(wish.title, 40)}
+                       Wish For: {textLimit(wish.title, 40)}
                     </h3>
 
                     {/* Status and Age/Distance */}
