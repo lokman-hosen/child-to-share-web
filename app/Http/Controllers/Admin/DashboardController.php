@@ -51,7 +51,12 @@ class DashboardController extends Controller
 //            ]);
 //        }
 
-        // donation
+        // assign role
+//        $users = User::where('id', '>', 2)->get();
+//        foreach ($users as $user) {
+//            $user->roles()->attach([3,4]);
+//        }
+
         $availableDonationCount = $this->donationService
             ->donationByStatus('available', 'count',  null,'admin');
         $donatedDonationCount = $this->donationService
