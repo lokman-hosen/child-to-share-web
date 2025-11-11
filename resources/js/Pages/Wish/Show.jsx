@@ -1,21 +1,24 @@
 import React, {useState} from 'react';
-import {Head, Link} from "@inertiajs/react";
+import {Head, Link, usePage} from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faBackward,
     faChevronLeft,
     faChevronRight,
-    faEdit,
     faEye,
-    faGift,
-    faList,
-    faTrash
+    faXmark, faEnvelope, faPhone, faMapMarkerAlt, faUser, faChild
 } from "@fortawesome/free-solid-svg-icons";
 import Hero from "@/Components/Donation/Hero.jsx";
+import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
+
 
 const Show = ({wish, module}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const user = usePage().props.auth.user;
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -62,6 +65,20 @@ const Show = ({wish, module}) => {
     const goToSlide = (index) => {
         setCurrentIndex(index);
     };
+
+
+// Function to open modal
+    const openUserModal = (user) => {
+        setSelectedUser(user);
+        setIsUserModalOpen(true);
+    };
+
+// Function to close modal
+    const closeUserModal = () => {
+        setIsUserModalOpen(false);
+        setSelectedUser(null);
+    };
+
     return (
         <GuestLayout>
             <Head title="Item Detail"/>
@@ -257,12 +274,17 @@ const Show = ({wish, module}) => {
 
                                         {/* Wisher Info */}
                                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100 shadow-sm">
-                                            <p className="text-xs font-medium text-blue-800 uppercase tracking-wide mb-3">Wish Creator</p>
-                                            <Link href={route('my.profile', wish.user_id)} className="group">
-                                                <div className="flex items-center space-x-4">
-                                                    {/* User Avatar */}
-                                                    <div className="relative flex-shrink-0">
-                                                        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-0.5 group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-200">
+                                            <p className="text-xs font-medium text-blue-800 uppercase tracking-wide mb-3">Wish
+                                                Creator</p>
+                                            <div className="flex items-center space-x-4">
+                                                {/* User Avatar - Clickable */}
+                                                <div className="relative flex-shrink-0">
+                                                    <button
+                                                        onClick={() => openUserModal(wish.user)}
+                                                        className="cursor-pointer transform hover:scale-105 transition-transform duration-200"
+                                                    >
+                                                        <div
+                                                            className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-0.5 group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-200">
                                                             <div className="w-full h-full bg-white rounded-full p-1">
                                                                 {wish.user.image ? (
                                                                     <img
@@ -279,36 +301,44 @@ const Show = ({wish, module}) => {
                                                                 )}
                                                             </div>
                                                         </div>
-                                                        {/* Online indicator */}
-                                                        <div className="absolute bottom-1 right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
-                                                    </div>
+                                                    </button>
+                                                    {/* Online indicator */}
+                                                    <div
+                                                        className="absolute bottom-1 right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
+                                                </div>
 
-                                                    {/* User Info */}
-                                                    <div className="flex-1 min-w-0">
-                                                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 truncate">
-                                                            {wish.user.name}
-                                                        </h3>
-                                                        <div className="flex items-center space-x-2 mt-1">
-                                                            {wish?.distance ? (
-                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                                                    📍 {wish.distance} km away
-                                                                </span>
-                                                            ) : (
-                                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                                                                    👶 Age: {wish.age_range} yrs
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Chevron Icon */}
-                                                    <div className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
-                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
+                                                {/* User Info */}
+                                                <div className="flex-1 min-w-0">
+                                                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors duration-200 truncate">
+                                                        {wish.user.name}
+                                                    </h3>
+                                                    <div className="flex items-center space-x-2 mt-1">
+                                                        {wish?.distance ? (
+                                                            <span
+                                                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        📍 {wish.distance} km away
+                    </span>
+                                                        ) : (
+                                                            <span
+                                                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        👶 Age: {wish.age_range} yrs
+                    </span>
+                                                        )}
                                                     </div>
                                                 </div>
-                                            </Link>
+
+                                                {/* Chevron Icon */}
+                                                <Link href={route('my.profile', wish.user_id)} className="group">
+                                                    <div
+                                                        className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
+                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor"
+                                                             viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                                  strokeWidth={2} d="M9 5l7 7-7 7"/>
+                                                        </svg>
+                                                    </div>
+                                                </Link>
+                                            </div>
                                         </div>
                                         <div className="bg-gray-50 rounded-lg p-4">
                                             <h3 className="text-lg font-medium text-gray-900 mb-3">Description</h3>
@@ -316,6 +346,153 @@ const Show = ({wish, module}) => {
                                                 {wish.description || 'No description provided.'}
                                             </p>
                                         </div>
+                                        {/* User Profile Modal */}
+                                        <Dialog open={isUserModalOpen} onClose={closeUserModal} className="relative z-50">
+                                            <DialogBackdrop className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" />
+
+                                            <div className="fixed inset-0 flex items-center justify-center p-4">
+                                                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all">
+                                                    {/* Header */}
+                                                    <div className="relative">
+                                                        {/* Background Gradient */}
+                                                        <div className="h-32 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+
+                                                        {/* Close Button */}
+                                                        <button
+                                                            onClick={closeUserModal}
+                                                            className="absolute top-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+                                                        >
+                                                            <FontAwesomeIcon icon={faXmark} className="w-4 h-4" />
+                                                        </button>
+
+                                                        {/* User Avatar */}
+                                                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2">
+                                                            <div className="w-28 h-28 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-1.5 shadow-lg">
+                                                                <div className="w-full h-full bg-white rounded-full p-1.5">
+                                                                    {selectedUser?.image ? (
+                                                                        <img
+                                                                            src={`/storage/${selectedUser.image}`}
+                                                                            alt={selectedUser.name}
+                                                                            className="w-full h-full object-cover rounded-full"
+                                                                        />
+                                                                    ) : (
+                                                                        <img
+                                                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                                                            alt={selectedUser?.name}
+                                                                            className="w-full h-full object-cover rounded-full"
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            {/* Online Status */}
+                                                            <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-400 border-2 border-white rounded-full"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Content */}
+                                                    <div className="pt-12 pb-6 px-6">
+                                                        {/* User Name and Role */}
+                                                        <div className="text-center mb-6">
+                                                            <h2 className="text-2xl font-bold text-gray-900 mb-1">{selectedUser?.name}</h2>
+                                                            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium">
+                                                                <FontAwesomeIcon icon={faUser} className="w-3 h-3 mr-1" />
+                                                                {selectedUser?.role === 'wisher' ? 'Wisher' : 'Donor'}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* User Information */}
+                                                        <div className="space-y-4">
+                                                            {user && (
+                                                                <>
+                                                                    {/* Email */}
+                                                                    {selectedUser?.email && (
+                                                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                                                                <FontAwesomeIcon icon={faEnvelope} className="text-blue-600 w-4 h-4" />
+                                                                            </div>
+                                                                            <div className="flex-1">
+                                                                                <p className="text-sm text-gray-500">Email</p>
+                                                                                <p className="text-gray-900 font-medium">{selectedUser.email}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+
+                                                                    {/* Phone */}
+                                                                    {selectedUser?.phone && (
+                                                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                                            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                                                                <FontAwesomeIcon icon={faPhone} className="text-green-600 w-4 h-4" />
+                                                                            </div>
+                                                                            <div className="flex-1">
+                                                                                <p className="text-sm text-gray-500">Phone</p>
+                                                                                <p className="text-gray-900 font-medium">{selectedUser.phone}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                                </>
+                                                            )}
+
+                                                            {/* Address */}
+                                                            {selectedUser?.address && (
+                                                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                                                        <FontAwesomeIcon icon={faMapMarkerAlt} className="text-orange-600 w-4 h-4" />
+                                                                    </div>
+                                                                    <div className="flex-1">
+                                                                        <p className="text-sm text-gray-500">Location</p>
+                                                                        <p className="text-gray-900 font-medium text-sm">{selectedUser.address}</p>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+
+                                                            {/* Age Range (for wishers) */}
+                                                            {wish?.age_range && (
+                                                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                                                        <FontAwesomeIcon icon={faChild} className="text-purple-600 w-4 h-4" />
+                                                                    </div>
+                                                                    <div className="flex-1">
+                                                                        <p className="text-sm text-gray-500">Age Range</p>
+                                                                        <p className="text-gray-900 font-medium">{wish.age_range} years</p>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+
+                                                            {/* Distance */}
+                                                            {wish?.distance && (
+                                                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                                                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                                                                        <span className="text-indigo-600 text-lg">📍</span>
+                                                                    </div>
+                                                                    <div className="flex-1">
+                                                                        <p className="text-sm text-gray-500">Distance</p>
+                                                                        <p className="text-gray-900 font-medium">{wish.distance} km away</p>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+
+                                                        {/* Action Buttons */}
+                                                        <div className="flex space-x-3 mt-6">
+                                                            {user &&
+                                                                <Link
+                                                                    href={route('my.profile', selectedUser?.id)}
+                                                                    className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-center hover:bg-blue-700 transition-colors"
+                                                                >
+                                                                    View Full Profile
+                                                                </Link>
+                                                            }
+                                                            <button
+                                                                onClick={closeUserModal}
+                                                                className="flex-1 border bg-orange-200 border-gray-300 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-orange-400 transition-colors"
+                                                            >
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </DialogPanel>
+                                            </div>
+                                        </Dialog>
 
                                         {/* Action Buttons */}
                                         <div className="flex space-x-3 text-center">
