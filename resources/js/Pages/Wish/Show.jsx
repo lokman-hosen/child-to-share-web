@@ -1,3 +1,4 @@
+// Pages/Wish/Show.jsx
 import React, {useState} from 'react';
 import {Head, Link, usePage} from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
@@ -6,12 +7,10 @@ import {
     faBackward,
     faChevronLeft,
     faChevronRight,
-    faEye,
-    faXmark, faEnvelope, faPhone, faMapMarkerAlt, faUser, faChild
+    faEye
 } from "@fortawesome/free-solid-svg-icons";
 import Hero from "@/Components/Donation/Hero.jsx";
-import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
-
+import UserProfileModal from '@/Components/Common/UserProfileModal.jsx';
 
 const Show = ({wish, module}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -28,22 +27,6 @@ const Show = ({wish, module}) => {
                 return 'bg-yellow-100 text-yellow-800';
             case 'donated':
                 return 'bg-gray-100 text-gray-800';
-            default:
-                return 'bg-gray-100 text-gray-800';
-        }
-    };
-
-    // Helper function to get condition badge color
-    const getConditionColor = (condition) => {
-        switch (condition?.toLowerCase()) {
-            case 'new':
-                return 'bg-blue-100 text-blue-800';
-            case 'like new':
-                return 'bg-green-100 text-green-800';
-            case 'good':
-                return 'bg-yellow-100 text-yellow-800';
-            case 'fair':
-                return 'bg-orange-100 text-orange-800';
             default:
                 return 'bg-gray-100 text-gray-800';
         }
@@ -66,14 +49,13 @@ const Show = ({wish, module}) => {
         setCurrentIndex(index);
     };
 
-
-// Function to open modal
+    // Function to open modal
     const openUserModal = (user) => {
         setSelectedUser(user);
         setIsUserModalOpen(true);
     };
 
-// Function to close modal
+    // Function to close modal
     const closeUserModal = () => {
         setIsUserModalOpen(false);
         setSelectedUser(null);
@@ -134,7 +116,7 @@ const Show = ({wish, module}) => {
                                                 </span>
                                                     )}
 
-                                                    {/* Action Buttons Container - Positioned at bottom right */}
+                                                    {/* Action Buttons Container */}
                                                     <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
                                                         <a
                                                             href={`/storage/${wish.files[currentIndex].file_path}`}
@@ -170,7 +152,7 @@ const Show = ({wish, module}) => {
                                                     </div>
                                                 </div>
 
-                                                {/* Thumbnail Navigation - Hidden on mobile, visible on desktop */}
+                                                {/* Thumbnail Navigation */}
                                                 {wish.files.length > 1 && (
                                                     <div className="mt-4 hidden lg:block">
                                                         <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
@@ -217,12 +199,11 @@ const Show = ({wish, module}) => {
                                         )}
                                     </div>
 
-                                    {/* Right Column - Donation Details */}
+                                    {/* Right Column - Wish Details */}
                                     <div className="space-y-6">
                                         {/* Basic Information */}
                                         <div className="bg-gray-50 rounded-lg p-4">
-                                            <h3 className="text-lg font-medium text-gray-900 mb-4">Basic
-                                                Information</h3>
+                                            <h3 className="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
                                             <dl className="space-y-3">
                                                 {wish?.distance &&
                                                     <div>
@@ -236,14 +217,12 @@ const Show = ({wish, module}) => {
                                                     <dt className="text-sm font-medium text-gray-500">Category:</dt>
                                                     <dd className="text-sm text-gray-900">
                                                         {wish.category?.name || 'N/A'}
-
                                                     </dd>
                                                 </div>
                                                 <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Item Condition:
-                                                    </dt>
+                                                    <dt className="text-sm font-medium text-gray-500">Age Range:</dt>
                                                     <dd className="text-sm text-gray-900 capitalize">
-                                                        {wish.item_condition}
+                                                        {wish.age_range} years
                                                     </dd>
                                                 </div>
                                                 <div>
@@ -274,8 +253,7 @@ const Show = ({wish, module}) => {
 
                                         {/* Wisher Info */}
                                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100 shadow-sm">
-                                            <p className="text-xs font-medium text-blue-800 uppercase tracking-wide mb-3">Wish
-                                                Creator</p>
+                                            <p className="text-xs font-medium text-blue-800 uppercase tracking-wide mb-3">Wish Creator</p>
                                             <div className="flex items-center space-x-4">
                                                 {/* User Avatar - Clickable */}
                                                 <div className="relative flex-shrink-0">
@@ -316,13 +294,13 @@ const Show = ({wish, module}) => {
                                                         {wish?.distance ? (
                                                             <span
                                                                 className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        📍 {wish.distance} km away
-                    </span>
+                                                                📍 {wish.distance} km away
+                                                            </span>
                                                         ) : (
                                                             <span
                                                                 className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                        👶 Age: {wish.age_range} yrs
-                    </span>
+                                                                👶 Age: {wish.age_range} yrs
+                                                            </span>
                                                         )}
                                                     </div>
                                                 </div>
@@ -340,153 +318,14 @@ const Show = ({wish, module}) => {
                                                 </Link>
                                             </div>
                                         </div>
+
+                                        {/* Description */}
                                         <div className="bg-gray-50 rounded-lg p-4">
                                             <h3 className="text-lg font-medium text-gray-900 mb-3">Description</h3>
                                             <p className="text-sm text-gray-700 whitespace-pre-line">
                                                 {wish.description || 'No description provided.'}
                                             </p>
                                         </div>
-                                        {/* User Profile Modal */}
-                                        <Dialog open={isUserModalOpen} onClose={closeUserModal} className="relative z-50">
-                                            <DialogBackdrop className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity" />
-
-                                            <div className="fixed inset-0 flex items-center justify-center p-4">
-                                                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all">
-                                                    {/* Header with Larger Square Image */}
-                                                    <div className="relative">
-                                                        {/* Background Gradient */}
-                                                        <div className="h-40 bg-gradient-to-r from-blue-500 to-purple-600"></div>
-
-                                                        {/* Close Button */}
-                                                        <button
-                                                            onClick={closeUserModal}
-                                                            className="absolute top-4 right-4 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
-                                                        >
-                                                            <FontAwesomeIcon icon={faXmark} className="w-4 h-4" />
-                                                        </button>
-
-                                                        {/* Large Square User Image */}
-                                                        <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
-                                                            <div className="w-48 h-48 bg-gradient-to-br from-blue-200 to-purple-200 p-2 shadow-2xl rounded-2xl">
-                                                                <div className="w-full h-full bg-white rounded-xl overflow-hidden">
-                                                                    {selectedUser?.image ? (
-                                                                        <img
-                                                                            src={`/storage/${selectedUser.image}`}
-                                                                            alt={selectedUser.name}
-                                                                            className="w-full h-full object-cover object-center"
-                                                                        />
-                                                                    ) : (
-                                                                        <img
-                                                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                                                            alt={selectedUser?.name}
-                                                                            className="w-full h-full object-cover object-center"
-                                                                        />
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Content - Adjusted padding for larger image */}
-                                                    <div className="pt-20 pb-6 px-6">
-                                                        {/* User Name and Role */}
-                                                        <div className="text-center mb-6">
-                                                            <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedUser?.name}</h2>
-                                                        </div>
-
-                                                        {/* User Information */}
-                                                        <div className="space-y-4">
-                                                            {user && (
-                                                                <>
-                                                                    {/* Email */}
-                                                                    {selectedUser?.email && (
-                                                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                                                            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                                                <FontAwesomeIcon icon={faEnvelope} className="text-blue-600 w-4 h-4" />
-                                                                            </div>
-                                                                            <div className="flex-1">
-                                                                                <p className="text-sm text-gray-500">Email</p>
-                                                                                <p className="text-gray-900 font-medium">{selectedUser.email}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
-
-                                                                    {/* Phone */}
-                                                                    {selectedUser?.phone && (
-                                                                        <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                                                            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                                                                <FontAwesomeIcon icon={faPhone} className="text-green-600 w-4 h-4" />
-                                                                            </div>
-                                                                            <div className="flex-1">
-                                                                                <p className="text-sm text-gray-500">Phone</p>
-                                                                                <p className="text-gray-900 font-medium">{selectedUser.phone}</p>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
-                                                                </>
-                                                            )}
-
-                                                            {/* Address */}
-                                                            {selectedUser?.address && (
-                                                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                                                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                                                                        <FontAwesomeIcon icon={faMapMarkerAlt} className="text-orange-600 w-4 h-4" />
-                                                                    </div>
-                                                                    <div className="flex-1">
-                                                                        <p className="text-sm text-gray-500">Location</p>
-                                                                        <p className="text-gray-900 font-medium text-sm">{selectedUser.address}</p>
-                                                                    </div>
-                                                                </div>
-                                                            )}
-
-                                                            {/* Age Range (for wishers) */}
-                                                            {wish?.age_range && (
-                                                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                                                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                                                                        <FontAwesomeIcon icon={faChild} className="text-purple-600 w-4 h-4" />
-                                                                    </div>
-                                                                    <div className="flex-1">
-                                                                        <p className="text-sm text-gray-500">Age Range</p>
-                                                                        <p className="text-gray-900 font-medium">{wish.age_range} years</p>
-                                                                    </div>
-                                                                </div>
-                                                            )}
-
-                                                            {/* Distance */}
-                                                            {wish?.distance && (
-                                                                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                                                                    <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
-                                                                        <span className="text-indigo-600 text-lg">📍</span>
-                                                                    </div>
-                                                                    <div className="flex-1">
-                                                                        <p className="text-sm text-gray-500">Distance</p>
-                                                                        <p className="text-gray-900 font-medium">{wish.distance} km away</p>
-                                                                    </div>
-                                                                </div>
-                                                            )}
-                                                        </div>
-
-                                                        {/* Action Buttons */}
-                                                        <div className="flex space-x-3 mt-6">
-                                                            {user && (
-                                                                <Link
-                                                                    href={route('my.profile', selectedUser?.id)}
-                                                                    className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-center hover:bg-blue-700 transition-colors"
-                                                                >
-                                                                    View Full Profile
-                                                                </Link>
-                                                            )}
-                                                            <button
-                                                                onClick={closeUserModal}
-                                                                className="flex-1 border bg-orange-200 border-gray-300 text-gray-700 py-3 px-4 rounded-lg font-semibold hover:bg-orange-400 transition-colors"
-                                                            >
-                                                                Close
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </DialogPanel>
-                                            </div>
-                                        </Dialog>
 
                                         {/* Action Buttons */}
                                         <div className="flex space-x-3 text-center">
@@ -508,6 +347,15 @@ const Show = ({wish, module}) => {
                     </div>
                 </div>
             </main>
+
+            {/* User Profile Modal */}
+            <UserProfileModal
+                isOpen={isUserModalOpen}
+                onClose={closeUserModal}
+                selectedUser={selectedUser}
+                currentUser={user}
+                additionalData={{ wish }}
+            />
         </GuestLayout>
     );
 };
