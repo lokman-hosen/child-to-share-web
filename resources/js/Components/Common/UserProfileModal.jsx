@@ -1,7 +1,7 @@
 // Components/Common/UserProfileModal.jsx
 import React from 'react';
 import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react';
-import { Link } from '@inertiajs/react';
+import {Link, usePage} from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faXmark,
@@ -11,14 +11,9 @@ import {
     faChild
 } from '@fortawesome/free-solid-svg-icons';
 
-const UserProfileModal = ({
-                              isOpen,
-                              onClose,
-                              selectedUser,
-                              currentUser,
-                              additionalData = {}
-                          }) => {
+const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) => {
     const { wish, donation } = additionalData;
+    const loginUser = usePage().props.auth.user;
 
     return (
         <Dialog open={isOpen} onClose={onClose} className="relative z-50">
@@ -75,7 +70,7 @@ const UserProfileModal = ({
 
                         {/* User Information */}
                         <div className="space-y-4">
-                            {currentUser && (
+                            {loginUser && (
                                 <>
                                     {/* Email */}
                                     {selectedUser?.email && (
@@ -149,7 +144,7 @@ const UserProfileModal = ({
 
                         {/* Action Buttons */}
                         <div className="flex space-x-3 mt-6">
-                            {currentUser && (
+                            {loginUser && (
                                 <Link
                                     href={route('my.profile', selectedUser?.id)}
                                     className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-center hover:bg-blue-700 transition-colors"

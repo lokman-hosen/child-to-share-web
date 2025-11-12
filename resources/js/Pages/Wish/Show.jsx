@@ -14,7 +14,7 @@ import UserProfileModal from '@/Components/Common/UserProfileModal.jsx';
 
 const Show = ({wish, module}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
     const user = usePage().props.auth.user;
@@ -50,14 +50,14 @@ const Show = ({wish, module}) => {
     };
 
     // Function to open modal
-    const openUserModal = (user) => {
+    const openModal = (user) => {
         setSelectedUser(user);
-        setIsUserModalOpen(true);
+        setIsModalOpen(true);
     };
 
     // Function to close modal
-    const closeUserModal = () => {
-        setIsUserModalOpen(false);
+    const closeModal = () => {
+        setIsModalOpen(false);
         setSelectedUser(null);
     };
 
@@ -258,7 +258,7 @@ const Show = ({wish, module}) => {
                                                 {/* User Avatar - Clickable */}
                                                 <div className="relative flex-shrink-0">
                                                     <button
-                                                        onClick={() => openUserModal(wish.user)}
+                                                        onClick={() => openModal(wish.user)}
                                                         className="cursor-pointer transform hover:scale-105 transition-transform duration-200"
                                                     >
                                                         <div
@@ -350,10 +350,9 @@ const Show = ({wish, module}) => {
 
             {/* User Profile Modal */}
             <UserProfileModal
-                isOpen={isUserModalOpen}
-                onClose={closeUserModal}
+                isOpen={isModalOpen}
+                onClose={closeModal}
                 selectedUser={selectedUser}
-                currentUser={user}
                 additionalData={{ wish }}
             />
         </GuestLayout>

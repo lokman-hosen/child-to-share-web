@@ -47,7 +47,7 @@ const SingleWishItemMobile = ({wish}) => {
 
                     {/* Wisher Image - Bottom Right Corner */}
                     <div className="absolute bottom-2 right-2">
-                        <div className="bg-white rounded-full h-14 w-14 flex items-center justify-center shadow-md border border-gray-200" title={wish.user?.name || 'Wisher'}>
+                        <div className="bg-white rounded-full h-16 w-16 flex items-center justify-center shadow-md border border-gray-200" title={wish.user?.name || 'Wisher'}>
 
                             {wish.featured_image?.file_path ? (
                                 <img
