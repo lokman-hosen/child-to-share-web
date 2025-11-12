@@ -61,11 +61,9 @@ const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) 
                         {/* User Name and Role */}
                         <div className="text-center mb-6">
                             <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedUser?.name}</h2>
-                            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium">
-                                {selectedUser?.role === 'wisher' ? 'Wisher' :
-                                    selectedUser?.role === 'donor' ? 'Donor' :
-                                        selectedUser?.role?.charAt(0).toUpperCase() + selectedUser?.role?.slice(1)}
-                            </div>
+                            {/*<div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium uppercase">*/}
+                            {/*    {selectedUser?.role}*/}
+                            {/*</div>*/}
                         </div>
 
                         {/* User Information */}
