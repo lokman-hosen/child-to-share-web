@@ -1,40 +1,117 @@
 import { Link } from "@inertiajs/react";
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const Pagination = ({ links }) => {
-    // Filter out null/disabled links and count only active page links
-    const activeLinks = links.filter(link =>
-        link.url !== null &&
-        !isNaN(parseInt(link.label)) // Only count numeric page links
-    );
+    if (!links || links.length <= 3) return null;
 
-    // Also check if there are multiple pages by looking for next/previous links that are active
-    const hasPrevious = links.some(link => link.label.includes('Previous') && link.url);
-    const hasNext = links.some(link => link.label.includes('Next') && link.url);
-    const hasMultiplePages = activeLinks.length > 1 || hasPrevious || hasNext;
+    const currentPage = parseInt(links.find(link => link.active)?.label || 1);
+    const totalPages = links.filter(link =>
+        link.url !== null && !isNaN(parseInt(link.label))
+    ).length;
 
-    if (!hasMultiplePages) {
-        return null; // No pagination needed if only one page
-    }
+    const previousLink = links.find(link => link.label.includes('Previous'));
+    const nextLink = links.find(link => link.label.includes('Next'));
+
+    if (totalPages <= 1) return null;
+
+    // Show only current page and neighbors
+    const getVisiblePages = () => {
+        const pages = [];
+        const startPage = Math.max(1, currentPage - 1);
+        const endPage = Math.min(totalPages, currentPage + 1);
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+        return pages;
+    };
+
+    const visiblePages = getVisiblePages();
+    const showFirstPage = currentPage > 2;
+    const showLastPage = currentPage < totalPages - 1;
 
     return (
-        <div className="pagination flex justify-center items-center space-x-2 mt-8">
-            {links.map((link, index) => (
-                <div key={index}>
+        <div className="pagination flex items-center justify-center space-x-2 mt-8">
+            {/* Previous */}
+            <Link
+                href={previousLink?.url || "#"}
+                preserveScroll
+                className={`flex items-center px-3 py-2 rounded-lg border transition-all ${
+                    previousLink?.url
+                        ? "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
+                        : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+                }`}
+            >
+                <FontAwesomeIcon icon={faChevronLeft} className="w-3 h-3" />
+            </Link>
+
+            {/* First Page */}
+            {showFirstPage && (
+                <>
                     <Link
-                        href={link.url || "#"}
+                        href={links[1]?.url || "#"}
                         preserveScroll
-                        className={`px-3 py-2 rounded-md border transition-all duration-300 ease-in-out ${
-                            link.active
+                        className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                    >
+                        1
+                    </Link>
+                    {currentPage > 3 && (
+                        <span className="px-2 text-gray-400">...</span>
+                    )}
+                </>
+            )}
+
+            {/* Visible Pages */}
+            {visiblePages.map(page => {
+                const pageLink = links.find(link =>
+                    link.url && parseInt(link.label) === page
+                );
+                return (
+                    <Link
+                        key={page}
+                        href={pageLink?.url || "#"}
+                        preserveScroll
+                        className={`px-3 py-2 rounded-lg border transition-all ${
+                            currentPage === page
                                 ? "bg-purple-600 text-white border-purple-600"
-                                : link.url
-                                    ? "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
-                                    : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+                                : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
                         }`}
-                        dangerouslySetInnerHTML={{ __html: link.label }}
-                    />
-                </div>
-            ))}
+                    >
+                        {page}
+                    </Link>
+                );
+            })}
+
+            {/* Last Page */}
+            {showLastPage && (
+                <>
+                    {currentPage < totalPages - 2 && (
+                        <span className="px-2 text-gray-400">...</span>
+                    )}
+                    <Link
+                        href={links[links.length - 2]?.url || "#"}
+                        preserveScroll
+                        className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                    >
+                        {totalPages}
+                    </Link>
+                </>
+            )}
+
+            {/* Next */}
+            <Link
+                href={nextLink?.url || "#"}
+                preserveScroll
+                className={`flex items-center px-3 py-2 rounded-lg border transition-all ${
+                    nextLink?.url
+                        ? "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
+                        : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
+                }`}
+            >
+                <FontAwesomeIcon icon={faChevronRight} className="w-3 h-3" />
+            </Link>
         </div>
     );
 }
