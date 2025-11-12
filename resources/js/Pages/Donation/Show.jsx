@@ -13,9 +13,12 @@ import {
     faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import Hero from "@/Components/Donation/Hero.jsx";
+import UserProfileModal from "@/Components/Common/UserProfileModal.jsx";
 
 const Show = ({donation, module}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -62,6 +65,19 @@ const Show = ({donation, module}) => {
     const goToSlide = (index) => {
         setCurrentIndex(index);
     };
+
+    const openModal = (user) => {
+        setSelectedUser(user);
+        setIsModalOpen(true);
+    };
+
+    // Function to close modal
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedUser(null);
+    };
+
+
     return (
         <GuestLayout>
             <Head title="Item Detail"/>
@@ -274,8 +290,7 @@ const Show = ({donation, module}) => {
                                         {/* Wisher Info */}
                                         <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-100 shadow-sm">
                                             <p className="text-xs font-medium text-blue-800 uppercase tracking-wide mb-3">Donor</p>
-                                            <Link href={route('my.profile', donation.user_id)} className="group">
-                                                <div className="flex items-center space-x-4">
+                                            <div className="flex items-center space-x-4">
                                                     {/* User Avatar */}
                                                     <div className="relative flex-shrink-0">
                                                         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-0.5 group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-200">
@@ -318,13 +333,21 @@ const Show = ({donation, module}) => {
                                                     </div>
 
                                                     {/* Chevron Icon */}
-                                                    <div className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
-                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                <button
+                                                    onClick={() => openModal(donation.user)}
+                                                    className="cursor-pointer transform hover:scale-105 transition-transform duration-200"
+                                                >
+                                                    <div
+                                                        className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
+                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor"
+                                                             viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round"
+                                                                  strokeWidth={2} d="M9 5l7 7-7 7"/>
                                                         </svg>
                                                     </div>
-                                                </div>
-                                            </Link>
+                                                </button>
+
+                                            </div>
                                         </div>
 
                                         {/* Description */}
@@ -355,6 +378,15 @@ const Show = ({donation, module}) => {
                     </div>
                 </div>
             </main>
+
+            {/* User Profile Modal */}
+            <UserProfileModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                user={selectedUser}
+                dataType='donation'
+                additionalData={donation}
+            />
         </GuestLayout>
     );
 };

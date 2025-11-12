@@ -17,7 +17,6 @@ const Show = ({wish, module}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
-    const user = usePage().props.auth.user;
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -257,10 +256,6 @@ const Show = ({wish, module}) => {
                                             <div className="flex items-center space-x-4">
                                                 {/* User Avatar - Clickable */}
                                                 <div className="relative flex-shrink-0">
-                                                    <button
-                                                        onClick={() => openModal(wish.user)}
-                                                        className="cursor-pointer transform hover:scale-105 transition-transform duration-200"
-                                                    >
                                                         <div
                                                             className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-200 to-purple-200 p-0.5 group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-200">
                                                             <div className="w-full h-full bg-white rounded-full p-1">
@@ -279,7 +274,6 @@ const Show = ({wish, module}) => {
                                                                 )}
                                                             </div>
                                                         </div>
-                                                    </button>
                                                     {/* Online indicator */}
                                                     <div
                                                         className="absolute bottom-1 right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
@@ -306,7 +300,10 @@ const Show = ({wish, module}) => {
                                                 </div>
 
                                                 {/* Chevron Icon */}
-                                                <Link href={route('my.profile', wish.user_id)} className="group">
+                                                <button
+                                                    onClick={() => openModal(wish.user)}
+                                                    className="cursor-pointer transform hover:scale-105 transition-transform duration-200"
+                                                >
                                                     <div
                                                         className="text-gray-400 group-hover:text-blue-500 transition-colors duration-200">
                                                         <svg className="w-5 h-5" fill="none" stroke="currentColor"
@@ -315,7 +312,7 @@ const Show = ({wish, module}) => {
                                                                   strokeWidth={2} d="M9 5l7 7-7 7"/>
                                                         </svg>
                                                     </div>
-                                                </Link>
+                                                </button>
                                             </div>
                                         </div>
 
@@ -352,8 +349,9 @@ const Show = ({wish, module}) => {
             <UserProfileModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
-                wisher={selectedUser}
-                additionalData={{ wish }}
+                user={selectedUser}
+                dataType='wish'
+                additionalData={wish}
             />
         </GuestLayout>
     );
