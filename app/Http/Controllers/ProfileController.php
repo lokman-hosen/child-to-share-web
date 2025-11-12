@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\FileSizes;
 use App\Helpers\CommonHelper;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Donation;
@@ -118,14 +119,24 @@ class ProfileController extends Controller
         $user = Auth::user();
         $photoPath = $user->image;
 
+//        if ($request->hasFile('photo')) {
+//            // Delete old image from 'public' disk
+//            if ($user->image && Storage::disk('public')->exists($user->image)) {
+//                Storage::disk('public')->delete($user->image);
+//            }
+//            // Store new image
+//            $photoPath = $request->file('photo')->store('photos', 'public');
+//        }
         if ($request->hasFile('photo')) {
-            // Delete old image from 'public' disk
-            if ($user->image && Storage::disk('public')->exists($user->image)) {
-                Storage::disk('public')->delete($user->image);
+            $imageFile = $request->file('photo');
+            //$photoPath = uploadImage($imageFile, self::fileSize, self::filePath,'store', null);
+            if ($user->image && Storage::disk('public')->exists($user->image)){
+                $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'update', $user->image);
+            }else{
+                $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
             }
-            // Store new image
-            $photoPath = $request->file('photo')->store('photos', 'public');
         }
+
         $user->update([
             'name' => $request->name,
             'email' => checkEmpty($request->email),

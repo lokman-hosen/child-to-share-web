@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\FileSizes;
 use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
@@ -57,7 +58,7 @@ class RegisteredUserController extends Controller
             $photoPath = null;
             if ($request->hasFile('photo')) {
                 $imageFile = $request->file('photo');
-                $photoPath = uploadImage($imageFile, self::fileSize, self::filePath,'store', null);
+                $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
             }
 //            $organization = null;
 //            if ($request->filled('organization')) {

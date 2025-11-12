@@ -7,27 +7,25 @@ use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 
-function uploadImage($file, $fileSize, $uploadPath, $actionType, $oldFileName): string
+function uploadImage($file, $fileProperty, $actionType, $oldFileName): string
 {
     $fileName = time() . '.' . $file->getClientOriginalExtension();
-    $filePath = $uploadPath.'/'.$fileName;
+    $filePath = $fileProperty['path'].'/'.$fileName;
 
     if ($actionType == 'update'){
         //delete old image if exist
-        if ($filePath) {
-            Storage::disk('public')->delete($filePath);
-        }
+        Storage::disk('public')->delete($oldFileName);
     }
     $img = Image::make($file->getRealPath());
 
     // Resize and optimize image
-    $img->resize($fileSize['width'], $fileSize['height'], function ($constraint) {
+    $img->resize($fileProperty['width'], $fileProperty['height'], function ($constraint) {
         $constraint->aspectRatio();
         $constraint->upsize();
     });
 
     // Create canvas with a background
-    $canvas = Image::canvas($fileSize['width'], $fileSize['height']); // Dark gray background
+    $canvas = Image::canvas($fileProperty['width'], $fileProperty['height']); // Dark gray background
 
     // Insert the image centered on dark canvas
     $canvas->insert($img, 'center');
