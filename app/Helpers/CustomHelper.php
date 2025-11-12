@@ -2,8 +2,40 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
+
+function uploadImage($file, $fileSize, $uploadPath, $actionType, $oldFileName): string
+{
+    $fileName = time() . '.' . $file->getClientOriginalExtension();
+    $filePath = $uploadPath.'/'.$fileName;
+
+    if ($actionType == 'update'){
+        //delete old image if exist
+        if ($filePath) {
+            Storage::disk('public')->delete($filePath);
+        }
+    }
+    $img = Image::make($file->getRealPath());
+
+    // Resize and optimize image
+    $img->resize($fileSize['width'], $fileSize['height'], function ($constraint) {
+        $constraint->aspectRatio();
+        $constraint->upsize();
+    });
+
+    // Create canvas with a background
+    $canvas = Image::canvas($fileSize['width'], $fileSize['height']); // Dark gray background
+
+    // Insert the image centered on dark canvas
+    $canvas->insert($img, 'center');
+    // Save to storage
+    Storage::disk('public')->put($filePath, $canvas->stream());
+    return $filePath;
+
+}
 function checkAdmin(): bool
 {
     if (Auth::check()){

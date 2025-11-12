@@ -13,13 +13,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Intervention\Image\Facades\Image;
 
 class RegisteredUserController extends Controller
 {
+    const filePath = 'photos';
+    const fileSize = ['width' => 400, 'height' => 300];
     public function __construct(
         protected OrganizationService $organizationService,
 
@@ -52,7 +56,8 @@ class RegisteredUserController extends Controller
             // Step 1: Handle photo upload if present
             $photoPath = null;
             if ($request->hasFile('photo')) {
-                $photoPath = $request->file('photo')->store('photos', 'public');
+                $imageFile = $request->file('photo');
+                $photoPath = uploadImage($imageFile, self::fileSize, self::filePath,'store', null);
             }
 //            $organization = null;
 //            if ($request->filled('organization')) {
