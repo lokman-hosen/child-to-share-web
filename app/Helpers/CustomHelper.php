@@ -29,6 +29,10 @@ function uploadImage($file, $fileProperty, $actionType, $oldFileName): string
 
     // Insert the image centered on dark canvas
     $canvas->insert($img, 'center');
+    $canvas->rectangle(0, 0, $fileProperty['width'], $fileProperty['height'], function ($draw) {
+        $draw->background('rgba(0, 0, 0, 0.2)'); // 30% black overlay
+    });
+
     // Save to storage
     Storage::disk('public')->put($filePath, $canvas->stream());
     return $filePath;
