@@ -33,22 +33,6 @@ const Show = ({donation, module}) => {
         }
     };
 
-    // Helper function to get condition badge color
-    const getConditionColor = (condition) => {
-        switch (condition?.toLowerCase()) {
-            case 'new':
-                return 'bg-blue-100 text-blue-800';
-            case 'like new':
-                return 'bg-green-100 text-green-800';
-            case 'good':
-                return 'bg-yellow-100 text-yellow-800';
-            case 'fair':
-                return 'bg-orange-100 text-orange-800';
-            default:
-                return 'bg-gray-100 text-gray-800';
-        }
-    };
-
     // Carousel navigation functions
     const nextSlide = () => {
         setCurrentIndex((prevIndex) =>
