@@ -352,7 +352,7 @@ const Show = ({wish, module}) => {
             <UserProfileModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
-                selectedUser={selectedUser}
+                wisher={selectedUser}
                 additionalData={{ wish }}
             />
         </GuestLayout>

@@ -11,7 +11,7 @@ import {
     faChild
 } from '@fortawesome/free-solid-svg-icons';
 
-const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) => {
+const UserProfileModal = ({isOpen, onClose, wisher, additionalData = {}}) => {
     const { wish, donation } = additionalData;
     const loginUser = usePage().props.auth.user;
 
@@ -38,16 +38,16 @@ const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) 
                         <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
                             <div className="w-48 h-48 bg-gradient-to-br from-blue-200 to-purple-200 p-2 shadow-2xl rounded-2xl">
                                 <div className="w-full h-full bg-white rounded-xl overflow-hidden">
-                                    {selectedUser?.image ? (
+                                    {wisher?.image ? (
                                         <img
-                                            src={`/storage/${selectedUser.image}`}
-                                            alt={selectedUser.name}
+                                            src={`/storage/${wisher.image}`}
+                                            alt={wisher.name}
                                             className="w-full h-full object-cover object-center"
                                         />
                                     ) : (
                                         <img
                                             src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                            alt={selectedUser?.name}
+                                            alt={wisher?.name}
                                             className="w-full h-full object-cover object-center"
                                         />
                                     )}
@@ -60,9 +60,9 @@ const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) 
                     <div className="pt-20 pb-6 px-6">
                         {/* User Name and Role */}
                         <div className="text-center mb-6">
-                            <h2 className="text-2xl font-bold text-gray-900 mb-2">{selectedUser?.name}</h2>
+                            <h2 className="text-2xl font-bold text-gray-900 mb-2">{wisher?.name}</h2>
                             {/*<div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-medium uppercase">*/}
-                            {/*    {selectedUser?.role}*/}
+                            {/*    {wisher?.role}*/}
                             {/*</div>*/}
                         </div>
 
@@ -71,27 +71,27 @@ const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) 
                             {loginUser && (
                                 <>
                                     {/* Email */}
-                                    {selectedUser?.email && (
+                                    {wisher?.email && (
                                         <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                                             <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
                                                 <FontAwesomeIcon icon={faEnvelope} className="text-blue-600 w-4 h-4" />
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-sm text-gray-500">Email</p>
-                                                <p className="text-gray-900 font-medium">{selectedUser.email}</p>
+                                                <p className="text-gray-900 font-medium">{wisher.email}</p>
                                             </div>
                                         </div>
                                     )}
 
                                     {/* Phone */}
-                                    {selectedUser?.phone && (
+                                    {wisher?.phone && (
                                         <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                                             <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                                                 <FontAwesomeIcon icon={faPhone} className="text-green-600 w-4 h-4" />
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-sm text-gray-500">Phone</p>
-                                                <p className="text-gray-900 font-medium">{selectedUser.phone}</p>
+                                                <p className="text-gray-900 font-medium">{wisher.phone}</p>
                                             </div>
                                         </div>
                                     )}
@@ -99,14 +99,14 @@ const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) 
                             )}
 
                             {/* Address */}
-                            {selectedUser?.address && (
+                            {wisher?.address && (
                                 <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                                     <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
                                         <FontAwesomeIcon icon={faMapMarkerAlt} className="text-orange-600 w-4 h-4" />
                                     </div>
                                     <div className="flex-1">
                                         <p className="text-sm text-gray-500">Location</p>
-                                        <p className="text-gray-900 font-medium text-sm">{selectedUser.address}</p>
+                                        <p className="text-gray-900 font-medium text-sm">{wisher.address}</p>
                                     </div>
                                 </div>
                             )}
@@ -144,7 +144,7 @@ const UserProfileModal = ({isOpen, onClose, selectedUser, additionalData = {}}) 
                         <div className="flex space-x-3 mt-6">
                             {loginUser && (
                                 <Link
-                                    href={route('my.profile', selectedUser?.id)}
+                                    href={route('my.profile', wisher?.id)}
                                     className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold text-center hover:bg-blue-700 transition-colors"
                                 >
                                     View Full Profile
