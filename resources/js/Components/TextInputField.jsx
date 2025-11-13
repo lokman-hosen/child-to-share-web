@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextInput = ({ id, label, className = '', error, required, ...props }) => {
+const TextInput = ({ id, label, helpText, className = '', error, required, ...props }) => {
     return (
         <div className={className}>
             <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -15,6 +15,7 @@ const TextInput = ({ id, label, className = '', error, required, ...props }) => 
                 required={required}
                 {...props}
             />
+            {helpText &&  <div className="mt-1 text-sm text-indigo-600">{helpText}</div> }
             {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
         </div>
     );

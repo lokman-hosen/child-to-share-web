@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
+import {textLimit} from "@/utils.jsx";
 
 export default function List({module, wishes}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -212,7 +213,7 @@ export default function List({module, wishes}) {
                                                                         </div>
                                                                         <div>
                                                                             <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
-                                                                            <p className="text-sm text-gray-500">Age range: {wish.age_range}, {wish.description}</p>
+                                                                            <p className="text-sm text-gray-500">Age range: {wish.age_range}, {textLimit(wish.description,10)}</p>
                                                                             <div className="mt-1 flex items-center">
                                                                             <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                                                 {wish.status}

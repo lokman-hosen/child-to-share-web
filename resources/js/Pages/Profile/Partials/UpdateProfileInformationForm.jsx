@@ -369,6 +369,7 @@ export default function UpdateProfileInformation({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <FileInput
                         id="photo"
+                        helpText="Size: max 2 MB"
                         label="Profile Photo(png,jpg,jpeg)"
                         onFileChange={(file) => handleFileChange('photo', file)}
                         currentFileUrl={data?.photo || null}

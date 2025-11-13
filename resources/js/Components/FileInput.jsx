@@ -1,4 +1,6 @@
-const FileInput = ({ id, label, className = '', error, onFileChange, currentFileUrl, onRemoveCurrentFile, required, ...props }) => {
+import React from "react";
+
+const FileInput = ({ id, label, helpText, className = '', error, onFileChange, currentFileUrl, onRemoveCurrentFile, required, ...props }) => {
     const handleFileChange = (e) => {
         onFileChange(e.target.files ? e.target.files[0] : null);
     };
@@ -19,6 +21,7 @@ const FileInput = ({ id, label, className = '', error, onFileChange, currentFile
                 required={required}
                 {...props}
             />
+            {helpText &&  <div className="mt-1 text-sm text-indigo-600">{helpText}</div> }
             {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
         </div>
     );

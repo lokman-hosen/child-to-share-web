@@ -13,30 +13,38 @@ function uploadImage($file, $fileProperty, $actionType, $oldFileName): string
     $filePath = $fileProperty['path'].'/'.$fileName;
 
     if ($actionType == 'update'){
-        //delete old image if exist
         Storage::disk('public')->delete($oldFileName);
     }
+
     $img = Image::make($file->getRealPath());
+    $originalWidth = $img->width();
+    $originalHeight = $img->height();
 
-    // Resize and optimize image
-    $img->resize($fileProperty['width'], $fileProperty['height'], function ($constraint) {
-        $constraint->aspectRatio();
-        $constraint->upsize();
-    });
+    $targetWidth = $fileProperty['width'];
+    $targetHeight = $fileProperty['height'];
 
-    // Create canvas with a background
-    $canvas = Image::canvas($fileProperty['width'], $fileProperty['height']); // Dark gray background
+    // Calculate aspect ratios
+    $originalAspect = $originalWidth / $originalHeight;
+    $targetAspect = $targetWidth / $targetHeight;
 
-    // Insert the image centered on dark canvas
-    $canvas->insert($img, 'center');
-    $canvas->rectangle(0, 0, $fileProperty['width'], $fileProperty['height'], function ($draw) {
-        $draw->background('rgba(0, 0, 0, 0.2)'); // 30% black overlay
-    });
+    // If aspect ratios are similar (within 10%), use fit to avoid letterboxing
+    if (abs($originalAspect - $targetAspect) < 0.1) {
+        $img->fit($targetWidth, $targetHeight);
+    } else {
+        // If very different aspect ratios, resize with background
+        $img->resize($targetWidth, $targetHeight, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
 
-    // Save to storage
-    Storage::disk('public')->put($filePath, $canvas->stream());
+        $canvas = Image::canvas($targetWidth, $targetHeight, '#f8f9fa'); // Light gray
+        $canvas->insert($img, 'center');
+        $img = $canvas;
+    }
+
+    // Save with optimized quality
+    Storage::disk('public')->put($filePath, $img->stream(null, 90));
     return $filePath;
-
 }
 function checkAdmin(): bool
 {
@@ -113,4 +121,9 @@ function distanceRanges(): array
         '81-90' => '81 - 90 km',
         '91-100' => '91 - 100 km',
     ];
+}
+
+function stringLimit(string $string, int $limit): string
+{
+   return Str::of($string)->limit($limit, preserveWords: true);
 }
