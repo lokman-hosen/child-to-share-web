@@ -131,27 +131,29 @@ export default function LeftSidebar({ onClose }) {
                                 My Wishes
                             </Link>
                         </li>
-                        {/*<li className="mb-1">*/}
-                        {/*    <Link*/}
-                        {/*        href={route('messages.index')}*/}
-                        {/*        onClick={onClose}*/}
-                        {/*        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('messages.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
-                        {/*    >*/}
-                        {/*        <FontAwesomeIcon icon={faUserCircle} className="mr-2" />*/}
-                        {/*        Messages*/}
-                        {/*        <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
-                        {/*<li className="mb-1">*/}
-                        {/*    <Link*/}
-                        {/*        href={route('organizations.index')}*/}
-                        {/*        onClick={onClose}*/}
-                        {/*        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
-                        {/*    >*/}
-                        {/*        <FontAwesomeIcon icon={faUserCircle} className="mr-2" />*/}
-                        {/*        Organizations*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
+                        <hr/>
+                        <li className="mb-1">
+                            <Link
+                                href={route('messages.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('messages.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Messages
+                                <span className="ml-auto bg-red-500 text-white text-xs px-2 py-1 rounded-full">2</span>
+                            </Link>
+                        </li>
+                        <hr/>
+                        <li className="mb-1">
+                            <Link
+                                href={route('organizations.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
+                                Organizations
+                            </Link>
+                        </li>
                         <hr/>
                         <li className="mb-1">
                             <Link

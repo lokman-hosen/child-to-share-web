@@ -33,8 +33,8 @@ const DonorWisherDashboard = ({availableDonationCount, donatedDonationCount,acti
                        activeWishCount = {activeWishCount}
                        fulfilledWishCount = {fulfilledWishCount}
                    />
-                   {/*<Activity/>*/}
-                   {/*<WishList userType = 'wisher'/>*/}
+                   <Activity/>
+                   <WishList userType = 'wisher'/>
                </div>
             </div>
     );
