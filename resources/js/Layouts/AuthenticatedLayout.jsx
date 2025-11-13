@@ -78,28 +78,28 @@ export default function AuthenticatedLayout({ header, children }) {
 
                             {/* Donations */}
                             <Link
-                                href={route('donations.index')}
+                                href={route('donation.index')}
                                 className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                    isActiveRoute('/donations') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-500'
+                                    isActiveRoute('/donation') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-500'
                                 }`}
                             >
                                 <FontAwesomeIcon
                                     icon={faGift}
-                                    className={`w-5 h-5 ${isActiveRoute('/donations') ? 'scale-110' : ''} transition-transform`}
+                                    className={`w-5 h-5 ${isActiveRoute('/donation') ? 'scale-110' : ''} transition-transform`}
                                 />
                                 <span className="text-xs font-medium">Donations</span>
                             </Link>
 
                             {/* Wishes */}
                             <Link
-                                href={route('wishes.index')}
+                                href={route('wish.index')}
                                 className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                    isActiveRoute('/wishes') ? 'text-green-600' : 'text-gray-600 hover:text-green-500'
+                                    isActiveRoute('/wish') ? 'text-green-600' : 'text-gray-600 hover:text-green-500'
                                 }`}
                             >
                                 <FontAwesomeIcon
                                     icon={faStar}
-                                    className={`w-5 h-5 ${isActiveRoute('/wishes') ? 'scale-110' : ''} transition-transform`}
+                                    className={`w-5 h-5 ${isActiveRoute('/wish') ? 'scale-110' : ''} transition-transform`}
                                 />
                                 <span className="text-xs font-medium">Wishes</span>
                             </Link>
