@@ -34,7 +34,7 @@ const SingleWishItemMobile = ({wish}) => {
                         <img
                             src={`/storage/${wish.user.image}`}
                             alt={wish.user?.name || 'Wisher'}
-                            className="w-full h-32 object-cover"
+                            className="w-full h-full object-cover"
                         />
                     ) : (
                         <img
