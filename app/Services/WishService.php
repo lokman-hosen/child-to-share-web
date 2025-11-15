@@ -30,7 +30,7 @@ class WishService extends BaseService
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->wish->with(['user', 'files', 'featuredImage']);
-        if (checkWisher()){
+        if (checkWisher() or checkDonorWisher()){
             $query->where('user_id', Auth::id());
         }
         return $query->when($searchName, function ($query, $searchName) {

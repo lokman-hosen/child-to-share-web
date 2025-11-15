@@ -27,7 +27,7 @@ class DonationService extends BaseService
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->donation->with(['user', 'files', 'featuredImage']);
-        if (checkDonor()){
+        if (checkDonor() or checkDonorWisher()){
             $query->where('user_id', Auth::id());
         }
         return $query->when($searchName, function ($query, $searchName) {
