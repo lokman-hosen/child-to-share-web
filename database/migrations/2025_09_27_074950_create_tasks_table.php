@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('fulfillment_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->nullable()->comment('assigned admin id')->constrained('users')->onDelete('set null');
+            $table->foreignId('user_id')->nullable()->comment('assigned admin id')
+                ->constrained('users')->onDelete('set null');
             $table->text('task_notes')->nullable();
             $table->json('activity_log')->nullable();
             $table->timestamp('assigned_at')->nullable();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->softDeletes();
         });
     }
+
 
     /**
      * Reverse the migrations.

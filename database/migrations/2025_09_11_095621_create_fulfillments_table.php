@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('fulfillments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('wish_id')->constrained()->onDelete('cascade');
-            $table->foreignId('donation_id')->constrained()->onDelete('cascade');
             $table->foreignId('donor_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('donation_id')->constrained()->onDelete('cascade');
+            $table->foreignId('wish_id')->constrained()->onDelete('cascade');
             $table->foreignId('wisher_id')->constrained('users')->onDelete('cascade');
-            $table->enum('status', ['pending', 'scheduled', 'in_progress', 'delivered', 'cancelled'])->default('pending');
-            $table->boolean('needs_admin_support')->default(true);
-            $table->text('admin_notes')->nullable();
+            $table->boolean('need_admin_assistance')->default(false);
+            $table->text('note')->nullable();
             $table->timestamp('scheduled_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
-            $table->boolean('guardian_confirmed')->default(false);
+            $table->foreignId('confirmed_by')->nullable()->constrained('users');
+            $table->enum('status', ['requested', 'scheduled', 'in_progress', 'delivered', 'cancelled'])->default('requested');
             $table->timestamps();
             $table->softDeletes();
         });
