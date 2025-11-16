@@ -151,7 +151,16 @@ class WishController extends Controller
 
     public function wishList(Request $request)
     {
+        $categoryIds = [];
+        if (checkDonor() or checkDonorWisher()){
+            $categoryIds = Auth::user()->donations()->pluck('category_id');
+        }
+        $request->merge(['categoryIds' => $categoryIds]);
 
-
+        $wishes = $this->wishService->getListByStatus($request, 'approved');
+        return Inertia::render(self::moduleDirectory.'FullFillWish', [
+            'module' => "Wishes Near You",
+            'wishes' => $wishes,
+        ]);
     }
 }

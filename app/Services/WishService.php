@@ -272,7 +272,7 @@ class WishService extends BaseService
     public function getListByStatus($request, string $status): LengthAwarePaginator
     {
         $user = Auth::user();
-        $isDonor = $user && ($user->role === 'donor');
+        $isDonor = $user && (checkDonor() or checkDonorWisher());
 
         if ($isDonor && $user->latitude && $user->longitude) {
             return $this->getWishesWithDistance($request, $status, $user);
@@ -303,6 +303,10 @@ class WishService extends BaseService
 
         if ($request->filled('category_id')) {
             $query->where('wishes.category_id', $request->category_id);
+        }
+        // by login donor created donations category ID
+        if ($request->filled('categoryIds')) {
+            $query->whereIn('wishes.category_id', $request->categoryIds);
         }
         if ($request->filled('age_range')) {
             $query->where('wishes.age_range', $request->age_range);
