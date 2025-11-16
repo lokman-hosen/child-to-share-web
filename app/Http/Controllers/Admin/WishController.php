@@ -148,4 +148,10 @@ class WishController extends Controller
         }
         return redirect()->back()->with('error', 'Error to make feature file');
     }
+
+    public function wishList(Request $request)
+    {
+
+
+    }
 }
