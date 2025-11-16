@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('wish_id')->constrained()->onDelete('cascade');
             $table->foreignId('wisher_id')->constrained('users')->onDelete('cascade');
             $table->boolean('need_admin_assistance')->default(false);
+            $table->string('method')->comment('self-delivery,courier,admin-assistance');
             $table->text('note')->nullable();
             $table->timestamp('scheduled_at')->nullable();
             $table->timestamp('delivered_at')->nullable();

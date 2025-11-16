@@ -70,6 +70,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
         Route::get('wish-file/{fileId}', 'makeFeatureFile')->name('wishes.file.feature');
         Route::get('wish-fulfill', 'wishList')->name('wish.fulfill.list');
+        Route::get('wish-fulfill/{wishId}', 'wishDetail')->name('wish.fulfill.detail');
     });
     Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });

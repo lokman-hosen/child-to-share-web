@@ -47,7 +47,7 @@ export default function List({module, wishes}) {
                                         {module}
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
-                                        Choose the wishes you want to fullfill
+                                        Choose the wishes you want to fulfill
                                     </p>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@ export default function List({module, wishes}) {
                                                             {wish.created_at}
                                                         </span>
                                                         <Link
-                                                            href={route('wishes.show', wish.id)}
+                                                            href={route('wish.fulfill.detail', wish.id)}
                                                             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                         >
                                                             Fulfill Wish
@@ -214,7 +214,7 @@ export default function List({module, wishes}) {
                                                                 <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
                                                                         <Link
-                                                                            href={route('wishes.show', wish.id)}
+                                                                            href={route('wish.fulfill.detail', wish.id)}
                                                                             className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                                                             Fulfill Wish
                                                                         </Link>
@@ -287,7 +287,7 @@ export default function List({module, wishes}) {
                                                                     {wish.created_at}
                                                                 </span>
                                                                 <Link
-                                                                    href={route('wishes.show', wish.id)}
+                                                                    href={route('wish.fulfill.detail', wish.id)}
                                                                     className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                                 >
                                                                     Fulfill Wish

@@ -224,4 +224,13 @@ class DonationService extends BaseService
         }
         return $donorFile;
     }
+
+    public function getDonationsByCategoryAndStatus(string $categoryId, string $status = null)
+    {
+        return $this->donation->where('user_id', Auth::id())
+            ->where('category_id', $categoryId)
+            ->where('status', $status)
+            ->orderBy('title', 'asc')
+            ->get(['id', 'title as name']);
+    }
 }

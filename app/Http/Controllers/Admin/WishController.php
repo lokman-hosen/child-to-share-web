@@ -7,6 +7,7 @@ use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
 use App\Services\CategoryService;
+use App\Services\DonationService;
 use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class WishController extends Controller
     public function __construct(
         protected WishService $wishService,
         protected CategoryService $categoryService,
+        protected DonationService $donationService,
 
     ){}
     const moduleDirectory = 'Admin/Wish/';
@@ -162,5 +164,17 @@ class WishController extends Controller
             'module' => "Wishes Near You",
             'wishes' => $wishes,
         ]);
+    }
+
+    public function wishDetail(string $id)
+    {
+        $wish = $this->wishService->find($id);
+        $donations = $this->donationService->getDonationsByCategoryAndStatus($wish->category_id, 'available');
+        return Inertia::render(self::moduleDirectory.'Detail', [
+            'module' => self::moduleName,
+            'wish' => $wish,
+            'donations' => $donations,
+        ]);
+
     }
 }
