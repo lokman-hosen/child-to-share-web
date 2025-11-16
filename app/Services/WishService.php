@@ -43,7 +43,6 @@ class WishService extends BaseService
             ->paginate(10) // Pagination: 10 items per page
             ->withQueryString();
     }
-
     public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend', $userId = null): Collection|int
     {
         $userId = $userId ?? Auth::id();
