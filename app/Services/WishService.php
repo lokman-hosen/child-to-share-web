@@ -30,7 +30,7 @@ class WishService extends BaseService
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->wish->with(['user', 'files', 'featuredImage']);
-        if (checkWisher()){
+        if (checkWisher() or checkDonorWisher()){
             $query->where('user_id', Auth::id());
         }
         return $query->when($searchName, function ($query, $searchName) {
@@ -43,7 +43,6 @@ class WishService extends BaseService
             ->paginate(10) // Pagination: 10 items per page
             ->withQueryString();
     }
-
     public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend', $userId = null): Collection|int
     {
         $userId = $userId ?? Auth::id();
