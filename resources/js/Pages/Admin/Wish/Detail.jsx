@@ -10,16 +10,15 @@ import TextareaInput from "@/Components/TextareaInput.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import {getDropdownOptions} from "@/utils.jsx";
 import DateInput from "@/Components/DateInput.jsx";
+import DateTimePicker from "@/Components/DateTimePicker.jsx";
 
 export default function Detail({module, wish, donations}) {
-
     const { data, setData, post, put, processing, errors, reset } = useForm({
         wish_id: wish.id,
         donation_id: '',
         need_admin_assistance: false,
         note: '',
         scheduled_at: '',
-        attachments: [], // Always start with empty array for new files
         status: 'requested',
     });
 
@@ -80,15 +79,29 @@ export default function Detail({module, wish, donations}) {
                                             options={donationOptions}
                                             required
                                         />
-                                        <DateInput
-                                            id="dob"
+                                        {/*<DateInput*/}
+                                        {/*    id="dob"*/}
+                                        {/*    label="Deliver at"*/}
+                                        {/*    value={data.scheduled_at}*/}
+                                        {/*    onChange={(value) => setData('scheduled_at', value)}*/}
+                                        {/*    error={errors.scheduled_at}*/}
+                                        {/*    placeholder="Select date time to deliver"*/}
+                                        {/*    required*/}
+                                        {/*/>*/}
+
+                                        {/* Start Date & Time */}
+                                        <DateTimePicker
+                                            id="scheduled_at"
                                             label="Deliver at"
                                             value={data.scheduled_at}
+                                            //selected={formData.dateTime}
+                                            //onChange={(date) => handleDateTimeChange(date, 'dateTime')}
                                             onChange={(value) => setData('scheduled_at', value)}
-                                            error={errors.scheduled_at}
-                                            placeholder="Select date time to deliver"
+                                            placeholder="Select start date and time"
                                             required
                                         />
+
+
                                         <TextareaInput
                                             id="note"
                                             label="Description"
