@@ -46,7 +46,7 @@ class WishService extends BaseService
     public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend', $userId = null): Collection|int
     {
         $userId = $userId ?? Auth::id();
-        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
+        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
         if ($for === 'admin') {
             //if (checkWisher()){
                 $query->where('user_id', $userId);
