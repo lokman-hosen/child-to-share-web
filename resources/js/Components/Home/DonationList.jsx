@@ -10,7 +10,7 @@ const DonationList = ({donations, user}) => {
          <section id="donations" className="py-16 bg-gray-50">
          {/*<section id="donations" className="py-16 bg-white">*/}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Sample Donations Available</h2>
+                <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">Recent Donations from Donor</h2>
                 {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">*/}
                 {/*    {donations.map((donation, index) => (*/}
                 {/*        <SingleDonationItem key={index} donation={donation} />*/}
@@ -37,7 +37,7 @@ const DonationList = ({donations, user}) => {
                         <div className="mx-auto text-center">
                             <Link
                                 href={route('donation.index')}
-                                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-purple-500 hover:bg-purple-400">
+                                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-400">
                                 <FontAwesomeIcon icon={faGift} className="mr-2"/> Browse More Donations
                             </Link>
                         </div>
