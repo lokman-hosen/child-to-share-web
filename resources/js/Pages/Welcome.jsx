@@ -10,6 +10,7 @@ import Footer from "@/Components/Common/Footer.jsx";
 import Navbar from "@/Components/Common/Navbar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from '@fortawesome/free-solid-svg-icons';
+import WishList from "@/Components/Home/WishList.jsx";
 
 export default function Welcome({ auth, donations, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
     const user = usePage().props.auth.user;
@@ -33,6 +34,7 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                     community={community}
                 />
                 <HowWorks/>
+                <WishList/>
                 {donations.length > 0 && (
                     <DonationList
                         donations={donations}

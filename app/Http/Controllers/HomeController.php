@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index(): Response
     {
-        $donations = $this->donationService->donationByStatus('available', 'list', 3, 'frontend');
+        $donations = $this->donationService->donationByStatus('available', 'list', 6, 'frontend');
         $activeDonorCount = 10;
         $totalWishCount = $this->wishService
             ->wishByStatus(null, 'count',  null,'frontend');
