@@ -2,6 +2,8 @@ import React from 'react';
 import {Link} from "@inertiajs/react";
 import SingleDonationItem from "@/Components/Common/SingleDonationIteam.jsx";
 import SingleDonationIteamMobile from "@/Components/Common/SingleDonationIteamMobile.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGift} from "@fortawesome/free-solid-svg-icons";
 
 const DonationList = ({donations, user}) => {
     return (
@@ -36,7 +38,7 @@ const DonationList = ({donations, user}) => {
                             <Link
                                 href={route('donation.index')}
                                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-purple-500 hover:bg-purple-400">
-                                Browse More
+                                <FontAwesomeIcon icon={faGift} className="mr-2"/> Browse More Donations
                             </Link>
                         </div>
                     </>

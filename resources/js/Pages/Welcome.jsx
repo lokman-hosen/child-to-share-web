@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from '@fortawesome/free-solid-svg-icons';
 import WishList from "@/Components/Home/WishList.jsx";
 
-export default function Welcome({ auth, donations, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
+export default function Welcome({ auth, donations, wishes, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
     const user = usePage().props.auth.user;
     const { url } = usePage();
 
@@ -34,7 +34,10 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                     community={community}
                 />
                 <HowWorks/>
-                <WishList/>
+                <WishList
+                    wishes={wishes}
+                    user={user}
+                />
                 {donations.length > 0 && (
                     <DonationList
                         donations={donations}

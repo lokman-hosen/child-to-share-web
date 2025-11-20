@@ -38,9 +38,9 @@ const SingleWishItemMobile = ({wish}) => {
                         />
                     ) : (
                         <img
-                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                            src="https://www.shareicon.net/data/256x256/2016/08/04/806683_man_512x512.png"
                             alt={wish.user?.name || 'Wisher'}
-                            className="w-full h-32 object-cover"
+                            className="w-full h-full object-cover"
                         />
                     )}
 
