@@ -61,7 +61,7 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                         <Link
                             href={route('home')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-500'
+                                isActiveRoute('/') ? 'text-black' : 'text-gray-700 hover:text-purple-500'
                             }`}
                         >
                             <FontAwesomeIcon
@@ -75,7 +75,7 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                         <Link
                             href={route('donation.index')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/donations') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-500'
+                                isActiveRoute('/donations') ? 'text-black' : 'text-gray-700 hover:text-gray-700'
                             }`}
                         >
                             <FontAwesomeIcon
@@ -89,7 +89,7 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                         <Link
                             href={route('wish.index')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/wishes') ? 'text-green-600' : 'text-gray-600 hover:text-green-500'
+                                isActiveRoute('/wishes') ? 'text-black' : 'text-gray-700 hover:text-green-500'
                             }`}
                         >
                             <FontAwesomeIcon
@@ -103,7 +103,7 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                         <Link
                             href={user ? route('my.profile') : route('login')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/profile') || isActiveRoute('/login') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-500'
+                                isActiveRoute('/profile') || isActiveRoute('/login') ? 'text-black' : 'text-gray-700 hover:text-orange-500'
                             }`}
                         >
                             <FontAwesomeIcon

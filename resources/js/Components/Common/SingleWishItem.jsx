@@ -15,7 +15,7 @@ const SingleWishItem = ({wish}) => {
                                 <img
                                     src={`/storage/${wish.user.image}`}
                                     alt={wish.user.name}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-52 object-cover rounded-t-lg"
                                 />
                             ) : (
                                 <img

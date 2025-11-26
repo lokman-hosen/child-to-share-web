@@ -17,30 +17,34 @@ function uploadImage($file, $fileProperty, $actionType, $oldFileName): string
     }
 
     $img = Image::make($file->getRealPath());
-    $originalWidth = $img->width();
-    $originalHeight = $img->height();
+//    $originalWidth = $img->width();
+//    $originalHeight = $img->height();
 
     $targetWidth = $fileProperty['width'];
     $targetHeight = $fileProperty['height'];
 
-    // Calculate aspect ratios
-    $originalAspect = $originalWidth / $originalHeight;
-    $targetAspect = $targetWidth / $targetHeight;
-
-    // If aspect ratios are similar (within 10%), use fit to avoid letterboxing
-    if (abs($originalAspect - $targetAspect) < 0.1) {
-        $img->fit($targetWidth, $targetHeight);
-    } else {
-        // If very different aspect ratios, resize with background
-        $img->resize($targetWidth, $targetHeight, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
-
-        $canvas = Image::canvas($targetWidth, $targetHeight, '#f8f9fa'); // Light gray
-        $canvas->insert($img, 'center');
-        $img = $canvas;
-    }
+//    // Calculate aspect ratios
+//    $originalAspect = $originalWidth / $originalHeight;
+//    $targetAspect = $targetWidth / $targetHeight;
+//
+//    // If aspect ratios are similar (within 10%), use fit to avoid letterboxing
+//    if (abs($originalAspect - $targetAspect) < 0.1) {
+//        $img->fit($targetWidth, $targetHeight);
+//    } else {
+//        // If very different aspect ratios, resize with background
+//        $img->resize($targetWidth, $targetHeight, function ($constraint) {
+//            $constraint->aspectRatio();
+//            $constraint->upsize();
+//        });
+//
+//        $canvas = Image::canvas($targetWidth, $targetHeight, '#f8f9fa'); // Light gray
+//        $canvas->insert($img, 'center');
+//        $img = $canvas;
+//    }
+    $img->resize($targetWidth, $targetHeight, function ($constraint) {
+        $constraint->aspectRatio();   // keep original ratio
+        $constraint->upsize();        // don't upscale smaller images
+    });
 
     // Save with optimized quality
     Storage::disk('public')->put($filePath, $img->stream(null, 90));
