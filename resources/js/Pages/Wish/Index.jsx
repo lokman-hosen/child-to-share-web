@@ -95,7 +95,7 @@ const Index = ({wishes,categories, filters, ageRanges, distanceRanges, module}) 
                             </div>
                         </div>
                         {/* Desktop View - Original layout */}
-                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
                             {wishListData.map((wish, index) => (
                                 <SingleWishItem key={index} wish={wish}/>
                             ))}

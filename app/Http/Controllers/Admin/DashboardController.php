@@ -153,13 +153,13 @@ class DashboardController extends Controller
 //            $img = $canvas;
 //        }
 
-        $img->resize($targetWidth, $targetHeight, function ($constraint) {
+        $img->resize(390, 245, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
 
         // Save with optimized quality (overwrite the original file)
-        $img->save($imagePath, 90);
+        $img->save($imagePath);
 
         return true;
     }
