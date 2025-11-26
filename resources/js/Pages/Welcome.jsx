@@ -11,6 +11,7 @@ import Navbar from "@/Components/Common/Navbar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from '@fortawesome/free-solid-svg-icons';
 import WishList from "@/Components/Home/WishList.jsx";
+import Category from "@/Components/Home/Category.jsx";
 
 export default function Welcome({ auth, donations, wishes, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
     const user = usePage().props.auth.user;
@@ -27,6 +28,7 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
             <Navbar/>
             <div className="pb-16 md:pb-0"> {/* Add padding bottom for mobile nav */}
                 <Hero user={user} />
+                <Category/>
                 <Summary
                     activeDonorCount={activeDonorCount}
                     totalWishCount={totalWishCount}
