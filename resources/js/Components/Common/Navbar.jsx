@@ -135,7 +135,7 @@ export default function Navbar() {
                                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border border-gray-200">
                                         <Link
                                             href={route('my.profile')}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                             onClick={() => setIsProfileOpen(false)}
                                         >
                                             Your Profile
@@ -144,14 +144,14 @@ export default function Navbar() {
                                          <>
                                              <Link
                                                  href={route('donations.index')}
-                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                                  onClick={() => setIsMobileMenuOpen(false)}
                                              >
                                                  My Donations
                                              </Link>
                                              <Link
                                                  href={route('donations.create')}
-                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                                  onClick={() => setIsMobileMenuOpen(false)}
                                              >
                                                  Create Donation
@@ -162,14 +162,14 @@ export default function Navbar() {
                                          <>
                                              <Link
                                                  href={route('wishes.index')}
-                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                                  onClick={() => setIsMobileMenuOpen(false)}
                                              >
                                                  My Wishes
                                              </Link>
                                              <Link
                                                  href={route('wishes.create')}
-                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                                 className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                                  onClick={() => setIsMobileMenuOpen(false)}
                                              >
                                                  Create Wish
@@ -178,7 +178,7 @@ export default function Navbar() {
                                         )}
                                         <Link
                                             href={route('user.password.form')}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                             onClick={() => setIsProfileOpen(false)}
                                         >
                                             Change Password
@@ -187,7 +187,7 @@ export default function Navbar() {
                                             href={route('logout')}
                                             method="post"
                                             as="button"
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                             onClick={() => setIsProfileOpen(false)}
                                         >
                                             Sign out
@@ -255,7 +255,7 @@ export default function Navbar() {
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <Link
                         href={route('home')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${
                             route().current('home') && window.location.hash !== '#how-it-works'
                                 ? 'nav-item active'
                                 : ''
@@ -266,7 +266,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={`${route('home')}#how-it-works`}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${
                             route().current('home') && window.location.hash === '#how-it-works'
                                 ? 'nav-item active'
                                 : ''
@@ -277,7 +277,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={route('donation.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Donations
@@ -285,7 +285,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('wish.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600 ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Wishes
@@ -318,7 +318,7 @@ export default function Navbar() {
                             </div>
                             <Link
                                 href={route('my.profile')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Your Profile
@@ -327,14 +327,14 @@ export default function Navbar() {
                                 <>
                                     <Link
                                         href={route('donations.index')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         My Donations
                                     </Link>
                                     <Link
                                         href={route('donations.create')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         Create Donation
@@ -346,14 +346,14 @@ export default function Navbar() {
                                 <>
                                     <Link
                                         href={route('wishes.index')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         My Wishes
                                     </Link>
                                     <Link
                                         href={route('wishes.create')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                         onClick={() => setIsMobileMenuOpen(false)}
                                     >
                                         Create Wish
@@ -363,7 +363,7 @@ export default function Navbar() {
 
                             <Link
                                 href={route('user.password.form')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Change Password
@@ -372,7 +372,7 @@ export default function Navbar() {
                                 href={route('logout')}
                                 method="post"
                                 as="button"
-                                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Sign out
@@ -383,14 +383,14 @@ export default function Navbar() {
                         <div className="mt-3 px-2 space-y-1">
                             <Link
                                 href={route('register')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Sign Up
                             </Link>
                             <Link
                                 href={route('login')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-purple-600"
+                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black"
                                 onClick={() => setIsMobileMenuOpen(false)}
                             >
                                 Login
