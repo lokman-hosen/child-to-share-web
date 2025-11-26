@@ -20,10 +20,10 @@ const Hero = ({user}) => {
                                         <i className="fas fa-arrow-right ml-2"></i>
                                     </Link>
                                 )}
-                                <a href="#how-it-works"
+                                <Link href={`${route('home')}#how-it-works`}
                                    className="bg-white hover:bg-gray-300 btn-outline px-6 py-3 rounded-md text-base font-medium text-center">
                                     How It Works
-                                </a>
+                                </Link>
                             </div>
                         </div>
                         <div className="md:w-1/2 flex justify-center">

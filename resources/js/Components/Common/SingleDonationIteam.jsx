@@ -29,7 +29,12 @@ const SingleDonationItem = ({donation}) => {
                     <div className="p-4">
                         <h3 className="font-medium text-gray-900 mb-1">{donation.title}</h3>
                         <p className="text-gray-500 text-sm mb-3">
-                            {donation.description && textLimit(donation.description, 6)}
+                             <span className="block md:hidden">
+                                {donation.description && textLimit(donation.description, 3)}
+                            </span>
+                            <span className="hidden md:block">
+                                {donation.description && textLimit(donation.description, 6)}
+                            </span>
                         </p>
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">

@@ -39,7 +39,12 @@ const SingleWishItem = ({wish}) => {
                             </p>
                         </div>
                             <p className="text-gray-500 text-sm mb-3">
-                                {wish.description && textLimit(wish.description, 6)}
+                                <span className="block md:hidden">
+                                    {wish.description && textLimit(wish.description, 3)}
+                                </span>
+                                <span className="hidden md:block">
+                                    {wish.description && textLimit(wish.description, 6)}
+                                </span>
                             </p>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center">
@@ -59,14 +64,21 @@ const SingleWishItem = ({wish}) => {
                                     </div>
                                     <div className="ml-2">
                                         <p className="text-sm font-medium text-gray-900">{wish.title}</p>
-                                        <p className="text-xs text-gray-500">{wish.description && textLimit(wish.description, 6)}</p>
+                                        <p className="text-xs text-gray-500">
+                                             <span className="block md:hidden">
+                                                {wish.description && textLimit(wish.description, 3)}
+                                            </span>
+                                            <span className="hidden md:block">
+                                                {wish.description && textLimit(wish.description, 6)}
+                                            </span>
+                                        </p>
                                     </div>
                                 </div>
                                 <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-sm">
                                     <FontAwesomeIcon icon={faArrowRight}/>
                                 </button>
                             </div>
-                        </div>
+                    </div>
                     </div>
             </Link>
         </>
