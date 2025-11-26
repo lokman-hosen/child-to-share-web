@@ -1,89 +1,66 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faGift} from "@fortawesome/free-solid-svg-icons";
 import {textLimit} from "@/utils.jsx";
 import {Link} from "@inertiajs/react";
 
 const SingleDonationItem = ({donation}) => {
     return (
-       <Link href={route('donation.show', { id: donation.id })}>
-           <div key={donation.id} className="card donation-card bg-white rounded-lg shadow">
-               <div className="h-[240px] bg-green-100 flex items-center justify-center">
-                   <div className="h-[240px] w-full bg-gray-100 overflow-hidden">
-                       {donation.featured_image?.file_path ? (
-                           <img
-                               src={`/storage/${donation.featured_image.file_path}`}
-                               alt={donation.title}
-                               className="w-full h-full object-cover"
-                           />
-                       ) : (
-                           <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                               <FontAwesomeIcon icon={faGift} className="text-gray-400 text-4xl" />
-                           </div>
-                       )}
-                   </div>
-               </div>
-               <div className="p-5">
-                   <h3 className="text-lg font-medium text-gray-900">{donation.title}</h3>
-                   <p className="text-gray-600 text-sm mt-1">
-                       {donation.description && textLimit(donation.description, 12)}
-                   </p>
-                   <div className="flex items-center mt-4">
-                       <div className="bg-green-100 rounded-full h-10 w-10 flex items-center justify-center">
-                           {donation.user.image ? (
-                               <img
-                                   src={`/storage/${donation.user.image}`}
-                                   alt={donation.user.name}
-                                   className="w-full h-full object-cover"
-                               />
-                           ) : (
-                               <img
-                                   src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                   alt={donation.user.name}
-                                   className="w-full h-full object-cover"
-                               />
-                           )}
-                       </div>
-                       <div className="ml-3">
-                           <p className="text-sm font-medium text-gray-900">{donation.user.name}</p>
-                           {/*<p className="text-xs text-gray-500">2.5 km away</p>*/}
-                       </div>
-                   </div>
-                   <div className="mt-4">
-                       {/* Tags Section */}
-                       <div className="flex flex-wrap gap-2 mb-2">
-                           {donation.auto_tags && (
-                               <>
-                                   {Array.isArray(donation.auto_tags)
-                                       ? donation.auto_tags.map((tag, tagIndex) => (
-                                           <span
-                                               key={tagIndex}
-                                               className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded flex-shrink-0">
-                                                {tag}
-                                           </span>
-                                       ))
-                                       : donation.auto_tags.split(',').map((tag, tagIndex) => (
-                                           <span
-                                               key={tagIndex}
-                                               className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded flex-shrink-0">
-                                                {tag.trim()}
-                                           </span>
-                                       ))
-                                   }
-                               </>
-                           )}
-                       </div>
-
-                       {/* Category Tag - Always on its own line or with other tags if space */}
-                       <div className="flex flex-wrap gap-2">
-                        <span className="bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded flex-shrink-0">
-                            {donation.category.name}
-                        </span>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </Link>
+        <>
+            <Link href={route('donation.show', {id: donation.id})}>
+                <div className="product-card">
+                    <div className="relative">
+                        <div className="h-[240px] bg-gray-100 flex items-center justify-center">
+                            {donation.featured_image?.file_path ? (
+                                <img
+                                    src={`/storage/${donation.featured_image.file_path}`}
+                                    alt={donation.title}
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div
+                                    className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                    <FontAwesomeIcon icon={faGift} className="text-gray-400 text-4xl"/>
+                                </div>
+                            )}
+                        </div>
+                        <div className="badge badge-donation">DONATION</div>
+                    </div>
+                    <div className="p-4">
+                        <h3 className="font-medium text-gray-900 mb-1">{donation.title}</h3>
+                        <p className="text-gray-500 text-sm mb-3">
+                            {donation.description && textLimit(donation.description, 6)}
+                        </p>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <div className="bg-gray-100 rounded-full h-10 w-10 flex items-center justify-center">
+                                    {donation.user.image ? (
+                                        <img
+                                            src={`/storage/${donation.user.image}`}
+                                            alt={donation.user.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <img
+                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                            alt={donation.user.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
+                                </div>
+                                <div className="ml-2">
+                                    <p className="text-sm font-medium text-gray-900">{donation.user.name}</p>
+                                    <p className="text-xs text-gray-500">{donation.category.name}</p>
+                                </div>
+                            </div>
+                            <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-sm">
+                                <FontAwesomeIcon icon={faArrowRight}/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Link>
+        </>
     );
 };
 

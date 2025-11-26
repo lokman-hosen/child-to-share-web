@@ -33,13 +33,6 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                     wishes={wishes}
                     user={user}
                 />
-                <Summary
-                    activeDonorCount={activeDonorCount}
-                    totalWishCount={totalWishCount}
-                    fulfilWishCount={fulfilWishCount}
-                    community={community}
-                />
-                <HowWorks/>
 
                 {donations.length > 0 && (
                     <DonationList
@@ -47,6 +40,13 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                         user={user}
                     />
                 )}
+                <Summary
+                    activeDonorCount={activeDonorCount}
+                    totalWishCount={totalWishCount}
+                    fulfilWishCount={fulfilWishCount}
+                    community={community}
+                />
+                <HowWorks/>
                 <RegistrationCTA user={user} />
                 <Faq/>
             </div>
