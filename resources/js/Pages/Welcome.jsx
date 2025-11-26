@@ -29,6 +29,10 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
             <div className="pb-16 md:pb-0"> {/* Add padding bottom for mobile nav */}
                 <Hero user={user} />
                 <Category/>
+                <WishList
+                    wishes={wishes}
+                    user={user}
+                />
                 <Summary
                     activeDonorCount={activeDonorCount}
                     totalWishCount={totalWishCount}
@@ -36,10 +40,7 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                     community={community}
                 />
                 <HowWorks/>
-                <WishList
-                    wishes={wishes}
-                    user={user}
-                />
+
                 {donations.length > 0 && (
                     <DonationList
                         donations={donations}

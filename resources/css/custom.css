@@ -336,3 +336,50 @@ body {
     border-radius: 8px;
     border: 1px solid #e5e7eb;
 }
+.category-card {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid #e5e7eb;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-color: #d1d5db;
+}
+
+.product-card {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid #e5e7eb;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-color: #d1d5db;
+}
+
+.badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-wish {
+    background: #1f2937;
+    color: white;
+}
+
+.badge-donation {
+    background: #374151;
+    color: white;
+}
