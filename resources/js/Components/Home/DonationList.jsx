@@ -14,12 +14,12 @@ const DonationList = ({donations, user}) => {
                         <h2 className="text-2xl font-semibold text-gray-900 section-title">Recent Donations from Donor</h2>
                         <Link
                             href={route('donation.index')}
-                           className="text-gray-700 font-medium hover:text-gray-900 flex items-center text-sm">
+                            className="text-gray-700 font-medium hover:text-gray-900 flex items-center text-sm">
                             View All Donations <i className="fas fa-arrow-right ml-2"></i>
                         </Link>
                     </div>
                     {donations.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                             {donations.map((donation, index) => (
                                 <SingleDonationItem key={index} donation={donation}/>
                             ))}
