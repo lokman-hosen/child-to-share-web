@@ -31,7 +31,7 @@ export default function Navbar() {
                                         e.target.style.display = 'none';
                                     }}
                                 />
-                                <span className="font-bold text-xl text-purple-600">ThreeWish</span>
+                                <span className="font-bold text-xl text-gray-900">ThreeWish</span>
                             </div>
                         </Link>
                         <div className="hidden md:ml-6 md:flex md:space-x-8">
@@ -46,16 +46,38 @@ export default function Navbar() {
                                 Home
                             </Link>
 
-                            <Link
-                                href={`${route('home')}#how-it-works`}
-                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${
-                                    route().current('home') && window.location.hash === '#how-it-works'
-                                        ? 'nav-item active'
-                                        : ''
-                                }`}
-                            >
-                                How It Works
-                            </Link>
+                            <div className="relative group">
+                                <a href="#"
+                                   className="text-gray-700 font-medium hover:text-gray-900 transition flex items-center">
+                                    Categories <i className="fas fa-chevron-down ml-1 text-xs"></i>
+                                </a>
+                                <div
+                                    className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg dropdown-menu opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                                    <div className="py-2">
+                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Books
+                                            & Education</a>
+                                        <a href="#"
+                                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Clothing</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Toys
+                                            & Games</a>
+                                        <a href="#"
+                                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Electronics</a>
+                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Sports
+                                            Equipment</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/*<Link*/}
+                            {/*    href={`${route('home')}#how-it-works`}*/}
+                            {/*    className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${*/}
+                            {/*        route().current('home') && window.location.hash === '#how-it-works'*/}
+                            {/*            ? 'nav-item active'*/}
+                            {/*            : ''*/}
+                            {/*    }`}*/}
+                            {/*>*/}
+                            {/*    How It Works*/}
+                            {/*</Link>*/}
 
                             <Link
                                 href={route('donation.index')}
@@ -70,6 +92,15 @@ export default function Navbar() {
                             </Link>
 
                         </div>
+
+                        <div className="hidden lg:flex flex-1 max-w-md mx-8">
+                            <div className="relative w-full">
+                                <input type="text" className="input-search" placeholder="Search for wishes or donations..."/>
+                                    <button className="absolute right-0 top-0 h-full px-4 btn-search">
+                                        <i className="fas fa-search"></i>
+                                    </button>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Desktop Navigation - Show user profile if logged in, else show login/signup */}
@@ -81,7 +112,8 @@ export default function Navbar() {
                                     className="flex items-center text-sm text-gray-700 focus:outline-none"
                                     onClick={toggleProfileVisibility}
                                 >
-                                    <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
+                                    <div
+                                        className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
                                         {user.image ? (
                                             <img
                                                 src={`/storage/${user.image}`}
@@ -168,14 +200,14 @@ export default function Navbar() {
                             <>
                                 <Link
                                     href={route('register')}
-                                    className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                                    className="bg-black ml-4 px-4 py-2 border border-transparent text-sm text-white font-medium rounded-md text-hover:bg-black shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                                 >
                                     Sign Up
                                 </Link>
 
                                 <Link
                                     href={route('login')}
-                                    className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                                    className="bg-black ml-4 px-4 py-2 border border-transparent text-sm text-white font-medium rounded-md text-hover:bg-black shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                                 >
                                     Login
                                 </Link>
