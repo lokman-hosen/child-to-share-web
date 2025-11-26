@@ -19,7 +19,7 @@ const DonationList = ({donations, user}) => {
                         </Link>
                     </div>
                     {donations.length > 0 ? (
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
                             {donations.map((donation, index) => (
                                 <SingleDonationItem key={index} donation={donation}/>
                             ))}
