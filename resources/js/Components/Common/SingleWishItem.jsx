@@ -34,7 +34,7 @@ const SingleWishItem = ({wish}) => {
                                 {wish?.distance ? (
                                     <span className="ml-1">{wish?.distance} km away</span>
                                 ) : (
-                                    <span className="ml-1">Age : {wish.age_range} yrs</span>
+                                    <span className="ml-1">{wish.age_range} yrs</span>
                                 )}
                             </p>
                         </div>

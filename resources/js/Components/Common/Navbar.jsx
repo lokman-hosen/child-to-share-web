@@ -95,7 +95,7 @@ export default function Navbar() {
 
                         <div className="hidden lg:flex flex-1 max-w-md mx-8">
                             <div className="relative w-full">
-                                <input type="text" className="input-search" placeholder="Search for wishes or donations..."/>
+                                <input type="text" className="input-search" placeholder="Wishes or donations.."/>
                                     <button className="absolute right-0 top-0 h-full px-4 btn-search">
                                         <i className="fas fa-search"></i>
                                     </button>
