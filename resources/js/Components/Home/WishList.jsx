@@ -10,8 +10,9 @@ const WishList = ({wishes, user}) => {
             <section className="py-16 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center mb-10">
-                        <h2 className="text-2xl font-semibold text-gray-900 section-title">Recent Wishes from
-                            Children</h2>
+                        <h2 className="text-2xl font-semibold text-gray-900 section-title">
+                            Recent Wishes from Children
+                        </h2>
                         <Link
                             href={route('wish.index')}
                             className="text-gray-700 font-medium hover:text-gray-900 flex items-center text-sm">

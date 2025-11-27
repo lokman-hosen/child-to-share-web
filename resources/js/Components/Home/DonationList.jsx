@@ -7,7 +7,6 @@ import {faGift} from "@fortawesome/free-solid-svg-icons";
 
 const DonationList = ({donations, user}) => {
     return (
-        <>
             <section className="py-16 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between items-center mb-10">
@@ -19,12 +18,22 @@ const DonationList = ({donations, user}) => {
                         </Link>
                     </div>
                     {donations.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
-                            {donations.map((donation, index) => (
-                                <SingleDonationItem key={index} donation={donation}/>
-                            ))}
-
-                        </div>
+                        <>
+                            {/* Mobile View - 2 columns */}
+                            <div className="block md:hidden">
+                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                    {donations.map((donation, index) => (
+                                        <SingleDonationIteamMobile donation={donation} key={index} />
+                                    ))}
+                                </div>
+                            </div>
+                            {/* Desktop View - Original layout */}
+                            <div className="hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                                {donations.map((donation, index) => (
+                                    <SingleDonationItem key={index} donation={donation}/>
+                                ))}
+                            </div>
+                        </>
 
                     ) : (
                         <div className="grid grid-cols-1 gap-6 mb-8">
@@ -36,7 +45,6 @@ const DonationList = ({donations, user}) => {
 
                 </div>
             </section>
-        </>
     );
 };
 

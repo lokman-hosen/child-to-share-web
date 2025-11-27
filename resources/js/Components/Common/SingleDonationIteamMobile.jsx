@@ -1,6 +1,6 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faGift} from "@fortawesome/free-solid-svg-icons";
 import {textLimit} from "@/utils.jsx";
 import {Link} from "@inertiajs/react";
 
@@ -22,41 +22,45 @@ const SingleDonationItemMobile = ({donation}) => {
     };
 
     return (
-       <Link href={route('donation.show', { id: donation.id })}>
-           <div
-               key={donation.id}
-               className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200"
-           >
-               {/* Image */}
-               {/*<div className="aspect-square bg-gray-100">*/}
-               <div className="bg-gray-100">
-                   {donation.featured_image?.file_path ? (
-                       <img
-                           src={`/storage/${donation.featured_image.file_path}`}
-                           alt={donation.title}
-                           className="w-full h-full object-cover"
-                       />
-                   ) : (
-                       <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                           <FontAwesomeIcon icon={faGift} className="text-gray-400 text-4xl" />
+       <>
+           <Link href={route('donation.show', {id: donation.id})}>
+               <div className="product-card">
+                   <div className="relative">
+                       <div className="w-full bg-gray-100 flex items-center justify-center">
+                           {donation.featured_image?.file_path ? (
+                               <img
+                                   src={`/storage/${donation.featured_image.file_path}`}
+                                   alt={donation.title}
+                                   className="w-full h-40 object-cover rounded-t-lg"
+                               />
+                           ) : (
+                               <div
+                                   className="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                   <FontAwesomeIcon icon={faGift} className="text-gray-400 text-4xl"/>
+                               </div>
+                           )}
                        </div>
-                   )}
-               </div>
-
-               {/* Content */}
-               <div className="p-3">
-                   {/* Title */}
-                   <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-2 leading-tight">
-                       {textLimit(donation.title, 40)}
-                   </h3>
-
-                   {/* Status */}
-                   <div className="flex justify-between items-center">
-                       {getStatusBadge(donation.status)}
+                       <div className="badge badge-donation">DONATION</div>
+                   </div>
+                   <div className="p-4">
+                       <h3 className="font-medium text-gray-900 mb-1">{donation.title}</h3>
+                       <p className="text-gray-500 text-sm mb-3">
+                           {donation.description && textLimit(donation.description, 3)}
+                       </p>
+                       <div className="flex items-center justify-between">
+                           <div className="flex items-center">
+                               <div>
+                                   <p className="text-sm font-medium text-gray-900">By: {textLimit(donation.user.name, 3)}</p>
+                               </div>
+                           </div>
+                           <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-sm">
+                               <FontAwesomeIcon icon={faArrowRight}/>
+                           </button>
+                       </div>
                    </div>
                </div>
-           </div>
-       </Link>
+           </Link>
+       </>
     );
 };
 

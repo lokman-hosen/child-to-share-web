@@ -6,8 +6,7 @@ import {Link} from "@inertiajs/react";
 
 const SingleDonationItem = ({donation}) => {
     return (
-        <>
-            <Link href={route('donation.show', {id: donation.id})}>
+        <Link href={route('donation.show', {id: donation.id})}>
                 <div className="product-card">
                     <div className="relative">
                         <div className="h-[240px] bg-gray-100 flex items-center justify-center">
@@ -67,7 +66,6 @@ const SingleDonationItem = ({donation}) => {
                     </div>
                 </div>
             </Link>
-        </>
     );
 };
 
