@@ -54,7 +54,9 @@ const SingleDonationItem = ({donation}) => {
                                     )}
                                 </div>
                                 <div className="ml-2">
-                                    <p className="text-sm font-medium text-gray-900">{donation.user.name}</p>
+                                    <p className="text-sm font-medium text-gray-900">
+                                        {textLimit(donation.user.name, 3)}
+                                    </p>
                                     <p className="text-xs text-gray-500">{donation.category.name}</p>
                                 </div>
                             </div>
