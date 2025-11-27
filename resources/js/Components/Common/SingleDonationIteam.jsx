@@ -14,7 +14,7 @@ const SingleDonationItem = ({donation}) => {
                                 <img
                                     src={`/storage/${donation.featured_image.file_path}`}
                                     alt={donation.title}
-                                    className="w-full h-32 object-cover"
+                                    className="w-full h-56 object-cover"
                                 />
                             ) : (
                                 <div

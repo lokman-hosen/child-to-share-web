@@ -31,7 +31,7 @@ const SingleDonationItemMobile = ({donation}) => {
                                <img
                                    src={`/storage/${donation.featured_image.file_path}`}
                                    alt={donation.title}
-                                   className="w-full h-40 object-cover rounded-t-lg"
+                                   className="w-full h-56 object-cover rounded-t-lg"
                                />
                            ) : (
                                <div

@@ -31,13 +31,13 @@ const SingleWishItemMobile = ({wish}) => {
                                 <img
                                     src={`/storage/${wish.user.image}`}
                                     alt={wish.user.name}
-                                    className="w-full h-40 object-cover rounded-t-lg"
+                                    className="w-full h-56 object-cover rounded-t-lg"
                                 />
                             ) : (
                                 <img
                                     src="https://www.shareicon.net/data/256x256/2016/08/04/806683_man_512x512.png"
                                     alt={wish.user.name}
-                                    className="w-full h-40 object-cover rounded-t-lg"
+                                    className="w-full h-56 object-cover rounded-t-lg"
                                 />
                             )}
                         </div>

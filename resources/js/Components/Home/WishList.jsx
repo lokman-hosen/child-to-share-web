@@ -44,7 +44,7 @@ const WishList = ({wishes, user}) => {
                     )}
                 </div>
             </section>
-            );
-            };
+    );
+};
 
             export default WishList;
