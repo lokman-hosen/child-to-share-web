@@ -36,8 +36,6 @@ export default function Welcome({ auth, donations, wishes, wisherImages, activeD
                     user={user}
                 />
 
-                <Category/>
-
                 {donations.length > 0 && (
                     <DonationList
                         donations={donations}
@@ -51,6 +49,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages, activeD
                     community={community}
                 />
                 <HowWorks/>
+                <Category/>
                 <RegistrationCTA user={user} />
                 {/*<Faq/>*/}
             </div>

@@ -6,7 +6,7 @@ const Hero = ({user, wisherImages}) => {
             <section className="hero-bg py-16 md:py-20">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col md:flex-row items-center">
-                        <div className="md:w-1/2 mb-10 md:mb-0">
+                        <div className="w-full md:w-1/2 mb-10 md:mb-0">
                             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Where Children Learn the
                                 Joy of Giving</h1>
                             <p className="text-lg text-gray-700 mb-8">A platform that connects children who have items
@@ -26,12 +26,12 @@ const Hero = ({user, wisherImages}) => {
                                 </Link>
                             </div>
                         </div>
-                        <div className="md:w-1/2 flex justify-center">
+                        <div className="w-full md:w-1/2 flex justify-center">
                             <div className="relative w-full max-w-lg">
                                 <div
-                                    className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
+                                    className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 md:p-8 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
                                     {/* Header Section */}
-                                    <div className="flex items-center mb-6 pb-4 border-b border-gray-100">
+                                    <div className="flex items-center mb-2 pb-2 border-b border-gray-100">
                                         <div className="flex items-center space-x-3">
                                             <div className="p-1 bg-blue-50 rounded-lg">
                                                 <svg className="w-5 h-5 text-blue-500" fill="currentColor"
@@ -50,13 +50,13 @@ const Hero = ({user, wisherImages}) => {
                                     </div>
 
                                     {/* Images Grid */}
-                                    <div className="grid grid-cols-8 md:grid-cols-10 gap-3 justify-items-center">
+                                    <div className="grid grid-cols-4 md:grid-cols-8 justify-items-center gap-0">
                                         {wisherImages.map((wisher) => (
                                             <div key={wisher.id} className="relative group">
                                                 <img
                                                     src={`/storage/${wisher.image}`}
                                                     alt={wisher.name}
-                                                    className="w-8 h-8 md:w-9 md:h-9 object-cover rounded-lg shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-110 border-2 border-white group-hover:border-blue-200"
+                                                    className="w-24 h-20 md:w-16 md:h-10 object-cover shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-110 border-white group-hover:border-blue-200"
                                                 />
                                                 {/* Tooltip on hover */}
                                                 <div

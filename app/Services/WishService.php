@@ -386,6 +386,6 @@ class WishService extends BaseService
     {
         return $this->user->whereHas('roles', function ($role) {
             $role->where('roles.id', 4);
-        })->inRandomOrder()->limit(40)->whereNotNull('image')->get(['id','name', 'image']);
+        })->inRandomOrder()->limit(24)->whereNotNull('image')->get(['id','name', 'image']);
     }
 }
