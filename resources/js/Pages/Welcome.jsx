@@ -13,7 +13,7 @@ import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from
 import WishList from "@/Components/Home/WishList.jsx";
 import Category from "@/Components/Home/Category.jsx";
 
-export default function Welcome({ auth, donations, wishes, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
+export default function Welcome({ auth, donations, wishes, wisherImages, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
     const user = usePage().props.auth.user;
     const { url } = usePage();
 
@@ -27,7 +27,10 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
             <Head title="Home"/>
             <Navbar/>
             <div className="pb-16 md:pb-0"> {/* Add padding bottom for mobile nav */}
-                <Hero user={user} />
+                <Hero
+                    user={user}
+                    wisherImages={wisherImages}
+                />
                 <WishList
                     wishes={wishes}
                     user={user}

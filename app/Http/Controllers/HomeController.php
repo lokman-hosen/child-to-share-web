@@ -27,6 +27,7 @@ class HomeController extends Controller
     {
         $donations = $this->donationService->donationByStatus('available', 'list', 4, 'frontend');
         $wishes = $this->wishService->wishByStatus('approved', 'list', 4, 'frontend');
+        $wisherImages = $this->wishService->getRandomWisherImage();
         $activeDonorCount = 10;
         $totalWishCount = $this->wishService
             ->wishByStatus(null, 'count',  null,'frontend');
@@ -38,6 +39,7 @@ class HomeController extends Controller
             'wishes' => $wishes,
             'activeDonorCount' => $activeDonorCount,
             'totalWishCount' => $totalWishCount,
+            'wisherImages' => $wisherImages,
             'fulfilWishCount' => 0,
             'community' => 0,
         ]);

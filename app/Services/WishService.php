@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Donation;
 use App\Models\File;
 use App\Models\Organization;
+use App\Models\User;
 use App\Models\Wish;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,6 +19,7 @@ class WishService extends BaseService
         protected Wish $wish,
         protected File $file,
         protected CategoryService $categoryService,
+        protected User $user,
     ){
         $this->model = $this->wish;
     }
@@ -378,5 +380,12 @@ class WishService extends BaseService
             ->firstOrFail();
 
         return $wish;
+    }
+
+    public function getRandomWisherImage()
+    {
+        return $this->user->whereHas('roles', function ($role) {
+            $role->where('roles.id', 4);
+        })->inRandomOrder()->limit(40)->whereNotNull('image')->get(['id','name', 'image']);
     }
 }
