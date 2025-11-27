@@ -23,4 +23,4 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 /resources/views/app.blade.php
-/bootstrap/cache/*.php
+/bootstrap/cache/*

@@ -48,7 +48,7 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
                 />
                 <HowWorks/>
                 <RegistrationCTA user={user} />
-                <Faq/>
+                {/*<Faq/>*/}
             </div>
             <Footer/>
 
