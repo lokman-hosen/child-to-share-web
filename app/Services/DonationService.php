@@ -37,7 +37,7 @@ class DonationService extends BaseService
                 $query->where('status', $filterStatus);
             })
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate(10) // Pagination: 10 items per page
+            ->paginate(12) // Pagination: 10 items per page
             ->withQueryString();
     }
 
@@ -187,7 +187,7 @@ class DonationService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
-        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        return $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
     }
 
     public function deleteDonation($donation)

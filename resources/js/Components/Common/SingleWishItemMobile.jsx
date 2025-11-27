@@ -60,7 +60,7 @@ const SingleWishItemMobile = ({wish}) => {
                             </div>
                         </div>
                     </div>
-                    <div className="p-4">
+                    <div className="p-2">
                         <div className="flex flex-row">
                             <h3 className="text-md font-bold text-gray-900">For: {textLimit(wish.title, 40)}</h3>
                         </div>
@@ -68,7 +68,7 @@ const SingleWishItemMobile = ({wish}) => {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
                                 <div>
-                                    <p className="text-gray-600 text-sm">
+                                    <p className="text-gray-600 text-xs">
                                         {wish?.distance ? (
                                             <span>Dis: {wish?.distance} km away</span>
                                         ) : (
@@ -77,7 +77,7 @@ const SingleWishItemMobile = ({wish}) => {
                                     </p>
                                 </div>
                             </div>
-                            <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-sm">
+                            <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-xs">
                                 <FontAwesomeIcon icon={faArrowRight}/>
                             </button>
                         </div>

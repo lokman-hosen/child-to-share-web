@@ -330,7 +330,7 @@ class WishService extends BaseService
         // Sort by distance ascending (nearest first)
         $query->orderBy('distance', 'asc');
 
-        return $query->paginate(10)->withQueryString();
+        return $query->paginate(12)->withQueryString();
     }
 
     private function getWishesWithoutDistance($request, string $status): LengthAwarePaginator
@@ -348,7 +348,7 @@ class WishService extends BaseService
             $query->where('wishes.age_range', $request->age_range);
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        return $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
     }
 
     public function findWithDistance(string $id, $user = null)

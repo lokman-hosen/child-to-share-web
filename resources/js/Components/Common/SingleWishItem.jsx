@@ -15,31 +15,31 @@ const SingleWishItem = ({wish}) => {
                                 <img
                                     src={`/storage/${wish.user.image}`}
                                     alt={wish.user.name}
-                                    className="w-full h-64 object-cover rounded-t-lg"
+                                    className="w-full h-32 object-cover rounded-t-lg"
                                 />
                             ) : (
                                 <img
                                     src="https://www.shareicon.net/data/256x256/2016/08/04/806683_man_512x512.png"
                                     alt={wish.user.name}
-                                    className="w-full h-64 object-cover rounded-t-lg"
+                                    className="w-full h-32 object-cover rounded-t-lg"
                                 />
                             )}
                         </div>
                         <div className="badge badge-wish">WISH</div>
                     </div>
-                    <div className="p-4">
-                        <div className="flex flex-row">
-                            <h3 className="font-medium text-gray-900 mb-1">{textLimit(wish.user.name, 3)},</h3>
-                            <p className="text-gray-600 text-sm mt-1">
+                    <div className="p-2">
+                        {/*<div className="flex flex-row">*/}
+                            <h3 className="font-medium text-gray-900 mb-1">{textLimit(wish.user.name, 18)}</h3>
+                            <p className="text-gray-600 text-xs mt-1">
                                 {wish?.distance ? (
                                     <span className="ml-1">{wish?.distance} km away</span>
                                 ) : (
                                     <span className="ml-1">{wish.age_range} yrs</span>
                                 )}
                             </p>
-                        </div>
+                        {/*</div>*/}
                             <p className="text-gray-500 text-md mb-3">
-                                {wish.description && textLimit(wish.description, 6)}
+                                {wish.description && textLimit(wish.description, 18)}
                             </p>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center">

@@ -44,16 +44,16 @@ const SingleDonationItemMobile = ({donation}) => {
                    </div>
                    <div className="p-4">
                        <h3 className="text-md font-bold text-gray-900">{donation.title}</h3>
-                       <p className="text-gray-500 text-sm mb-3">
-                           {donation.description && textLimit(donation.description, 3)}
+                       <p className="text-gray-500 text-xs mb-3">
+                           {donation.description && textLimit(donation.description, 30)}
                        </p>
                        <div className="flex items-center justify-between">
                            <div className="flex items-center">
                                <div>
-                                   <p className="text-sm font-medium text-gray-900">By: {textLimit(donation.user.name, 3)}</p>
+                                   <p className="text-xs font-medium text-gray-900">By: {textLimit(donation.user.name, 20)}</p>
                                </div>
                            </div>
-                           <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-sm">
+                           <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-xs">
                                <FontAwesomeIcon icon={faArrowRight}/>
                            </button>
                        </div>
