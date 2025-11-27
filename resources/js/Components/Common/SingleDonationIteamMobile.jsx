@@ -43,7 +43,7 @@ const SingleDonationItemMobile = ({donation}) => {
                        <div className="badge badge-donation">DONATION</div>
                    </div>
                    <div className="p-4">
-                       <h3 className="font-medium text-gray-900 mb-1">{donation.title}</h3>
+                       <h3 className="text-md font-bold text-gray-900">{donation.title}</h3>
                        <p className="text-gray-500 text-sm mb-3">
                            {donation.description && textLimit(donation.description, 3)}
                        </p>
