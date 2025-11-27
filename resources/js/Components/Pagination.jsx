@@ -7,9 +7,17 @@ const Pagination = ({ links }) => {
     if (!links || links.length <= 3) return null;
 
     const currentPage = parseInt(links.find(link => link.active)?.label || 1);
-    const totalPages = links.filter(link =>
-        link.url !== null && !isNaN(parseInt(link.label))
-    ).length;
+
+    // Better way to calculate total pages - find the last numeric page number
+    const getTotalPages = () => {
+        const numericLinks = links
+            .map(link => parseInt(link.label))
+            .filter(page => !isNaN(page));
+
+        return Math.max(...numericLinks);
+    };
+
+    const totalPages = getTotalPages();
 
     const previousLink = links.find(link => link.label.includes('Previous'));
     const nextLink = links.find(link => link.label.includes('Next'));
@@ -32,6 +40,13 @@ const Pagination = ({ links }) => {
     const showFirstPage = currentPage > 2;
     const showLastPage = currentPage < totalPages - 1;
 
+    // Find page URL by page number
+    const getPageUrl = (pageNumber) => {
+        return links.find(link =>
+            link.url && parseInt(link.label) === pageNumber
+        )?.url || "#";
+    };
+
     return (
         <div className="pagination flex items-center justify-center space-x-2 mt-8">
             {/* Previous */}
@@ -51,7 +66,7 @@ const Pagination = ({ links }) => {
             {showFirstPage && (
                 <>
                     <Link
-                        href={links[1]?.url || "#"}
+                        href={getPageUrl(1)}
                         preserveScroll
                         className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                     >
@@ -64,25 +79,20 @@ const Pagination = ({ links }) => {
             )}
 
             {/* Visible Pages */}
-            {visiblePages.map(page => {
-                const pageLink = links.find(link =>
-                    link.url && parseInt(link.label) === page
-                );
-                return (
-                    <Link
-                        key={page}
-                        href={pageLink?.url || "#"}
-                        preserveScroll
-                        className={`px-3 py-2 rounded-lg border transition-all ${
-                            currentPage === page
-                                ? "bg-purple-600 text-white border-purple-600"
-                                : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
-                        }`}
-                    >
-                        {page}
-                    </Link>
-                );
-            })}
+            {visiblePages.map(page => (
+                <Link
+                    key={page}
+                    href={getPageUrl(page)}
+                    preserveScroll
+                    className={`px-3 py-2 rounded-lg border transition-all ${
+                        currentPage === page
+                            ? "bg-purple-600 text-white border-purple-600"
+                            : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
+                    }`}
+                >
+                    {page}
+                </Link>
+            ))}
 
             {/* Last Page */}
             {showLastPage && (
@@ -91,7 +101,7 @@ const Pagination = ({ links }) => {
                         <span className="px-2 text-gray-400">...</span>
                     )}
                     <Link
-                        href={links[links.length - 2]?.url || "#"}
+                        href={getPageUrl(totalPages)}
                         preserveScroll
                         className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
                     >

@@ -29,7 +29,7 @@ const SingleWishItem = ({wish}) => {
                     </div>
                     <div className="p-4">
                         <div className="flex flex-row">
-                            <h3 className="font-medium text-gray-900 mb-1">{wish.user.name},</h3>
+                            <h3 className="font-medium text-gray-900 mb-1">{textLimit(wish.user.name, 3)},</h3>
                             <p className="text-gray-600 text-sm mt-1">
                                 {wish?.distance ? (
                                     <span className="ml-1">{wish?.distance} km away</span>
