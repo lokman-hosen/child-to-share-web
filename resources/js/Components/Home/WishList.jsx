@@ -23,7 +23,7 @@ const WishList = ({wishes, user}) => {
                         <>
                             {/* Mobile View - 2 columns */}
                             <div className="block md:hidden">
-                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                <div className="grid grid-cols-2 gap-2 mb-6">
                                     {wishes.map((wish, index) => (
                                         <SingleWishItemMobile wish={wish} key={index} />
                                     ))}
@@ -31,7 +31,7 @@ const WishList = ({wishes, user}) => {
                             </div>
 
                             {/* Desktop View - Original layout */}
-                            <div className="hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-5">
+                            <div className="hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-2">
                                 {wishes.map((wish, index) => (
                                     <SingleWishItem key={index} wish={wish}/>
                                 ))}
