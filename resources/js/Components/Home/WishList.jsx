@@ -20,7 +20,17 @@ const WishList = ({wishes, user}) => {
                     </div>
                     {wishes.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                            {/* Mobile View - 2 columns */}
+                            <div className="block md:hidden">
+                                <div className="grid grid-cols-2 gap-3 mb-6">
+                                    {wishes.map((wish, index) => (
+                                        <SingleWishItemMobile wish={wish} key={index} />
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Desktop View - Original layout */}
+                            <div className="hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
                                 {wishes.map((wish, index) => (
                                     <SingleWishItem key={index} wish={wish}/>
                                 ))}
