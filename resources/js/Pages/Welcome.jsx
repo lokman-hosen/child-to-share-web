@@ -28,11 +28,12 @@ export default function Welcome({ auth, donations, wishes, activeDonorCount, tot
             <Navbar/>
             <div className="pb-16 md:pb-0"> {/* Add padding bottom for mobile nav */}
                 <Hero user={user} />
-                <Category/>
                 <WishList
                     wishes={wishes}
                     user={user}
                 />
+
+                <Category/>
 
                 {donations.length > 0 && (
                     <DonationList

@@ -46,27 +46,27 @@ export default function Navbar() {
                                 Home
                             </Link>
 
-                            <div className="relative group">
-                                <a href="#"
-                                   className="text-gray-700 font-medium hover:text-gray-900 transition flex items-center">
-                                    Categories <i className="fas fa-chevron-down ml-1 text-xs"></i>
-                                </a>
-                                <div
-                                    className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg dropdown-menu opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                                    <div className="py-2">
-                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Books
-                                            & Education</a>
-                                        <a href="#"
-                                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Clothing</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Toys
-                                            & Games</a>
-                                        <a href="#"
-                                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Electronics</a>
-                                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Sports
-                                            Equipment</a>
-                                    </div>
-                                </div>
-                            </div>
+                            {/*<div className="relative group">*/}
+                            {/*    <a href="#"*/}
+                            {/*       className="text-gray-700 font-medium hover:text-gray-900 transition flex items-center">*/}
+                            {/*        Categories <i className="fas fa-chevron-down ml-1 text-xs"></i>*/}
+                            {/*    </a>*/}
+                            {/*    <div*/}
+                            {/*        className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg dropdown-menu opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">*/}
+                            {/*        <div className="py-2">*/}
+                            {/*            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Books*/}
+                            {/*                & Education</a>*/}
+                            {/*            <a href="#"*/}
+                            {/*               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Clothing</a>*/}
+                            {/*            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Toys*/}
+                            {/*                & Games</a>*/}
+                            {/*            <a href="#"*/}
+                            {/*               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Electronics</a>*/}
+                            {/*            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Sports*/}
+                            {/*                Equipment</a>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
 
                             {/*<Link*/}
                             {/*    href={`${route('home')}#how-it-works`}*/}
@@ -93,14 +93,14 @@ export default function Navbar() {
 
                         </div>
 
-                        <div className="hidden lg:flex flex-1 max-w-md mx-8">
-                            <div className="relative w-full">
-                                <input type="text" className="input-search" placeholder="Wishes or donations.."/>
-                                    <button className="absolute right-0 top-0 h-full px-4 btn-search">
-                                        <i className="fas fa-search"></i>
-                                    </button>
-                            </div>
-                        </div>
+                        {/*<div className="hidden lg:flex flex-1 max-w-md mx-8">*/}
+                        {/*    <div className="relative w-full">*/}
+                        {/*        <input type="text" className="input-search" placeholder="Wishes or donations.."/>*/}
+                        {/*            <button className="absolute right-0 top-0 h-full px-4 btn-search">*/}
+                        {/*                <i className="fas fa-search"></i>*/}
+                        {/*            </button>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
 
                     {/* Desktop Navigation - Show user profile if logged in, else show login/signup */}
