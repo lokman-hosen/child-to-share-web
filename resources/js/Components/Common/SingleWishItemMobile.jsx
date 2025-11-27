@@ -62,14 +62,13 @@ const SingleWishItemMobile = ({wish}) => {
                     </div>
                     <div className="p-4">
                         <div className="flex flex-row">
-                            <h3 className="text-sm font-medium text-gray-900 mb-1">Wish For: {textLimit(wish.title, 40)}</h3>
-
+                            <h3 className="text-md font-bold text-gray-900">For: {textLimit(wish.title, 40)}</h3>
                         </div>
 
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
                                 <div>
-                                    <p className="text-gray-600 text-sm mt-1">
+                                    <p className="text-gray-600 text-sm">
                                         {wish?.distance ? (
                                             <span>Dis: {wish?.distance} km away</span>
                                         ) : (
