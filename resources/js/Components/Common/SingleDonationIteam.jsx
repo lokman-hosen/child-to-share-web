@@ -14,11 +14,11 @@ const SingleDonationItem = ({donation}) => {
                                 <img
                                     src={`/storage/${donation.featured_image.file_path}`}
                                     alt={donation.title}
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-64 object-cover"
                                 />
                             ) : (
                                 <div
-                                    className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                    className="w-full h-64 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faGift} className="text-gray-400 text-4xl"/>
                                 </div>
                             )}

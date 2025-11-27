@@ -104,9 +104,9 @@ const Index = ({donations, categories, filters, module}) => {
                         </div>
 
                         {/* Desktop View - Original layout */}
-                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-5">
                             {donationListData.map((donation, index) => (
-                                <SingleDonationItem key={index} donation={donation} />
+                                <SingleDonationItem key={index} donation={donation}/>
                             ))}
                         </div>
                     </>
