@@ -128,33 +128,38 @@ class DashboardController extends Controller
     public function resizeImageWithApproach3($imagePath, $fileProperty)
     {
         $img = Image::make($imagePath);
-        $originalWidth = $img->width();
-        $originalHeight = $img->height();
-
+//        $originalWidth = $img->width();
+//        $originalHeight = $img->height();
+//
         $targetWidth = $fileProperty['width'];
         $targetHeight = $fileProperty['height'];
+//
+//        // Calculate aspect ratios
+//        $originalAspect = $originalWidth / $originalHeight;
+//        $targetAspect = $targetWidth / $targetHeight;
+//
+//        // If aspect ratios are similar (within 10%), use fit to avoid letterboxing
+//        if (abs($originalAspect - $targetAspect) < 0.1) {
+//            $img->fit($targetWidth, $targetHeight);
+//        } else {
+//            // If very different aspect ratios, resize with background
+//            $img->resize($targetWidth, $targetHeight, function ($constraint) {
+//                $constraint->aspectRatio();
+//                $constraint->upsize();
+//            });
+//
+//            $canvas = Image::canvas($targetWidth, $targetHeight, '#f8f9fa'); // Light gray
+//            $canvas->insert($img, 'center');
+//            $img = $canvas;
+//        }
 
-        // Calculate aspect ratios
-        $originalAspect = $originalWidth / $originalHeight;
-        $targetAspect = $targetWidth / $targetHeight;
-
-        // If aspect ratios are similar (within 10%), use fit to avoid letterboxing
-        if (abs($originalAspect - $targetAspect) < 0.1) {
-            $img->fit($targetWidth, $targetHeight);
-        } else {
-            // If very different aspect ratios, resize with background
-            $img->resize($targetWidth, $targetHeight, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-
-            $canvas = Image::canvas($targetWidth, $targetHeight, '#f8f9fa'); // Light gray
-            $canvas->insert($img, 'center');
-            $img = $canvas;
-        }
+        $img->resize(390, 245, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
 
         // Save with optimized quality (overwrite the original file)
-        $img->save($imagePath, 90);
+        $img->save($imagePath);
 
         return true;
     }

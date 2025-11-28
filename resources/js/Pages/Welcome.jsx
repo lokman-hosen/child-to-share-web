@@ -10,8 +10,10 @@ import Footer from "@/Components/Common/Footer.jsx";
 import Navbar from "@/Components/Common/Navbar.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from '@fortawesome/free-solid-svg-icons';
+import WishList from "@/Components/Home/WishList.jsx";
+import Category from "@/Components/Home/Category.jsx";
 
-export default function Welcome({ auth, donations, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
+export default function Welcome({ auth, donations, wishes, wisherImages, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
     const user = usePage().props.auth.user;
     const { url } = usePage();
 
@@ -25,7 +27,21 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
             <Head title="Home"/>
             <Navbar/>
             <div className="pb-16 md:pb-0"> {/* Add padding bottom for mobile nav */}
-                <Hero user={user} />
+                <Hero
+                    user={user}
+                    wisherImages={wisherImages}
+                />
+                <WishList
+                    wishes={wishes}
+                    user={user}
+                />
+
+                {donations.length > 0 && (
+                    <DonationList
+                        donations={donations}
+                        user={user}
+                    />
+                )}
                 <Summary
                     activeDonorCount={activeDonorCount}
                     totalWishCount={totalWishCount}
@@ -33,14 +49,9 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                     community={community}
                 />
                 <HowWorks/>
-                {donations.length > 0 && (
-                    <DonationList
-                        donations={donations}
-                        user={user}
-                    />
-                )}
+                <Category/>
                 <RegistrationCTA user={user} />
-                <Faq/>
+                {/*<Faq/>*/}
             </div>
             <Footer/>
 
@@ -53,7 +64,7 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                         <Link
                             href={route('home')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-500'
+                                isActiveRoute('/') ? 'text-black' : 'text-gray-700 hover:text-purple-500'
                             }`}
                         >
                             <FontAwesomeIcon
@@ -67,7 +78,7 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                         <Link
                             href={route('donation.index')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/donations') ? 'text-blue-600' : 'text-gray-600 hover:text-blue-500'
+                                isActiveRoute('/donations') ? 'text-black' : 'text-gray-700 hover:text-gray-700'
                             }`}
                         >
                             <FontAwesomeIcon
@@ -81,7 +92,7 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                         <Link
                             href={route('wish.index')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/wishes') ? 'text-green-600' : 'text-gray-600 hover:text-green-500'
+                                isActiveRoute('/wishes') ? 'text-black' : 'text-gray-700 hover:text-green-500'
                             }`}
                         >
                             <FontAwesomeIcon
@@ -95,7 +106,7 @@ export default function Welcome({ auth, donations, activeDonorCount, totalWishCo
                         <Link
                             href={user ? route('my.profile') : route('login')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                isActiveRoute('/profile') || isActiveRoute('/login') ? 'text-orange-600' : 'text-gray-600 hover:text-orange-500'
+                                isActiveRoute('/profile') || isActiveRoute('/login') ? 'text-black' : 'text-gray-700 hover:text-orange-500'
                             }`}
                         >
                             <FontAwesomeIcon

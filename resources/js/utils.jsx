@@ -39,9 +39,14 @@ export const checkWisher = (role) =>{
 export const checkDonorWisher = (role) =>{
     return role === 'donor-wisher';
 }
-export const textLimit = ($text, $wordLimit) =>{
+export const wordLimit = ($text, $wordLimit) =>{
     return $text.split(" ").slice(0, $wordLimit).join(" ") +
-        ($text.split(" ").length > $wordLimit ? "..." : "")
+        ($text.split(" ").length > $wordLimit ? ".." : "")
+}
+
+export const textLimit = ($text, $charLimit) => {
+    return $text.slice(0, $charLimit) +
+        ($text.length > $charLimit ? ".." : "")
 }
 
 

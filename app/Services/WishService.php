@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Donation;
 use App\Models\File;
 use App\Models\Organization;
+use App\Models\User;
 use App\Models\Wish;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,6 +19,7 @@ class WishService extends BaseService
         protected Wish $wish,
         protected File $file,
         protected CategoryService $categoryService,
+        protected User $user,
     ){
         $this->model = $this->wish;
     }
@@ -46,7 +48,7 @@ class WishService extends BaseService
     public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend', $userId = null): Collection|int
     {
         $userId = $userId ?? Auth::id();
-        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
+        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
         if ($for === 'admin') {
             //if (checkWisher()){
                 $query->where('user_id', $userId);
@@ -162,18 +164,19 @@ class WishService extends BaseService
         });
 
         // Create canvas with a background
-        $canvas = Image::canvas(500, 400, '#dbd7d7'); // Dark gray background
+        //$canvas = Image::canvas(500, 400, '#dbd7d7'); // Dark gray background
 
         // Insert the image centered on dark canvas
-        $canvas->insert($img, 'center');
+        //$canvas->insert($img, 'center');
 
         // Add a semi-transparent dark overlay on top of the image
-        $canvas->rectangle(0, 0, 500, 400, function ($draw) {
-            $draw->background('rgba(0, 0, 0, 0.2)'); // 30% black overlay
-        });
+//        $canvas->rectangle(0, 0, 500, 400, function ($draw) {
+//            $draw->background('rgba(0, 0, 0, 0.2)'); // 30% black overlay
+//        });
 
         // Save to storage
-        Storage::disk('public')->put($filePath, $canvas->stream());
+        //Storage::disk('public')->put($filePath, $canvas->stream());
+        Storage::disk('public')->put($filePath, $img->stream());
     }
 
     public function updateWish($request, $wish)
@@ -331,7 +334,7 @@ class WishService extends BaseService
         // Sort by distance ascending (nearest first)
         $query->orderBy('distance', 'asc');
 
-        return $query->paginate(10)->withQueryString();
+        return $query->paginate(12)->withQueryString();
     }
 
     private function getWishesWithoutDistance($request, string $status): LengthAwarePaginator
@@ -349,7 +352,7 @@ class WishService extends BaseService
             $query->where('wishes.age_range', $request->age_range);
         }
 
-        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        return $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
     }
 
     public function findWithDistance(string $id, $user = null)
@@ -381,5 +384,12 @@ class WishService extends BaseService
             ->firstOrFail();
 
         return $wish;
+    }
+
+    public function getRandomWisherImage()
+    {
+        return $this->user->whereHas('roles', function ($role) {
+            $role->where('roles.id', 4);
+        })->inRandomOrder()->limit(24)->whereNotNull('image')->get(['id','name', 'image']);
     }
 }

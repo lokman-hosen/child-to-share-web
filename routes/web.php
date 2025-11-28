@@ -42,7 +42,7 @@ Route::controller(\App\Http\Controllers\DonationController::class)->group(functi
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    //Route::get('image-resize', [DashboardController::class, 'resizeAllImagesInDirectory'])->name('resizeAllImagesInDirectory');
+    Route::get('image-resize', [DashboardController::class, 'resizeAllImagesInDirectory'])->name('resizeAllImagesInDirectory');
 
 });
 

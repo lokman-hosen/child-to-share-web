@@ -37,7 +37,7 @@ class DonationService extends BaseService
                 $query->where('status', $filterStatus);
             })
             ->orderBy($sortColumn, $sortDirection)
-            ->paginate(10) // Pagination: 10 items per page
+            ->paginate(12) // Pagination: 10 items per page
             ->withQueryString();
     }
 
@@ -142,20 +142,7 @@ class DonationService extends BaseService
             $constraint->aspectRatio();
             $constraint->upsize();
         });
-
-        // Create canvas with a background
-        $canvas = Image::canvas(500, 400, '#dbd7d7'); // Dark gray background
-
-        // Insert the image centered on dark canvas
-        $canvas->insert($img, 'center');
-
-        // Add a semi-transparent dark overlay on top of the image
-        $canvas->rectangle(0, 0, 500, 400, function ($draw) {
-            $draw->background('rgba(0, 0, 0, 0.2)'); // 30% black overlay
-        });
-
-        // Save to storage
-        Storage::disk('public')->put($filePath, $canvas->stream());
+        Storage::disk('public')->put($filePath, $img->stream());
     }
 
     public function deleteSingleFile($fileId)
@@ -200,7 +187,7 @@ class DonationService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
-        return $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        return $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
     }
 
     public function deleteDonation($donation)

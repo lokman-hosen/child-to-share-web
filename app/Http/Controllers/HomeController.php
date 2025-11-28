@@ -25,7 +25,9 @@ class HomeController extends Controller
      */
     public function index(): Response
     {
-        $donations = $this->donationService->donationByStatus('available', 'list', 3, 'frontend');
+        $donations = $this->donationService->donationByStatus('available', 'list', 12, 'frontend');
+        $wishes = $this->wishService->wishByStatus('approved', 'list', 12, 'frontend');
+        $wisherImages = $this->wishService->getRandomWisherImage();
         $activeDonorCount = 10;
         $totalWishCount = $this->wishService
             ->wishByStatus(null, 'count',  null,'frontend');
@@ -34,8 +36,10 @@ class HomeController extends Controller
             'canRegister' => Route::has('register'),
             'module' => self::moduleName,
             'donations' => $donations,
+            'wishes' => $wishes,
             'activeDonorCount' => $activeDonorCount,
             'totalWishCount' => $totalWishCount,
+            'wisherImages' => $wisherImages,
             'fulfilWishCount' => 0,
             'community' => 0,
         ]);
