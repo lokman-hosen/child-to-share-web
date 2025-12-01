@@ -1,8 +1,36 @@
 import React, { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './DateTimePicker.css'; // Optional custom styles
+//import './DateTimePicker.css';
 
+// Custom Input Component - Fixed
+const CustomInput = forwardRef(({ value, onClick, placeholder, error, disabled, required }, ref) => {
+    return (
+        <div
+            className={`custom-input-wrapper ${error ? 'error' : ''} ${disabled ? 'disabled' : ''}`}
+            onClick={onClick}
+            ref={ref}
+        >
+            <input
+                type="text"
+                className="custom-date-input"
+                value={value || ''}
+                placeholder={placeholder}
+                readOnly
+                disabled={disabled}
+                onClick={onClick}
+            />
+            <span className="calendar-icon">
+        📅
+      </span>
+            {required && !value && <span className="required-asterisk">*</span>}
+        </div>
+    );
+});
+
+CustomInput.displayName = 'CustomInput';
+
+// Main DateTimePicker Component
 const DateTimePicker = forwardRef(({
                                        selected,
                                        onChange,
@@ -24,20 +52,6 @@ const DateTimePicker = forwardRef(({
                                        ...props
                                    }, ref) => {
 
-    // Custom input component for better styling
-    const CustomInput = forwardRef(({ value, onClick }, inputRef) => (
-        <button
-            type="button"
-            className={`custom-date-input ${error ? 'error' : ''} ${disabled ? 'disabled' : ''}`}
-            onClick={onClick}
-            ref={inputRef}
-            disabled={disabled}
-        >
-            {value || placeholder}
-            {required && <span className="required-asterisk">*</span>}
-        </button>
-    ));
-
     return (
         <div className={`date-time-picker-container ${className}`}>
             {label && (
@@ -51,6 +65,7 @@ const DateTimePicker = forwardRef(({
                 selected={selected}
                 onChange={onChange}
                 showTimeSelect={showTimeSelect}
+                showTimeSelectOnly={!showTimeSelect}
                 timeFormat="HH:mm"
                 timeIntervals={timeIntervals}
                 timeCaption="Time"
@@ -58,7 +73,16 @@ const DateTimePicker = forwardRef(({
                 minDate={minDate}
                 maxDate={maxDate}
                 placeholderText={placeholder}
-                customInput={<CustomInput />}
+                customInput={
+                    <CustomInput
+                        error={error}
+                        disabled={disabled}
+                        required={required}
+                        placeholder={placeholder}
+                    />
+                }
+                wrapperClassName="date-picker-wrapper"
+                className="date-picker-input"
                 isClearable={isClearable && !disabled}
                 showYearDropdown={showYearDropdown}
                 scrollableYearDropdown={scrollableYearDropdown}

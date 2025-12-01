@@ -1,6 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link, router, useForm} from '@inertiajs/react';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faList,
@@ -9,7 +9,6 @@ import {
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import {getDropdownOptions} from "@/utils.jsx";
-import DateInput from "@/Components/DateInput.jsx";
 import DateTimePicker from "@/Components/DateTimePicker.jsx";
 
 export default function Detail({module, wish, donations}) {
@@ -18,11 +17,27 @@ export default function Detail({module, wish, donations}) {
         donation_id: '',
         need_admin_assistance: false,
         note: '',
-        scheduled_at: '',
+        scheduled_at: null, // Changed from empty string to null
         status: 'requested',
     });
 
     const donationOptions = getDropdownOptions(donations, 'id', 'name');
+
+    // Convert scheduled_at string to Date object if it exists
+    const getSelectedDate = () => {
+        if (!data.scheduled_at) return null;
+        if (data.scheduled_at instanceof Date) return data.scheduled_at;
+        if (typeof data.scheduled_at === 'string') {
+            const date = new Date(data.scheduled_at);
+            return isNaN(date.getTime()) ? null : date;
+        }
+        return null;
+    };
+
+    // Handle date change
+    const handleDateChange = (date) => {
+        setData('scheduled_at', date);
+    };
 
     return (
         <AuthenticatedLayout>
@@ -79,29 +94,17 @@ export default function Detail({module, wish, donations}) {
                                             options={donationOptions}
                                             required
                                         />
-                                        {/*<DateInput*/}
-                                        {/*    id="dob"*/}
-                                        {/*    label="Deliver at"*/}
-                                        {/*    value={data.scheduled_at}*/}
-                                        {/*    onChange={(value) => setData('scheduled_at', value)}*/}
-                                        {/*    error={errors.scheduled_at}*/}
-                                        {/*    placeholder="Select date time to deliver"*/}
-                                        {/*    required*/}
-                                        {/*/>*/}
 
-
-                                        {/* Start Date & Time */}
+                                        {/* Fixed Date & Time Picker */}
                                         <DateTimePicker
-                                            id="scheduled_at"
+                                            selected={getSelectedDate()} // Pass Date object or null
+                                            onChange={handleDateChange} // Pass function that receives Date object
                                             label="Deliver at"
-                                            value={data.scheduled_at}
-                                            //selected={formData.dateTime}
-                                            //onChange={(date) => handleDateTimeChange(date, 'dateTime')}
-                                            onChange={(value) => setData('scheduled_at', value)}
-                                            placeholder="Select start date and time"
+                                            placeholder="Select date and time"
                                             required
+                                            id="scheduled_at" // Optional: you can keep this if DateTimePicker accepts it
+                                            error={errors.scheduled_at}
                                         />
-
 
                                         <TextareaInput
                                             id="note"
@@ -114,13 +117,11 @@ export default function Detail({module, wish, donations}) {
                                         />
                                     </div>
                                 </form>
-
-                        </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </AuthenticatedLayout>
     );
 }
