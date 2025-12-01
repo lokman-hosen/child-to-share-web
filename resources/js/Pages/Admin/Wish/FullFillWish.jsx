@@ -166,6 +166,7 @@ export default function List({module, wishes}) {
                                                 <tr>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher Name</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Distance</th>
                                                     <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
@@ -207,8 +208,47 @@ export default function List({module, wishes}) {
                                                                 </div>
 
                                                             </td>
+                                                            <td className="p-6 border-b border-gray-100">
+                                                                <div className="flex items-center">
+                                                                    {/* Avatar Container - More elegant design */}
+                                                                    <div className="relative group">
+                                                                        {/* Image Container with enhanced styling */}
+                                                                        <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mr-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-white group-hover:scale-105">
+                                                                            {wish.user.image ? (
+                                                                                <img
+                                                                                    src={`/storage/${wish.user.image}`}
+                                                                                    alt={wish.user.name}
+                                                                                    className="w-full h-full object-cover"
+                                                                                />
+                                                                            ) : (
+                                                                                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
+                                                                                    <FontAwesomeIcon
+                                                                                        icon={faStar}
+                                                                                        className="text-2xl text-gradient-to-r from-purple-400 to-pink-500"
+                                                                                    />
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+
+                                                                        {/* Optional subtle glow effect on hover */}
+                                                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-200 to-pink-200 opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10"></div>
+                                                                    </div>
+
+                                                                    {/* Name with enhanced typography */}
+                                                                    <div>
+                                                                        <h3 className="text-xl font-semibold text-gray-800 tracking-tight">
+                                                                            {wish.user.name}
+                                                                        </h3>
+                                                                        {/* Optional subtitle/tagline */}
+                                                                        <p className="text-sm text-gray-500 mt-1 flex items-center">
+                                                                            <FontAwesomeIcon icon={faStar} className="text-red-400 mr-2 text-xs" />
+                                                                            Wish Maker
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
                                                             <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
-                                                                {wish.user.name}
+                                                                {wish.distance ? `${wish.distance + 'km'}` : 'n/a'}
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
                                                                 <div className="flex flex-col items-end">
