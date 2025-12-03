@@ -53,7 +53,7 @@ function uploadImage($file, $fileProperty, $actionType, $oldFileName): string
 function checkAdmin(): bool
 {
     if (Auth::check()){
-        return in_array(Auth::user()->role, ['super_admin', 'admin']);
+        return in_array(Auth::user()->role, ['super-admin', 'admin']);
     }else{
         return false;
     }

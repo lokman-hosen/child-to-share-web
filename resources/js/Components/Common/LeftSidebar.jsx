@@ -35,7 +35,7 @@ export default function LeftSidebar({ onClose }) {
                 {/*<h2 className="text-lg font-semibold text-gray-700">*/}
                 {/*    {user.role === 'donor' && 'Donor Navigation'}*/}
                 {/*    {user.role === 'wisher' && 'Wisher Navigation'}*/}
-                {/*    {(user.role === 'super_admin' || user.role === 'admin') && 'Admin Navigation'}*/}
+                {/*    {(user.role === 'super-admin' || user.role === 'admin') && 'Admin Navigation'}*/}
                 {/*</h2>*/}
                 <button
                     onClick={onClose}
@@ -324,7 +324,7 @@ export default function LeftSidebar({ onClose }) {
                 {/*Wisher section end*/}
 
                 {/*Admin section start*/}
-                {(user.role === 'super_admin' || user.role === 'admin') && (
+                {(user.role === 'super-admin' || user.role === 'admin') && (
                     <ul className="mt-4">
                         <li className="mb-1">
                             <Link

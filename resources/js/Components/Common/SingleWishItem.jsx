@@ -19,7 +19,7 @@ const SingleWishItem = ({wish}) => {
                                 />
                             ) : (
                                 <div
-                                    className="w-full h-56 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center rounded-t-lg">
+                                    className="w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center rounded-t-lg">
                                     <FontAwesomeIcon icon={faUserAlt} className="text-gray-400 text-8xl"/>
                                 </div>
                             )}
