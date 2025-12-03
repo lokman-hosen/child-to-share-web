@@ -84,7 +84,7 @@ export default function Detail({module, wish, donations}) {
                         <div className="space-y-8">
                             <div className="border-t border-gray-200">
                                 <form className="space-y-6">
-                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
                                         <SelectInput
                                             id="donation_id"
                                             label="Select Donation"
@@ -105,7 +105,9 @@ export default function Detail({module, wish, donations}) {
                                             id="scheduled_at" // Optional: you can keep this if DateTimePicker accepts it
                                             error={errors.scheduled_at}
                                         />
+                                    </div>
 
+                                    <div className="grid grid-cols-1 gap-6 p-6">
                                         <TextareaInput
                                             id="note"
                                             label="Description"

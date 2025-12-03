@@ -55,7 +55,7 @@ const DateTimePicker = forwardRef(({
     return (
         <div className={`date-time-picker-container ${className}`}>
             {label && (
-                <label className="date-time-picker-label">
+                <label className="date-time-picker-label text-gray-700">
                     {label}
                     {required && <span className="required-asterisk">*</span>}
                 </label>
@@ -82,7 +82,7 @@ const DateTimePicker = forwardRef(({
                     />
                 }
                 wrapperClassName="date-picker-wrapper"
-                className="date-picker-input"
+                className="date-picker-input "
                 isClearable={isClearable && !disabled}
                 showYearDropdown={showYearDropdown}
                 scrollableYearDropdown={scrollableYearDropdown}
@@ -91,7 +91,6 @@ const DateTimePicker = forwardRef(({
                 popperClassName="date-time-picker-popper"
                 {...props}
             />
-
             {error && <div className="error-message">{error}</div>}
         </div>
     );
