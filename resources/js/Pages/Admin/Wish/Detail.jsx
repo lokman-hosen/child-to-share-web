@@ -3,7 +3,8 @@ import {Head, Link, router, useForm} from '@inertiajs/react';
 import React, { useState, useEffect } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-    faList,
+    faArrowLeft, faEdit,
+    faList, faSquarePlus,
     faStar
 } from "@fortawesome/free-solid-svg-icons";
 import TextareaInput from "@/Components/TextareaInput.jsx";
@@ -83,7 +84,7 @@ export default function Detail({module, wish, donations}) {
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             <div className="border-t border-gray-200">
-                                <form className="space-y-6">
+                                <form className="space-y-1">
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
                                         <SelectInput
                                             id="donation_id"
@@ -107,16 +108,42 @@ export default function Detail({module, wish, donations}) {
                                         />
                                     </div>
 
-                                    <div className="grid grid-cols-1 gap-6 p-6">
+                                    <div className="grid grid-cols-1 px-6 py-2">
                                         <TextareaInput
                                             id="note"
-                                            label="Description"
+                                            label="Description/Note for wisher"
                                             value={data.note}
                                             onChange={(e) => setData('note', e.target.value)}
                                             error={errors.note}
                                             placeholder="Write note for wisher or anything you like"
                                             required
                                         />
+                                    </div>
+
+                                    <div className="mt-8 flex justify-center space-x-4">
+                                        {/* Back Button */}
+                                        <button
+                                            type="button"
+                                            onClick={() => window.history.back()}
+                                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                        >
+                                            <div className="flex items-center space-x-2">
+                                                <FontAwesomeIcon icon={faArrowLeft}/>
+                                                <span>Back</span>
+                                            </div>
+                                        </button>
+
+                                        {/* Submit Button */}
+                                        <button
+                                            type="submit"
+                                            disabled={processing}
+                                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
+                                        >
+                                            <div className="flex items-center space-x-2">
+                                                <FontAwesomeIcon icon={faStar}/>
+                                                <span>Requested Wisher</span>
+                                            </div>
+                                        </button>
                                     </div>
                                 </form>
                             </div>
