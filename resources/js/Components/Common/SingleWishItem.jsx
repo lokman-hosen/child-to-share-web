@@ -1,6 +1,6 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faGift, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faGift, faStar, faUserAlt} from "@fortawesome/free-solid-svg-icons";
 import {textLimit} from "@/utils.jsx";
 import {Link} from "@inertiajs/react";
 
@@ -18,18 +18,17 @@ const SingleWishItem = ({wish}) => {
                                     className="w-full h-56 object-cover rounded-t-lg"
                                 />
                             ) : (
-                                <img
-                                    src="https://www.shareicon.net/data/256x256/2016/08/04/806683_man_512x512.png"
-                                    alt={wish.user.name}
-                                    className="w-full h-56 object-cover rounded-t-lg"
-                                />
+                                <div
+                                    className="w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center rounded-t-lg">
+                                    <FontAwesomeIcon icon={faUserAlt} className="text-gray-400 text-8xl"/>
+                                </div>
                             )}
                         </div>
                         <div className="badge badge-wish">WISH</div>
                     </div>
                     <div className="p-2">
                         {/*<div className="flex flex-row">*/}
-                            <h3 className="font-medium text-gray-900 mb-1">{textLimit(wish.user.name, 18)}</h3>
+                        <h3 className="font-medium text-gray-900 mb-1">{textLimit(wish.user.name, 18)}</h3>
                             <p className="text-gray-600 text-xs mt-1">
                                 {wish?.distance ? (
                                     <span className="ml-1">{wish?.distance} km away</span>

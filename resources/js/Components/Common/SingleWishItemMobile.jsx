@@ -1,6 +1,6 @@
 import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faStar, faUserAlt} from "@fortawesome/free-solid-svg-icons";
 import {textLimit} from "@/utils.jsx";
 import {Link} from "@inertiajs/react";
 
@@ -34,17 +34,16 @@ const SingleWishItemMobile = ({wish}) => {
                                     className="w-full h-56 object-cover rounded-t-lg"
                                 />
                             ) : (
-                                <img
-                                    src="https://www.shareicon.net/data/256x256/2016/08/04/806683_man_512x512.png"
-                                    alt={wish.user.name}
-                                    className="w-full h-56 object-cover rounded-t-lg"
-                                />
+                                <div
+                                    className="w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center rounded-t-lg">
+                                    <FontAwesomeIcon icon={faUserAlt} className="text-gray-400 text-8xl"/>
+                                </div>
                             )}
                         </div>
                         <div className="badge badge-wish">WISH</div>
                         {/* Wisher Image - Bottom Right Corner */}
                         <div className="absolute bottom-2 right-2">
-                            <div className="bg-white rounded-full h-16 w-16 flex items-center justify-center shadow-md border border-gray-200" title={wish.user?.name || 'Wisher'}>
+                        <div className="bg-white rounded-full h-16 w-16 flex items-center justify-center shadow-md border border-gray-200" title={wish.user?.name || 'Wisher'}>
 
                                 {wish.featured_image?.file_path ? (
                                     <img

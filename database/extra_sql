@@ -12,3 +12,6 @@ NEW Migrations
 3. ALTER TABLE `users` ADD `relationship` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `guardian_phone`;
 4. ALTER TABLE `users` ADD `gender` ENUM('male','female','other') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'male' AFTER `relationship`;
 5. ALTER TABLE `users` ADD `phone_verified_at` TIMESTAMP NULL DEFAULT NULL AFTER `email_verified_at`;
+
+Set Admin role:
+1. INSERT INTO role_user (id, role_id, user_id, created_at, updated_at) VALUES (NULL, '1', '1', NOW(), NOW()), (NULL, '2', '2', NULL, NULL)
