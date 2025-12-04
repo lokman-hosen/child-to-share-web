@@ -40,6 +40,22 @@ export default function Detail({module, wish, donations}) {
         setData('scheduled_at', date);
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const submitRoute = route('wish.fulfill.store');
+
+        post(submitRoute, {
+            forceFormData: true,
+            onSuccess: () => {
+                reset();
+            },
+            onError: (submissionErrors) => {
+                console.error("Form submission errors:", submissionErrors);
+            },
+            preserveScroll: true,
+        });
+    };
+
     return (
         <AuthenticatedLayout>
             <Head title="Wish Detail"/>
@@ -84,7 +100,7 @@ export default function Detail({module, wish, donations}) {
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             <div className="border-t border-gray-200">
-                                <form className="space-y-1">
+                                <form onSubmit={handleSubmit} className="space-y-1">
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
                                         <SelectInput
                                             id="donation_id"

@@ -177,4 +177,9 @@ class WishController extends Controller
         ]);
 
     }
+
+    public function storeWishFulfilInfo(Request $request)
+    {
+       $wishFulfill = $this->wishService->wishFulfilRequestByDonor($request);
+    }
 }

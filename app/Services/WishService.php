@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Donation;
 use App\Models\File;
+use App\Models\Fulfillment;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Wish;
@@ -20,6 +21,7 @@ class WishService extends BaseService
         protected File $file,
         protected CategoryService $categoryService,
         protected User $user,
+        protected Fulfillment $fulfillment
     ){
         $this->model = $this->wish;
     }
@@ -391,5 +393,42 @@ class WishService extends BaseService
         return $this->user->whereHas('roles', function ($role) {
             $role->where('roles.id', 4);
         })->inRandomOrder()->limit(24)->whereNotNull('image')->get(['id','name', 'image']);
+    }
+
+    public function wishFulfilRequestByDonor($request)
+    {
+        // save fulfilment
+        $fulfilment = $this->fulfillment->create([
+            'donation_id' => $request->donation_id,
+            'wish_id' => $request->wish_id,
+            'need_admin_assistance' => $request->need_admin_assistance ?? false,
+            'method' => $request->method ?? 'self-delivery',
+            'note' => $request->note,
+            'scheduled_at' => $request->scheduled_at,
+            'status' => 'requested',
+        ]);
+
+        // create admin task if donor asks for help
+        if ($request->need_admin_assistance) {
+            $fulfilment->task()->create([
+                'activity_log' => json_encode(['Fulfillment requested by donor']),
+                'status' => 'new',
+            ]);
+        }
+
+        $wisher = $this->wish->find($request->wish_id)->user;
+        // Create in-app notification
+        $wisher->notify(new WishFulfilRequestedNotification($fulfilment));
+        Mail::to($guardian->email)
+            ->send(new WishFulfilRequestedMail($fulfilment));
+
+        return $fulfilment;
+
+
+        // create notification so that guardian can see while login
+        // save to notifications table
+
+        // also send email notification to guardian saying that donor has requested to fulfill his wish
+
     }
 }

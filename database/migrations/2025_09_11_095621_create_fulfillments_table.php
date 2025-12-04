@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('fulfillments', function (Blueprint $table) {
             $table->id();
-            //$table->foreignId('donor_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('donation_id')->constrained()->onDelete('cascade');
             $table->foreignId('wish_id')->constrained()->onDelete('cascade');
-            //$table->foreignId('wisher_id')->constrained('users')->onDelete('cascade');
             $table->boolean('need_admin_assistance')->default(false);
             $table->string('method')->comment('self-delivery,courier,admin-assistance');
             $table->text('note')->nullable();

@@ -12,4 +12,14 @@ class Task extends Model
     use HasFactory,SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function fulfillment()
+    {
+        return $this->belongsTo(Fulfillment::class);
+    }
+
+    public function assignedAdmin()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
