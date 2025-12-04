@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{{ $subjectText }}</title>
+    <title>Wish Fulfil Request</title>
 
     <style>
         body {

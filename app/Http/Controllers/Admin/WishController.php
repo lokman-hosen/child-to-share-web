@@ -181,5 +181,9 @@ class WishController extends Controller
     public function storeWishFulfilInfo(Request $request)
     {
        $wishFulfill = $this->wishService->wishFulfilRequestByDonor($request);
+        if ($wishFulfill){
+            return redirect()->back()->with('success', 'Wish fulfilment request send to wisher successfully!');
+        }
+        return redirect()->back()->with('error', 'Something went wrong! Try again later');
     }
 }
