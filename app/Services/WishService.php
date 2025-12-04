@@ -2,15 +2,18 @@
 
 namespace App\Services;
 
+use App\Mail\WishFulfilRequestedMail;
 use App\Models\Donation;
 use App\Models\File;
 use App\Models\Fulfillment;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Wish;
+use App\Notifications\WishFulfilRequestedNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -419,16 +422,9 @@ class WishService extends BaseService
         $wisher = $this->wish->find($request->wish_id)->user;
         // Create in-app notification
         $wisher->notify(new WishFulfilRequestedNotification($fulfilment));
-        Mail::to($guardian->email)
-            ->send(new WishFulfilRequestedMail($fulfilment));
-
+        if ($wisher->email){
+            Mail::to($wisher->email)->send(new WishFulfilRequestedMail($fulfilment));
+        }
         return $fulfilment;
-
-
-        // create notification so that guardian can see while login
-        // save to notifications table
-
-        // also send email notification to guardian saying that donor has requested to fulfill his wish
-
     }
 }
