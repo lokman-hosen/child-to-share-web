@@ -557,3 +557,12 @@ body {
 .date-time-picker-popper .react-datepicker__time-list {
     height: 200px;
 }
+.custom-date-input{
+    border-radius: 7px !important;
+    border-color: #d1d5db !important;
+    padding-bottom: 6px !important;
+    padding-top: 6px !important;
+}
+.date-time-picker-label{
+    margin-bottom: 2px;
+}
