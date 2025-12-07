@@ -365,7 +365,6 @@ class WishService extends BaseService
         if ($user && ($user->role == 'donor') && $user->latitude && $user->longitude) {
             return $this->findWishWithDistanceQuery($id, $user);
         }
-
         return $this->wish->with(['user', 'category', 'files', 'featuredImage'])->findOrFail($id);
     }
 
@@ -411,7 +410,7 @@ class WishService extends BaseService
             'status' => 'requested',
         ]);
 
-        // create admin task if donor asks for help
+        // create an admin task if the donor asks for help
         if ($request->need_admin_assistance) {
             $fulfilment->task()->create([
                 'activity_log' => json_encode(['Fulfillment requested by donor']),
@@ -420,11 +419,20 @@ class WishService extends BaseService
         }
 
         $wisher = $this->wish->find($request->wish_id)->user;
-        // Create in-app notification
+        // Create an in-app notification
         $wisher->notify(new WishFulfilRequestedNotification($fulfilment));
         if ($wisher->email){
             Mail::to($wisher->email)->send(new WishFulfilRequestedMail($fulfilment));
         }
         return $fulfilment;
+    }
+
+    public function getWishRequestFromDonor(): Collection
+    {
+       return Wish::with(['latestFulfilment','user', 'files', 'featuredImage'])
+            ->where('user_id', Auth::id())
+            ->whereHas('fulfilments', function ($q) {
+                $q->where('status', 'requested');
+            })->get();
     }
 }

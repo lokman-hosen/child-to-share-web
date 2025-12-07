@@ -96,8 +96,14 @@ class Wish extends Model
             ->where('file_type', 'video');
     }
 
-    public function fulfillments(): HasMany
+    public function fulfilments()
     {
-        return $this->hasMany(Fulfillment::class);
+        return $this->hasMany(Fulfillment::class, 'wish_id');
+    }
+
+// Most recent fulfilment (useful)
+    public function latestFulfilment()
+    {
+        return $this->hasOne(Fulfillment::class)->latestOfMany();
     }
 }

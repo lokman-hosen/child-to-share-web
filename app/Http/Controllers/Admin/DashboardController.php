@@ -21,7 +21,7 @@ class DashboardController extends Controller
         protected WishService $wishService,
 
     ){}
-    const moduleDirectory = 'Dashboard/';
+    const moduleDirectory = 'Dashboard';
     const moduleName = 'Dashboard';
 
     public function index(): Response
@@ -68,12 +68,14 @@ class DashboardController extends Controller
             ->wishByStatus('approved', 'count',  null,'admin');
         $fulfilledWishCount = $this->wishService
             ->wishByStatus('fulfilled', 'count',  null,'admin');
-        return Inertia::render('Dashboard', [
+        $wishRequests = $this->wishService->getWishRequestFromDonor();
+        return Inertia::render(self::moduleDirectory, [
             'module' => self::moduleName,
             'availableDonationCount' => $availableDonationCount,
             'donatedDonationCount' => $donatedDonationCount,
             'activeWishCount' => $activeWishCount,
             'fulfilledWishCount' => $fulfilledWishCount,
+            'wishRequests' => $wishRequests,
         ]);
     }
 

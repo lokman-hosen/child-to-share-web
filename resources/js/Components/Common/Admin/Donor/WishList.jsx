@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from "@inertiajs/react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
 
-const WishList = ({userType}) => {
-    console.log(userType);
+const WishList = ({userType, wishRequests}) => {
     return (
         <>
             {userType === 'donor' &&
@@ -151,6 +152,90 @@ const WishList = ({userType}) => {
                                 </button>
                             </div>
                         </div>
+                    </div>
+                </div>
+            }
+            {(userType === 'donor-wisher' && wishRequests.length > 0)  &&
+                <div className="mb-8">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">Your Current Wishes</h3>
+                        <a href="#" className="text-sm text-purple-600 hover:text-purple-800">View all</a>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        {wishRequests.length > 0 ? (
+                            wishRequests.map((wish, index) => (
+                                <div key={wish.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                                    {/* Card Image */}
+                                    <div className="relative">
+                                        <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                            {wish.featured_image?.file_path ? (
+                                                <img
+                                                    src={`/storage/${wish.featured_image.file_path}`}
+                                                    alt={wish.title}
+                                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                                    <FontAwesomeIcon icon={faStar} className="text-gray-400 text-5xl" />
+                                                </div>
+                                            )}
+                                        </div>
+                                        {/* Status Badge */}
+                                        <div className="absolute top-3 right-3">
+                                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium">
+                                                {wish.status}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Card Content */}
+                                    <div className="p-5">
+                                        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                            {wish.title}
+                                        </h3>
+
+                                        <div className="space-y-2 mb-4">
+                                            <div className="flex items-center text-sm text-gray-600">
+                                                <span className="font-medium mr-2">Age Range:</span>
+                                                <span className="capitalize">{wish.age_range}</span>
+                                            </div>
+                                            <div className="flex items-center text-sm text-gray-600">
+                                                <span className="font-medium mr-2">Wisher:</span>
+                                                <span>{wish.user.name}</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Action Button */}
+                                        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                                                                <span className="text-sm text-gray-500">
+                                                                    {wish.created_at}
+                                                                </span>
+                                            <Link
+                                                href={route('wishes.show', wish.id)}
+                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                            >
+                                                View Details
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="col-span-full text-center py-12">
+                                <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4" />
+                                <p className="text-gray-500 text-lg mb-2">No wishes found</p>
+                                <p className="text-gray-400 text-sm mb-6">
+                                    Start sharing items and make wishes come true
+                                </p>
+                                <Link
+                                    href={route('wishes.create')}
+                                    className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                >
+                                    <FontAwesomeIcon icon={faPlus} />
+                                    <span>Create First Donation</span>
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             }

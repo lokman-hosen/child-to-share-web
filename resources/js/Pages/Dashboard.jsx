@@ -5,7 +5,7 @@ import DonorDashboard from "@/Pages/Dashboard/Donor.jsx";
 import AdminDashboard from "@/Pages/Dashboard/Admin.jsx";
 import DonorWisher from "@/Pages/Dashboard/DonorWisher.jsx";
 
-export default function Dashboard({module,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount}) {
+export default function Dashboard({module,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount, wishRequests}) {
 
     const user = usePage().props.auth.user;
     return (
@@ -28,6 +28,7 @@ export default function Dashboard({module,availableDonationCount,donatedDonation
                     donatedDonationCount = {donatedDonationCount}
                     activeWishCount = {activeWishCount}
                     fulfilledWishCount = {fulfilledWishCount}
+                    wishRequests = {wishRequests}
                 /> }
             { (user.role === 'super_admin' || user.role === 'admin') && <AdminDashboard/> }
         </AuthenticatedLayout>
