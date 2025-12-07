@@ -182,8 +182,8 @@ const WishList = ({userType, wishRequests}) => {
                                         </div>
                                         {/* Status Badge */}
                                         <div className="absolute top-3 right-3">
-                                            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium">
-                                                {wish.status}
+                                            <span className="status-badge bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                Fulfilled
                                             </span>
                                         </div>
                                     </div>
@@ -206,16 +206,11 @@ const WishList = ({userType, wishRequests}) => {
                                         </div>
 
                                         {/* Action Button */}
-                                        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                                                                <span className="text-sm text-gray-500">
-                                                                    {wish.created_at}
-                                                                </span>
-                                            <Link
-                                                href={route('wishes.show', wish.id)}
-                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                                            >
-                                                View Details
-                                            </Link>
+                                        <div className="bg-gray-50 px-4 py-3 sm:px-6">
+                                            <button
+                                                className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                                                <i className="fas fa-check mr-2"></i> Confirm Receipt
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
