@@ -293,8 +293,8 @@ class WishService extends BaseService
     {
         $earthRadius = 6371;
 
-        $query = Wish::query()
-            ->with(['user', 'category', 'files', 'featuredImage'])
+        $query = $this->wish->query()
+            ->with(['user', 'category', 'files', 'featuredImage', 'latestFulfilment'])
             ->join('users', 'wishes.user_id', '=', 'users.id')
             ->select('wishes.*')
             ->selectRaw(

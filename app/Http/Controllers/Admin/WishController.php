@@ -166,7 +166,7 @@ class WishController extends Controller
         ]);
     }
 
-    public function wishDetail(string $id)
+    public function wishDetail(string $id): Response
     {
         $wish = $this->wishService->find($id);
         $donations = $this->donationService->getDonationsByCategoryAndStatus($wish->category_id, 'available');
@@ -178,7 +178,7 @@ class WishController extends Controller
 
     }
 
-    public function storeWishFulfilInfo(Request $request)
+    public function storeWishFulfilInfo(Request $request): RedirectResponse
     {
        $wishFulfill = $this->wishService->wishFulfilRequestByDonor($request);
         if ($wishFulfill){

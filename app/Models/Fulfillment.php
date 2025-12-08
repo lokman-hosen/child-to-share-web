@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
@@ -23,17 +24,17 @@ class Fulfillment extends Model
         );
     }
 
-    public function task()
+    public function task(): HasOne
     {
         return $this->hasOne(Task::class, 'fulfillment_id');
     }
 
-    public function wish()
+    public function wish(): BelongsTo
     {
         return $this->belongsTo(Wish::class);
     }
 
-    public function donation()
+    public function donation(): BelongsTo
     {
         return $this->belongsTo(Donation::class);
     }

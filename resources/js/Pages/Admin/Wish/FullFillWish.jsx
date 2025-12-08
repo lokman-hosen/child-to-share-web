@@ -139,12 +139,17 @@ export default function List({module, wishes}) {
                                                         <span className="text-sm text-gray-500">
                                                             {wish.created_at}
                                                         </span>
-                                                        <Link
-                                                            href={route('wish.fulfill.detail', wish.id)}
-                                                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                                                        >
-                                                            Fulfill Wish
-                                                        </Link>
+                                                        {wish.latest_fulfilment?.status === 'requested' ? (
+                                                            <span
+                                                                className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400 hover:bg-gray-50 hover:text-gray-400">Fulfil Request send</span>
+                                                        ) : (
+                                                            <Link
+                                                                href={route('wish.fulfill.detail', wish.id)}
+                                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                            >
+                                                                Fulfill Wish
+                                                            </Link>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -253,11 +258,15 @@ export default function List({module, wishes}) {
                                                             <td className="p-6 border-b border-gray-100">
                                                                 <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
-                                                                        <Link
-                                                                            href={route('wish.fulfill.detail', wish.id)}
-                                                                            className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                                                                            Fulfill Wish
-                                                                        </Link>
+                                                                        {wish.latest_fulfilment?.status === 'requested' ? (
+                                                                            <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400 hover:bg-gray-50 hover:text-gray-400">Fulfil Request send</span>
+                                                                        ) : (
+                                                                            <Link
+                                                                                href={route('wish.fulfill.detail', wish.id)}
+                                                                                className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                                                                Fulfill Wish
+                                                                            </Link>
+                                                                        )}
                                                                     </div>
                                                                 </div>
                                                             </td>
