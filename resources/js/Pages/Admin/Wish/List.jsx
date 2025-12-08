@@ -213,7 +213,7 @@ export default function List({module, wishes}) {
                                                                         </div>
                                                                         <div>
                                                                             <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
-                                                                            <p className="text-sm text-gray-500">Age range: {wish.age_range}, {textLimit(wish.description,10)}</p>
+                                                                            <p className="text-sm text-gray-500">Age range: {wish.age_range}yrs, {textLimit(wish.description,10)}</p>
                                                                             <div className="mt-1 flex items-center">
                                                                             <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                                                 {wish.status}
@@ -222,6 +222,19 @@ export default function List({module, wishes}) {
                                                                                 className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                                                 {wish.created_at}
                                                                             </span>
+
+                                                                                {wish.latest_fulfilment?.status === 'requested' && (
+                                                                                    <>
+                                                                                        <span
+                                                                                            className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                                        Donor: {wish.latest_fulfilment?.donation?.user?.name}
+                                                                                    </span>
+                                                                                        <span
+                                                                                            className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                                        Donor Message: {wish.latest_fulfilment?.note}
+                                                                                    </span>
+                                                                                    </>
+                                                                                )}
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -233,13 +246,21 @@ export default function List({module, wishes}) {
                                                                 {wish.user.name}
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
-                                                                <div className="flex flex-col items-end">
+                                                            <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
-                                                                        <Link
-                                                                            href={route('wishes.show', wish.id)}
-                                                                            className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                                                                            View Details
-                                                                        </Link>
+                                                                        {wish.latest_fulfilment?.status === 'requested' ? (
+                                                                            <button class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                                                                                Confirm Receipt
+                                                                            </button>
+                                                                        ) : (
+                                                                            <Link
+                                                                                href={route('wishes.show', wish.id)}
+                                                                                className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                                                                View Details
+                                                                            </Link>
+                                                                        )}
+
+
                                                                     </div>
                                                                 </div>
                                                             </td>
