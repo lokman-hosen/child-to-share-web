@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('scheduled_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
             $table->foreignId('confirmed_by')->nullable()->constrained('users');
-            $table->enum('status', ['requested', 'scheduled', 'in_progress', 'delivered', 'cancelled'])
+            $table->enum('status', ['requested', 'accepted_by_wisher', 'accepted_by_donor', 'scheduled', 'in_progress', 'delivered', 'cancelled'])
                 ->default('requested');
             $table->timestamps();
             $table->softDeletes();

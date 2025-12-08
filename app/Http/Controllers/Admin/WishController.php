@@ -186,4 +186,13 @@ class WishController extends Controller
         }
         return redirect()->back()->with('error', 'Something went wrong! Try again later');
     }
+
+    public function updateWishFulfilStatus(Request $request)
+    {
+        $fulfilment = $this->wishService->changeFulfilmentStatus($request);
+        if ($fulfilment){
+            return redirect()->route('messages.index')->with('success', 'Wish fulfilment request send to wisher successfully!');
+        }
+        return redirect()->back()->with('error', 'Something went wrong! Try again later');
+    }
 }

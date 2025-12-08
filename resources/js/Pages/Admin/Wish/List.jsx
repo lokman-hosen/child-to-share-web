@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {Head, Link} from '@inertiajs/react';
+import {Head, Link, router} from '@inertiajs/react';
 import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -24,6 +24,12 @@ export default function List({module, wishes}) {
             default:
                 return 'bg-gray-100 text-gray-800';
         }
+    };
+    const handleFulfilStatus = (fulfilmentId) => {
+        router.post('wish-fulfill-status', {
+            'status' : 'accepted_by_wisher',
+            'fulfilment_id' : fulfilmentId,
+        })
     };
 
     return (
@@ -249,7 +255,9 @@ export default function List({module, wishes}) {
                                                             <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
                                                                         {wish.latest_fulfilment?.status === 'requested' ? (
-                                                                            <button class="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
+                                                                            <button
+                                                                                onClick={() => handleFulfilStatus(wish.latest_fulfilment.id)}
+                                                                                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
                                                                                 Confirm Receipt
                                                                             </button>
                                                                         ) : (
@@ -259,8 +267,6 @@ export default function List({module, wishes}) {
                                                                                 View Details
                                                                             </Link>
                                                                         )}
-
-
                                                                     </div>
                                                                 </div>
                                                             </td>
