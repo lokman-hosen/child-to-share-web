@@ -196,6 +196,7 @@ class WishController extends Controller
             $request->session()->flash('error', 'Something went wrong! Try again later');
         }
         return Inertia::render(self::moduleDirectory.'ConfirmationReceiptPage', [
+            'fulfilment' => $fulfilment,
             'wisher' => $fulfilment->wish->user,
             'donor' => $fulfilment->donation->user,
             'wish' => $fulfilment->wish,

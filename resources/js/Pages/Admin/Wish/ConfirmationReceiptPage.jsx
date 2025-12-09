@@ -2,33 +2,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
 import {
-    faCalendar,
+    faCalendar, faCheckCircle,
     faEnvelope,
-    faLocation,
+    faLocation, faMapMarked, faMars,
     faMessage,
     faPhone,
-    faStar,
+    faStar, faTimesCircle,
     faUser
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-/*import {
-    User,
-    Package,
-    MessageCircle,
-    Phone,
-    Mail,
-    MapPin,
-    Calendar,
-    Upload,
-    Send,
-    Paperclip,
-    X,
-    Download,
-    Shield
-} from 'lucide-react';*/
+import {format} from "date-fns";
+import {checkDonor, checkDonorWisher, checkWisher} from "@/utils.jsx";
 
 const ConfirmationReceiptPage = ({
+                                     fulfilment,
                                      wisher,
                                      donor,
                                      wish,
@@ -112,245 +100,423 @@ const ConfirmationReceiptPage = ({
                         {/* Left Column - User Information */}
                         <div className="lg:col-span-2 space-y-8">
                             {/* Admin View (Both Users) */}
-                            {userType === 'admin' && (
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {/* Wisher Card */}
-                                    <div className="bg-white rounded-lg shadow-md p-6">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                                                <FontAwesomeIcon
-                                                    icon={faUser}
-                                                    className="w-5 h-5 mr-2 text-green-600"
-                                                />
-                                                Wisher Information
-                                            </h3>
-                                            <span
-                                                className="px-3 py-1 bg-green-100 text-green-800 text-sm rounded-full">
-                                                Wisher
-                                            </span>
-                                        </div>
-
-                                        <div className="space-y-4">
-                                            <div>
-                                                <p className="text-sm text-gray-500">Name</p>
-                                                <p className="font-medium">{wisher.name}</p>
-                                            </div>
-
-                                            <div className="flex items-center space-x-4">
-                                                <div>
-                                                    <p className="text-sm text-gray-500">Phone</p>
-                                                    <div className="flex items-center mt-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faPhone}
-                                                            className="w-4 h-4 mr-2 text-gray-400"
-                                                        />
-                                                        <a
-                                                            href={`tel:${wisher.phone}`}
-                                                            className="text-blue-600 hover:text-blue-800"
-                                                        >
-                                                            {wisher.phone}
-                                                        </a>
+                            {(userType === 'admin' || userType === 'super-admin') && (
+                                <div className="grid grid-cols-1">
+                                    {/* Donor Card */}
+                                    <div className="bg-white shadow rounded-lg p-6">
+                                        <div className="border-b border-gray-200 pb-6">
+                                            <h3>Donor Info</h3>
+                                            <div
+                                                className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
+                                                {/* Profile Image - First Column */}
+                                                <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
+                                                    <div
+                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                        {donor.image ? (
+                                                            <img
+                                                                src={`/storage/${donor.image}`}
+                                                                alt={donor.name}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                                                alt={donor.name}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        )}
                                                     </div>
                                                 </div>
 
-                                                <div>
-                                                    <p className="text-sm text-gray-500">Email</p>
-                                                    <div className="flex items-center mt-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faEnvelope}
-                                                            className="w-4 h-4 mr-2 text-gray-400"
-                                                        />
-                                                        <a
-                                                            href={`mailto:${wisher.email}`}
-                                                            className="text-blue-600 hover:text-blue-800"
-                                                        >
-                                                            {wisher.email}
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                {/* User Info - Second Column */}
+                                                <div className="flex-1 text-center md:text-left w-full">
+                                                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{donor.name}</h2>
+                                                    <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                        Member
+                                                        Since {format(new Date(donor.created_at), 'MMMM do, yyyy')}
+                                                    </p>
 
-                                            {wisher.address && (
-                                                <div>
-                                                    <p className="text-sm text-gray-500">Address</p>
-                                                    <div className="flex items-start mt-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faLocation}
-                                                            className="w-4 h-4 mr-2 text-gray-400"
-                                                        />
-                                                        <p className="text-gray-700">{wisher.address}</p>
-                                                    </div>
-                                                </div>
-                                            )}
+                                                    <dl className="space-y-2">
+                                                        {/* Email with Verification */}
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
+                                                                <span>Email : </span>
+                                                                <span>{donor.email}</span>
+                                                                {donor.email_verified_at ? (
+                                                                    <div title="Email Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faCheckCircle}
+                                                                            className="w-4 h-4 text-green-500"
+                                                                            title="Email Verified"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <div title="Email Not Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faTimesCircle}
+                                                                            className="w-4 h-4 text-gray-400"
+                                                                            title="Email Not Verified"
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </dt>
+                                                        </div>
 
-                                            <div className="pt-4 border-t">
-                                                <Link
-                                                    href={`/admin/users/${wisher.id}`}
-                                                    className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-                                                >
-                                                    View Full Profile →
-                                                </Link>
+                                                        {/* Phone with Verification - Conditional Display */}
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
+                                                                <span>Phone : </span>
+                                                                <span>{donor.phone}</span>
+                                                                {donor.phone_verified_at ? (
+                                                                    <div title="Phone Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faCheckCircle}
+                                                                            className="w-4 h-4 text-green-500"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <div title="Phone Not Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faTimesCircle}
+                                                                            className="w-4 h-4 text-gray-400"
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </dt>
+                                                        </div>
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
+                                                                <span>Location/Address : </span>
+                                                                <span>{donor.address ?? 'n/a'}</span>
+                                                            </dt>
+                                                        </div>
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
+                                                                <span>Gender : </span>
+                                                                <span>{donor.gender ?? 'n/a'}</span>
+                                                            </dt>
+                                                        </div>
+                                                    </dl>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {/* Donor Card */}
-                                    <div className="bg-white rounded-lg shadow-md p-6">
-                                        <div className="flex items-center justify-between mb-4">
-                                            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                                                <FontAwesomeIcon
-                                                    icon={faUser}
-                                                    className="w-4 h-4 mr-2 text-gray-400"
-                                                />
-                                                Donor Information
-                                            </h3>
-                                            <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm rounded-full">
-                        Donor
-                      </span>
+                                    {/* Wisher Card */}
+                                    <div className="bg-white shadow rounded-lg p-6">
+                                        <div className="border-b border-gray-200 pb-6">
+                                            <h3>Wisher Info</h3>
+                                            <div
+                                                className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
+                                                {/* Profile Image - First Column */}
+                                                <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
+                                                    <div
+                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                        {wisher.image ? (
+                                                            <img
+                                                                src={`/storage/${wisher.image}`}
+                                                                alt={wisher.name}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                                                alt={wisher.name}
+                                                                className="w-full h-full object-cover"
+                                                            />
+                                                        )}
+                                                    </div>
+                                                </div>
+
+                                                {/* User Info - Second Column */}
+                                                <div className="flex-1 text-center md:text-left w-full">
+                                                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{wisher.name}</h2>
+                                                    <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                        Member
+                                                        Since {format(new Date(wisher.created_at), 'MMMM do, yyyy')}
+                                                    </p>
+
+                                                    <dl className="space-y-2">
+                                                        {/* Email with Verification */}
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
+                                                                <span>Email : </span>
+                                                                <span>{wisher.email}</span>
+                                                                {wisher.email_verified_at ? (
+                                                                    <div title="Email Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faCheckCircle}
+                                                                            className="w-4 h-4 text-green-500"
+                                                                            title="Email Verified"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <div title="Email Not Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faTimesCircle}
+                                                                            className="w-4 h-4 text-gray-400"
+                                                                            title="Email Not Verified"
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </dt>
+                                                        </div>
+
+                                                        {/* Phone with Verification - Conditional Display */}
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
+                                                                <span>Phone : </span>
+                                                                <span>{wisher.phone}</span>
+                                                                {wisher.phone_verified_at ? (
+                                                                    <div title="Phone Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faCheckCircle}
+                                                                            className="w-4 h-4 text-green-500"
+                                                                        />
+                                                                    </div>
+                                                                ) : (
+                                                                    <div title="Phone Not Verified">
+                                                                        <FontAwesomeIcon
+                                                                            icon={faTimesCircle}
+                                                                            className="w-4 h-4 text-gray-400"
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </dt>
+                                                        </div>
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
+                                                                <span>Location/Address : </span>
+                                                                <span>{wisher.address ?? 'n/a'}</span>
+                                                            </dt>
+                                                        </div>
+                                                        <div>
+                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                                <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
+                                                                <span>Gender : </span>
+                                                                <span>{wisher.gender ?? 'n/a'}</span>
+                                                            </dt>
+                                                        </div>
+                                                    </dl>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
 
-                                        <div className="space-y-4">
-                                            <div>
-                                                <p className="text-sm text-gray-500">Name</p>
-                                                <p className="font-medium">{donor.name}</p>
-                                            </div>
+                                </div>
+                            )}
 
-                                            <div className="flex items-center space-x-4">
-                                                <div>
-                                                    <p className="text-sm text-gray-500">Phone</p>
-                                                    <div className="flex items-center mt-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faPhone}
-                                                            className="w-4 h-4 mr-2 text-gray-400"
+                            {/* Wisher/Donor View (Other User Info) */}
+                            {fulfilment.donation.user_id !== currentUser.id && (
+                                <div className="bg-white shadow rounded-lg p-6">
+                                    <div className="border-gray-200 pb-6">
+                                        <h3>Donor Info</h3>
+                                        <div
+                                            className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
+                                            {/* Profile Image - First Column */}
+                                            <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
+                                                <div
+                                                    className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                    {donor.image ? (
+                                                        <img
+                                                            src={`/storage/${donor.image}`}
+                                                            alt={donor.name}
+                                                            className="w-full h-full object-cover"
                                                         />
-                                                        <a
-                                                            href={`tel:${donor.phone}`}
-                                                            className="text-blue-600 hover:text-blue-800"
-                                                        >
-                                                            {donor.phone}
-                                                        </a>
-                                                    </div>
-                                                </div>
-
-                                                <div>
-                                                    <p className="text-sm text-gray-500">Email</p>
-                                                    <div className="flex items-center mt-1">
-                                                        <FontAwesomeIcon
-                                                            icon={faEnvelope}
-                                                            className="w-4 h-4 mr-2 text-gray-400"
+                                                    ) : (
+                                                        <img
+                                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                                            alt={donor.name}
+                                                            className="w-full h-full object-cover"
                                                         />
-                                                        <a
-                                                            href={`mailto:${donor.email}`}
-                                                            className="text-blue-600 hover:text-blue-800"
-                                                        >
-                                                            {donor.email}
-                                                        </a>
-                                                    </div>
+                                                    )}
                                                 </div>
                                             </div>
 
-                                            <div className="pt-4 border-t">
-                                                <Link
-                                                    href={`/admin/users/${donor.id}`}
-                                                    className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-                                                >
-                                                    View Full Profile →
-                                                </Link>
+                                            {/* User Info - Second Column */}
+                                            <div className="flex-1 text-center md:text-left w-full">
+                                                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{donor.name}</h2>
+                                                <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                    Member Since {format(new Date(donor.created_at), 'MMMM do, yyyy')}
+                                                </p>
+
+                                                <dl className="space-y-2">
+                                                    {/* Email with Verification */}
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
+                                                            <span>Email : </span>
+                                                            <span>{donor.email}</span>
+                                                            {donor.email_verified_at ? (
+                                                                <div title="Email Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faCheckCircle}
+                                                                        className="w-4 h-4 text-green-500"
+                                                                        title="Email Verified"
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                <div title="Email Not Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faTimesCircle}
+                                                                        className="w-4 h-4 text-gray-400"
+                                                                        title="Email Not Verified"
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </dt>
+                                                    </div>
+
+                                                    {/* Phone with Verification - Conditional Display */}
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
+                                                            <span>Phone : </span>
+                                                            <span>{donor.phone}</span>
+                                                            {donor.phone_verified_at ? (
+                                                                <div title="Phone Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faCheckCircle}
+                                                                        className="w-4 h-4 text-green-500"
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                <div title="Phone Not Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faTimesCircle}
+                                                                        className="w-4 h-4 text-gray-400"
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </dt>
+                                                    </div>
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
+                                                            <span>Location/Address : </span>
+                                                            <span>{donor.address ?? 'n/a'}</span>
+                                                        </dt>
+                                                    </div>
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
+                                                            <span>Gender : </span>
+                                                            <span>{donor.gender ?? 'n/a'}</span>
+                                                        </dt>
+                                                    </div>
+                                                </dl>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             )}
-
-                            {/* Wisher/Donor View (Other User Info) */}
-                            {userType !== 'admin' && (
-                                <div className="bg-white rounded-lg shadow-md p-6">
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h3 className="text-xl font-semibold text-gray-900 flex items-center">
-                                            <FontAwesomeIcon
-                                                icon={faUser}
-                                                className="w-4 h-4 mr-2 text-gray-400"
-                                            />
-                                            {userType === 'wisher' ? 'Donor Information' : 'Wisher Information'}
-                                        </h3>
-                                        <span className={`px-4 py-2 rounded-full text-sm font-medium ${
-                                            userType === 'wisher'
-                                                ? 'bg-blue-100 text-blue-800'
-                                                : 'bg-green-100 text-green-800'
-                                        }`}>
-                                          {userType === 'wisher' ? 'Donor' : 'Wisher'}
-                                        </span>
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-4">
-                                            <div>
-                                                <p className="text-sm text-gray-500">Full Name</p>
-                                                <p className="text-lg font-medium">{otherUser.name}</p>
-                                            </div>
-
-                                            <div>
-                                                <p className="text-sm text-gray-500">Phone Number</p>
-                                                <div className="flex items-center mt-1">
-                                                    <FontAwesomeIcon
-                                                        icon={faPhone}
-                                                        className="w-4 h-4 mr-2 text-gray-400"
-                                                    />
-                                                    <a
-                                                        href={`tel:${otherUser.phone}`}
-                                                        className="text-lg text-blue-600 hover:text-blue-800 font-medium"
-                                                    >
-                                                        {otherUser.phone}
-                                                    </a>
+                            {fulfilment.wish.user_id !== currentUser.id && (
+                                <div className="bg-white shadow rounded-lg p-6">
+                                    <div className="border-gray-200 pb-6">
+                                        <h3>Wisher Info</h3>
+                                        <div
+                                            className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
+                                            {/* Profile Image - First Column */}
+                                            <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
+                                                <div
+                                                    className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                    {wisher.image ? (
+                                                        <img
+                                                            src={`/storage/${wisher.image}`}
+                                                            alt={wisher.name}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                                            alt={wisher.name}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    )}
                                                 </div>
                                             </div>
 
-                                            <div>
-                                                <p className="text-sm text-gray-500">Email Address</p>
-                                                <div className="flex items-center mt-1">
-                                                    <FontAwesomeIcon
-                                                        icon={faEnvelope}
-                                                        className="w-4 h-4 mr-2 text-gray-400"
-                                                    />
-                                                    <a
-                                                        href={`mailto:${otherUser.email}`}
-                                                        className="text-lg text-blue-600 hover:text-blue-800 font-medium"
-                                                    >
-                                                        {otherUser.email}
-                                                    </a>
-                                                </div>
+                                            {/* User Info - Second Column */}
+                                            <div className="flex-1 text-center md:text-left w-full">
+                                                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{wisher.name}</h2>
+                                                <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                    Member Since {format(new Date(wisher.created_at), 'MMMM do, yyyy')}
+                                                </p>
+
+                                                <dl className="space-y-2">
+                                                    {/* Email with Verification */}
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
+                                                            <span>Email : </span>
+                                                            <span>{wisher.email}</span>
+                                                            {wisher.email_verified_at ? (
+                                                                <div title="Email Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faCheckCircle}
+                                                                        className="w-4 h-4 text-green-500"
+                                                                        title="Email Verified"
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                <div title="Email Not Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faTimesCircle}
+                                                                        className="w-4 h-4 text-gray-400"
+                                                                        title="Email Not Verified"
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </dt>
+                                                    </div>
+
+                                                    {/* Phone with Verification - Conditional Display */}
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
+                                                            <span>Phone : </span>
+                                                            <span>{wisher.phone}</span>
+                                                            {wisher.phone_verified_at ? (
+                                                                <div title="Phone Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faCheckCircle}
+                                                                        className="w-4 h-4 text-green-500"
+                                                                    />
+                                                                </div>
+                                                            ) : (
+                                                                <div title="Phone Not Verified">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faTimesCircle}
+                                                                        className="w-4 h-4 text-gray-400"
+                                                                    />
+                                                                </div>
+                                                            )}
+                                                        </dt>
+                                                    </div>
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
+                                                            <span>Location/Address : </span>
+                                                            <span>{wisher.address ?? 'n/a'}</span>
+                                                        </dt>
+                                                    </div>
+                                                    <div>
+                                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
+                                                            <span>Gender : </span>
+                                                            <span>{wisher.gender ?? 'n/a'}</span>
+                                                        </dt>
+                                                    </div>
+                                                </dl>
                                             </div>
                                         </div>
-
-                                        {otherUser.address && (
-                                            <div>
-                                                <p className="text-sm text-gray-500">Delivery Address</p>
-                                                <div className="flex items-start mt-1 p-4 bg-gray-50 rounded-lg">
-                                                    <FontAwesomeIcon
-                                                        icon={faLocation}
-                                                        className="w-4 h-4 mr-2 text-gray-400"
-                                                    />
-                                                    <div>
-                                                        <p className="font-medium">{otherUser.address}</p>
-                                                        <p className="text-sm text-gray-600 mt-1">
-                                                            {otherUser.city}, {otherUser.state} {otherUser.zip_code}
-                                                        </p>
-                                                    </div>
-                                                </div>
-
-                                                <div className="mt-6">
-                                                    <Link
-                                                        href={userType === 'wisher'
-                                                            ? `/donors/${donor.id}/profile`
-                                                            : `/wishers/${wisher.id}/profile`
-                                                        }
-                                                        className="inline-flex items-center justify-center w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                                    >
-                                                        View Full Profile
-                                                    </Link>
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             )}
@@ -370,7 +536,7 @@ const ConfirmationReceiptPage = ({
                                         <div>
                                             <p className="text-sm text-gray-500">Item</p>
                                             <p className="font-medium text-lg">
-                                                {userType === 'wisher' ? donationItem?.item_name : wishItem?.title}
+                                                {userType === 'wisher' ? donationItem?.name : wishItem?.title}
                                             </p>
                                         </div>
 
