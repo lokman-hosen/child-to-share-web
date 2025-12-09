@@ -191,8 +191,17 @@ class WishController extends Controller
     {
         $fulfilment = $this->wishService->changeFulfilmentStatus($request);
         if ($fulfilment){
-            return redirect()->route('messages.index')->with('success', 'Wish fulfilment request send to wisher successfully!');
+            $request->session()->flash('success', 'Wish fulfilment request send to wisher successfully!');
+        }else{
+            $request->session()->flash('error', 'Something went wrong! Try again later');
         }
-        return redirect()->back()->with('error', 'Something went wrong! Try again later');
+        return Inertia::render(self::moduleDirectory.'ConfirmationReceiptPage', [
+            'wisher' => $fulfilment->wish->user,
+            'donor' => $fulfilment->donation->user,
+            'wish' => $fulfilment->wish,
+            'donation' => $fulfilment->donation,
+            'userType' => Auth::user()->role,
+            'initialMessages' => $fulfilment->messages,
+        ]);
     }
 }

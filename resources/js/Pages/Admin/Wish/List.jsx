@@ -26,7 +26,7 @@ export default function List({module, wishes}) {
         }
     };
     const handleFulfilStatus = (fulfilmentId) => {
-        router.post('wish-fulfill-status', {
+        router.get('wish-fulfill-status', {
             'status' : 'accepted_by_wisher',
             'fulfilment_id' : fulfilmentId,
         })
