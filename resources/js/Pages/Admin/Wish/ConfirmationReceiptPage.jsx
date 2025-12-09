@@ -13,7 +13,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
-import {checkDonor, checkDonorWisher, checkWisher} from "@/utils.jsx";
+import {checkDonor, checkDonorWisher, checkWisher, textLimit} from "@/utils.jsx";
 
 const ConfirmationReceiptPage = ({
                                      fulfilment,
@@ -531,67 +531,56 @@ const ConfirmationReceiptPage = ({
                                     {userType === 'wisher' ? 'Donation Details' : 'Wish Details'}
                                 </h3>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-4">
-                                        <div>
-                                            <p className="text-sm text-gray-500">Item</p>
-                                            <p className="font-medium text-lg">
-                                                {userType === 'wisher' ? donationItem?.name : wishItem?.title}
-                                            </p>
-                                        </div>
-
-                                        <div>
-                                            <p className="text-sm text-gray-500">Category</p>
-                                            <span
-                                                className="inline-block px-3 py-1 bg-purple-100 text-purple-800 text-sm rounded-full">
-                                            {userType === 'wisher' ? donationItem?.category : wishItem?.category}
-                                          </span>
-                                        </div>
-
-                                        <div>
-                                            <p className="text-sm text-gray-500">Status</p>
-                                            <span
-                                                className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-                                                    donationItem?.status === 'delivered'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : 'bg-yellow-100 text-yellow-800'
-                                                }`}>
-                                                {donationItem?.status || 'pending'}
-                                              </span>
-                                        </div>
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div>
-                                            <p className="text-sm text-gray-500">Date</p>
-                                            <div className="flex items-center">
-                                                <FontAwesomeIcon
-                                                    icon={faCalendar}
-                                                    className="w-4 h-4 mr-2 text-gray-400"
-                                                />
-                                                <p className="font-medium">
-                                                    {formatDate(donationItem?.created_at || new Date())}
-                                                </p>
+                                <div className="grid grid-cols-1 gap-6">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center">
+                                            <div
+                                                className="h-24 w-24 bg-purple-100 rounded-md flex items-center justify-center mr-4">
+                                                {wish.featured_image?.file_path ? (
+                                                    <img
+                                                        src={`/storage/${wish.featured_image.file_path}`}
+                                                        alt={wish.title}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <div
+                                                        className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                                                        <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
+                                                    </div>
+                                                )}
                                             </div>
-                                        </div>
-
-                                        <div>
-                                            <p className="text-sm text-gray-500">Transaction ID</p>
-                                            <p className="font-mono font-medium text-gray-900">
-                                                {donationItem?.transaction_id || 'N/A'}
-                                            </p>
-                                        </div>
-
-                                        <div className="pt-4">
-                                            <Link
-                                                href={userType === 'wisher'
-                                                    ? `/donations/${donationItem?.id}`
-                                                    : `/wishes/${wishItem?.id}`
-                                                }
-                                                className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
-                                            >
-                                                View Full Details →
-                                            </Link>
+                                            <div>
+                                                <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
+                                                <p className="text-sm text-gray-500">Age
+                                                    range: {wish.age_range}yrs, {textLimit(wish.description, 10)}</p>
+                                                <div className="mt-1 flex items-center">
+                                                    <div>
+                                                        <span
+                                                            className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                        {wish.status}
+                                                    </span>
+                                                        <span
+                                                            className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                        {wish.created_at}
+                                                    </span>
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        {wish.latest_fulfilment?.status && (
+                                                            <>
+                                                            <span
+                                                                className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                Donor: {wish.latest_fulfilment?.donation?.user?.name}
+                                                            </span>
+                                                                <span
+                                                                    className="ml-2 bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                Donor Message: {wish.latest_fulfilment?.note}
+                                                            </span>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
