@@ -10,46 +10,50 @@ use Intervention\Image\Facades\Image;
 function uploadImage($file, $fileProperty, $actionType, $oldFileName): string
 {
     $fileName = time() . '.' . $file->getClientOriginalExtension();
-    $filePath = $fileProperty['path'].'/'.$fileName;
+    $filePath = $fileProperty['path'] . '/' . $fileName;
 
-    if ($actionType == 'update'){
+    if ($actionType === 'update') {
         Storage::disk('public')->delete($oldFileName);
     }
 
     $img = Image::make($file->getRealPath());
-//    $originalWidth = $img->width();
-//    $originalHeight = $img->height();
 
-    $targetWidth = $fileProperty['width'];
+    $originalWidth  = $img->width();
+    $originalHeight = $img->height();
+
+    $targetWidth  = $fileProperty['width'];
     $targetHeight = $fileProperty['height'];
 
-//    // Calculate aspect ratios
-//    $originalAspect = $originalWidth / $originalHeight;
-//    $targetAspect = $targetWidth / $targetHeight;
-//
-//    // If aspect ratios are similar (within 10%), use fit to avoid letterboxing
-//    if (abs($originalAspect - $targetAspect) < 0.1) {
-//        $img->fit($targetWidth, $targetHeight);
-//    } else {
-//        // If very different aspect ratios, resize with background
-//        $img->resize($targetWidth, $targetHeight, function ($constraint) {
-//            $constraint->aspectRatio();
-//            $constraint->upsize();
-//        });
-//
-//        $canvas = Image::canvas($targetWidth, $targetHeight, '#f8f9fa'); // Light gray
-//        $canvas->insert($img, 'center');
-//        $img = $canvas;
-//    }
-    $img->resize($targetWidth, $targetHeight, function ($constraint) {
-        $constraint->aspectRatio();   // keep original ratio
-        $constraint->upsize();        // don't upscale smaller images
-    });
+    // Difference calculation
+    $widthDiff  = abs($originalWidth - $targetWidth);
+    $heightDiff = abs($originalHeight - $targetHeight);
+
+    /**
+     * Logic:
+     * - If difference is small → normal resize (keeps more of image)
+     * - If difference is large → use fit (best quality, balanced crop)
+     */
+    if ($widthDiff <= 200 && $heightDiff <= 200) {
+
+        // ➤ Small difference → normal resize with aspect ratio
+        $img->resize($targetWidth, $targetHeight, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+    } else {
+
+        // ➤ Large difference → smart crop using fit() for best clarity
+        $img->fit($targetWidth, $targetHeight);
+
+    }
 
     // Save with optimized quality
-    Storage::disk('public')->put($filePath, $img->stream(null, 90));
+    Storage::disk('public')->put($filePath, $img->encode('jpg', 92));
+
     return $filePath;
 }
+
 function checkAdmin(): bool
 {
     if (Auth::check()){
