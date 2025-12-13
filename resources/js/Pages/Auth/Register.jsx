@@ -37,6 +37,7 @@ export default function Register({genders}) {
         latitude: '',
         longitude: '',
         password: '',
+        user_type: 'person'
     });
 
     // Initialize Google Maps services
@@ -243,6 +244,25 @@ export default function Register({genders}) {
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="px-6 pb-8 mt-5">
+                            <br/>
+                            <h2 className="text-xl font-semibold mb-4">Signup As:</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                <div
+                                    onClick={() => setData('user_type', 'person')}
+                                    className={`role-option p-5 text-center ${data.user_type === 'person' ? 'selected' : ''}`} data-user-type="person">
+                                    <div className="text-4xl mb-3 text-green-500">🎁</div>
+                                    <h3 className="font-semibold">Donate Items(Donor)</h3>
+                                    <p className="text-sm text-gray-600 mt-2">Share items with children in need</p>
+                                </div>
+
+                                <div
+                                    onClick={() => setData('user_type', 'organization')}
+                                    className={`role-option p-5 text-center ${data.user_type === 'organization' ? 'selected' : ''}`} data-user-type="organization">
+                                    <div className="text-4xl mb-3 text-purple-500">✨</div>
+                                    <h3 className="font-semibold">Make a Wish(Wisher)</h3>
+                                    <p className="text-sm text-gray-600 mt-2">Request items you need</p>
+                                </div>
+                            </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <TextInput
                                     id="name"
