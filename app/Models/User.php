@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -92,9 +93,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
-    public function organizations(): BelongsToMany
+//    public function organizations(): BelongsToMany
+//    {
+//        return $this->belongsToMany(Organization::class);
+//    }
+    public function organization(): BelongsTo
     {
-        return $this->belongsToMany(Organization::class);
+        return $this->belongsTo(Organization::class);
     }
 
     public function donations(): HasMany

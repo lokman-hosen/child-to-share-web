@@ -33,7 +33,7 @@ export default function Register({genders}) {
         dob: '',
         address: '',
         photo: null,
-        gender: '',
+        gender: 'other',
         latitude: '',
         longitude: '',
         password: '',

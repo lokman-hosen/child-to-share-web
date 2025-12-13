@@ -85,7 +85,16 @@ class RegisteredUserController extends Controller
                 $user->roles()->attach([3,4]);
             }
             if ($request->user_type == 'organization' and $user){
+                $organization = $user->organization()->create([
+                    'name' => $request->name,
+                    'contact_email' => checkEmpty($request->contact_email),
+                    'contact_phone' => $request->contact_phone,
+                    'address' => $request->address,
+                ]);
 
+                if ($organization){
+                    $organization->user()->update(['user_id' => $user->id]);
+                }
             }
 
             // tah organization

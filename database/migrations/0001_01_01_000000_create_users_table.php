@@ -27,7 +27,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             $table->string('address')->nullable();
-            //$table->foreignId('organization_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('organization_id')->nullable()->constrained()->onDelete('set null');
             //$table->boolean('be_leader')->default(false);
             $table->boolean('is_verified')->default(false);
             $table->boolean('is_active')->default(true);
