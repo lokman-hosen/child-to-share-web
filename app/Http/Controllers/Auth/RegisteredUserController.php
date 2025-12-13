@@ -72,7 +72,7 @@ class RegisteredUserController extends Controller
                 'phone' => $request->phone,
                 'image' => $photoPath,
                 'dob' => $request->dob,
-                'gender' => $request->gender,
+                'gender' => $request->gender ?? 'other',
                 'latitude' => checkEmpty($request->latitude),
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
@@ -83,6 +83,9 @@ class RegisteredUserController extends Controller
             ]);
             if ($user){
                 $user->roles()->attach([3,4]);
+            }
+            if ($request->user_type == 'organization' and $user){
+
             }
 
             // tah organization
