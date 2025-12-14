@@ -15,3 +15,11 @@ NEW Migrations
 
 Set Admin role:
 1. INSERT INTO role_user (id, role_id, user_id, created_at, updated_at) VALUES (NULL, '1', '1', NOW(), NOW()), (NULL, '2', '2', NULL, NULL)
+
+Users
+1. ALTER TABLE `users` ADD `organization_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `address`;
+2. ALTER TABLE `three_wish`.`users` ADD UNIQUE `users_organization_id_foreign` (`organization_id`);
+
+Organizations
+1. ALTER TABLE `organizations` ADD `user_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `description`;
+2. ALTER TABLE `three_wish`.`organizations` ADD UNIQUE `organizations_user_id_foreign` (`user_id`);

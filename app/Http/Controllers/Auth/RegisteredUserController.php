@@ -81,19 +81,21 @@ class RegisteredUserController extends Controller
                 'is_active' => true,
                 'password' => Hash::make($request->password),
             ]);
+            // assign role
             if ($user){
                 $user->roles()->attach([3,4]);
             }
+            // save organization info
             if ($request->user_type == 'organization' and $user){
                 $organization = $user->organization()->create([
-                    'name' => $request->name,
-                    'contact_email' => checkEmpty($request->contact_email),
-                    'contact_phone' => $request->contact_phone,
+                    'name' => $user->name,
+                    'contact_email' => checkEmpty($user->email),
+                    'contact_phone' => $user->phone,
                     'address' => $request->address,
+                    'user_id' => $user->id,
                 ]);
-
                 if ($organization){
-                    $organization->user()->update(['user_id' => $user->id]);
+                    $user->update(['organization_id' => $organization->id]);
                 }
             }
 
