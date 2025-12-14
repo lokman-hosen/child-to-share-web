@@ -33,8 +33,8 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user()
-                    ? $request->user()->load('organization')->only([
-                        'id', 'name', 'email', 'phone','image', 'role','created_at', 'email_verified_at', 'phone_verified_at',
+                    ? $request->user()->only([
+                        'id', 'name', 'email', 'phone','image', 'role','created_at', 'email_verified_at', 'phone_verified_at','userType',
                     ])
                     : null,
             ],

@@ -30,7 +30,7 @@ class User extends Authenticatable
 //        'email',
 //        'password',
 //    ];
-    protected $appends = ['role'];
+    protected $appends = ['role','user_type'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,6 +45,20 @@ class User extends Authenticatable
         'deleted_at',
         'is_active',
     ];
+
+    protected function userType(): Attribute
+    {
+        return Attribute::get(function () {
+            if ($this->organization){
+                if (($this->phone === $this->organization->contact_phone) and ($this->email === $this->organization->contact_email)){
+                    return 'organization';
+                }else{
+                    return 'user';
+                }
+            }
+            return 'user';
+        });
+    }
 
     protected function role(): Attribute
     {

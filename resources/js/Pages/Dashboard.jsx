@@ -9,6 +9,7 @@ import OrganizationDashboard from "@/Pages/Dashboard/Organization.jsx";
 export default function Dashboard({module,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount}) {
 
     const user = usePage().props.auth.user;
+    console.log(user)
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard"/>
@@ -24,7 +25,7 @@ export default function Dashboard({module,availableDonationCount,donatedDonation
                     fulfilledWishCount = {fulfilledWishCount}
                 /> }
             {user.role === 'donor-wisher' && (
-                user.organization ? (
+                user.userType === 'organization' ? (
                     <OrganizationDashboard
                         availableDonationCount={availableDonationCount}
                         donatedDonationCount={donatedDonationCount}
