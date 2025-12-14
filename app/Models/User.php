@@ -43,7 +43,6 @@ class User extends Authenticatable
         'latitude',
         'longitude',
         'deleted_at',
-        'is_active',
     ];
 
     protected function userType(): Attribute

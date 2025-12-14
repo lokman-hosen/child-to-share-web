@@ -37,7 +37,9 @@ export default function Index({module, users }) {
 
     // Get status badge color
     const getStatusBadge = (user) => {
-        if (!user.is_active) {
+        if (user.is_active) {
+            return { text: 'Active', class: 'bg-blue-100 text-blue-800' };
+        }else {
             return { text: 'Inactive', class: 'bg-red-100 text-red-800' };
         }
         if (user.is_verified) {
@@ -244,7 +246,7 @@ export default function Index({module, users }) {
                                                         {/* Action Button */}
                                                         <div className="flex justify-end items-center pt-4 border-t border-gray-100 mt-4">
                                                             <Link
-                                                                href={route('users.show', user.id)}
+                                                                href={route('my.profile', user.id)}
                                                                 className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                             >
                                                                 View Details
@@ -416,7 +418,7 @@ export default function Index({module, users }) {
 
                                                                         <div className="flex space-x-2">
                                                                             <Link
-                                                                                href={route('users.show', user.id)}
+                                                                                href={route('my.profile', user.id)}
                                                                                 className="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors"
                                                                             >
                                                                                 View
@@ -584,7 +586,7 @@ export default function Index({module, users }) {
                                                                     </div>
                                                                     <div className="flex space-x-2">
                                                                         <Link
-                                                                            href={route('users.show', user.id)}
+                                                                            href={route('my.profile', user.id)}
                                                                             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                                         >
                                                                             View Details

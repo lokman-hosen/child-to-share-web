@@ -6,18 +6,26 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 use Inertia\Response;
 
 class UserController extends Controller
 {
     const moduleDirectory = 'Admin/User/';
     const moduleName = 'User';
+
+    public function __construct(
+        protected UserService $userService,
+
+    ){}
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $users = User::orderBy('id', 'asc')->paginate(5); // 5 per page
+        //$users = User::orderBy('id', 'asc')->paginate(5); // 5 per page
+        $users = $this->userService->getListWithFilter($request);
         return inertia(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'users' => $users

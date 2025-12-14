@@ -17,13 +17,14 @@ use Inertia\Response;
 
 class WishController extends Controller
 {
+    const moduleDirectory = 'Admin/Wish/';
+    const moduleName = 'Wish';
+
     public function __construct(
         protected WishService $wishService,
         protected CategoryService $categoryService,
 
     ){}
-    const moduleDirectory = 'Admin/Wish/';
-    const moduleName = 'Wish';
     /**
      * Display a listing of the resource.
      */
