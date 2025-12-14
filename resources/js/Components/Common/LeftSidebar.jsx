@@ -6,7 +6,7 @@ import {
     faHome,
     faSignOutAlt,
     faUserCircle,
-    faTimes, faDashboard, faStar
+    faTimes, faDashboard, faStar, faUsers
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -79,17 +79,18 @@ export default function LeftSidebar({ onClose }) {
                             </Link>
                         </li>
                         <hr/>
-
-                        {/*<li className="mb-1">*/}
-                        {/*    <Link*/}
-                        {/*        href={route('wishes.index')}*/}
-                        {/*        onClick={onClose}*/}
-                        {/*        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wishes.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
-                        {/*    >*/}
-                        {/*        <FontAwesomeIcon icon={faUserCircle} className="mr-2" />*/}
-                        {/*        Browse Wishes*/}
-                        {/*    </Link>*/}
-                        {/*</li>*/}
+                        {user.userType === 'organization' && (
+                            <li className="mb-1">
+                                <Link
+                                    href={route('users.index')}
+                                    onClick={onClose}
+                                    className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('users.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                                >
+                                    <FontAwesomeIcon icon={faUsers} className="mr-2"/>
+                                    Users
+                                </Link>
+                            </li>
+                        )}
                         <li className="mb-1">
                             <Link
                                 href={route('donations.create')}

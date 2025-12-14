@@ -11,7 +11,7 @@ use Inertia\Response;
 class UserController extends Controller
 {
     const moduleDirectory = 'Admin/User/';
-    const moduleName = 'User List';
+    const moduleName = 'User';
     /**
      * Display a listing of the resource.
      */
