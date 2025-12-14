@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Inertia\Response;
 
 class UserController extends Controller
@@ -24,7 +26,6 @@ class UserController extends Controller
      */
     public function index(Request $request): Response
     {
-        //$users = User::orderBy('id', 'asc')->paginate(5); // 5 per page
         $users = $this->userService->getListWithFilter($request);
         return inertia(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
@@ -35,9 +36,13 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Create',[
+            'module' => self::moduleName,
+            'genders' => CommonHelper::genders(),
+            'guardianRelations' => CommonHelper::guardianRelations(),
+        ]);
     }
 
     /**
