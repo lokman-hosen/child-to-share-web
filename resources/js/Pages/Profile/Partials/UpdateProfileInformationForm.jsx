@@ -46,6 +46,7 @@ export default function UpdateProfileInformation({
             guardian_phone: user?.guardian_phone,
             relationship: user?.relationship,
             gender: user?.gender,
+            address: user?.address,
             dob: user?.dob,
         });
 
@@ -54,9 +55,10 @@ export default function UpdateProfileInformation({
         post(route('user.profile.update'),{
             forceFormData: true,
             onSuccess: () => {
-                //reset();
+                    //reset();
                 //setTags([]);
             },
+            onFinish: () => reset('photo'),
             onError: (submissionErrors) => {
                 console.error("Form submission errors:", submissionErrors);
             },
@@ -285,7 +287,7 @@ export default function UpdateProfileInformation({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <TextInput
                         id="name"
-                        label="Name"
+                        label={user.user_type === 'user' ? 'Full Name' : 'Organization Name'}
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         error={errors.name}
@@ -297,18 +299,19 @@ export default function UpdateProfileInformation({
 
                     <TextInput
                         id="email"
-                        label="Email"
+                        label={user.user_type === 'user' ? 'Email' : 'Organization Email'}
                         type="email"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         autoComplete="username"
                         error={errors.email}
                         placeholder="Your email"
+                        required={user.user_type === 'organization' ? true : false}
                     />
 
                     <TextInput
                         id="phone"
-                        label="Phone"
+                        label={user.user_type === 'user' ? 'Phone' : 'Organization Phone'}
                         type="number"
                         value={data.phone}
                         onChange={(e) => setData('phone', e.target.value)}
@@ -316,61 +319,67 @@ export default function UpdateProfileInformation({
                         placeholder="Your phone"
                         required
                     />
-                    <SelectInput
-                        id="gender"
-                        label="Select Gender"
-                        value={data.gender}
-                        onChange={(e) => setData('gender', e.target.value)}
-                        error={errors.gender}
-                        options={genderOptions}
-                        required
-                    />
-
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <DateInput
-                            id="dob"
-                            label="Date of Birth"
-                            value={data.dob}
-                            onChange={(value) => setData('dob', value)}
-                            error={errors.dob}
-                            placeholder="Select DOB"
+                    {user.user_type === 'user' && (
+                        <SelectInput
+                            id="gender"
+                            label="Select Gender"
+                            value={data.gender}
+                            onChange={(e) => setData('gender', e.target.value)}
+                            error={errors.gender}
+                            options={genderOptions}
                             required
                         />
-                        <TextInput
-                            id="guardian_name"
-                            label="Guardian name"
-                            type="text"
-                            value={data.guardian_name}
-                            onChange={(e) => setData('guardian_name', e.target.value)}
-                            error={errors.guardian_name}
-                            placeholder="Your guardian name"
-                        />
-                        <TextInput
-                            id="guardian_phone"
-                            label="Guardian Phone"
-                            type="number"
-                            value={data.guardian_phone}
-                            onChange={(e) => setData('guardian_phone', e.target.value)}
-                            error={errors.guardian_phone}
-                            placeholder="Your guardian phone"
-                        />
+                    )}
 
-                        <SelectInput
-                            id="relationship"
-                            label="Relation with guardian"
-                            value={data.relationship}
-                            onChange={(e) => setData('relationship', e.target.value)}
-                            error={errors.relationship}
-                            options={relationOptions}
-                        />
+                    <DateInput
+                        id="dob"
+                        label={user.user_type === 'user' ? 'Date of Birth' : 'Organization Establishment Date'}
+                        value={data.dob}
+                        onChange={(value) => setData('dob', value)}
+                        error={errors.dob}
+                        placeholder="Select DOB"
+                        required
+                    />
+                    {user.user_type === 'user' && (
+                        <>
+                            <TextInput
+                                id="guardian_name"
+                                label="Guardian name"
+                                type="text"
+                                value={data.guardian_name}
+                                onChange={(e) => setData('guardian_name', e.target.value)}
+                                error={errors.guardian_name}
+                                placeholder="Your guardian name"
+                            />
+                            <TextInput
+                                id="guardian_phone"
+                                label="Guardian Phone"
+                                type="number"
+                                value={data.guardian_phone}
+                                onChange={(e) => setData('guardian_phone', e.target.value)}
+                                error={errors.guardian_phone}
+                                placeholder="Your guardian phone"
+                            />
+
+                            <SelectInput
+                                id="relationship"
+                                label="Relation with guardian"
+                                value={data.relationship}
+                                onChange={(e) => setData('relationship', e.target.value)}
+                                error={errors.relationship}
+                                options={relationOptions}
+                            />
+                        </>
+                    )}
+
+
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <FileInput
                         id="photo"
                         helpText="Size: max 2 MB"
-                        label="Profile Photo(png,jpg,jpeg)"
+                        label={data.user_type === 'user' ? '"Profile Photo(png,jpg,jpeg)' : 'Logo(png,jpg,jpeg)'}
                         onFileChange={(file) => handleFileChange('photo', file)}
                         currentFileUrl={data?.photo || null}
                         error={errors.photo}
@@ -385,7 +394,7 @@ export default function UpdateProfileInformation({
                             </label>
 
                             {/* Location Search */}
-                            <div className="mb-4 relative">
+                            <div className="mb-2 relative">
                                 <div className="relative">
                                     <input
                                         type="text"
@@ -474,6 +483,9 @@ export default function UpdateProfileInformation({
                                     </p>
                                 </div>
                             )}
+                            {data.address &&
+                                <div className="text-gray-400 text-sm">Current address : {data.address}</div>
+                            }
                         </div>
                     </div>
 

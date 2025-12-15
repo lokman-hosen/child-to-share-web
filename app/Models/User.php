@@ -49,7 +49,7 @@ class User extends Authenticatable
     {
         return Attribute::get(function () {
             if ($this->organization){
-                if (($this->phone === $this->organization->contact_phone) and ($this->email === $this->organization->contact_email)){
+                if ($this->id === $this->organization->user_id){
                     return 'organization';
                 }else{
                     return 'user';
