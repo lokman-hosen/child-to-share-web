@@ -23,6 +23,7 @@ return new class extends Migration
             $table->json('auto_tags')->nullable();
             $table->boolean('nsfw_flagged')->default(false);
             $table->enum('status', ['pending', 'approved', 'fulfilled', 'cancelled'])->default('pending');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamp('fulfilled_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

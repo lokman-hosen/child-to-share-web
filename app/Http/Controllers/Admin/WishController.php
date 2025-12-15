@@ -7,6 +7,7 @@ use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
 use App\Services\CategoryService;
+use App\Services\UserService;
 use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class WishController extends Controller
     public function __construct(
         protected WishService $wishService,
         protected CategoryService $categoryService,
+        protected UserService $userService
 
     ){}
     /**
@@ -45,10 +47,15 @@ class WishController extends Controller
     {
         Gate::authorize('create', Wish::class);
         $categories = $this->categoryService->listByStatus();
+        $wishers = collect();
+        if (Auth::user()->user_type == 'organization'){
+            $wishers = $this->userService->getOrganizationWisherList();
+        }
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
             'categories' => $categories,
-            'ageRanges' => ageRanges()
+            'ageRanges' => ageRanges(),
+            'wishers' => $wishers,
         ]);
     }
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->json('auto_tags')->nullable();
             $table->boolean('nsfw_flagged')->default(false);
             $table->enum('status', ['available', 'reserved', 'donated'])->default('available');
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -6,7 +6,7 @@ import {faGift, faList, faStar} from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/Wish/Form.jsx";
 
 
-const Create = ({categories,ageRanges,module}) => {
+const Create = ({categories,ageRanges,module,wishers}) => {
     return (
         <AuthenticatedLayout>
             <Head title={`${module} Create`} />
@@ -52,6 +52,7 @@ const Create = ({categories,ageRanges,module}) => {
                                 module={module}
                                 categories={categories}
                                 ageRanges={ageRanges}
+                                wishers={wishers}
                             />
                         </div>
                     </div>

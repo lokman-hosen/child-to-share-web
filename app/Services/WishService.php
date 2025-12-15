@@ -70,8 +70,9 @@ class WishService extends BaseService
             'title' => $request->title,
             'description' => $request->description,
             'age_range' => $request->age_range,
-            'user_id' => Auth::id(),
+            'user_id' => $request->user_id ?? Auth::id(),
             'category_id' => $category->id,
+            'created_by' => Auth::id(),
             'status' => 'approved',
         ]);
         if ($request->filled('existing_attachment')) {

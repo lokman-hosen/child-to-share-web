@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import {useForm, usePage} from '@inertiajs/react';
 import TextInput from '@/Components/TextInputField.jsx';
 import SelectInput from '@/Components/SelectInput.jsx';
 import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
@@ -8,7 +8,9 @@ import {faArrowLeft, faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
-const Form = ({categories, wish, statuses, module, ageRanges}) => {
+const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
+    const user = usePage().props.auth.user;
+
     const fileInputRef = useRef(null);
     const [donationImages, setDonationImages] = useState([]);
     const [selectedExistingImage, setSelectedExistingImage] = useState(null);
@@ -22,6 +24,7 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
         attachments: [], // For new file uploads
         existing_attachment: null, // For single selected existing donation image
         status: wish?.status || 'available',
+        user_id: wish?.user_id || '',
         _method: wish ? 'PUT' : 'POST',
     });
 
@@ -45,6 +48,7 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                 category: wish?.category.name || '',
                 description: wish?.description || '',
                 status: wish?.status || 'available',
+                user_id: wish?.user_id || '',
                 existing_attachment: wish?.existing_attachment || null,
                 _method: 'PUT',
             }));
@@ -139,6 +143,7 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
     };
 
     const ageRangeOptions = getStatusOptions(ageRanges);
+    const wisherOptions = getDropdownOptions(wishers, 'id', 'name');
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -172,6 +177,17 @@ const Form = ({categories, wish, statuses, module, ageRanges}) => {
                     options={ageRangeOptions}
                     required
                 />
+                {user.userType === 'organization' &&
+                    <SelectInput
+                        id="user_id"
+                        label="Select Wisher(Wish for)"
+                        value={data.user_id}
+                        onChange={(e) => setData('user_id', e.target.value)}
+                        error={errors.user_id}
+                        options={wisherOptions}
+                        required
+                    />
+                }
             </div>
 
             <div className="grid grid-cols-1 gap-6">

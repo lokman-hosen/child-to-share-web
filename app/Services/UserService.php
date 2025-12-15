@@ -33,7 +33,8 @@ UserService extends BaseService
         // Keep query parameters when paginating
         $query = $this->user->load('organization')->query();
         if (Auth::user()?->user_type == 'organization') {
-            $query->where('organization_id', Auth::user()?->organization_id);
+            $query->where('id', '<>', Auth::id())
+                ->where('organization_id', Auth::user()?->organization_id);
         }
 
         return $query->when($searchName, function ($query, $searchName) {
@@ -113,5 +114,12 @@ UserService extends BaseService
             'guardian_phone' => checkEmpty($request->guardian_phone),
             'relationship' => checkEmpty($request->relationship),
         ]);
+    }
+
+    public function getOrganizationWisherList()
+    {
+        return Auth::user()->organization->users()->where('id', '<>', Auth::id())
+            ->orderBy('name', 'asc')
+            ->get(['id', 'name']);
     }
 }
