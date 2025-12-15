@@ -19,6 +19,7 @@ import {
     faSearch,
     faSpinner
 } from "@fortawesome/free-solid-svg-icons";
+import TextareaInput from "@/Components/TextareaInput.jsx";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -48,6 +49,7 @@ export default function UpdateProfileInformation({
             gender: user?.gender,
             address: user?.address,
             dob: user?.dob,
+            description: user?.organization?.description,
         });
 
     const submit = (e) => {
@@ -306,7 +308,7 @@ export default function UpdateProfileInformation({
                         autoComplete="username"
                         error={errors.email}
                         placeholder="Your email"
-                        required={user.user_type === 'organization' ? true : false}
+                        required={user.user_type === 'organization'}
                     />
 
                     <TextInput
@@ -372,7 +374,6 @@ export default function UpdateProfileInformation({
                         </>
                     )}
 
-
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -386,6 +387,20 @@ export default function UpdateProfileInformation({
                         accept="image/png, image/jpg, image/jpeg"
                     />
                 </div>
+
+                {user.user_type === 'organization' &&
+                    <div className="grid grid-cols-1 gap-6">
+                        <TextareaInput
+                            id="description"
+                            label="Description"
+                            value={data.description}
+                            onChange={(e) => setData('description', e.target.value)}
+                            error={errors.description}
+                            placeholder="Write about the organization"
+                            required
+                        />
+                    </div>
+                }
                 <div className="grid grid-cols-1 gap-6">
                         {/* Location Search Section */}
                         <div className="mt-1">

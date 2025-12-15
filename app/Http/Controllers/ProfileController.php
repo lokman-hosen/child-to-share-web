@@ -157,6 +157,7 @@ class ProfileController extends Controller
                 'contact_email' => $request->email,
                 'contact_phone' => $request->phone,
                 'address' => $request->address ?? null,
+                'description' => $request->description ?? null,
             ]);
         }
         if ($user){
