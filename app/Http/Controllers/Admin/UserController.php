@@ -9,6 +9,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -49,7 +50,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserDataRequest $request)
+    public function store(StoreUserDataRequest $request): RedirectResponse
     {
         $user = $this->userService->saveUser($request);
         if ($user){
@@ -69,9 +70,14 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $user): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Edit',[
+            'module' => self::moduleName,
+            'user' => $user,
+            'genders' => CommonHelper::genders(),
+            'guardianRelations' => CommonHelper::guardianRelations(),
+        ]);
     }
 
     /**
