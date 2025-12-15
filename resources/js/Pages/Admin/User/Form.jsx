@@ -79,7 +79,7 @@ const Form = ({genders,guardianRelations,user,module}) => {
                     error={errors.name}
                     isFocused
                     autoComplete="name"
-                    placeholder="Your name"
+                    placeholder="Enter name"
                     required
                 />
                 <TextInput
@@ -90,17 +90,17 @@ const Form = ({genders,guardianRelations,user,module}) => {
                     onChange={(e) => setData('email', e.target.value)}
                     autoComplete="username"
                     error={errors.email}
-                    placeholder="Your email"
+                    placeholder="Enater email"
                 />
 
                 <TextInput
                     id="phone"
-                    label="Phone"
+                    label="Phone(11 digit)"
                     type="number"
                     value={data.phone}
                     onChange={(e) => setData('phone', e.target.value)}
                     error={errors.phone}
-                    placeholder="Your phone"
+                    placeholder="017********"
                 />
                 <SelectInput
                     id="gender"
@@ -132,12 +132,12 @@ const Form = ({genders,guardianRelations,user,module}) => {
                 />
                 <TextInput
                     id="guardian_phone"
-                    label="Guardian Phone"
+                    label="Guardian Phone(11 digit)"
                     type="number"
                     value={data.guardian_phone}
                     onChange={(e) => setData('guardian_phone', e.target.value)}
                     error={errors.guardian_phone}
-                    placeholder="Your guardian phone"
+                    placeholder="017********"
                     required
                 />
 
