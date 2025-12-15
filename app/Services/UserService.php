@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Actions\FileSizes;
 use App\Models\Donation;
 use App\Models\File;
 use App\Models\Organization;
@@ -10,6 +11,7 @@ use App\Models\Wish;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -43,5 +45,45 @@ UserService extends BaseService
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10) // Pagination: 10 items per page
             ->withQueryString();
+    }
+
+    public function saveUser($request)
+    {
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $imageFile = $request->file('photo');
+            $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
+        }
+
+        $organization = null;
+        if (Auth::user()->user_type == 'organization') {
+            $organization = Auth::user()->organization;
+        }
+
+        $user = $this->user->create([
+            'name' => $request->name,
+            'email' => checkEmpty($request->email),
+            'phone' => checkEmpty($request->phone),
+            'image' => $photoPath,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'latitude' => checkEmpty($request->latitude),
+            'longitude' => checkEmpty($request->longitude),
+            'address' => checkEmpty($request->address),
+            'guardian_name' => checkEmpty($request->guardian_name),
+            'guardian_phone' => checkEmpty($request->guardian_phone),
+            'relationship' => checkEmpty($request->relationship),
+            'organization_id' => $organization ? $organization->id : null,
+            'is_verified' => true,
+            'is_active' => true,
+            'password' => Hash::make('12345Uihp'),
+        ]);
+
+        // assign role
+        if ($user){
+            $user->roles()->attach([3,4]);
+        }
+        return $user;
+
     }
 }

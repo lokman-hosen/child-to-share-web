@@ -18,7 +18,7 @@ Set Admin role:
 
 Users
 1. ALTER TABLE `users` ADD `organization_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `address`;
-2. ALTER TABLE `three_wish`.`users` ADD UNIQUE `users_organization_id_foreign` (`organization_id`);
+2. ALTER TABLE `three_wish`.`users` ADD INDEX `users_organization_id_foreign` (`organization_id`);
 
 Organizations
 1. ALTER TABLE `organizations` ADD `user_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `description`;

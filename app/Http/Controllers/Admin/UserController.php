@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserDataRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -48,9 +49,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserDataRequest $request)
     {
-        //
+        $user = $this->userService->saveUser($request);
+        if ($user){
+            return redirect()->route('users.index')->with('success', 'User created successfully!');
+        }
+        return redirect()->route('users.index')->with('error', 'Error to created wish');
     }
 
     /**

@@ -8,6 +8,7 @@ import {faArrowLeft, faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 import DateInput from "@/Components/DateInput.jsx";
+import FileInput from "@/Components/FileInput.jsx";
 
 const Form = ({genders,guardianRelations,user,module}) => {
     const fileInputRef = useRef(null);
@@ -21,6 +22,7 @@ const Form = ({genders,guardianRelations,user,module}) => {
         relationship: user?.relationship,
         gender: user?.gender,
         dob: user?.dob,
+        photo: user?.photo,
         _method: user ? 'PUT' : 'POST',
     });
 
@@ -38,6 +40,7 @@ const Form = ({genders,guardianRelations,user,module}) => {
                 relationship: user?.relationship || '',
                 gender: user?.gender || '',
                 dob: user?.dob || '',
+                photo: user?.photo || null,
                 _method: 'PUT',
             }));
         } else {
@@ -63,6 +66,12 @@ const Form = ({genders,guardianRelations,user,module}) => {
             },
             preserveScroll: true,
         });
+    };
+    const handleFileChange = (field, file) => {
+        setData(field, file);
+        if (file !== null) {
+            setData(`${field}_removed`, false);
+        }
     };
 
     const relationOptions = getCommonOptions(guardianRelations);
@@ -138,7 +147,6 @@ const Form = ({genders,guardianRelations,user,module}) => {
                     onChange={(e) => setData('guardian_phone', e.target.value)}
                     error={errors.guardian_phone}
                     placeholder="017********"
-                    required
                 />
 
                 <SelectInput
@@ -152,8 +160,15 @@ const Form = ({genders,guardianRelations,user,module}) => {
                 />
             </div>
 
-            <div className="grid grid-cols-1 gap-6">
-
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <FileInput
+                    id="photo"
+                    label="Wisher Photo(png,jpg,jpeg)"
+                    onFileChange={(file) => handleFileChange('photo', file)}
+                    currentFileUrl={data?.photo || null}
+                    error={errors.photo}
+                    accept="image/png, image/jpg, image/jpeg"
+                />
             </div>
 
             <div className="mt-8 flex justify-center space-x-4">
