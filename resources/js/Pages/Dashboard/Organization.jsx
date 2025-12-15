@@ -5,7 +5,7 @@ import WishList from "@/Components/Common/Admin/Donor/WishList.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
-const OrganizationDashboard = () => {
+const OrganizationDashboard = ({availableDonationCount,donatedDonationCount,activeWishCount,fulfilledWishCount,user}) => {
     return (
         <div className="page active-page">
             <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-4 m-6">
@@ -13,21 +13,33 @@ const OrganizationDashboard = () => {
                     <div className="flex flex-col md:flex-row items-center">
                         <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
                             <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-lg">
-                                <i className="fas fa-school text-blue-500 text-4xl"></i>
+                                {user.image ? (
+                                    <img
+                                        src={`/storage/${user.image}`}
+                                        alt={user.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <img
+                                        src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                        alt={user.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className="text-center md:text-left">
-                            <h1 className="text-3xl font-bold mb-2">Sunshine Elementary School</h1>
-                            <p className="text-lg opacity-90">Serving the community since 2005</p>
+                            <h1 className="text-3xl font-bold mb-2">{user.name}</h1>
+                            <p className="text-lg opacity-90">Serving the community since {user.created_at}</p>
                             <div className="flex flex-wrap justify-center md:justify-start mt-4 gap-3">
                                 <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
                                     <i className="fas fa-users mr-1"></i> 28 Members
                                 </span>
                                 <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-gift mr-1"></i> 47 Wishes Fulfilled
+                                    <i className="fas fa-gift mr-1"></i> {fulfilledWishCount} Wishes Fulfilled
                                 </span>
                                 <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-map-marker-alt mr-1"></i> Seattle, WA
+                                    <i className="fas fa-map-marker-alt mr-1"></i> {user?.organization?.name}
                                 </span>
                             </div>
                         </div>
@@ -71,7 +83,7 @@ const OrganizationDashboard = () => {
                                     <dl>
                                         <dt className="text-sm font-medium text-gray-500 truncate">Wishes Fulfilled</dt>
                                         <dd className="flex items-baseline">
-                                            <div className="text-2xl font-semibold text-gray-900">47</div>
+                                            <div className="text-2xl font-semibold text-gray-900">{fulfilledWishCount}</div>
                                         </dd>
                                     </dl>
                                 </div>
@@ -89,7 +101,7 @@ const OrganizationDashboard = () => {
                                     <dl>
                                         <dt className="text-sm font-medium text-gray-500 truncate">Active Wishes</dt>
                                         <dd className="flex items-baseline">
-                                            <div className="text-2xl font-semibold text-gray-900">12</div>
+                                            <div className="text-2xl font-semibold text-gray-900">{activeWishCount}</div>
                                         </dd>
                                     </dl>
                                 </div>
@@ -107,7 +119,7 @@ const OrganizationDashboard = () => {
                                     <dl>
                                         <dt className="text-sm font-medium text-gray-500 truncate">Total Donations</dt>
                                         <dd className="flex items-baseline">
-                                            <div className="text-2xl font-semibold text-gray-900">63</div>
+                                            <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
                                         </dd>
                                     </dl>
                                 </div>
@@ -121,22 +133,11 @@ const OrganizationDashboard = () => {
                         <div className="bg-white shadow rounded-lg p-6 mb-8">
                             <h2 className="text-xl font-semibold text-gray-900 mb-4">About Our Organization</h2>
                             <p className="text-gray-600 mb-4">
-                                Sunshine Elementary School has been serving the community since 2005, providing quality
-                                education
-                                to children from diverse backgrounds. We believe in fostering not just academic
-                                excellence but
-                                also compassion and community spirit.
-                            </p>
-                            <p className="text-gray-600 mb-4">
-                                Through ThreeWish, we connect families in need with generous donors who can help make
-                                children's
-                                wishes come true. Whether it's school supplies, winter clothing, or books for our
-                                library, every
-                                donation makes a significant impact on our students' lives.
+                                {user?.organization?.description}
                             </p>
                             <div className="flex items-center text-sm text-gray-500">
                                 <i className="fas fa-clock mr-2"></i>
-                                <span>Joined ThreeWish: January 2022</span>
+                                <span>Joined ThreeWish: {user?.organization?.created_at}</span>
                             </div>
                         </div>
 
