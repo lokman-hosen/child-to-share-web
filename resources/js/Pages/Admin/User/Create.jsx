@@ -26,7 +26,7 @@ const Create = ({guardianRelations,genders,module}) => {
                                 </div>
                                 <div>
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        Create Item You {module} For
+                                        Create User(wisher)
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
                                         Share wishes you like to have
