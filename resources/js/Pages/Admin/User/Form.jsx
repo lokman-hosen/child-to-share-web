@@ -53,7 +53,7 @@ const Form = ({genders,guardianRelations,user,module}) => {
         e.preventDefault();
 
         const submitRoute = user
-            ? route('users.update', wish.id)
+            ? route('users.update', user.id)
             : route('users.store');
 
         post(submitRoute, {

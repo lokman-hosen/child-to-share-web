@@ -56,7 +56,7 @@ class UserController extends Controller
         if ($user){
             return redirect()->route('users.index')->with('success', 'User created successfully!');
         }
-        return redirect()->route('users.index')->with('error', 'Error to created wish');
+        return redirect()->route('users.index')->with('error', 'Error to created user');
     }
 
     /**
@@ -83,9 +83,13 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        //
+        $user = $this->userService->updateUser($request,$user);
+        if ($user){
+            return redirect()->route('users.index')->with('success', 'User updated successfully!');
+        }
+        return redirect()->route('users.index')->with('error', 'Error to created user');
     }
 
     /**

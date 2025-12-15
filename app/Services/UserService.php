@@ -86,4 +86,32 @@ UserService extends BaseService
         return $user;
 
     }
+
+    public function updateUser($request,$user)
+    {
+        $photoPath = $user->image;
+        if ($request->hasFile('photo')) {
+            $imageFile = $request->file('photo');
+            if ($user->image && Storage::disk('public')->exists($user->image)){
+                $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'update', $user->image);
+            }else{
+                $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
+            }
+        }
+
+        return $user->update([
+            'name' => $request->name,
+            'email' => checkEmpty($request->email),
+            'phone' => checkEmpty($request->phone),
+            'image' => $photoPath,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
+            'latitude' => checkEmpty($request->latitude),
+            'longitude' => checkEmpty($request->longitude),
+            'address' => checkEmpty($request->address),
+            'guardian_name' => checkEmpty($request->guardian_name),
+            'guardian_phone' => checkEmpty($request->guardian_phone),
+            'relationship' => checkEmpty($request->relationship),
+        ]);
+    }
 }
