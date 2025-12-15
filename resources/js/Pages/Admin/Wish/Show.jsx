@@ -16,7 +16,6 @@ import Form from "@/Pages/Admin/Donation/Form.jsx";
 import {Button} from "@headlessui/react";
 
 export default function Show({module, wish}) {
-
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const getStatusColor = (status) => {
@@ -302,11 +301,11 @@ export default function Show({module, wish}) {
                                                         {wish.user?.name || 'Anonymous'}
                                                     </dd>
                                                 </div>
-                                                {wish.organization && (
+                                                {wish?.create_by && (
                                                     <div>
                                                         <dt className="text-sm font-medium text-gray-500">Organization:</dt>
                                                         <dd className="text-sm text-gray-900">
-                                                            {wish.organization.name}
+                                                            {wish?.create_by?.name}
                                                         </dd>
                                                     </div>
                                                 )}

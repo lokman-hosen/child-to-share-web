@@ -82,7 +82,8 @@ class WishController extends Controller
             'user',
             'organization',
             'category',
-            'files' // Make sure this matches your relationship name
+            'files', // Make sure this matches your relationship name
+            'createBy'
         ]);
         return Inertia::render(self::moduleDirectory.'Show', [
             'module' => self::moduleName,

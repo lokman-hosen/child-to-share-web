@@ -94,4 +94,9 @@ class Wish extends Model
         return $this->morphMany(File::class, 'fileable')
             ->where('file_type', 'video');
     }
+
+    public function createBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
