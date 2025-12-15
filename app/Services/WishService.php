@@ -33,8 +33,13 @@ class WishService extends BaseService
         // Keep query parameters when paginating
         $query = $this->wish->with(['user', 'files', 'featuredImage']);
         if (checkWisher() or checkDonorWisher()){
-            $query->where('user_id', Auth::id());
+            if (Auth::user()->user_type === 'organization'){
+                $query->where('created_by', Auth::id());
+            }else{
+                $query->where('user_id', Auth::id());
+            }
         }
+
         return $query->when($searchName, function ($query, $searchName) {
             $query->where('name', 'like', '%' . $searchName . '%');
         })

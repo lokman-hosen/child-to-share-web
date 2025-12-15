@@ -104,12 +104,17 @@ class WishController extends Controller
         ]);
         $categories = $this->categoryService->listByStatus();
         $statuses = wishStatus();
+        $wishers = collect();
+        if (Auth::user()->user_type == 'organization'){
+            $wishers = $this->userService->getOrganizationWisherList();
+        }
         return Inertia::render(self::moduleDirectory.'Edit', [
             'module' => self::moduleName,
             'categories' => $categories,
             'ageRanges' => ageRanges(),
             'wish' => $wish,
             'statuses' => $statuses,
+            'wishers' => $wishers,
         ]);
     }
 

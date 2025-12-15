@@ -27,7 +27,11 @@ class WishPolicy
         if (checkAdmin()){
             return true;
         }elseif (checkDonorWisher() or checkWisher()){
-            return $user->id == $wish->user_id;
+            if ($user->id == $wish->created_by){
+                return true;
+            }else{
+                return $user->id == $wish->user_id;
+            }
         }
         return false;
     }
@@ -51,7 +55,11 @@ class WishPolicy
         if (checkAdmin()){
             return true;
         }elseif (checkDonorWisher() or checkWisher()){
-            return $user->id == $wish->user_id;
+            if ($user->id == $wish->created_by){
+                return true;
+            }else{
+                return $user->id == $wish->user_id;
+            }
         }
         return false;
     }
@@ -64,7 +72,11 @@ class WishPolicy
         if (checkAdmin()){
             return true;
         }elseif (checkDonorWisher() or checkWisher()){
-            return $user->id == $wish->user_id;
+            if ($user->id == $wish->created_by){
+                return true;
+            }else{
+                return $user->id == $wish->user_id;
+            }
         }
         return false;
     }

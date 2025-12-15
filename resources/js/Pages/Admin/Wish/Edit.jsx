@@ -5,7 +5,7 @@ import Form from './Form';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift, faList} from "@fortawesome/free-solid-svg-icons";
 
-export default function Edit({module,categories,statuses,wish,ageRanges}) {
+export default function Edit({module,categories,statuses,wish,ageRanges,wishers}) {
     return (
         <AuthenticatedLayout>
             <Head title={`Edit ${module}: ${wish.title}`} />
@@ -52,6 +52,7 @@ export default function Edit({module,categories,statuses,wish,ageRanges}) {
                                 statuses={statuses}
                                 wish={wish}
                                 ageRanges={ageRanges}
+                                wishers={wishers}
                             />
                         </div>
                     </div>
