@@ -38,6 +38,7 @@ export default function Dashboard({user,module,availableDonationCount,donatedDon
                         donatedDonationCount={donatedDonationCount}
                         activeWishCount={activeWishCount}
                         fulfilledWishCount={fulfilledWishCount}
+                        wishRequests={wishRequests}
                     />
                 )
             )}
