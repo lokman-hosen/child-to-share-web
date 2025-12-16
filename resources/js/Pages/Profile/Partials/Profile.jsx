@@ -42,7 +42,8 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             <div className="flex-1 text-center md:text-left w-full">
                                 <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{user.name}</h2>
                                 <p className="text-sm text-gray-500 mb-3 md:mb-4">
-                                    Member Since {format(new Date(user.created_at), 'MMMM do, yyyy')}
+                                    {/*Member Since {format(new Date(user.created_at), 'MMMM do, yyyy')}*/}
+                                    Member Since {user.created_at}
                                 </p>
 
                                 {/* Stats Container */}
