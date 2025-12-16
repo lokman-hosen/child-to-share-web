@@ -75,7 +75,7 @@ export default function Index({module, users }) {
                                 </div>
                                 <div>
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        {module} List
+                                        {module}(wisher) List
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
                                         Manage all users in the system
@@ -116,7 +116,7 @@ export default function Index({module, users }) {
                                     <div className="animate-bounce">
                                         <FontAwesomeIcon icon={faPlus} className="text-blue-600" />
                                     </div>
-                                    <span>Add New User</span>
+                                    <span>Add New User(wisher)</span>
                                 </Link>
                             </div>
                         </div>

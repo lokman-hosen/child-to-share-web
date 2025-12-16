@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {checkDonor, checkDonorWisher, checkWisher} from "@/utils.jsx";
-import { faCheckCircle, faTimesCircle, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import {faCheckCircle, faTimesCircle, faEnvelope, faPhone, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 export default function Profile({ user,availableDonationCount,donatedDonationCount,fulfilledWishCount,activeWishCount,totalWishCount }) {
     const authUser = usePage().props.auth.user;
@@ -163,6 +163,16 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                     <dd className="text-sm text-gray-900 uppercase">{user.gender ?? 'n/a'}</dd>
                                 </div>
                             </dl>
+                            <button
+                                type="button"
+                                onClick={() => window.history.back()}
+                                className="mt-5 w-100 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                            >
+                                <div className="flex items-center space-x-2">
+                                    <FontAwesomeIcon icon={faArrowLeft}/>
+                                    <span>Back</span>
+                                </div>
+                            </button>
                         </div>
 
                         {/*<div>*/}

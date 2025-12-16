@@ -253,7 +253,7 @@ export default function Register({genders}) {
                                     <div className="text-4xl mb-3 text-green-500">
                                         <FontAwesomeIcon icon={faUser}/>
                                     </div>
-                                    <h3 className="font-semibold">A Person/Individual</h3>
+                                    <h3 className="font-semibold">Person/Individual</h3>
                                 </div>
 
                                 <div
@@ -262,7 +262,7 @@ export default function Register({genders}) {
                                     <div className="text-4xl mb-3 text-purple-500">
                                         <FontAwesomeIcon icon={faBuilding}/>
                                     </div>
-                                    <h3 className="font-semibold">A Organization</h3>
+                                    <h3 className="font-semibold">Organization</h3>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

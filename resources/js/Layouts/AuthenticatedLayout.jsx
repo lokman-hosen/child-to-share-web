@@ -4,7 +4,7 @@ import Navbar from "@/Components/Common/Admin/Navbar.jsx";
 import LeftSidebar from "@/Components/Common/LeftSidebar.jsx";
 import Toast from "@/Components/Toast.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faGift, faStar, faUser, faDashboard } from '@fortawesome/free-solid-svg-icons';
+import {faHome, faGift, faStar, faUser, faDashboard, faUsers} from '@fortawesome/free-solid-svg-icons';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
@@ -74,6 +74,18 @@ export default function AuthenticatedLayout({ header, children }) {
                                     className={`w-5 h-5 ${isActiveRoute('/dashboard') ? 'scale-110' : ''} transition-transform`}
                                 />
                                 <span className="text-xs font-medium">Dashboard</span>
+                            </Link>
+                            <Link
+                                href={route('users.index')}
+                                className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
+                                    isActiveRoute('/users') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-500'
+                                }`}
+                            >
+                                <FontAwesomeIcon
+                                    icon={faUsers}
+                                    className={`w-5 h-5 ${isActiveRoute('/users') ? 'scale-110' : ''} transition-transform`}
+                                />
+                                <span className="text-xs font-medium">Users</span>
                             </Link>
 
                             {/* Donations */}
