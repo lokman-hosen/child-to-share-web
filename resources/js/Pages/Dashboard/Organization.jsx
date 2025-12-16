@@ -29,7 +29,7 @@ const OrganizationDashboard = ({availableDonationCount,donatedDonationCount,acti
                             </div>
                         </div>
                         <div className="text-center md:text-left">
-                            <h1 className="text-3xl font-bold mb-2">{user.name}</h1>
+                            <h1 className="text-3xl font-bold mb-2">{user.organization.name}</h1>
                             <p className="text-lg opacity-90">Serving the community since {user.created_at}</p>
                             <div className="flex flex-wrap justify-center md:justify-start mt-4 gap-3">
                                 <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">

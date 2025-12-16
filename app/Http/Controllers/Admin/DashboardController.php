@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\DonationService;
 use App\Services\WishService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -68,12 +69,17 @@ class DashboardController extends Controller
             ->wishByStatus('approved', 'count',  null,'admin');
         $fulfilledWishCount = $this->wishService
             ->wishByStatus('fulfilled', 'count',  null,'admin');
+        $user = Auth::user();
+        if (Auth::user()->user_type === 'organization'){
+            $user->load('organization');
+        }
         return Inertia::render('Dashboard', [
             'module' => self::moduleName,
             'availableDonationCount' => $availableDonationCount,
             'donatedDonationCount' => $donatedDonationCount,
             'activeWishCount' => $activeWishCount,
             'fulfilledWishCount' => $fulfilledWishCount,
+            'user' => $user,
         ]);
     }
 

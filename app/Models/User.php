@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Carbon;
 
 
 class User extends Authenticatable
@@ -32,6 +33,7 @@ class User extends Authenticatable
 //    ];
     protected $appends = ['role','user_type'];
 
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -44,6 +46,13 @@ class User extends Authenticatable
         'longitude',
         'deleted_at',
     ];
+
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('F jS, Y'),
+        );
+    }
 
     protected function userType(): Attribute
     {
