@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
 use App\Services\CategoryService;
 use App\Services\DonationService;
+use App\Services\UserService;
 use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,14 +19,16 @@ use Inertia\Response;
 
 class WishController extends Controller
 {
+    const moduleDirectory = 'Admin/Wish/';
+    const moduleName = 'Wish';
+
     public function __construct(
         protected WishService $wishService,
         protected CategoryService $categoryService,
+        protected UserService $userService,
         protected DonationService $donationService,
 
     ){}
-    const moduleDirectory = 'Admin/Wish/';
-    const moduleName = 'Wish';
     /**
      * Display a listing of the resource.
      */
@@ -46,10 +49,15 @@ class WishController extends Controller
     {
         Gate::authorize('create', Wish::class);
         $categories = $this->categoryService->listByStatus();
+        $wishers = collect();
+        if (Auth::user()->user_type == 'organization'){
+            $wishers = $this->userService->getOrganizationWisherList();
+        }
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
             'categories' => $categories,
-            'ageRanges' => ageRanges()
+            'ageRanges' => ageRanges(),
+            'wishers' => $wishers,
         ]);
     }
 
@@ -76,7 +84,8 @@ class WishController extends Controller
             'user',
             'organization',
             'category',
-            'files' // Make sure this matches your relationship name
+            'files', // Make sure this matches your relationship name
+            'createBy'
         ]);
         return Inertia::render(self::moduleDirectory.'Show', [
             'module' => self::moduleName,
@@ -98,12 +107,17 @@ class WishController extends Controller
         ]);
         $categories = $this->categoryService->listByStatus();
         $statuses = wishStatus();
+        $wishers = collect();
+        if (Auth::user()->user_type == 'organization'){
+            $wishers = $this->userService->getOrganizationWisherList();
+        }
         return Inertia::render(self::moduleDirectory.'Edit', [
             'module' => self::moduleName,
             'categories' => $categories,
             'ageRanges' => ageRanges(),
             'wish' => $wish,
             'statuses' => $statuses,
+            'wishers' => $wishers,
         ]);
     }
 

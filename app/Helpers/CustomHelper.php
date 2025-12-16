@@ -133,7 +133,7 @@ function distanceRanges(): array
 
 function stringLimit(string $string, int $limit): string
 {
-   return Str::of($string)->limit($limit, preserveWords: true);
+    return Str::of($string)->limit($limit, preserveWords: true);
 }
 
 

@@ -72,7 +72,7 @@ class RegisteredUserController extends Controller
                 'phone' => $request->phone,
                 'image' => $photoPath,
                 'dob' => $request->dob,
-                'gender' => $request->gender,
+                'gender' => $request->gender ?? 'other',
                 'latitude' => checkEmpty($request->latitude),
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
@@ -81,8 +81,22 @@ class RegisteredUserController extends Controller
                 'is_active' => true,
                 'password' => Hash::make($request->password),
             ]);
+            // assign role
             if ($user){
                 $user->roles()->attach([3,4]);
+            }
+            // save organization info
+            if ($request->user_type == 'organization' and $user){
+                $organization = $user->organization()->create([
+                    'name' => $user->name,
+                    'contact_email' => checkEmpty($user->email),
+                    'contact_phone' => $user->phone,
+                    'address' => $request->address,
+                    'user_id' => $user->id,
+                ]);
+                if ($organization){
+                    $user->update(['organization_id' => $organization->id]);
+                }
             }
 
             // tah organization

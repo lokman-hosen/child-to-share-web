@@ -151,6 +151,15 @@ class ProfileController extends Controller
             'longitude' => $request->longitude ?? $user->longitude,
             'address' => $request->address ?? $user->address,
         ]);
+        if (Auth::user()->user_type === 'organization'){
+            Auth::user()->organization()->update([
+                'name' => $request->name,
+                'contact_email' => $request->email,
+                'contact_phone' => $request->phone,
+                'address' => $request->address ?? null,
+                'description' => $request->description ?? null,
+            ]);
+        }
         if ($user){
             return Redirect::back()->with('success', 'Profile updated successfully.');
         }

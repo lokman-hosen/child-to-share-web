@@ -11,7 +11,7 @@ import {
     faSpinner,
     faSearch,
     faMapMarkerAlt,
-    faClose,
+    faClose, faUser, faBuilding,
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Button} from "@headlessui/react";
@@ -33,10 +33,11 @@ export default function Register({genders}) {
         dob: '',
         address: '',
         photo: null,
-        gender: '',
+        gender: 'other',
         latitude: '',
         longitude: '',
         password: '',
+        user_type: 'person'
     });
 
     // Initialize Google Maps services
@@ -243,20 +244,41 @@ export default function Register({genders}) {
 
                     <form onSubmit={submit} className="space-y-6">
                         <div className="px-6 pb-8 mt-5">
+                            <br/>
+                            <h2 className="text-xl font-semibold mb-4">Sign Up As:</h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                                <div
+                                    onClick={() => setData('user_type', 'person')}
+                                    className={`role-option p-5 text-center ${data.user_type === 'person' ? 'selected' : ''}`} data-user-type="person">
+                                    <div className="text-4xl mb-3 text-green-500">
+                                        <FontAwesomeIcon icon={faUser}/>
+                                    </div>
+                                    <h3 className="font-semibold">Person/Individual</h3>
+                                </div>
+
+                                <div
+                                    onClick={() => setData('user_type', 'organization')}
+                                    className={`role-option p-5 text-center ${data.user_type === 'organization' ? 'selected' : ''}`} data-user-type="organization">
+                                    <div className="text-4xl mb-3 text-purple-500">
+                                        <FontAwesomeIcon icon={faBuilding}/>
+                                    </div>
+                                    <h3 className="font-semibold">Organization</h3>
+                                </div>
+                            </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <TextInput
                                     id="name"
-                                    label="Enter Full Name"
+                                    label={data.user_type === 'person' ? 'Full Name' : 'Organization Name'}
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
                                     error={errors.name}
-                                    placeholder="Enter name"
+                                    placeholder={data.user_type === 'person' ? 'Enter Name' : 'Enter Organization Name'}
                                     required
                                 />
 
                                 <TextInput
                                     id="phone"
-                                    label="Phone(11 digit)"
+                                    label={data.user_type === 'person' ? 'Phone(11 digit)' : 'Organization Phone(11 digit)'}
                                     type="number"
                                     value={data.phone}
                                     onChange={(e) => setData('phone', e.target.value)}
@@ -266,33 +288,36 @@ export default function Register({genders}) {
                                 />
                                 <TextInput
                                     id="email"
-                                    label="Email"
+                                    label={data.user_type === 'person' ? 'Email' : 'Organization Email'}
                                     value={data.email}
                                     type="email"
                                     onChange={(e) => setData('email', e.target.value)}
                                     error={errors.email}
                                     placeholder="Enter email address"
+                                    {...(data.user_type === 'organization' ? {required: true} : {})}
                                 />
 
                                 <DateInput
                                     id="dob"
-                                    label="Date of Birth"
+                                    label={data.user_type === 'person' ? 'Date of Birth' : 'Establishment Date'}
                                     value={data.dob}
                                     onChange={(value) => setData('dob', value)}
                                     error={errors.dob}
-                                    placeholder="Select DOB"
+                                    placeholder={data.user_type === 'person' ? 'Select DOB' : 'Select Establishment Date'}
                                     required
                                 />
 
-                                <SelectInput
-                                    id="gender"
-                                    label="Select Gender"
-                                    value={data.gender}
-                                    onChange={(e) => setData('gender', e.target.value)}
-                                    error={errors.gender}
-                                    options={genderOptions}
-                                    required
-                                />
+                                {data.user_type === 'person' && (
+                                    <SelectInput
+                                        id="gender"
+                                        label="Select Gender"
+                                        value={data.gender}
+                                        onChange={(e) => setData('gender', e.target.value)}
+                                        error={errors.gender}
+                                        options={genderOptions}
+                                        required
+                                    />
+                                )}
 
                                 <TextInput
                                     id="password"
@@ -309,7 +334,7 @@ export default function Register({genders}) {
                             <div className="grid grid-cols-1 gap-6 mt-5">
                                 <FileInput
                                     id="photo"
-                                    label="Profile Photo(png,jpg,jpeg)"
+                                    label={data.user_type === 'person' ? 'Profile Photo(png,jpg,jpeg)' : 'Logo(png,jpg,jpeg)'}
                                     onFileChange={(file) => handleFileChange('photo', file)}
                                     currentFileUrl={data?.photo || null}
                                     error={errors.photo}
@@ -320,7 +345,7 @@ export default function Register({genders}) {
                             {/* Location Search Section */}
                             <div className="mt-6">
                                 <label className="block text-gray-700 font-semibold mb-4">
-                                    Your Location (Search and select)
+                                    {data.user_type === 'person' ? ' Your Location' : ' Organization Location'} (Search and select)
                                     <span className="text-red-600">*</span>
                                 </label>
 

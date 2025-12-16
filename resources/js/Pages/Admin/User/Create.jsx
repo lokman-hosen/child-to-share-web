@@ -3,10 +3,10 @@ import {Head, Link} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift, faList, faStar} from "@fortawesome/free-solid-svg-icons";
-import Form from "@/Pages/Admin/Wish/Form.jsx";
+import Form from "@/Pages/Admin/User/Form.jsx";
 
 
-const Create = ({categories,ageRanges,module,wishers}) => {
+const Create = ({guardianRelations,genders,module}) => {
     return (
         <AuthenticatedLayout>
             <Head title={`${module} Create`} />
@@ -26,7 +26,7 @@ const Create = ({categories,ageRanges,module,wishers}) => {
                                 </div>
                                 <div>
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        Create Item You {module} For
+                                        Create User(wisher)
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
                                         Share wishes you like to have
@@ -50,9 +50,8 @@ const Create = ({categories,ageRanges,module,wishers}) => {
                         <div className="space-y-8">
                             <Form
                                 module={module}
-                                categories={categories}
-                                ageRanges={ageRanges}
-                                wishers={wishers}
+                                genders={genders}
+                                guardianRelations={guardianRelations}
                             />
                         </div>
                     </div>

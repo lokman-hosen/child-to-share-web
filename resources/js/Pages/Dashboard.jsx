@@ -4,10 +4,10 @@ import WisherDashboard from "@/Pages/Dashboard/WIsher.jsx";
 import DonorDashboard from "@/Pages/Dashboard/Donor.jsx";
 import AdminDashboard from "@/Pages/Dashboard/Admin.jsx";
 import DonorWisher from "@/Pages/Dashboard/DonorWisher.jsx";
+import OrganizationDashboard from "@/Pages/Dashboard/Organization.jsx";
 
-export default function Dashboard({module,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount, wishRequests}) {
+export default function Dashboard({user,module,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount, wishRequests,totalMembers}) {
 
-    const user = usePage().props.auth.user;
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard"/>
@@ -22,14 +22,26 @@ export default function Dashboard({module,availableDonationCount,donatedDonation
                     activeWishCount = {activeWishCount}
                     fulfilledWishCount = {fulfilledWishCount}
                 /> }
-            { user.role === 'donor-wisher' &&
-                <DonorWisher
-                    availableDonationCount = {availableDonationCount}
-                    donatedDonationCount = {donatedDonationCount}
-                    activeWishCount = {activeWishCount}
-                    fulfilledWishCount = {fulfilledWishCount}
-                    wishRequests = {wishRequests}
-                /> }
+            {user.role === 'donor-wisher' && (
+                user.user_type === 'organization' ? (
+                    <OrganizationDashboard
+                        availableDonationCount={availableDonationCount}
+                        donatedDonationCount={donatedDonationCount}
+                        activeWishCount={activeWishCount}
+                        fulfilledWishCount={fulfilledWishCount}
+                        user={user}
+                        totalMembers={totalMembers}
+                    />
+                ) : (
+                    <DonorWisher
+                        availableDonationCount={availableDonationCount}
+                        donatedDonationCount={donatedDonationCount}
+                        activeWishCount={activeWishCount}
+                        fulfilledWishCount={fulfilledWishCount}
+                    />
+                )
+            )}
+
             { (user.role === 'super_admin' || user.role === 'admin') && <AdminDashboard/> }
         </AuthenticatedLayout>
     );

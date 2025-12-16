@@ -39,6 +39,12 @@ class StoreUserRequest extends FormRequest
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
         ];
+        // organization name need to be unique
+        if ($this->user_type == 'organization'){
+            $rules = array_merge($rules, [
+                'name' => 'required|unique:organizations',
+            ]);
+        }
 
         // Add conditional validation for 'wisher'
 //        if ($this->role === 'wisher') {

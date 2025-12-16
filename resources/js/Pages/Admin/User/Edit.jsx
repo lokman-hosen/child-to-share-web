@@ -1,58 +1,65 @@
-import React from 'react';
-import {Head, Link} from "@inertiajs/react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
+import {Head, Link} from '@inertiajs/react';
+import React from "react";
+import Form from './Form';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift, faList, faStar} from "@fortawesome/free-solid-svg-icons";
-import Form from "@/Pages/Admin/Wish/Form.jsx";
+import {faGift, faList} from "@fortawesome/free-solid-svg-icons";
 
-
-const Create = ({categories,ageRanges,module,wishers}) => {
+export default function Edit({guardianRelations,genders,module,user}) {
     return (
         <AuthenticatedLayout>
-            <Head title={`${module} Create`} />
+            <Head title={`Edit ${module}: ${user.name}`} />
             <div className="px-4 sm:px-6 lg:px-8 py-6">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-8 sm:px-8 sm:py-10">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-                                <div
-                                    className="h-12 w-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                                    <FontAwesomeIcon
-                                        icon={faStar}
-                                        className="text-white text-xl"
-                                    />
+                                <div className="h-16 w-16 bg-white bg-opacity-20 flex items-center justify-center backdrop-blur-sm rounded-full">
+                                    {user.image ? (
+                                        <img
+                                            src={`/storage/${user.image}`}
+                                            alt={user.name}
+                                            className="w-full h-full object-cover rounded-full"
+                                        />
+                                    ) : (
+                                        <img
+                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
+                                            alt={user.name}
+                                            className="w-full h-full object-cover rounded-full"
+                                        />
+                                    )}
                                 </div>
                                 <div>
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        Create Item You {module} For
+                                        Edit {module}
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
-                                        Share wishes you like to have
+                                        Update wisher information.
                                     </p>
                                 </div>
                             </div>
 
-
                             {/* Action Button */}
                             <Link
-                                href={route('wishes.index')}
+                                href={route('users.index')}
                                 className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                             >
-                                <FontAwesomeIcon icon={faList} className="text-blue-600"/>
+                                <FontAwesomeIcon icon={faList} className="text-blue-600" />
                                 <span>View {module} List</span>
                             </Link>
                         </div>
                     </div>
+
                     {/* Card Body */}
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             <Form
                                 module={module}
-                                categories={categories}
-                                ageRanges={ageRanges}
-                                wishers={wishers}
+                                genders={genders}
+                                guardianRelations={guardianRelations}
+                                user={user}
                             />
                         </div>
                     </div>
@@ -60,7 +67,4 @@ const Create = ({categories,ageRanges,module,wishers}) => {
             </div>
         </AuthenticatedLayout>
     );
-};
-
-
-export default Create;
+}

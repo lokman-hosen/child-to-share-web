@@ -160,9 +160,13 @@ class DonationService extends BaseService
         $userId = $userId ?? Auth::id();
         $query = Donation::with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
         if ($for === 'admin') {
-            //if (checkDonor()){
+            if (Auth::user()->user_type === 'organization'){
+                $query->whereHas('user', function ($user) {
+                    $user->where('organization_id', Auth::user()->organization_id);
+                });
+            }else{
                 $query->where('user_id', $userId);
-            //}
+            }
         }
         if (isset($status)) {
             $query->where('status', $status);

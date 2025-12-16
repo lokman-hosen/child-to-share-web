@@ -38,8 +38,13 @@ class WishService extends BaseService
         // Keep query parameters when paginating
         $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfilment', 'latestFulfilment.donation.user']);
         if (checkWisher() or checkDonorWisher()){
-            $query->where('user_id', Auth::id());
+            if (Auth::user()->user_type === 'organization'){
+                $query->where('created_by', Auth::id());
+            }else{
+                $query->where('user_id', Auth::id());
+            }
         }
+
         return $query->when($searchName, function ($query, $searchName) {
             $query->where('name', 'like', '%' . $searchName . '%');
         })
@@ -55,9 +60,13 @@ class WishService extends BaseService
         $userId = $userId ?? Auth::id();
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
         if ($for === 'admin') {
-            //if (checkWisher()){
+            if (Auth::user()->user_type === 'organization'){
+                $query->whereHas('user', function ($user) {
+                    $user->where('organization_id', Auth::user()->organization_id);
+                });
+            }else{
                 $query->where('user_id', $userId);
-            //}
+            }
         }
         if (isset($status)) {
             $query->where('status', $status);
@@ -75,8 +84,9 @@ class WishService extends BaseService
             'title' => $request->title,
             'description' => $request->description,
             'age_range' => $request->age_range,
-            'user_id' => Auth::id(),
+            'user_id' => $request->user_id ?? Auth::id(),
             'category_id' => $category->id,
+            'created_by' => Auth::id(),
             'status' => 'approved',
         ]);
         if ($request->filled('existing_attachment')) {

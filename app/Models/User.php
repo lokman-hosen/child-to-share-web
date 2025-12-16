@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Carbon;
 
 
 class User extends Authenticatable
@@ -29,7 +31,8 @@ class User extends Authenticatable
 //        'email',
 //        'password',
 //    ];
-    protected $appends = ['role'];
+    protected $appends = ['role','user_type'];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -42,8 +45,28 @@ class User extends Authenticatable
         'latitude',
         'longitude',
         'deleted_at',
-        'is_active',
     ];
+
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('F jS, Y'),
+        );
+    }
+
+    protected function userType(): Attribute
+    {
+        return Attribute::get(function () {
+            if ($this->organization){
+                if ($this->id === $this->organization->user_id){
+                    return 'organization';
+                }else{
+                    return 'user';
+                }
+            }
+            return 'user';
+        });
+    }
 
     protected function role(): Attribute
     {
@@ -92,9 +115,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class)->withTimestamps();
     }
 
-    public function organizations(): BelongsToMany
+//    public function organizations(): BelongsToMany
+//    {
+//        return $this->belongsToMany(Organization::class);
+//    }
+    public function organization(): BelongsTo
     {
-        return $this->belongsToMany(Organization::class);
+        return $this->belongsTo(Organization::class, 'organization_id');
     }
 
     public function donations(): HasMany

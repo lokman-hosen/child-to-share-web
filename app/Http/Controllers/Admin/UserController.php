@@ -2,22 +2,33 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\CommonHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserDataRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Services\UserService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Inertia\Response;
 
 class UserController extends Controller
 {
     const moduleDirectory = 'Admin/User/';
-    const moduleName = 'User List';
+    const moduleName = 'User';
+
+    public function __construct(
+        protected UserService $userService,
+
+    ){}
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $users = User::orderBy('id', 'asc')->paginate(5); // 5 per page
+        $users = $this->userService->getListWithFilter($request);
         return inertia(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'users' => $users
@@ -27,17 +38,25 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Create',[
+            'module' => self::moduleName,
+            'genders' => CommonHelper::genders(),
+            'guardianRelations' => CommonHelper::guardianRelations(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserDataRequest $request): RedirectResponse
     {
-        //
+        $user = $this->userService->saveUser($request);
+        if ($user){
+            return redirect()->route('users.index')->with('success', 'User created successfully!');
+        }
+        return redirect()->route('users.index')->with('error', 'Error to created user');
     }
 
     /**
@@ -51,17 +70,26 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit(User $user): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Edit',[
+            'module' => self::moduleName,
+            'user' => $user,
+            'genders' => CommonHelper::genders(),
+            'guardianRelations' => CommonHelper::guardianRelations(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        //
+        $user = $this->userService->updateUser($request,$user);
+        if ($user){
+            return redirect()->route('users.index')->with('success', 'User updated successfully!');
+        }
+        return redirect()->route('users.index')->with('error', 'Error to created user');
     }
 
     /**

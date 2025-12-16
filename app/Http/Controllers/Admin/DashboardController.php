@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\DonationService;
+use App\Services\UserService;
 use App\Services\WishService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -19,9 +21,10 @@ class DashboardController extends Controller
     public function __construct(
         protected DonationService $donationService,
         protected WishService $wishService,
+        protected UserService $userService,
 
     ){}
-    const moduleDirectory = 'Dashboard';
+    const moduleDirectory = 'Dashboard/';
     const moduleName = 'Dashboard';
 
     public function index(): Response
@@ -69,13 +72,21 @@ class DashboardController extends Controller
         $fulfilledWishCount = $this->wishService
             ->wishByStatus('fulfilled', 'count',  null,'admin');
         $wishRequests = $this->wishService->getWishRequestFromDonor();
-        return Inertia::render(self::moduleDirectory, [
+        $user = Auth::user();
+        $totalMembers = 0;
+        if (Auth::user()->user_type === 'organization'){
+            $user->load('organization');
+            $totalMembers = Auth::user()->organization->users()->count() - 1; // minus  organization
+        }
+        return Inertia::render('Dashboard', [
             'module' => self::moduleName,
             'availableDonationCount' => $availableDonationCount,
             'donatedDonationCount' => $donatedDonationCount,
             'activeWishCount' => $activeWishCount,
             'fulfilledWishCount' => $fulfilledWishCount,
             'wishRequests' => $wishRequests,
+            'user' => $user,
+            'totalMembers' => $totalMembers,
         ]);
     }
 

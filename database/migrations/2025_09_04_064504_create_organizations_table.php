@@ -18,9 +18,8 @@ return new class extends Migration
             $table->string('contact_email')->nullable();
             $table->string('contact_phone')->nullable();
             $table->string('address')->nullable();
-            //$table->decimal('latitude', 10, 8)->nullable();
-            //$table->decimal('longitude', 11, 8)->nullable();
             $table->text('description')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->softDeletes();
