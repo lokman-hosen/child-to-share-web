@@ -87,7 +87,7 @@ export default function LeftSidebar({ onClose }) {
                                     className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('users.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
                                 >
                                     <FontAwesomeIcon icon={faUsers} className="mr-2"/>
-                                    Users
+                                    Users(wisher)
                                 </Link>
                             </li>
                         )}

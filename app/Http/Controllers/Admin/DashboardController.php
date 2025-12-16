@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\DonationService;
+use App\Services\UserService;
 use App\Services\WishService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,7 @@ class DashboardController extends Controller
     public function __construct(
         protected DonationService $donationService,
         protected WishService $wishService,
+        protected UserService $userService,
 
     ){}
     const moduleDirectory = 'Dashboard/';
@@ -70,8 +72,10 @@ class DashboardController extends Controller
         $fulfilledWishCount = $this->wishService
             ->wishByStatus('fulfilled', 'count',  null,'admin');
         $user = Auth::user();
+        $totalMembers = 0;
         if (Auth::user()->user_type === 'organization'){
             $user->load('organization');
+            $totalMembers = Auth::user()->organization->users()->count() - 1; // minus  organization
         }
         return Inertia::render('Dashboard', [
             'module' => self::moduleName,
@@ -80,6 +84,7 @@ class DashboardController extends Controller
             'activeWishCount' => $activeWishCount,
             'fulfilledWishCount' => $fulfilledWishCount,
             'user' => $user,
+            'totalMembers' => $totalMembers,
         ]);
     }
 

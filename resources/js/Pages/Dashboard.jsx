@@ -6,7 +6,7 @@ import AdminDashboard from "@/Pages/Dashboard/Admin.jsx";
 import DonorWisher from "@/Pages/Dashboard/DonorWisher.jsx";
 import OrganizationDashboard from "@/Pages/Dashboard/Organization.jsx";
 
-export default function Dashboard({user,module,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount}) {
+export default function Dashboard({user,module,availableDonationCount,donatedDonationCount, activeWishCount, fulfilledWishCount, totalMembers}) {
 
     return (
         <AuthenticatedLayout>
@@ -30,6 +30,7 @@ export default function Dashboard({user,module,availableDonationCount,donatedDon
                         activeWishCount={activeWishCount}
                         fulfilledWishCount={fulfilledWishCount}
                         user={user}
+                        totalMembers={totalMembers}
                     />
                 ) : (
                     <DonorWisher

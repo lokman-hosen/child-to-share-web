@@ -55,9 +55,13 @@ class WishService extends BaseService
         $userId = $userId ?? Auth::id();
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
         if ($for === 'admin') {
-            //if (checkWisher()){
+            if (Auth::user()->user_type === 'organization'){
+                $query->whereHas('user', function ($user) {
+                    $user->where('organization_id', Auth::user()->organization_id);
+                });
+            }else{
                 $query->where('user_id', $userId);
-            //}
+            }
         }
         if (isset($status)) {
             $query->where('status', $status);
