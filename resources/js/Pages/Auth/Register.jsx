@@ -334,7 +334,7 @@ export default function Register({genders}) {
                             <div className="grid grid-cols-1 gap-6 mt-5">
                                 <FileInput
                                     id="photo"
-                                    label={data.user_type === 'person' ? '"Profile Photo(png,jpg,jpeg)' : 'Logo(png,jpg,jpeg)'}
+                                    label={data.user_type === 'person' ? 'Profile Photo(png,jpg,jpeg)' : 'Logo(png,jpg,jpeg)'}
                                     onFileChange={(file) => handleFileChange('photo', file)}
                                     currentFileUrl={data?.photo || null}
                                     error={errors.photo}

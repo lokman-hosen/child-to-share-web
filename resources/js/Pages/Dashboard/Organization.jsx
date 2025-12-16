@@ -9,7 +9,7 @@ const OrganizationDashboard = ({availableDonationCount,donatedDonationCount,acti
     return (
         <div className="page active-page">
             <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg p-4 m-6">
-                <div className="max-w-6xl mx-auto">
+                <div className="mx-auto">
                     <div className="flex flex-col md:flex-row items-center">
                         <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
                             <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-lg">
