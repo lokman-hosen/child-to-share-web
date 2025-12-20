@@ -139,17 +139,26 @@ export default function List({module, wishes}) {
                                                         <span className="text-sm text-gray-500">
                                                             {wish.created_at}
                                                         </span>
-                                                        {wish.latest_fulfilment?.status === 'requested' ? (
-                                                            <span
-                                                                className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400 hover:bg-gray-50 hover:text-gray-400">Fulfil Request send</span>
-                                                        ) : (
-                                                            <Link
-                                                                href={route('wish.fulfill.detail', wish.id)}
-                                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                                                            >
-                                                                Fulfill Wish
-                                                            </Link>
-                                                        )}
+                                                        {
+                                                            wish.latest_fulfilment?.status === 'requested' ? (
+                                                                <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400">
+                                                                  Fulfil Request Sent
+                                                                </span>
+                                                            ) : wish.latest_fulment?.status === 'accepted_by_wisher' ||
+                                                                wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                                <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400">
+                                                                  Fulfil Request Accepted
+                                                                </span>
+                                                            ) : (
+                                                                <Link
+                                                                    href={route('wish.fulfill.detail', wish.id)}
+                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                >
+                                                                    Fulfill Wish
+                                                                </Link>
+                                                            )
+                                                        }
+
                                                     </div>
                                                 </div>
                                             </div>
