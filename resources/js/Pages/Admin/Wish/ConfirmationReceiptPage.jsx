@@ -133,7 +133,7 @@ const ConfirmationReceiptPage = ({
                                                     <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{donor.name}</h2>
                                                     <p className="text-sm text-gray-500 mb-3 md:mb-4">
                                                         Member
-                                                        Since {format(new Date(donor.created_at), 'MMMM do, yyyy')}
+                                                        Since {donor.created_at}
                                                     </p>
 
                                                     <dl className="space-y-2">
@@ -344,7 +344,7 @@ const ConfirmationReceiptPage = ({
                                             <div className="flex-1 text-center md:text-left w-full">
                                                 <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{donor.name}</h2>
                                                 <p className="text-sm text-gray-500 mb-3 md:mb-4">
-                                                    Member Since {format(new Date(donor.created_at), 'MMMM do, yyyy')}
+                                                    Member Since {donor.created_at}
                                                 </p>
 
                                                 <dl className="space-y-2">

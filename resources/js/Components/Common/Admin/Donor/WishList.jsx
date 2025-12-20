@@ -1,9 +1,17 @@
 import React from 'react';
-import {Link} from "@inertiajs/react";
+import {Link, router} from "@inertiajs/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
+import {Button} from "@headlessui/react";
 
 const WishList = ({userType, wishRequests}) => {
+
+    const handleFulfilStatus = (fulfilmentId) => {
+        router.get('wish-fulfill-status', {
+            'status' : 'accepted_by_wisher',
+            'fulfilment_id' : fulfilmentId,
+        })
+    };
     return (
         <>
             {userType === 'donor' &&
@@ -207,10 +215,11 @@ const WishList = ({userType, wishRequests}) => {
 
                                         {/* Action Button */}
                                         <div className="bg-gray-50 px-4 py-3 sm:px-6">
-                                            <button
+                                            <Button
+                                                onClick={() => handleFulfilStatus(wish.latest_fulfilment.id)}
                                                 className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-                                                <i className="fas fa-check mr-2"></i> Confirm Receipt
-                                            </button>
+                                                <i className="fas fa-check mr-2"></i> Accept Fulfilment Request
+                                            </Button>
                                         </div>
                                     </div>
                                 </div>

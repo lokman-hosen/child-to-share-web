@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::get('wish-fulfill/{wishId}', 'wishDetail')->name('wish.fulfill.detail');
         Route::post('wish-fulfill', 'storeWishFulfilInfo')->name('wish.fulfill.store');
         Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
+        //Route::post('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
     });
     Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });
