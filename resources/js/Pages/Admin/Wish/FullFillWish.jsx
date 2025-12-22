@@ -144,7 +144,7 @@ export default function List({module, wishes}) {
                                                                 <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400">
                                                                   Fulfil Request Sent
                                                                 </span>
-                                                            ) : wish.latest_fulment?.status === 'accepted_by_wisher' ||
+                                                            ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
                                                                 wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
                                                                 <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400">
                                                                   Fulfil Request Accepted
@@ -181,17 +181,20 @@ export default function List({module, wishes}) {
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Distance</th>
+                                                    <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment status</th>
                                                     <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200">
                                                 {wishListData.length > 0 ? (
                                                     wishListData.map((wish, index) => (
-                                                        <tr key={wish.id} className="hover:bg-gray-50 transition-colors">
+                                                        <tr key={wish.id}
+                                                            className="hover:bg-gray-50 transition-colors">
                                                             <td className="p-6 border-b border-gray-100">
                                                                 <div className="flex items-center justify-between">
                                                                     <div className="flex items-center">
-                                                                        <div className="h-16 w-16 bg-purple-100 rounded-md flex items-center justify-center mr-4">
+                                                                        <div
+                                                                            className="h-16 w-16 bg-purple-100 rounded-md flex items-center justify-center mr-4">
                                                                             {wish.featured_image?.file_path ? (
                                                                                 <img
                                                                                     src={`/storage/${wish.featured_image.file_path}`}
@@ -199,20 +202,24 @@ export default function List({module, wishes}) {
                                                                                     className="w-full h-full object-cover"
                                                                                 />
                                                                             ) : (
-                                                                                <div className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                                                                                    <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
+                                                                                <div
+                                                                                    className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                                                                                    <FontAwesomeIcon icon={faStar}
+                                                                                                     className="text-gray-400"/>
                                                                                 </div>
                                                                             )}
                                                                         </div>
                                                                         <div>
                                                                             <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
-                                                                            <p className="text-sm text-gray-500">Age range: {wish.age_range}, {textLimit(wish.description,10)}</p>
+                                                                            <p className="text-sm text-gray-500">Age
+                                                                                range: {wish.age_range}, {textLimit(wish.description, 10)}</p>
                                                                             <div className="mt-1 flex items-center">
-                                                                            <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                            <span
+                                                                                className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                                                 {wish.status}
                                                                             </span>
-                                                                            <span
-                                                                                className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                                <span
+                                                                                    className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                                                 {wish.created_at}
                                                                             </span>
                                                                             </div>
@@ -227,7 +234,8 @@ export default function List({module, wishes}) {
                                                                     {/* Avatar Container - More elegant design */}
                                                                     <div className="relative group">
                                                                         {/* Image Container with enhanced styling */}
-                                                                        <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mr-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-white group-hover:scale-105">
+                                                                        <div
+                                                                            className="h-20 w-20 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mr-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-white group-hover:scale-105">
                                                                             {wish.user.image ? (
                                                                                 <img
                                                                                     src={`/storage/${wish.user.image}`}
@@ -235,7 +243,8 @@ export default function List({module, wishes}) {
                                                                                     className="w-full h-full object-cover"
                                                                                 />
                                                                             ) : (
-                                                                                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
+                                                                                <div
+                                                                                    className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
                                                                                     <FontAwesomeIcon
                                                                                         icon={faStar}
                                                                                         className="text-2xl text-gradient-to-r from-purple-400 to-pink-500"
@@ -245,7 +254,8 @@ export default function List({module, wishes}) {
                                                                         </div>
 
                                                                         {/* Optional subtle glow effect on hover */}
-                                                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-200 to-pink-200 opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10"></div>
+                                                                        <div
+                                                                            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-200 to-pink-200 opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10"></div>
                                                                     </div>
 
                                                                     {/* Name with enhanced typography */}
@@ -255,7 +265,8 @@ export default function List({module, wishes}) {
                                                                         </h3>
                                                                         {/* Optional subtitle/tagline */}
                                                                         <p className="text-sm text-gray-500 mt-1 flex items-center">
-                                                                            <FontAwesomeIcon icon={faStar} className="text-red-400 mr-2 text-xs" />
+                                                                            <FontAwesomeIcon icon={faStar}
+                                                                                             className="text-red-400 mr-2 text-xs"/>
                                                                             Wish Maker
                                                                         </p>
                                                                     </div>
@@ -265,17 +276,45 @@ export default function List({module, wishes}) {
                                                                 {wish.distance ? `${wish.distance + 'km'}` : 'n/a'}
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
-                                                                <div className="flex flex-col items-end">
+                                                                <div className="flex flex-col items-center">
                                                                     <div className="mt-2">
-                                                                        {wish.latest_fulfilment?.status === 'requested' ? (
-                                                                            <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400 hover:bg-gray-50 hover:text-gray-400">Fulfil Request send</span>
-                                                                        ) : (
-                                                                            <Link
-                                                                                href={route('wish.fulfill.detail', wish.id)}
-                                                                                className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                                                                                Fulfill Wish
-                                                                            </Link>
-                                                                        )}
+                                                                        {
+                                                                            wish.latest_fulfilment?.status === 'requested' ? (
+                                                                                <span
+                                                                                    className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                              Fulfil Request Sent
+                                                                            </span>
+                                                                            ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
+                                                                            wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                                                <span
+                                                                                    className="inline-flex items-center px-3 py-1 border border-purple-500 rounded-md text-sm font-medium text-white bg-purple-500">
+                                                                                  Fulfil Request Accepted
+                                                                                </span>
+                                                                            ) : (
+                                                                                <span
+                                                                                    className="inline-flex items-center px-3 py-1 border border-indigo-500 rounded-md text-sm font-medium text-white bg-indigo-500">
+                                                                                  Not Request
+                                                                                </span>
+                                                                            )
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="p-6 border-b border-gray-100">
+                                                            <div className="flex flex-col items-end">
+                                                                    <div className="mt-2">
+                                                                        <Link
+                                                                            href={route('wish.fulfill.detail', wish.id)}
+                                                                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                        >
+                                                                            Fulfill Wish
+                                                                        </Link>
+                                                                        <Link
+                                                                            href={route('wish.show', wish.id)}
+                                                                            className="ml-2 inline-flex items-center px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
+                                                                        >
+                                                                            View Detail
+                                                                        </Link>
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -285,7 +324,8 @@ export default function List({module, wishes}) {
                                                     <tr>
                                                         <td colSpan="3" className="px-6 py-12 text-center">
                                                             <div className="text-center">
-                                                                <p className="text-gray-500 text-lg mb-2">No wishes found</p>
+                                                                <p className="text-gray-500 text-lg mb-2">No wishes
+                                                                    found</p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -298,10 +338,12 @@ export default function List({module, wishes}) {
                                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                             {wishListData.length > 0 ? (
                                                 wishListData.map((wish, index) => (
-                                                    <div key={wish.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                                                    <div key={wish.id}
+                                                         className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
                                                         {/* Card Image */}
                                                         <div className="relative">
-                                                            <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                                            <div
+                                                                className="h-[300px] w-full bg-gray-100 overflow-hidden">
                                                                 {wish.featured_image?.file_path ? (
                                                                     <img
                                                                         src={`/storage/${wish.featured_image.file_path}`}
@@ -309,7 +351,8 @@ export default function List({module, wishes}) {
                                                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                                     />
                                                                 ) : (
-                                                                    <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                                                    <div
+                                                                        className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                                                                         <FontAwesomeIcon icon={faStar} className="text-gray-400 text-5xl" />
                                                                     </div>
                                                                 )}
