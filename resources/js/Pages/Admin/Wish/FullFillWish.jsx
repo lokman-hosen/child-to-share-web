@@ -86,79 +86,147 @@ export default function List({module, wishes}) {
                             <div className="w-2xl space-y-8">
 
                                 {/* Mobile Card View (Always for mobile) */}
+                                {/* Mobile Card View (Always for mobile) */}
                                 <div className="md:hidden space-y-4">
                                     {wishListData.length > 0 ? (
                                         wishListData.map((wish, index) => (
                                             <div key={wish.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
-                                                {/* Card Image */}
-                                                <div className="relative">
-                                                    <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
-                                                        {wish.featured_image?.file_path ? (
-                                                            <img
-                                                                src={`/storage/${wish.featured_image.file_path}`}
-                                                                alt={wish.title}
-                                                                className="w-full h-full object-cover"
-                                                            />
-                                                        ) : (
-                                                            <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                                <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl" />
-                                                            </div>
-                                                        )}
+                                                {/* Card Header with Status */}
+                                                <div className="flex justify-between items-start p-4 border-b border-gray-100">
+                                                    <div className="flex items-center space-x-3">
+                                                        <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center overflow-hidden">
+                                                            {wish.featured_image?.file_path ? (
+                                                                <img
+                                                                    src={`/storage/${wish.featured_image.file_path}`}
+                                                                    alt={wish.title}
+                                                                    className="w-full h-full object-cover"
+                                                                />
+                                                            ) : (
+                                                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                                    <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div>
+                                                            <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
+                                                                {wish.title}
+                                                            </h3>
+                                                            <p className="text-xs text-gray-500">
+                                                                Age range: {wish.age_range}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                    {/* Status Badge */}
-                                                    <div className="absolute top-3 right-3">
-                                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(wish.status)}`}>
-                                                            {wish.status}
-                                                        </span>
-                                                    </div>
+                                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(wish.status)}`}>
+                        {wish.status}
+                    </span>
                                                 </div>
 
                                                 {/* Card Content */}
                                                 <div className="p-4">
-                                                    <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-                                                        {wish.title}
-                                                    </h3>
-
-                                                    <div className="space-y-2 mb-4">
-                                                        <div className="flex items-center text-sm text-gray-600">
-                                                            <span className="font-medium mr-2">Age Range:</span>
-                                                            <span className="capitalize">{wish.age_range}</span>
-                                                        </div>
-                                                        <div className="flex items-center text-sm text-gray-600">
-                                                            <span className="font-medium mr-2">Wisher:</span>
-                                                            <span>{wish.user.name}</span>
-                                                        </div>
-                                                        <div className="flex items-center text-sm text-gray-600">
-                                                            <span className="font-medium mr-2">Created:</span>
+                                                    {/* Item Information */}
+                                                    <div className="mb-4">
+                                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Item Information</h4>
+                                                        <p className="text-sm text-gray-600 line-clamp-2 mb-1">
+                                                            {textLimit(wish.description, 30)}
+                                                        </p>
+                                                        <div className="flex items-center text-xs text-gray-500">
+                                                            <span className="mr-2">Created:</span>
                                                             <span>{wish.created_at}</span>
                                                         </div>
                                                     </div>
 
-                                                    {/* Action Button */}
-                                                    <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                                                        <span className="text-sm text-gray-500">
-                                                            {wish.created_at}
-                                                        </span>
-                                                        {
-                                                            wish.latest_fulfilment?.status === 'requested' ? (
-                                                                <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400">
-                                                                  Fulfil Request Sent
-                                                                </span>
-                                                            ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
+                                                    {/* Wisher Information */}
+                                                    <div className="mb-4">
+                                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Wisher</h4>
+                                                        <div className="flex items-center space-x-3">
+                                                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center overflow-hidden border-2 border-white">
+                                                                {wish.user.image ? (
+                                                                    <img
+                                                                        src={`/storage/${wish.user.image}`}
+                                                                        alt={wish.user.name}
+                                                                        className="w-full h-full object-cover"
+                                                                    />
+                                                                ) : (
+                                                                    <FontAwesomeIcon icon={faStar} className="text-purple-400 text-sm" />
+                                                                )}
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-medium text-gray-900">{wish.user.name}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Distance and Fulfillment Status in one row */}
+                                                    <div className="grid grid-cols-2 gap-4 mb-4">
+                                                        <div>
+                                                            <h4 className="text-sm font-medium text-gray-700 mb-1">Distance</h4>
+                                                            <p className="text-sm text-gray-900 font-medium">
+                                                                {wish.distance ? `${wish.distance}km` : 'n/a'}
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <h4 className="text-sm font-medium text-gray-700 mb-1">Fulfillment</h4>
+                                                            <div>
+                                                                {wish.latest_fulfilment?.status === 'requested' ? (
+                                                                    <span className="inline-flex items-center px-2 py-1 border border-blue-500 rounded-md text-xs font-medium text-white bg-blue-500">
+                                        Request Sent
+                                    </span>
+                                                                ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
                                                                 wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
-                                                                <span className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-white bg-blue-400">
-                                                                  Fulfil Request Accepted
-                                                                </span>
-                                                            ) : (
+                                                                    <span className="inline-flex items-center px-2 py-1 border border-purple-500 rounded-md text-xs font-medium text-white bg-purple-500">
+                                        Request Accepted
+                                    </span>
+                                                                ) : (
+                                                                    <span className="inline-flex items-center px-2 py-1 border border-indigo-500 rounded-md text-xs font-medium text-white bg-indigo-500">
+                                        Not Requested
+                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Action Buttons */}
+                                                    <div className="flex flex-col space-y-2 pt-3 border-t border-gray-100">
+                                                        <div className="flex justify-between items-center">
+                                                            {/* Fulfill Wish Button */}
+                                                            {!wish.latest_fulfilment ? (
                                                                 <Link
                                                                     href={route('wish.fulfill.detail', wish.id)}
-                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                    className="inline-flex items-center justify-center flex-1 mr-2 px-3 py-2 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                                 >
                                                                     Fulfill Wish
                                                                 </Link>
-                                                            )
-                                                        }
+                                                            ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
+                                                            wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                                <Link
+                                                                    href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfilment?.id})}
+                                                                    className="inline-flex items-center justify-center flex-1 mr-2 px-3 py-2 bg-purple-500 text-white text-xs font-medium rounded-lg hover:bg-purple-600 transition-colors duration-200"
+                                                                >
+                                                                    Message
+                                                                </Link>
+                                                            ) : (
+                                                                <div className="flex-1 mr-2"></div>
+                                                            )}
 
+                                                            {/* View Detail Button */}
+                                                            <Link
+                                                                href={route('wish.show', wish.id)}
+                                                                className="inline-flex items-center justify-center flex-1 px-3 py-2 bg-gray-100 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                                                            >
+                                                                View Detail
+                                                            </Link>
+                                                        </div>
+
+                                                        {/* Additional status info if needed */}
+                                                        {wish.latest_fulfilment?.status && (
+                                                            <div className="text-xs text-gray-500 text-center">
+                                                                {wish.latest_fulfilment?.status === 'requested' ?
+                                                                    'Fulfillment request has been sent' :
+                                                                    wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
+                                                                    wish.latest_fulfilment?.status === 'accepted_by_donor' ?
+                                                                        'Ready for communication' : ''}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,7 +250,7 @@ export default function List({module, wishes}) {
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Distance</th>
                                                     <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment status</th>
-                                                    <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
+                                                    <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-gray-200">
@@ -303,12 +371,32 @@ export default function List({module, wishes}) {
                                                             <td className="p-6 border-b border-gray-100">
                                                             <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
-                                                                        <Link
-                                                                            href={route('wish.fulfill.detail', wish.id)}
-                                                                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                                                                        >
-                                                                            Fulfill Wish
-                                                                        </Link>
+
+
+
+
+                                                                        { !wish.latest_fulfilment ? (
+                                                                            <Link
+                                                                                href={route('wish.fulfill.detail', wish.id)}
+                                                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                            >
+                                                                                Fulfill Wish
+                                                                            </Link>
+                                                                        ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
+                                                                            wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                                            <Link
+                                                                            href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfilment?.id})}
+                                                                            >
+                                                                                <span
+                                                                                    className="inline-flex items-center px-3 py-1 border border-purple-500 rounded-md text-sm font-medium text-white bg-purple-500">
+                                                                                  Message
+                                                                                </span>
+                                                                            </Link>
+                                                                        ) : (
+                                                                            <p></p>
+                                                                        )
+
+                                                                        }
                                                                         <Link
                                                                             href={route('wish.show', wish.id)}
                                                                             className="ml-2 inline-flex items-center px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"

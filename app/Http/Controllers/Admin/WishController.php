@@ -204,12 +204,13 @@ class WishController extends Controller
     public function updateWishFulfilStatus(Request $request): Response
     {
         $fulfilment = $this->wishService->changeFulfilmentStatus($request);
-        if ($fulfilment){
-            $request->session()->flash('success', 'Wish fulfilment request send to wisher successfully!');
-        }else{
-            $request->session()->flash('error', 'Something went wrong! Try again later');
+        if ($request->status){
+            if ($fulfilment){
+                $request->session()->flash('success', 'Wish fulfilment request send to wisher successfully!');
+            }else{
+                $request->session()->flash('error', 'Something went wrong! Try again later');
+            }
         }
-        ///dd($fulfilment);
         return Inertia::render(self::moduleDirectory.'ConfirmationReceiptPage', [
             'fulfilment' => $fulfilment,
             'wisher' => $fulfilment->wish->user,
