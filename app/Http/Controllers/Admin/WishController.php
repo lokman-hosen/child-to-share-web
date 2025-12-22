@@ -204,7 +204,7 @@ class WishController extends Controller
     public function updateWishFulfilStatus(Request $request): Response
     {
         $fulfilment = $this->wishService->changeFulfilmentStatus($request);
-        if ($request->status){
+        if ($request->filled('status')){
             if ($fulfilment){
                 $request->session()->flash('success', 'Wish fulfilment request send to wisher successfully!');
             }else{
