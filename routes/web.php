@@ -66,6 +66,12 @@ Route::middleware('auth')->group(function () {
         Route::delete('donation-file/{fileId}', 'deleteDonationFile')->name('donations.file.delete');
         Route::get('donation-file/{fileId}', 'makeFeatureFile')->name('donations.file.feature');
     });
+
+    Route::controller(DonationController::class)->group(function () {
+        Route::get('/fulfilments/{fulfilment}/messages', 'index')->name('messages.index');
+        Route::post('/fulfilments/{fulfilment}/messages', 'store')->name('messages.store');
+    });
+
     Route::controller(WishController::class)->group(function () {
         Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
         Route::get('wish-file/{fileId}', 'makeFeatureFile')->name('wishes.file.feature');
