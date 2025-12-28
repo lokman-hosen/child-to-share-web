@@ -37,7 +37,6 @@ const ConfirmationReceiptPage = ({
     const otherUser = userType === 'wisher' ? donor : wisher;
     const wishItem = wish;
     const donationItem = donation;
-
     // Scroll to bottom of chat
     // useEffect(() => {
     //     if (chatContainerRef.current) {
