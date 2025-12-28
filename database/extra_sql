@@ -16,7 +16,7 @@ NEW Migrations
 Set Admin role:
 1. INSERT INTO role_user (id, role_id, user_id, created_at, updated_at) VALUES (NULL, '1', '1', NOW(), NOW()), (NULL, '2', '2', NULL, NULL)
 
-Fulfillment
+fulfilment
 1. ALTER TABLE `fulfillments` CHANGE `status` `status` ENUM('requested','accepted_by_wisher', 'accepted_by_donor','scheduled','in_progress','delivered','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'requested';
 
 Users

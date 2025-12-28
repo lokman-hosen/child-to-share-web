@@ -67,7 +67,7 @@ class NotificationSeeder extends Seeder
                 'notifiable_type' => 'App\Models\User',
                 'notifiable_id' => $users->where('role', 'admin')->first()->id,
                 'data' => json_encode([
-                    'message' => 'New fulfillment task assigned to you',
+                    'message' => 'New fulfilment task assigned to you',
                     'task_id' => 3,
                     'action_url' => '/admin/tasks/3'
                 ]),

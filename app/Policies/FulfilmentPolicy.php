@@ -6,7 +6,7 @@ use App\Models\Fulfilment;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class FulfillmentPolicy
+class FulfilmentPolicy
 {
     /**
      * Determine whether the user can view any models.

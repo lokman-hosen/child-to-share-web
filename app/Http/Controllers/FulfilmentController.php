@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreFulfillmentRequest;
-use App\Http\Requests\UpdateFulfillmentRequest;
+use App\Http\Requests\StoreFulfilmentRequest;
+use App\Http\Requests\UpdateFulfilmentRequest;
 use App\Models\Fulfilment;
 
-class FulfillmentController extends Controller
+class FulfilmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class FulfillmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFulfillmentRequest $request)
+    public function store(StoreFulfilmentRequest $request)
     {
         //
     }
@@ -51,7 +51,7 @@ class FulfillmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFulfillmentRequest $request, Fulfilment $fulfillment)
+    public function update(UpdateFulfilmentRequest $request, Fulfilment $fulfillment)
     {
         //
     }

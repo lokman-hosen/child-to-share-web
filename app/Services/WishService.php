@@ -410,7 +410,7 @@ class WishService extends BaseService
     public function wishFulfilRequestByDonor($request)
     {
         // save fulfilment
-        $fulfilment = $this->fulfillment->create([
+        $fulfilment = $this->fulfilment->create([
             'donation_id' => $request->donation_id,
             'wish_id' => $request->wish_id,
             'need_admin_assistance' => $request->need_admin_assistance ?? false,
@@ -448,7 +448,7 @@ class WishService extends BaseService
 
     public function changeFulfilmentStatus($request)
     {
-        $fulfilment = $updateFulfilment = $this->fulfillment->with(['donation','donation.user','wish','wish.user','messages'])
+        $fulfilment = $updateFulfilment = $this->fulfilment->with(['donation','donation.user','wish','wish.user','messages'])
             ->find($request->fulfilment_id);
         if ($request->status){
             $updateFulfilment->update(['status' => $request->status,]);
