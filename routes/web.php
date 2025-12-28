@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/fulfilments/{fulfilment}/messages', 'store')->name('messages.store');
     });
 
+
     Route::controller(WishController::class)->group(function () {
         Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
         Route::get('wish-file/{fileId}', 'makeFeatureFile')->name('wishes.file.feature');
