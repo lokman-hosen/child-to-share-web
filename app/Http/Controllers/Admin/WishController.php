@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
+use App\Models\Fulfillment;
 use App\Models\Wish;
+use App\Notifications\NewMessageNotification;
 use App\Services\CategoryService;
 use App\Services\DonationService;
 use App\Services\UserService;
@@ -220,5 +223,45 @@ class WishController extends Controller
             'userType' => Auth::user()->role,
             'initialMessages' => $fulfilment->messages,
         ]);
+    }
+
+    public function storeWishFulfilMessage(Request $request)
+    {
+        $fulfilment = Fulfillment::find($request->fulfilment_id);
+        $validated = $request->validate([
+            'message' => 'required|string',
+            'file' => 'nullable|file|max:10240',
+        ]);
+
+        $filePath = null;
+        $fileName = null;
+
+//        if ($request->hasFile('file')) {
+//            $filePath = $request->file('file')->store('chat', 'public');
+//            $fileName = $request->file('file')->getClientOriginalName();
+//        }
+
+        $fulfilMessage = $fulfilment->messages()->create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => auth()->id() === $fulfilment->wish->user_id
+                ? $fulfilment->donation->user_id
+                : $fulfilment->wish->user_id,
+            'message' => $request->message,
+            //'file_path' => $filePath,
+            //'file_name' => $fileName,
+        ]);
+
+        $fulfilMessage->load('sender:id,name');
+
+        broadcast(new MessageSent($fulfilMessage))->toOthers();
+
+        // 🔔 Notify other user
+        $receiver = auth()->id() === $fulfilment->wish->user_id
+            ? $fulfilment->donation->user
+            : $fulfilment->wish->user;
+
+        $receiver->notify(new NewMessageNotification($fulfilMessage));
+
+        return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfilment_id]);
     }
 }

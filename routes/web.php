@@ -67,10 +67,10 @@ Route::middleware('auth')->group(function () {
         Route::get('donation-file/{fileId}', 'makeFeatureFile')->name('donations.file.feature');
     });
 
-    Route::controller(DonationController::class)->group(function () {
-        Route::get('/fulfilments/{fulfilment}/messages', 'index')->name('messages.index');
-        Route::post('/fulfilments/{fulfilment}/messages', 'store')->name('messages.store');
-    });
+//    Route::controller(MessageController::class)->group(function () {
+//        Route::get('/fulfilments/{fulfilment}/messages', 'index')->name('messages.index');
+//        //Route::post('/fulfilments/{fulfilment}/messages', 'store')->name('messages.store');
+//    });
 
 
     Route::controller(WishController::class)->group(function () {
@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::get('wish-fulfill/{wishId}', 'wishDetail')->name('wish.fulfill.detail');
         Route::post('wish-fulfill', 'storeWishFulfilInfo')->name('wish.fulfill.store');
         Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
-        //Route::post('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
+        Route::post('wish-message', 'storeWishFulfilMessage')->name('wish.fulfill.message.store');
     });
     Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });

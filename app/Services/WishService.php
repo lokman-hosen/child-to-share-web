@@ -448,7 +448,7 @@ class WishService extends BaseService
 
     public function changeFulfilmentStatus($request)
     {
-        $fulfilment = $updateFulfilment = $this->fulfillment->with(['donation','donation.user','wish','wish.user','messages'])
+        $fulfilment = $updateFulfilment = $this->fulfillment->with(['donation','donation.user','wish','wish.user','messages', 'messages.sender', 'messages.receiver'])
             ->find($request->fulfilment_id);
         if ($request->status){
             $updateFulfilment->update(['status' => $request->status,]);

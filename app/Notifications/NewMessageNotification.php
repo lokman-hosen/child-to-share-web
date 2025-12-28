@@ -13,7 +13,7 @@ class NewMessageNotification extends Notification implements ShouldQueue
     use Queueable;
 
     public function __construct(
-        protected Message $message
+        protected Message $fulfilMessage
     ) {}
 
     /**
@@ -30,12 +30,12 @@ class NewMessageNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'New message from donor',
-            'message' => $this->message->text ?? 'Sent you an attachment',
-            'fulfilment_id' => $this->message->fulfilment_id,
-            'wish_id' => optional($this->message->fulfilment)->wish_id,
-            'sender_id' => $this->message->sender_id,
-            'sender_name' => optional($this->message->sender)->name,
+            'title' => 'New message from '.$this->fulfilMessage->sender->name,
+            'message' => $this->fulfilMessage->message ?? 'Sent you an attachment',
+            'fulfilment_id' => $this->fulfilMessage->fulfilment_id,
+            'wish_id' => $this->fulfilMessage->wish_id ?? null,
+            'sender_id' => $this->fulfilMessage->sender_id ?? null,
+            'sender_name' => $this->fulfilMessage->sender->name ?? null,
             'type' => 'chat_message',
         ];
     }
@@ -49,10 +49,10 @@ class NewMessageNotification extends Notification implements ShouldQueue
             ->subject('New message regarding your wish')
             ->greeting('Hello ' . $notifiable->name)
             ->line('You have received a new message regarding your wish.')
-            ->line($this->message->text ?? 'The donor sent you an attachment.')
+            ->line($this->fulfilMessage->message ?? 'The donor sent you an attachment.')
             ->action(
                 'Open Chat',
-                route('fulfilments.chat', $this->message->fulfilment_id)
+                route('wish.fulfill.status.change', $this->fulfilMessage->fulfilment_id)
             )
             ->line('Thank you for using ThreeWish.');
     }

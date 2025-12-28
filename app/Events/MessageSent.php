@@ -18,9 +18,9 @@ class MessageSent
     /**
      * Create a new event instance.
      */
-    public function __construct(public Message $message)
+    public function __construct(public Message $fulfilMessage)
     {
-        $this->message->load('sender:id,name');
+        $this->fulfilMessage->load('sender:id,name');
     }
 
 
@@ -31,6 +31,6 @@ class MessageSent
      */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('fulfilment.' . $this->message->fulfilment_id);
+        return new PrivateChannel('fulfilment.' . $this->fulfilMessage->fulfilment_id);
     }
 }
