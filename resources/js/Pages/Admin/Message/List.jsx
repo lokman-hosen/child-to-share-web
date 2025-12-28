@@ -17,7 +17,7 @@ export default function Dashboard() {
                             <div className="border-b border-gray-200">
                                 <nav className="-mb-px flex">
                                     <a href="#"
-                                       className="border-b-2 border-red-500 text-red-600 px-4 py-4 text-sm font-medium">Fulfillment
+                                       className="border-b-2 border-red-500 text-red-600 px-4 py-4 text-sm font-medium">Fulfilment
                                         Requests (8)</a>
                                     <a href="#"
                                        className="border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 px-4 py-4 text-sm font-medium">Pickup
@@ -54,7 +54,7 @@ export default function Dashboard() {
                                             </div>
                                             <div>
                                                 <h3 className="text-lg font-medium text-gray-900">Book Donation
-                                                    Fulfillment</h3>
+                                                    Fulfilment</h3>
                                                 <p className="text-sm text-gray-500">Donor: Sarah Johnson → Wisher:
                                                     Emily, 7</p>
                                                 <div className="mt-1 flex items-center">
@@ -94,7 +94,7 @@ export default function Dashboard() {
                                             </div>
                                             <div>
                                                 <h3 className="text-lg font-medium text-gray-900">Winter Coat
-                                                    Fulfillment</h3>
+                                                    Fulfilment</h3>
                                                 <p className="text-sm text-gray-500">Donor: Robert Chen → Wisher:
                                                     Michael, 9</p>
                                                 <div className="mt-1 flex items-center">

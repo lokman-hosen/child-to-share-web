@@ -156,7 +156,7 @@ export default function List({module, wishes}) {
                                                         </div>
                                                     </div>
 
-                                                    {/* Distance and Fulfillment Status in one row */}
+                                                    {/* Distance and Fulfilment Status in one row */}
                                                     <div className="grid grid-cols-2 gap-4 mb-4">
                                                         <div>
                                                             <h4 className="text-sm font-medium text-gray-700 mb-1">Distance</h4>
@@ -165,7 +165,7 @@ export default function List({module, wishes}) {
                                                             </p>
                                                         </div>
                                                         <div>
-                                                            <h4 className="text-sm font-medium text-gray-700 mb-1">Fulfillment</h4>
+                                                            <h4 className="text-sm font-medium text-gray-700 mb-1">Fulfilment</h4>
                                                             <div>
                                                                 {wish.latest_fulfilment?.status === 'requested' ? (
                                                                     <span className="inline-flex items-center px-2 py-1 border border-blue-500 rounded-md text-xs font-medium text-white bg-blue-500">
@@ -221,7 +221,7 @@ export default function List({module, wishes}) {
                                                         {wish.latest_fulfilment?.status && (
                                                             <div className="text-xs text-gray-500 text-center">
                                                                 {wish.latest_fulfilment?.status === 'requested' ?
-                                                                    'Fulfillment request has been sent' :
+                                                                    'Fulfilment request has been sent' :
                                                                     wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
                                                                     wish.latest_fulfilment?.status === 'accepted_by_donor' ?
                                                                         'Ready for communication' : ''}

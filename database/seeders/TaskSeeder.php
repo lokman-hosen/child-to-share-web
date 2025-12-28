@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Fulfillment;
+use App\Models\Fulfilment;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,7 +16,7 @@ class TaskSeeder extends Seeder
     public function run(): void
     {
         // Get existing data
-        $fulfillments = Fulfillment::all();
+        $fulfillments = Fulfilment::all();
         $admins = User::where('role', 'admin')->get();
 
         if ($fulfillments->isEmpty() || $admins->isEmpty()) {
@@ -26,7 +26,7 @@ class TaskSeeder extends Seeder
 
         $tasks = [
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'user_id' => $admins->random()->id,
                 'task_notes' => 'Need to schedule pickup from donor and delivery to wisher',
                 'activity_log' => json_encode([
@@ -40,7 +40,7 @@ class TaskSeeder extends Seeder
                 'updated_at' => now()->subDays(1),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'user_id' => null,
                 'task_notes' => 'Waiting for admin assignment - donor requested pickup support',
                 'activity_log' => json_encode([
@@ -53,7 +53,7 @@ class TaskSeeder extends Seeder
                 'updated_at' => now()->subHours(6),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'user_id' => $admins->random()->id,
                 'task_notes' => 'Pickup scheduled for tomorrow at 2 PM',
                 'activity_log' => json_encode([
@@ -68,7 +68,7 @@ class TaskSeeder extends Seeder
                 'updated_at' => now()->subDays(1),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'user_id' => $admins->random()->id,
                 'task_notes' => 'Successfully delivered and confirmed by guardian',
                 'activity_log' => json_encode([
@@ -84,7 +84,7 @@ class TaskSeeder extends Seeder
                 'updated_at' => now()->subDays(1),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'user_id' => $admins->random()->id,
                 'task_notes' => 'Cancelled due to donor unavailability',
                 'activity_log' => json_encode([

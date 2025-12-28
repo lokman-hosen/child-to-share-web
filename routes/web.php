@@ -67,7 +67,7 @@ Route::middleware('auth')->group(function () {
         Route::get('donation-file/{fileId}', 'makeFeatureFile')->name('donations.file.feature');
     });
 
-    Route::controller(DonationController::class)->group(function () {
+    Route::controller(MessageController::class)->group(function () {
         Route::get('/fulfilments/{fulfilment}/messages', 'index')->name('messages.index');
         Route::post('/fulfilments/{fulfilment}/messages', 'store')->name('messages.store');
     });

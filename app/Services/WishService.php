@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Mail\WishFulfilRequestedMail;
 use App\Models\Donation;
 use App\Models\File;
-use App\Models\Fulfillment;
+use App\Models\Fulfilment;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Wish;
@@ -24,7 +24,7 @@ class WishService extends BaseService
         protected File $file,
         protected CategoryService $categoryService,
         protected User $user,
-        protected Fulfillment $fulfillment
+        protected Fulfilment $fulfillment
     ){
         $this->model = $this->wish;
     }
@@ -423,7 +423,7 @@ class WishService extends BaseService
         // create an admin task if the donor asks for help
         if ($request->need_admin_assistance) {
             $fulfilment->task()->create([
-                'activity_log' => json_encode(['Fulfillment requested by donor']),
+                'activity_log' => json_encode(['Fulfilment requested by donor']),
                 'status' => 'new',
             ]);
         }

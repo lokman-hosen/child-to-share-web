@@ -13,9 +13,9 @@ class Task extends Model
 
     protected $guarded = ['id'];
 
-    public function fulfillment()
+    public function Fulfilment()
     {
-        return $this->belongsTo(Fulfillment::class);
+        return $this->belongsTo(Fulfilment::class);
     }
 
     public function assignedAdmin()

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
-class Fulfillment extends Model
+class Fulfilment extends Model
 {
     /** @use HasFactory<\Database\Factories\FulfillmentFactory> */
     use HasFactory,SoftDeletes;
@@ -27,7 +27,7 @@ class Fulfillment extends Model
 
     public function task(): HasOne
     {
-        return $this->hasOne(Task::class, 'fulfillment_id');
+        return $this->hasOne(Task::class, 'fulfilment_id');
     }
 
     public function wish(): BelongsTo

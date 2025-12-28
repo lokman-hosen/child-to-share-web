@@ -67,7 +67,7 @@ const AdminDashboard = () => {
                                 </div>
                                 <div className="ml-5 w-0 flex-1">
                                     <dl>
-                                        <dt className="text-sm font-medium text-gray-500 truncate">Fulfillment
+                                        <dt className="text-sm font-medium text-gray-500 truncate">Fulfilment
                                             Requests
                                         </dt>
                                         <dd className="flex items-baseline">
@@ -153,7 +153,7 @@ const AdminDashboard = () => {
                                         <i className="fas fa-gift text-blue-600"></i>
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium text-gray-900">New fulfillment request</p>
+                                        <p className="text-sm font-medium text-gray-900">New Fulfilment request</p>
                                         <p className="text-sm text-gray-500">Donor Sarah Johnson wants to fulfill a wish
                                             for books</p>
                                     </div>

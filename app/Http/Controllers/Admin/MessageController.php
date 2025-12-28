@@ -6,7 +6,7 @@ use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
-use App\Models\Fulfillment;
+use App\Models\Fulfilment;
 use App\Models\Message;
 use App\Notifications\NewMessageNotification;
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class MessageController extends Controller
 //        }
 //    }
 
-    public function index(Fulfillment $fulfilment)
+    public function index(Fulfilment $fulfilment)
     {
         return response()->json(
             $fulfilment->messages()
@@ -55,10 +55,10 @@ class MessageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Fulfillment $fulfilment)
+    public function store(Request $request, Fulfilment $fulfilment)
     {
         $validated = $request->validate([
-            'message' => 'nullable|string',
+            'message' => 'required|string',
             'file' => 'nullable|file|max:10240',
         ]);
 

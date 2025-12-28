@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Fulfillment;
+use App\Models\Fulfilment;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,7 +16,7 @@ class MessageSeeder extends Seeder
     public function run(): void
     {
         // Get existing fulfillments and users
-        $fulfillments = Fulfillment::all();
+        $fulfillments = Fulfilment::all();
         $users = User::all();
 
         if ($fulfillments->isEmpty() || $users->isEmpty()) {
@@ -26,7 +26,7 @@ class MessageSeeder extends Seeder
 
         $messages = [
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'sender_id' => $users->random()->id,
                 'receiver_id' => $users->where('id', '!=', function($query) use ($users) {
                     return $users->random()->id;
@@ -37,7 +37,7 @@ class MessageSeeder extends Seeder
                 'updated_at' => now()->subDays(3),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'sender_id' => $users->random()->id,
                 'receiver_id' => $users->where('id', '!=', function($query) use ($users) {
                     return $users->random()->id;
@@ -48,7 +48,7 @@ class MessageSeeder extends Seeder
                 'updated_at' => now()->subDays(2),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'sender_id' => $users->random()->id,
                 'receiver_id' => $users->where('id', '!=', function($query) use ($users) {
                     return $users->random()->id;
@@ -59,7 +59,7 @@ class MessageSeeder extends Seeder
                 'updated_at' => now()->subDays(1),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'sender_id' => $users->random()->id,
                 'receiver_id' => $users->where('id', '!=', function($query) use ($users) {
                     return $users->random()->id;
@@ -70,7 +70,7 @@ class MessageSeeder extends Seeder
                 'updated_at' => now()->subHours(12),
             ],
             [
-                'fulfillment_id' => $fulfillments->random()->id,
+                'fulfilment_id' => $fulfillments->random()->id,
                 'sender_id' => $users->random()->id,
                 'receiver_id' => $users->where('id', '!=', function($query) use ($users) {
                     return $users->random()->id;
