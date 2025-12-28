@@ -1,6 +1,5 @@
 import '../css/app.css';
 import './bootstrap';
-import './echo';
 
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -15,7 +14,7 @@ createInertiaApp({
             `./Pages/${name}.jsx`,
             import.meta.glob('./Pages/**/*.jsx'),
         ),
-    setup({ el, App, props }) {
+    setup({el, App, props}) {
         const root = createRoot(el);
 
         root.render(<App {...props} />);
@@ -23,4 +22,4 @@ createInertiaApp({
     progress: {
         color: '#4B5563',
     },
-});
+}).then(r => true);
