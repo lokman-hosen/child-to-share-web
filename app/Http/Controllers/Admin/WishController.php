@@ -219,7 +219,7 @@ class WishController extends Controller
             'fulfilment' => $fulfilment,
             'wisher' => $fulfilment->wish->user,
             'donor' => $fulfilment->donation->user,
-            'wish' => $fulfilment->wish->load('latestFulfilment', 'latestFulfilment.donation.user'),
+            'wish' => $fulfilment->wish->load('latestFulfillment', 'latestFulfillment.donation.user'),
             'donation' => $fulfilment->donation,
             'userType' => Auth::user()->role,
             'initialMessages' => $fulfilment->messages,

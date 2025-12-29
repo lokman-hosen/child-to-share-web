@@ -36,7 +36,7 @@ class WishService extends BaseService
         $searchName = $request->input('search_name');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
-        $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfilment', 'latestFulfilment.donation.user']);
+        $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfillment', 'latestFulfillment.donation.user']);
         if (checkWisher() or checkDonorWisher()){
             if (Auth::user()->user_type === 'organization'){
                 $query->where('created_by', Auth::id());
@@ -304,7 +304,7 @@ class WishService extends BaseService
         $earthRadius = 6371;
 
         $query = $this->wish->query()
-            ->with(['user', 'category', 'files', 'featuredImage', 'latestFulfilment'])
+            ->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment'])
             ->join('users', 'wishes.user_id', '=', 'users.id')
             ->select('wishes.*')
             ->selectRaw(
@@ -439,7 +439,7 @@ class WishService extends BaseService
 
     public function getWishRequestFromDonor(): Collection
     {
-       return Wish::with(['latestFulfilment','user', 'files', 'featuredImage'])
+       return Wish::with(['latestFulfillment','user', 'files', 'featuredImage'])
             ->where('user_id', Auth::id())
             ->whereHas('fulfilments', function ($q) {
                 $q->where('status', 'requested');
