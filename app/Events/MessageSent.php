@@ -15,13 +15,16 @@ class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public Message $message)
+    public function __construct(public Message $message) {}
+
+    public function broadcastOn(): PrivateChannel
     {
+        return new PrivateChannel('fulfillment.' . $this->message->fulfillment_id);
     }
 
     public function broadcastAs(): string
     {
-        return 'MessageSent';
+        return 'message.sent';
     }
 
     public function broadcastWith(): array
@@ -30,12 +33,5 @@ class MessageSent implements ShouldBroadcast
             'message' => $this->message->load(['sender:id,name', 'receiver:id,name']),
         ];
     }
-
-
-    public function broadcastOn(): PrivateChannel
-    {
-        return new PrivateChannel(
-            'fulfillment.' . $this->message->fulfillment_id
-        );
-    }
 }
+

@@ -46,7 +46,10 @@ const ConfirmationReceiptPage = ({
 
 
     useEffect(() => {
+
+
         if (!window.Echo || !fulfillment?.id) return;
+        console.log(window.Echo.connector.pusher.connection.state)
 
         const channel = window.Echo.private(`fulfillment.${fulfillment.id}`);
 
