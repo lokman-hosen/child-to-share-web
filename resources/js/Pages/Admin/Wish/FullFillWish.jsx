@@ -117,8 +117,8 @@ export default function List({module, wishes}) {
                                                         </div>
                                                     </div>
                                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(wish.status)}`}>
-                        {wish.status}
-                    </span>
+                                                        {wish.status}
+                                                    </span>
                                                 </div>
 
                                                 {/* Card Content */}
@@ -169,17 +169,17 @@ export default function List({module, wishes}) {
                                                             <div>
                                                                 {wish.latest_fulfilment?.status === 'requested' ? (
                                                                     <span className="inline-flex items-center px-2 py-1 border border-blue-500 rounded-md text-xs font-medium text-white bg-blue-500">
-                                        Request Sent
-                                    </span>
+                                                                        Request Sent
+                                                                    </span>
                                                                 ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
                                                                 wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
                                                                     <span className="inline-flex items-center px-2 py-1 border border-purple-500 rounded-md text-xs font-medium text-white bg-purple-500">
-                                        Request Accepted
-                                    </span>
+                                                                        Request Accepted
+                                                                    </span>
                                                                 ) : (
                                                                     <span className="inline-flex items-center px-2 py-1 border border-indigo-500 rounded-md text-xs font-medium text-white bg-indigo-500">
-                                        Not Requested
-                                    </span>
+                                                                        Not Requested
+                                                                    </span>
                                                                 )}
                                                             </div>
                                                         </div>
@@ -371,10 +371,6 @@ export default function List({module, wishes}) {
                                                             <td className="p-6 border-b border-gray-100">
                                                             <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
-
-
-
-
                                                                         { !wish.latest_fulfilment ? (
                                                                             <Link
                                                                                 href={route('wish.fulfill.detail', wish.id)}
@@ -410,10 +406,9 @@ export default function List({module, wishes}) {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="3" className="px-6 py-12 text-center">
+                                                        <td colSpan="5" className="px-6 py-12 text-center">
                                                             <div className="text-center">
-                                                                <p className="text-gray-500 text-lg mb-2">No wishes
-                                                                    found</p>
+                                                                <p className="text-gray-500 text-lg mb-2">No wishes found</p>
                                                             </div>
                                                         </td>
                                                     </tr>
