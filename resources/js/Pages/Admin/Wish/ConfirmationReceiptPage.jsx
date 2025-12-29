@@ -38,12 +38,6 @@ const ConfirmationReceiptPage = ({
     const otherUser = userType === 'wisher' ? donor : wisher;
     const wishItem = wish;
     const donationItem = donation;
-    // Scroll to bottom of chat
-    // useEffect(() => {
-    //     if (chatContainerRef.current) {
-    //         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    //     }
-    // }, [messages]);
     const { data, setData, post, processing, reset } = useForm({
         message: '',
         fulfilment_id: fulfilment?.id || null,
@@ -51,19 +45,21 @@ const ConfirmationReceiptPage = ({
     });
 
     useEffect(() => {
-        if (window.Echo) {
-            window.Echo.private(`fulfillment.${fulfilment.id}`)
-                .listen('.MessageSent', (e) => {
-                    setMessages(prev => [...prev, e.message]);
-                });
-        }
+        if (!window.Echo || !fulfilment?.id) return;
+
+        const channel = window.Echo.private(
+            `fulfillment.${fulfilment.id}`
+        );
+
+        channel.listen('.MessageSent', (e) => {
+            setMessages(prev => [...prev, e.message]);
+        });
 
         return () => {
-            if (window.Echo) {
-                window.Echo.leave(`fulfillment.${fulfilment.id}`);
-            }
+            window.Echo.leave(`fulfillment.${fulfilment.id}`);
         };
-    }, [fulfilment.messages]);
+    }, [fulfilment.id]);
+
 
 
     const handleSendMessage = (e) => {
@@ -73,9 +69,14 @@ const ConfirmationReceiptPage = ({
             preserveScroll: true,
             forceFormData: true,
             onSuccess: (page) => {
+                // 👇 append sender message instantly
+                if (page.props?.latestMessage) {
+                    setMessages(prev => [...prev, page.props.latestMessage]);
+                }
                 reset();
             },
         });
+
     };
 
     const handleFileSelect = (e) => {
@@ -660,7 +661,7 @@ const ConfirmationReceiptPage = ({
                                         ref={chatContainerRef}
                                         className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px]"
                                     >
-                                        {fulfilment.messages.length === 0 ? (
+                                        {messages.length === 0 ? (
                                             <div className="text-center py-8 text-gray-500">
                                                 <FontAwesomeIcon
                                                     icon={faUser}
@@ -670,36 +671,36 @@ const ConfirmationReceiptPage = ({
                                                 <p className="text-sm mt-1">Start the conversation!</p>
                                             </div>
                                         ) : (
-                                            fulfilment.messages.map((fulfilMessage, index) => (
+                                            messages.map((message, index) => (
                                                 <div
                                                     key={index}
-                                                    className={`flex ${fulfilMessage.sender_id === currentUser.id ? 'justify-end' : 'justify-start'}`}
+                                                    className={`flex ${message.sender_id === currentUser.id ? 'justify-end' : 'justify-start'}`}
                                                 >
                                                     <div
-                                                        className={`max-w-[70%] rounded-lg px-4 py-2 ${fulfilMessage.sender_id === currentUser.id
+                                                        className={`max-w-[70%] rounded-lg px-4 py-2 ${message.sender_id === currentUser.id
                                                             ? 'bg-blue-100 text-blue-900 rounded-br-none'
                                                             : 'bg-gray-100 text-gray-900 rounded-bl-none'
                                                         }`}
                                                     >
                                                         <div className="flex items-center justify-between mb-1">
                                                     <span className="font-medium text-sm">
-                                                      {fulfilMessage.sender_id === currentUser.id ? 'You' : fulfilMessage.sender.name}
+                                                      {message.sender_id === currentUser.id ? 'You' : message.sender.name}
                                                     </span>
                                                             <span className="text-xs text-gray-500">
-                                                      {new Date(fulfilMessage.created_at).toLocaleTimeString([], {
+                                                      {new Date(message.created_at).toLocaleTimeString([], {
                                                           hour: '2-digit',
                                                           minute: '2-digit'
                                                       })}
                                                     </span>
                                                         </div>
 
-                                                        {fulfilMessage.message && (
-                                                            <p className="text-sm mb-2">{fulfilMessage.message}</p>
+                                                        {message.message && (
+                                                            <p className="text-sm mb-2">{message.message}</p>
                                                         )}
 
-                                                        {fulfilMessage.file && (
+                                                        {message.file && (
                                                             <div
-                                                                className={`flex items-center p-2 rounded ${fulfilMessage.message.sender_id === currentUser.id
+                                                                className={`flex items-center p-2 rounded ${message.message.sender_id === currentUser.id
                                                                     ? 'bg-blue-50'
                                                                     : 'bg-gray-50'
                                                                 }`}>

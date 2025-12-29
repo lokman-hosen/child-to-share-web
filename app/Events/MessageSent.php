@@ -11,26 +11,23 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent
+class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
-    public function __construct(public Message $fulfilMessage)
+    public function __construct(public Message $message)
     {
-        //
     }
 
+    public function broadcastAs(): string
+    {
+        return 'MessageSent';
+    }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return PrivateChannel
-     */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('fulfillment.' . $this->fulfilMessage->fulfillment_id);
+        return new PrivateChannel(
+            'fulfillment.' . $this->message->fulfillment_id
+        );
     }
 }

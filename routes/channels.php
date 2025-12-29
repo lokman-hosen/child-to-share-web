@@ -19,8 +19,11 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('fulfillment.{fulfilmentId}', function ($user, $fulfilmentId) {
     return \App\Models\Fulfillment::where('id', $fulfilmentId)
-        ->whereHas('wish', fn ($q) => $q->where('user_id', $user->id))
-        ->orWhereHas('donation', fn ($q) => $q->where('user_id', $user->id))
+        ->where(function ($q) use ($user) {
+            $q->whereHas('wish', fn ($q) => $q->where('user_id', $user->id))
+                ->orWhereHas('donation', fn ($q) => $q->where('user_id', $user->id));
+        })
         ->exists();
 });
+
 
