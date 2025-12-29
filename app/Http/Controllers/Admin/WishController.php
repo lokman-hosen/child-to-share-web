@@ -205,6 +205,7 @@ class WishController extends Controller
         return redirect()->back()->with('error', 'Something went wrong! Try again later');
     }
 
+    //route name of this function: wish.fulfill.status.change
     public function updateWishFulfilStatus(Request $request): Response
     {
         $fulfilment = $this->wishService->changeFulfilmentStatus($request);
@@ -268,7 +269,10 @@ class WishController extends Controller
 //            ->with([
 //                'latestMessage' => $fulfilMessage
 //            ]);
+        return response()->json([
+            'message' => $fulfilMessage
+        ]);
 
-        return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfillment_id]);
+        //return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfillment_id]);
     }
 }
