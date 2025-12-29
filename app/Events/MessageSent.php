@@ -20,8 +20,7 @@ class MessageSent
      */
     public function __construct(public Message $fulfilMessage)
     {
-        //dd($fulfilMessage);
-        //$this->fulfilMessage->load('sender:id,name');
+        //
     }
 
 

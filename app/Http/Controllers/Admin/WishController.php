@@ -236,10 +236,10 @@ class WishController extends Controller
         $filePath = null;
         $fileName = null;
 
-//        if ($request->hasFile('file')) {
-//            $filePath = $request->file('file')->store('chat', 'public');
-//            $fileName = $request->file('file')->getClientOriginalName();
-//        }
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('chat', 'public');
+            $fileName = $request->file('file')->getClientOriginalName();
+        }
 
         $fulfilMessage = $fulfilment->messages()->create([
             'sender_id' => auth()->id(),

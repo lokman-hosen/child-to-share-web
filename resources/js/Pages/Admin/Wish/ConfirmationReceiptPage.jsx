@@ -52,7 +52,7 @@ const ConfirmationReceiptPage = ({
 
     useEffect(() => {
         if (window.Echo) {
-            window.Echo.private(`fulfilment.${fulfilment.id}`)
+            window.Echo.private(`fulfillment.${fulfilment.id}`)
                 .listen('.MessageSent', (e) => {
                     setMessages(prev => [...prev, e.message]);
                 });
@@ -60,7 +60,7 @@ const ConfirmationReceiptPage = ({
 
         return () => {
             if (window.Echo) {
-                window.Echo.leave(`fulfilment.${fulfilment.id}`);
+                window.Echo.leave(`fulfillment.${fulfilment.id}`);
             }
         };
     }, [fulfilment.messages]);
