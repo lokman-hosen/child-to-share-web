@@ -251,7 +251,7 @@ class WishController extends Controller
             //'file_name' => $fileName,
         ]);
 
-        $fulfilMessage->load('sender:id,name');
+        $fulfilMessage->load(['sender:id,name', 'receiver:id,name']);
 
         broadcast(new MessageSent($fulfilMessage))->toOthers();
 

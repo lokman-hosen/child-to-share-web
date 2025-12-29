@@ -20,7 +20,8 @@ class MessageSent
      */
     public function __construct(public Message $fulfilMessage)
     {
-        $this->fulfilMessage->load('sender:id,name');
+        //dd($fulfilMessage);
+        //$this->fulfilMessage->load('sender:id,name');
     }
 
 
@@ -31,6 +32,6 @@ class MessageSent
      */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('fulfilment.' . $this->fulfilMessage->fulfilment_id);
+        return new PrivateChannel('fulfillment.' . $this->fulfilMessage->fulfillment_id);
     }
 }

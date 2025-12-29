@@ -14,6 +14,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
 import {checkDonor, checkDonorWisher, checkWisher, textLimit} from "@/utils.jsx";
+import TextareaInput from "@/Components/TextareaInput.jsx";
 
 const ConfirmationReceiptPage = ({
                                      fulfilment,
@@ -753,12 +754,22 @@ const ConfirmationReceiptPage = ({
                                             )}
 
                                             <form onSubmit={handleSendMessage} className="space-y-3">
-                                             <textarea
-                                                 value={data.message}
-                                                 onChange={e => setData('message', e.target.value)}
-                                                 placeholder="Type your message..."
-                                                 rows="2"
-                                             />
+                                             {/*<textarea*/}
+                                             {/*    value={data.message}*/}
+                                             {/*    onChange={e => setData('message', e.target.value)}*/}
+                                             {/*    placeholder="Type your message..."*/}
+                                             {/*    rows="2"*/}
+                                             {/*/>*/}
+                                                <div className="grid grid-cols-1 gap-6">
+                                                    <TextareaInput
+                                                        id="message"
+                                                        label="Message"
+                                                        value={data.message}
+                                                        onChange={e => setData('message', e.target.value)}
+                                                        placeholder="Type your message..."
+                                                        required
+                                                    />
+                                                </div>
 
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-3">
