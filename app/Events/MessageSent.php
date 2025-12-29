@@ -24,6 +24,14 @@ class MessageSent implements ShouldBroadcast
         return 'MessageSent';
     }
 
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => $this->message->load(['sender:id,name', 'receiver:id,name']),
+        ];
+    }
+
+
     public function broadcastOn(): PrivateChannel
     {
         return new PrivateChannel(

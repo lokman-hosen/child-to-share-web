@@ -17,7 +17,7 @@ import {checkDonor, checkDonorWisher, checkWisher, textLimit} from "@/utils.jsx"
 import TextareaInput from "@/Components/TextareaInput.jsx";
 
 const ConfirmationReceiptPage = ({
-                                     fulfilment,
+                                     fulfillment,
                                      wisher,
                                      donor,
                                      wish,
@@ -40,18 +40,18 @@ const ConfirmationReceiptPage = ({
     const donationItem = donation;
     const { data, setData, post, processing, reset } = useForm({
         message: '',
-        fulfilment_id: fulfilment?.id || null,
+        fulfillment_id: fulfillment?.id || null,
         file: null,
     });
 
 
     useEffect(() => {
-        if (!window.Echo || !fulfilment?.id) return;
+        if (!window.Echo || !fulfillment?.id) return;
 
         console.log(window.Echo.connector.pusher.connection.state)
 
         const channel = window.Echo.private(
-            `fulfillment.${fulfilment.id}`
+            `fulfillment.${fulfillment.id}`
         );
 
         channel.listen('.MessageSent', (e) => {
@@ -59,9 +59,9 @@ const ConfirmationReceiptPage = ({
         });
 
         return () => {
-            window.Echo.leave(`fulfillment.${fulfilment.id}`);
+            window.Echo.leave(`fulfillment.${fulfillment.id}`);
         };
-    }, [fulfilment.id]);
+    }, [fulfillment.id]);
 
 
 
@@ -331,7 +331,7 @@ const ConfirmationReceiptPage = ({
                             )}
 
                             {/* Wisher/Donor View (Other User Info) */}
-                            {fulfilment.donation.user_id !== currentUser.id && (
+                            {fulfillment.donation.user_id !== currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
                                         <h3>Donor Info</h3>
@@ -434,7 +434,7 @@ const ConfirmationReceiptPage = ({
                                     </div>
                                 </div>
                             )}
-                            {fulfilment.wish.user_id !== currentUser.id && (
+                            {fulfillment.wish.user_id !== currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
                                         <h3>Wisher Info</h3>

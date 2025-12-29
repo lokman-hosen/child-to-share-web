@@ -216,7 +216,7 @@ class WishController extends Controller
             }
         }
         return Inertia::render(self::moduleDirectory.'ConfirmationReceiptPage', [
-            'fulfilment' => $fulfilment,
+            'fulfillment' => $fulfilment,
             'wisher' => $fulfilment->wish->user,
             'donor' => $fulfilment->donation->user,
             'wish' => $fulfilment->wish->load('latestFulfillment', 'latestFulfillment.donation.user'),
@@ -229,7 +229,7 @@ class WishController extends Controller
 
     public function storeWishFulfilMessage(Request $request)
     {
-        $fulfilment = Fulfillment::find($request->fulfilment_id);
+        $fulfilment = Fulfillment::find($request->fulfillment_id);
         $validated = $request->validate([
             'message' => 'required|string',
             'file' => 'nullable|file|max:10240',
@@ -269,6 +269,6 @@ class WishController extends Controller
 //                'latestMessage' => $fulfilMessage
 //            ]);
 
-        return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfilment_id]);
+        return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfillment_id]);
     }
 }
