@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
 use App\Models\Fulfillment;
+use App\Models\Message;
 use App\Models\Wish;
 use App\Notifications\NewMessageNotification;
 use App\Services\CategoryService;
@@ -222,6 +223,7 @@ class WishController extends Controller
             'donation' => $fulfilment->donation,
             'userType' => Auth::user()->role,
             'initialMessages' => $fulfilment->messages,
+            'latestMessage' => Message::latest()->first()
         ]);
     }
 
@@ -261,12 +263,12 @@ class WishController extends Controller
 //            : $fulfilment->wish->user;
 //
 //        $receiver->notify(new NewMessageNotification($fulfilMessage));
-        return redirect()
-            ->back()
-            ->with([
-                'latestMessage' => $fulfilMessage
-            ]);
+//        return redirect()
+//            ->back()
+//            ->with([
+//                'latestMessage' => $fulfilMessage
+//            ]);
 
-        //return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfilment_id]);
+        return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfilment_id]);
     }
 }

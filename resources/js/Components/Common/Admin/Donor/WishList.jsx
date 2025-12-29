@@ -216,7 +216,7 @@ const WishList = ({userType, wishRequests}) => {
                                         {/* Action Button */}
                                         <div className="bg-gray-50 px-4 py-3 sm:px-6">
                                             <Button
-                                                onClick={() => handleFulfilStatus(wish.latest_fulfilment.id)}
+                                                onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
                                                 className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
                                                 <i className="fas fa-check mr-2"></i> Accept Fulfilment Request
                                             </Button>

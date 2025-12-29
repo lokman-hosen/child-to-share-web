@@ -102,7 +102,7 @@ class Wish extends Model
     }
 
 // Most recent fulfilment (useful)
-    public function latestFulfilment()
+    public function latestFulfillment()
     {
         return $this->hasOne(Fulfillment::class)->latestOfMany();
     }

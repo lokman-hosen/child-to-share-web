@@ -69,6 +69,7 @@ const ConfirmationReceiptPage = ({
             preserveScroll: true,
             forceFormData: true,
             onSuccess: (page) => {
+                console.log(page.props)
                 // 👇 append sender message instantly
                 if (page.props?.latestMessage) {
                     setMessages(prev => [...prev, page.props.latestMessage]);
@@ -579,15 +580,15 @@ const ConfirmationReceiptPage = ({
                                                     </div>
                                                     <br/>
                                                     <div>
-                                                        {wish.latest_fulfilment?.status && (
+                                                        {wish.latest_fulfillment?.status && (
                                                             <>
                                                             <span
                                                                 className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                Donor: {wish.latest_fulfilment?.donation?.user?.name}
+                                                                Donor: {wish.latest_fulfillment?.donation?.user?.name}
                                                             </span>
                                                                 <span
                                                                     className="ml-2 bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                Donor Message: {wish.latest_fulfilment?.note}
+                                                                Donor Message: {wish.latest_fulfillment?.note}
                                                             </span>
                                                             </>
                                                         )}
