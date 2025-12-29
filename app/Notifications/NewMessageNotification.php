@@ -56,7 +56,7 @@ class NewMessageNotification extends Notification
             ->line($this->fulfilMessage->message ?? 'The donor sent you an attachment.')
             ->action(
                 'Open Chat',
-                route('wish.fulfill.status.change', $this->fulfilMessage->fulfillment_id)
+                route('wish.fulfill.status.change', ['fulfilment_id' => $this->fulfilMessage->fulfillment_id])
             )
             ->line('Thank you for using ThreeWish.');
     }
