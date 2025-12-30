@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Fulfillment;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -17,13 +18,31 @@ use Illuminate\Support\Facades\Broadcast;
 //    return (int) $user->id === (int) $id;
 //});
 
+// chatting
 Broadcast::channel('fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {
-    return \App\Models\Fulfillment::where('id', $fulfillmentId)
+    return Fulfillment::where('id', $fulfillmentId)
         ->where(function ($q) use ($user) {
             $q->whereHas('wish', fn ($q) => $q->where('user_id', $user->id))
                 ->orWhereHas('donation', fn ($q) => $q->where('user_id', $user->id));
         })
         ->exists();
+});
+
+// online/offline status
+Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {
+    $fulfillment = Fulfillment::find($fulfillmentId);
+    if (! $fulfillment) return false;
+    if (
+        $user->id === $fulfillment->wish->user_id ||
+        $user->id === $fulfillment->donation->user_id
+    ) {
+        return [
+            'id'   => $user->id,
+            'name' => $user->name,
+        ];
+    }
+
+    return false;
 });
 
 //Broadcast::channel('fulfillment.{fulfilmentId}', function ($user, $fulfillmentId) {

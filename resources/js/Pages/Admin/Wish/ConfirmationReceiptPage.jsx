@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {Head, Link, useForm, usePage} from '@inertiajs/react';
 import {
-    faCalendar, faCheckCircle,
+    faCalendar, faCheckCircle, faEdit,
     faEnvelope,
     faLocation, faMapMarked, faMars,
-    faMessage,
-    faPhone,
+    faMessage, faPaperPlane,
+    faPhone, faSquarePlus,
     faStar, faTimesCircle,
     faUser
 } from "@fortawesome/free-solid-svg-icons";
@@ -32,6 +32,8 @@ const ConfirmationReceiptPage = ({
     const [isUploading, setIsUploading] = useState(false);
     const chatContainerRef = useRef(null);
     const fileInputRef = useRef(null);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+
 
     // User data based on user type
     const currentUser = auth.user;
@@ -52,12 +54,10 @@ const ConfirmationReceiptPage = ({
 
 
 
+    // realtime message
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
         scrollToBottom();
-        //console.log('state: '+window.Echo.connector.pusher.connection.state)
-        //console.log('channel: '+JSON.stringify(window.Echo.connector.pusher.channels.channels))
-
         const channelName = `fulfillment.${fulfillment.id}`;
 
         const channel = window.Echo.private(channelName)
@@ -77,6 +77,36 @@ const ConfirmationReceiptPage = ({
             window.Echo.leave(channelName);
         };
     }, [fulfillment.id, messages]);
+
+    // online status check
+    useEffect(() => {
+        if (!window.Echo || !fulfillment?.id) return;
+
+        const channel = window.Echo.join(
+            `presence-fulfillment.${fulfillment.id}`
+        )
+            .here(users => {
+                setOnlineUsers(users.map(u => u.id));
+            })
+            .joining(user => {
+                setOnlineUsers(prev =>
+                    prev.includes(user.id) ? prev : [...prev, user.id]
+                );
+            })
+            .leaving(user => {
+                setOnlineUsers(prev =>
+                    prev.filter(id => id !== user.id)
+                );
+            });
+
+        return () => {
+            window.Echo.leave(`presence-fulfillment.${fulfillment.id}`);
+        };
+    }, [fulfillment.id]);
+
+    const isUserOnline = (userId) => onlineUsers.includes(userId);
+
+
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -653,6 +683,14 @@ const ConfirmationReceiptPage = ({
                                                 />
                                                 Direct Chat
                                             </h3>
+                                            <p className="text-sm text-gray-600 mt-1 flex items-center">
+                                                <span
+                                                    className={`w-3 h-3 rounded-full mr-2 ${
+                                                        isUserOnline(otherUser.id) ? 'bg-green-500' : 'bg-gray-400'
+                                                    }`}
+                                                />
+                                                {isUserOnline(otherUser.id) ? 'Online' : 'Offline'}
+                                            </p>
                                             <div className="text-sm text-gray-500">
                                                 {userType === 'admin' && (
                                                     <span className="flex items-center">
@@ -663,7 +701,9 @@ const ConfirmationReceiptPage = ({
                                             </div>
                                         </div>
                                         <p className="text-sm text-gray-600 mt-1">
-                                            Chat between {wisher.name} and {donor.name}
+                                            Chat between
+                                            <span className="text-blue-700 font-bold mx-1">{wisher.name}</span> and
+                                            <span className="text-purple-700 font-bold mx-1">{donor.name}</span>
                                         </p>
                                     </div>
 
@@ -810,7 +850,7 @@ const ConfirmationReceiptPage = ({
                                                     <button
                                                         type="submit"
                                                         // disabled={(!newMessage.trim() && !selectedFile) || isUploading}
-                                                        className="flex items-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
                                                     >
                                                         {isUploading ? (
                                                             <>
@@ -819,19 +859,16 @@ const ConfirmationReceiptPage = ({
                                                                 Sending...
                                                             </>
                                                         ) : (
-                                                            <>
-                                                                <FontAwesomeIcon
-                                                                    icon={faUser}
-                                                                    className="w-4 h-4 mr-2 text-gray-400"
-                                                                />
-                                                                Send
-                                                            </>
+                                                            <div className="flex items-center space-x-2">
+                                                                <FontAwesomeIcon icon={faPaperPlane}/>
+                                                                <span>Send</span>
+                                                            </div>
                                                         )}
                                                     </button>
                                                 </div>
                                             </form>
                                         </div>
-                                    )}
+                                        )}
 
                                     {/* Admin Chat Note */}
                                     {userType === 'admin' && (
