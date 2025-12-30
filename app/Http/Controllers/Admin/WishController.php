@@ -260,16 +260,16 @@ class WishController extends Controller
         broadcast(new MessageSent($fulfilMessage));
 
         // 🔔 Notify other user
-//        $receiver = auth()->id() === $fulfilment->wish->user_id
-//            ? $fulfilment->donation->user
-//            : $fulfilment->wish->user;
-//
-//        $receiver->notify(new NewMessageNotification($fulfilMessage));
-//        return redirect()
-//            ->back()
-//            ->with([
-//                'latestMessage' => $fulfilMessage
-//            ]);
+        $receiver = auth()->id() === $fulfilment->wish->user_id
+            ? $fulfilment->donation->user
+            : $fulfilment->wish->user;
+
+        //$receiver->notify(new NewMessageNotification($fulfilMessage));
+
+        if (! cache()->has("user-online-{$receiver->id}")) {
+            $receiver->notify(new NewMessageNotification($fulfilMessage));
+        }
+
         return redirect()->back();
     }
 }

@@ -47,8 +47,7 @@ const ConfirmationReceiptPage = ({
     });
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop =
-                chatContainerRef.current.scrollHeight;
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     };
 
@@ -62,8 +61,7 @@ const ConfirmationReceiptPage = ({
 
         const channel = window.Echo.private(channelName)
             .listen('.MessageSent', (e) => {
-                console.log('📨 Incoming message:', e.message);
-
+                //console.log('📨 Incoming message:', e.message);
                 setMessages(prev => {
                     // prevent duplicates
                     if (prev.some(m => m.id === e.message.id)) {
@@ -93,11 +91,17 @@ const ConfirmationReceiptPage = ({
                     prev.includes(user.id) ? prev : [...prev, user.id]
                 );
             })
-            .leaving(user => {
-                setOnlineUsers(prev =>
-                    prev.filter(id => id !== user.id)
-                );
+            .leaving((user) => {
+            setOnlineUsers(prev => prev.filter(id => id !== user.id));
+
+            router.post(route('user.offline'), {
+                user_id: user.id
+            }, {
+                preserveScroll: true,
+                preserveState: true,
+                replace: true,
             });
+        });
 
         return () => {
             window.Echo.leave(`presence-fulfillment.${fulfillment.id}`);

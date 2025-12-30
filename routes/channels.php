@@ -36,6 +36,13 @@ Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $ful
         $user->id === $fulfillment->wish->user_id ||
         $user->id === $fulfillment->donation->user_id
     ) {
+        // mark user online
+        cache()->put(
+            "user-online-{$user->id}",
+            true,
+            now()->addMinutes(2) // auto-expire if disconnect
+        );
+
         return [
             'id'   => $user->id,
             'name' => $user->name,

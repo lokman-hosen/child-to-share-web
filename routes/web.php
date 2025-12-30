@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WishController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -82,6 +83,11 @@ Route::middleware('auth')->group(function () {
         Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
         Route::post('wish-message', 'storeWishFulfilMessage')->name('wish.fulfill.message.store');
     });
+
+    Route::post('/user/offline', function (Request $request) {
+        cache()->forget('user-online-' . $request->user_id);
+    })->name('user.offline');
+
     Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });
 
