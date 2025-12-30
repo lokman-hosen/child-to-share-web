@@ -11,20 +11,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageSent implements ShouldBroadcast
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+
+class MessageSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public function __construct(public Message $message) {}
 
-    public function broadcastOn(): PrivateChannel
-    {
-        return new PrivateChannel('fulfillment.' . $this->message->fulfillment_id);
-    }
-
     public function broadcastAs(): string
     {
-        return 'message.sent';
+        return 'MessageSent';
     }
 
     public function broadcastWith(): array
@@ -33,5 +30,13 @@ class MessageSent implements ShouldBroadcast
             'message' => $this->message->load(['sender:id,name', 'receiver:id,name']),
         ];
     }
+
+    public function broadcastOn(): PrivateChannel
+    {
+        return new PrivateChannel(
+            'fulfillment.' . $this->message->fulfillment_id
+        );
+    }
 }
+
 

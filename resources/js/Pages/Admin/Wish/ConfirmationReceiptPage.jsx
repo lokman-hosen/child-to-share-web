@@ -46,46 +46,39 @@ const ConfirmationReceiptPage = ({
 
 
     useEffect(() => {
-
-
         if (!window.Echo || !fulfillment?.id) return;
-        console.log(window.Echo.connector.pusher.connection.state)
+        //console.log('state: '+window.Echo.connector.pusher.connection.state)
+        //console.log('channel: '+JSON.stringify(window.Echo.connector.pusher.channels.channels))
 
-        const channel = window.Echo.private(`fulfillment.${fulfillment.id}`);
+        const channelName = `fulfillment.${fulfillment.id}`;
 
-        channel.listen('.message.sent', (e) => {
-            setMessages(prev => [...prev, e.message]);
-        });
+        const channel = window.Echo.private(channelName)
+            .listen('.MessageSent', (e) => {
+                console.log('📨 Incoming message:', e.message);
+
+                setMessages(prev => {
+                    // prevent duplicates
+                    if (prev.some(m => m.id === e.message.id)) {
+                        return prev;
+                    }
+                    return [...prev, e.message];
+                });
+            });
 
         return () => {
-            window.Echo.leave(`fulfillment.${fulfillment.id}`);
+            window.Echo.leave(channelName);
         };
     }, [fulfillment.id]);
 
-
-
-
     const handleSendMessage = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('message', data.message);
-        formData.append('fulfillment_id', data.fulfillment_id);
-        const res = await fetch(route('wish.fulfill.message.store'), {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': document
-                    .querySelector('meta[name="csrf-token"]')
-                    .getAttribute('content'),
+        post(route('wish.fulfill.message.store'), {
+            preserveScroll: true,
+            forceFormData: true,
+            onSuccess: () => {
+                reset();
             },
-            body: formData,
         });
-
-        const result = await res.json();
-        console.log(result)
-
-        setMessages(prev => [...prev, result.message]);
-        reset();
     };
 
 

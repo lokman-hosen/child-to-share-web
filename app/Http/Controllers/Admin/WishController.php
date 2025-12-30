@@ -256,7 +256,8 @@ class WishController extends Controller
 
         $fulfilMessage->load(['sender:id,name', 'receiver:id,name']);
 
-        broadcast(new MessageSent($fulfilMessage))->toOthers();
+        //broadcast(new MessageSent($fulfilMessage))->toOthers();
+        broadcast(new MessageSent($fulfilMessage));
 
         // 🔔 Notify other user
 //        $receiver = auth()->id() === $fulfilment->wish->user_id
@@ -269,10 +270,6 @@ class WishController extends Controller
 //            ->with([
 //                'latestMessage' => $fulfilMessage
 //            ]);
-        return response()->json([
-            'message' => $fulfilMessage
-        ]);
-
-        //return to_route('wish.fulfill.status.change', ['fulfilment_id' => $request->fulfillment_id]);
+        return redirect()->back();
     }
 }
