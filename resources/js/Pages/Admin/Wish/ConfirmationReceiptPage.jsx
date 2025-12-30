@@ -43,10 +43,18 @@ const ConfirmationReceiptPage = ({
         fulfillment_id: fulfillment?.id || null,
         file: null,
     });
+    const scrollToBottom = () => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop =
+                chatContainerRef.current.scrollHeight;
+        }
+    };
+
 
 
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
+        scrollToBottom();
         //console.log('state: '+window.Echo.connector.pusher.connection.state)
         //console.log('channel: '+JSON.stringify(window.Echo.connector.pusher.channels.channels))
 
@@ -68,7 +76,7 @@ const ConfirmationReceiptPage = ({
         return () => {
             window.Echo.leave(channelName);
         };
-    }, [fulfillment.id]);
+    }, [fulfillment.id, messages]);
 
     const handleSendMessage = async (e) => {
         e.preventDefault();
@@ -686,7 +694,7 @@ const ConfirmationReceiptPage = ({
                                                         }`}
                                                     >
                                                         <div className="flex items-center justify-between mb-1">
-                                                    <span className="font-medium text-sm">
+                                                    <span className="font-medium text-sm mr-2">
                                                       {message.sender_id === currentUser.id ? 'You' : message.sender.name}
                                                     </span>
                                                             <span className="text-xs text-gray-500">
