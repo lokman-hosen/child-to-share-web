@@ -2,11 +2,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {Head, Link, useForm, usePage} from '@inertiajs/react';
 import {
-    faCalendar, faCheckCircle,
-    faEnvelope,
+    faCalendar, faCheckCircle, faEdit,
+    faEnvelope, faGift,
     faLocation, faMapMarked, faMars,
-    faMessage,
-    faPhone,
+    faMessage, faPaperPlane,
+    faPhone, faSquarePlus,
     faStar, faTimesCircle,
     faUser
 } from "@fortawesome/free-solid-svg-icons";
@@ -14,9 +14,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
 import {checkDonor, checkDonorWisher, checkWisher, textLimit} from "@/utils.jsx";
+import TextareaInput from "@/Components/TextareaInput.jsx";
 
 const ConfirmationReceiptPage = ({
-                                     fulfilment,
+                                     fulfillment,
                                      wisher,
                                      donor,
                                      wish,
@@ -31,55 +32,97 @@ const ConfirmationReceiptPage = ({
     const [isUploading, setIsUploading] = useState(false);
     const chatContainerRef = useRef(null);
     const fileInputRef = useRef(null);
+    const [onlineUsers, setOnlineUsers] = useState([]);
+
 
     // User data based on user type
     const currentUser = auth.user;
     const otherUser = userType === 'wisher' ? donor : wisher;
     const wishItem = wish;
     const donationItem = donation;
-
-    // Scroll to bottom of chat
-    // useEffect(() => {
-    //     if (chatContainerRef.current) {
-    //         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    //     }
-    // }, [messages]);
     const { data, setData, post, processing, reset } = useForm({
         message: '',
+        fulfillment_id: fulfillment?.id || null,
         file: null,
     });
-
-    useEffect(() => {
-        fetch(route('messages.index', fulfilment.id))
-            .then(res => res.json())
-            .then(data => setMessages(data));
-
-        if (window.Echo) {
-            window.Echo.private(`fulfilment.${fulfilment.id}`)
-                .listen('.MessageSent', (e) => {
-                    setMessages(prev => [...prev, e.message]);
-                });
+    const scrollToBottom = () => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
+    };
+
+
+
+    // realtime message
+    useEffect(() => {
+        if (!window.Echo || !fulfillment?.id) return;
+        scrollToBottom();
+        const channelName = `fulfillment.${fulfillment.id}`;
+
+        const channel = window.Echo.private(channelName)
+            .listen('.MessageSent', (e) => {
+                //console.log('📨 Incoming message:', e.message);
+                setMessages(prev => {
+                    // prevent duplicates
+                    if (prev.some(m => m.id === e.message.id)) {
+                        return prev;
+                    }
+                    return [...prev, e.message];
+                });
+            });
 
         return () => {
-            if (window.Echo) {
-                window.Echo.leave(`fulfilment.${fulfilment.id}`);
-            }
+            window.Echo.leave(channelName);
         };
-    }, []);
+    }, [fulfillment.id, messages]);
+
+    // online status check
+    useEffect(() => {
+        if (!window.Echo || !fulfillment?.id) return;
+
+        const channel = window.Echo.join(
+            `presence-fulfillment.${fulfillment.id}`
+        )
+            .here(users => {
+                setOnlineUsers(users.map(u => u.id));
+            })
+            .joining(user => {
+                setOnlineUsers(prev =>
+                    prev.includes(user.id) ? prev : [...prev, user.id]
+                );
+            })
+            .leaving((user) => {
+            setOnlineUsers(prev => prev.filter(id => id !== user.id));
+
+            router.post(route('user.offline'), {
+                user_id: user.id
+            }, {
+                preserveScroll: true,
+                preserveState: true,
+                replace: true,
+            });
+        });
+
+        return () => {
+            window.Echo.leave(`presence-fulfillment.${fulfillment.id}`);
+        };
+    }, [fulfillment.id]);
+
+    const isUserOnline = (userId) => onlineUsers.includes(userId);
 
 
-    const handleSendMessage = (e) => {
+
+    const handleSendMessage = async (e) => {
         e.preventDefault();
-
-        post(route('messages.store', fulfilment.id), {
+        post(route('wish.fulfill.message.store'), {
             preserveScroll: true,
             forceFormData: true,
-            onSuccess: (page) => {
+            onSuccess: () => {
                 reset();
             },
         });
     };
+
 
     const handleFileSelect = (e) => {
         const file = e.target.files[0];
@@ -329,7 +372,7 @@ const ConfirmationReceiptPage = ({
                             )}
 
                             {/* Wisher/Donor View (Other User Info) */}
-                            {fulfilment.donation.user_id !== currentUser.id && (
+                            {fulfillment.donation.user_id !== currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
                                         <h3>Donor Info</h3>
@@ -432,7 +475,7 @@ const ConfirmationReceiptPage = ({
                                     </div>
                                 </div>
                             )}
-                            {fulfilment.wish.user_id !== currentUser.id && (
+                            {fulfillment.wish.user_id !== currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
                                         <h3>Wisher Info</h3>
@@ -539,10 +582,17 @@ const ConfirmationReceiptPage = ({
                             {/* Wish/Donation Information */}
                             <div className="bg-white rounded-lg shadow-md p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
-                                    <FontAwesomeIcon
-                                        icon={faUser}
-                                        className="w-4 h-4 mr-2 text-gray-400"
-                                    />
+                                    {userType === 'wisher' ? (
+                                        <FontAwesomeIcon
+                                            icon={faStar}
+                                            className="w-4 h-4 mr-2 text-gray-400"
+                                        />
+                                    ) : (
+                                        <FontAwesomeIcon
+                                            icon={faGift}
+                                            className="w-4 h-4 mr-2 text-gray-400"
+                                        />
+                                    )}
                                     {userType === 'wisher' ? 'Donation Details' : 'Wish Details'}
                                 </h3>
 
@@ -581,15 +631,15 @@ const ConfirmationReceiptPage = ({
                                                     </div>
                                                     <br/>
                                                     <div>
-                                                        {wish.latest_fulfilment?.status && (
+                                                        {wish.latest_fulfillment?.status && (
                                                             <>
                                                             <span
                                                                 className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                Donor: {wish.latest_fulfilment?.donation?.user?.name}
+                                                                Donor: {wish.latest_fulfillment?.donation?.user?.name}
                                                             </span>
                                                                 <span
                                                                     className="ml-2 bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                Donor Message: {wish.latest_fulfilment?.note}
+                                                                Donor Message: {wish.latest_fulfillment?.note}
                                                             </span>
                                                             </>
                                                         )}
@@ -644,6 +694,14 @@ const ConfirmationReceiptPage = ({
                                                 />
                                                 Direct Chat
                                             </h3>
+                                            <p className="text-sm text-gray-600 mt-1 flex items-center">
+                                                <span
+                                                    className={`w-3 h-3 rounded-full mr-2 ${
+                                                        isUserOnline(otherUser.id) ? 'bg-green-500' : 'bg-gray-400'
+                                                    }`}
+                                                />
+                                                {isUserOnline(otherUser.id) ? 'Online' : 'Offline'}
+                                            </p>
                                             <div className="text-sm text-gray-500">
                                                 {userType === 'admin' && (
                                                     <span className="flex items-center">
@@ -654,7 +712,9 @@ const ConfirmationReceiptPage = ({
                                             </div>
                                         </div>
                                         <p className="text-sm text-gray-600 mt-1">
-                                            Chat between {wisher.name} and {donor.name}
+                                            Chat between
+                                            <span className="text-blue-700 font-bold mx-1">{wisher.name}</span> and
+                                            <span className="text-purple-700 font-bold mx-1">{donor.name}</span>
                                         </p>
                                     </div>
 
@@ -676,33 +736,33 @@ const ConfirmationReceiptPage = ({
                                             messages.map((message, index) => (
                                                 <div
                                                     key={index}
-                                                    className={`flex ${message.senderId === currentUser.id ? 'justify-end' : 'justify-start'}`}
+                                                    className={`flex ${message.sender_id === currentUser.id ? 'justify-end' : 'justify-start'}`}
                                                 >
                                                     <div
-                                                        className={`max-w-[70%] rounded-lg px-4 py-2 ${message.senderId === currentUser.id
+                                                        className={`max-w-[70%] rounded-lg px-4 py-2 ${message.sender_id === currentUser.id
                                                             ? 'bg-blue-100 text-blue-900 rounded-br-none'
                                                             : 'bg-gray-100 text-gray-900 rounded-bl-none'
                                                         }`}
                                                     >
                                                         <div className="flex items-center justify-between mb-1">
-                                                    <span className="font-medium text-sm">
-                                                      {message.senderId === currentUser.id ? 'You' : message.senderName}
+                                                    <span className="font-medium text-sm mr-2">
+                                                      {message.sender_id === currentUser.id ? 'You' : message.sender.name}
                                                     </span>
                                                             <span className="text-xs text-gray-500">
-                                                      {new Date(message.timestamp).toLocaleTimeString([], {
+                                                      {new Date(message.created_at).toLocaleTimeString([], {
                                                           hour: '2-digit',
                                                           minute: '2-digit'
                                                       })}
                                                     </span>
                                                         </div>
 
-                                                        {message.text && (
-                                                            <p className="text-sm mb-2">{message.text}</p>
+                                                        {message.message && (
+                                                            <p className="text-sm mb-2">{message.message}</p>
                                                         )}
 
                                                         {message.file && (
                                                             <div
-                                                                className={`flex items-center p-2 rounded ${message.senderId === currentUser.id
+                                                                className={`flex items-center p-2 rounded ${message.message.sender_id === currentUser.id
                                                                     ? 'bg-blue-50'
                                                                     : 'bg-gray-50'
                                                                 }`}>
@@ -711,7 +771,7 @@ const ConfirmationReceiptPage = ({
                                                                     className="w-4 h-4 mr-2 text-gray-400"
                                                                 />
                                                                 <span className="text-sm truncate flex-1">
-                                                            {message.file.name || message.file}
+                                                            {/*{message.file.name || message.file}*/}
                                                           </span>
                                                                 <button
                                                                     className="ml-2 text-blue-600 hover:text-blue-800">
@@ -757,41 +817,51 @@ const ConfirmationReceiptPage = ({
                                             )}
 
                                             <form onSubmit={handleSendMessage} className="space-y-3">
-                                             <textarea
-                                                 value={data.message}
-                                                 onChange={e => setData('message', e.target.value)}
-                                                 placeholder="Type your message..."
-                                                 rows="2"
-                                             />
+                                             {/*<textarea*/}
+                                             {/*    value={data.message}*/}
+                                             {/*    onChange={e => setData('message', e.target.value)}*/}
+                                             {/*    placeholder="Type your message..."*/}
+                                             {/*    rows="2"*/}
+                                             {/*/>*/}
+                                                <div className="grid grid-cols-1 gap-6">
+                                                    <TextareaInput
+                                                        id="message"
+                                                        label="Message"
+                                                        value={data.message}
+                                                        onChange={e => setData('message', e.target.value)}
+                                                        placeholder="Type your message..."
+                                                        required
+                                                    />
+                                                </div>
 
-                                                <div className="flex items-center justify-between">
-                                                    <div className="flex items-center space-x-3">
-                                                        <input
-                                                            type="file"
-                                                            onChange={e => setData('file', e.target.files[0])}
-                                                            className="hidden"
-                                                            id="file-upload"
-                                                        />
-                                                        <label
-                                                            htmlFor="file-upload"
-                                                            className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer"
-                                                        >
-                                                            <FontAwesomeIcon
-                                                                icon={faUser}
-                                                                className="w-4 h-4 mr-2 text-gray-400"
-                                                            />
-                                                            Attach
-                                                        </label>
+                                                <div className="flex items-end justify-end">
+                                                    {/*<div className="flex items-center space-x-3">*/}
+                                                    {/*    <input*/}
+                                                    {/*        type="file"*/}
+                                                    {/*        onChange={e => setData('file', e.target.files[0])}*/}
+                                                    {/*        className="hidden"*/}
+                                                    {/*        id="file-upload"*/}
+                                                    {/*    />*/}
+                                                    {/*    <label*/}
+                                                    {/*        htmlFor="file-upload"*/}
+                                                    {/*        className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer"*/}
+                                                    {/*    >*/}
+                                                    {/*        <FontAwesomeIcon*/}
+                                                    {/*            icon={faUser}*/}
+                                                    {/*            className="w-4 h-4 mr-2 text-gray-400"*/}
+                                                    {/*        />*/}
+                                                    {/*        Attach*/}
+                                                    {/*    </label>*/}
 
-                                                        <div className="text-xs text-gray-500">
-                                                            Max 10MB
-                                                        </div>
-                                                    </div>
+                                                    {/*    <div className="text-xs text-gray-500">*/}
+                                                    {/*        Max 10MB*/}
+                                                    {/*    </div>*/}
+                                                    {/*</div>*/}
 
                                                     <button
                                                         type="submit"
-                                                        disabled={(!newMessage.trim() && !selectedFile) || isUploading}
-                                                        className="flex items-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                                                        // disabled={(!newMessage.trim() && !selectedFile) || isUploading}
+                                                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
                                                     >
                                                         {isUploading ? (
                                                             <>
@@ -800,19 +870,16 @@ const ConfirmationReceiptPage = ({
                                                                 Sending...
                                                             </>
                                                         ) : (
-                                                            <>
-                                                                <FontAwesomeIcon
-                                                                    icon={faUser}
-                                                                    className="w-4 h-4 mr-2 text-gray-400"
-                                                                />
-                                                                Send
-                                                            </>
+                                                            <div className="flex items-center space-x-2">
+                                                                <FontAwesomeIcon icon={faPaperPlane}/>
+                                                                <span>Send</span>
+                                                            </div>
                                                         )}
                                                     </button>
                                                 </div>
                                             </form>
                                         </div>
-                                    )}
+                                        )}
 
                                     {/* Admin Chat Note */}
                                     {userType === 'admin' && (

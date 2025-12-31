@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Mail\WishFulfilRequestedMail;
 use App\Models\Donation;
 use App\Models\File;
-use App\Models\Fulfilment;
+use App\Models\Fulfillment;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Wish;
@@ -24,7 +24,7 @@ class WishService extends BaseService
         protected File $file,
         protected CategoryService $categoryService,
         protected User $user,
-        protected Fulfilment $fulfillment
+        protected Fulfillment $fulfillment
     ){
         $this->model = $this->wish;
     }
@@ -36,7 +36,7 @@ class WishService extends BaseService
         $searchName = $request->input('search_name');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
-        $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfilment', 'latestFulfilment.donation.user']);
+        $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfillment', 'latestFulfillment.donation.user']);
         if (checkWisher() or checkDonorWisher()){
             if (Auth::user()->user_type === 'organization'){
                 $query->where('created_by', Auth::id());
@@ -304,7 +304,7 @@ class WishService extends BaseService
         $earthRadius = 6371;
 
         $query = $this->wish->query()
-            ->with(['user', 'category', 'files', 'featuredImage', 'latestFulfilment'])
+            ->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment'])
             ->join('users', 'wishes.user_id', '=', 'users.id')
             ->select('wishes.*')
             ->selectRaw(
@@ -410,7 +410,7 @@ class WishService extends BaseService
     public function wishFulfilRequestByDonor($request)
     {
         // save fulfilment
-        $fulfilment = $this->fulfilment->create([
+        $fulfilment = $this->fulfillment->create([
             'donation_id' => $request->donation_id,
             'wish_id' => $request->wish_id,
             'need_admin_assistance' => $request->need_admin_assistance ?? false,
@@ -423,7 +423,7 @@ class WishService extends BaseService
         // create an admin task if the donor asks for help
         if ($request->need_admin_assistance) {
             $fulfilment->task()->create([
-                'activity_log' => json_encode(['Fulfilment requested by donor']),
+                'activity_log' => json_encode(['Fulfillment requested by donor']),
                 'status' => 'new',
             ]);
         }
@@ -439,7 +439,7 @@ class WishService extends BaseService
 
     public function getWishRequestFromDonor(): Collection
     {
-       return Wish::with(['latestFulfilment','user', 'files', 'featuredImage'])
+       return Wish::with(['latestFulfillment','user', 'files', 'featuredImage'])
             ->where('user_id', Auth::id())
             ->whereHas('fulfilments', function ($q) {
                 $q->where('status', 'requested');
@@ -448,7 +448,7 @@ class WishService extends BaseService
 
     public function changeFulfilmentStatus($request)
     {
-        $fulfilment = $updateFulfilment = $this->fulfilment->with(['donation','donation.user','wish','wish.user','messages'])
+        $fulfilment = $updateFulfilment = $this->fulfillment->with(['donation','donation.user','wish','wish.user','messages', 'messages.sender', 'messages.receiver'])
             ->find($request->fulfilment_id);
         if ($request->status){
             $updateFulfilment->update(['status' => $request->status,]);

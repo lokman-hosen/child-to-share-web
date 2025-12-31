@@ -229,15 +229,15 @@ export default function List({module, wishes}) {
                                                                                 {wish.created_at}
                                                                             </span>
 
-                                                                                {wish.latest_fulfilment?.status === 'requested' && (
+                                                                                {wish.latest_fulfillment?.status === 'requested' && (
                                                                                     <>
                                                                                         <span
                                                                                             className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                                        Donor: {wish.latest_fulfilment?.donation?.user?.name}
+                                                                                        Donor: {wish.latest_fulfillment?.donation?.user?.name}
                                                                                     </span>
                                                                                         <span
                                                                                             className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                                        Donor Message: {wish.latest_fulfilment?.note}
+                                                                                        Donor Message: {wish.latest_fulfillment?.note}
                                                                                     </span>
                                                                                     </>
                                                                                 )}
@@ -254,9 +254,9 @@ export default function List({module, wishes}) {
                                                             <td className="p-6 border-b border-gray-100">
                                                             <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
-                                                                        {wish.latest_fulfilment?.status === 'requested' ? (
+                                                                        {wish.latest_fulfillment?.status === 'requested' ? (
                                                                             <button
-                                                                                onClick={() => handleFulfilStatus(wish.latest_fulfilment.id)}
+                                                                                onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
                                                                                 className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700">
                                                                                 Confirm Receipt
                                                                             </button>

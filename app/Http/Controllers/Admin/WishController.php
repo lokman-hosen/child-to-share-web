@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\MessageSent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
+use App\Models\Fulfillment;
+use App\Models\Message;
 use App\Models\Wish;
+use App\Notifications\NewMessageNotification;
 use App\Services\CategoryService;
 use App\Services\DonationService;
 use App\Services\UserService;
@@ -201,6 +205,7 @@ class WishController extends Controller
         return redirect()->back()->with('error', 'Something went wrong! Try again later');
     }
 
+    //route name of this function: wish.fulfill.status.change
     public function updateWishFulfilStatus(Request $request): Response
     {
         $fulfilment = $this->wishService->changeFulfilmentStatus($request);
@@ -212,13 +217,59 @@ class WishController extends Controller
             }
         }
         return Inertia::render(self::moduleDirectory.'ConfirmationReceiptPage', [
-            'fulfilment' => $fulfilment,
+            'fulfillment' => $fulfilment,
             'wisher' => $fulfilment->wish->user,
             'donor' => $fulfilment->donation->user,
-            'wish' => $fulfilment->wish->load('latestFulfilment', 'latestFulfilment.donation.user'),
+            'wish' => $fulfilment->wish->load('latestFulfillment', 'latestFulfillment.donation.user'),
             'donation' => $fulfilment->donation,
             'userType' => Auth::user()->role,
             'initialMessages' => $fulfilment->messages,
+            'latestMessage' => Message::latest()->first()
         ]);
+    }
+
+    public function storeWishFulfilMessage(Request $request)
+    {
+        $fulfilment = Fulfillment::find($request->fulfillment_id);
+        $validated = $request->validate([
+            'message' => 'required|string',
+            'file' => 'nullable|file|max:10240',
+        ]);
+
+        $filePath = null;
+        $fileName = null;
+
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('chat', 'public');
+            $fileName = $request->file('file')->getClientOriginalName();
+        }
+
+        $fulfilMessage = $fulfilment->messages()->create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => auth()->id() === $fulfilment->wish->user_id
+                ? $fulfilment->donation->user_id
+                : $fulfilment->wish->user_id,
+            'message' => $request->message,
+            //'file_path' => $filePath,
+            //'file_name' => $fileName,
+        ]);
+
+        $fulfilMessage->load(['sender:id,name', 'receiver:id,name']);
+
+        //broadcast(new MessageSent($fulfilMessage))->toOthers();
+        broadcast(new MessageSent($fulfilMessage));
+
+        // 🔔 Notify other user
+        $receiver = auth()->id() === $fulfilment->wish->user_id
+            ? $fulfilment->donation->user
+            : $fulfilment->wish->user;
+
+        //$receiver->notify(new NewMessageNotification($fulfilMessage));
+
+        if (! cache()->has("user-online-{$receiver->id}")) {
+            $receiver->notify(new NewMessageNotification($fulfilMessage));
+        }
+
+        return redirect()->back();
     }
 }

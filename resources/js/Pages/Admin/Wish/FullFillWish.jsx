@@ -117,8 +117,8 @@ export default function List({module, wishes}) {
                                                         </div>
                                                     </div>
                                                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(wish.status)}`}>
-                        {wish.status}
-                    </span>
+                                                        {wish.status}
+                                                    </span>
                                                 </div>
 
                                                 {/* Card Content */}
@@ -156,7 +156,7 @@ export default function List({module, wishes}) {
                                                         </div>
                                                     </div>
 
-                                                    {/* Distance and Fulfilment Status in one row */}
+                                                    {/* Distance and Fulfillment Status in one row */}
                                                     <div className="grid grid-cols-2 gap-4 mb-4">
                                                         <div>
                                                             <h4 className="text-sm font-medium text-gray-700 mb-1">Distance</h4>
@@ -165,21 +165,21 @@ export default function List({module, wishes}) {
                                                             </p>
                                                         </div>
                                                         <div>
-                                                            <h4 className="text-sm font-medium text-gray-700 mb-1">Fulfilment</h4>
+                                                            <h4 className="text-sm font-medium text-gray-700 mb-1">Fulfillment</h4>
                                                             <div>
-                                                                {wish.latest_fulfilment?.status === 'requested' ? (
+                                                                {wish.latest_fulfillment?.status === 'requested' ? (
                                                                     <span className="inline-flex items-center px-2 py-1 border border-blue-500 rounded-md text-xs font-medium text-white bg-blue-500">
-                                        Request Sent
-                                    </span>
-                                                                ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
-                                                                wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                                        Request Sent
+                                                                    </span>
+                                                                ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
+                                                                wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
                                                                     <span className="inline-flex items-center px-2 py-1 border border-purple-500 rounded-md text-xs font-medium text-white bg-purple-500">
-                                        Request Accepted
-                                    </span>
+                                                                        Request Accepted
+                                                                    </span>
                                                                 ) : (
                                                                     <span className="inline-flex items-center px-2 py-1 border border-indigo-500 rounded-md text-xs font-medium text-white bg-indigo-500">
-                                        Not Requested
-                                    </span>
+                                                                        Not Requested
+                                                                    </span>
                                                                 )}
                                                             </div>
                                                         </div>
@@ -189,17 +189,17 @@ export default function List({module, wishes}) {
                                                     <div className="flex flex-col space-y-2 pt-3 border-t border-gray-100">
                                                         <div className="flex justify-between items-center">
                                                             {/* Fulfill Wish Button */}
-                                                            {!wish.latest_fulfilment ? (
+                                                            {!wish.latest_fulfillment ? (
                                                                 <Link
                                                                     href={route('wish.fulfill.detail', wish.id)}
                                                                     className="inline-flex items-center justify-center flex-1 mr-2 px-3 py-2 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                                 >
                                                                     Fulfill Wish
                                                                 </Link>
-                                                            ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
-                                                            wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                            ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
+                                                            wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
                                                                 <Link
-                                                                    href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfilment?.id})}
+                                                                    href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                     className="inline-flex items-center justify-center flex-1 mr-2 px-3 py-2 bg-purple-500 text-white text-xs font-medium rounded-lg hover:bg-purple-600 transition-colors duration-200"
                                                                 >
                                                                     Message
@@ -218,12 +218,12 @@ export default function List({module, wishes}) {
                                                         </div>
 
                                                         {/* Additional status info if needed */}
-                                                        {wish.latest_fulfilment?.status && (
+                                                        {wish.latest_fulfillment?.status && (
                                                             <div className="text-xs text-gray-500 text-center">
-                                                                {wish.latest_fulfilment?.status === 'requested' ?
-                                                                    'Fulfilment request has been sent' :
-                                                                    wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
-                                                                    wish.latest_fulfilment?.status === 'accepted_by_donor' ?
+                                                                {wish.latest_fulfillment?.status === 'requested' ?
+                                                                    'Fulfillment request has been sent' :
+                                                                    wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
+                                                                    wish.latest_fulfillment?.status === 'accepted_by_donor' ?
                                                                         'Ready for communication' : ''}
                                                             </div>
                                                         )}
@@ -347,13 +347,13 @@ export default function List({module, wishes}) {
                                                                 <div className="flex flex-col items-center">
                                                                     <div className="mt-2">
                                                                         {
-                                                                            wish.latest_fulfilment?.status === 'requested' ? (
+                                                                            wish.latest_fulfillment?.status === 'requested' ? (
                                                                                 <span
                                                                                     className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
                                                                               Fulfil Request Sent
                                                                             </span>
-                                                                            ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
-                                                                            wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                                            ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
+                                                                            wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
                                                                                 <span
                                                                                     className="inline-flex items-center px-3 py-1 border border-purple-500 rounded-md text-sm font-medium text-white bg-purple-500">
                                                                                   Fulfil Request Accepted
@@ -371,21 +371,17 @@ export default function List({module, wishes}) {
                                                             <td className="p-6 border-b border-gray-100">
                                                             <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
-
-
-
-
-                                                                        { !wish.latest_fulfilment ? (
+                                                                        { !wish.latest_fulfillment ? (
                                                                             <Link
                                                                                 href={route('wish.fulfill.detail', wish.id)}
                                                                                 className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                                             >
                                                                                 Fulfill Wish
                                                                             </Link>
-                                                                        ) : wish.latest_fulfilment?.status === 'accepted_by_wisher' ||
-                                                                            wish.latest_fulfilment?.status === 'accepted_by_donor' ? (
+                                                                        ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
+                                                                            wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
                                                                             <Link
-                                                                            href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfilment?.id})}
+                                                                            href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                             >
                                                                                 <span
                                                                                     className="inline-flex items-center px-3 py-1 border border-purple-500 rounded-md text-sm font-medium text-white bg-purple-500">
@@ -410,10 +406,9 @@ export default function List({module, wishes}) {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="3" className="px-6 py-12 text-center">
+                                                        <td colSpan="5" className="px-6 py-12 text-center">
                                                             <div className="text-center">
-                                                                <p className="text-gray-500 text-lg mb-2">No wishes
-                                                                    found</p>
+                                                                <p className="text-gray-500 text-lg mb-2">No wishes found</p>
                                                             </div>
                                                         </td>
                                                     </tr>

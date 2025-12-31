@@ -584,7 +584,7 @@ CREATE TABLE `leaders` (
 
 CREATE TABLE `messages` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `fulfillment_id` bigint(20) UNSIGNED NOT NULL,
+  `fulfilment_id` bigint(20) UNSIGNED NOT NULL,
   `sender_id` bigint(20) UNSIGNED NOT NULL,
   `receiver_id` bigint(20) UNSIGNED NOT NULL,
   `message` text NOT NULL,
@@ -1288,7 +1288,7 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 
 CREATE TABLE `tasks` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `fulfillment_id` bigint(20) UNSIGNED NOT NULL,
+  `fulfilment_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED DEFAULT NULL COMMENT 'assigned admin id',
   `task_notes` text DEFAULT NULL,
   `activity_log` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`activity_log`)),

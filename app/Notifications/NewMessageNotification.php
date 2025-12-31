@@ -8,13 +8,13 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class NewMessageNotification extends Notification implements ShouldQueue
+class NewMessageNotification extends Notification
 {
     use Queueable;
 
-    public function __construct(
-        protected Message $message
-    ) {}
+    public function __construct(public $fulfilMessage) {
+        //dd($this->fulfilMessage);
+    }
 
     /**
      * Notification channels
@@ -22,6 +22,7 @@ class NewMessageNotification extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         return ['database', 'mail'];
+        //return ['database'];
     }
 
     /**
@@ -29,13 +30,16 @@ class NewMessageNotification extends Notification implements ShouldQueue
      */
     public function toDatabase($notifiable)
     {
+
         return [
-            'title' => 'New message from donor',
-            'message' => $this->message->text ?? 'Sent you an attachment',
-            'fulfilment_id' => $this->message->fulfilment_id,
-            'wish_id' => optional($this->message->fulfilment)->wish_id,
-            'sender_id' => $this->message->sender_id,
-            'sender_name' => optional($this->message->sender)->name,
+            'title' => 'New message from '.$this->fulfilMessage->sender->name,
+            'message' => $this->fulfilMessage->message ?? 'Sent you an attachment',
+            'fulfillment_id' => $this->fulfilMessage->fulfillment_id,
+            'wish_id' => $this->fulfilMessage->fulfilment->wish_id ?? null,
+            'sender_id' => $this->fulfilMessage->sender_id ?? null,
+            'sender_name' => $this->fulfilMessage->sender->name ?? null,
+            'receiver_id' => $this->fulfilMessage->receiver_id ?? null,
+            'receiver_name' => $this->fulfilMessage->receiver->name ?? null,
             'type' => 'chat_message',
         ];
     }
@@ -47,12 +51,12 @@ class NewMessageNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('New message regarding your wish')
-            ->greeting('Hello ' . $notifiable->name)
-            ->line('You have received a new message regarding your wish.')
-            ->line($this->message->text ?? 'The donor sent you an attachment.')
+            ->greeting('Hello ' . $this->fulfilMessage?->receiver->name ?? null)
+            ->line('You have received a new message regarding wish.')
+            ->line($this->fulfilMessage->message ?? 'The donor sent you an attachment.')
             ->action(
                 'Open Chat',
-                route('fulfilments.chat', $this->message->fulfilment_id)
+                route('wish.fulfill.status.change', ['fulfilment_id' => $this->fulfilMessage->fulfillment_id])
             )
             ->line('Thank you for using ThreeWish.');
     }

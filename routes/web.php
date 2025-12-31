@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\WishController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -67,10 +68,11 @@ Route::middleware('auth')->group(function () {
         Route::get('donation-file/{fileId}', 'makeFeatureFile')->name('donations.file.feature');
     });
 
-    Route::controller(MessageController::class)->group(function () {
-        Route::get('/fulfilments/{fulfilment}/messages', 'index')->name('messages.index');
-        Route::post('/fulfilments/{fulfilment}/messages', 'store')->name('messages.store');
-    });
+//    Route::controller(MessageController::class)->group(function () {
+//        Route::get('/fulfilments/{fulfilment}/messages', 'index')->name('messages.index');
+//        //Route::post('/fulfilments/{fulfilment}/messages', 'store')->name('messages.store');
+//    });
+
 
     Route::controller(WishController::class)->group(function () {
         Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
@@ -79,8 +81,13 @@ Route::middleware('auth')->group(function () {
         Route::get('wish-fulfill/{wishId}', 'wishDetail')->name('wish.fulfill.detail');
         Route::post('wish-fulfill', 'storeWishFulfilInfo')->name('wish.fulfill.store');
         Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
-        //Route::post('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
+        Route::post('wish-message', 'storeWishFulfilMessage')->name('wish.fulfill.message.store');
     });
+
+    Route::post('/user/offline', function (Request $request) {
+        cache()->forget('user-online-' . $request->user_id);
+    })->name('user.offline');
+
     Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });
 
