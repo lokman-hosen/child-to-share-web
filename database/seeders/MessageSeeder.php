@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Fulfilment;
+use App\Models\Fulfillment;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,7 +16,7 @@ class MessageSeeder extends Seeder
     public function run(): void
     {
         // Get existing fulfillments and users
-        $fulfillments = Fulfilment::all();
+        $fulfillments = Fulfillment::all();
         $users = User::all();
 
         if ($fulfillments->isEmpty() || $users->isEmpty()) {

@@ -98,13 +98,13 @@ class Wish extends Model
 
     public function fulfilments()
     {
-        return $this->hasMany(Fulfilment::class, 'wish_id');
+        return $this->hasMany(Fulfillment::class, 'wish_id');
     }
 
 // Most recent fulfilment (useful)
     public function latestFulfillment()
     {
-        return $this->hasOne(Fulfilment::class)->latestOfMany();
+        return $this->hasOne(Fulfillment::class)->latestOfMany();
     }
 
     public function createBy()

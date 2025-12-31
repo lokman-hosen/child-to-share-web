@@ -15,7 +15,7 @@ class Task extends Model
 
     public function Fulfilment()
     {
-        return $this->belongsTo(Fulfilment::class);
+        return $this->belongsTo(Fulfillment::class);
     }
 
     public function assignedAdmin()

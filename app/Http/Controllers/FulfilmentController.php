@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFulfilmentRequest;
 use App\Http\Requests\UpdateFulfilmentRequest;
-use App\Models\Fulfilment;
+use App\Models\Fulfillment;
 
 class FulfilmentController extends Controller
 {
@@ -35,7 +35,7 @@ class FulfilmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fulfilment $fulfillment)
+    public function show(Fulfillment $fulfillment)
     {
         //
     }
@@ -43,7 +43,7 @@ class FulfilmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fulfilment $fulfillment)
+    public function edit(Fulfillment $fulfillment)
     {
         //
     }
@@ -51,7 +51,7 @@ class FulfilmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateFulfilmentRequest $request, Fulfilment $fulfillment)
+    public function update(UpdateFulfilmentRequest $request, Fulfillment $fulfillment)
     {
         //
     }
@@ -59,7 +59,7 @@ class FulfilmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fulfilment $fulfillment)
+    public function destroy(Fulfillment $fulfillment)
     {
         //
     }

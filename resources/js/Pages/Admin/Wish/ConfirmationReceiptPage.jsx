@@ -1,4 +1,3 @@
-// ConfirmationReceiptPage.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import {Head, Link, useForm, usePage} from '@inertiajs/react';
 import {
@@ -16,15 +15,7 @@ import {format} from "date-fns";
 import {checkDonor, checkDonorWisher, checkWisher, textLimit} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 
-const ConfirmationReceiptPage = ({
-                                     fulfillment,
-                                     wisher,
-                                     donor,
-                                     wish,
-                                     donation,
-                                     userType, // 'wisher', 'donor', or 'admin'
-                                     initialMessages = []
-                                 }) => {
+const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, userType, initialMessages = []}) => {
     const { auth } = usePage().props;
     const [messages, setMessages] = useState(initialMessages);
     const [newMessage, setNewMessage] = useState('');
@@ -33,6 +24,9 @@ const ConfirmationReceiptPage = ({
     const chatContainerRef = useRef(null);
     const fileInputRef = useRef(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    const [showActionModal, setShowActionModal] = useState(false);
+    const [actionType, setActionType] = useState(null);
+
 
 
     // User data based on user type
@@ -147,6 +141,11 @@ const ConfirmationReceiptPage = ({
             day: 'numeric'
         });
     };
+
+    const actionForm = useForm({
+        comment: '',
+        media: [],
+    });
 
     return (
         <AuthenticatedLayout>
@@ -647,6 +646,31 @@ const ConfirmationReceiptPage = ({
                                                 </div>
                                             </div>
                                         </div>
+
+                                        {userType === 'wisher' && fulfillment.status === 'delivered' && (
+                                            <div className="mt-6 flex gap-4">
+                                                <button
+                                                    onClick={() => {
+                                                        setActionType('confirm');
+                                                        setShowActionModal(true);
+                                                    }}
+                                                    className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md shadow"
+                                                >
+                                                    Confirm Receipt
+                                                </button>
+
+                                                <button
+                                                    onClick={() => {
+                                                        setActionType('issue');
+                                                        setShowActionModal(true);
+                                                    }}
+                                                    className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md shadow"
+                                                >
+                                                    Report Issue / Request Return
+                                                </button>
+                                            </div>
+                                        )}
+
                                     </div>
                                 </div>
 
@@ -900,6 +924,115 @@ const ConfirmationReceiptPage = ({
                         </div>
                     </div>
                 </div>
+
+            {showActionModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="bg-white w-full max-w-lg rounded-xl shadow-xl p-6">
+                        {/* Header */}
+                        <h2
+                            className={`text-lg font-semibold mb-2 ${
+                                actionType === 'confirm'
+                                    ? 'text-green-700'
+                                    : 'text-red-700'
+                            }`}
+                        >
+                            {actionType === 'confirm'
+                                ? 'Confirm Receipt'
+                                : 'Report Issue / Request Return'}
+                        </h2>
+
+                        <p className="text-sm text-gray-600 mb-4">
+                            {actionType === 'confirm'
+                                ? 'Please confirm that you received the donation successfully.'
+                                : 'Please describe the issue clearly so we can review it.'}
+                        </p>
+
+                        {/* Form */}
+                        <form
+                            onSubmit={e => {
+                                e.preventDefault();
+
+                                actionForm.post(
+                                    actionType === 'confirm'
+                                        ? route('fulfillment.confirm', fulfillment.id)
+                                        : route('fulfillment.issue', fulfillment.id),
+                                    {
+                                        forceFormData: true,
+                                        onSuccess: () => {
+                                            actionForm.reset();
+                                            setShowActionModal(false);
+                                            setActionType(null);
+                                        },
+                                    }
+                                );
+                            }}
+                            className="space-y-4"
+                        >
+                            {/* Comment */}
+                            <TextareaInput
+                                label={
+                                    actionType === 'confirm'
+                                        ? 'Confirmation Comment'
+                                        : 'Issue Description'
+                                }
+                                required
+                                value={actionForm.data.comment}
+                                onChange={e =>
+                                    actionForm.setData('comment', e.target.value)
+                                }
+                                placeholder={
+                                    actionType === 'confirm'
+                                        ? 'Write your confirmation message...'
+                                        : 'Wrong item, damaged, not received...'
+                                }
+                            />
+
+                            {/* Media Upload */}
+                            <input
+                                type="file"
+                                multiple
+                                onChange={e =>
+                                    actionForm.setData(
+                                        'media',
+                                        Array.from(e.target.files)
+                                    )
+                                }
+                                className="block w-full text-sm text-gray-600"
+                            />
+
+                            {/* Actions */}
+                            <div className="flex justify-end gap-3 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setShowActionModal(false);
+                                        setActionType(null);
+                                        actionForm.reset();
+                                    }}
+                                    className="px-4 py-2 text-gray-600"
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    disabled={actionForm.processing}
+                                    className={`px-5 py-2 rounded-md text-white ${
+                                        actionType === 'confirm'
+                                            ? 'bg-green-600 hover:bg-green-700'
+                                            : 'bg-red-600 hover:bg-red-700'
+                                    }`}
+                                >
+                                    {actionType === 'confirm'
+                                        ? 'Confirm Receipt'
+                                        : 'Submit Issue'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
         </AuthenticatedLayout>
     );
 };

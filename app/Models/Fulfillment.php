@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
-class Fulfilment extends Model
+class Fulfillment extends Model
 {
     /** @use HasFactory<\Database\Factories\FulfillmentFactory> */
     use HasFactory,SoftDeletes;

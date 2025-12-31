@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Fulfilment;
+use App\Models\Fulfillment;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,7 +16,7 @@ class TaskSeeder extends Seeder
     public function run(): void
     {
         // Get existing data
-        $fulfillments = Fulfilment::all();
+        $fulfillments = Fulfillment::all();
         $admins = User::where('role', 'admin')->get();
 
         if ($fulfillments->isEmpty() || $admins->isEmpty()) {
