@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {Head, Link, useForm, usePage} from '@inertiajs/react';
 import {
     faCalendar, faCheckCircle, faEdit,
-    faEnvelope,
+    faEnvelope, faGift,
     faLocation, faMapMarked, faMars,
     faMessage, faPaperPlane,
     faPhone, faSquarePlus,
@@ -582,10 +582,17 @@ const ConfirmationReceiptPage = ({
                             {/* Wish/Donation Information */}
                             <div className="bg-white rounded-lg shadow-md p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
-                                    <FontAwesomeIcon
-                                        icon={faUser}
-                                        className="w-4 h-4 mr-2 text-gray-400"
-                                    />
+                                    {userType === 'wisher' ? (
+                                        <FontAwesomeIcon
+                                            icon={faStar}
+                                            className="w-4 h-4 mr-2 text-gray-400"
+                                        />
+                                    ) : (
+                                        <FontAwesomeIcon
+                                            icon={faGift}
+                                            className="w-4 h-4 mr-2 text-gray-400"
+                                        />
+                                    )}
                                     {userType === 'wisher' ? 'Donation Details' : 'Wish Details'}
                                 </h3>
 
