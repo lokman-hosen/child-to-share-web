@@ -228,7 +228,7 @@ class WishController extends Controller
         ]);
     }
 
-    public function storeWishFulfilMessage(Request $request)
+    public function storeWishFulfilMessage(Request $request): RedirectResponse
     {
         $fulfilment = Fulfillment::find($request->fulfillment_id);
         $validated = $request->validate([
