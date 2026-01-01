@@ -14,6 +14,7 @@ use App\Notifications\WishFulfilRequestedNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -465,6 +466,44 @@ class WishService extends BaseService
                 $updateFulfilment->update(['status' => $request->status]);
             }
         }
+
+        return $fulfillment;
+    }
+
+    public function confirmWish($request): ?object
+    {
+        $fulfillment = $this->fulfillment->find($request->id);
+        DB::transaction(function () use ($request, $fulfillment) {
+            // store media (optional)
+            if ($request->hasFile('media')) {
+                foreach ($request->file('media') as $file) {
+                    $file->store('confirmations', 'public');
+                }
+            }
+            // fulfillment
+            $fulfillment->update([
+                'status' => 'completed',
+            ]);
+
+            // donation
+            $fulfillment->donation->update([
+                'status' => 'donated',
+            ]);
+
+            // wish
+            $fulfillment->wish->update([
+                'status' => 'fulfilled',
+            ]);
+
+            // task
+            if ($fulfillment->task){
+                $fulfillment->task()->update([
+                    'status' => 'completed',
+                    'completed_at' => now(),
+                    'user_id' => auth()->id(),
+                ]);
+            }
+        });
 
         return $fulfillment;
     }

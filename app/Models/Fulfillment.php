@@ -27,7 +27,7 @@ class Fulfillment extends Model
 
     public function task(): HasOne
     {
-        return $this->hasOne(Task::class, 'fulfilment_id');
+        return $this->hasOne(Task::class, 'fulfillment_id');
     }
 
     public function wish(): BelongsTo

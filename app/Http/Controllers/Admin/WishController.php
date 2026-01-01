@@ -272,4 +272,19 @@ class WishController extends Controller
 
         return redirect()->back();
     }
+
+    public function confirmReceipt(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'fulfillment_id' => 'fulfillment_id',
+            'comment' => 'required|string|max:1000',
+            'media.*' => 'nullable|file|max:10240',
+        ]);
+        $fulfillment = $this->wishService->confirmWish($request);
+        if ($fulfillment){
+            return redirect()->back()->with('success', 'Wish confirmed successfully!');
+        }
+        return back()->with('success', 'Receipt confirmed successfully.');
+    }
+
 }

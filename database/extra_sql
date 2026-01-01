@@ -18,6 +18,7 @@ Set Admin role:
 
 fulfilment
 1. ALTER TABLE `fulfillments` CHANGE `status` `status` ENUM('requested','accepted_by_wisher', 'accepted_by_donor','scheduled','in_progress','delivered','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'requested';
+2. ALTER TABLE `fulfillments` CHANGE `status` `status` ENUM('requested','accepted_by_wisher','accepted_by_donor','scheduled','in_progress','delivered', 'completed', 'cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'requested';
 
 Users
 1. ALTER TABLE `users` ADD `organization_id` BIGINT(20) UNSIGNED NULL DEFAULT NULL AFTER `address`;

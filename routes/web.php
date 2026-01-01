@@ -82,6 +82,10 @@ Route::middleware('auth')->group(function () {
         Route::post('wish-fulfill', 'storeWishFulfilInfo')->name('wish.fulfill.store');
         Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
         Route::post('wish-message', 'storeWishFulfilMessage')->name('wish.fulfill.message.store');
+
+        Route::post('/wish-fulfill/confirm', 'confirmReceipt')->name('fulfillment.confirm');
+        Route::post('/wish-fulfill/issue', 'reportIssue')->name('fulfillment.issue');
+
     });
 
     Route::post('/user/offline', function (Request $request) {

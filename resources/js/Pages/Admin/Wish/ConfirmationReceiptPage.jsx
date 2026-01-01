@@ -145,6 +145,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     const actionForm = useForm({
         comment: '',
         media: [],
+        id: fulfillment.id,
     });
 
     return (
@@ -997,8 +998,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     }
                                 );
                             }}
-                            className="space-y-4"
-                        >
+                            className="space-y-4">
                             {/* Comment */}
                             <TextareaInput
                                 label={
@@ -1019,17 +1019,17 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             />
 
                             {/* Media Upload */}
-                            <input
-                                type="file"
-                                multiple
-                                onChange={e =>
-                                    actionForm.setData(
-                                        'media',
-                                        Array.from(e.target.files)
-                                    )
-                                }
-                                className="block w-full text-sm text-gray-600"
-                            />
+                            {/*<input*/}
+                            {/*    type="file"*/}
+                            {/*    multiple*/}
+                            {/*    onChange={e =>*/}
+                            {/*        actionForm.setData(*/}
+                            {/*            'media',*/}
+                            {/*            Array.from(e.target.files)*/}
+                            {/*        )*/}
+                            {/*    }*/}
+                            {/*    className="block w-full text-sm text-gray-600"*/}
+                            {/*/>*/}
 
                             {/* Actions */}
                             <div className="flex justify-end gap-3 pt-4">
