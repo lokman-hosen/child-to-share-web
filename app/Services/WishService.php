@@ -9,6 +9,7 @@ use App\Models\Fulfillment;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\Wish;
+use App\Notifications\DeliveryAttemptNotification;
 use App\Notifications\WishFulfilRequestedNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -448,12 +449,23 @@ class WishService extends BaseService
 
     public function changeFulfilmentStatus($request)
     {
-        $fulfilment = $updateFulfilment = $this->fulfillment->with(['donation','donation.user','wish','wish.user','messages', 'messages.sender', 'messages.receiver'])
+        $fulfillment = $updateFulfilment = $this->fulfillment->with(['donation','donation.user','wish','wish.user','messages', 'messages.sender', 'messages.receiver'])
             ->find($request->fulfilment_id);
         if ($request->status){
-            $updateFulfilment->update(['status' => $request->status,]);
+            if ($request->status == 'delivered'){
+                $updateFulfilment->update([
+                    'status' => 'delivered',
+                    'delivered_at' => now(),
+                ]);
+                // 🔔 Notify wisher
+                $wisher = $fulfillment->wish->user;
+                $wisher->notify(new DeliveryAttemptNotification($fulfillment));
+
+            }else{
+                $updateFulfilment->update(['status' => $request->status]);
+            }
         }
 
-        return $fulfilment;
+        return $fulfillment;
     }
 }

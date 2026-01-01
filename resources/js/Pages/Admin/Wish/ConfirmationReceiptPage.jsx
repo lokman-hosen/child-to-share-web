@@ -621,56 +621,87 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                     <div>
                                                         <span
                                                             className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                        {wish.status}
-                                                    </span>
+                                                            {wish.status}
+                                                        </span>
                                                         <span
                                                             className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                         {wish.created_at}
-                                                    </span>
+                                                        </span>
                                                     </div>
-                                                    <br/>
-                                                    <div>
-                                                        {wish.latest_fulfillment?.status && (
-                                                            <>
-                                                            <span
-                                                                className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                Donor: {wish.latest_fulfillment?.donation?.user?.name}
-                                                            </span>
-                                                                <span
-                                                                    className="ml-2 bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                Donor Message: {wish.latest_fulfillment?.note}
-                                                            </span>
-                                                            </>
-                                                        )}
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
+                                        {/*donor action*/}
+                                        <div className="flex flex-col items-end">
+                                            <div className="mt-2">
+                                                {fulfillment.wish.user_id !== currentUser.id && (
+                                                    fulfillment.status === 'accepted_by_wisher' ? (
+                                                        <Link
+                                                            href={route('wish.fulfill.status.change', {
+                                                                fulfilment_id: wish.latest_fulfillment?.id,
+                                                                status: 'delivered',
+                                                            })}
+                                                            method="post"
+                                                            as="button"
+                                                            onClick={(e) => {
+                                                                if (!confirm('Are you sure you want to mark this as delivered?')) {
+                                                                    e.preventDefault();
+                                                                }
+                                                            }}
+                                                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+                                                        >
+                                                            Mark As Delivered
+                                                        </Link>
+                                                    ) : fulfillment.status === 'delivered' ? (
+                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
+                                                            Waiting for wisher confirmation
+                                                        </span>
+                                                    ) : null
+                                                )}
 
-                                        {userType === 'wisher' && fulfillment.status === 'delivered' && (
-                                            <div className="mt-6 flex gap-4">
-                                                <button
-                                                    onClick={() => {
-                                                        setActionType('confirm');
-                                                        setShowActionModal(true);
-                                                    }}
-                                                    className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-md shadow"
-                                                >
-                                                    Confirm Receipt
-                                                </button>
 
-                                                <button
-                                                    onClick={() => {
-                                                        setActionType('issue');
-                                                        setShowActionModal(true);
-                                                    }}
-                                                    className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-md shadow"
-                                                >
-                                                    Report Issue / Request Return
-                                                </button>
+                                                {/*wisher action*/}
+                                                {fulfillment.donation.user_id !== currentUser.id && fulfillment.status === 'delivered' && (
+                                                    <div className="mt-6 flex gap-4">
+                                                        <button
+                                                            onClick={() => {
+                                                                setActionType('confirm');
+                                                                setShowActionModal(true);
+                                                            }}
+                                                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+                                                        >
+                                                            Confirm Receipt
+                                                        </button>
+
+                                                        <button
+                                                            onClick={() => {
+                                                                setActionType('issue');
+                                                                setShowActionModal(true);
+                                                            }}
+                                                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700"
+                                                        >
+                                                            Report Issue / Request Return
+                                                        </button>
+                                                    </div>
+                                                )}
+
                                             </div>
-                                        )}
+                                        </div>
 
+                                    </div>
+                                    <div>
+                                        {wish.latest_fulfillment?.status && (
+                                            <>
+                                                <span
+                                                    className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                    Donor: {wish.latest_fulfillment?.donation?.user?.name}
+                                                </span>
+                                                <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                    Donor Message: {wish.latest_fulfillment?.note}
+                                                </span>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
 
