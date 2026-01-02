@@ -353,7 +353,7 @@ export default function List({module, wishes}) {
                                                                             </span>
                                                                         ) : (
                                                                             <span
-                                                                                className="inline-flex items-center px-3 py-1 border border-yellow-500 rounded-md text-sm font-medium text-white bg-yellow-500">
+                                                                                className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
                                                                             {wish.status}
                                                                             </span>
                                                                         )}
@@ -376,8 +376,8 @@ export default function List({module, wishes}) {
                                                                             href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                             >
                                                                                 <span
-                                                                                    className="inline-flex items-center px-3 py-1 border border-purple-500 rounded-md text-sm font-medium text-white bg-purple-500">
-                                                                                  Message
+                                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                                                                                  Fulfillment Detail
                                                                                 </span>
                                                                             </Link>
                                                                         ) : null
@@ -432,9 +432,17 @@ export default function List({module, wishes}) {
                                                             </div>
                                                             {/* Status Badge */}
                                                             <div className="absolute top-3 right-3">
-                                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(wish.status)}`}>
+                                                                { wish.latest_fulfillment ? (
+                                                                    <span
+                                                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white bg-blue-500">
+                                                                      {getFulfilmentStatus(wish.latest_fulfillment.status)}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span
+                                                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white bg-blue-500">
                                                                     {wish.status}
-                                                                </span>
+                                                                    </span>
+                                                                )}
                                                             </div>
                                                         </div>
 
@@ -460,12 +468,19 @@ export default function List({module, wishes}) {
                                                                 <span className="text-sm text-gray-500">
                                                                     {wish.created_at}
                                                                 </span>
-                                                                <Link
-                                                                    href={route('wish.fulfill.detail', wish.id)}
-                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                                                                >
-                                                                    Fulfill Wish
-                                                                </Link>
+                                                                { wish.latest_fulfillment?.status === 'requested' ? (
+                                                                    <Link
+                                                                        href={route('wish.fulfill.detail', wish.id)}
+                                                                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                    >
+                                                                        Fulfill Wish
+                                                                    </Link>
+                                                                ) : (
+                                                                    <span
+                                                                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                                                                    Fulfillment Detail
+                                                                    </span>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </div>
