@@ -443,7 +443,7 @@ class WishService extends BaseService
     {
        return Wish::with(['latestFulfillment','user', 'files', 'featuredImage'])
             ->where('user_id', Auth::id())
-            ->whereHas('fulfilments', function ($q) {
+            ->whereHas('fulfillments', function ($q) {
                 $q->where('status', 'requested');
             })->get();
     }

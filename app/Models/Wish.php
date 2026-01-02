@@ -96,7 +96,7 @@ class Wish extends Model
             ->where('file_type', 'video');
     }
 
-    public function fulfilments()
+    public function fulfillments()
     {
         return $this->hasMany(Fulfillment::class, 'wish_id');
     }
