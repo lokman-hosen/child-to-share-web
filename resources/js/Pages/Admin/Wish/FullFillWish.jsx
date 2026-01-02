@@ -354,7 +354,7 @@ export default function List({module, wishes}) {
                                                                         ) : (
                                                                             <span
                                                                                 className="inline-flex items-center px-3 py-1 border border-yellow-500 rounded-md text-sm font-medium text-white bg-yellow-500">
-                                                                            N/A
+                                                                            {wish.status}
                                                                             </span>
                                                                         )}
                                                                     </div>
