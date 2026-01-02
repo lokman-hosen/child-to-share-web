@@ -660,7 +660,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         </span>
                                                     ) : fulfillment.status === 'completed' ? (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
-                                                            Delivery confirm by wisher
+                                                            Fulfilled
                                                         </span>
                                                     ) : null
                                                 )}

@@ -57,7 +57,7 @@ export const getFulfilmentStatus = (status) => {
     }else if(status === 'scheduled' || status === 'in_progress'){
         return 'In Progress';
     }else if(status === 'completed'){
-        return 'Completed';
+        return 'Fulfilled';
     }else if (status === 'cancelled') {
         return 'Cancelled';
     }else{
