@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -102,7 +103,7 @@ class Wish extends Model
     }
 
 // Most recent fulfilment (useful)
-    public function latestFulfillment()
+    public function latestFulfillment(): HasOne
     {
         return $this->hasOne(Fulfillment::class)->latestOfMany();
     }
