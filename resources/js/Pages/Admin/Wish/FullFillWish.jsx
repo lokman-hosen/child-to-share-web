@@ -361,7 +361,7 @@ export default function List({module, wishes}) {
                                                                 </div>
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
-                                                            <div className="flex flex-col items-end">
+                                                                <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
                                                                         { !wish.latest_fulfillment ? (
                                                                             <Link
