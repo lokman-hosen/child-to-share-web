@@ -49,6 +49,22 @@ export const textLimit = ($text, $charLimit) => {
         ($text.length > $charLimit ? ".." : "")
 }
 
+export const getFulfilmentStatus = (status) => {
+    if (status === 'requested') {
+        return 'Requested';
+    }else if(status === 'accepted_by_wisher' || status === 'accepted_by_donor'){
+        return 'Requestion Accepted';
+    }else if(status === 'scheduled' || status === 'in_progress'){
+        return 'In Progress';
+    }else if(status === 'completed'){
+        return 'Completed';
+    }else if (status === 'cancelled') {
+        return 'Cancelled';
+    }else{
+        return status
+    }
+};
+
 
 
 

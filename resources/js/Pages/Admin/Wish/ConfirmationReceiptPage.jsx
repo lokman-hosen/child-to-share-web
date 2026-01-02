@@ -882,69 +882,70 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                     </button>
                                                 </div>
                                             )}
+                                            { fulfillment.status !== 'completed' && (
+                                                <form onSubmit={handleSendMessage} className="space-y-3">
+                                                    {/*<textarea*/}
+                                                    {/*    value={data.message}*/}
+                                                    {/*    onChange={e => setData('message', e.target.value)}*/}
+                                                    {/*    placeholder="Type your message..."*/}
+                                                    {/*    rows="2"*/}
+                                                    {/*/>*/}
+                                                    <div className="grid grid-cols-1 gap-6">
+                                                        <TextareaInput
+                                                            id="message"
+                                                            label="Message"
+                                                            value={data.message}
+                                                            onChange={e => setData('message', e.target.value)}
+                                                            placeholder="Type your message..."
+                                                            required
+                                                        />
+                                                    </div>
 
-                                            <form onSubmit={handleSendMessage} className="space-y-3">
-                                             {/*<textarea*/}
-                                             {/*    value={data.message}*/}
-                                             {/*    onChange={e => setData('message', e.target.value)}*/}
-                                             {/*    placeholder="Type your message..."*/}
-                                             {/*    rows="2"*/}
-                                             {/*/>*/}
-                                                <div className="grid grid-cols-1 gap-6">
-                                                    <TextareaInput
-                                                        id="message"
-                                                        label="Message"
-                                                        value={data.message}
-                                                        onChange={e => setData('message', e.target.value)}
-                                                        placeholder="Type your message..."
-                                                        required
-                                                    />
-                                                </div>
+                                                    <div className="flex items-end justify-end">
+                                                        {/*<div className="flex items-center space-x-3">*/}
+                                                        {/*    <input*/}
+                                                        {/*        type="file"*/}
+                                                        {/*        onChange={e => setData('file', e.target.files[0])}*/}
+                                                        {/*        className="hidden"*/}
+                                                        {/*        id="file-upload"*/}
+                                                        {/*    />*/}
+                                                        {/*    <label*/}
+                                                        {/*        htmlFor="file-upload"*/}
+                                                        {/*        className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer"*/}
+                                                        {/*    >*/}
+                                                        {/*        <FontAwesomeIcon*/}
+                                                        {/*            icon={faUser}*/}
+                                                        {/*            className="w-4 h-4 mr-2 text-gray-400"*/}
+                                                        {/*        />*/}
+                                                        {/*        Attach*/}
+                                                        {/*    </label>*/}
 
-                                                <div className="flex items-end justify-end">
-                                                    {/*<div className="flex items-center space-x-3">*/}
-                                                    {/*    <input*/}
-                                                    {/*        type="file"*/}
-                                                    {/*        onChange={e => setData('file', e.target.files[0])}*/}
-                                                    {/*        className="hidden"*/}
-                                                    {/*        id="file-upload"*/}
-                                                    {/*    />*/}
-                                                    {/*    <label*/}
-                                                    {/*        htmlFor="file-upload"*/}
-                                                    {/*        className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer"*/}
-                                                    {/*    >*/}
-                                                    {/*        <FontAwesomeIcon*/}
-                                                    {/*            icon={faUser}*/}
-                                                    {/*            className="w-4 h-4 mr-2 text-gray-400"*/}
-                                                    {/*        />*/}
-                                                    {/*        Attach*/}
-                                                    {/*    </label>*/}
+                                                        {/*    <div className="text-xs text-gray-500">*/}
+                                                        {/*        Max 10MB*/}
+                                                        {/*    </div>*/}
+                                                        {/*</div>*/}
 
-                                                    {/*    <div className="text-xs text-gray-500">*/}
-                                                    {/*        Max 10MB*/}
-                                                    {/*    </div>*/}
-                                                    {/*</div>*/}
-
-                                                    <button
-                                                        type="submit"
-                                                        // disabled={(!newMessage.trim() && !selectedFile) || isUploading}
-                                                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
-                                                    >
-                                                        {isUploading ? (
-                                                            <>
-                                                                <div
-                                                                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                                                                Sending...
-                                                            </>
-                                                        ) : (
-                                                            <div className="flex items-center space-x-2">
-                                                                <FontAwesomeIcon icon={faPaperPlane}/>
-                                                                <span>Send</span>
-                                                            </div>
-                                                        )}
-                                                    </button>
-                                                </div>
-                                            </form>
+                                                        <button
+                                                            type="submit"
+                                                            // disabled={(!newMessage.trim() && !selectedFile) || isUploading}
+                                                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                                                        >
+                                                            {isUploading ? (
+                                                                <>
+                                                                    <div
+                                                                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                                                    Sending...
+                                                                </>
+                                                            ) : (
+                                                                <div className="flex items-center space-x-2">
+                                                                    <FontAwesomeIcon icon={faPaperPlane}/>
+                                                                    <span>Send</span>
+                                                                </div>
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            )}
                                         </div>
                                         )}
 

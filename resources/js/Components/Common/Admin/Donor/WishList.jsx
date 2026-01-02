@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link, router} from "@inertiajs/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@headlessui/react";
+import {getFulfilmentStatus} from "@/utils.jsx";
 
 const WishList = ({userType, wishRequests}) => {
 
@@ -190,9 +191,14 @@ const WishList = ({userType, wishRequests}) => {
                                         </div>
                                         {/* Status Badge */}
                                         <div className="absolute top-3 right-3">
-                                            <span className="status-badge bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                Fulfilled
+                                            {wish.latest_fulfillment.status ? (
+                                                <span className="status-badge bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                             </span>
+                                            ) : (
+                                                <span className="status-badge bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">dfsfs</span>
+                                            ) }
+
                                         </div>
                                     </div>
 
@@ -215,11 +221,19 @@ const WishList = ({userType, wishRequests}) => {
 
                                         {/* Action Button */}
                                         <div className="bg-gray-50 px-4 py-3 sm:px-6">
-                                            <Button
-                                                onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
-                                                className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-                                                <i className="fas fa-check mr-2"></i> Accept Fulfilment Request
-                                            </Button>
+                                            { wish.latest_fulfillment.status === 'requested' ? (
+                                                <Button
+                                                    onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
+                                                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                                                    <FontAwesomeIcon icon={faCheck} className="mr-2" /> Accept Fulfilment Request
+                                                </Button>
+                                            ) : (
+                                                <Link
+                                                    href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfillment?.id})}
+                                                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                                                    <FontAwesomeIcon icon={faStar} className="mr-2" /> Fulfilment Detail
+                                                </Link>
+                                            )}
                                         </div>
                                     </div>
                                 </div>

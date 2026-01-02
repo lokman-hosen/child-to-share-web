@@ -177,7 +177,7 @@ class WishController extends Controller
         }
         $request->merge(['categoryIds' => $categoryIds]);
 
-        $wishes = $this->wishService->getListByStatus($request, 'approved');
+        $wishes = $this->wishService->getListByStatus($request, null);
         return Inertia::render(self::moduleDirectory.'FullFillWish', [
             'module' => "Wishes Near You",
             'wishes' => $wishes,

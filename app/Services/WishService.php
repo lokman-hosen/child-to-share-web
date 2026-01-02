@@ -289,7 +289,7 @@ class WishService extends BaseService
 //        return $query->paginate(10)->withQueryString();
 //    }
 
-    public function getListByStatus($request, string $status): LengthAwarePaginator
+    public function getListByStatus($request, $status): LengthAwarePaginator
     {
         $user = Auth::user();
         $isDonor = $user && (checkDonor() or checkDonorWisher());
@@ -301,7 +301,7 @@ class WishService extends BaseService
         return $this->getWishesWithoutDistance($request, $status);
     }
 
-    private function getWishesWithDistance($request, string $status, $user): LengthAwarePaginator
+    private function getWishesWithDistance($request, $status, $user): LengthAwarePaginator
     {
         $earthRadius = 6371;
 
@@ -443,9 +443,11 @@ class WishService extends BaseService
     {
        return Wish::with(['latestFulfillment','user', 'files', 'featuredImage'])
             ->where('user_id', Auth::id())
-            ->whereHas('fulfillments', function ($q) {
-                $q->where('status', 'requested');
-            })->get();
+            ->has('fulfillments')
+//            ->whereHas('fulfillments', function ($q) {
+//                $q->where('status', 'requested');
+//            })
+           ->get();
     }
 
     public function changeFulfilmentStatus($request)

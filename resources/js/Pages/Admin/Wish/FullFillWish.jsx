@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
-import {textLimit} from "@/utils.jsx";
+import {getFulfilmentStatus, textLimit} from "@/utils.jsx";
 
 export default function List({module, wishes}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -346,25 +346,17 @@ export default function List({module, wishes}) {
                                                             <td className="p-6 border-b border-gray-100">
                                                                 <div className="flex flex-col items-center">
                                                                     <div className="mt-2">
-                                                                        {
-                                                                            wish.latest_fulfillment?.status === 'requested' ? (
-                                                                                <span
-                                                                                    className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
-                                                                              Fulfil Request Sent
+                                                                        { wish.latest_fulfillment ? (
+                                                                            <span
+                                                                                className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                              {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                                             </span>
-                                                                            ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
-                                                                            wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
-                                                                                <span
-                                                                                    className="inline-flex items-center px-3 py-1 border border-purple-500 rounded-md text-sm font-medium text-white bg-purple-500">
-                                                                                  Fulfil Request Accepted
-                                                                                </span>
-                                                                            ) : (
-                                                                                <span
-                                                                                    className="inline-flex items-center px-3 py-1 border border-indigo-500 rounded-md text-sm font-medium text-white bg-indigo-500">
-                                                                                  Not Request
-                                                                                </span>
-                                                                            )
-                                                                        }
+                                                                        ) : (
+                                                                            <span
+                                                                                className="inline-flex items-center px-3 py-1 border border-yellow-500 rounded-md text-sm font-medium text-white bg-yellow-500">
+                                                                            N/A
+                                                                            </span>
+                                                                        )}
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -388,9 +380,7 @@ export default function List({module, wishes}) {
                                                                                   Message
                                                                                 </span>
                                                                             </Link>
-                                                                        ) : (
-                                                                            <p></p>
-                                                                        )
+                                                                        ) : null
 
                                                                         }
                                                                         <Link
