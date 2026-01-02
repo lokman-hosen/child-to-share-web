@@ -325,8 +325,12 @@ class WishService extends BaseService
             $query->where('wishes.category_id', $request->category_id);
         }
         // by login donor created donations category ID
-        if ($request->filled('categoryIds')) {
+        if (count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
+        }else{
+            $query->whereHas('fulfillments.wish', function ($q) {
+                $q->where('user_id', Auth::id());
+            });
         }
         if ($request->filled('age_range')) {
             $query->where('wishes.age_range', $request->age_range);
@@ -354,7 +358,7 @@ class WishService extends BaseService
         return $query->paginate(12)->withQueryString();
     }
 
-    private function getWishesWithoutDistance($request, string $status): LengthAwarePaginator
+    private function getWishesWithoutDistance($request, $status): LengthAwarePaginator
     {
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
 
