@@ -108,7 +108,7 @@ class Wish extends Model
         return $this->hasOne(Fulfillment::class)->latestOfMany();
     }
 
-    public function createBy()
+    public function createBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
