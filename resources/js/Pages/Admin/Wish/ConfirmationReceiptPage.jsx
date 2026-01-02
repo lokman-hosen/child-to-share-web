@@ -665,7 +665,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                     ) : null
                                                 )}
 
-
                                                 {/*wisher action*/}
                                                 {fulfillment.donation.user_id !== currentUser.id && (
                                                     fulfillment.status === 'delivered' ? (
