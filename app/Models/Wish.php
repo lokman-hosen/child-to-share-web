@@ -38,7 +38,7 @@ class Wish extends Model
     }
 
     /**
-     * Get all of the donation's media.
+     * Get all the donation's media.
      */
     public function files(): MorphMany
     {
