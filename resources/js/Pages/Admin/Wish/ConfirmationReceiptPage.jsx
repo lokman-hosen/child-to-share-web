@@ -667,28 +667,36 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
 
                                                 {/*wisher action*/}
-                                                {fulfillment.donation.user_id !== currentUser.id && fulfillment.status === 'delivered' && (
-                                                    <div className="mt-6 flex gap-4">
-                                                        <button
-                                                            onClick={() => {
-                                                                setActionType('confirm');
-                                                                setShowActionModal(true);
-                                                            }}
-                                                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
-                                                        >
-                                                            Confirm Receipt
-                                                        </button>
+                                                {fulfillment.donation.user_id !== currentUser.id && (
+                                                    fulfillment.status === 'delivered' ? (
+                                                        <div className="mt-6 flex gap-4">
+                                                            <button
+                                                                onClick={() => {
+                                                                    setActionType('confirm');
+                                                                    setShowActionModal(true);
+                                                                }}
+                                                                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+                                                            >
+                                                                Confirm Receipt
+                                                            </button>
 
-                                                        <button
-                                                            onClick={() => {
-                                                                setActionType('issue');
-                                                                setShowActionModal(true);
-                                                            }}
-                                                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700"
-                                                        >
-                                                            Report Issue / Request Return
-                                                        </button>
-                                                    </div>
+                                                            <button
+                                                                onClick={() => {
+                                                                    setActionType('issue');
+                                                                    setShowActionModal(true);
+                                                                }}
+                                                                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700"
+                                                            >
+                                                                Report Issue / Request Return
+                                                            </button>
+                                                        </div>
+                                                    ) : fulfillment.status === 'completed' ?  (
+                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
+                                                            Completed
+                                                        </span>
+                                                    ) : (
+                                                        <p>{fulfillment.status}</p>
+                                                    )
                                                 )}
 
                                             </div>
