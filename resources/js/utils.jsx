@@ -52,8 +52,10 @@ export const textLimit = ($text, $charLimit) => {
 export const getFulfilmentStatus = (status) => {
     if (status === 'requested') {
         return 'Fulfil Request Sent by Donor';
-    }else if(status === 'accepted_by_wisher' || status === 'accepted_by_donor'){
-        return 'Requestion Accepted';
+    }else if(status === 'accepted_by_wisher'){
+        return 'Requestion Accepted By Wisher';
+    }else if(status === 'accepted_by_donor'){
+        return 'Requestion Accepted By Donor';
     }else if(status === 'scheduled' || status === 'in_progress'){
         return 'In Progress';
     }else if(status === 'completed'){
@@ -65,7 +67,7 @@ export const getFulfilmentStatus = (status) => {
     }
 };
 
-export const searchReplace = (text, searchChars, replaceWith) => {
+export const searchReplace = (text, searchChars = '_', replaceWith = ' ') => {
     if (typeof text !== 'string') return text;
 
     // Escape special regex characters

@@ -12,7 +12,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
-import {checkDonor, checkDonorWisher, checkWisher, searchReplace, textLimit} from "@/utils.jsx";
+import {checkDonor, checkDonorWisher, checkWisher, getFulfilmentStatus, searchReplace, textLimit} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 
 const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, userType, initialMessages = []}) => {
@@ -643,7 +643,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                 fulfilment_id: wish.latest_fulfillment?.id,
                                                                 status: 'delivered',
                                                             })}
-                                                            method="post"
+                                                            method="get"
                                                             as="button"
                                                             onClick={(e) => {
                                                                 if (!confirm('Are you sure you want to mark this as delivered?')) {
@@ -695,7 +695,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         </span>
                                                     ) : (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
-                                                            {searchReplace(fulfillment.status, '_', ' ')}
+                                                            {getFulfilmentStatus(fulfillment.status)}
                                                         </span>
                                                     )
                                                 )}
