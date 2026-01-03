@@ -51,7 +51,7 @@ export const textLimit = ($text, $charLimit) => {
 
 export const getFulfilmentStatus = (status) => {
     if (status === 'requested') {
-        return 'Fulfil Request Sent';
+        return 'Fulfil Request Sent by Donor';
     }else if(status === 'accepted_by_wisher' || status === 'accepted_by_donor'){
         return 'Requestion Accepted';
     }else if(status === 'scheduled' || status === 'in_progress'){
