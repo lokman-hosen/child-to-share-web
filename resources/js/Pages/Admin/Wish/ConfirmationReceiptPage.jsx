@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {Head, Link, useForm, usePage} from '@inertiajs/react';
+import {Head, Link, router, useForm, usePage} from '@inertiajs/react';
 import {
     faCalendar, faCheckCircle, faEdit,
     faEnvelope, faGift,
@@ -44,6 +44,19 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     };
+
+    // useEffect(() => {
+    //     const params = new URLSearchParams(window.location.search);
+    //
+    //     if (params.has('status')) {
+    //         params.delete('status');
+    //
+    //         router.replace(
+    //             `${window.location.pathname}?${params.toString()}`,
+    //             { preserveState: true, preserveScroll: true }
+    //         );
+    //     }
+    // }, []);
 
 
 
@@ -656,7 +669,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         </Link>
                                                     ) : fulfillment.status === 'delivered' ? (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
-                                                            Waiting for wisher confirmation
+                                                            Waiting for wisher receipt confirmation
                                                         </span>
                                                     ) : fulfillment.status === 'completed' ? (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
@@ -1054,7 +1067,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         setActionType(null);
                                         actionForm.reset();
                                     }}
-                                    className="px-4 py-2 text-gray-600"
+                                    className="px-4 py-2 text-white bg-gray-400 rounded"
                                 >
                                     Cancel
                                 </button>

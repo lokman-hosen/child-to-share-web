@@ -224,7 +224,8 @@ class WishController extends Controller
             'donation' => $fulfilment->donation,
             'userType' => Auth::user()->role,
             'initialMessages' => $fulfilment->messages,
-            'latestMessage' => Message::latest()->first()
+            //'latestMessage' => Message::latest()->first()
+            'latestMessage' => $fulfilment->messages()->latest()->first()
         ]);
     }
 
@@ -286,5 +287,22 @@ class WishController extends Controller
         }
         return back()->with('error', 'Something went wrong.');
     }
+
+    public function reportIssue(Request $request)
+    {
+        $request->validate([
+            'comment' => 'required|string|max:1000',
+            'media.*' => 'nullable|file|max:10240',
+        ]);
+
+        $fulfillment = $this->wishService->reportWishIssue($request);
+
+
+
+
+
+        return back()->with('warning', 'Issue reported. Our team will review.');
+    }
+
 
 }

@@ -10,6 +10,7 @@ use App\Models\Organization;
 use App\Models\User;
 use App\Models\Wish;
 use App\Notifications\DeliveryAttemptNotification;
+use App\Notifications\IssueReportedNotification;
 use App\Notifications\WishFulfilRequestedNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Notification;
+
 
 class WishService extends BaseService
 {
@@ -516,5 +519,25 @@ class WishService extends BaseService
         });
 
         return $fulfillment;
+    }
+
+    public function reportWishIssue($request)
+    {
+        $fulfillment = $this->fulfillment->find($request->id);
+        // Save issue record / reuse task
+        $fulfillment->task()->updateOrCreate(
+            ['fulfillment_id' => $fulfillment->id],
+            [
+                'status' => 'in_progress',
+                'task_notes' => $request->comment,
+                'activity_log' => 'Reported issue by wisher',
+            ]
+        );
+
+        // notify donor + admin
+        Notification::send(
+            [$fulfillment->donation->user],
+            new IssueReportedNotification($fulfillment, $request->comment)
+        );
     }
 }

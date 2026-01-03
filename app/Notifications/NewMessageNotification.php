@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,7 +12,7 @@ class NewMessageNotification extends Notification
     use Queueable;
 
     public function __construct(public $fulfilMessage) {
-        //dd($this->fulfilMessage);
+        //
     }
 
     /**
@@ -22,7 +21,6 @@ class NewMessageNotification extends Notification
     public function via($notifiable)
     {
         return ['database', 'mail'];
-        //return ['database'];
     }
 
     /**
