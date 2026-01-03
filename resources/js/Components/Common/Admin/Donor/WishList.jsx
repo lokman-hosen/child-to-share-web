@@ -168,7 +168,9 @@ const WishList = ({userType, wishRequests}) => {
                 <div className="mb-8">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">Your Current Wishes</h3>
-                        <a href="#" className="text-sm text-purple-600 hover:text-purple-800">View all</a>
+                        <Link
+                            href={route('wish.fulfill.list')}
+                            className="text-sm text-purple-600 hover:text-purple-800">View all</Link>
                     </div>
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {wishRequests.length > 0 ? (
