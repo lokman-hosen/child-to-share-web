@@ -179,7 +179,7 @@ class WishController extends Controller
 
         $wishes = $this->wishService->getListByStatus($request, null);
         return Inertia::render(self::moduleDirectory.'FullFillWish', [
-            'module' => "Wishes Near You",
+            'module' => "Wishes Fulfillment",
             'wishes' => $wishes,
         ]);
     }
