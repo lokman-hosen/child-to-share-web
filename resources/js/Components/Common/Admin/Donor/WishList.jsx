@@ -198,7 +198,9 @@ const WishList = ({userType, wishRequests}) => {
                                                 {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                             </span>
                                             ) : (
-                                                <span className="status-badge bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">dfsfs</span>
+                                                <span className="status-badge bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                    {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
+                                                </span>
                                             ) }
 
                                         </div>
@@ -227,7 +229,7 @@ const WishList = ({userType, wishRequests}) => {
                                                 <Button
                                                     onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
                                                     className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-                                                    <FontAwesomeIcon icon={faCheck} className="mr-2" /> Accept Fulfilment Request
+                                                    <FontAwesomeIcon icon={faCheck} className="mr-2" /> Accept Donor Fulfilment Request
                                                 </Button>
                                             ) : (
                                                 <Link

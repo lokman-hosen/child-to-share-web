@@ -694,7 +694,9 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                             Completed
                                                         </span>
                                                     ) : (
-                                                        <p>{fulfillment.status}</p>
+                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
+                                                            {fulfillment.status}
+                                                        </span>
                                                     )
                                                 )}
 

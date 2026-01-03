@@ -3,7 +3,14 @@ import {Head, Link} from '@inertiajs/react';
 import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
+import {
+    faStar,
+    faPlus,
+    faTable,
+    faGridHorizontal,
+    faEye,
+    faArrowRightArrowLeft, faGifts
+} from "@fortawesome/free-solid-svg-icons";
 import {getFulfilmentStatus, textLimit} from "@/utils.jsx";
 
 export default function List({module, wishes}) {
@@ -209,7 +216,7 @@ export default function List({module, wishes}) {
                                                                 href={route('wish.show', wish.id)}
                                                                 className="inline-flex items-center justify-center flex-1 px-3 py-2 bg-gray-100 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200"
                                                             >
-                                                                View Detail
+                                                                Detail
                                                             </Link>
                                                         </div>
 
@@ -362,9 +369,10 @@ export default function List({module, wishes}) {
                                                                         { !wish.latest_fulfillment ? (
                                                                             <Link
                                                                                 href={route('wish.fulfill.detail', wish.id)}
-                                                                                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                                className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                title="Fulfill Wish"
                                                                             >
-                                                                                Fulfill Wish
+                                                                                <FontAwesomeIcon icon={faGifts} size="lg"/>
                                                                             </Link>
                                                                         ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
                                                                             wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
@@ -372,8 +380,10 @@ export default function List({module, wishes}) {
                                                                             href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                             >
                                                                                 <span
-                                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                                                                                  Fulfillment Detail
+                                                                                    className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                    title="Fulfillment Detail"
+                                                                                >
+                                                                                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="lg"/>
                                                                                 </span>
                                                                             </Link>
                                                                         ) : null
@@ -381,9 +391,10 @@ export default function List({module, wishes}) {
                                                                         }
                                                                         <Link
                                                                             href={route('wish.show', wish.id)}
-                                                                            className="ml-2 inline-flex items-center px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
+                                                                            className="ml-2 inline-flex items-center px-2 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
+                                                                            title="View Detail"
                                                                         >
-                                                                            View Detail
+                                                                            <FontAwesomeIcon icon={faEye} size="lg"/>
                                                                         </Link>
                                                                     </div>
                                                                 </div>
