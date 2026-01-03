@@ -12,7 +12,7 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
-import {checkDonor, checkDonorWisher, checkWisher, textLimit} from "@/utils.jsx";
+import {checkDonor, checkDonorWisher, checkWisher, searchReplace, textLimit} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 
 const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, userType, initialMessages = []}) => {
@@ -695,7 +695,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         </span>
                                                     ) : (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
-                                                            {fulfillment.status}
+                                                            {searchReplace(fulfillment.status, '_', ' ')}
                                                         </span>
                                                     )
                                                 )}

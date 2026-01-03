@@ -336,8 +336,7 @@ export default function List({module, wishes}) {
                                                                         </h3>
                                                                         {/* Optional subtitle/tagline */}
                                                                         <p className="text-sm text-gray-500 mt-1 flex items-center">
-                                                                            <FontAwesomeIcon icon={faStar}
-                                                                                             className="text-red-400 mr-2 text-xs"/>
+                                                                            <FontAwesomeIcon icon={faStar} className="text-red-400 mr-2 text-xs"/>
                                                                             Wish Maker
                                                                         </p>
                                                                     </div>

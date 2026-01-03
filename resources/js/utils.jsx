@@ -61,9 +61,22 @@ export const getFulfilmentStatus = (status) => {
     }else if (status === 'cancelled') {
         return 'Cancelled';
     }else{
-        return status
+        return searchReplace(status, '_', ' ')
     }
 };
+
+export const searchReplace = (text, searchChars, replaceWith) => {
+    if (typeof text !== 'string') return text;
+
+    // Escape special regex characters
+    const escapedChars = searchChars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    // Create regex pattern to match any of the search characters
+    const regex = new RegExp(`[${escapedChars}]`, 'g');
+
+    return text.replace(regex, replaceWith);
+};
+
 
 
 
