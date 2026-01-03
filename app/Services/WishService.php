@@ -481,7 +481,7 @@ class WishService extends BaseService
 
     public function confirmWish($request): ?object
     {
-        $fulfillment = $this->fulfillment->find($request->id);
+        $fulfillment = $this->findFulfillmentById($request->id);
         DB::transaction(function () use ($request, $fulfillment) {
             // store media (optional)
             if ($request->hasFile('media')) {
@@ -496,19 +496,19 @@ class WishService extends BaseService
 
 
             // donation
-            $fulfillment = $this->fulfillment->find($request->id);
+            $fulfillment = $this->findFulfillmentById($request->id);
             $fulfillment->donation->update([
                 'status' => 'donated',
             ]);
 
             // wish
-            $fulfillment = $this->fulfillment->find($request->id);
+            $fulfillment = $this->findFulfillmentById($request->id);
             $fulfillment->wish->update([
                 'status' => 'fulfilled',
             ]);
 
             // task
-            $fulfillment = $this->fulfillment->find($request->id);
+            $fulfillment = $this->findFulfillmentById($request->id);
             if ($fulfillment->task){
                 $fulfillment->task()->update([
                     'status' => 'completed',
@@ -523,21 +523,41 @@ class WishService extends BaseService
 
     public function reportWishIssue($request)
     {
-        $fulfillment = $this->fulfillment->find($request->id);
-        // Save issue record / reuse task
-        $fulfillment->task()->updateOrCreate(
-            ['fulfillment_id' => $fulfillment->id],
-            [
+        $fulfillment = $this->findFulfillmentById($request->id);
+
+        // ✅ Create or update task (JSON-safe)
+        $task = $fulfillment->task?->first();
+        if (!$task) {
+            $fulfillment->task()->create([
                 'status' => 'in_progress',
                 'task_notes' => $request->comment,
-                'activity_log' => 'Reported issue by wisher',
-            ]
-        );
+            ]);
+        }else{
+            $task->update([
+                'status' => 'in_progress',
+                'task_notes' => $request->comment,
+            ]);
+        }
 
-        // notify donor + admin
+        // ✅ Update fulfillment status
+        $fulfillment->update([
+            'note' => $request->comment,
+            'status' => 'cancelled',
+        ]);
+
+        // 🔔 Notify donor
+        $fulfillment = $this->findFulfillmentById($request->id);
         Notification::send(
             [$fulfillment->donation->user],
             new IssueReportedNotification($fulfillment, $request->comment)
         );
+
+        return $fulfillment->fresh(['task']);
+    }
+
+
+    protected function findFulfillmentById($id)
+    {
+        return $this->fulfillment->find($id);
     }
 }

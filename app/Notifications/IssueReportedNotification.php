@@ -50,7 +50,7 @@ class IssueReportedNotification extends Notification
     {
         return (new MailMessage)
             ->subject('An issue has been reported')
-            ->greeting('Hello ' . $this->fulfillment->donor->user->name . ',')
+            ->greeting('Hello ' . $this->fulfillment->donation->user->name . ',')
             ->line('An issue has been reported regarding a wish fulfilment.')
             ->line('Reported by: ' . $this->fulfillment->wish->user->name)
             ->line('Issue: '.$this->comment)

@@ -294,14 +294,8 @@ class WishController extends Controller
             'comment' => 'required|string|max:1000',
             'media.*' => 'nullable|file|max:10240',
         ]);
-
-        $fulfillment = $this->wishService->reportWishIssue($request);
-
-
-
-
-
-        return back()->with('warning', 'Issue reported. Our team will review.');
+        $this->wishService->reportWishIssue($request);
+        return back()->with('success', 'Issue reported. Our team will review.');
     }
 
 
