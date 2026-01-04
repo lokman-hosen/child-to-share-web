@@ -258,15 +258,10 @@ class WishController extends Controller
 
         $fulfilMessage->load(['sender:id,name', 'receiver:id,name']);
 
-        //broadcast(new MessageSent($fulfilMessage))->toOthers();
         broadcast(new MessageSent($fulfilMessage));
 
         // 🔔 Notify other user
-        $receiver = auth()->id() === $fulfilment->wish->user_id
-            ? $fulfilment->donation->user
-            : $fulfilment->wish->user;
-
-        //$receiver->notify(new NewMessageNotification($fulfilMessage));
+        $receiver = auth()->id() === $fulfilment->wish->user_id ? $fulfilment->donation->user : $fulfilment->wish->user;
 
         if (! cache()->has("user-online-{$receiver->id}")) {
             $receiver->notify(new NewMessageNotification($fulfilMessage));
@@ -282,14 +277,14 @@ class WishController extends Controller
             'comment' => 'required|string|max:1000',
             'media.*' => 'nullable|file|max:10240',
         ]);
-        $fulfillment = $this->wishService->confirmWish($request);
+        $fulfillment = $this->wishService->confirmWishReceive($request);
         if ($fulfillment){
             return redirect()->back()->with('success', 'Wish confirmed successfully!');
         }
         return back()->with('error', 'Something went wrong.');
     }
 
-    public function reportIssue(Request $request)
+    public function reportIssue(Request $request): RedirectResponse
     {
         $request->validate([
             'comment' => 'required|string|max:1000',

@@ -479,7 +479,7 @@ class WishService extends BaseService
         return $fulfillment;
     }
 
-    public function confirmWish($request): ?object
+    public function confirmWishReceive($request): ?object
     {
         $fulfillment = $this->findFulfillmentById($request->id);
         DB::transaction(function () use ($request, $fulfillment) {
