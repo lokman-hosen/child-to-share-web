@@ -897,7 +897,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                     </button>
                                                 </div>
                                             )}
-                                            { fulfillment.status !== 'completed' && (
+                                            { fulfillment.status !== 'completed' ? (
                                                 <form onSubmit={handleSendMessage} className="space-y-3">
                                                     {/*<textarea*/}
                                                     {/*    value={data.message}*/}
@@ -960,6 +960,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         </button>
                                                     </div>
                                                 </form>
+                                            ) : (
+                                                <div className="text-center">
+                                                    <p>Chatting closed. Because fulfilment process completed</p>
+                                                </div>
                                             )}
                                         </div>
                                         )}
