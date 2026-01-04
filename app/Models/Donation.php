@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -97,5 +99,16 @@ class Donation extends Model
     {
         return $this->morphMany(File::class, 'fileable')
             ->where('file_type', 'video');
+    }
+
+    public function fulfillments(): HasMany
+    {
+        return $this->hasMany(Fulfillment::class, 'wish_id');
+    }
+
+// Most recent fulfilment (useful)
+    public function latestFulfillment(): HasOne
+    {
+        return $this->hasOne(Fulfillment::class)->latestOfMany();
     }
 }

@@ -15,7 +15,7 @@ import {
 import Form from "@/Pages/Admin/Donation/Form.jsx";
 import {Button} from "@headlessui/react";
 
-export default function Show({module, wish, latestFulfillment}) {
+export default function Show({module, wish}) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const getStatusColor = (status) => {

@@ -78,7 +78,8 @@ class DonationController extends Controller
             'user',
             'organization',
             'category',
-            'files' // Make sure this matches your relationship name
+            'files', // Make sure this matches your relationship name
+            'latestFulfillment',
         ]);
 
         return Inertia::render(self::moduleDirectory.'Show', [

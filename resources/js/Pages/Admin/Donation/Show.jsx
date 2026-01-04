@@ -182,13 +182,26 @@ export default function List({module, donation}) {
                                                     {/* Action Buttons Container - Positioned at bottom right */}
                                                     <div className="absolute bottom-3 right-3 flex space-x-2 z-10">
                                                         {/*{! donation.files[currentIndex].is_featured &&*/}
-                                                            <button
-                                                                title={donation.files[currentIndex].file_type === 'image' ? 'Make Feature Image' : 'Make Feature Video'}
-                                                                onClick={() => handleFeatureImage(donation.files[currentIndex].id)}
-                                                                className="inline-flex items-center justify-center w-10 h-10 bg-yellow-200 hover:bg-yellow-300 text-yellow-800 rounded-full text-sm font-medium transition-colors shadow-md"
-                                                            >
-                                                                <FontAwesomeIcon icon={faCheck} className="w-4 h-4"/>
-                                                            </button>
+                                                        {!donation.latest_fulfillment && (
+                                                            <>
+                                                                <button
+                                                                    title={donation.files[currentIndex].file_type === 'image' ? 'Make Feature Image' : 'Make Feature Video'}
+                                                                    onClick={() => handleFeatureImage(donation.files[currentIndex].id)}
+                                                                    className="inline-flex items-center justify-center w-10 h-10 bg-yellow-200 hover:bg-yellow-300 text-yellow-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                                >
+                                                                    <FontAwesomeIcon icon={faCheck}
+                                                                                     className="w-4 h-4"/>
+                                                                </button>
+                                                                <button
+                                                                    title={donation.files[currentIndex].file_type === 'image' ? 'Delete Image' : 'Delete Video'}
+                                                                    onClick={() => handleDelete(donation.files[currentIndex].id)}
+                                                                    className="inline-flex items-center justify-center w-10 h-10 bg-red-200 hover:bg-red-300 text-red-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                                >
+                                                                    <FontAwesomeIcon icon={faTrash}
+                                                                                     className="w-4 h-4"/>
+                                                                </button>
+                                                            </>
+                                                        )}
                                                         {/*}*/}
                                                         <a
                                                             href={`/storage/${donation.files[currentIndex].file_path}`}
@@ -200,13 +213,6 @@ export default function List({module, donation}) {
                                                             <FontAwesomeIcon icon={faEye} className="w-4 h-4"/>
                                                         </a>
 
-                                                        <button
-                                                            title={donation.files[currentIndex].file_type === 'image' ? 'Delete Image' : 'Delete Video'}
-                                                            onClick={() => handleDelete(donation.files[currentIndex].id)}
-                                                            className="inline-flex items-center justify-center w-10 h-10 bg-red-200 hover:bg-red-300 text-red-800 rounded-full text-sm font-medium transition-colors shadow-md"
-                                                        >
-                                                            <FontAwesomeIcon icon={faTrash} className="w-4 h-4"/>
-                                                        </button>
                                                     </div>
 
                                                     {/* Main Media Display */}
@@ -377,16 +383,21 @@ export default function List({module, donation}) {
                                                     <span>Back</span>
                                                 </div>
                                             </button>
-                                            <Button
-                                                onClick={() => handleItemDelete(donation.id)}
-                                                className="flex-1 bg-red-500 hover:bg-red-400 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                                <FontAwesomeIcon icon={faTrash}/> Delete
-                                            </Button>
-                                            <Link
-                                                href={route('donations.edit',donation.id)}
-                                                className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
-                                                <FontAwesomeIcon icon={faEdit}/> Edit
-                                            </Link>
+                                            { !donation.latest_fulfillment && (
+                                                <>
+                                                    <Button
+                                                        onClick={() => handleItemDelete(donation.id)}
+                                                        className="flex-1 bg-red-500 hover:bg-red-400 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                                        <FontAwesomeIcon icon={faTrash}/> Delete
+                                                    </Button>
+                                                    <Link
+                                                        href={route('donations.edit',donation.id)}
+                                                        className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                                        <FontAwesomeIcon icon={faEdit}/> Edit
+                                                    </Link>
+                                                </>
+                                            )}
+
                                         </div>
                                     </div>
                                 </div>
