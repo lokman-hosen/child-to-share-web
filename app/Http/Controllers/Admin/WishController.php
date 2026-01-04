@@ -225,7 +225,6 @@ class WishController extends Controller
             'donation' => $fulfilment->donation,
             'userType' => Auth::user()->role,
             'initialMessages' => $fulfilment->messages,
-            //'latestMessage' => Message::latest()->first()
             'latestMessage' => $fulfilment->messages()->latest()->first()
         ]);
     }
