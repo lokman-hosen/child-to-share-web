@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
-import {textLimit} from "@/utils.jsx";
+import {getFulfilmentStatus, textLimit} from "@/utils.jsx";
 
 export default function List({module, wishes}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -152,15 +152,25 @@ export default function List({module, wishes}) {
                                                     </div>
 
                                                     {/* Action Button */}
-                                                    <div className="flex justify-between items-center pt-3 border-t border-gray-100">
+                                                    <div
+                                                        className="flex justify-between items-center pt-3 border-t border-gray-100">
                                                         <span className="text-sm text-gray-500">
                                                             {wish.created_at}
                                                         </span>
+                                                            {wish.latest_fulfillment ? (
+                                                                <span className="px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                      {getFulfilmentStatus(wish.latest_fulfillment.status)}
+                                                                    </span>
+                                                            ) : (
+                                                                <span className="px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                    {wish.status}
+                                                                </span>
+                                                            )}
                                                         <Link
                                                             href={route('wishes.show', wish.id)}
                                                             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                         >
-                                                            View Details
+                                                            Detail
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -168,7 +178,7 @@ export default function List({module, wishes}) {
                                         ))
                                     ) : (
                                         <div className="text-center py-12">
-                                            <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4" />
+                                            <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4"/>
                                             <p className="text-gray-500 text-lg mb-2">No wishes found</p>
                                             <p className="text-gray-400 text-sm mb-6">
                                                 Start making wishes and find the items you need
@@ -177,7 +187,7 @@ export default function List({module, wishes}) {
                                                 href={route('wishes.create')}
                                                 className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                                             >
-                                                <FontAwesomeIcon icon={faPlus} />
+                                                <FontAwesomeIcon icon={faPlus}/>
                                                 <span>Create First Donation</span>
                                             </Link>
                                         </div>
@@ -194,6 +204,7 @@ export default function List({module, wishes}) {
                                                 <tr>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher Name</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment status</th>
                                                     <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
@@ -252,6 +263,19 @@ export default function List({module, wishes}) {
                                                                 {wish.user.name}
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
+                                                                {wish.latest_fulfillment ? (
+                                                                    <span
+                                                                        className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                      {getFulfilmentStatus(wish.latest_fulfillment.status)}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span
+                                                                        className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                    {wish.status}
+                                                                    </span>
+                                                                )}
+                                                            </td>
+                                                            <td className="p-6 border-b border-gray-100">
                                                             <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
                                                                         {wish.latest_fulfillment?.status === 'requested' ? (
@@ -264,7 +288,7 @@ export default function List({module, wishes}) {
                                                                             <Link
                                                                                 href={route('wishes.show', wish.id)}
                                                                                 className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                                                                                View Details
+                                                                                Detail
                                                                             </Link>
                                                                         )}
                                                                     </div>
@@ -352,7 +376,7 @@ export default function List({module, wishes}) {
                                                                     href={route('wishes.show', wish.id)}
                                                                     className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
                                                                 >
-                                                                    View Details
+                                                                    Detail
                                                                 </Link>
                                                             </div>
                                                         </div>
