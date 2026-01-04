@@ -91,30 +91,30 @@ export default function LeftSidebar({ onClose }) {
                                 </Link>
                             </li>
                         )}
-                        {user.userType === 'user' && (
-                            <>
-                                <li className="mb-1">
-                                    <Link
-                                        href={route('donations.create')}
-                                        onClick={onClose}
-                                        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('donations.create') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
-                                    >
-                                        <FontAwesomeIcon icon={faGift} className="mr-2"/>
-                                        Create Donation
-                                    </Link>
-                                </li>
-                                <li className="mb-1">
-                                    <Link
-                                        href={route('donations.index')}
-                                        onClick={onClose}
-                                        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${(route().current('donations.index') || route().current('donations.show')) ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
-                                    >
-                                        <FontAwesomeIcon icon={faGift} className="mr-2"/>
-                                        My Donations
-                                    </Link>
-                                </li>
-                            </>
-                        )}
+                        {/*{user.userType === 'user' && (*/}
+                        {/*    <>*/}
+                        {/*        <li className="mb-1">*/}
+                        {/*            <Link*/}
+                        {/*                href={route('donations.create')}*/}
+                        {/*                onClick={onClose}*/}
+                        {/*                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('donations.create') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
+                        {/*            >*/}
+                        {/*                <FontAwesomeIcon icon={faGift} className="mr-2"/>*/}
+                        {/*                Create Donation*/}
+                        {/*            </Link>*/}
+                        {/*        </li>*/}
+                        {/*        <li className="mb-1">*/}
+                        {/*            <Link*/}
+                        {/*                href={route('donations.index')}*/}
+                        {/*                onClick={onClose}*/}
+                        {/*                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${(route().current('donations.index') || route().current('donations.show')) ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
+                        {/*            >*/}
+                        {/*                <FontAwesomeIcon icon={faGift} className="mr-2"/>*/}
+                        {/*                My Donations*/}
+                        {/*            </Link>*/}
+                        {/*        </li>*/}
+                        {/*    </>*/}
+                        {/*)}*/}
 
                         <li className="mb-1">
                             <Link
