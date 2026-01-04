@@ -373,8 +373,7 @@ export default function List({module, wishes}) {
                                                                             >
                                                                                 <FontAwesomeIcon icon={faGifts} size="lg"/>
                                                                             </Link>
-                                                                        ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
-                                                                            wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
+                                                                        ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ? (
                                                                             <Link
                                                                             href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                             >

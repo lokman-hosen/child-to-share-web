@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, router} from "@inertiajs/react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheck, faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faHandHoldingHand, faPlus, faStar} from "@fortawesome/free-solid-svg-icons";
 import {Button} from "@headlessui/react";
 import {getFulfilmentStatus} from "@/utils.jsx";
 
@@ -229,7 +229,7 @@ const WishList = ({userType, wishRequests}) => {
                                                 <Button
                                                     onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
                                                     className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-                                                    <FontAwesomeIcon icon={faCheck} className="mr-2" /> Accept Donor Fulfilment Request
+                                                    <FontAwesomeIcon icon={faHandHoldingHand} className="mr-2" /> Accept Donor Fulfilment Request
                                                 </Button>
                                             ) : (
                                                 <Link

@@ -66,7 +66,8 @@ class WishController extends Controller
             'user',
             'organization',
             'category',
-            'files'
+            'files',
+            'latestFulfillment',
         ]);
 
         return Inertia::render(self::moduleDirectory.'Show', [

@@ -461,7 +461,7 @@ class WishService extends BaseService
     {
         $fulfillment = $updateFulfilment = $this->fulfillment->with(['donation','donation.user','wish','wish.user','messages', 'messages.sender', 'messages.receiver'])
             ->find($request->fulfilment_id);
-        if ($request->status and $fulfillment->status != 'completed'){
+        if ($request->status and !in_array($fulfillment->status,['completed', 'delivered'])){
             if ($request->status == 'delivered'){
                 $updateFulfilment->update([
                     'status' => 'delivered',

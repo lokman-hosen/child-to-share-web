@@ -1,23 +1,24 @@
 // Pages/Wish/Show.jsx
 import React, {useState} from 'react';
-import {Head, Link, usePage} from "@inertiajs/react";
+import {Head, Link, router, usePage} from "@inertiajs/react";
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faBackward,
     faChevronLeft,
     faChevronRight,
-    faEye
+    faEye, faHandHoldingHand, faStar
 } from "@fortawesome/free-solid-svg-icons";
 import Hero from "@/Components/Donation/Hero.jsx";
 import UserProfileModal from '@/Components/Common/UserProfileModal.jsx';
+import {Button} from "@headlessui/react";
 
 const Show = ({wish, module}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
-
+    const user = usePage().props.auth.user;
     const getStatusColor = (status) => {
         switch (status) {
             case 'available':
@@ -58,6 +59,13 @@ const Show = ({wish, module}) => {
     const closeModal = () => {
         setIsModalOpen(false);
         setSelectedUser(null);
+    };
+
+    const handleFulfilStatus = (fulfilmentId) => {
+        router.get(route('wish.fulfill.status.change'), {
+            'fulfilment_id': fulfilmentId,
+            'status': 'accepted_by_wisher',
+        })
     };
 
     return (
@@ -337,6 +345,21 @@ const Show = ({wish, module}) => {
                                                 <FontAwesomeIcon icon={faBackward}/> Back
                                             </Link>
                                         </div>
+                                        {wish.user_id === user.id && (
+                                            wish.latest_fulfillment.status === 'requested' ? (
+                                                <Button
+                                                    onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
+                                                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                                                    <FontAwesomeIcon icon={faHandHoldingHand} className="mr-2" /> Accept Donor Fulfilment Request
+                                                </Button>
+                                            ) : (
+                                                <Link
+                                                    href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfillment?.id})}
+                                                    className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
+                                                    <FontAwesomeIcon icon={faStar} className="mr-2" /> Fulfilment Detail
+                                                </Link>
+                                            )
+                                        )}
                                     </div>
                                 </div>
                             </div>
