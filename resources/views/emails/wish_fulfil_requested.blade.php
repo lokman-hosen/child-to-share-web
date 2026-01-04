@@ -42,6 +42,18 @@
             padding: 15px;
             text-align: center;
         }
+        .content a {
+            background-color: #555555;
+            border: none;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            text-align: center;
+            transition-duration: 0.4s;
+            margin: 5px 0;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -49,18 +61,19 @@
 <div class="email-wrapper">
 
     <div class="header">
-        Wish Fulfil Request
+        Wish Fulfill Request
     </div>
 
     <div class="content">
 
-        <p>Dear Guardian,</p>
+        <p>Dear Wisher/Guardian,</p>
 
         <p>A donor wants to fulfill the wish: <strong>{{ $wishTitle }}</strong>.</p>
 
         <p>Donor: <strong>{{ $donorName }}</strong></p>
 
         <p>Please check your dashboard for more details.</p>
+        <a href="{{route('')}}"></a>
     </div>
 
     <div class="footer">
