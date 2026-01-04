@@ -3,7 +3,7 @@ import {Head, Link} from '@inertiajs/react';
 import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
+import {faGift, faPlus, faTable, faGridHorizontal, faEye} from "@fortawesome/free-solid-svg-icons";
 
 export default function List({module, donations}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -282,9 +282,11 @@ export default function List({module, donations}) {
                                                                     <div className="flex space-x-2">
                                                                         <Link
                                                                             href={route('donations.show', donation.id)}
-                                                                            className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
+                                                                            className="ml-2 inline-flex items-center px-2 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
+                                                                            title="View Details"
                                                                         >
-                                                                            View Details
+                                                                            <FontAwesomeIcon icon={faEye} size="lg"/>
+
                                                                         </Link>
                                                                     </div>
                                                                 </div>
