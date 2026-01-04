@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Wish;
 use App\Notifications\DeliveryAttemptNotification;
 use App\Notifications\IssueReportedNotification;
+use App\Notifications\ItemReceivedNotification;
+use App\Notifications\TaskClosedNotification;
 use App\Notifications\WishFulfilRequestedNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -507,6 +509,13 @@ class WishService extends BaseService
                 'status' => 'fulfilled',
             ]);
 
+            $fulfillment = $this->findFulfillmentById($request->id);
+            // notify donor that item receipt confirms by wisher
+            Notification::send(
+                [$fulfillment->donation->user],
+                new ItemReceivedNotification($fulfillment, $request->comment)
+            );
+
             // task
             $fulfillment = $this->findFulfillmentById($request->id);
             if ($fulfillment->task){
@@ -514,7 +523,14 @@ class WishService extends BaseService
                     'status' => 'completed',
                     'completed_at' => now(),
                     'user_id' => auth()->id(),
+                    'task_notes' => $request->comment,
                 ]);
+                // send notification to admin
+//                $fulfillment = $this->findFulfillmentById($request->id);
+//                Notification::send(
+//                    [$fulfillment->donation->user],
+//                    new TaskClosedNotification($fulfillment, $request->comment)
+//                );
             }
         });
 
