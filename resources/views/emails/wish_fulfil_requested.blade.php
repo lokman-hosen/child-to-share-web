@@ -73,7 +73,7 @@
         <p>Donor: <strong>{{ $donorName }}</strong></p>
 
         <p>Please check your dashboard for more details.</p>
-        <a href="{{route('')}}"></a>
+        <a target="_blank" href="{{ route('wish.fulfill.status.change', ['fulfilment_id' => $this->fulfillment->id])}}">View Fulfillment Detail</a>
     </div>
 
     <div class="footer">

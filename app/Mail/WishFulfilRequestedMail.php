@@ -39,6 +39,7 @@ class WishFulfilRequestedMail extends Mailable
         return new Content(
             view: 'emails.wish_fulfil_requested',
             with: [
+                'fulfillment' => $this->fulfilment,
                 'wishTitle' => $this->fulfilment->wish->title,
                 'donorName' => $this->fulfilment->donation->user->name,
             ],
