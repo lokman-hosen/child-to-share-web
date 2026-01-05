@@ -35,11 +35,11 @@ class IssueReportedNotification extends Notification
     public function toDatabase($notifiable): array
     {
         return [
-            'type' => 'issue_reported',
-            'title' => 'New issue reported',
+            'title' => 'Issue Reported — Action Required',
             'message' => $this->comment,
             'fulfillment_id' => $this->fulfillment->id,
             'reported_by' => $this->fulfillment->wish->user_id,
+            'type' => 'issue_reported',
         ];
     }
 
@@ -49,17 +49,20 @@ class IssueReportedNotification extends Notification
     public function toMail($notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('An issue has been reported')
+            ->subject('Issue Reported — Action Required')
             ->greeting('Hello ' . $this->fulfillment->donation->user->name . ',')
-            ->line('An issue has been reported regarding a wish fulfilment.')
+            ->line('An issue has been reported regarding a wish fulfillment.')
             ->line('Reported by: ' . $this->fulfillment->wish->user->name)
-            ->line('Issue: '.$this->comment)
+            ->line('Issue details:')
+            ->line($this->comment)
             ->action(
-                'View Details',
-                route('wish.fulfill.status.change',
+                'View Fulfillment Details',
+                route(
+                    'wish.fulfill.status.change',
                     ['fulfilment_id' => $this->fulfillment->id]
                 )
             )
-            ->line('Please take action as soon as possible.');
+            ->line('Please review the issue and take the necessary action at your earliest convenience.');
     }
+
 }

@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class WishFulfilRequestedNotification extends Notification
@@ -14,17 +15,37 @@ class WishFulfilRequestedNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['database']; // stored in notifications table
+        return ['database', 'mail'];
     }
 
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'Donor wants to fulfill your wish',
-            'message' => 'A donor has requested to fulfill the wish: ' . $this->fulfilment->wish->title,
+            'title' => 'New Wish Fulfillment Request',
+            'message' => 'A donor is interested in fulfilling wish: ' . $this->fulfilment->wish->title,
             'fulfilment_id' => $this->fulfilment->id,
             'wish_id' => $this->fulfilment->wish_id,
             'donor_id' => $this->fulfilment->donation->user_id,
+            'type' => 'wish_fulfill_request',
         ];
     }
+
+    /**
+     * Get the mail representation of the notification.
+     */
+    public function toMail(object $notifiable): MailMessage
+    {
+        return (new MailMessage)
+            ->subject('New Wish Fulfillment Request')
+            ->greeting('Hello,')
+            ->line('A donor is interested in fulfilling your wish.')
+            ->line('Please log in to your dashboard to review and accept the request.')
+            ->line('Donor Name: ' . $this->fulfilment->donor->user->name)
+            ->action(
+                'View Fulfillment Request',
+                route('dashboard')
+            )
+            ->line('Thank you.');
+    }
+
 }

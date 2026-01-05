@@ -30,7 +30,7 @@ class NewMessageNotification extends Notification
     {
 
         return [
-            'title' => 'New message from '.$this->fulfilMessage->sender->name,
+            'title' => 'New Message About Your Wish from '.$this->fulfilMessage->sender->name,
             'message' => $this->fulfilMessage->message ?? 'Sent you an attachment',
             'fulfillment_id' => $this->fulfilMessage->fulfillment_id,
             'wish_id' => $this->fulfilMessage->fulfilment->wish_id ?? null,
@@ -48,14 +48,18 @@ class NewMessageNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('New message regarding your wish')
-            ->greeting('Hello ' . $this->fulfilMessage?->receiver->name ?? null)
-            ->line('You have received a new message regarding wish.')
-            ->line($this->fulfilMessage->message ?? 'The donor sent you an attachment.')
+            ->subject('New Message About Your Wish')
+            ->greeting('Hello ' . ($this->fulfilMessage?->receiver->name ?? 'there') . ',')
+            ->line('You have received a new message regarding your wish.')
+            ->line($this->fulfilMessage->message ?? 'The donor has sent you an attachment.')
             ->action(
                 'Open Chat',
-                route('wish.fulfill.status.change', ['fulfilment_id' => $this->fulfilMessage->fulfillment_id])
+                route(
+                    'wish.fulfill.status.change',
+                    ['fulfilment_id' => $this->fulfilMessage->fulfillment_id]
+                )
             )
-            ->line('Thank you for using ThreeWish.');
+            ->line('Thank you for being a part of ThreeWish.');
     }
+
 }
