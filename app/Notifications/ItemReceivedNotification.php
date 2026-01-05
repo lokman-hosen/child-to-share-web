@@ -36,7 +36,7 @@ class ItemReceivedNotification extends Notification
     {
         return [
             'type' => 'item_receive_confirmed',
-            'title' => 'Wisher/Guardian confirmed receipt — Wish completed',
+            'title' => 'Wish Completed — Item Successfully Received',
             'message' => $this->comment,
             'fulfillment_id' => $this->fulfillment->id,
             'wish_id' => $this->fulfillment->wish_id,
