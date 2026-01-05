@@ -176,7 +176,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     {/* Donor Card */}
                                     <div className="bg-white shadow rounded-lg p-6">
                                         <div className="border-b border-gray-200 pb-6">
-                                            <h3>Donor Info</h3>
+                                            <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
+                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                                Donor Info
+                                            </h3>
                                             <div
                                                 className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
                                                 {/* Profile Image - First Column */}
@@ -280,7 +283,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     {/* Wisher Card */}
                                     <div className="bg-white shadow rounded-lg p-6">
                                         <div className="border-b border-gray-200 pb-6">
-                                            <h3>Wisher Info</h3>
+                                            <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
+                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                                Wisher Info
+                                            </h3>
                                             <div
                                                 className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
                                                 {/* Profile Image - First Column */}
@@ -388,7 +394,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {fulfillment.donation.user_id !== currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
-                                        <h3>Donor Info</h3>
+                                        <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
+                                            <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                            Donor Info
+                                        </h3>
                                         <div
                                             className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
                                             {/* Profile Image - First Column */}
@@ -491,7 +500,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {fulfillment.wish.user_id !== currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
-                                        <h3>Wisher Info</h3>
+                                        <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
+                                            <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                            Wisher Info
+                                        </h3>
                                         <div
                                             className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
                                             {/* Profile Image - First Column */}
@@ -595,7 +607,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {/* Wish/Donation Information */}
                             <div className="bg-white rounded-lg shadow-md p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
-                                    {userType === 'wisher' ? (
+                                {userType === 'wisher' ? (
                                         <FontAwesomeIcon
                                             icon={faStar}
                                             className="w-4 h-4 mr-2 text-gray-400"
@@ -646,8 +658,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div>
                                         {/*donor action*/}
-                                        <div className="flex flex-col items-end">
+                                        <div className="mb-3">
                                             <div className="mt-2">
                                                 {fulfillment.wish.user_id !== currentUser.id && (
                                                     fulfillment.status === 'accepted_by_wisher' ? (
@@ -715,9 +729,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div>
                                         {wish.latest_fulfillment?.status && (
                                             <>
                                                 <span
@@ -962,7 +973,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 </form>
                                             ) : (
                                                 <div className="text-center">
-                                                    <p>Chatting closed. Because fulfilment process completed</p>
+                                                    <p className="text-red-500">Chatting closed. Because fulfilment process completed</p>
                                                 </div>
                                             )}
                                         </div>

@@ -53,9 +53,9 @@ export const getFulfilmentStatus = (status) => {
     if (status === 'requested') {
         return 'Fulfil Request Sent by Donor';
     }else if(status === 'accepted_by_wisher'){
-        return 'Requestion Accepted By Wisher';
+        return 'Request Accepted By Wisher';
     }else if(status === 'accepted_by_donor'){
-        return 'Requestion Accepted By Donor';
+        return 'Request Accepted By Donor';
     }else if(status === 'scheduled' || status === 'in_progress'){
         return 'In Progress';
     }else if(status === 'completed'){
