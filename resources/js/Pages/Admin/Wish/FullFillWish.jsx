@@ -99,9 +99,11 @@ export default function List({module, wishes}) {
                                         wishListData.map((wish, index) => (
                                             <div key={wish.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                                                 {/* Card Header with Status */}
-                                                <div className="flex justify-between items-start p-4 border-b border-gray-100">
+                                                <div
+                                                    className="flex justify-between items-start p-4 border-b border-gray-100">
                                                     <div className="flex items-center space-x-3">
-                                                        <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center overflow-hidden">
+                                                        <div
+                                                            className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center overflow-hidden">
                                                             {wish.featured_image?.file_path ? (
                                                                 <img
                                                                     src={`/storage/${wish.featured_image.file_path}`}
@@ -109,8 +111,10 @@ export default function List({module, wishes}) {
                                                                     className="w-full h-full object-cover"
                                                                 />
                                                             ) : (
-                                                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                                                    <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
+                                                                <div
+                                                                    className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                                    <FontAwesomeIcon icon={faStar}
+                                                                                     className="text-gray-400"/>
                                                                 </div>
                                                             )}
                                                         </div>
@@ -123,7 +127,7 @@ export default function List({module, wishes}) {
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(wish.status)}`}>
+                                                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                                         {wish.status}
                                                     </span>
                                                 </div>
@@ -132,7 +136,8 @@ export default function List({module, wishes}) {
                                                 <div className="p-4">
                                                     {/* Item Information */}
                                                     <div className="mb-4">
-                                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Item Information</h4>
+                                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Item
+                                                            Information</h4>
                                                         <p className="text-sm text-gray-600 line-clamp-2 mb-1">
                                                             {textLimit(wish.description, 30)}
                                                         </p>
@@ -146,7 +151,8 @@ export default function List({module, wishes}) {
                                                     <div className="mb-4">
                                                         <h4 className="text-sm font-medium text-gray-700 mb-2">Wisher</h4>
                                                         <div className="flex items-center space-x-3">
-                                                            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center overflow-hidden border-2 border-white">
+                                                            <div
+                                                                className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center overflow-hidden border-2 border-white">
                                                                 {wish.user.image ? (
                                                                     <img
                                                                         src={`/storage/${wish.user.image}`}
@@ -154,7 +160,8 @@ export default function List({module, wishes}) {
                                                                         className="w-full h-full object-cover"
                                                                     />
                                                                 ) : (
-                                                                    <FontAwesomeIcon icon={faStar} className="text-purple-400 text-sm" />
+                                                                    <FontAwesomeIcon icon={faStar}
+                                                                                     className="text-purple-400 text-sm"/>
                                                                 )}
                                                             </div>
                                                             <div>
@@ -174,7 +181,7 @@ export default function List({module, wishes}) {
                                                         <div>
                                                             {/*<h4 className="text-sm font-medium text-gray-700 mb-1">Fulfillment</h4>*/}
                                                             <div>
-                                                                { wish.latest_fulfillment ? (
+                                                                {wish.latest_fulfillment ? (
                                                                     <span
                                                                         className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
                                                                       {getFulfilmentStatus(wish.latest_fulfillment.status)}
@@ -190,23 +197,30 @@ export default function List({module, wishes}) {
                                                     </div>
 
                                                     {/* Action Buttons */}
-                                                    <div className="flex flex-col space-y-2 pt-3 border-t border-gray-100">
-                                                        <div className="flex justify-between items-center">
+                                                    <div className="pt-3 border-t border-gray-100">
+                                                        <div className="grid grid-cols-2 gap-2">
                                                             {/* Fulfill Wish Button */}
                                                             {!wish.latest_fulfillment ? (
                                                                 <Link
                                                                     href={route('wish.fulfill.detail', wish.id)}
-                                                                    className="inline-flex items-center justify-center flex-1 mr-2 px-3 py-2 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                    className="inline-flex items-center justify-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200 w-full"
+                                                                    title="Fulfill Wish"
                                                                 >
-                                                                    Fulfill Wish
+                                                                    <FontAwesomeIcon icon={faGifts} size="md"/>
+                                                                    <span className="ml-2">Fulfill Wish</span>
                                                                 </Link>
-                                                            ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ||
-                                                            wish.latest_fulfillment?.status === 'accepted_by_donor' ? (
+                                                            ) : wish.latest_fulfillment?.status ? (
                                                                 <Link
                                                                     href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfillment?.id})}
-                                                                    className="inline-flex items-center justify-center flex-1 mr-2 px-3 py-2 bg-purple-500 text-white text-xs font-medium rounded-lg hover:bg-purple-600 transition-colors duration-200"
+                                                                    className="w-full"
                                                                 >
-                                                                    Fulfillment Detail
+                <span
+                    className="inline-flex items-center justify-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200 w-full"
+                    title="Fulfillment Detail"
+                >
+                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
+                    <span className="ml-2">View Fulfillment</span>
+                </span>
                                                                 </Link>
                                                             ) : null
                                                             }
@@ -214,22 +228,13 @@ export default function List({module, wishes}) {
                                                             {/* View Detail Button */}
                                                             <Link
                                                                 href={route('wish.show', wish.id)}
-                                                                className="inline-flex items-center justify-center flex-1 px-3 py-2 bg-gray-100 text-gray-700 text-xs font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                                                                className="inline-flex items-center justify-center px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-600 transition-colors duration-200 w-full"
+                                                                title="View Detail"
                                                             >
-                                                                Detail
+                                                                <FontAwesomeIcon icon={faEye} size="md"/>
+                                                                <span className="ml-2">View Details</span>
                                                             </Link>
                                                         </div>
-
-                                                        {/* Additional status info if needed */}
-                                                        {/*{wish.latest_fulfillment?.status && (*/}
-                                                        {/*    <div className="text-xs text-gray-500 text-center">*/}
-                                                        {/*        {wish.latest_fulfillment?.status === 'requested' ?*/}
-                                                        {/*            'Fulfillment request has been sent' :*/}
-                                                        {/*            wish.latest_fulfillment?.status === 'accepted_by_wisher' ||*/}
-                                                        {/*            wish.latest_fulfillment?.status === 'accepted_by_donor' ?*/}
-                                                        {/*                'Ready for communication' : ''}*/}
-                                                        {/*    </div>*/}
-                                                        {/*)}*/}
                                                     </div>
                                                 </div>
                                             </div>
@@ -249,10 +254,14 @@ export default function List({module, wishes}) {
                                             <table className="wish-table w-full">
                                                 <thead className="bg-gray-50">
                                                 <tr>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item
+                                                        Info.
+                                                    </th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Distance</th>
-                                                    <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment status</th>
+                                                    <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment
+                                                        status
+                                                    </th>
                                                     <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
