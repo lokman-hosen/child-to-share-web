@@ -18,7 +18,6 @@ import TextareaInput from "@/Components/TextareaInput.jsx";
 const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, userType, initialMessages = []}) => {
     const { auth } = usePage().props;
     const [messages, setMessages] = useState(initialMessages);
-    const [newMessage, setNewMessage] = useState('');
     const [selectedFile, setSelectedFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
     const chatContainerRef = useRef(null);
@@ -32,7 +31,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     // User data based on user type
     const currentUser = auth.user;
     const otherUser = userType === 'wisher' ? donor : wisher;
-    const wishItem = wish;
     const donationItem = donation;
     const { data, setData, post, processing, reset } = useForm({
         message: '',
@@ -44,20 +42,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     };
-
-    // useEffect(() => {
-    //     const params = new URLSearchParams(window.location.search);
-    //
-    //     if (params.has('status')) {
-    //         params.delete('status');
-    //
-    //         router.replace(
-    //             `${window.location.pathname}?${params.toString()}`,
-    //             { preserveState: true, preserveScroll: true }
-    //         );
-    //     }
-    // }, []);
-
 
 
     // realtime message
@@ -117,8 +101,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
     const isUserOnline = (userId) => onlineUsers.includes(userId);
 
-
-
     const handleSendMessage = async (e) => {
         e.preventDefault();
         post(route('wish.fulfill.message.store'), {
@@ -129,7 +111,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             },
         });
     };
-
 
     const handleFileSelect = (e) => {
         const file = e.target.files[0];
@@ -167,7 +148,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             <div className="px-4 sm:px-6 lg:px-8 py-6">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/*<div className="grid grid-cols-1 gap-8">*/}
                         {/* Left Column - User Information */}
                         <div className="lg:col-span-2 space-y-8">
                             {/* Admin View (Both Users) */}
@@ -910,12 +890,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                             )}
                                             { fulfillment.status !== 'completed' ? (
                                                 <form onSubmit={handleSendMessage} className="space-y-3">
-                                                    {/*<textarea*/}
-                                                    {/*    value={data.message}*/}
-                                                    {/*    onChange={e => setData('message', e.target.value)}*/}
-                                                    {/*    placeholder="Type your message..."*/}
-                                                    {/*    rows="2"*/}
-                                                    {/*/>*/}
                                                     <div className="grid grid-cols-1 gap-6">
                                                         <TextareaInput
                                                             id="message"
