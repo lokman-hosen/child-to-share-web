@@ -214,13 +214,13 @@ export default function List({module, wishes}) {
                                                                     href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                     className="w-full"
                                                                 >
-                <span
-                    className="inline-flex items-center justify-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200 w-full"
-                    title="Fulfillment Detail"
-                >
-                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
-                    <span className="ml-2">View Fulfillment</span>
-                </span>
+                                                                    <span
+                                                                        className="inline-flex items-center justify-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200 w-full"
+                                                                        title="Fulfillment Detail"
+                                                                    >
+                                                                        <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
+                                                                        <span className="ml-2">View Fulfillment</span>
+                                                                    </span>
                                                                 </Link>
                                                             ) : null
                                                             }
