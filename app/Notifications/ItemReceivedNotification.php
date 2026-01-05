@@ -50,18 +50,20 @@ class ItemReceivedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Guardian confirmed receipt — Wish completed')
+            ->subject('Wish Completed — Item Successfully Received')
             ->greeting('Hello ' . $this->fulfillment->donation->user->name . ',')
-            ->line('Wisher/guardian comment: '.$this->comment)
-            ->line('Confirmed by: ' . $this->fulfillment->wish->user->name)
+            ->line('We are happy to inform you that your donated item has been successfully received.')
+            ->line('Receipt confirmed by: ' . $this->fulfillment->wish->user->name)
+            ->line('Message from the recipient:')
+            ->line($this->comment)
             ->action(
-                'View Details',
-                route('wish.fulfill.status.change',
+                'View Fulfillment Details',
+                route(
+                    'wish.fulfill.status.change',
                     ['fulfilment_id' => $this->fulfillment->id]
                 )
             )
-            ->line('Please take action as soon as possible.');
+            ->line('Thank you for your generous contribution and for making a meaningful difference!');
     }
-
 
 }

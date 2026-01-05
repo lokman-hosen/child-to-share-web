@@ -174,7 +174,7 @@ class WishController extends Controller
     {
         $categoryIds = [];
         if (checkDonor() or checkDonorWisher()){
-            $categoryIds = Auth::user()->donations()->pluck('category_id');
+            $categoryIds = Auth::user()->donations()->where('status', 'available')->pluck('category_id')->unique();
         }
         $request->merge(['categoryIds' => $categoryIds]);
 
