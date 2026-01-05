@@ -40,7 +40,7 @@ class WishFulfilRequestedNotification extends Notification
             ->greeting('Hello,')
             ->line('A donor is interested in fulfilling your wish.')
             ->line('Please log in to your dashboard to review and accept the request.')
-            ->line('Donor Name: ' . $this->fulfilment->donor->user->name)
+            ->line('Donor Name: ' . $this->fulfilment->donation->user->name)
             ->action(
                 'View Fulfillment Request',
                 route('dashboard')

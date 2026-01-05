@@ -285,8 +285,7 @@ export default function List({module, wishes}) {
                                                                             <p className="text-sm text-gray-500">Age
                                                                                 range: {wish.age_range}, {textLimit(wish.description, 10)}</p>
                                                                             <div className="mt-1 flex items-center">
-                                                                            <span
-                                                                                className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                                                                 {wish.status}
                                                                             </span>
                                                                                 <span
@@ -354,9 +353,8 @@ export default function List({module, wishes}) {
                                                                               {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                                             </span>
                                                                         ) : (
-                                                                            <span
-                                                                                className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
-                                                                            {wish.status}
+                                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                                                {wish.status}
                                                                             </span>
                                                                         )}
                                                                     </div>
