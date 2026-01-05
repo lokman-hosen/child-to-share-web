@@ -345,7 +345,7 @@ const Show = ({wish, module}) => {
                                                 <FontAwesomeIcon icon={faBackward}/> Back
                                             </Link>
                                         </div>
-                                        {wish.user_id === user.id && (
+                                        {wish.user_id === user?.id && (
                                             wish.latest_fulfillment.status === 'requested' ? (
                                                 <Button
                                                     onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
