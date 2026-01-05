@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('confirmed_by')->nullable()->constrained('users');
             $table->timestamp('confirmed_at')->nullable();
             $table->text('confirm_note')->nullable();
-            $table->enum('status', ['requested', 'accepted_by_wisher', 'accepted_by_donor', 'scheduled', 'in_progress', 'delivered', 'cancelled'])
+            $table->enum('status', ['requested', 'accepted_by_wisher', 'accepted_by_donor', 'scheduled', 'in_progress', 'delivered', 'completed', 'cancelled'])
                 ->default('requested');
             $table->timestamps();
             $table->softDeletes();
