@@ -349,7 +349,7 @@ export default function List({module, wishes}) {
                                                                     <div className="mt-2">
                                                                         { wish.latest_fulfillment ? (
                                                                             <span
-                                                                                className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                                className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm text-white bg-blue-500">
                                                                               {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                                             </span>
                                                                         ) : (
@@ -369,9 +369,9 @@ export default function List({module, wishes}) {
                                                                                 className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
                                                                                 title="Fulfill Wish"
                                                                             >
-                                                                                <FontAwesomeIcon icon={faGifts} size="lg"/>
+                                                                                <FontAwesomeIcon icon={faGifts} size="md"/>
                                                                             </Link>
-                                                                        ) : wish.latest_fulfillment?.status === 'accepted_by_wisher' ? (
+                                                                        ) : wish.latest_fulfillment?.status ? (
                                                                             <Link
                                                                             href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                             >
@@ -379,7 +379,7 @@ export default function List({module, wishes}) {
                                                                                     className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
                                                                                     title="Fulfillment Detail"
                                                                                 >
-                                                                                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="lg"/>
+                                                                                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
                                                                                 </span>
                                                                             </Link>
                                                                         ) : null
@@ -390,7 +390,7 @@ export default function List({module, wishes}) {
                                                                             className="ml-2 inline-flex items-center px-2 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
                                                                             title="View Detail"
                                                                         >
-                                                                            <FontAwesomeIcon icon={faEye} size="lg"/>
+                                                                            <FontAwesomeIcon icon={faEye} size="md"/>
                                                                         </Link>
                                                                     </div>
                                                                 </div>
