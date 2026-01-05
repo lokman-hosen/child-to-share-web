@@ -53,6 +53,8 @@
             text-decoration: none;
             font-size: 14px;
             cursor: pointer;
+            border-right: 5px;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -61,26 +63,33 @@
 <div class="email-wrapper">
 
     <div class="header">
-        Wish Fulfill Request
+        New Wish Fulfillment Request
     </div>
 
     <div class="content">
 
         <p>Dear Wisher/Guardian,</p>
 
-        <p>A donor wants to fulfill the wish: <strong>{{ $wishTitle }}</strong>.</p>
+        <p>We’re happy to inform you that a donor has expressed interest in fulfilling the following wish:</p>
 
-        <p>Donor Name : <strong>{{ $donorName }}</strong></p>
+        <p><strong>{{ $wishTitle }}</strong></p>
 
-        <p>Please check your dashboard for more details.</p>
-        <a target="_blank" href="{{ route('wish.fulfill.status.change', ['fulfilment_id' => $fulfillment->id])}}">View Fulfillment Detail</a>
+        <p><strong>Donor Name:</strong> {{ $donorName }}</p>
+
+        <p>Please visit your dashboard to review the request and take the next steps.</p>
+
+        <a target="_blank" href="{{ route('wish.fulfill.status.change', ['fulfilment_id' => $fulfillment->id]) }}">
+            View Fulfillment Details
+        </a>
     </div>
 
     <div class="footer">
-        This is an automated message from <a target="_blank" href="http://threewish.org/">ThreeWish</a>.
+        This is an automated message from
+        <a target="_blank" href="http://threewish.org/">ThreeWish</a>.
     </div>
 
 </div>
+
 
 </body>
 </html>
