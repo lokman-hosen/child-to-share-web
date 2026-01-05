@@ -32,8 +32,8 @@ class DeliveryAttemptNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'title' => 'Delivery attempt made',
-            'message' => 'Please confirm receipt or report an issue.',
+            'title' => 'Item Marked as Delivered — Please Confirm Receipt',
+            'message' => 'Please review the item and confirm that you have received it.',
             'fulfillment_id' => $this->fulfillment->id,
             'wish_id' => $this->fulfillment->wish_id,
             'donation_id' => $this->fulfillment->donation_id,
@@ -46,10 +46,20 @@ class DeliveryAttemptNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Delivery Attempt Made')
-            ->line('A donor has attempted delivery.');
-            //->action('Confirm Receipt', route('fulfillments.show', $this->fulfillment));
+            ->subject('Item Marked as Delivered — Please Confirm Receipt')
+            ->greeting('Hello!')
+            ->line('The donor has marked the item as delivered.')
+            ->line('Please review the item and confirm that you have received it.')
+            ->action(
+                'Confirm Receipt',
+                route(
+                    'wish.fulfill.status.change',
+                    ['fulfilment_id' => $this->fulfillment->id]
+                )
+            )
+            ->line('Thank you for your cooperation.');
     }
+
 
     /**
      * Get the array representation of the notification.
