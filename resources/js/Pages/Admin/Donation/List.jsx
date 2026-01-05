@@ -213,6 +213,7 @@ export default function List({module, donations}) {
                                                 <tr>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Donor Name</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Status</th>
                                                     <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
@@ -273,6 +274,11 @@ export default function List({module, donations}) {
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
                                                                 {donation.user.name}
+                                                            </td>
+                                                            <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
+                                                                <span className={`px-3 py-1 border rounded-md text-sm ${donation.status === 'donated' ?  'border-indigo-100 bg-indigo-600 text-white' : 'border-green-100 bg-green-600 text-white'}`}>
+                                                                  {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
+                                                                </span>
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
                                                                 <div className="flex flex-col items-end space-y-2">
