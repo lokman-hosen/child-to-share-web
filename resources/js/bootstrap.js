@@ -7,14 +7,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 window.Pusher = Pusher;
 
-const token = document
-    .querySelector('meta[name="csrf-token"]')
-    ?.getAttribute('content')
-
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token
-}
-
 window.Echo = new Echo({
     // broadcaster: 'reverb',
     // key: 'local',
@@ -29,11 +21,4 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
-
-    authEndpoint: '/broadcasting/auth',
-    auth: {
-        headers: {
-            'X-CSRF-TOKEN': token,
-        },
-    },
 });
