@@ -42,6 +42,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     };
+    console.log(otherUser)
 
 
     // realtime message
@@ -71,6 +72,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     // online status check
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
+        console.log('online users rendered:'+ onlineUsers)
 
         const channel = window.Echo.join(
             `presence-fulfillment.${fulfillment.id}`
@@ -100,7 +102,11 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         };
     }, [fulfillment.id]);
 
-    const isUserOnline = (userId) => onlineUsers.includes(userId);
+    //const isUserOnline = (userId) => onlineUsers.includes(userId);
+    const isUserOnline = (userId) => {
+        console.log('Current online user ID:'+ userId)
+        return onlineUsers.includes(userId);
+    };
 
     const handleSendMessage = async (e) => {
         e.preventDefault();

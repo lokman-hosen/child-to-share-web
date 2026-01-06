@@ -29,41 +29,17 @@ Broadcast::channel('fulfillment.{fulfillmentId}', function ($user, $fulfillmentI
 });
 
 // online/offline status
-Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {
-    $fulfillment = \App\Models\Fulfillment::find($fulfillmentId);
-
-    if (! $fulfillment) {
-        return false;
-    }
-
-    if (
-        $user->id === $fulfillment->wish->user_id ||
-        $user->id === $fulfillment->donation->user_id
-    ) {
-        return [
-            'id'   => $user->id,
-            'name' => $user->name,
-        ];
-    }
-
-    return false;
-});
-
-
 //Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {
-//    $fulfillment = Fulfillment::find($fulfillmentId);
-//    if (! $fulfillment) return false;
+//    $fulfillment = \App\Models\Fulfillment::find($fulfillmentId);
+//
+//    if (! $fulfillment) {
+//        return false;
+//    }
+//
 //    if (
 //        $user->id === $fulfillment->wish->user_id ||
 //        $user->id === $fulfillment->donation->user_id
 //    ) {
-//        // mark user online
-//        cache()->put(
-//            "user-online-{$user->id}",
-//            true,
-//            now()->addMinutes(2) // auto-expire if disconnect
-//        );
-//
 //        return [
 //            'id'   => $user->id,
 //            'name' => $user->name,
@@ -72,6 +48,30 @@ Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $ful
 //
 //    return false;
 //});
+
+
+Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {
+    $fulfillment = Fulfillment::find($fulfillmentId);
+    if (! $fulfillment) return false;
+    if (
+        $user->id === $fulfillment->wish->user_id ||
+        $user->id === $fulfillment->donation->user_id
+    ) {
+        // mark user online
+        cache()->put(
+            "user-online-{$user->id}",
+            true,
+            now()->addMinutes(2) // auto-expire if disconnect
+        );
+
+        return [
+            'id'   => $user->id,
+            'name' => $user->name,
+        ];
+    }
+
+    return false;
+});
 
 //Broadcast::channel('fulfillment.{fulfilmentId}', function ($user, $fulfillmentId) {
 //
