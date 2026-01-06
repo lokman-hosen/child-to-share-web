@@ -298,7 +298,7 @@ export default function List({module, wishes}) {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="3" className="px-6 py-12 text-center">
+                                                        <td colSpan="4" className="px-6 py-12 text-center">
                                                             <div className="text-center">
                                                                 <FontAwesomeIcon icon={faStar}
                                                                                  className="text-gray-300 text-5xl mb-4"/>

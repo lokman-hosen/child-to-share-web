@@ -47,6 +47,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     // realtime message
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
+        console.log(window.Echo.connector.pusher.connection.state)
         scrollToBottom();
         const channelName = `fulfillment.${fulfillment.id}`;
 

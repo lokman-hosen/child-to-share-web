@@ -8,12 +8,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
-    broadcaster: 'reverb',
-    key: 'local',
-    wsHost: '127.0.0.1',
-    wsPort: 8080,
-    forceTLS: false,
-    encrypted: false,
-    disableStats: true,
-    enabledTransports: ['ws'],
+    // broadcaster: 'reverb',
+    // key: 'local',
+    // wsHost: '127.0.0.1',
+    // wsPort: 8080,
+    // forceTLS: false,
+    // encrypted: false,
+    // disableStats: true,
+    // enabledTransports: ['ws'],
+
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    forceTLS: true,
 });
