@@ -1,14 +1,12 @@
-import axios from 'axios'
-import Echo from 'laravel-echo'
-import Pusher from 'pusher-js'
+import axios from 'axios';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = Pusher
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// Axios setup (still needed for broadcasting auth)
-window.axios = axios
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+window.Pusher = Pusher;
 
-// 🔑 CSRF token (VERY IMPORTANT for presence channels)
 const token = document
     .querySelector('meta[name="csrf-token"]')
     ?.getAttribute('content')
@@ -17,18 +15,25 @@ if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token
 }
 
-// ✅ Echo + Pusher configuration
 window.Echo = new Echo({
+    // broadcaster: 'reverb',
+    // key: 'local',
+    // wsHost: '127.0.0.1',
+    // wsPort: 8080,
+    // forceTLS: false,
+    // encrypted: false,
+    // disableStats: true,
+    // enabledTransports: ['ws'],
+
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
 
-    // 🔥 REQUIRED for presence channels
     authEndpoint: '/broadcasting/auth',
     auth: {
         headers: {
             'X-CSRF-TOKEN': token,
         },
     },
-})
+});
