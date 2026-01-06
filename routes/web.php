@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\WishController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,6 +22,7 @@ use Inertia\Inertia;
 //        'phpVersion' => PHP_VERSION,
 //    ]);
 //})->name('home');
+Broadcast::routes(['middleware' => ['web', 'auth']]);
 
 // frontend routes
 Route::controller( \App\Http\Controllers\HomeController::class)->group(function () {
