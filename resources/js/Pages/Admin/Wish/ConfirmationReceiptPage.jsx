@@ -25,6 +25,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [showActionModal, setShowActionModal] = useState(false);
     const [actionType, setActionType] = useState(null);
+    const echoRef = useRef({}); // store Echo channels to safely leave
 
 
 
