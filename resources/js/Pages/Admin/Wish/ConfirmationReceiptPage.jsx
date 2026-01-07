@@ -56,7 +56,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                 //console.log('📨 Incoming message:', e.message);
                 setMessages(prev => {
                     // prevent duplicates
-                    if (prev.some(m => m.id = e.message.id)) {
+                    if (prev.some(m => m.id == e.message.id)) {
                         return prev;
                     }
                     return [...prev, e.message];
@@ -72,30 +72,26 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
 
-        const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
+        const privateChannel = `fulfillment.${fulfillment.id}`;
 
         const channel = window.Echo
-            .join(presenceChannel)
+            .join(privateChannel)
             .here(users => {
-                console.log('HERE users:', users);
                 setOnlineUsers(users.map(u => u.id));
             })
             .joining(user => {
-                console.log('JOINING:', user);
                 setOnlineUsers(prev =>
                     prev.includes(user.id) ? prev : [...prev, user.id]
                 );
             })
             .leaving(user => {
-                console.log('LEAVING:', user);
-                setOnlineUsers(prev => prev.filter(id => id != user.id));
+                setOnlineUsers(prev => prev.filter(id => id !== user.id));
             });
 
         return () => {
-            window.Echo.leave(presenceChannel);
+            window.Echo.leave(privateChannel);
         };
-    }, [fulfillment.id]);
-
+    }, [fulfillment.id]); // ✅ ONLY id
 
 
     //const isUserOnline = (userId) => onlineUsers.includes(userId);

@@ -1,19 +1,18 @@
-import axios from 'axios'
-import Echo from 'laravel-echo'
-import Pusher from 'pusher-js'
+import axios from 'axios';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = Pusher
+window.Pusher = Pusher;
 
-window.axios = axios
-window.axios.defaults.withCredentials = true   // 🔑 REQUIRED
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 const token = document
     .querySelector('meta[name="csrf-token"]')
-    ?.getAttribute('content')
+    ?.getAttribute('content');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
 }
 
 window.Echo = new Echo({
@@ -21,5 +20,4 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
-    authEndpoint: '/broadcasting/auth',
-})
+});
