@@ -29,33 +29,22 @@ Broadcast::channel('fulfillment.{fulfillmentId}', function ($user, $fulfillmentI
 });
 
 // In your presence channel callback
+// online/offline status - Alternative approach
+// online/offline status - Using DB query directly
 Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {
-    \Log::info('Auth attempt for presence channel', [
-        'user_id' => $user->id,
-        'fulfillment_id' => $fulfillmentId,
-        'session_id' => session()->getId(),
-    ]);
-
-    $fulfillment = \App\Models\Fulfillment::find($fulfillmentId);
-
-    if (! $fulfillment) {
-        \Log::warning('Fulfillment not found', ['fulfillment_id' => $fulfillmentId]);
-        return false;
-    }
-
-    if (
-        $user->id === $fulfillment->wish->user_id ||
-        $user->id === $fulfillment->donation->user_id
-    ) {
-        \Log::info('Auth successful', ['user_id' => $user->id]);
-        return [
-            'id'   => $user->id,
-            'name' => $user->name,
-        ];
-    }
-
-    \Log::warning('Auth failed - user not authorized', ['user_id' => $user->id]);
-    return false;
+    return \App\Models\Fulfillment::where('id', $fulfillmentId)
+        ->where(function ($query) use ($user) {
+            $query->whereHas('wish', function ($q) use ($user) {
+                $q->where('wishes.user_id', $user->id); // Explicit table name
+            })
+                ->orWhereHas('donation', function ($q) use ($user) {
+                    $q->where('donations.user_id', $user->id); // Explicit table name
+                });
+        })
+        ->exists() ? [
+        'id'   => $user->id,
+        'name' => $user->name,
+    ] : false;
 });
 
 
