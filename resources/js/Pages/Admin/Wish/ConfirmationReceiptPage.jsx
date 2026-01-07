@@ -72,7 +72,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
         const channel = window.Echo.join(
-            `presence-fulfillment.${fulfillment.id}`
+            `fulfillment.${fulfillment.id}`
         )
             .here(users => {
                 setOnlineUsers(users.map(u => u.id));
@@ -97,7 +97,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         });
 
         return () => {
-            window.Echo.leave(`presence-fulfillment.${fulfillment.id}`);
+            window.Echo.leave(`fulfillment.${fulfillment.id}`);
         };
     }, [fulfillment.id]);
 
