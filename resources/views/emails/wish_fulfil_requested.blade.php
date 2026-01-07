@@ -85,7 +85,7 @@
 
     <div class="footer">
         This is an automated message from
-        <a target="_blank" href="http://threewish.org/">ThreeWish</a>.
+        <a target="_blank" href="https://threewish.org">ThreeWish</a>.
     </div>
 
 </div>

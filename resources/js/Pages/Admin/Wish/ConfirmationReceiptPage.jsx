@@ -30,7 +30,8 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
     // User data based on user type
     const currentUser = auth.user;
-    const otherUser = userType === 'wisher' ? donor : wisher;
+    //const otherUser = userType === 'wisher' ? donor : wisher;
+    const otherUser = currentUser.id === donor.id ? wisher : donor;
     const donationItem = donation;
     const { data, setData, post, processing, reset } = useForm({
         message: '',
@@ -42,8 +43,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     };
-    console.log(otherUser)
-
 
     // realtime message
     useEffect(() => {
@@ -72,8 +71,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     // online status check
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
-        console.log('online users rendered:'+ onlineUsers)
-
         const channel = window.Echo.join(
             `presence-fulfillment.${fulfillment.id}`
         )
@@ -81,11 +78,13 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                 setOnlineUsers(users.map(u => u.id));
             })
             .joining(user => {
+                console.log('joining user:'+user)
                 setOnlineUsers(prev =>
                     prev.includes(user.id) ? prev : [...prev, user.id]
                 );
             })
             .leaving((user) => {
+                console.log('Leaving user:'+user)
             setOnlineUsers(prev => prev.filter(id => id !== user.id));
 
             router.post(route('user.offline'), {
