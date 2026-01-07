@@ -91,6 +91,12 @@ export default function Navbar() {
                                 Wishes
                             </Link>
 
+                            <Link
+                                href={route('fulfillment.index')}
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('fulfillment.index') || route().current('wish.show')) ? 'nav-item active' : ''}`}>
+                                Fulfilled Wishes
+                            </Link>
+
                         </div>
 
                         {/*<div className="hidden lg:flex flex-1 max-w-md mx-8">*/}

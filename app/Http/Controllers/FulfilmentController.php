@@ -5,15 +5,30 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFulfilmentRequest;
 use App\Http\Requests\UpdateFulfilmentRequest;
 use App\Models\Fulfillment;
+use App\Services\FulfillmentService;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class FulfilmentController extends Controller
 {
+    public function __construct(
+        protected FulfillmentService $fulfillmentService,
+
+    ){}
+    const moduleDirectory = 'Fulfillment/';
+    const moduleName = 'Wish Fulfill List';
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        $fulfillList = $this->fulfillmentService->getListByStatus($request, 'completed');
+
+        return Inertia::render(self::moduleDirectory.'Index', [
+            'module' => self::moduleName,
+            'fulfillList' => $fulfillList,
+        ]);
     }
 
     /**

@@ -38,6 +38,10 @@ Route::controller(\App\Http\Controllers\DonationController::class)->group(functi
     Route::get('donation/{id}', 'show')->name('donation.show');
 });
 
+Route::controller(\App\Http\Controllers\FulfilmentController::class)->group(function () {
+    Route::get('wish-fulfillment', 'index')->name('fulfillment.index');
+});
+
 
 //Route::get('/dashboard', function () {
 //    return Inertia::render('Dashboard');
