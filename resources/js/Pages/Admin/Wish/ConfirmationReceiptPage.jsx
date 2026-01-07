@@ -38,61 +38,59 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         fulfillment_id: fulfillment?.id || null,
         file: null,
     });
+    // Scroll helper
     const scrollToBottom = () => {
-        if (chatContainerRef.current) {
-            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-        }
+        const el = document.getElementById('chat-container');
+        if (el) el.scrollTop = el.scrollHeight;
     };
 
-    // realtime message
+    // Realtime messages
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
-        //console.log(window.Echo.connector.pusher.connection.state)
-        scrollToBottom();
-        const privateChannel = `fulfillment.${fulfillment.id}`;
 
-        const channel = window.Echo.private(privateChannel)
-            .listen('.MessageSent', (e) => {
-                //console.log('📨 Incoming message:', e.message);
-                setMessages(prev => {
-                    // prevent duplicates
-                    if (prev.some(m => m.id == e.message.id)) {
-                        return prev;
-                    }
-                    return [...prev, e.message];
-                });
+        const privateChannelName = `fulfillment-message.${fulfillment.id}`;
+        const channel = window.Echo.private(privateChannelName);
+
+        channel.listen('.MessageSent', (e) => {
+            setMessages(prev => {
+                if (prev.some(m => m.id === e.message.id)) return prev;
+                return [...prev, e.message];
             });
+        });
+
+        echoRef.current.privateChannel = privateChannelName;
+
+        scrollToBottom();
 
         return () => {
-            window.Echo.leave(privateChannel);
+            if (echoRef.current.privateChannel) {
+                window.Echo.leave(echoRef.current.privateChannel);
+            }
         };
     }, [fulfillment.id]);
 
-    // online status check
+    // Online/offline presence
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
 
-        const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
-
-        const channel = window.Echo
-            .join(presenceChannel)
+        const presenceChannelName = `presence-fulfillment-message.${fulfillment.id}`;
+        const channel = window.Echo.join(presenceChannelName)
             .here(users => {
-                console.log('HERE users:', users);
                 setOnlineUsers(users.map(u => u.id));
             })
             .joining(user => {
-                console.log('JOINING:', user);
-                setOnlineUsers(prev =>
-                    prev.includes(user.id) ? prev : [...prev, user.id]
-                );
+                setOnlineUsers(prev => prev.includes(user.id) ? prev : [...prev, user.id]);
             })
             .leaving(user => {
-                console.log('LEAVING:', user);
                 setOnlineUsers(prev => prev.filter(id => id !== user.id));
             });
 
+        echoRef.current.presenceChannel = presenceChannelName;
+
         return () => {
-            window.Echo.leave(presenceChannel);
+            if (echoRef.current.presenceChannel) {
+                window.Echo.leave(echoRef.current.presenceChannel);
+            }
         };
     }, [fulfillment.id]);
 
