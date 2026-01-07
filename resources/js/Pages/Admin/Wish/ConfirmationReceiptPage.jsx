@@ -25,7 +25,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [showActionModal, setShowActionModal] = useState(false);
     const [actionType, setActionType] = useState(null);
-    const echoRef = useRef({}); // store Echo channels to safely leave
 
 
 
@@ -39,61 +38,65 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         fulfillment_id: fulfillment?.id || null,
         file: null,
     });
-    // Scroll helper
     const scrollToBottom = () => {
-        const el = document.getElementById('chat-container');
-        if (el) el.scrollTop = el.scrollHeight;
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
     };
 
-    // Realtime messages
+    // realtime message
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
-
-        const privateChannelName = `fulfillment-message.${fulfillment.id}`;
-        const channel = window.Echo.private(privateChannelName);
-
-        channel.listen('.MessageSent', (e) => {
-            setMessages(prev => {
-                if (prev.some(m => m.id === e.message.id)) return prev;
-                return [...prev, e.message];
-            });
-        });
-
-        echoRef.current.privateChannel = privateChannelName;
-
+        //console.log(window.Echo.connector.pusher.connection.state)
         scrollToBottom();
+        const privateChannel = `fulfillment.${fulfillment.id}`;
+
+        const channel = window.Echo.private(privateChannel)
+            .listen('.MessageSent', (e) => {
+                //console.log('📨 Incoming message:', e.message);
+                setMessages(prev => {
+                    // prevent duplicates
+                    if (prev.some(m => m.id = e.message.id)) {
+                        return prev;
+                    }
+                    return [...prev, e.message];
+                });
+            });
 
         return () => {
-            if (echoRef.current.privateChannel) {
-                window.Echo.leave(echoRef.current.privateChannel);
-            }
+            window.Echo.leave(privateChannel);
         };
     }, [fulfillment.id]);
 
-    // Online/offline presence
+    // online status check
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
 
-        const presenceChannelName = `presence-fulfillment-message.${fulfillment.id}`;
-        const channel = window.Echo.join(presenceChannelName)
+        const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
+
+        const channel = window.Echo
+            .join(presenceChannel)
             .here(users => {
+                console.log('HERE users:', users);
                 setOnlineUsers(users.map(u => u.id));
             })
             .joining(user => {
-                setOnlineUsers(prev => prev.includes(user.id) ? prev : [...prev, user.id]);
+                console.log('JOINING:', user);
+                setOnlineUsers(prev =>
+                    prev.includes(user.id) ? prev : [...prev, user.id]
+                );
             })
             .leaving(user => {
-                setOnlineUsers(prev => prev.filter(id => id !== user.id));
+                console.log('LEAVING:', user);
+                setOnlineUsers(prev => prev.filter(id => id != user.id));
             });
 
-        echoRef.current.presenceChannel = presenceChannelName;
-
         return () => {
-            if (echoRef.current.presenceChannel) {
-                window.Echo.leave(echoRef.current.presenceChannel);
-            }
+            window.Echo.leave(presenceChannel);
         };
     }, [fulfillment.id]);
+
+
 
     //const isUserOnline = (userId) => onlineUsers.includes(userId);
     const isUserOnline = (userId) => {
