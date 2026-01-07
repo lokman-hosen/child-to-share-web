@@ -49,9 +49,9 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         if (!window.Echo || !fulfillment?.id) return;
         //console.log(window.Echo.connector.pusher.connection.state)
         scrollToBottom();
-        const channelName = `fulfillment.${fulfillment.id}`;
+        const privateChannel = `fulfillment.${fulfillment.id}`;
 
-        const channel = window.Echo.private(channelName)
+        const channel = window.Echo.private(privateChannel)
             .listen('.MessageSent', (e) => {
                 //console.log('📨 Incoming message:', e.message);
                 setMessages(prev => {
@@ -64,40 +64,35 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             });
 
         return () => {
-            window.Echo.leave(channelName);
+            window.Echo.leave(privateChannel);
         };
-    }, [fulfillment.id, messages]);
+    }, [fulfillment.id]);
 
     // online status check
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
-        const channel = window.Echo.join(
-            `fulfillment.${fulfillment.id}`
-        )
+
+        const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
+
+        const channel = window.Echo
+            .join(presenceChannel)
             .here(users => {
+                console.log('HERE users:', users);
                 setOnlineUsers(users.map(u => u.id));
             })
             .joining(user => {
-                console.log('joining user:'+user)
+                console.log('JOINING:', user);
                 setOnlineUsers(prev =>
                     prev.includes(user.id) ? prev : [...prev, user.id]
                 );
             })
-            .leaving((user) => {
-                console.log('Leaving user:'+user)
-            setOnlineUsers(prev => prev.filter(id => id != user.id));
-
-            router.post(route('user.offline'), {
-                user_id: user.id
-            }, {
-                preserveScroll: true,
-                preserveState: true,
-                replace: true,
+            .leaving(user => {
+                console.log('LEAVING:', user);
+                setOnlineUsers(prev => prev.filter(id => id !== user.id));
             });
-        });
 
         return () => {
-            window.Echo.leave(`fulfillment.${fulfillment.id}`);
+            window.Echo.leave(presenceChannel);
         };
     }, [fulfillment.id]);
 
