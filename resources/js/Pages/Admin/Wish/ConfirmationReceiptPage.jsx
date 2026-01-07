@@ -103,7 +103,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
     //const isUserOnline = (userId) => onlineUsers.includes(userId);
     const isUserOnline = (userId) => {
-        console.log('Current online user ID:'+ userId)
+        //console.log('Current online user ID:'+ userId)
         return onlineUsers.includes(userId);
     };
 

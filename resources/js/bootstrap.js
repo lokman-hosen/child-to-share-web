@@ -8,15 +8,6 @@ window.Pusher = Pusher
 window.axios = axios
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
-// 🔑 CSRF token (VERY IMPORTANT for presence channels)
-const token = document
-    .querySelector('meta[name="csrf-token"]')
-    ?.getAttribute('content')
-
-if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token
-}
-
 // ✅ Echo + Pusher configuration
 window.Echo = new Echo({
     broadcaster: 'pusher',
