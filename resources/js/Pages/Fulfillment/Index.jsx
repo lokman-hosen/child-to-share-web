@@ -2,13 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import Hero from "@/Components/Wish/Hero.jsx";
 import {Head, router, usePage} from "@inertiajs/react";
-import List from "@/Components/Wish/List.jsx";
-import CTA from "@/Components/Wish/CTA.jsx";
-import SingleWishItem from "@/Components/Common/SingleWishItem.jsx";
-import Pagination from "@/Components/Pagination.jsx";
-import SelectInput from "@/Components/SelectInput.jsx";
-import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
-import SingleWishItemMobile from "@/Components/Common/SingleWishItemMobile.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faHandsHelping, faStar} from "@fortawesome/free-solid-svg-icons";
 
 const Index = ({fulfillList, module}) => {
     return (
@@ -36,7 +31,7 @@ const Index = ({fulfillList, module}) => {
                                         <span className="text-xs font-semibold">Oct 20, 2023</span>
                                     </div>
                                 </div>
-                                <h3 className="text-lg font-bold mt-2">Educational Support</h3>
+                                <h3 className="text-lg font-bold mt-2 mb-8">Educational Support</h3>
                             </div>
 
                             <div className="relative py-12 px-6">
@@ -49,8 +44,8 @@ const Index = ({fulfillList, module}) => {
                                             alt="Donor"
                                             className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"/>
                                         <div
-                                            className="absolute -bottom-3 -right-3 bg-blue-500 text-white rounded-full p-3 shadow-lg">
-                                            <i className="fas fa-hands-helping text-sm"></i>
+                                            className="absolute -bottom-3 -right-3 bg-blue-500 text-white rounded-full px-2 py-1 shadow-lg">
+                                            <FontAwesomeIcon icon={faHandsHelping} className="text-sm"/>
                                         </div>
                                         <div
                                             className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full shadow text-xs font-bold whitespace-nowrap">
@@ -66,8 +61,8 @@ const Index = ({fulfillList, module}) => {
                                             alt="Wisher"
                                             className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"/>
                                         <div
-                                            className="absolute -bottom-3 -right-3 bg-purple-500 text-white rounded-full p-3 shadow-lg">
-                                            <i className="fas fa-star text-sm"></i>
+                                            className="absolute -bottom-3 -right-3 bg-purple-500 text-white rounded-full px-2 py-1 shadow-lg">
+                                            <FontAwesomeIcon icon={faStar} className="text-sm"/>
                                         </div>
                                         <div
                                             className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-1 rounded-full shadow text-xs font-bold whitespace-nowrap">
@@ -98,12 +93,12 @@ const Index = ({fulfillList, module}) => {
                             <div className="border-t border-gray-100 p-6">
                                 <div className="flex justify-between items-center mb-3">
                                     <div>
-                                        <h4 className="font-bold text-gray-800 text-sm md:text-base">Blake Johnson</h4>
-                                        <p className="text-xs text-gray-500">Donor</p>
+                                        <h4 className="font-bold text-gray-800 text-sm md:text-base mt-2">Blake Johnson</h4>
+                                        {/*<p className="text-xs text-gray-500">Donor</p>*/}
                                     </div>
                                     <div className="text-right">
-                                        <h4 className="font-bold text-gray-800 text-sm md:text-base">Maria Garcia</h4>
-                                        <p className="text-xs text-gray-500">Wisher</p>
+                                        <h4 className="font-bold text-gray-800 text-sm md:text-base mt-2">Maria Garcia</h4>
+                                        {/*<p className="text-xs text-gray-500">Wisher</p>*/}
                                     </div>
                                 </div>
                                 <div className="text-center mt-4">
@@ -132,7 +127,7 @@ const Index = ({fulfillList, module}) => {
                                         <span className="text-xs font-semibold">Oct 15, 2023</span>
                                     </div>
                                 </div>
-                                <h3 className="text-lg font-bold mt-2">Food Support</h3>
+                                <h3 className="text-lg font-bold mt-2 mb-8">Food Support</h3>
                             </div>
 
                             <div className="relative py-12 px-6">
@@ -145,8 +140,8 @@ const Index = ({fulfillList, module}) => {
                                             alt="Donor"
                                             className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"/>
                                         <div
-                                            className="absolute -bottom-3 -right-3 bg-blue-500 text-white rounded-full p-3 shadow-lg">
-                                            <i className="fas fa-hands-helping text-sm"></i>
+                                            className="absolute -bottom-3 -right-3 bg-blue-500 text-white rounded-full px-2 py-1 shadow-lg">
+                                            <FontAwesomeIcon icon={faHandsHelping} className="text-sm"/>
                                         </div>
                                         <div
                                             className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full shadow text-xs font-bold whitespace-nowrap">
@@ -162,8 +157,8 @@ const Index = ({fulfillList, module}) => {
                                             alt="Wisher"
                                             className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"/>
                                         <div
-                                            className="absolute -bottom-3 -right-3 bg-purple-500 text-white rounded-full p-3 shadow-lg">
-                                            <i className="fas fa-star text-sm"></i>
+                                            className="absolute -bottom-3 -right-3 bg-purple-500 text-white rounded-full px-2 py-1 shadow-lg">
+                                            <FontAwesomeIcon icon={faStar} className="text-sm"/>
                                         </div>
                                         <div
                                             className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-1 rounded-full shadow text-xs font-bold whitespace-nowrap">
@@ -194,12 +189,12 @@ const Index = ({fulfillList, module}) => {
                             <div className="border-t border-gray-100 p-6">
                                 <div className="flex justify-between items-center mb-3">
                                     <div>
-                                        <h4 className="font-bold text-gray-800 text-sm md:text-base">Robert Chen</h4>
-                                        <p className="text-xs text-gray-500">Donor</p>
+                                        <h4 className="font-bold text-gray-800 text-sm md:text-base mt-2">Robert Chen</h4>
+                                        {/*<p className="text-xs text-gray-500">Donor</p>*/}
                                     </div>
                                     <div className="text-right">
-                                        <h4 className="font-bold text-gray-800 text-sm md:text-base">Sarah Miller</h4>
-                                        <p className="text-xs text-gray-500">Wisher</p>
+                                        <h4 className="font-bold text-gray-800 text-sm md:text-base mt-2">Sarah Miller</h4>
+                                        {/*<p className="text-xs text-gray-500">Wisher</p>*/}
                                     </div>
                                 </div>
                                 <div className="text-center mt-4">
@@ -228,7 +223,7 @@ const Index = ({fulfillList, module}) => {
                                         <span className="text-xs font-semibold">Oct 10, 2023</span>
                                     </div>
                                 </div>
-                                <h3 className="text-lg font-bold mt-2">Medical Aid</h3>
+                                <h3 className="text-lg font-bold mt-2 mb-8">Medical Aid</h3>
                             </div>
 
                             <div className="relative py-12 px-6">
@@ -241,8 +236,8 @@ const Index = ({fulfillList, module}) => {
                                             alt="Donor"
                                             className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"/>
                                         <div
-                                            className="absolute -bottom-3 -right-3 bg-blue-500 text-white rounded-full p-3 shadow-lg">
-                                            <i className="fas fa-hands-helping text-sm"></i>
+                                            className="absolute -bottom-3 -right-3 bg-blue-500 text-white rounded-full px-2 py-1 shadow-lg">
+                                            <FontAwesomeIcon icon={faHandsHelping} className="text-sm"/>
                                         </div>
                                         <div
                                             className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full shadow text-xs font-bold whitespace-nowrap">
@@ -258,8 +253,8 @@ const Index = ({fulfillList, module}) => {
                                             alt="Wisher"
                                             className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"/>
                                         <div
-                                            className="absolute -bottom-3 -right-3 bg-purple-500 text-white rounded-full p-3 shadow-lg">
-                                            <i className="fas fa-star text-sm"></i>
+                                            className="absolute -bottom-3 -right-3 bg-purple-500 text-white rounded-full px-2 py-1 shadow-lg">
+                                            <FontAwesomeIcon icon={faStar} className="text-sm"/>
                                         </div>
                                         <div
                                             className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-purple-600 text-white px-3 py-1 rounded-full shadow text-xs font-bold whitespace-nowrap">
@@ -290,12 +285,12 @@ const Index = ({fulfillList, module}) => {
                             <div className="border-t border-gray-100 p-6">
                                 <div className="flex justify-between items-center mb-3">
                                     <div>
-                                        <h4 className="font-bold text-gray-800 text-sm md:text-base">David Wilson</h4>
-                                        <p className="text-xs text-gray-500">Donor</p>
+                                        <h4 className="font-bold text-gray-800 text-sm md:text-base mt-2">David Wilson</h4>
+                                        {/*<p className="text-xs text-gray-500">Donor</p>*/}
                                     </div>
                                     <div className="text-right">
-                                        <h4 className="font-bold text-gray-800 text-sm md:text-base">James Thompson</h4>
-                                        <p className="text-xs text-gray-500">Wisher</p>
+                                        <h4 className="font-bold text-gray-800 text-sm md:text-base mt-2">James Thompson</h4>
+                                        {/*<p className="text-xs text-gray-500">Wisher</p>*/}
                                     </div>
                                 </div>
                                 <div className="text-center mt-4">
