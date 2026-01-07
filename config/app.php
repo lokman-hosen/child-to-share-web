@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Dhaka',
 
     /*
     |--------------------------------------------------------------------------
@@ -84,8 +84,6 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
-
-
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -100,10 +98,6 @@ return [
     'cipher' => 'AES-256-CBC',
 
     'key' => env('APP_KEY'),
-
-    'providers' => [
-        App\Providers\BroadcastServiceProvider::class,
-    ],
 
     'previous_keys' => [
         ...array_filter(
