@@ -784,14 +784,12 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 Direct Chat
                                             </h3>
                                             <p className="text-sm text-gray-600 mt-1 flex items-center">
-                                                otherUser : {otherUser.id}
                                                 <span
                                                     className={`w-3 h-3 rounded-full mr-2 ${
                                                         isUserOnline(otherUser.id) ? 'bg-green-500' : 'bg-gray-400'
                                                     }`}
                                                 />
                                                 {isUserOnline(otherUser.id) ? 'Online' : 'Offline'}
-                                                otherUser Presence : {otherUser.id}
                                             </p>
                                             <div className="text-sm text-gray-500">
                                                 {userType == 'admin' && (
