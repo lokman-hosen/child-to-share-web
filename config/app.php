@@ -84,9 +84,7 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
-    'providers' => [
-        App\Providers\BroadcastServiceProvider::class,
-    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -102,6 +100,10 @@ return [
     'cipher' => 'AES-256-CBC',
 
     'key' => env('APP_KEY'),
+
+    'providers' => [
+        App\Providers\BroadcastServiceProvider::class,
+    ],
 
     'previous_keys' => [
         ...array_filter(
