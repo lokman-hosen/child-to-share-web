@@ -1,17 +1,23 @@
-import axios from 'axios'
-import Echo from 'laravel-echo'
-import Pusher from 'pusher-js'
+import axios from 'axios';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-window.Pusher = Pusher
+window.Pusher = Pusher;
 
-// Axios setup (still needed for broadcasting auth)
-window.axios = axios
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// ✅ Echo + Pusher configuration
+const token = document
+    .querySelector('meta[name="csrf-token"]')
+    ?.getAttribute('content');
+
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token;
+}
+
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
-})
+});

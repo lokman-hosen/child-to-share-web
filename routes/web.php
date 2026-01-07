@@ -22,7 +22,11 @@ use Inertia\Inertia;
 //        'phpVersion' => PHP_VERSION,
 //    ]);
 //})->name('home');
-Broadcast::routes(['middleware' => ['web', 'auth']]);
+
+Broadcast::routes([
+    'middleware' => ['web', 'auth']
+]);
+
 
 // frontend routes
 Route::controller( \App\Http\Controllers\HomeController::class)->group(function () {
