@@ -84,6 +84,10 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    'providers' => [
+        App\Providers\BroadcastServiceProvider::class,
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
