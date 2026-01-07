@@ -23,9 +23,9 @@ use Inertia\Inertia;
 //    ]);
 //})->name('home');
 
-Broadcast::routes([
-    'middleware' => ['web', 'auth']
-]);
+//Broadcast::routes([
+//    'middleware' => ['web', 'auth']
+//]);
 
 
 // frontend routes
