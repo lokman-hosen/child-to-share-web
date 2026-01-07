@@ -56,7 +56,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                 //console.log('📨 Incoming message:', e.message);
                 setMessages(prev => {
                     // prevent duplicates
-                    if (prev.some(m => m.id === e.message.id)) {
+                    if (prev.some(m => m.id == e.message.id)) {
                         return prev;
                     }
                     return [...prev, e.message];
@@ -85,7 +85,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
             })
             .leaving((user) => {
                 console.log('Leaving user:'+user)
-            setOnlineUsers(prev => prev.filter(id => id !== user.id));
+            setOnlineUsers(prev => prev.filter(id => id != user.id));
 
             router.post(route('user.offline'), {
                 user_id: user.id
@@ -157,7 +157,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                         {/* Left Column - User Information */}
                         <div className="lg:col-span-2 space-y-8">
                             {/* Admin View (Both Users) */}
-                            {(userType === 'admin' || userType === 'super-admin') && (
+                            {(userType == 'admin' || userType == 'super-admin') && (
                                 <div className="grid grid-cols-1">
                                     {/* Donor Card */}
                                     <div className="bg-white shadow rounded-lg p-6">
@@ -593,7 +593,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {/* Wish/Donation Information */}
                             <div className="bg-white rounded-lg shadow-md p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
-                                {userType === 'wisher' ? (
+                                {userType == 'wisher' ? (
                                         <FontAwesomeIcon
                                             icon={faStar}
                                             className="w-4 h-4 mr-2 text-gray-400"
@@ -604,7 +604,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                             className="w-4 h-4 mr-2 text-gray-400"
                                         />
                                     )}
-                                    {userType === 'wisher' ? 'Donation Details' : 'Wish Details'}
+                                    {userType == 'wisher' ? 'Donation Details' : 'Wish Details'}
                                 </h3>
 
                                 <div className="grid grid-cols-1 gap-6">
@@ -650,7 +650,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         <div className="mb-3">
                                             <div className="mt-2">
                                                 {fulfillment.wish.user_id != currentUser.id && (
-                                                    fulfillment.status === 'accepted_by_wisher' ? (
+                                                    fulfillment.status == 'accepted_by_wisher' ? (
                                                         <Link
                                                             href={route('wish.fulfill.status.change', {
                                                                 fulfilment_id: wish.latest_fulfillment?.id,
@@ -667,11 +667,11 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         >
                                                             Mark As Delivered
                                                         </Link>
-                                                    ) : fulfillment.status === 'delivered' ? (
+                                                    ) : fulfillment.status == 'delivered' ? (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
                                                             Waiting for wisher receipt confirmation
                                                         </span>
-                                                    ) : fulfillment.status === 'completed' ? (
+                                                    ) : fulfillment.status == 'completed' ? (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
                                                             Fulfilled
                                                         </span>
@@ -680,7 +680,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                 {/*wisher action*/}
                                                 {fulfillment.donation.user_id != currentUser.id && (
-                                                    fulfillment.status === 'delivered' ? (
+                                                    fulfillment.status == 'delivered' ? (
                                                         <div className="mt-6 flex gap-4">
                                                             <button
                                                                 onClick={() => {
@@ -702,7 +702,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                 Report Issue / Request Return
                                                             </button>
                                                         </div>
-                                                    ) : fulfillment.status === 'completed' ?  (
+                                                    ) : fulfillment.status == 'completed' ?  (
                                                         <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
                                                             Completed
                                                         </span>
@@ -730,7 +730,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                 </div>
 
                                 {/* Admin Controls */}
-                                {userType === 'admin' && (
+                                {userType == 'admin' && (
                                     <div className="mt-8 pt-6 border-t">
                                         <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
                                             <FontAwesomeIcon
@@ -782,7 +782,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 {isUserOnline(otherUser.id) ? 'Online' : 'Offline'}
                                             </p>
                                             <div className="text-sm text-gray-500">
-                                                {userType === 'admin' && (
+                                                {userType == 'admin' && (
                                                     <span className="flex items-center">
                                               <Shield className="w-4 h-4 mr-1"/>
                                               Admin View
@@ -802,7 +802,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         ref={chatContainerRef}
                                         className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px]"
                                     >
-                                        {messages.length === 0 ? (
+                                        {messages.length == 0 ? (
                                             <div className="text-center py-8 text-gray-500">
                                                 <FontAwesomeIcon
                                                     icon={faUser}
@@ -868,7 +868,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     </div>
 
                                     {/* Chat Input */}
-                                    {userType !== 'admin' && (
+                                    {userType != 'admin' && (
                                         <div className="border-t p-4">
                                             {/* Selected File Preview */}
                                             {selectedFile && (
@@ -894,7 +894,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                     </button>
                                                 </div>
                                             )}
-                                            { fulfillment.status !== 'completed' ? (
+                                            { fulfillment.status != 'completed' ? (
                                                 <form onSubmit={handleSendMessage} className="space-y-3">
                                                     <div className="grid grid-cols-1 gap-6">
                                                         <TextareaInput
@@ -960,7 +960,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         )}
 
                                     {/* Admin Chat Note */}
-                                    {userType === 'admin' && (
+                                    {userType == 'admin' && (
                                         <div className="p-6 text-center text-gray-500 border-t">
                                             <FontAwesomeIcon
                                                 icon={faUser}
@@ -985,18 +985,18 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                         {/* Header */}
                         <h2
                             className={`text-lg font-semibold mb-2 ${
-                                actionType === 'confirm'
+                                actionType == 'confirm'
                                     ? 'text-green-700'
                                     : 'text-red-700'
                             }`}
                         >
-                            {actionType === 'confirm'
+                            {actionType == 'confirm'
                                 ? 'Confirm Receipt'
                                 : 'Report Issue / Request Return'}
                         </h2>
 
                         <p className="text-sm text-gray-600 mb-4">
-                            {actionType === 'confirm'
+                            {actionType == 'confirm'
                                 ? 'Please confirm that you received the donation successfully.'
                                 : 'Please describe the issue clearly so we can review it.'}
                         </p>
@@ -1007,7 +1007,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                 e.preventDefault();
 
                                 actionForm.post(
-                                    actionType === 'confirm'
+                                    actionType == 'confirm'
                                         ? route('fulfillment.confirm', fulfillment.id)
                                         : route('fulfillment.issue', fulfillment.id),
                                     {
@@ -1024,7 +1024,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {/* Comment */}
                             <TextareaInput
                                 label={
-                                    actionType === 'confirm'
+                                    actionType == 'confirm'
                                         ? 'Confirmation Comment'
                                         : 'Issue Description'
                                 }
@@ -1034,7 +1034,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     actionForm.setData('comment', e.target.value)
                                 }
                                 placeholder={
-                                    actionType === 'confirm'
+                                    actionType == 'confirm'
                                         ? 'Write your confirmation message...'
                                         : 'Wrong item, damaged, not received...'
                                 }
@@ -1071,12 +1071,12 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     type="submit"
                                     disabled={actionForm.processing}
                                     className={`px-5 py-2 rounded-md text-white ${
-                                        actionType === 'confirm'
+                                        actionType == 'confirm'
                                             ? 'bg-green-600 hover:bg-green-700'
                                             : 'bg-red-600 hover:bg-red-700'
                                     }`}
                                 >
-                                    {actionType === 'confirm'
+                                    {actionType == 'confirm'
                                         ? 'Confirm Receipt'
                                         : 'Submit Issue'}
                                 </button>
