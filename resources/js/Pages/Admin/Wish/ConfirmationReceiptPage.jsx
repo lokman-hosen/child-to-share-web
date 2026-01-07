@@ -31,7 +31,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     // User data based on user type
     const currentUser = auth.user;
     //const otherUser = userType === 'wisher' ? donor : wisher;
-    const otherUser = currentUser.id === donor.id ? wisher : donor;
+    const otherUser = currentUser.id == donor.id ? wisher : donor;
     const donationItem = donation;
     const { data, setData, post, processing, reset } = useForm({
         message: '',
@@ -103,7 +103,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
     //const isUserOnline = (userId) => onlineUsers.includes(userId);
     const isUserOnline = (userId) => {
-        //console.log('Current online user ID:'+ userId)
+        console.log('Current online user ID:'+ userId)
         return onlineUsers.includes(userId);
     };
 
@@ -377,7 +377,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             )}
 
                             {/* Wisher/Donor View (Other User Info) */}
-                            {fulfillment.donation.user_id !== currentUser.id && (
+                            {fulfillment.donation.user_id != currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
                                         <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
@@ -483,7 +483,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     </div>
                                 </div>
                             )}
-                            {fulfillment.wish.user_id !== currentUser.id && (
+                            {fulfillment.wish.user_id != currentUser.id && (
                                 <div className="bg-white shadow rounded-lg p-6">
                                     <div className="border-gray-200 pb-6">
                                         <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
@@ -649,7 +649,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         {/*donor action*/}
                                         <div className="mb-3">
                                             <div className="mt-2">
-                                                {fulfillment.wish.user_id !== currentUser.id && (
+                                                {fulfillment.wish.user_id != currentUser.id && (
                                                     fulfillment.status === 'accepted_by_wisher' ? (
                                                         <Link
                                                             href={route('wish.fulfill.status.change', {
@@ -679,7 +679,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 )}
 
                                                 {/*wisher action*/}
-                                                {fulfillment.donation.user_id !== currentUser.id && (
+                                                {fulfillment.donation.user_id != currentUser.id && (
                                                     fulfillment.status === 'delivered' ? (
                                                         <div className="mt-6 flex gap-4">
                                                             <button
@@ -815,17 +815,17 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                             messages.map((message, index) => (
                                                 <div
                                                     key={index}
-                                                    className={`flex ${message.sender_id === currentUser.id ? 'justify-end' : 'justify-start'}`}
+                                                    className={`flex ${message.sender_id == currentUser.id ? 'justify-end' : 'justify-start'}`}
                                                 >
                                                     <div
-                                                        className={`max-w-[70%] rounded-lg px-4 py-2 ${message.sender_id === currentUser.id
+                                                        className={`max-w-[70%] rounded-lg px-4 py-2 ${message.sender_id == currentUser.id
                                                             ? 'bg-blue-100 text-blue-900 rounded-br-none'
                                                             : 'bg-gray-100 text-gray-900 rounded-bl-none'
                                                         }`}
                                                     >
                                                         <div className="flex items-center justify-between mb-1">
                                                     <span className="font-medium text-sm mr-2">
-                                                      {message.sender_id === currentUser.id ? 'You' : message.sender.name}
+                                                      {message.sender_id == currentUser.id ? 'You' : message.sender.name}
                                                     </span>
                                                             <span className="text-xs text-gray-500">
                                                       {new Date(message.created_at).toLocaleTimeString([], {
@@ -841,7 +841,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                         {message.file && (
                                                             <div
-                                                                className={`flex items-center p-2 rounded ${message.message.sender_id === currentUser.id
+                                                                className={`flex items-center p-2 rounded ${message.message.sender_id == currentUser.id
                                                                     ? 'bg-blue-50'
                                                                     : 'bg-gray-50'
                                                                 }`}>
