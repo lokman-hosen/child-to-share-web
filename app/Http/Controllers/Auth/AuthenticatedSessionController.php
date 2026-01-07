@@ -52,6 +52,18 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Get user's active fulfillment IDs before logout
+        $user = $request->user();
+        $fulfillmentIds = \App\Models\Fulfillment::where(function($q) use ($user) {
+            $q->whereHas('wish', fn($q) => $q->where('user_id', $user->id))
+                ->orWhereHas('donation', fn($q) => $q->where('user_id', $user->id));
+        })
+            ->pluck('id');
+
+        // Broadcast logout event for each fulfillment
+        foreach ($fulfillmentIds as $fulfillmentId) {
+            broadcast(new \App\Events\UserLoggedOut($user->id, $fulfillmentId));
+        }
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

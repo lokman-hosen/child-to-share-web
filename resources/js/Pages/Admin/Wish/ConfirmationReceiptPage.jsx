@@ -96,6 +96,11 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                 console.log('User leaving:', user);
                 setOnlineUsers(prev => prev.filter(id => id != user.id));
             })
+            // Add listener for logout event
+            .listen('.user.logged.out', (data) => {
+                console.log('User logged out event received:', data);
+                setOnlineUsers(prev => prev.filter(id => id != data.userId));
+            })
             .error((error) => {
                 console.error('Presence channel error:', error);
             });
@@ -109,9 +114,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
     //const isUserOnline = (userId) => onlineUsers.includes(userId);
     const isUserOnline = (userId) => {
-        console.log('onlineUsers:'+ JSON.stringify(onlineUsers))
-        console.log('Current online user ID:'+ userId)
-        console.log('Includes:'+ onlineUsers.includes(userId))
         return onlineUsers.includes(userId);
     };
 
