@@ -72,29 +72,39 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     }, [fulfillment.id]);
 
     // online status check
+    // In ConfirmationReceiptPage.jsx - updated presence channel useEffect
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
 
         const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
 
-        const channel = window.Echo
-            .join(presenceChannel)
+        console.log('Attempting to join presence channel:', presenceChannel);
+        console.log('Current user ID:', currentUser.id);
+
+        const channel = window.Echo.join(presenceChannel)
             .here(users => {
+                console.log('Users currently in channel:', users);
                 setOnlineUsers(users.map(u => u.id));
             })
             .joining(user => {
+                console.log('User joining:', user);
                 setOnlineUsers(prev =>
                     prev.includes(user.id) ? prev : [...prev, user.id]
                 );
             })
             .leaving(user => {
-                setOnlineUsers(prev => prev.filter(id => id !== user.id));
+                console.log('User leaving:', user);
+                setOnlineUsers(prev => prev.filter(id => id != user.id));
+            })
+            .error((error) => {
+                console.error('Presence channel error:', error);
             });
 
         return () => {
+            console.log('Leaving presence channel');
             window.Echo.leave(presenceChannel);
         };
-    }, [fulfillment.id]); // ✅ ONLY id
+    }, [fulfillment.id, currentUser.id]);
 
 
     //const isUserOnline = (userId) => onlineUsers.includes(userId);
