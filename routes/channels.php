@@ -28,11 +28,18 @@ Broadcast::channel('fulfillment.{fulfillmentId}', function ($user, $fulfillmentI
         ->exists();
 });
 
-// online/offline status
+// In your presence channel callback
 Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {
+    \Log::info('Auth attempt for presence channel', [
+        'user_id' => $user->id,
+        'fulfillment_id' => $fulfillmentId,
+        'session_id' => session()->getId(),
+    ]);
+
     $fulfillment = \App\Models\Fulfillment::find($fulfillmentId);
 
     if (! $fulfillment) {
+        \Log::warning('Fulfillment not found', ['fulfillment_id' => $fulfillmentId]);
         return false;
     }
 
@@ -40,14 +47,17 @@ Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $ful
         $user->id === $fulfillment->wish->user_id ||
         $user->id === $fulfillment->donation->user_id
     ) {
+        \Log::info('Auth successful', ['user_id' => $user->id]);
         return [
             'id'   => $user->id,
             'name' => $user->name,
         ];
     }
 
+    \Log::warning('Auth failed - user not authorized', ['user_id' => $user->id]);
     return false;
 });
+
 
 
 //Broadcast::channel('presence-fulfillment.{fulfillmentId}', function ($user, $fulfillmentId) {

@@ -24,7 +24,7 @@ use Inertia\Inertia;
 //})->name('home');
 
 Broadcast::routes([
-    'middleware' => ['web', 'auth']
+    'middleware' => ['web', 'auth:sanctum'], // or 'auth:web'
 ]);
 
 
