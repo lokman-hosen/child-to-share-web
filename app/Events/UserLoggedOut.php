@@ -36,4 +36,13 @@ class UserLoggedOut
     {
         return 'user.logged.out';
     }
+    // Make sure data is properly serialized
+    public function broadcastWith()
+    {
+        return [
+            'userId' => $this->userId,
+            'fulfillmentId' => $this->fulfillmentId,
+            'timestamp' => now()->toISOString(),
+        ];
+    }
 }
