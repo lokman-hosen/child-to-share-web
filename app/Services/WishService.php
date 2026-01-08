@@ -374,6 +374,13 @@ class WishService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
+        if (count($request->categoryIds) > 0) {
+            $query->whereIn('wishes.category_id', $request->categoryIds);
+        }else{
+            $query->whereHas('fulfillments.wish', function ($q) {
+                $q->where('user_id', Auth::id());
+            });
+        }
         if ($request->filled('age_range')) {
             $query->where('wishes.age_range', $request->age_range);
         }
