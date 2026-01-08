@@ -330,9 +330,11 @@ class WishService extends BaseService
             $query->where('wishes.category_id', $request->category_id);
         }
         // by login donor created donations category ID
-        if (count($request->categoryIds) > 0) {
+
+
+        if ($request->filled('categoryIds') and count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
-        }else{
+        }elseif (Auth::check()){
             $query->whereHas('fulfillments.wish', function ($q) {
                 $q->where('user_id', Auth::id());
             });
@@ -374,9 +376,9 @@ class WishService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
-        if (count($request->categoryIds) > 0) {
+        if ($request->filled('categoryIds') and count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
-        }else{
+        }elseif (Auth::check()){
             $query->whereHas('fulfillments.wish', function ($q) {
                 $q->where('user_id', Auth::id());
             });
