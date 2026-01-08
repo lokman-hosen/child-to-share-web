@@ -16,7 +16,7 @@ import {checkDonor, checkDonorWisher, checkWisher, getFulfilmentStatus, searchRe
 import TextareaInput from "@/Components/TextareaInput.jsx";
 
 const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, userType, initialMessages = []}) => {
-    const { auth, url } = usePage().props;
+    const { auth } = usePage().props;
     const [messages, setMessages] = useState(initialMessages);
     const [selectedFile, setSelectedFile] = useState(null);
     const [isUploading, setIsUploading] = useState(false);
@@ -25,10 +25,12 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [showActionModal, setShowActionModal] = useState(false);
     const [actionType, setActionType] = useState(null);
-    const previousUrlRef = useRef(url);
+
+
 
     // User data based on user type
     const currentUser = auth.user;
+    //const otherUser = userType === 'wisher' ? donor : wisher;
     const otherUser = currentUser.id == donor.id ? wisher : donor;
     const donationItem = donation;
     const { data, setData, post, processing, reset } = useForm({
@@ -36,7 +38,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         fulfillment_id: fulfillment?.id || null,
         file: null,
     });
-
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -50,260 +51,65 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
     // realtime message
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
-
+        //console.log(window.Echo.connector.pusher.connection.state)
         const privateChannel = `fulfillment.${fulfillment.id}`;
-        console.log(`Joining private channel: ${privateChannel}`);
 
         const channel = window.Echo.private(privateChannel)
             .listen('.MessageSent', (e) => {
+                //console.log('📨 Incoming message:', e.message);
                 setMessages(prev => {
+                    // prevent duplicates
                     if (prev.some(m => m.id == e.message.id)) {
                         return prev;
                     }
                     return [...prev, e.message];
                 });
-            })
-            .error((error) => {
-                console.error('Private channel error:', error);
             });
 
         return () => {
-            console.log(`Leaving private channel: ${privateChannel}`);
-            if (window.Echo.connector && window.Echo.connector.pusher) {
-                const channelObj = window.Echo.connector.pusher.channel(privateChannel);
-                if (channelObj) {
-                    channelObj.unsubscribe();
-                }
-            }
+            window.Echo.leave(privateChannel);
         };
     }, [fulfillment.id]);
 
-    // Track last seen timestamps for users
-    const [lastSeen, setLastSeen] = useState({});
-
-    // online status check - UPDATED WITH SOLUTION 1
+    // online status check
+    // In ConfirmationReceiptPage.jsx - updated presence channel useEffect
     useEffect(() => {
         if (!window.Echo || !fulfillment?.id) return;
 
         const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
-        console.log(`Attempting to join presence channel: ${presenceChannel}`);
-        console.log(`Current user ID: ${currentUser.id}`);
+
+        console.log('Attempting to join presence channel:', presenceChannel);
+        console.log('Current user ID:', currentUser.id);
 
         const channel = window.Echo.join(presenceChannel)
             .here(users => {
-                console.log('Users currently in channel:', users.map(u => ({id: u.id, name: u.name})));
-                const timestamp = Date.now();
-                const presenceMap = {};
-                users.forEach(user => {
-                    presenceMap[user.id] = timestamp;
-                });
-                setLastSeen(presenceMap);
+                console.log('Users currently in channel:', users);
                 setOnlineUsers(users.map(u => u.id));
             })
             .joining(user => {
-                console.log('User joining:', {id: user.id, name: user.name});
-                setLastSeen(prev => ({
-                    ...prev,
-                    [user.id]: Date.now()
-                }));
+                console.log('User joining:', user);
                 setOnlineUsers(prev =>
                     prev.includes(user.id) ? prev : [...prev, user.id]
                 );
             })
             .leaving(user => {
-                console.log('User leaving:', {id: user.id, name: user.name});
-                setLastSeen(prev => {
-                    const newState = { ...prev };
-                    delete newState[user.id];
-                    return newState;
-                });
+                console.log('User leaving:', user);
                 setOnlineUsers(prev => prev.filter(id => id != user.id));
-            })
-            .listenForWhisper('typing', (data) => {
-                // Update last seen on typing activity
-                if (data.userId && data.userId !== currentUser.id) {
-                    setLastSeen(prev => ({
-                        ...prev,
-                        [data.userId]: Date.now()
-                    }));
-                }
-            })
-            .listen('.user.logged.out', (data) => {
-                console.log('User logged out event received:', data);
-                if (data.userId && data.userId !== currentUser.id) {
-                    setLastSeen(prev => {
-                        const newState = { ...prev };
-                        delete newState[data.userId];
-                        return newState;
-                    });
-                    setOnlineUsers(prev => prev.filter(id => id != data.userId));
-                }
             })
             .error((error) => {
                 console.error('Presence channel error:', error);
             });
 
-        // Store channel reference for cleanup
-        const channelRef = window.Echo.connector.pusher.channel(presenceChannel);
-
-        // Setup heartbeat to update last seen
-        let heartbeatInterval;
-        if (channelRef) {
-            heartbeatInterval = setInterval(() => {
-                // Update our own last seen
-                setLastSeen(prev => ({
-                    ...prev,
-                    [currentUser.id]: Date.now()
-                }));
-
-                // Send whisper to update others
-                channelRef.whisper('typing', {
-                    userId: currentUser.id,
-                    timestamp: Date.now()
-                });
-            }, 15000); // Every 15 seconds
-        }
-
         return () => {
-            console.log(`Cleaning up presence channel: ${presenceChannel}`);
-
-            // Clear heartbeat
-            if (heartbeatInterval) {
-                clearInterval(heartbeatInterval);
-            }
-
-            // Send client leaving event before unsubscribe
-            if (channelRef && currentUser?.id) {
-                try {
-                    channelRef.trigger('client-user-leaving', {
-                        userId: currentUser.id,
-                        userName: currentUser.name,
-                        timestamp: Date.now()
-                    });
-                } catch (e) {
-                    console.log('Could not send client leaving event:', e.message);
-                }
-
-                // Small delay to ensure event is sent
-                setTimeout(() => {
-                    if (channelRef && channelRef.subscribed) {
-                        console.log(`Unsubscribing from channel: ${presenceChannel}`);
-                        channelRef.unsubscribe();
-                    }
-                }, 300);
-            }
+            console.log('Leaving presence channel');
+            window.Echo.leave(presenceChannel);
         };
     }, [fulfillment.id, currentUser.id]);
 
-    // Listen for custom client leaving events
-    useEffect(() => {
-        if (!window.Echo || !fulfillment?.id) return;
 
-        const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
-        const channelRef = window.Echo.connector.pusher.channel(presenceChannel);
-
-        if (channelRef) {
-            const handleClientLeaving = (data) => {
-                if (data.userId && data.userId !== currentUser.id) {
-                    console.log('Client leaving event received:', data);
-                    setLastSeen(prev => {
-                        const newState = { ...prev };
-                        delete newState[data.userId];
-                        return newState;
-                    });
-                    setOnlineUsers(prev => prev.filter(id => id != data.userId));
-                }
-            };
-
-            channelRef.bind('client-user-leaving', handleClientLeaving);
-
-            return () => {
-                if (channelRef) {
-                    channelRef.unbind('client-user-leaving', handleClientLeaving);
-                }
-            };
-        }
-    }, [fulfillment.id, currentUser.id]);
-
-    // Periodically check for stale users (users not seen in 45 seconds)
-    useEffect(() => {
-        const staleCheckInterval = setInterval(() => {
-            const now = Date.now();
-            const staleThreshold = 45000; // 45 seconds
-
-            setLastSeen(prev => {
-                const staleUsers = [];
-                const newState = { ...prev };
-
-                Object.entries(prev).forEach(([userId, lastSeenTime]) => {
-                    if (now - lastSeenTime > staleThreshold && parseInt(userId) !== currentUser.id) {
-                        staleUsers.push(parseInt(userId));
-                        delete newState[userId];
-                    }
-                });
-
-                if (staleUsers.length > 0) {
-                    console.log('Removing stale users:', staleUsers);
-                    setOnlineUsers(prevOnline =>
-                        prevOnline.filter(id => !staleUsers.includes(id))
-                    );
-                }
-
-                return newState;
-            });
-        }, 30000); // Check every 30 seconds
-
-        return () => {
-            clearInterval(staleCheckInterval);
-        };
-    }, [currentUser.id]);
-
-    // Listen for Inertia navigation events to handle page navigation
-    useEffect(() => {
-        const handleBeforeNavigate = (event) => {
-            console.log('Navigating away from page');
-
-            // Force leave channels before navigation
-            if (window.Echo && fulfillment?.id && currentUser?.id) {
-                const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
-                const channelRef = window.Echo.connector.pusher.channel(presenceChannel);
-
-                if (channelRef) {
-                    try {
-                        channelRef.trigger('client-user-leaving', {
-                            userId: currentUser.id,
-                            userName: currentUser.name,
-                            timestamp: Date.now()
-                        });
-                    } catch (e) {
-                        console.log('Error sending leaving event:', e.message);
-                    }
-                }
-            }
-        };
-
-        window.addEventListener('inertia:before', handleBeforeNavigate);
-
-        return () => {
-            window.removeEventListener('inertia:before', handleBeforeNavigate);
-        };
-    }, [fulfillment?.id, currentUser.id]);
-
-    // Enhanced online status check with last seen
+    //const isUserOnline = (userId) => onlineUsers.includes(userId);
     const isUserOnline = (userId) => {
-        const isInOnlineList = onlineUsers.includes(userId);
-
-        if (isInOnlineList) {
-            // Check if user was seen recently (within 60 seconds)
-            const lastSeenTime = lastSeen[userId];
-            if (lastSeenTime && (Date.now() - lastSeenTime < 60000)) {
-                return true;
-            } else if (!lastSeenTime) {
-                // If in online list but no last seen, still consider online
-                return true;
-            }
-        }
-        return false;
+        return onlineUsers.includes(userId);
     };
 
     const handleSendMessage = async (e) => {
@@ -319,7 +125,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
     const handleFileSelect = (e) => {
         const file = e.target.files[0];
-        if (file && file.size <= 10 * 1024 * 1024) {
+        if (file && file.size <= 10 * 1024 * 1024) { // 10MB limit
             setSelectedFile(file);
         } else {
             alert('File size must be less than 10MB');
@@ -346,24 +152,6 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         media: [],
         id: fulfillment.id,
     });
-
-    // Add a manual refresh button for testing
-    const refreshOnlineStatus = () => {
-        if (window.Echo && fulfillment?.id) {
-            const presenceChannel = `presence-fulfillment.${fulfillment.id}`;
-
-            // Leave and rejoin to refresh
-            window.Echo.leave(presenceChannel);
-
-            setTimeout(() => {
-                window.Echo.join(presenceChannel)
-                    .here(users => {
-                        console.log('Refreshed - Users in channel:', users);
-                        setOnlineUsers(users.map(u => u.id));
-                    });
-            }, 1000);
-        }
-    };
 
     return (
         <AuthenticatedLayout>
@@ -810,7 +598,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {/* Wish/Donation Information */}
                             <div className="bg-white rounded-lg shadow-md p-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
-                                    {userType == 'wisher' ? (
+                                {userType == 'wisher' ? (
                                         <FontAwesomeIcon
                                             icon={faStar}
                                             className="w-4 h-4 mr-2 text-gray-400"
@@ -977,212 +765,224 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             </div>
                         </div>
 
-                        {/*Right Column - Chat*/}
-                        <div className="lg:col-span-1 space-y-8">
-                            <div className="bg-white rounded-lg shadow-md h-full flex flex-col">
-                                {/* Chat Header */}
-                                <div className="px-6 py-4 border-b">
-                                    <div className="flex items-center justify-between">
-                                        <h3 className="text-lg font-semibold text-gray-900 flex items-center">
-                                            <FontAwesomeIcon
-                                                icon={faMessage}
-                                                className="w-4 h-4 mr-2 text-gray-400"
-                                            />
-                                            Direct Chat
-                                        </h3>
-                                        <div className="flex items-center space-x-2">
-                                            <p className="text-sm text-gray-600 flex items-center">
-                                                    <span
-                                                        className={`w-3 h-3 rounded-full mr-2 ${
-                                                            isUserOnline(otherUser.id) ? 'bg-green-500' : 'bg-gray-400'
-                                                        }`}
-                                                    />
+                         {/*Right Column - Chat*/}
+                            <div className="lg:col-span-1 space-y-8">
+                                <div className="bg-white rounded-lg shadow-md h-full flex flex-col">
+                                    {/* Chat Header */}
+                                    <div className="px-6 py-4 border-b">
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                                                <FontAwesomeIcon
+                                                    icon={faMessage}
+                                                    className="w-4 h-4 mr-2 text-gray-400"
+                                                />
+                                                Direct Chat
+                                            </h3>
+                                            <p className="text-sm text-gray-600 mt-1 flex items-center">
+                                                <span
+                                                    className={`w-3 h-3 rounded-full mr-2 ${
+                                                        isUserOnline(otherUser.id) ? 'bg-green-500' : 'bg-gray-400'
+                                                    }`}
+                                                />
                                                 {isUserOnline(otherUser.id) ? 'Online' : 'Offline'}
                                             </p>
-                                            <button
-                                                onClick={refreshOnlineStatus}
-                                                className="text-xs px-2 py-1 bg-gray-100 hover:bg-gray-200 rounded"
-                                                title="Refresh online status"
-                                            >
-                                                Refresh
-                                            </button>
-                                        </div>
-                                        <div className="text-sm text-gray-500">
-                                            {userType == 'admin' && (
-                                                <span className="flex items-center">
+                                            <div className="text-sm text-gray-500">
+                                                {userType == 'admin' && (
+                                                    <span className="flex items-center">
                                               <Shield className="w-4 h-4 mr-1"/>
                                               Admin View
                                             </span>
-                                            )}
+                                                )}
+                                            </div>
                                         </div>
+                                        <p className="text-sm text-gray-600 mt-1">
+                                            Chat between
+                                            <span className="text-blue-700 font-bold mx-1">{wisher.name}</span> and
+                                            <span className="text-purple-700 font-bold mx-1">{donor.name}</span>
+                                        </p>
                                     </div>
-                                    <p className="text-sm text-gray-600 mt-1">
-                                        Chat between
-                                        <span className="text-blue-700 font-bold mx-1">{wisher.name}</span> and
-                                        <span className="text-purple-700 font-bold mx-1">{donor.name}</span>
-                                    </p>
-                                    <div className="text-xs text-gray-400 mt-1">
-                                        Online users: {onlineUsers.length} | Last seen tracking active
-                                    </div>
-                                </div>
 
-                                {/* Chat Messages */}
-                                <div
-                                    ref={chatContainerRef}
-                                    className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px]"
-                                >
-                                    {messages.length == 0 ? (
-                                        <div className="text-center py-8 text-gray-500">
-                                            <FontAwesomeIcon
-                                                icon={faUser}
-                                                className="w-4 h-4 mr-2 text-gray-400"
-                                            />
-                                            <p>No messages yet</p>
-                                            <p className="text-sm mt-1">Start the conversation!</p>
-                                        </div>
-                                    ) : (
-                                        messages.map((message, index) => (
-                                            <div
-                                                key={index}
-                                                className={`flex ${message.sender_id == currentUser.id ? 'justify-end' : 'justify-start'}`}
-                                            >
+                                    {/* Chat Messages */}
+                                    <div
+                                        ref={chatContainerRef}
+                                        className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px]"
+                                    >
+                                        {messages.length == 0 ? (
+                                            <div className="text-center py-8 text-gray-500">
+                                                <FontAwesomeIcon
+                                                    icon={faUser}
+                                                    className="w-4 h-4 mr-2 text-gray-400"
+                                                />
+                                                <p>No messages yet</p>
+                                                <p className="text-sm mt-1">Start the conversation!</p>
+                                            </div>
+                                        ) : (
+                                            messages.map((message, index) => (
                                                 <div
-                                                    className={`max-w-[70%] rounded-lg px-4 py-2 ${message.sender_id == currentUser.id
-                                                        ? 'bg-blue-100 text-blue-900 rounded-br-none'
-                                                        : 'bg-gray-100 text-gray-900 rounded-bl-none'
-                                                    }`}
+                                                    key={index}
+                                                    className={`flex ${message.sender_id == currentUser.id ? 'justify-end' : 'justify-start'}`}
                                                 >
-                                                    <div className="flex items-center justify-between mb-1">
+                                                    <div
+                                                        className={`max-w-[70%] rounded-lg px-4 py-2 ${message.sender_id == currentUser.id
+                                                            ? 'bg-blue-100 text-blue-900 rounded-br-none'
+                                                            : 'bg-gray-100 text-gray-900 rounded-bl-none'
+                                                        }`}
+                                                    >
+                                                        <div className="flex items-center justify-between mb-1">
                                                     <span className="font-medium text-sm mr-2">
                                                       {message.sender_id == currentUser.id ? 'You' : message.sender.name}
                                                     </span>
-                                                        <span className="text-xs text-gray-500">
+                                                            <span className="text-xs text-gray-500">
                                                       {new Date(message.created_at).toLocaleTimeString([], {
                                                           hour: '2-digit',
                                                           minute: '2-digit'
                                                       })}
                                                     </span>
-                                                    </div>
+                                                        </div>
 
-                                                    {message.message && (
-                                                        <p className="text-sm mb-2">{message.message}</p>
-                                                    )}
+                                                        {message.message && (
+                                                            <p className="text-sm mb-2">{message.message}</p>
+                                                        )}
 
-                                                    {message.file && (
-                                                        <div
-                                                            className={`flex items-center p-2 rounded ${message.message.sender_id == currentUser.id
-                                                                ? 'bg-blue-50'
-                                                                : 'bg-gray-50'
-                                                            }`}>
-                                                            <FontAwesomeIcon
-                                                                icon={faUser}
-                                                                className="w-4 h-4 mr-2 text-gray-400"
-                                                            />
-                                                            <span className="text-sm truncate flex-1">
-                                                            {/*{message.file.name || message.file}*/}
-                                                          </span>
-                                                            <button
-                                                                className="ml-2 text-blue-600 hover:text-blue-800">
+                                                        {message.file && (
+                                                            <div
+                                                                className={`flex items-center p-2 rounded ${message.message.sender_id == currentUser.id
+                                                                    ? 'bg-blue-50'
+                                                                    : 'bg-gray-50'
+                                                                }`}>
                                                                 <FontAwesomeIcon
                                                                     icon={faUser}
                                                                     className="w-4 h-4 mr-2 text-gray-400"
                                                                 />
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))
-                                    )}
-                                </div>
-
-                                {/* Chat Input */}
-                                {userType != 'admin' && (
-                                    <div className="border-t p-4">
-                                        {/* Selected File Preview */}
-                                        {selectedFile && (
-                                            <div
-                                                className="mb-3 p-3 bg-blue-50 rounded-lg flex items-center justify-between">
-                                                <div className="flex items-center">
-                                                    <FontAwesomeIcon
-                                                        icon={faUser}
-                                                        className="w-4 h-4 mr-2 text-gray-400"
-                                                    />
-                                                    <span className="text-sm truncate flex-1">
-                                                    {selectedFile.name}
-                                                  </span>
-                                                </div>
-                                                <button
-                                                    onClick={removeSelectedFile}
-                                                    className="ml-2 text-gray-500 hover:text-gray-700"
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faUser}
-                                                        className="w-4 h-4 mr-2 text-gray-400"
-                                                    />
-                                                </button>
-                                            </div>
-                                        )}
-                                        { fulfillment.status != 'completed' ? (
-                                            <form onSubmit={handleSendMessage} className="space-y-3">
-                                                <div className="grid grid-cols-1 gap-6">
-                                                    <TextareaInput
-                                                        id="message"
-                                                        label="Message"
-                                                        value={data.message}
-                                                        onChange={e => setData('message', e.target.value)}
-                                                        placeholder="Type your message..."
-                                                        required
-                                                    />
-                                                </div>
-
-                                                <div className="flex items-end justify-end">
-                                                    <button
-                                                        type="submit"
-                                                        className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
-                                                    >
-                                                        {isUploading ? (
-                                                            <>
-                                                                <div
-                                                                    className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                                                                Sending...
-                                                            </>
-                                                        ) : (
-                                                            <div className="flex items-center space-x-2">
-                                                                <FontAwesomeIcon icon={faPaperPlane}/>
-                                                                <span>Send</span>
+                                                                <span className="text-sm truncate flex-1">
+                                                            {/*{message.file.name || message.file}*/}
+                                                          </span>
+                                                                <button
+                                                                    className="ml-2 text-blue-600 hover:text-blue-800">
+                                                                    <FontAwesomeIcon
+                                                                        icon={faUser}
+                                                                        className="w-4 h-4 mr-2 text-gray-400"
+                                                                    />
+                                                                </button>
                                                             </div>
                                                         )}
-                                                    </button>
+                                                    </div>
                                                 </div>
-                                            </form>
-                                        ) : (
-                                            <div className="text-center">
-                                                <p className="text-red-500">Chatting closed. Because fulfilment process completed</p>
-                                            </div>
+                                            ))
                                         )}
                                     </div>
-                                )}
 
-                                {/* Admin Chat Note */}
-                                {userType == 'admin' && (
-                                    <div className="p-6 text-center text-gray-500 border-t">
-                                        <FontAwesomeIcon
-                                            icon={faUser}
-                                            className="w-4 h-4 mr-2 text-gray-400"
-                                        />
-                                        <p className="text-sm">
-                                            As an admin, you can monitor the conversation.
-                                            <br/>
-                                            You cannot participate in this chat.
-                                        </p>
-                                    </div>
-                                )}
+                                    {/* Chat Input */}
+                                    {userType != 'admin' && (
+                                        <div className="border-t p-4">
+                                            {/* Selected File Preview */}
+                                            {selectedFile && (
+                                                <div
+                                                    className="mb-3 p-3 bg-blue-50 rounded-lg flex items-center justify-between">
+                                                    <div className="flex items-center">
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="w-4 h-4 mr-2 text-gray-400"
+                                                        />
+                                                        <span className="text-sm truncate flex-1">
+                                                    {selectedFile.name}
+                                                  </span>
+                                                    </div>
+                                                    <button
+                                                        onClick={removeSelectedFile}
+                                                        className="ml-2 text-gray-500 hover:text-gray-700"
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faUser}
+                                                            className="w-4 h-4 mr-2 text-gray-400"
+                                                        />
+                                                    </button>
+                                                </div>
+                                            )}
+                                            { fulfillment.status != 'completed' ? (
+                                                <form onSubmit={handleSendMessage} className="space-y-3">
+                                                    <div className="grid grid-cols-1 gap-6">
+                                                        <TextareaInput
+                                                            id="message"
+                                                            label="Message"
+                                                            value={data.message}
+                                                            onChange={e => setData('message', e.target.value)}
+                                                            placeholder="Type your message..."
+                                                            required
+                                                        />
+                                                    </div>
+
+                                                    <div className="flex items-end justify-end">
+                                                        {/*<div className="flex items-center space-x-3">*/}
+                                                        {/*    <input*/}
+                                                        {/*        type="file"*/}
+                                                        {/*        onChange={e => setData('file', e.target.files[0])}*/}
+                                                        {/*        className="hidden"*/}
+                                                        {/*        id="file-upload"*/}
+                                                        {/*    />*/}
+                                                        {/*    <label*/}
+                                                        {/*        htmlFor="file-upload"*/}
+                                                        {/*        className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer"*/}
+                                                        {/*    >*/}
+                                                        {/*        <FontAwesomeIcon*/}
+                                                        {/*            icon={faUser}*/}
+                                                        {/*            className="w-4 h-4 mr-2 text-gray-400"*/}
+                                                        {/*        />*/}
+                                                        {/*        Attach*/}
+                                                        {/*    </label>*/}
+
+                                                        {/*    <div className="text-xs text-gray-500">*/}
+                                                        {/*        Max 10MB*/}
+                                                        {/*    </div>*/}
+                                                        {/*</div>*/}
+
+                                                        <button
+                                                            type="submit"
+                                                            // disabled={(!newMessage.trim() && !selectedFile) || isUploading}
+                                                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                                                        >
+                                                            {isUploading ? (
+                                                                <>
+                                                                    <div
+                                                                        className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                                                                    Sending...
+                                                                </>
+                                                            ) : (
+                                                                <div className="flex items-center space-x-2">
+                                                                    <FontAwesomeIcon icon={faPaperPlane}/>
+                                                                    <span>Send</span>
+                                                                </div>
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            ) : (
+                                                <div className="text-center">
+                                                    <p className="text-red-500">Chatting closed. Because fulfilment process completed</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                        )}
+
+                                    {/* Admin Chat Note */}
+                                    {userType == 'admin' && (
+                                        <div className="p-6 text-center text-gray-500 border-t">
+                                            <FontAwesomeIcon
+                                                icon={faUser}
+                                                className="w-4 h-4 mr-2 text-gray-400"
+                                            />
+                                            <p className="text-sm">
+                                                As an admin, you can monitor the conversation.
+                                                <br/>
+                                                You cannot participate in this chat.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
             {showActionModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
