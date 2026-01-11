@@ -24,7 +24,6 @@ class FulfilmentController extends Controller
     public function index(Request $request): Response
     {
         $fulfillList = $this->fulfillmentService->getListByStatus($request, 'completed');
-
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'fulfillList' => $fulfillList,

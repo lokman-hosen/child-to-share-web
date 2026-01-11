@@ -13,7 +13,7 @@ class FulfillmentService extends BaseService
 
     public function getListByStatus($request, string $status): LengthAwarePaginator
     {
-        $query = $this->fulfillment->with(['wish', 'wish.user', 'donation', 'donation.featuredImage', 'donation.user']);
+        $query = $this->fulfillment->with(['wish', 'wish.user', 'donation', 'donation.featuredImage', 'donation.user', 'donation.category']);
         if (isset($status)) {
             $query->where('status', $status);
         }

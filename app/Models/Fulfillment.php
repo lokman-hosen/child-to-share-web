@@ -18,6 +18,12 @@ class Fulfillment extends Model
 
     protected $guarded = ['id'];
 
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('F jS, Y'),
+        );
+    }
     protected function scheduledAt(): Attribute
     {
         return Attribute::make(
