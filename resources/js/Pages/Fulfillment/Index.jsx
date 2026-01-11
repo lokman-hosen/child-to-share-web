@@ -86,7 +86,7 @@ const Index = ({fulfillList, module}) => {
                                                     />
                                                 )}
                                                 <div
-                                                    className="absolute -bottom-3 -right-3 bg-purple-500 text-white rounded-full px-2 py-1 shadow-lg">
+                                                    className="absolute -bottom-3 -right-2 bg-purple-500 text-white rounded-full px-2 py-1 shadow-lg">
                                                     <FontAwesomeIcon icon={faStar} className="text-sm"/>
                                                 </div>
                                                 <div
