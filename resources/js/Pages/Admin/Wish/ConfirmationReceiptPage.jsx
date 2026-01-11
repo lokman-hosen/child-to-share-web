@@ -14,6 +14,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
 import {checkDonor, checkDonorWisher, checkWisher, getFulfilmentStatus, searchReplace, textLimit} from "@/utils.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
+import FulfillmentProgressInline from "@/Components/Common/FulfillmentProgressInline.jsx";
 
 const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, userType, initialMessages = []}) => {
     const { auth } = usePage().props;
@@ -161,6 +162,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Left Column - User Information */}
                         <div className="lg:col-span-2 space-y-8">
+                            <FulfillmentProgressInline currentStatus={fulfillment.status}/>
                             {/* Admin View (Both Users) */}
                             {(userType == 'admin' || userType == 'super-admin') && (
                                 <div className="grid grid-cols-1">
