@@ -427,23 +427,47 @@ class WishService extends BaseService
 
     public function wishFulfilRequestByDonor($request)
     {
-        // save fulfilment
-        $fulfilment = $this->fulfillment->create([
-            'donation_id' => $request->donation_id,
-            'wish_id' => $request->wish_id,
-            'need_admin_assistance' => $request->need_admin_assistance ?? false,
-            'method' => $request->method ?? 'self-delivery',
-            'note' => $request->note,
-            'scheduled_at' => $request->scheduled_at,
-            'status' => 'requested',
-        ]);
+        $fulfilment = $oldFulfilment = $this->fulfillment
+            ->where('donation_id',$request->donation_id)
+            ->where('wish_id', $request->wish_id)
+            ->first();
+        if ($oldFulfilment){
+            $oldFulfilment->update([
+                'donation_id' => $request->donation_id,
+                'wish_id' => $request->wish_id,
+                'need_admin_assistance' => $request->need_admin_assistance ?? false,
+                'method' => $request->method ?? 'self-delivery',
+                'note' => $request->note,
+                'scheduled_at' => $request->scheduled_at,
+                'status' => 'requested',
+            ]);
+        }else{
+            // save fulfilment
+            $fulfilment = $this->fulfillment->create([
+                'donation_id' => $request->donation_id,
+                'wish_id' => $request->wish_id,
+                'need_admin_assistance' => $request->need_admin_assistance ?? false,
+                'method' => $request->method ?? 'self-delivery',
+                'note' => $request->note,
+                'scheduled_at' => $request->scheduled_at,
+                'status' => 'requested',
+            ]);
+        }
 
         // create an admin task if the donor asks for help
         if ($request->need_admin_assistance) {
-            $fulfilment->task()->create([
-                'activity_log' => json_encode(['Fulfillment requested by donor']),
-                'status' => 'new',
-            ]);
+            if ($fulfilment->task){
+                $fulfilment->task()->update([
+                    'activity_log' => json_encode(['Fulfillment requested by donor']),
+                    'status' => 'new',
+                ]);
+            }else{
+                $fulfilment->task()->create([
+                    'activity_log' => json_encode(['Fulfillment requested by donor']),
+                    'status' => 'new',
+                ]);
+            }
+
         }
 
         $wisher = $this->wish->find($request->wish_id)->user;
