@@ -372,7 +372,18 @@ export default function List({module, wishes}) {
                                                             <td className="p-6 border-b border-gray-100">
                                                                 <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
-                                                                        { !wish.latest_fulfillment ? (
+                                                                        { wish.status == 'Fulfilled' ? (
+                                                                                <Link
+                                                                                    href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
+                                                                                >
+                                                                                <span
+                                                                                    className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                    title="Fulfillment Detail"
+                                                                                >
+                                                                                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
+                                                                                </span>
+                                                                                </Link>
+                                                                            ) : !wish.latest_fulfillment ? (
                                                                             <Link
                                                                                 href={route('wish.fulfill.detail', wish.id)}
                                                                                 className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"

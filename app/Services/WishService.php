@@ -367,7 +367,7 @@ class WishService extends BaseService
 
     private function getWishesWithoutDistance($request, $status): LengthAwarePaginator
     {
-        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
+        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment']);
 
         if (isset($status)) {
             $query->where('status', $status);
@@ -402,8 +402,8 @@ class WishService extends BaseService
     {
         $earthRadius = 6371;
 
-        $wish = Wish::query()
-            ->with(['user', 'category', 'files', 'featuredImage'])
+        return Wish::query()
+            ->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment'])
             ->join('users', 'wishes.user_id', '=', 'users.id')
             ->select('wishes.*')
             ->selectRaw(
@@ -416,8 +416,6 @@ class WishService extends BaseService
             ->whereNotNull('users.latitude')
             ->whereNotNull('users.longitude')
             ->firstOrFail();
-
-        return $wish;
     }
 
     public function getRandomWisherImage()

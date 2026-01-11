@@ -110,13 +110,7 @@ const FulfillmentProgressInline = ({ currentStatus }) => {
             color: '#6b7280'
         },
         {
-            status: 'accepted_by_wisher',
-            label: 'Accepted',
-            icon: faCheckCircle,
-            color: '#3b82f6'
-        },
-        {
-            status: 'accepted_by_donor',
+            status: 'accepted_by_wisher' || 'accepted_by_donor',
             label: 'Accepted',
             icon: faCheckCircle,
             color: '#3b82f6'
@@ -145,7 +139,7 @@ const FulfillmentProgressInline = ({ currentStatus }) => {
     const getStatusBadgeColor = () => {
         switch(currentStatus) {
             case 'requested': return { bg: '#f3f4f6', text: '#6b7280', border: '#d1d5db' };
-            case 'accepted_by_wisher': return { bg: '#dbeafe', text: '#1d4ed8', border: '#93c5fd' };
+            case 'accepted_by_wisher' || 'accepted_by_donor': return { bg: '#dbeafe', text: '#1d4ed8', border: '#93c5fd' };
             case 'delivered': return { bg: '#fef3c7', text: '#d97706', border: '#fcd34d' };
             case 'completed': return { bg: '#d1fae5', text: '#047857', border: '#6ee7b7' };
             case 'cancelled': return { bg: '#fee2e2', text: '#b91c1c', border: '#fca5a5' };
