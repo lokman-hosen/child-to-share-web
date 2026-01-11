@@ -201,9 +201,15 @@ class WishController extends Controller
     {
        $wishFulfill = $this->wishService->wishFulfilRequestByDonor($request);
         if ($wishFulfill){
-            return redirect()->back()->with('success', 'Wish fulfilment request send to wisher successfully!');
+            $request->session()->flash('success', 'Wish fulfilment request send to wisher successfully!');
+        }else{
+            $request->session()->flash('error', 'Something went wrong! Try again later');
         }
-        return redirect()->back()->with('error', 'Something went wrong! Try again later');
+        if ($wishFulfill->id){
+            return to_route('wish.fulfill.status.change', ['fulfilment_id' => $wishFulfill->id]);
+        }else{
+            return to_route('wish.fulfill.list');
+        }
     }
 
     //route name of this function: wish.fulfill.status.change
