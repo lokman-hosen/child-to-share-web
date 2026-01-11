@@ -94,7 +94,7 @@ export default function Navbar() {
                             <Link
                                 href={route('fulfillment.index')}
                                 className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('fulfillment.index') || route().current('wish.show')) ? 'nav-item active' : ''}`}>
-                                Fulfilled Wishes(demo)
+                                Fulfilled Wishes
                             </Link>
 
                         </div>
@@ -302,7 +302,7 @@ export default function Navbar() {
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('fulfillment.index')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
-                        Fulfilled Wishes(demo)
+                        Fulfilled Wishes
                     </Link>
 
                 </div>
