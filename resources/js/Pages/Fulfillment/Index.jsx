@@ -50,13 +50,13 @@ const Index = ({fulfillList, module}) => {
                                                     <img
                                                         src={`/storage/${wishFulfilment.donation.user.image}`}
                                                         alt={wishFulfilment.donation.user.name}
-                                                        className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
+                                                        className="w-40 h-40 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
                                                     />
                                                 ) : (
                                                     <img
                                                         src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
                                                         alt={wishFulfilment.donation.user.name}
-                                                        className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
+                                                        className="w-40 h-40 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
                                                     />
                                                 )}
                                                 <div
@@ -76,13 +76,13 @@ const Index = ({fulfillList, module}) => {
                                                     <img
                                                         src={`/storage/${wishFulfilment.wish.user.image}`}
                                                         alt={wishFulfilment.wish.user.name}
-                                                        className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
+                                                        className="w-40 h-40 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
                                                     />
                                                 ) : (
                                                     <img
                                                         src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
                                                         alt={wishFulfilment.wish.user.name}
-                                                        className="w-32 h-32 md:w-40 md:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
+                                                        className="w-40 h-40 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-40 lg:h-40 rounded-xl object-cover border-4 border-white shadow-xl"
                                                     />
                                                 )}
                                                 <div
