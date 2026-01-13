@@ -58,7 +58,7 @@ class User extends Authenticatable
     {
         return Attribute::get(function () {
             if ($this->organization){
-                if ($this->id === $this->organization->user_id){
+                if ($this->id == $this->organization->user_id){
                     return 'organization';
                 }else{
                     return 'user';
