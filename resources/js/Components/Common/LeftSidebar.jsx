@@ -13,6 +13,7 @@ import React from "react";
 
 export default function LeftSidebar({ onClose }) {
     const user = usePage().props.auth.user;
+    console.log(user)
 
     return (
         <div className="w-full bg-white h-full overflow-y-auto fixed md:fixed inset-y-0 left-0 z-40">
