@@ -66,7 +66,7 @@ export default function LeftSidebar({ onClose }) {
                 </div>
 
                 {/*Donor & wisher section start*/}
-                {user.role === 'donor-wisher' && (
+                {user.role == 'donor-wisher' && (
                     <ul className="mt-4">
                         <li className="mb-1">
                             <Link
@@ -79,7 +79,7 @@ export default function LeftSidebar({ onClose }) {
                             </Link>
                         </li>
                         <hr/>
-                        {user.userType === 'organization' && (
+                        {user.userType == 'organization' && (
                             <li className="mb-1">
                                 <Link
                                     href={route('users.index')}
@@ -210,7 +210,7 @@ export default function LeftSidebar({ onClose }) {
 
 
                 {/*Donor section start*/}
-                {user.role === 'donor' && (
+                {user.role == 'donor' && (
                     <ul className="mt-4">
                         <li className="mb-1">
                             <Link
@@ -294,7 +294,7 @@ export default function LeftSidebar({ onClose }) {
                 {/*Donor section end*/}
 
                 {/*Wisher section start*/}
-                {user.role === 'wisher' && (
+                {user.role == 'wisher' && (
                     <ul className="mt-4">
                         <li className="mb-1">
                             <Link
@@ -365,7 +365,7 @@ export default function LeftSidebar({ onClose }) {
                 {/*Wisher section end*/}
 
                 {/*Admin section start*/}
-                {(user.role === 'super-admin' || user.role === 'admin') && (
+                {(user.role == 'super-admin' || user.role == 'admin') && (
                     <ul className="mt-4">
                         <li className="mb-1">
                             <Link
