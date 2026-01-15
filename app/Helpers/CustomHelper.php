@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -134,6 +135,11 @@ function distanceRanges(): array
 function stringLimit(string $string, int $limit): string
 {
     return Str::of($string)->limit($limit, preserveWords: true);
+}
+
+function getCurrentRouteName(): ?string
+{
+    return Route::currentRouteName();
 }
 
 

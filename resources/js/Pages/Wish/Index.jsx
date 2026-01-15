@@ -72,14 +72,17 @@ const Index = ({wishes,categories, filters, ageRanges, distanceRanges, module}) 
                                 onChange={(e) => setAgeRange(e.target.value)}
                                 options={ageRangeOptions}
                             />
-                            <SelectInput
-                                className="w-full sm:w-auto md:w-[250px]"
-                                id="distance_range"
-                                label="Distance from you"
-                                value={distanceRange}
-                                onChange={(e) => setDistanceRange(e.target.value)}
-                                options={distanceRangeOptions}
-                            />
+                            {user &&
+                                <SelectInput
+                                    className="w-full sm:w-auto md:w-[250px]"
+                                    id="distance_range"
+                                    label="Distance from you"
+                                    value={distanceRange}
+                                    onChange={(e) => setDistanceRange(e.target.value)}
+                                    options={distanceRangeOptions}
+                                />
+                            }
+
                         </div>
                     </div>
 

@@ -309,7 +309,6 @@ class WishService extends BaseService
 
     private function getWishesWithDistance($request, $status, $user): LengthAwarePaginator
     {
-        $currentRoute =  Route::currentRouteName();
         $earthRadius = 6371;
 
         $query = $this->wish->query()
@@ -336,7 +335,7 @@ class WishService extends BaseService
 
         if ($request->filled('categoryIds') and count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
-        }elseif (Auth::check() and $currentRoute != 'wish.index'){
+        }elseif (Auth::check() and getCurrentRouteName() != 'wish.index'){
             $query->whereHas('fulfillments.wish', function ($q) {
                 $q->where('user_id', Auth::id());
             });
@@ -349,7 +348,6 @@ class WishService extends BaseService
         if ($request->filled('distance_range')) {
             // $request->distance_range should be in format "1-10" or "5-50"
             $distanceArray = explode("-", $request->distance_range);
-
             if (count($distanceArray) === 2) {
                 $minDistance = (float) trim($distanceArray[0]);
                 $maxDistance = (float) trim($distanceArray[1]);
@@ -369,7 +367,7 @@ class WishService extends BaseService
 
     private function getWishesWithoutDistance($request, $status): LengthAwarePaginator
     {
-        $currentRoute =  Route::currentRouteName();
+
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment']);
 
         if (isset($status)) {
@@ -381,7 +379,7 @@ class WishService extends BaseService
         }
         if ($request->filled('categoryIds') and count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
-        }elseif (Auth::check() and $currentRoute != 'wish.index'){
+        }elseif (Auth::check() and getCurrentRouteName() != 'wish.index'){
             $query->whereHas('fulfillments.wish', function ($q) {
                 $q->where('user_id', Auth::id());
             });
