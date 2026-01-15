@@ -10,15 +10,17 @@ import SelectInput from "@/Components/SelectInput.jsx";
 import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
 import SingleWishItemMobile from "@/Components/Common/SingleWishItemMobile.jsx";
 
-const Index = ({wishes,categories, filters, ageRanges, distanceRanges, module}) => {
+const Index = ({wishes,categories, filters, ageRanges, distanceRanges, organizations, module}) => {
     const user = usePage().props.auth.user;
     const wishListData = wishes?.data || [];
     const wishesLinks = wishes?.links || [];
     const safeFilters = filters || [];
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
+    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [ageRange, setAgeRange] = useState((safeFilters?.age_range) || '');
     const [distanceRange, setDistanceRange] = useState((safeFilters?.distance_range) || '');
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
+    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
 
     // Use a ref to prevent useEffect from running on initial render for filters/sort
     const initialRender = useRef(true);
@@ -31,6 +33,7 @@ const Index = ({wishes,categories, filters, ageRanges, distanceRanges, module}) 
 
         const query = {
             category_id: categoryId,
+            organization_id: organizationId,
             age_range: ageRange,
             distance_range: distanceRange,
         };
@@ -39,7 +42,7 @@ const Index = ({wishes,categories, filters, ageRanges, distanceRanges, module}) 
             preserveState: true,
             replace: true,
         });
-    }, [categoryId,ageRange,distanceRange]);
+    }, [categoryId,ageRange,distanceRange, organizationId]);
 
     const ageRangeOptions = getStatusOptions(ageRanges);
     const distanceRangeOptions = getStatusOptions(distanceRanges);
@@ -50,42 +53,48 @@ const Index = ({wishes,categories, filters, ageRanges, distanceRanges, module}) 
             <Hero/>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="filter-section">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                        {/* Left Title */}
+                    {/* Title Row - Always on its own row */}
+                    <div className="mb-4">
                         <h2 className="text-xl font-semibold text-gray-900">Filter Wishes</h2>
-
-                        {/* Right Filters */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <SelectInput
-                                className="w-full sm:w-auto md:w-[250px]"
-                                id="category_id"
-                                label="Category"
-                                value={categoryId}
-                                onChange={(e) => setCategoryId(e.target.value)}
-                                options={categoryOptions}
-                            />
-                            <SelectInput
-                                className="w-full sm:w-auto md:w-[250px]"
-                                id="age_range"
-                                label="Age Range(Child)"
-                                value={ageRange}
-                                onChange={(e) => setAgeRange(e.target.value)}
-                                options={ageRangeOptions}
-                            />
-                            {user &&
-                                <SelectInput
-                                    className="w-full sm:w-auto md:w-[250px]"
-                                    id="distance_range"
-                                    label="Distance from you"
-                                    value={distanceRange}
-                                    onChange={(e) => setDistanceRange(e.target.value)}
-                                    options={distanceRangeOptions}
-                                />
-                            }
-
-                        </div>
                     </div>
 
+                    {/* Filters Row - Responsive grid layout */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        <SelectInput
+                            className="w-full"
+                            id="organization_id"
+                            label="Organization"
+                            value={organizationId}
+                            onChange={(e) => setOrganizationId(e.target.value)}
+                            options={organizationOptions}
+                        />
+                        <SelectInput
+                            className="w-full"
+                            id="category_id"
+                            label="Category"
+                            value={categoryId}
+                            onChange={(e) => setCategoryId(e.target.value)}
+                            options={categoryOptions}
+                        />
+                        <SelectInput
+                            className="w-full"
+                            id="age_range"
+                            label="Age Range (Child)"
+                            value={ageRange}
+                            onChange={(e) => setAgeRange(e.target.value)}
+                            options={ageRangeOptions}
+                        />
+                        {user && (
+                            <SelectInput
+                                className="w-full"
+                                id="distance_range"
+                                label="Distance from you"
+                                value={distanceRange}
+                                onChange={(e) => setDistanceRange(e.target.value)}
+                                options={distanceRangeOptions}
+                            />
+                        )}
+                    </div>
                 </div>
                 {wishListData.length > 0 ? (
                     <>
@@ -93,7 +102,7 @@ const Index = ({wishes,categories, filters, ageRanges, distanceRanges, module}) 
                         <div className="block md:hidden">
                             <div className="grid grid-cols-2 gap-2 mb-6">
                                 {wishListData.map((wish, index) => (
-                                    <SingleWishItemMobile wish={wish} key={index} />
+                                    <SingleWishItemMobile wish={wish} key={index}/>
                                 ))}
                             </div>
                         </div>

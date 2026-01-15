@@ -6,6 +6,7 @@ use App\Http\Requests\StoreWishRequest;
 use App\Http\Requests\UpdateWishRequest;
 use App\Models\Wish;
 use App\Services\CategoryService;
+use App\Services\OrganizationService;
 use App\Services\WishService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,8 @@ class WishController extends Controller
 {
     public function __construct(
         protected CategoryService $categoryService,
-        protected WishService $wishService
+        protected WishService $wishService,
+        protected OrganizationService $organizationService,
 
     ){}
     const moduleDirectory = 'Wish/';
@@ -29,10 +31,12 @@ class WishController extends Controller
     {
         $categories = $this->categoryService->listByStatus();
         $wishes = $this->wishService->getListByStatus($request, 'approved');
+        $organizations = $this->organizationService->listByStatus();
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'wishes' => $wishes,
             'categories' => $categories,
+            'organizations' => $organizations,
             'ageRanges' => ageRanges(),
             'distanceRanges' => distanceRanges(),
         ]);

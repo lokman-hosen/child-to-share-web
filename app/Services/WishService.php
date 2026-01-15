@@ -330,6 +330,14 @@ class WishService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('wishes.category_id', $request->category_id);
         }
+
+        if ($request->filled('organization_id')) {
+            $query->whereHas('user', function ($user) use ($query, $request) {
+                if (isset($user->organization)){
+                    $query->where('organization_id', $request->organization_id);
+                }
+            });
+        }
         // by login donor created donations category ID
 
 
@@ -343,6 +351,7 @@ class WishService extends BaseService
         if ($request->filled('age_range')) {
             $query->where('wishes.age_range', $request->age_range);
         }
+
 
         // Distance filter (optional)
         if ($request->filled('distance_range')) {
@@ -367,7 +376,6 @@ class WishService extends BaseService
 
     private function getWishesWithoutDistance($request, $status): LengthAwarePaginator
     {
-
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment']);
 
         if (isset($status)) {
@@ -386,6 +394,15 @@ class WishService extends BaseService
         }
         if ($request->filled('age_range')) {
             $query->where('wishes.age_range', $request->age_range);
+        }
+        if ($request->filled('age_range')) {
+            $query->where('wishes.age_range', $request->age_range);
+        }
+        if ($request->filled('organization_id')) {
+            $query->has('user.organization');
+            $query->whereHas('user', function ($user) use ($request) {
+                $user->where('organization_id', $request->organization_id);
+            });
         }
 
         return $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();

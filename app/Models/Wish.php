@@ -56,10 +56,10 @@ class Wish extends Model
     /**
      * Get the organization that owns the donation.
      */
-    public function organization(): BelongsTo
-    {
-        return $this->belongsTo(Organization::class);
-    }
+//    public function organization(): BelongsTo
+//    {
+//        return $this->belongsTo(Organization::class);
+//    }
 
     /**
      * Get the category that owns the donation.
