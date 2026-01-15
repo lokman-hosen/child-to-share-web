@@ -9,6 +9,7 @@ use App\Services\CategoryService;
 use App\Services\WishService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -26,7 +27,6 @@ class WishController extends Controller
      */
     public function index(Request $request): Response
     {
-
         $categories = $this->categoryService->listByStatus();
         $wishes = $this->wishService->getListByStatus($request, 'approved');
         return Inertia::render(self::moduleDirectory.'Index', [

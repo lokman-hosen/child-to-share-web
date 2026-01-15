@@ -19,6 +19,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Notification;
@@ -308,6 +309,7 @@ class WishService extends BaseService
 
     private function getWishesWithDistance($request, $status, $user): LengthAwarePaginator
     {
+        $currentRoute =  Route::currentRouteName();
         $earthRadius = 6371;
 
         $query = $this->wish->query()
@@ -334,7 +336,7 @@ class WishService extends BaseService
 
         if ($request->filled('categoryIds') and count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
-        }elseif (Auth::check()){
+        }elseif (Auth::check() and $currentRoute != 'wish.index'){
             $query->whereHas('fulfillments.wish', function ($q) {
                 $q->where('user_id', Auth::id());
             });
@@ -367,6 +369,7 @@ class WishService extends BaseService
 
     private function getWishesWithoutDistance($request, $status): LengthAwarePaginator
     {
+        $currentRoute =  Route::currentRouteName();
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment']);
 
         if (isset($status)) {
@@ -378,7 +381,7 @@ class WishService extends BaseService
         }
         if ($request->filled('categoryIds') and count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
-        }elseif (Auth::check()){
+        }elseif (Auth::check() and $currentRoute != 'wish.index'){
             $query->whereHas('fulfillments.wish', function ($q) {
                 $q->where('user_id', Auth::id());
             });
