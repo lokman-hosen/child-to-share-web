@@ -122,4 +122,20 @@ UserService extends BaseService
             ->orderBy('name', 'asc')
             ->get(['id', 'name']);
     }
+
+    public function userByRoleAndStatus($role, $status)
+    {
+        $query = $this->user->where('is_active', $status);
+        if ($role == 'donor'){
+            $query->whereHas('roles', function ($role) {
+                $role->where('slug', 'donor');
+            });
+        }
+        if ($role == 'wisher'){
+            $query->whereHas('roles', function ($role) {
+                $role->where('slug', 'wisher');
+            });
+        }
+        return$query->count();
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Donor;
 use App\Models\Wish;
 use App\Services\DonationService;
+use App\Services\OrganizationService;
+use App\Services\UserService;
 use App\Services\WishService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,6 +18,8 @@ class HomeController extends Controller
     public function __construct(
         protected DonationService $donationService,
         protected WishService $wishService,
+        protected UserService $userService,
+        protected organizationService $organizationService
 
     ){}
     const moduleDirectory = 'Donation/';
@@ -28,9 +32,12 @@ class HomeController extends Controller
         $donations = $this->donationService->donationByStatus('available', 'list', 12, 'frontend');
         $wishes = $this->wishService->wishByStatus('approved', 'list', 12, 'frontend');
         $wisherImages = $this->wishService->getRandomWisherImage();
-        $activeDonorCount = 10;
+        $activeDonorCount = $this->userService->userByRoleAndStatus('donor', true);
         $totalWishCount = $this->wishService
             ->wishByStatus(null, 'count',  null,'frontend');
+        $fulfilledWishCount = $this->wishService
+            ->wishByStatus('fulfilled', 'count',  null,'frontend');
+        $organizationCount = $this->organizationService->count();
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -40,8 +47,8 @@ class HomeController extends Controller
             'activeDonorCount' => $activeDonorCount,
             'totalWishCount' => $totalWishCount,
             'wisherImages' => $wisherImages,
-            'fulfilWishCount' => 0,
-            'community' => 0,
+            'fulfilWishCount' => $fulfilledWishCount,
+            'community' => $organizationCount,
         ]);
     }
 }
