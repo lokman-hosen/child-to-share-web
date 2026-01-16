@@ -14,6 +14,7 @@ class Category extends Model
 
     protected $guarded = ['id'];
 
+
     public function wishes(): HasMany
     {
         return $this->hasMany(Wish::class);
