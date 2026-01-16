@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Donor;
 use App\Models\Wish;
+use App\Services\CategoryService;
 use App\Services\DonationService;
 use App\Services\OrganizationService;
 use App\Services\UserService;
@@ -19,7 +20,8 @@ class HomeController extends Controller
         protected DonationService $donationService,
         protected WishService $wishService,
         protected UserService $userService,
-        protected organizationService $organizationService
+        protected OrganizationService $organizationService,
+        protected CategoryService $categoryService
 
     ){}
     const moduleDirectory = 'Donation/';
@@ -38,6 +40,7 @@ class HomeController extends Controller
         $fulfilledWishCount = $this->wishService
             ->wishByStatus('fulfilled', 'count',  null,'frontend');
         $organizationCount = $this->organizationService->count();
+        $categories = $this->categoryService->getList();
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -49,6 +52,7 @@ class HomeController extends Controller
             'wisherImages' => $wisherImages,
             'fulfilWishCount' => $fulfilledWishCount,
             'community' => $organizationCount,
+            'categories' => $categories,
         ]);
     }
 }

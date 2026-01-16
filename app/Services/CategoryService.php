@@ -59,4 +59,9 @@ class CategoryService extends BaseService
         }
         return $category;
     }
+
+    public function getList()
+    {
+        return $this->category->where('is_active',true)->withCount('wishes')->orderBy('name')->get(['id', 'name']);
+    }
 }

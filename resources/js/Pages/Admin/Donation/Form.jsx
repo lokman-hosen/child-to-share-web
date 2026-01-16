@@ -146,7 +146,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
 
                 <TextInput
                     id="title"
-                    label="Iteam Title/Name"
+                    label="Item Name"
                     value={data.title}
                     onChange={(e) => setData('title', e.target.value)}
                     error={errors.title}

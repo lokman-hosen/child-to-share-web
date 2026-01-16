@@ -13,7 +13,9 @@ import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from
 import WishList from "@/Components/Home/WishList.jsx";
 import Category from "@/Components/Home/Category.jsx";
 
-export default function Welcome({ auth, donations, wishes, wisherImages, activeDonorCount, totalWishCount, fulfilWishCount, community }) {
+export default function Welcome({ auth, donations, wishes, wisherImages,
+                                    activeDonorCount, totalWishCount,
+                                    fulfilWishCount, community, categories }) {
     const user = usePage().props.auth.user;
     const { url } = usePage();
 
@@ -49,7 +51,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages, activeD
                     community={community}
                 />
                 <HowWorks/>
-                <Category/>
+                <Category categories={categories}/>
                 <RegistrationCTA user={user} />
                 {/*<Faq/>*/}
             </div>
