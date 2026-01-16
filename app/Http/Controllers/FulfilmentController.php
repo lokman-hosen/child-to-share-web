@@ -6,6 +6,8 @@ use App\Http\Requests\StoreFulfilmentRequest;
 use App\Http\Requests\UpdateFulfilmentRequest;
 use App\Models\Fulfillment;
 use App\Services\FulfillmentService;
+use App\Services\UserService;
+use App\Services\WishService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -14,6 +16,8 @@ class FulfilmentController extends Controller
 {
     public function __construct(
         protected FulfillmentService $fulfillmentService,
+        protected WishService $wishService,
+        protected UserService $userService
 
     ){}
     const moduleDirectory = 'Fulfillment/';
@@ -24,9 +28,17 @@ class FulfilmentController extends Controller
     public function index(Request $request): Response
     {
         $fulfillList = $this->fulfillmentService->getListByStatus($request, 'completed');
+        $activeDonorCount = $this->userService->userByRoleAndStatus('donor', true);
+        $fulfilledWishCount = $this->wishService
+            ->wishByStatus('fulfilled', 'count',  null,'frontend');
+        $totalWishCount = $this->wishService
+            ->wishByStatus(null, 'count',  null,'frontend');
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'fulfillList' => $fulfillList,
+            'activeDonorCount' => $activeDonorCount,
+            'fulfilledWishCount' => $fulfilledWishCount,
+            'totalWishCount' => $totalWishCount,
         ]);
     }
 

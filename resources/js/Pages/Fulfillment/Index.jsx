@@ -7,7 +7,7 @@ import {faGift, faHandsHelping, faStar} from "@fortawesome/free-solid-svg-icons"
 import SingleDonationIteamMobile from "@/Components/Common/SingleDonationIteamMobile.jsx";
 import Pagination from "@/Components/Pagination.jsx";
 
-const Index = ({fulfillList, module}) => {
+const Index = ({fulfillList,activeDonorCount,fulfilledWishCount,totalWishCount, module}) => {
     const fulfillmentListData = fulfillList?.data || [];
     const fulfillmentLinks = fulfillList?.links || [];
     return (
@@ -23,6 +23,28 @@ const Index = ({fulfillList, module}) => {
             </div>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="container mx-auto">
+                    <div className="mb-10 bg-white rounded-2xl shadow-md p-8">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Fulfillment Impact</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {/*<div className="text-center">*/}
+                            {/*    <div className="text-4xl font-bold text-blue-600 mb-2">3</div>*/}
+                            {/*    <div className="text-gray-600">Matches Displayed</div>*/}
+                            {/*</div>*/}
+                            <div className="text-center">
+                                <div className="text-4xl font-bold text-green-600 mb-2">{fulfilledWishCount}</div>
+                                <div className="text-gray-600">Total Fulfilled Wishes</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-4xl font-bold text-purple-600 mb-2">{activeDonorCount}</div>
+                                <div className="text-gray-600">Active Donors</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-4xl font-bold text-pink-600 mb-2">{totalWishCount}</div>
+                                <div className="text-gray-600">Total Wishes</div>
+                            </div>
+                        </div>
+                    </div>
+
                     { fulfillmentListData.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {fulfillmentListData.map((wishFulfilment, index) => (
@@ -161,29 +183,6 @@ const Index = ({fulfillList, module}) => {
                     )}
 
                     {(fulfillmentLinks.length > 1 && fulfillmentListData.length > 1) && <Pagination links={fulfillmentLinks} />}
-
-
-                    {/*<div className="mt-12 bg-white rounded-2xl shadow-md p-8">*/}
-                    {/*    <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Fulfillment Impact</h2>*/}
-                    {/*    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">*/}
-                    {/*        <div className="text-center">*/}
-                    {/*            <div className="text-4xl font-bold text-blue-600 mb-2">3</div>*/}
-                    {/*            <div className="text-gray-600">Matches Displayed</div>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="text-center">*/}
-                    {/*            <div className="text-4xl font-bold text-green-600 mb-2">127</div>*/}
-                    {/*            <div className="text-gray-600">Total Fulfilled Wishes</div>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="text-center">*/}
-                    {/*            <div className="text-4xl font-bold text-purple-600 mb-2">89</div>*/}
-                    {/*            <div className="text-gray-600">Active Donors</div>*/}
-                    {/*        </div>*/}
-                    {/*        <div className="text-center">*/}
-                    {/*            <div className="text-4xl font-bold text-pink-600 mb-2">42</div>*/}
-                    {/*            <div className="text-gray-600">Cities Reached</div>*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
                 </div>
             </main>
         </GuestLayout>
