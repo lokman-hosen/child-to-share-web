@@ -44,8 +44,6 @@ class HandleInertiaRequests extends Middleware
                 'warning' => $request->session()->get('warning'),
                 'info' => $request->session()->get('info'),
             ],
-            // Ensure CSRF token is shared
-            'csrf_token' => csrf_token(),
         ];
     }
 }
