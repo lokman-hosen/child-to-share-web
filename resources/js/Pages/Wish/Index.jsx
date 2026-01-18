@@ -46,7 +46,6 @@ const Index = ({wishes,categories, filters, ageRanges, distanceRanges, organizat
 
     const ageRangeOptions = getStatusOptions(ageRanges);
     const distanceRangeOptions = getStatusOptions(distanceRanges);
-
     return (
         <GuestLayout>
             <Head title="Wishes"/>
