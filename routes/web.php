@@ -27,7 +27,6 @@ Broadcast::routes([
     'middleware' => ['web', 'auth:sanctum'], // or 'auth:web'
 ]);
 
-
 // frontend routes
 Route::controller( \App\Http\Controllers\HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
