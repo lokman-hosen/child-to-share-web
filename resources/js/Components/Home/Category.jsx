@@ -12,25 +12,20 @@ const Category = ({categories}) => {
                             <>
                                 { category.wishes_count > 0 && (
                                     <Link href={route('wish.index', {'category_id': category.id})}>
-
-                                        <div className="category-card text-center p-5">
+                                        <div className="category-card text-center p-5" key={index}>
                                             <h3 className="font-medium text-gray-900 text-sm">{category.name}</h3>
                                             <div
                                                 className="bg-gray-100 rounded-full h-14 w-14 flex items-center justify-center mx-auto mb-3">
                                                 <span className="font-bold">{category.wishes_count}</span>
                                             </div>
-
                                             <p className="text-gray-500 text-xs mt-1"> wishes</p>
                                         </div>
-
                                     </Link>
-                                )
-                                }
+                                )}
                             </>
                         ))}
                     </div>
                 )}
-
             </div>
         </section>
     );
