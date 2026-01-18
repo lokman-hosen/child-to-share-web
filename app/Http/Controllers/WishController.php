@@ -68,7 +68,6 @@ class WishController extends Controller
 
         $wish->load([
             'user',
-            'organization',
             'category',
             'files',
             'latestFulfillment',
