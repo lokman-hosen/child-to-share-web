@@ -28,7 +28,7 @@ export const getCommonOptions = (dropdownObject) => {
 };
 
 export const checkAdmin = (role) =>{
-    return (role === 'super_admin' || role === 'admin');
+    return (role === 'super-admin' || role === 'admin');
 }
 export const checkDonor = (role) =>{
     return role === 'donor';

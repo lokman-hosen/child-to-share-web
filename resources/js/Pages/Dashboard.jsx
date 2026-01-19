@@ -43,7 +43,7 @@ export default function Dashboard({user,module,availableDonationCount,donatedDon
                 )
             )}
 
-            { (user.role === 'super_admin' || user.role === 'admin') && <AdminDashboard/> }
+            { (user.role == 'super-admin' || user.role == 'admin') && <AdminDashboard/> }
         </AuthenticatedLayout>
     );
 }

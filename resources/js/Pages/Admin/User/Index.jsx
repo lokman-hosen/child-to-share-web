@@ -75,7 +75,7 @@ export default function Index({module, users }) {
                                 </div>
                                 <div>
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        {module}(wisher) List
+                                        {module} List
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
                                         Manage all users in the system
@@ -323,7 +323,7 @@ export default function Index({module, users }) {
                                                                         </div>
                                                                         <div className="ml-4">
                                                                             <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                                                                            <div className="text-sm text-gray-500">{user.email}</div>
+                                                                            {user.email &&  <div className="text-sm text-gray-500">{user.email}</div>}
                                                                             <div className="mt-1 flex items-center">
                                                                                 <span className="text-xs text-gray-500">
                                                                                     Role: {user.role}
@@ -336,10 +336,12 @@ export default function Index({module, users }) {
                                                                 {/* Contact & Demographics Column */}
                                                                 <td className="px-6 py-4">
                                                                     <div className="space-y-2">
-                                                                        <div className="flex items-center text-sm text-gray-900">
-                                                                            <FontAwesomeIcon icon={faPhone} className="text-gray-400 mr-2 w-4 h-4" />
-                                                                            {user.phone || <span className="text-gray-400">N/A</span>}
-                                                                        </div>
+                                                                        { user.phone &&
+                                                                            <div className="flex items-center text-sm text-gray-900">
+                                                                                <FontAwesomeIcon icon={faPhone} className="text-gray-400 mr-2 w-4 h-4" />
+                                                                                {user.phone}
+                                                                            </div>
+                                                                        }
                                                                         <div className="flex items-center text-sm">
                                                                             <FontAwesomeIcon icon={faVenusMars} className="text-gray-400 mr-2 w-4 h-4" />
                                                                             <span className={`capitalize ${genderInfo.color}`}>
