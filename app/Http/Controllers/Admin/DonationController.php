@@ -17,13 +17,13 @@ use Inertia\Response;
 
 class DonationController extends Controller
 {
+    const moduleDirectory = 'Admin/Donation/';
+    const moduleName = 'Donation';
     public function __construct(
         protected CategoryService $categoryService,
         protected DonationService $donationService
 
     ){}
-    const moduleDirectory = 'Admin/Donation/';
-    const moduleName = 'Donation';
     /**
      * Display a listing of the resource.
      */

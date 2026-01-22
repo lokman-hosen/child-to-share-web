@@ -49,33 +49,33 @@ Route::controller(\App\Http\Controllers\FulfilmentController::class)->group(func
 //Route::get('/dashboard', function () {
 //    return Inertia::render('Dashboard');
 //})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('admin')->group(function () {
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('image-resize', [DashboardController::class, 'resizeAllImagesInDirectory'])->name('resizeAllImagesInDirectory');
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('image-resize', [DashboardController::class, 'resizeAllImagesInDirectory'])->name('resizeAllImagesInDirectory');
-
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/my-profile/{id?}', [ProfileController::class, 'show'])->name('my.profile');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::post('/profile-update', [ProfileController::class, 'updateProfile'])->name('user.profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('user-password', [ProfileController::class, 'passwordChangeForm'])->name('user.password.form');
-
-    Route::resources([
-        'users' => UserController::class,
-        'donations' => DonationController::class,
-        'wishes' => WishController::class,
-        'messages' => MessageController::class,
-        'organizations' => OrganizationController::class,
-    ]);
-
-    Route::controller(DonationController::class)->group(function () {
-        Route::delete('donation-file/{fileId}', 'deleteDonationFile')->name('donations.file.delete');
-        Route::get('donation-file/{fileId}', 'makeFeatureFile')->name('donations.file.feature');
     });
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/my-profile/{id?}', [ProfileController::class, 'show'])->name('my.profile');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/profile-update', [ProfileController::class, 'updateProfile'])->name('user.profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+        Route::get('user-password', [ProfileController::class, 'passwordChangeForm'])->name('user.password.form');
+
+        Route::resources([
+            'users' => UserController::class,
+            'donations' => DonationController::class,
+            'wishes' => WishController::class,
+            'messages' => MessageController::class,
+            'organizations' => OrganizationController::class,
+        ]);
+
+        Route::controller(DonationController::class)->group(function () {
+            Route::delete('donation-file/{fileId}', 'deleteDonationFile')->name('donations.file.delete');
+            Route::get('donation-file/{fileId}', 'makeFeatureFile')->name('donations.file.feature');
+        });
 
 //    Route::controller(MessageController::class)->group(function () {
 //        Route::get('/fulfilments/{fulfilment}/messages', 'index')->name('messages.index');
@@ -83,25 +83,28 @@ Route::middleware('auth')->group(function () {
 //    });
 
 
-    Route::controller(WishController::class)->group(function () {
-        Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
-        Route::get('wish-file/{fileId}', 'makeFeatureFile')->name('wishes.file.feature');
-        Route::get('wish-fulfill', 'wishList')->name('wish.fulfill.list');
-        Route::get('wish-fulfill/{wishId}', 'wishDetail')->name('wish.fulfill.detail');
-        Route::post('wish-fulfill', 'storeWishFulfilInfo')->name('wish.fulfill.store');
-        Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
-        Route::post('wish-message', 'storeWishFulfilMessage')->name('wish.fulfill.message.store');
+        Route::controller(WishController::class)->group(function () {
+            Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
+            Route::get('wish-file/{fileId}', 'makeFeatureFile')->name('wishes.file.feature');
+            Route::get('wish-fulfill', 'wishList')->name('wish.fulfill.list');
+            Route::get('wish-fulfill/{wishId}', 'wishDetail')->name('wish.fulfill.detail');
+            Route::post('wish-fulfill', 'storeWishFulfilInfo')->name('wish.fulfill.store');
+            Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
+            Route::post('wish-message', 'storeWishFulfilMessage')->name('wish.fulfill.message.store');
 
-        Route::post('/wish-fulfill/confirm', 'confirmReceipt')->name('fulfillment.confirm');
-        Route::post('/wish-fulfill/issue', 'reportIssue')->name('fulfillment.issue');
+            Route::post('/wish-fulfill/confirm', 'confirmReceipt')->name('fulfillment.confirm');
+            Route::post('/wish-fulfill/issue', 'reportIssue')->name('fulfillment.issue');
 
+        });
+
+        Route::post('/user/offline', function (Request $request) {
+            cache()->forget('user-online-' . $request->user_id);
+        })->name('user.offline');
+
+        Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
     });
-
-    Route::post('/user/offline', function (Request $request) {
-        cache()->forget('user-online-' . $request->user_id);
-    })->name('user.offline');
-
-    Route::get('/categories/{category}/donation-images', [CategoryController::class, 'getDonationImages'])->name('categories.donation-images');
 });
+
+
 
 require __DIR__.'/auth.php';

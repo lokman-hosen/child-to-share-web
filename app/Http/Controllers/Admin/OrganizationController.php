@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
+use App\Services\OrganizationService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -14,14 +16,21 @@ class OrganizationController extends Controller
     const moduleDirectory = 'Admin/Organization/';
     const moduleName = 'Organization List';
 
+    public function __construct(
+        protected OrganizationService $organizationService,
+
+    ){}
+
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
         if (checkAdmin()){
+            $organizations = $this->organizationService->getListWithFilter($request);
             return Inertia::render(self::moduleDirectory.'List', [
                 'module' => self::moduleName,
+                'organizations' => $organizations,
             ]);
         }else{
             return Inertia::render(self::moduleDirectory.'Index', [
