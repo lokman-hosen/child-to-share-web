@@ -3,7 +3,15 @@ import {Head, Link, router} from '@inertiajs/react';
 import React, { useState } from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faStar, faPlus, faTable, faGridHorizontal} from "@fortawesome/free-solid-svg-icons";
+import {
+    faStar,
+    faPlus,
+    faTable,
+    faGridHorizontal,
+    faBuilding,
+    faEnvelope,
+    faPhone, faMarker, faLocation, faLocationDot
+} from "@fortawesome/free-solid-svg-icons";
 import {getFulfilmentStatus, textLimit} from "@/utils.jsx";
 
 export default function List({module, organizations}) {
@@ -44,10 +52,10 @@ export default function List({module, organizations}) {
                                 </div>
                                 <div>
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        {module} Items
+                                        {module}
                                     </h1>
                                     <p className="text-blue-100 text-sm mt-1">
-                                        Start making wishes and find the items you need
+                                        Create New Organization to contribute
                                     </p>
                                 </div>
                             </div>
@@ -103,9 +111,9 @@ export default function List({module, organizations}) {
                                             <table className="wish-table w-full">
                                                 <thead className="bg-gray-50">
                                                 <tr>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher Name</th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment status</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Org. Name</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Contact</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Address</th>
                                                     <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
                                                 </thead>
@@ -125,26 +133,17 @@ export default function List({module, organizations}) {
                                                                                 />
                                                                             ) : (
                                                                                 <div className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                                                                                    <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
+                                                                                    <FontAwesomeIcon icon={faBuilding} className="text-gray-400"/>
                                                                                 </div>
                                                                             )}
                                                                         </div>
                                                                         <div>
                                                                             <h3 className="text-lg font-medium text-gray-900">{organization.name}</h3>
-                                                                            <p className="text-sm text-gray-500">Age range: {organization.created_at}</p>
+                                                                            <p className="text-sm text-gray-500">Since: {organization.created_at}</p>
                                                                             <div className="mt-1 flex items-center">
                                                                             <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                                {organization.status}
+                                                                                Status: {organization.is_active}
                                                                             </span>
-                                                                                <span
-                                                                                    className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                                {organization.created_at}
-                                                                            </span>
-
-                                                                            <span
-                                                                                className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                                        Status: {organization.is_active}
-                                                                                    </span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -152,14 +151,12 @@ export default function List({module, organizations}) {
                                                                 </div>
 
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
-                                                                {organization.name}
+                                                            <td className="p-6 border-b text-gray-600 font-medium">
+                                                                <FontAwesomeIcon icon={faEnvelope} /> {organization.contact_email} <br/>
+                                                                <FontAwesomeIcon icon={faPhone} /> {organization.contact_phone}
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100">
-                                                                 <span
-                                                                     className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
-                                                                    {organization.is_active}
-                                                                    </span>
+                                                            <td className="p-6 border-b text-gray-600">
+                                                                 <FontAwesomeIcon icon={faLocationDot}/> {organization.address}
                                                             </td>
                                                             <td className="p-6 border-b border-gray-100">
                                                                 <div className="flex flex-col items-end">
