@@ -87,7 +87,7 @@ export default function List({module, organizations}) {
 
                                 {/* Action Button */}
                                 <Link
-                                    href={route('wishes.create')}
+                                    href={route('organizations.create')}
                                     className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                                 >
                                     <div className="animate-bounce">
@@ -198,14 +198,98 @@ export default function List({module, organizations}) {
                                         </div>
                                     ) : (
                                         /* Grid View */
-                                        <>
-                                        edfwe
-                                        </>
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                            {organizationListData.length > 0 ? (
+                                                organizationListData.map((organization) => (
+                                                    <div key={organization.id}
+                                                         className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                                                        {/* Card Image */}
+                                                        <div className="relative">
+                                                            <div
+                                                                className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                                                {organization.user?.image ? (
+                                                                    <img
+                                                                        src={`/storage/${organization.user.image}`}
+                                                                        alt={organization.name}
+                                                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                                    />
+                                                                ) : (
+                                                                    <div
+                                                                        className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                                                        <FontAwesomeIcon icon={faBuilding}
+                                                                                         className="text-gray-400 text-5xl"/>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            {/* Status Badge */}
+                                                            <div className="absolute top-3 right-3">
+                                                                <span
+                                                                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium`}>
+                                                                     Status: {organization.is_active}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Card Content */}
+                                                        <div className="p-5">
+                                                            <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                                                {organization.title}
+                                                            </h3>
+
+                                                            <div className="space-y-2 mb-4">
+                                                                <div
+                                                                    className="flex items-center text-sm text-gray-600">
+                                                                    <span className="font-medium mr-2">Since:</span>
+                                                                    <span className="capitalize">{organization.created_at}</span>
+                                                                </div>
+                                                                <div
+                                                                    className="flex items-center text-sm text-gray-600">
+                                                                    <span className="font-medium mr-2">Wisher:</span>
+                                                                    <span> <FontAwesomeIcon icon={faLocationDot} /> {organization.address}</span>
+                                                                </div>
+                                                            </div>
+
+                                                            {/* Action Button */}
+                                                            <div
+                                                                className="flex justify-between items-center pt-4 border-t border-gray-100">
+                                                                <span className="text-sm text-gray-500">
+                                                                     <FontAwesomeIcon icon={faEnvelope} /> {organization.contact_email} <br/>
+                                                                <FontAwesomeIcon icon={faPhone} /> {organization.contact_phone}
+                                                                </span>
+                                                                <Link
+                                                                    href={route('organizations.show', organization.id)}
+                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                >
+                                                                    Detail
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="col-span-full text-center py-12">
+                                                    <FontAwesomeIcon icon={faStar}
+                                                                     className="text-gray-300 text-6xl mb-4"/>
+                                                    <p className="text-gray-500 text-lg mb-2">No wishes found</p>
+                                                    <p className="text-gray-400 text-sm mb-6">
+                                                        Start sharing items and make wishes come true
+                                                    </p>
+                                                    <Link
+                                                        href={route('organizations.create')}
+                                                        className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                                    >
+                                                        <FontAwesomeIcon icon={faPlus}/>
+                                                        <span>Create First Organization</span>
+                                                    </Link>
+                                                </div>
+                                            )}
+                                        </div>
                                     )}
                                 </div>
 
                                 {/* Pagination */}
-                                {organizationsLinks.length > 1 && <Pagination data={organizations} links={organizationsLinks} />}
+                                {organizationsLinks.length > 1 &&
+                                    <Pagination data={organizations} links={organizationsLinks}/>}
                             </div>
                         </div>
                     </div>
