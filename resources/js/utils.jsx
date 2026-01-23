@@ -1,3 +1,5 @@
+import React from "react";
+
 export const getDropdownOptions = (data, valueKey, labelKey) => {
     if (!data) {
         return [];
@@ -64,6 +66,17 @@ export const getFulfilmentStatus = (status) => {
         return 'Cancelled';
     }else{
         return searchReplace(status, '_', ' ')
+    }
+};
+
+export const getStatus = (status) => {
+    if (status == 1) {
+        return <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-blue-600 text-white text-sm font-medium border">Active</span>
+
+    }else if(status == 0){
+        return <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-orange-600 text-white text-sm font-medium border">Inactive</span>
+    }else{
+        return 'n/a'
     }
 };
 

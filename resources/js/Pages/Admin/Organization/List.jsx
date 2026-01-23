@@ -17,6 +17,7 @@ import {
     faEdit,
     faEye
 } from "@fortawesome/free-solid-svg-icons";
+import {getStatus} from "@/utils.jsx";
 
 export default function List({ module, organizations }) {
     const [viewMode, setViewMode] = useState('table');
@@ -131,7 +132,7 @@ export default function List({ module, organizations }) {
                                     <div>
                                         <p className="text-sm font-medium text-gray-600">Active</p>
                                         <p className="text-3xl font-bold text-gray-900 mt-2">
-                                            {organizationListData.filter(o => o.is_active ? 'active' : 'Inactive').length}
+                                            {organizationListData.filter(o => getStatus(o.is_active)).length}
                                         </p>
                                     </div>
                                     <div className="h-12 w-12 bg-emerald-100 rounded-xl flex items-center justify-center">
@@ -144,7 +145,7 @@ export default function List({ module, organizations }) {
                                     <div>
                                         <p className="text-sm font-medium text-gray-600">Inactive</p>
                                         <p className="text-3xl font-bold text-gray-900 mt-2">
-                                            {organizationListData.filter(o => o.is_active ? 'active' : 'Inactive').length}
+                                            {organizationListData.filter(o => getStatus(o.is_active)).length}
                                         </p>
                                     </div>
                                     <div className="h-12 w-12 bg-amber-100 rounded-xl flex items-center justify-center">
@@ -239,9 +240,7 @@ export default function List({ module, organizations }) {
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-6">
-                                                                <span className={`inline-flex items-center px-3.5 py-1.5 rounded-full text-sm font-medium border ${getStatusColor(organization.is_active)}`}>
-                                                                    {organization.is_active || 'Inactive'}
-                                                                </span>
+                                                            {getStatus(organization.is_active)}
                                                         </td>
                                                         <td className="px-6 py-6">
                                                             <div className="flex justify-end space-x-3">
@@ -314,7 +313,7 @@ export default function List({ module, organizations }) {
                                                         {/* Status Badge */}
                                                         <div className="absolute top-4 right-4">
                                                             <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border ${getStatusColor(organization.is_active)} backdrop-blur-sm`}>
-                                                                {organization.is_active || 'Inactive'}
+                                                                {organization.is_active ? 'Active' : 'Inactive'}
                                                             </span>
                                                         </div>
                                                         {/* Organization Name */}
