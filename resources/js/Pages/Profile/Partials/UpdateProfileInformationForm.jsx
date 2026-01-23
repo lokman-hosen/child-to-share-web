@@ -58,7 +58,6 @@ export default function UpdateProfileInformation({
             forceFormData: true,
             onSuccess: () => {
                     //reset();
-                //setTags([]);
             },
             onFinish: () => reset('photo'),
             onError: (submissionErrors) => {
@@ -402,8 +401,8 @@ export default function UpdateProfileInformation({
                     </div>
                 }
                 <div className="grid grid-cols-1 gap-6">
-                        {/* Location Search Section */}
-                        <div className="mt-1">
+                    {/* Location Search Section */}
+                    <div className="mt-1">
                             <label className="block text-gray-700 font-semibold mb-2">
                                 Your Location (Search and select)
                             </label>
@@ -502,7 +501,7 @@ export default function UpdateProfileInformation({
                                 <div className="text-gray-400 text-sm">Current address : {data.address}</div>
                             }
                         </div>
-                    </div>
+                </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>

@@ -44,7 +44,9 @@ class OrganizationController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Create', [
+            'module' => self::moduleName,
+        ]);
     }
 
     /**
