@@ -33,9 +33,10 @@ const Form = ({organization}) => {
         contact_phone: organization?.contact_phone || '',
         contact_email: organization?.contact_email || '',
         address: organization?.address || '',
+        description: organization?.description || '',
         latitude: organization?.user?.latitude || '',
         longitude: organization?.user?.longitude || '',
-        is_active: organization?.is_active ||'',
+        is_active: organization?.is_active || 1,
 
         // We will add the _method field dynamically in handleSubmit
         _method: organization ? 'PUT' : 'POST',
@@ -50,6 +51,7 @@ const Form = ({organization}) => {
                 contact_phone: organization?.contact_phone || '',
                 contact_email: organization?.contact_email || '',
                 address: organization?.address || '',
+                description: organization?.description || '',
                 latitude: organization?.user?.latitude || '',
                 longitude: organization?.user?.longitude || '',
                 is_active: organization?.is_active ||'',
@@ -273,7 +275,7 @@ const Form = ({organization}) => {
                     value={data.name}
                     onChange={(e) => setData('name', e.target.value)}
                     error={errors.name}
-                    placeholder="e.g., Winter Coat, Story Books, etc."
+                    placeholder="Enter organization name"
                     required
                 />
                 <TextInput
@@ -283,7 +285,7 @@ const Form = ({organization}) => {
                     value={data.contact_phone}
                     onChange={(e) => setData('contact_phone', e.target.value)}
                     error={errors.contact_phone}
-                    placeholder="Your contact_phone"
+                    placeholder="Organization contact phone number"
                     required
                 />
 
@@ -295,7 +297,7 @@ const Form = ({organization}) => {
                     onChange={(e) => setData('contact_email', e.target.value)}
                     autoComplete="username"
                     error={errors.contact_email}
-                    placeholder="Your contact_email"
+                    placeholder="Your Organization contact email address"
                     required
                 />
 
@@ -307,6 +309,17 @@ const Form = ({organization}) => {
                     currentFileUrl={data?.user?.image || null}
                     error={errors.image}
                     accept="image/png, image/jpg, image/jpeg"
+                />
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+                <TextareaInput
+                    id="description"
+                    label="About The Company"
+                    value={data.description}
+                    onChange={(e) => setData('description', e.target.value)}
+                    error={errors.description}
+                    placeholder="Write about the company in short.."
                 />
             </div>
 

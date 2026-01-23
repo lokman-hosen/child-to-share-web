@@ -54,7 +54,11 @@ class OrganizationController extends Controller
      */
     public function store(StoreOrganizationRequest $request)
     {
-        //
+        $organization = $this->organizationService->createOrganization($request);
+        if ($organization){
+            return redirect()->route('organizations.index')->with('success', 'Organization created successfully!');
+        }
+        return redirect()->route('organizations.index')->with('error', 'Error to created organization');
     }
 
     /**
