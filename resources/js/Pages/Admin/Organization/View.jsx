@@ -3,7 +3,7 @@ import React from 'react';
 import {Head, Link} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 
-const View = () => {
+const View = ({organization, module}) => {
     return (
         <AuthenticatedLayout>
             <Head title="Organization Detail"/>

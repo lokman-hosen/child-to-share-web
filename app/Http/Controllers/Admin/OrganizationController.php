@@ -67,8 +67,10 @@ class OrganizationController extends Controller
     //public function show(Organization $organization): Response
     public function show(string $id): Response
     {
+        $organization = $this->organizationService->find($id);
         return Inertia::render(self::moduleDirectory.'View', [
             'module' => self::moduleName,
+            'organization' => $organization->load('user'),
         ]);
     }
 
