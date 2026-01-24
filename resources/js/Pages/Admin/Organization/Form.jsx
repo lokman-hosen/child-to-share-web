@@ -20,7 +20,7 @@ import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 import {Button} from "@headlessui/react";
 
-const Form = ({organization}) => {
+const Form = ({organization, statuses}) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchSuggestions, setSearchSuggestions] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
@@ -265,6 +265,9 @@ const Form = ({organization}) => {
     // Check if Google Maps is available
     const isGoogleMapsAvailable = !!window.google;
 
+    const statusOptions = getStatusOptions(statuses);
+
+
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -310,6 +313,18 @@ const Form = ({organization}) => {
                     error={errors.image}
                     accept="image/png, image/jpg, image/jpeg"
                 />
+
+                { organization &&
+                    <SelectInput
+                        id="status"
+                        label="Status"
+                        value={data.is_active}
+                        onChange={(e) => setData('is_active', e.target.value)}
+                        error={errors.is_active}
+                        options={statusOptions}
+                        required
+                    />
+                }
             </div>
 
             <div className="grid grid-cols-1 gap-6">

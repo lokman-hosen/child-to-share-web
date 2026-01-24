@@ -22,13 +22,12 @@ class StoreOrganizationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        return [
             'name' => 'required|string|max:255|unique:organizations',
             'contact_phone' => ['required', 'numeric','digits:11', 'regex:/(01)[0-9]{9}/', 'unique:users'],
-            'contact_email' => 'nullable|string|email|max:255|unique:users',
+            'contact_email' => 'required|string|email|max:255|unique:users',
             'address' => 'nullable|string',
             'image' => 'nullable|image|max:5000', // 5MB max
         ];
-        return $rules;
     }
 }

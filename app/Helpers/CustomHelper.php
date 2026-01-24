@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -43,7 +42,6 @@ function uploadImage($file, $fileProperty, $actionType, $oldFileName): string
         });
 
     } else {
-
         // ➤ Large difference → smart crop using fit() for best clarity
         $img->fit($targetWidth, $targetHeight);
 
@@ -113,6 +111,14 @@ function ageRanges(): array
         '9-11' => '9 - 11 years',
         '12-14' => '12 - 14 years',
         '15-18' => '15 - 18 years',
+    ];
+}
+
+function getStatus(): array
+{
+    return [
+        '0' => 'Inactive',
+        '1' => 'Active',
     ];
 }
 

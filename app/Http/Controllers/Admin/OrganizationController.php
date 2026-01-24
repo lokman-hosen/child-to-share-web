@@ -77,7 +77,13 @@ class OrganizationController extends Controller
      */
     public function edit(Organization $organization)
     {
-        //
+        $organization->load('user');
+        $statuses = getStatus();
+        return Inertia::render(self::moduleDirectory.'Edit', [
+            'module' => self::moduleName,
+            'organization' => $organization,
+            'statuses' => $statuses,
+        ]);
     }
 
     /**
@@ -85,7 +91,11 @@ class OrganizationController extends Controller
      */
     public function update(UpdateOrganizationRequest $request, Organization $organization)
     {
-        //
+        $organization = $this->organizationService->updateOrganization($request, $organization);
+        if ($organization){
+            return redirect()->route('organizations.index')->with('success', 'Organization updated successfully!');
+        }
+        return redirect()->route('organizations.index')->with('error', 'Error to updated organization');
     }
 
     /**

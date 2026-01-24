@@ -78,6 +78,41 @@ class OrganizationService extends BaseService
         return $organization;
     }
 
+    public function updateOrganization($request, $organization)
+    {
+        $oldOrganization = $organization;
+        // Handle file uploads
+        $photoPath = $organization->user->image;
+        if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            if ($organization->user->image && Storage::disk('public')->exists($organization->user->image)){
+                $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'update', $organization->user->image);
+            }else{
+                $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
+            }
+        }
+
+        $organization->user->update([
+            'name' => $request->name,
+            'email' => $request->contact_email,
+            'phone' => $request->contact_phone,
+            'image' => $photoPath,
+            'latitude' => checkEmpty($request->latitude),
+            'longitude' => checkEmpty($request->longitude),
+            'address' => checkEmpty($request->address),
+        ]);
+
+        $oldOrganization->update([
+            'name' => $request->name,
+            'contact_email' => checkEmpty($request->contact_email),
+            'contact_phone' => $request->contact_phone,
+            'description' => checkEmpty($request->description),
+            'address' => $request->address,
+        ]);
+
+        return $organization;
+    }
+
     public function findByName(string $name)
     {
        $organization = $this->organization->where('name', 'like', '%' . $name . '%')->first();
