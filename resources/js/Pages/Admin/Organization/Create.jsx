@@ -5,7 +5,7 @@ import Form from './Form';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faGift, faList, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 
-export default function Create({module,categories,statuses,itemConditions}) {
+export default function Create({module}) {
     return (
         <AuthenticatedLayout>
             <Head title={`${module} Create`} />
