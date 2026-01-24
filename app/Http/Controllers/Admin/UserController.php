@@ -8,6 +8,7 @@ use App\Http\Requests\StoreUserDataRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use App\Services\OrganizationService;
 use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class UserController extends Controller
 
     public function __construct(
         protected UserService $userService,
+        protected OrganizationService $organizationService,
 
     ){}
     /**
@@ -44,6 +46,7 @@ class UserController extends Controller
             'module' => self::moduleName,
             'genders' => CommonHelper::genders(),
             'guardianRelations' => CommonHelper::guardianRelations(),
+            'organizations' => $this->organizationService->listByStatus(),
         ]);
     }
 
@@ -77,6 +80,7 @@ class UserController extends Controller
             'user' => $user,
             'genders' => CommonHelper::genders(),
             'guardianRelations' => CommonHelper::guardianRelations(),
+            'organizations' => $this->organizationService->listByStatus(),
         ]);
     }
 

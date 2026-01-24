@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from '@inertiajs/react';
+import {useForm, usePage} from '@inertiajs/react';
 import TextInput from '@/Components/TextInputField.jsx';
 import SelectInput from '@/Components/SelectInput.jsx';
 import {getCommonOptions, getDropdownOptions, getStatusOptions} from "@/utils.jsx";
@@ -10,9 +10,8 @@ import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 import DateInput from "@/Components/DateInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 
-const Form = ({genders,guardianRelations,user,module}) => {
-    const fileInputRef = useRef(null);
-
+const Form = ({genders,guardianRelations,user,organizations}) => {
+    const loginUser = usePage().props.auth.user;
     const { data, setData, post, put, processing, errors, reset } = useForm({
         name: user?.name,
         email: user?.email,
@@ -23,6 +22,7 @@ const Form = ({genders,guardianRelations,user,module}) => {
         gender: user?.gender,
         dob: user?.dob,
         photo: user?.photo,
+        organization_id: user?.organization_id || null,
         _method: user ? 'PUT' : 'POST',
     });
 
@@ -41,6 +41,7 @@ const Form = ({genders,guardianRelations,user,module}) => {
                 gender: user?.gender || '',
                 dob: user?.dob || '',
                 photo: user?.photo || null,
+                organization_id: user?.organization_id || null,
                 _method: 'PUT',
             }));
         } else {
@@ -76,6 +77,7 @@ const Form = ({genders,guardianRelations,user,module}) => {
 
     const relationOptions = getCommonOptions(guardianRelations);
     const genderOptions = getCommonOptions(genders);
+    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -161,6 +163,18 @@ const Form = ({genders,guardianRelations,user,module}) => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                {loginUser.role === 'super-admin' &&
+                    <SelectInput
+                        id="organization_id"
+                        label="Select Organization"
+                        value={data.organization_id}
+                        onChange={(e) => setData('organization_id', e.target.value)}
+                        error={errors.organization_id}
+                        options={organizationOptions}
+                        required = {!!user}
+                    />
+                }
                 <FileInput
                     id="photo"
                     label="Wisher Photo(png,jpg,jpeg)"

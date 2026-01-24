@@ -6,7 +6,7 @@ import {faGift, faList, faStar} from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/User/Form.jsx";
 
 
-const Create = ({guardianRelations,genders,module}) => {
+const Create = ({guardianRelations,genders,organizations,module}) => {
     return (
         <AuthenticatedLayout>
             <Head title={`${module} Create`} />
@@ -37,7 +37,7 @@ const Create = ({guardianRelations,genders,module}) => {
 
                             {/* Action Button */}
                             <Link
-                                href={route('wishes.index')}
+                                href={route('users.index')}
                                 className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                             >
                                 <FontAwesomeIcon icon={faList} className="text-blue-600"/>
@@ -49,9 +49,9 @@ const Create = ({guardianRelations,genders,module}) => {
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             <Form
-                                module={module}
                                 genders={genders}
                                 guardianRelations={guardianRelations}
+                                organizations={organizations}
                             />
                         </div>
                     </div>

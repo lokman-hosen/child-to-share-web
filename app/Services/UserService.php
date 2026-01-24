@@ -56,9 +56,13 @@ UserService extends BaseService
             $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
         }
 
-        $organization = null;
+        $organizationId = null;
         if (Auth::user()->user_type == 'organization') {
             $organization = Auth::user()->organization;
+            $organizationId = $organization->id;
+        }
+        if ($request->filled('organization_id')) {
+            $organizationId = $request->organization_id;
         }
 
         $user = $this->user->create([
@@ -74,7 +78,7 @@ UserService extends BaseService
             'guardian_name' => checkEmpty($request->guardian_name),
             'guardian_phone' => checkEmpty($request->guardian_phone),
             'relationship' => checkEmpty($request->relationship),
-            'organization_id' => $organization ? $organization->id : null,
+            'organization_id' => $organizationId ?? null,
             'is_verified' => true,
             'is_active' => true,
             'password' => Hash::make('12345Uihp'),
@@ -123,7 +127,7 @@ UserService extends BaseService
             ->get(['id', 'name']);
     }
 
-    public function userByRoleAndStatus($role, $status)
+    public function userByRoleAndStatus($role, $status): int
     {
         $query = $this->user->where('is_active', $status);
         if ($role == 'donor'){

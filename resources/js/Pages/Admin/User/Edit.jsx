@@ -5,7 +5,7 @@ import Form from './Form';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift, faList} from "@fortawesome/free-solid-svg-icons";
 
-export default function Edit({guardianRelations,genders,module,user}) {
+export default function Edit({guardianRelations,genders,module,user, organizations}) {
     return (
         <AuthenticatedLayout>
             <Head title={`Edit ${module}: ${user.name}`} />
@@ -60,6 +60,7 @@ export default function Edit({guardianRelations,genders,module,user}) {
                                 genders={genders}
                                 guardianRelations={guardianRelations}
                                 user={user}
+                                organizations={organizations}
                             />
                         </div>
                     </div>
