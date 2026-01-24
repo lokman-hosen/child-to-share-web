@@ -391,7 +391,7 @@ export default function LeftSidebar({ onClose }) {
                             <Link
                                 href={route('users.index')}
                                 onClick={onClose}
-                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('users.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('users.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
                             >
                                 <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
                                 Users
@@ -421,7 +421,7 @@ export default function LeftSidebar({ onClose }) {
                             <Link
                                 href={route('organizations.index')}
                                 onClick={onClose}
-                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
                             >
                                 <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
                                 Organizations

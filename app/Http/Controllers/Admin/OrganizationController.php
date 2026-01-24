@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
+use App\Services\DonationService;
 use App\Services\OrganizationService;
+use App\Services\WishService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,6 +20,8 @@ class OrganizationController extends Controller
 
     public function __construct(
         protected OrganizationService $organizationService,
+        protected DonationService $donationService,
+        protected WishService $wishService,
 
     ){}
 
@@ -68,9 +72,20 @@ class OrganizationController extends Controller
     public function show(string $id): Response
     {
         $organization = $this->organizationService->find($id);
+        $totalMembers = $organization->users()->count() - 1; // minus  organization
+        $availableDonationCount = $this->donationService
+            ->donationByStatus('available', 'count',  null,'admin', $organization->user_id);
+        $activeWishCount = $this->wishService
+            ->wishByStatus('approved', 'count',  null,'admin',$organization->user_id);
+        $fulfilledWishCount = $this->wishService
+            ->wishByStatus('fulfilled', 'count',  null,'admin', $organization->user_id);
         return Inertia::render(self::moduleDirectory.'View', [
             'module' => self::moduleName,
-            'organization' => $organization->load('user'),
+            'organization' => $organization->load(['user','users']),
+            'availableDonationCount' => $availableDonationCount,
+            'activeWishCount' => $activeWishCount,
+            'fulfilledWishCount' => $fulfilledWishCount,
+            'totalMembers' => $totalMembers,
         ]);
     }
 

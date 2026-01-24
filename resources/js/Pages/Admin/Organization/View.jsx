@@ -2,8 +2,10 @@
 import React from 'react';
 import {Head, Link} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowLeft, faEdit, faList, faPlusCircle} from "@fortawesome/free-solid-svg-icons";
 
-const View = ({organization, module}) => {
+const View = ({module,organization,availableDonationCount,activeWishCount,fulfilledWishCount,totalMembers}) => {
     return (
         <AuthenticatedLayout>
             <Head title="Organization Detail"/>
@@ -14,21 +16,31 @@ const View = ({organization, module}) => {
                             <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
                                 <div
                                     className="w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-lg">
-                                    <i className="fas fa-school text-blue-500 text-4xl"></i>
+                                    {organization?.user?.image ? (
+                                        <img
+                                            src={`/storage/${organization?.user?.image}`}
+                                            alt={organization.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <i className="fas fa-school text-blue-500 text-4xl"></i>
+                                    )}
+
+
                                 </div>
                             </div>
                             <div className="text-center md:text-left">
-                                <h1 className="text-3xl font-bold mb-2">Sunshine Elementary School</h1>
-                                <p className="text-lg opacity-90">Serving the community since 2005</p>
+                                <h1 className="text-3xl font-bold mb-2">{organization.name}</h1>
+                                <p className="text-lg opacity-90">Serving the community since  {organization.created_at}</p>
                                 <div className="flex flex-wrap justify-center md:justify-start mt-4 gap-3">
                                 <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-users mr-1"></i> 28 Members
+                                    <i className="fas fa-users mr-1"></i> {totalMembers} Members
                                 </span>
                                     <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-gift mr-1"></i> 47 Wishes Fulfilled
+                                    <i className="fas fa-gift mr-1"></i> {fulfilledWishCount} Wishes Fulfilled
                                 </span>
                                     <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-map-marker-alt mr-1"></i> Seattle, WA
+                                    <i className="fas fa-map-marker-alt mr-1"></i> {organization?.address}
                                 </span>
                                 </div>
                             </div>
@@ -52,10 +64,9 @@ const View = ({organization, module}) => {
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Members
-                                            </dt>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Members</dt>
                                             <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">28</div>
+                                                <div className="text-2xl font-semibold text-gray-900">{totalMembers}</div>
                                             </dd>
                                         </dl>
                                     </div>
@@ -72,11 +83,9 @@ const View = ({organization, module}) => {
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Wishes
-                                                Fulfilled
-                                            </dt>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Wishes Fulfilled</dt>
                                             <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">47</div>
+                                                <div className="text-2xl font-semibold text-gray-900">{fulfilledWishCount}</div>
                                             </dd>
                                         </dl>
                                     </div>
@@ -93,10 +102,9 @@ const View = ({organization, module}) => {
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Active Wishes
-                                            </dt>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Active Wishes</dt>
                                             <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">12</div>
+                                                <div className="text-2xl font-semibold text-gray-900">{activeWishCount}</div>
                                             </dd>
                                         </dl>
                                     </div>
@@ -113,10 +121,9 @@ const View = ({organization, module}) => {
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Donations
-                                            </dt>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Donations</dt>
                                             <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">63</div>
+                                                <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
                                             </dd>
                                         </dl>
                                     </div>
@@ -129,30 +136,20 @@ const View = ({organization, module}) => {
                         <div className="lg:col-span-2">
                             <div className="bg-white shadow rounded-lg p-6 mb-8">
                                 <h2 className="text-xl font-semibold text-gray-900 mb-4">About Our Organization</h2>
-                                <p className="text-gray-600 mb-4">
-                                    Sunshine Elementary School has been serving the community since 2005, providing
-                                    quality education
-                                    to children from diverse backgrounds. We believe in fostering not just academic
-                                    excellence but
-                                    also compassion and community spirit.
-                                </p>
-                                <p className="text-gray-600 mb-4">
-                                    Through ThreeWish, we connect families in need with generous donors who can help
-                                    make children's
-                                    wishes come true. Whether it's school supplies, winter clothing, or books for our
-                                    library, every
-                                    donation makes a significant impact on our students' lives.
-                                </p>
+                                <p className="text-gray-600 mb-4">{organization.description}</p>
                                 <div className="flex items-center text-sm text-gray-500">
                                     <i className="fas fa-clock mr-2"></i>
-                                    <span>Joined ThreeWish: January 2022</span>
+                                    <span>Joined ThreeWish: {organization.created_at}</span>
                                 </div>
                             </div>
 
                             <div className="bg-white shadow rounded-lg p-6">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-xl font-semibold text-gray-900">Recent Donations</h2>
-                                    <button className="text-sm text-blue-600 hover:text-blue-800">View All</button>
+                                    <Link
+                                        href={route('donations.index')}
+                                        className="text-sm text-blue-600 hover:text-blue-800">View All
+                                    </Link>
                                 </div>
 
                                 <div className="space-y-4">
@@ -220,10 +217,13 @@ const View = ({organization, module}) => {
                                     </div>
                                 </div>
 
-                                <button
-                                    className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                                    Load More Donations
-                                </button>
+                                <div className="flex text-center mt-4">
+                                    <Link
+                                        href={route('donations.index')}
+                                        className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                                        Load More Donations
+                                    </Link>
+                                </div>
                             </div>
                         </div>
 
@@ -232,92 +232,94 @@ const View = ({organization, module}) => {
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-xl font-semibold text-gray-900">Organization Members</h2>
                                     <span
-                                        className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">28 Members</span>
+                                        className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">{totalMembers} Members</span>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
-                                        <div className="flex-shrink-0 mr-4">
-                                            <div
-                                                className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                                <span className="font-medium text-blue-600">M</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-medium text-gray-900">Maria Rodriguez</h3>
-                                            <p className="text-sm text-gray-500">Principal</p>
-                                        </div>
-                                        <div className="text-right">
+                                    {totalMembers > 0 ?
+                                        (
+                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
+                                                <div className="flex-shrink-0 mr-4">
+                                                    <div
+                                                        className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                                        <span className="font-medium text-blue-600">M</span>
+                                                    </div>
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h3 className="font-medium text-gray-900">Maria Rodriguez</h3>
+                                                    <p className="text-sm text-gray-500">Principal</p>
+                                                </div>
+                                                <div className="text-right">
                                             <span
                                                 className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Admin</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
-                                        <div className="flex-shrink-0 mr-4">
-                                            <div
-                                                className="h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
-                                                <span className="font-medium text-green-600">J</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-medium text-gray-900">James Wilson</h3>
-                                            <p className="text-sm text-gray-500">Teacher</p>
-                                        </div>
-                                        <div className="text-right">
-                                            <span
-                                                className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Moderator</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
-                                        <div className="flex-shrink-0 mr-4">
-                                            <div
-                                                className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center">
-                                                <span className="font-medium text-purple-600">S</span>
+                                        ) :
+                                        (
+                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
+                                                <div className="flex-1 text-center">
+                                                    <p className="text-sm text-gray-500">No user</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-medium text-gray-900">Sarah Johnson</h3>
-                                            <p className="text-sm text-gray-500">Parent Volunteer</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
-                                        <div className="flex-shrink-0 mr-4">
-                                            <div
-                                                className="h-10 w-10 rounded-full bg-yellow-100 flex items-center justify-center">
-                                                <span className="font-medium text-yellow-600">R</span>
-                                            </div>
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-medium text-gray-900">Robert Chen</h3>
-                                            <p className="text-sm text-gray-500">Community Donor</p>
-                                        </div>
-                                    </div>
+                                        )
+                                    }
                                 </div>
-
-                                <button
-                                    className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                                    View All Members
-                                </button>
+                                {totalMembers > 0 ?
+                                    (
+                                        <Link
+                                            href={route('users.index')}
+                                            className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                                            View All Members
+                                        </Link>
+                                    ):(
+                                        <button
+                                            onClick={() => window.history.back()}
+                                            className="w-full mt-6 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                                            <FontAwesomeIcon icon={faArrowLeft}/>
+                                            <span>Back</span>
+                                        </button>
+                                    )
+                                }
                             </div>
 
                             <div className="bg-white shadow rounded-lg p-6">
                                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Organization Actions</h2>
                                 <div className="space-y-3">
-                                    <button
+                                    <Link
+                                        href={route('wishes.create')}
                                         className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                                        <i className="fas fa-plus-circle mr-2"></i> Create Wish for Organization
-                                    </button>
-                                    <button
+                                        <FontAwesomeIcon icon={faPlusCircle}/> Create Wish for Organization
+                                    </Link>
+                                    <Link
+                                        href={route('organizations.edit', organization.id)}
                                         className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                        <i className="fas fa-envelope mr-2"></i> Message Organization
-                                    </button>
-                                    <button
+                                        <FontAwesomeIcon icon={faEdit}/> Edit Organization
+                                    </Link>
+
+                                    <Link
+                                        href={route('organizations.edit', organization.id)}
                                         className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                        <i className="fas fa-share-alt mr-2"></i> Share Organization
+                                        <FontAwesomeIcon icon={faList}/> Organization List
+                                    </Link>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => window.history.back()}
+                                        className="w-full flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                    >
+                                        <div className="flex items-center space-x-2">
+                                            <FontAwesomeIcon icon={faArrowLeft}/>
+                                            <span>Back</span>
+                                        </div>
                                     </button>
+                                    {/*<button*/}
+                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">*/}
+                                    {/*    <i className="fas fa-envelope mr-2"></i> Message Organization*/}
+                                    {/*</button>*/}
+                                    {/*<button*/}
+                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">*/}
+                                    {/*    <i className="fas fa-share-alt mr-2"></i> Share Organization*/}
+                                    {/*</button>*/}
                                 </div>
                             </div>
                         </div>
