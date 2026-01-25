@@ -57,6 +57,9 @@ class WishController extends Controller
         if (Auth::user()->user_type == 'organization'){
             $wishers = $this->userService->getOrganizationWisherList();
         }
+        if (in_array(Auth::user()->role, ['admin', 'super-admin'])){
+            $wishers = $this->userService->getWisher();
+        }
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
             'categories' => $categories,
@@ -86,7 +89,6 @@ class WishController extends Controller
         Gate::authorize('view', $wish);
         $wish->load([
             'user',
-            'organization',
             'category',
             'files', // Make sure this matches your relationship name
             'createBy',
@@ -106,7 +108,6 @@ class WishController extends Controller
         Gate::authorize('update', $wish);
         $wish->load([
             'user',
-            'organization',
             'category',
             'files' // Make sure this matches your relationship name
         ]);
@@ -115,6 +116,9 @@ class WishController extends Controller
         $wishers = collect();
         if (Auth::user()->user_type == 'organization'){
             $wishers = $this->userService->getOrganizationWisherList();
+        }
+        if (in_array(Auth::user()->role, ['admin', 'super-admin'])){
+            $wishers = $this->userService->getWisher();
         }
         return Inertia::render(self::moduleDirectory.'Edit', [
             'module' => self::moduleName,

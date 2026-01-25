@@ -11,6 +11,7 @@ use App\Models\Wish;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -141,5 +142,30 @@ UserService extends BaseService
             });
         }
         return$query->count();
+    }
+
+    public function getWisher()
+    {
+        return $this->user
+            ->whereHas('roles', function ($role) {
+                $role->where('slug', 'wisher');
+            })
+            ->with('organization') // Make sure you have a relationship defined
+            ->orderBy('name','asc')
+            ->get(['id', 'name', 'organization_id','guardian_name'])
+            ->map(function ($user) {
+                $displayName = $user->name;
+                if ($user->organization && $user->organization->name) {
+                    if ($user->guardian_name){
+                        $displayName .= '(Guardian:'.$user->guardian_name.',Org:'.$user->organization->name.')';
+                    }else{
+                        $displayName .= ' (Org:' . $user->organization->name . ')';
+                    }
+                }
+                return [
+                    'id' => $user->id,
+                    'name' => $displayName,
+                ];
+            });
     }
 }

@@ -177,7 +177,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                     options={ageRangeOptions}
                     required
                 />
-                {user.userType === 'organization' &&
+                {(user.userType === 'organization' || user.role == 'super-admin') &&
                     <SelectInput
                         id="user_id"
                         label="Select Wisher(Wish for)"

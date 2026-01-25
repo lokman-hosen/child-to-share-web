@@ -41,7 +41,9 @@ class WishPolicy
      */
     public function create(User $user): bool
     {
-        if (checkDonorWisher() or checkWisher()){
+        if (checkAdmin()){
+            return true;
+        } elseif (checkDonorWisher() or checkWisher()){
             return true;
         }
         return false;
