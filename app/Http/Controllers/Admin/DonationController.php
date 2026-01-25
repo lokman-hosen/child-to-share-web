@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateDonationRequest;
 use App\Models\Donation;
 use App\Services\CategoryService;
 use App\Services\DonationService;
+use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,8 @@ class DonationController extends Controller
     const moduleName = 'Donation';
     public function __construct(
         protected CategoryService $categoryService,
-        protected DonationService $donationService
+        protected DonationService $donationService,
+        protected UserService $userService,
 
     ){}
     /**
@@ -46,10 +48,15 @@ class DonationController extends Controller
         $categories = $this->categoryService->listByStatus();
         $statuses = donationStatus();
         $itemConditions = $this->donationService->getItemConditions();
+        $donors = collect();
+        if (in_array(Auth::user()->role, ['admin', 'super-admin'])){
+            $donors = $this->userService->getWisherAndDonorByRole('donor');
+        }
         return Inertia::render(self::moduleDirectory.'Create', [
             'module' => self::moduleName,
             'categories' => $categories,
             'statuses' => $statuses,
+            'donors' => $donors,
             'itemConditions' => $itemConditions,
         ]);
     }
@@ -104,12 +111,17 @@ class DonationController extends Controller
         $categories = $this->categoryService->listByStatus();
         $statuses = donationStatus();
         $itemConditions = $this->donationService->getItemConditions();
+        $donors = collect();
+        if (in_array(Auth::user()->role, ['admin', 'super-admin'])){
+            $donors = $this->userService->getWisherAndDonorByRole('donor');
+        }
         return Inertia::render(self::moduleDirectory.'Edit', [
             'module' => self::moduleName,
             'donation' => $donation,
             'categories' => $categories,
             'statuses' => $statuses,
             'itemConditions' => $itemConditions,
+            'donors' => $donors,
         ]);
     }
 

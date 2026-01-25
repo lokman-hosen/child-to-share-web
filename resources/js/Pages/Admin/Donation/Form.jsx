@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useForm } from '@inertiajs/react';
 import TextInput from '@/Components/TextInputField.jsx';
 import SelectInput from '@/Components/SelectInput.jsx';
-import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
+import {getDropdownOptions, getLoginUser, getStatusOptions} from "@/utils.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faArrowLeft, faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
 import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
@@ -10,7 +10,7 @@ import TextareaInput from "@/Components/TextareaInput.jsx";
 import Checkbox from "@/Components/Checkbox.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
-const Form = ({categories, donation, statuses, module, itemConditions}) => {
+const Form = ({categories, donation, statuses, module, itemConditions, donors}) => {
     const fileInputRef = useRef(null);
 
     // Convert auto_tags from string/array to the format MultiSelect expects
@@ -50,6 +50,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
         auto_tags: donation?.auto_tags || [],
         attachments: [], // Always start with empty array for new files
         status: donation?.status || 'available',
+        user_id: donation?.user_id || null,
         remember: false, // Add remember field for the checkbox
 
         // We will add the _method field dynamically in handleSubmit
@@ -78,6 +79,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 description: donation?.description || '',
                 auto_tags: formattedTags.map(tag => tag.value),
                 status: donation?.status || 'available',
+                user_id: donation?.user_id || null,
                 // Don't set attachments from donation as they're already stored
                 _method: 'PUT', // Ensure method spoofing is set for updates
             }));
@@ -128,7 +130,7 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
     };
 
     const statusOptions = getStatusOptions(statuses);
-    //const categoryOptions = getDropdownOptions(categories, 'id', 'name');
+    const donorOptions = getDropdownOptions(donors, 'id', 'name');
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -163,16 +165,6 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                 {/*    required*/}
                 {/*/>*/}
 
-                {/*<SelectInput*/}
-                {/*    id="category_id"*/}
-                {/*    label="Select category"*/}
-                {/*    value={data.category_id}*/}
-                {/*    onChange={(e) => setData('category_id', e.target.value)}*/}
-                {/*    error={errors.category_id}*/}
-                {/*    options={categoryOptions}*/}
-                {/*    required*/}
-                {/*/>*/}
-
                 <CustomCreatableSelect
                     id="category"
                     label="Category(type to create new)"
@@ -192,6 +184,18 @@ const Form = ({categories, donation, statuses, module, itemConditions}) => {
                     error={errors.auto_tags}
                     required
                 />
+
+                { getLoginUser().role == 'super-admin' &&
+                    <SelectInput
+                        id="user_id"
+                        label="Select Donor"
+                        value={data.user_id}
+                        onChange={(e) => setData('user_id', e.target.value)}
+                        error={errors.user_id}
+                        options={donorOptions}
+                        required
+                    />
+                }
                 { donation &&
                     <SelectInput
                         id="status"

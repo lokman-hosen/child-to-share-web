@@ -10,11 +10,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
+import {getLoginUser} from "@/utils.jsx";
 
 export default function LeftSidebar({ onClose }) {
-    const user = usePage().props.auth.user;
-    console.log(user)
-
+    const user = getLoginUser();
     return (
         <div className="w-full bg-white h-full overflow-y-auto fixed md:fixed inset-y-0 left-0 z-40">
             {/* Mobile Header with Close Button */}
@@ -411,7 +410,7 @@ export default function LeftSidebar({ onClose }) {
                             <Link
                                 href={route('donations.index')}
                                 onClick={onClose}
-                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('donations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('donations.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
                             >
                                 <FontAwesomeIcon icon={faGift} className="mr-2"/>
                                 Donations

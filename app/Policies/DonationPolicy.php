@@ -37,7 +37,7 @@ class DonationPolicy
      */
     public function create(User $user): bool
     {
-        if (checkDonorWisher() or checkDonor()){
+        if (checkAdmin() or checkDonorWisher() or checkDonor()){
             return true;
         }
         return false;

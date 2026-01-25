@@ -1,4 +1,5 @@
 import React from "react";
+import {usePage} from "@inertiajs/react";
 
 export const getDropdownOptions = (data, valueKey, labelKey) => {
     if (!data) {
@@ -91,6 +92,10 @@ export const searchReplace = (text, searchChars = '_', replaceWith = ' ') => {
 
     return text.replace(regex, replaceWith);
 };
+
+export const getLoginUser = () =>{
+    return usePage().props.auth.user;
+}
 
 
 

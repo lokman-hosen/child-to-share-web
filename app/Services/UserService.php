@@ -144,17 +144,35 @@ UserService extends BaseService
         return$query->count();
     }
 
-    public function getWisher()
+    public function getWisherAndDonorByRole(string $role = null)
     {
-        return $this->user
-            ->whereHas('roles', function ($role) {
-                $role->where('slug', 'wisher');
-            })
-            ->with('organization') // Make sure you have a relationship defined
-            ->orderBy('name','asc')
-            ->get(['id', 'name', 'organization_id','guardian_name'])
+        $query = $this->user->with('organization');
+        if (isset($role)){
+            if ($role == 'wisher'){
+                $query->whereHas('roles', function ($role) {
+                    $role->where('slug', 'wisher');
+                });
+            }
+            if ($role == 'donor'){
+                $query->whereHas('roles', function ($role) {
+                    $role->where('slug', 'donor');
+                });
+            }
+        }
+
+        return $query->orderBy('name','asc')->get(['id', 'name', 'phone', 'email', 'organization_id','guardian_name'])
             ->map(function ($user) {
                 $displayName = $user->name;
+                if ($user->phone){
+                    $displayName = $user->name.'('.$user->phone.')';
+                }
+                if ($user->email){
+                    $displayName = $user->name.'('.$user->email.')';
+                }
+                if ($user->phone and $user->email){
+                    $displayName = $user->name.' ('.$user->email. ','.$user->phone.')';
+                }
+
                 if ($user->organization && $user->organization->name) {
                     if ($user->guardian_name){
                         $displayName .= '(Guardian:'.$user->guardian_name.',Org:'.$user->organization->name.')';

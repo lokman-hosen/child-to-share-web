@@ -51,7 +51,7 @@ class DonationService extends BaseService
             'title' => $request->title,
             'description' => $request->description,
             'item_condition' => $request->item_condition,
-            'user_id' => Auth::id(),
+            'user_id' => $request->user_id ?? Auth::id(),
             'category_id' => $category->id,
             'auto_tags' => $autoTagsString,
             'status' => 'available',
@@ -75,6 +75,7 @@ class DonationService extends BaseService
             'description' => $request->description,
             'item_condition' => $request->item_condition,
             'category_id' => $category->id,
+            'user_id' => $request->user_id ?? Auth::id(),
             'auto_tags' => $autoTagsString,
             'status' => $request->status,
         ]);
