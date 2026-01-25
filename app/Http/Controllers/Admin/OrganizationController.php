@@ -16,7 +16,7 @@ use Inertia\Response;
 class OrganizationController extends Controller
 {
     const moduleDirectory = 'Admin/Organization/';
-    const moduleName = 'Organization List';
+    const moduleName = 'Organization';
 
     public function __construct(
         protected OrganizationService $organizationService,
