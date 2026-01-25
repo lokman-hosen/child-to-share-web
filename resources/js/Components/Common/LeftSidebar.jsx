@@ -367,15 +367,15 @@ export default function LeftSidebar({ onClose }) {
                 {/*Admin section start*/}
                 {(user.role == 'super-admin' || user.role == 'admin') && (
                     <ul className="mt-4">
-                        <li className="mb-1">
-                            <Link
-                                href={route('home')}
-                                title="Visit Website"
-                                className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors"
-                            >
-                                <FontAwesomeIcon icon={faHome} className="text-xl"/> Website
-                            </Link>
-                        </li>
+                        {/*<li className="mb-1">*/}
+                        {/*    <Link*/}
+                        {/*        href={route('home')}*/}
+                        {/*        title="Visit Website"*/}
+                        {/*        className="nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors"*/}
+                        {/*    >*/}
+                        {/*        <FontAwesomeIcon icon={faHome} className="text-xl"/> Website*/}
+                        {/*    </Link>*/}
+                        {/*</li>*/}
                         <li className="mb-1">
                             <Link
                                 href={route('dashboard')}
