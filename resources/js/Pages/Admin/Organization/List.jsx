@@ -216,7 +216,7 @@ export default function List({ module, organizations }) {
                                                                     </h3>
                                                                     <p className="text-sm text-gray-500 mt-1 flex items-center">
                                                                         <FontAwesomeIcon icon={faCalendar} className="w-3 h-3 mr-2" />
-                                                                        Since: {new Date(organization.created_at).toLocaleDateString()}
+                                                                        Since: {organization.created_at}
                                                                     </p>
                                                                 </div>
                                                             </div>
