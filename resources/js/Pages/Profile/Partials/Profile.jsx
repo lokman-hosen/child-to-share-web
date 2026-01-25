@@ -3,11 +3,11 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from 'date-fns';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {checkDonor, checkDonorWisher, checkWisher} from "@/utils.jsx";
+import {checkDonor, checkDonorWisher, checkWisher, getLoginUser} from "@/utils.jsx";
 import {faCheckCircle, faTimesCircle, faEnvelope, faPhone, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 
 export default function Profile({ user,availableDonationCount,donatedDonationCount,fulfilledWishCount,activeWishCount,totalWishCount }) {
-    const authUser = usePage().props.auth.user;
+    const authUser = getLoginUser();
 
     return (
         <AuthenticatedLayout>
@@ -223,7 +223,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                     {/*    </div>*/}
                     {/*)}*/}
 
-                    {(authUser.role === 'super_admin' && authUser.role === 'admin') || (authUser.id === user.id) &&
+                    {(authUser.role === 'super-admin' && authUser.role === 'admin') || (authUser.id === user.id) &&
                         <div className="mt-6 flex">
                             <Link
                                 href={route('profile.update')}
