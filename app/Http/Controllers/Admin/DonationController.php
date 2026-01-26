@@ -69,7 +69,7 @@ class DonationController extends Controller
         Gate::authorize('create', Donation::class);
         $donation = $this->donationService->createDonation($request);
         if ($donation){
-            return redirect()->route('donations.index')->with('success', 'Donation created successfully!');
+            return redirect()->route('donations.index')->with('success', 'Gift created successfully!');
         }
         return redirect()->route('donations.index')->with('error', 'Error to created donation');
 
@@ -133,7 +133,7 @@ class DonationController extends Controller
         Gate::authorize('update', $donation);
         $updateDonation = $this->donationService->updateDonation($request, $donation);
         if ($updateDonation){
-            return redirect()->route('donations.index')->with('success', 'Donation updated successfully!');
+            return redirect()->route('donations.index')->with('success', 'Gift updated successfully!');
         }
         return redirect()->route('donations.index')->with('error', 'Error to updated donation');
     }
@@ -146,7 +146,7 @@ class DonationController extends Controller
         Gate::authorize('delete', $donation);
         $deleteDonationItem = $this->donationService->deleteDonation($donation);
         if ($deleteDonationItem){
-            return redirect()->route('donations.index')->with('success', 'Donation item deleted successfully.');
+            return redirect()->route('donations.index')->with('success', 'Gift item deleted successfully.');
         }
         return redirect()->route('donations.index')->with('error', 'Opps... Failed to delete donation item.');
     }
@@ -155,7 +155,7 @@ class DonationController extends Controller
     {
         $donationFile = $this->donationService->deleteSingleFile($fileId);
         if ($donationFile){
-            return redirect()->back()->with('success', 'Donation file deleted successfully!');
+            return redirect()->back()->with('success', 'Gift file deleted successfully!');
         }
         return redirect()->back()->with('error', 'Error to delete donation file');
     }

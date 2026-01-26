@@ -267,7 +267,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                                             >
                                                 <img
                                                     src={image.url}
-                                                    alt={image.alt_text || 'Donation image'}
+                                                    alt={image.alt_text || 'Gift image'}
                                                     className="w-full h-24 object-cover rounded-md"
                                                 />
                                                 {isSelected && (

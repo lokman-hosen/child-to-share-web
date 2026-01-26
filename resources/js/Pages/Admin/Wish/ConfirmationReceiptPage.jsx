@@ -611,7 +611,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                             className="w-4 h-4 mr-2 text-gray-400"
                                         />
                                     )}
-                                    {userType == 'wisher' ? 'Donation Details' : 'Wish Details'}
+                                    {userType == 'wisher' ? 'Gift Details' : 'Wish Details'}
                                 </h3>
 
                                 <div className="grid grid-cols-1 gap-6">

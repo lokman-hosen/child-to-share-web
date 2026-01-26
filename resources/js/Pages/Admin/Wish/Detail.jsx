@@ -104,7 +104,7 @@ export default function Detail({module, wish, donations}) {
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
                                         <SelectInput
                                             id="donation_id"
-                                            label="Select Donation"
+                                            label="Select Gift"
                                             value={data.donation_id}
                                             onChange={(e) => setData('donation_id', e.target.value)}
                                             error={errors.donation_id}

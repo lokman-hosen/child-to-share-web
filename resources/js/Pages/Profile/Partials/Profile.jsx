@@ -11,7 +11,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
     return (
         <AuthenticatedLayout>
-            <Head title="Donation Create"/>
+            <Head title="Gift Create"/>
             <div className="px-10 py-8">
                 <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Profile</h1>
 

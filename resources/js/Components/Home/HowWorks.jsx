@@ -8,7 +8,7 @@ const HowWorks = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div className="step-card">
                         <div className="step-number bg-purple-100 text-purple-600">1</div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-3">Create a Wish or Donation</h3>
+                        <h3 className="text-xl font-semibold text-gray-900 mb-3">Create a Wish or Gift</h3>
                         <p className="text-gray-600">Children create wishes for items they need, or list items they'd
                             like to donate.</p>
                     </div>

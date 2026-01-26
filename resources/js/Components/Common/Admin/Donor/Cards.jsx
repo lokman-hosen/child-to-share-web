@@ -72,7 +72,7 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount, activeWish
                                         <FontAwesomeIcon icon={faPlus} className="text-white" />
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-semibold text-gray-900">Create Donation</h3>
+                                        <h3 className="text-lg font-semibold text-gray-900">Create Gift</h3>
                                         <p className="text-sm text-gray-600">Tap to share items</p>
                                     </div>
                                 </div>

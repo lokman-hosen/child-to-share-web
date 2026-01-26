@@ -197,7 +197,7 @@ export default function List({module, donations}) {
                                                 className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} />
-                                                <span>Create First Donation</span>
+                                                <span>Create First Gift</span>
                                             </Link>
                                         </div>
                                     )}
@@ -313,7 +313,7 @@ export default function List({module, donations}) {
                                                                     className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                                                                 >
                                                                     <FontAwesomeIcon icon={faPlus} />
-                                                                    <span>Create First Donation</span>
+                                                                    <span>Create First Gift</span>
                                                                 </Link>
                                                             </div>
                                                         </td>
@@ -424,7 +424,7 @@ export default function List({module, donations}) {
                                                         className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                                                     >
                                                         <FontAwesomeIcon icon={faPlus} />
-                                                        <span>Create First Donation</span>
+                                                        <span>Create First Gift</span>
                                                     </Link>
                                                 </div>
                                             )}

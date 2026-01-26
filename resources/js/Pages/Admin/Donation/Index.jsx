@@ -6,7 +6,7 @@ import {faBackward, faEdit, faList, faPlus, faTrash} from "@fortawesome/free-sol
 export default function Index() {
     return (
         <AuthenticatedLayout>
-            <Head title="Donation List"/>
+            <Head title="Gift List"/>
             <div className="px-10 py-8">
                     <h1 className="text-2xl font-bold text-gray-900 mb-6">My Gifts</h1>
 

@@ -91,7 +91,7 @@ export default function List({module, donation}) {
 
     return (
         <AuthenticatedLayout>
-            <Head title="Donation List"/>
+            <Head title="Gift List"/>
             <div className="px-4 sm:px-6 lg:px-8 py-6">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     {/* Beautiful Card Header */}
