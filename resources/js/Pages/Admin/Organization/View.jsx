@@ -121,7 +121,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Donations</dt>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Gifts</dt>
                                             <dd className="flex items-baseline">
                                                 <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
                                             </dd>
@@ -145,7 +145,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
 
                             <div className="bg-white shadow rounded-lg p-6">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-xl font-semibold text-gray-900">Recent Donations</h2>
+                                    <h2 className="text-xl font-semibold text-gray-900">Recent Gifts</h2>
                                     <Link
                                         href={route('donations.index')}
                                         className="text-sm text-blue-600 hover:text-blue-800">View All
@@ -221,7 +221,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                     <Link
                                         href={route('donations.index')}
                                         className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-                                        Load More Donations
+                                        Load More Gifts
                                     </Link>
                                 </div>
                             </div>

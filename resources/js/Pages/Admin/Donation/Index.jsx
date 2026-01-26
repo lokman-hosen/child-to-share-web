@@ -8,7 +8,7 @@ export default function Index() {
         <AuthenticatedLayout>
             <Head title="Donation List"/>
             <div className="px-10 py-8">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-6">My Donations</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 mb-6">My Gifts</h1>
 
                     <div className="bg-white shadow rounded-lg overflow-hidden">
                         <div className="border-b border-gray-200">

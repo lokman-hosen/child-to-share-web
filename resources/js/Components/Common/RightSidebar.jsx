@@ -69,7 +69,7 @@ export default function RightSidebar() {
                 <div className="my-6 border-t border-gray-200"></div>
 
                 <h2 className="text-lg font-bold text-gray-800 mb-5 flex items-center">
-                    <i className="fas fa-gift mr-2 text-accent"></i> Suggested Donations
+                    <i className="fas fa-gift mr-2 text-accent"></i> Suggested Gifts
                 </h2>
 
                 <div className="space-y-4">

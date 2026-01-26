@@ -108,7 +108,7 @@ const Cards = ({userType,availableDonationCount,donatedDonationCount, activeWish
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Active Donations</dt>
+                                            <dt className="text-sm font-medium text-gray-500 truncate">Active Gifts</dt>
                                             <dd className="flex items-baseline">
                                                 <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
                                             </dd>

@@ -10,7 +10,7 @@ export default function Dashboard() {
         <AuthenticatedLayout>
             <Head title="Donation List"/>
             <div className="px-10 py-8">
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Donations List</h1>
+                <h1 className="text-2xl font-bold text-gray-900 mb-6">Gifts List</h1>
                 <div className="bg-white shadow rounded-lg p-6">
                     <div className="w-2xl space-y-8">
                         <div className="bg-white shadow rounded-lg overflow-hidden mb-8">

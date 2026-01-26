@@ -70,13 +70,13 @@ const Index = ({donations, categories, filters, module}) => {
 
     return (
         <GuestLayout>
-            <Head title="Donations"/>
+            <Head title="Gifts"/>
             <Hero/>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
                 <div className="filter-section mb-6">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         {/* Left Title */}
-                        <h2 className="text-xl font-semibold text-gray-900">Filter Donations</h2>
+                        <h2 className="text-xl font-semibold text-gray-900">Filter Gifts</h2>
 
                         {/* Right Filters */}
                         <div className="flex flex-col sm:flex-row gap-2">

@@ -14,7 +14,7 @@ const DonationList = ({donations, user}) => {
                         <Link
                             href={route('donation.index')}
                             className="text-gray-700 font-medium hover:text-gray-900 flex items-center text-sm">
-                            View All Donations <i className="fas fa-arrow-right ml-2"></i>
+                            View All Gifts <i className="fas fa-arrow-right ml-2"></i>
                         </Link>
                     </div>
                     {donations.length > 0 ? (

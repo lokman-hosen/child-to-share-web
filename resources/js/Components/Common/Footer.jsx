@@ -23,7 +23,7 @@ const Footer = () => {
                                 <Link href={route('wish.index')} className="text-gray-400 hover:text-white">Wishes</Link>
                             </li>
                             <li>
-                                <Link href={route('donation.index')} className="text-gray-400 hover:text-white">Donations</Link>
+                                <Link href={route('donation.index')} className="text-gray-400 hover:text-white">Gifts</Link>
                             </li>
                         </ul>
                     </div>

@@ -5,7 +5,7 @@ const List = (donations, module) => {
         <>
             <div className="filter-section">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4 md:mb-0">Filter Donations</h2>
+                    <h2 className="text-xl font-semibold text-gray-900 mb-4 md:mb-0">Filter Gifts</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <select
                             className="border-gray-300 rounded-md shadow-sm py-2 px-3 border focus:outline-none focus:ring-purple-500 focus:border-purple-500">

@@ -95,7 +95,7 @@ export default function Navbar({ onMenuClick }) {
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                                 onClick={() => setIsProfileOpen(false)}
                                             >
-                                                My Donations
+                                                My Gifts
                                             </Link>
                                             <Link
                                                 href={route('donations.create')}

@@ -99,7 +99,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     icon={faGift}
                                     className={`w-5 h-5 ${isActiveRoute('/donation') ? 'scale-110' : ''} transition-transform`}
                                 />
-                                <span className="text-xs font-medium">Donations</span>
+                                <span className="text-xs font-medium">Gifts</span>
                             </Link>
 
                             {/* Wishes */}

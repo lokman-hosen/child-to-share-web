@@ -76,7 +76,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                             <span className="text-xs font-medium">Home</span>
                         </Link>
 
-                        {/* Donations */}
+                        {/* Gifts */}
                         <Link
                             href={route('donation.index')}
                             className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
@@ -87,7 +87,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                                 icon={faGift}
                                 className={`w-5 h-5 ${isActiveRoute('/donations') ? 'scale-110' : ''} transition-transform`}
                             />
-                            <span className="text-xs font-medium">Donations</span>
+                            <span className="text-xs font-medium">Gifts</span>
                         </Link>
 
                         {/* Wishes */}
