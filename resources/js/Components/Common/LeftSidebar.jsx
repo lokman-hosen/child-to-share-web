@@ -1,9 +1,6 @@
 import {Link, usePage} from "@inertiajs/react";
 import {
-    faBars,
-    faChevronDown,
     faGift,
-    faHome,
     faSignOutAlt,
     faUserCircle,
     faTimes, faDashboard, faStar, faUsers
