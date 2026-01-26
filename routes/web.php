@@ -44,6 +44,9 @@ Route::controller(\App\Http\Controllers\DonationController::class)->group(functi
 Route::controller(\App\Http\Controllers\FulfilmentController::class)->group(function () {
     Route::get('wish-fulfillment', 'index')->name('fulfillment.index');
 });
+Route::get('/about', function () {
+    return Inertia::render('About/Index');
+})->name('about');
 
 
 //Route::get('/dashboard', function () {

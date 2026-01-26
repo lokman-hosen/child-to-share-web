@@ -27,7 +27,7 @@ export default function Navbar({ onMenuClick }) {
                         <Link href={route('home')} >
                             <div className="flex-shrink-0 flex items-center space-x-2">
                                 <img
-                                    src="/images/thee-wish.jpeg"
+                                    src="/images/3wish.png"
                                     alt="ThreeWish Logo"
                                     className="h-12 w-10 object-cover rounded" // Better styling
                                     onError={(e) => {
