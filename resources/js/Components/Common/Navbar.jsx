@@ -46,6 +46,11 @@ export default function Navbar() {
                             >
                                 Home
                             </Link>
+                            <Link
+                                href={route('about')}
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('about')) ? 'nav-item active' : ''}`}>
+                                About Us
+                            </Link>
 
                             {/*<div className="relative group">*/}
                             {/*    <a href="#"*/}
@@ -96,11 +101,6 @@ export default function Navbar() {
                                 href={route('fulfillment.index')}
                                 className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('fulfillment.index') || route().current('wish.show')) ? 'nav-item active' : ''}`}>
                                 Fulfilled Wishes
-                            </Link>
-                            <Link
-                                href={route('about')}
-                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('about')) ? 'nav-item active' : ''}`}>
-                                About Us
                             </Link>
 
                         </div>
@@ -277,6 +277,13 @@ export default function Navbar() {
                         Home
                     </Link>
                     <Link
+                        href={route('about')}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('about')) ? 'nav-item active' : ''}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        About Us
+                    </Link>
+                    <Link
                         href={`${route('home')}#how-it-works`}
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${
                             route().current('home') && window.location.hash === '#how-it-works'
@@ -309,14 +316,6 @@ export default function Navbar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Fulfilled Wishes
-                    </Link>
-
-                    <Link
-                        href={route('about')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('about')) ? 'nav-item active' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        About Us
                     </Link>
 
                 </div>
