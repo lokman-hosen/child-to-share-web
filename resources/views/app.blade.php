@@ -9,7 +9,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     @endif
     <!-- Fonts -->
-    <link rel="icon" sizes="180x180" href="{{asset('images/fav-icon.png')}}" />
+    <link rel="icon" sizes="180x180" href="{{asset('images/Favicon.png')}}" />
     <meta name="apple-mobile-web-app-title" content="threeWish" />
     <link rel="manifest" href="https://threewish.org" />
 

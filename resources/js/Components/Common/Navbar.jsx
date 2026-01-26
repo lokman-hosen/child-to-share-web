@@ -24,14 +24,15 @@ export default function Navbar() {
                         <Link href={route('home')}>
                             <div className="flex-shrink-0 flex items-center space-x-2">
                                 <img
-                                    src="/images/thee-wish.jpeg"
+                                    src="/images/3wish.png"
                                     alt="ThreeWish Logo"
-                                    className="h-12 w-10 object-cover rounded"
+                                    title="ThreeWish"
+                                    className="h-16 object-cover rounded"
                                     onError={(e) => {
                                         e.target.style.display = 'none';
                                     }}
                                 />
-                                <span className="font-bold text-xl text-gray-900">ThreeWish</span>
+                                {/*<span className="font-bold text-xl text-gray-900">ThreeWish</span>*/}
                             </div>
                         </Link>
                         <div className="hidden md:ml-6 md:flex md:space-x-8">
