@@ -100,14 +100,14 @@ export default function GuestLayout({ children }) {
                     href={route('donations.create')}
                     className="fixed bottom-20 right-6 z-40 md:bottom-6 group"
                 >
-                    <div className="relative" title="Donate Item">
+                    <div className="relative" title="Gift Item">
                         {/* Pulsing effect */}
                         <div className="absolute inset-0 bg-purple-600 rounded-full animate-ping opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                         {/* Main button with text */}
                         <div className="relative bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full sm:rounded-2xl p-4 shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-2">
                             <FontAwesomeIcon icon={faPlus} className="w-6 h-6 flex-shrink-0" />
-                            <span className="hidden sm:block font-semibold text-sm">Donate Item</span>
+                            <span className="hidden sm:block font-semibold text-sm">Gift Item</span>
                         </div>
 
                         {/* Mobile badge */}
