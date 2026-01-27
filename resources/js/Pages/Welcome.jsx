@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from '@fortawesome/free-solid-svg-icons';
 import WishList from "@/Components/Home/WishList.jsx";
 import Category from "@/Components/Home/Category.jsx";
+import Partner from "@/Components/Home/Partner.jsx";
 
 export default function Welcome({ auth, donations, wishes, wisherImages,
                                     activeDonorCount, totalWishCount,
@@ -52,6 +53,8 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                 />
                 <HowWorks/>
                 <Category categories={categories}/>
+                <Partner/>
+
                 <RegistrationCTA user={user} />
                 {/*<Faq/>*/}
             </div>
