@@ -135,7 +135,7 @@ const Hero = ({ user }) => {
                     {/* Right Column - Split into two parts (1/3 width on large screens) */}
                     <div className="w-full lg:w-1/3 flex flex-col">
                         {/* Top Part - Image */}
-                        <div className="w-full h-[250px] md:h-[300px] overflow-hidden">
+                        <div className="w-full h-[250px] md:h-[308px] overflow-hidden">
                             <img
                                 src="https://www.sumablessings.org/assets/images/blog/690e6ebc37ed21762553532.jpeg"
                                 alt="ThreeWish Community"
