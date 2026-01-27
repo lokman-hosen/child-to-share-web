@@ -56,7 +56,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                 <Partner/>
 
                 <RegistrationCTA user={user} />
-                {/*<Faq/>*/}
+                <Faq/>
             </div>
             <Footer/>
 
