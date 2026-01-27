@@ -1,79 +1,192 @@
-import React from 'react';
-import {Link} from "@inertiajs/react";
+import React, { useState, useEffect } from 'react';
+import { Link } from "@inertiajs/react";
 
-const Hero = ({user, wisherImages}) => {
+const Hero = ({ user }) => {
+    // Temporary slides array - will be replaced with data from database later
+    const [slides, setSlides] = useState([
+        {
+            id: 1,
+            image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            caption: "Children learning the joy of giving"
+        },
+        {
+            id: 2,
+            image: "https://randyandrayelynnjassman.com/wp-content/uploads/2018/06/Randy-and-Raylynn-Jassman-Children-Giving-Back-Blog-1024x680-1.jpg",
+            caption: "Making wishes come true"
+        },
+        {
+            id: 3,
+            image: "https://www.goodwillaz.org/wp-content/uploads/2024/08/Screenshot-2024-08-06-at-3.13.20%E2%80%AFPM.png",
+            caption: "Building community connections"
+        },
+        {
+            id: 4,
+            image: "https://www.shutterstock.com/image-photo/boy-child-puts-toys-cardboard-600nw-2423704351.jpg",
+            caption: "Building community connections"
+        }
+    ]);
+
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [fade, setFade] = useState(true);
+
+    // Auto slide functionality
+    useEffect(() => {
+        const interval = setInterval(() => {
+            nextSlide();
+        }, 5000); // Change slide every 5 seconds
+
+        return () => clearInterval(interval);
+    }, [currentSlide]);
+
+    const nextSlide = () => {
+        setFade(false);
+        setTimeout(() => {
+            setCurrentSlide((prev) => (prev + 1) % slides.length);
+            setFade(true);
+        }, 300);
+    };
+
+    const prevSlide = () => {
+        setFade(false);
+        setTimeout(() => {
+            setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+            setFade(true);
+        }, 300);
+    };
+
+    const goToSlide = (index) => {
+        setFade(false);
+        setTimeout(() => {
+            setCurrentSlide(index);
+            setFade(true);
+        }, 300);
+    };
+
     return (
-            <section className="hero-bg py-16 md:py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex flex-col md:flex-row items-center">
-                        <div className="w-full md:w-1/2 mb-10 md:mb-0">
-                            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Where Children Learn the
-                                Joy of Giving</h1>
-                            <p className="text-lg text-gray-700 mb-8">A platform that connects children who have items
-                                to share with those who have wishes to fulfill</p>
+        <section className="hero-bg">
+            <div className="container-fluid mx-auto">
+                <div className="flex flex-col lg:flex-row items-center">
+
+                    {/* Left Column - Image Carousel (2/3 width on large screens) */}
+                    <div className="w-full lg:w-2/3">
+                        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[650px] overflow-hidden shadow-xl">
+                            {/* Slides */}
+                            {slides.map((slide, index) => (
+                                <div
+                                    key={slide.id}
+                                    className={`absolute inset-0 w-full h-full transition-opacity duration-500 ${
+                                        index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                                    } ${fade ? 'animate-fadeIn' : ''}`}
+                                >
+                                    <img
+                                        src={slide.image}
+                                        alt={`Slide ${index + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    {slide.caption && (
+                                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+                                            <p className="text-white text-lg md:text-xl font-medium text-center">
+                                                {slide.caption}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+
+                            {/* Slide Controls */}
+                            <button
+                                onClick={prevSlide}
+                                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                aria-label="Previous slide"
+                            >
+                                <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+
+                            <button
+                                onClick={nextSlide}
+                                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
+                                aria-label="Next slide"
+                            >
+                                <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+
+                            {/* Slide Indicators */}
+                            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                                {slides.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => goToSlide(index)}
+                                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                                            index === currentSlide
+                                                ? 'bg-white scale-125'
+                                                : 'bg-white/60 hover:bg-white/80'
+                                        }`}
+                                        aria-label={`Go to slide ${index + 1}`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Split into two parts (1/3 width on large screens) */}
+                    <div className="w-full lg:w-1/3 flex flex-col">
+                        {/* Top Part - Image */}
+                        <div className="w-full h-[250px] md:h-[300px] overflow-hidden">
+                            <img
+                                src="https://www.sumablessings.org/assets/images/blog/690e6ebc37ed21762553532.jpeg"
+                                alt="ThreeWish Community"
+                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                            />
+                        </div>
+
+                        {/* Bottom Part - Text Box */}
+                        <div className="bg-gradient-to-br from-white to-gray-50 p-6 md:p-8 border border-gray-100">
+                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                                Where Children Learn the Joy of Giving
+                            </h2>
+                            <p className="text-gray-700 text-lg mb-6">
+                                ThreeWish connects children who have items to share with those who have wishes to fulfill.
+                                Our platform creates meaningful connections and teaches valuable lessons about generosity
+                                and community.
+                            </p>
+
                             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                                 {!user && (
                                     <Link
                                         href={route('login')}
-                                        className="bg-black hover:bg-gray-700 px-6 py-3 rounded-md text-white font-medium text-center">
+                                        className="bg-black hover:bg-gray-800 px-6 py-3 rounded-md text-white font-medium text-center transition-all duration-300 hover:scale-105"
+                                    >
                                         Sign In ThreeWish
                                         <i className="fas fa-arrow-right ml-2"></i>
                                     </Link>
                                 )}
-                                <Link href={`${route('home')}#how-it-works`}
-                                      className="bg-white hover:bg-gray-300 btn-outline px-6 py-3 rounded-md text-base font-medium text-center">
+                                <Link
+                                    href={`${route('home')}#how-it-works`}
+                                    className="bg-white border-2 border-gray-800 hover:bg-gray-800 hover:text-white px-6 py-3 rounded-md text-base font-medium text-center transition-all duration-300 hover:scale-105"
+                                >
                                     How It Works
                                 </Link>
                             </div>
                         </div>
-                        <div className="w-full md:w-1/2 flex justify-center">
-                            <div className="relative w-full max-w-lg">
-                                <div
-                                    className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 md:p-8 border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300">
-                                    {/* Header Section */}
-                                    <div className="flex items-center mb-2 pb-2 border-b border-gray-100">
-                                        <div className="flex items-center space-x-3">
-                                            <div className="p-1 bg-blue-50 rounded-lg">
-                                                <svg className="w-5 h-5 text-blue-500" fill="currentColor"
-                                                     viewBox="0 0 20 20">
-                                                    <path fillRule="evenodd"
-                                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 100-2 1 1 0 000 2zm7-1a1 1 0 11-2 0 1 1 0 012 0zm-.464 5.535a1 1 0 10-1.415-1.414 3 3 0 01-4.242 0 1 1 0 00-1.415 1.414 5 5 0 007.072 0z"
-                                                          clipRule="evenodd"/>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h3 className="font-bold text-gray-900 text-lg">Some Happy Wishers</h3>
-                                                {/*<p className="text-sm text-gray-500 mt-1">{wisherImages.length} people*/}
-                                                {/*    wishing you well</p>*/}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Images Grid */}
-                                    <div className="grid grid-cols-4 md:grid-cols-8 justify-items-center gap-0">
-                                        {wisherImages.map((wisher) => (
-                                            <div key={wisher.id} className="relative group">
-                                                <img
-                                                    src={`/storage/${wisher.image}`}
-                                                    alt={wisher.name}
-                                                    className="w-24 h-20 md:w-16 md:h-10 object-cover shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-110 border-white group-hover:border-blue-200"
-                                                />
-                                                {/* Tooltip on hover */}
-                                                <div
-                                                    className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-900 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10">
-                                                    {wisher.name}
-                                                    <div
-                                                        className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+
+            {/* Add fade animation to CSS */}
+            <style jsx>{`
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                .animate-fadeIn {
+                    animation: fadeIn 0.5s ease-in-out;
+                }
+            `}</style>
+        </section>
     );
 };
 
