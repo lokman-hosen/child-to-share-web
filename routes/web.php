@@ -47,6 +47,9 @@ Route::controller(\App\Http\Controllers\FulfilmentController::class)->group(func
 Route::get('/about', function () {
     return Inertia::render('About/Index');
 })->name('about');
+Route::get('/contact', function () {
+    return Inertia::render('Contact/Index');
+})->name('contact');
 
 
 //Route::get('/dashboard', function () {
