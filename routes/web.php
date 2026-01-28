@@ -51,6 +51,10 @@ Route::get('/contact', function () {
     return Inertia::render('Contact/Index');
 })->name('contact');
 
+Route::get('/partner', function () {
+    return Inertia::render('Partner/Index');
+})->name('partner');
+
 
 //Route::get('/dashboard', function () {
 //    return Inertia::render('Dashboard');

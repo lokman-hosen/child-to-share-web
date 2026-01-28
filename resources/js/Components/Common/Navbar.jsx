@@ -104,6 +104,12 @@ export default function Navbar() {
                             </Link>
 
                             <Link
+                                href={route('partner')}
+                                className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('partner') ? 'nav-item active' : ''}`}>
+                                Our Partners
+                            </Link>
+
+                            <Link
                                 href={route('contact')}
                                 className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('contact') ? 'nav-item active' : ''}`}>
                                 Contact
@@ -322,6 +328,14 @@ export default function Navbar() {
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Fulfilled Wishes
+                    </Link>
+
+                    <Link
+                        href={route('partner')}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('partner')) ? 'nav-item active' : ''}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                        Our Partners
                     </Link>
 
                     <Link
