@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from '@inertiajs/react';
 
 const HowWorks = () => {
     const steps = [
@@ -12,8 +13,9 @@ const HowWorks = () => {
             ),
             title: "Create a Wish for you or Gift for other",
             description: "Children create wishes for items they need, or list items they'd like to donate.",
-            color: "from-blue-500 to-blue-600",
-            bgColor: "bg-blue-50"
+            color: "from-primary to-primary-dark",
+            bgColor: "bg-primary/5",
+            iconColor: "text-primary"
         },
         {
             id: 2,
@@ -25,8 +27,9 @@ const HowWorks = () => {
             ),
             title: "Get Matched by Location",
             description: "Our system matches wishes with donors in the same community",
-            color: "from-green-500 to-green-600",
-            bgColor: "bg-green-50"
+            color: "from-secondary to-secondary-dark",
+            bgColor: "bg-secondary/5",
+            iconColor: "text-secondary"
         },
         {
             id: 3,
@@ -38,8 +41,9 @@ const HowWorks = () => {
             ),
             title: "Fulfill Wishes & Build Friendships",
             description: "Donors fulfill wishes and children learn the joy of giving and receiving.",
-            color: "from-purple-500 to-purple-600",
-            bgColor: "bg-purple-50"
+            color: "from-accent to-accent-light",
+            bgColor: "bg-neutral/5",
+            iconColor: "text-accent"
         }
     ];
 
@@ -48,8 +52,8 @@ const HowWorks = () => {
             <div className="container-fluid px-4 sm:px-6 lg:px-8 mx-auto">
                 {/* Section Header */}
                 <div className="text-center mb-16 md:mb-20">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
-                        HOW <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">THREEWISH</span> WORKS
+                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-accent mb-4">
+                        HOW <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">THREEWISH</span> WORKS
                     </h2>
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                         A simple three-step process that connects children's wishes with generous donors
@@ -64,7 +68,7 @@ const HowWorks = () => {
                             className="relative group"
                         >
                             {/* Main Card */}
-                            <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden group-hover:border-gray-200">
+                            <div className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden group-hover:border-primary/20">
                                 {/* Top Part - Icon Section */}
                                 <div className={`relative ${step.bgColor} pt-8 pb-6 px-6 md:px-8`}>
                                     <div className="flex items-center justify-between">
@@ -104,7 +108,7 @@ const HowWorks = () => {
                                         {/* Right Column */}
                                         <div className="flex-1 min-w-0">
                                             {/* Top Part - Title */}
-                                            <h3 className="text-lg md:text-xl font-bold text-gray-900 mb-4 leading-tight uppercase">
+                                            <h3 className="text-lg md:text-xl font-bold text-accent mb-4 leading-tight uppercase group-hover:text-primary transition-colors duration-200">
                                                 {step.title}
                                             </h3>
 
@@ -127,14 +131,39 @@ const HowWorks = () => {
 
                 {/* Additional Info */}
                 <div className="mt-20 text-center">
-                    <div className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-full">
-                        <svg className="w-5 h-5 text-blue-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <Link
+                        href="#how-it-works"
+                        className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-primary/10 to-secondary/10 hover:from-primary/20 hover:to-secondary/20 rounded-full transition-all duration-300 group"
+                    >
+                        <svg className="w-5 h-5 text-primary mr-2 group-hover:scale-110 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
-                        <span className="text-gray-700 font-medium">
+                        <span className="text-accent font-medium">
                             Start making wishes come true today
                         </span>
-                    </div>
+                    </Link>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+                    <Link
+                        href={route('wishes.create')}
+                        className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                    >
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Create a Wish
+                    </Link>
+                    <Link
+                        href={route('donations.create')}
+                        className="inline-flex items-center justify-center px-8 py-3 bg-gradient-to-r from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary text-accent font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                    >
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Make a Donation
+                    </Link>
                 </div>
             </div>
         </section>
