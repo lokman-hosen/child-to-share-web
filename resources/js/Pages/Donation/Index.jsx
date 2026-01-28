@@ -136,7 +136,7 @@ const Index = ({donations, categories, filters, module}) => {
 
                 {(donationsLinks.length > 1 && donationListData.length > 1) && <Pagination links={donationsLinks} />}
             </main>
-            <CTA/>
+            {/*<CTA/>*/}
         </GuestLayout>
     );
 };
