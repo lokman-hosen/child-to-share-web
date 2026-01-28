@@ -281,7 +281,7 @@ export default function Navbar() {
                         href={route('home')}
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${
                             route().current('home') && window.location.hash !== '#how-it-works'
-                                ? 'nav-item active text-white bg-primary'
+                                ? 'nav-item active text-primary bg-primary'
                                 : ''
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -290,7 +290,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={route('about')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('about')) ? 'nav-item active text-white bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('about')) ? 'nav-item active text-primary bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         About
@@ -299,7 +299,7 @@ export default function Navbar() {
                         href={`${route('home')}#how-it-works`}
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${
                             route().current('home') && window.location.hash === '#how-it-works'
-                                ? 'nav-item active text-white bg-primary'
+                                ? 'nav-item active text-primary bg-primary'
                                 : ''
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -308,7 +308,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={route('donation.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active text-white bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active text-primary bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Gifts
@@ -316,7 +316,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('wish.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active text-white bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active text-primary bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Wishes
@@ -324,7 +324,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('fulfillment.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('fulfillment.index')) ? 'nav-item active text-white bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('fulfillment.index')) ? 'nav-item active text-primary bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Fulfilled Wishes
@@ -332,7 +332,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('partner')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('partner')) ? 'nav-item active text-white bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('partner')) ? 'nav-item active text-primary bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Partners
@@ -340,7 +340,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('contact')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('contact')) ? 'nav-item active text-white bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('contact')) ? 'nav-item active text-primary bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Contact
