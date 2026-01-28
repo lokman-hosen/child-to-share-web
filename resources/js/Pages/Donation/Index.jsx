@@ -99,7 +99,7 @@ const Index = ({donations, categories, filters, module}) => {
                     <>
                         {/* Mobile View - 2 columns */}
                         <div className="block md:hidden">
-                            <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div className="grid grid-cols-1 gap-4 mb-6">
                                 {donationListData.map((donation, index) => (
                                     <SingleDonationIteamMobile donation={donation} key={index} />
                                 ))}
