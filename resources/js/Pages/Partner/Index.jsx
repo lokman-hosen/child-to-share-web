@@ -8,113 +8,73 @@ const PartnersPage = () => {
         {
             id: 1,
             name: 'Education First Foundation',
-            logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://images.vexels.com/media/users/3/139567/isolated/lists/582aca4000ab46231333a1df893c947e-apple-logo.png', // Simple education logo
             description: 'Dedicated to providing quality education resources to underprivileged communities.',
-            address: '123 Education Lane, San Francisco, CA 94107',
-            contact_email: 'contact@edufirst.org',
-            contact_phone: '+1 (555) 123-4567',
-            website: 'https://edufirst.org',
             wish_count: 245,
             donation_count: 312,
-            category: 'Education',
             established: 2015
         },
         {
             id: 2,
             name: 'Children\'s Hope International',
-            logo: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://www.freepnglogos.com/uploads/amazon-png-logo-vector/amazon-icon-symbol-png-logo-21.png', // Heart/children focused logo
             description: 'Supporting children in need through educational programs and essential supplies.',
-            address: '456 Hope Street, New York, NY 10001',
-            contact_email: 'info@childrenshope.org',
-            contact_phone: '+1 (555) 234-5678',
-            website: 'https://childrenshope.org',
             wish_count: 189,
             donation_count: 267,
-            category: 'Child Welfare',
             established: 2010
         },
         {
             id: 3,
             name: 'Future Leaders Academy',
-            logo: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://www.freeiconspng.com/thumbs/pinterest-logo-icon/pinterest-icon-png-20.png', // Academic/leadership logo
             description: 'Empowering youth through leadership development and educational opportunities.',
-            address: '789 Future Avenue, Chicago, IL 60601',
-            contact_email: 'hello@futureleaders.edu',
-            contact_phone: '+1 (555) 345-6789',
-            website: 'https://futureleaders.edu',
             wish_count: 312,
             donation_count: 425,
-            category: 'Education',
             established: 2018
         },
         {
             id: 4,
             name: 'Community Builders Network',
-            logo: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://www.freepnglogos.com/uploads/mercedes-logo-png/mercedes-logo-png-mercedes-benz-logo-vector-icons-and-png-17.png', // Network/community logo
             description: 'Strengthening communities through collaborative programs and resource sharing.',
-            address: '101 Community Drive, Miami, FL 33101',
-            contact_email: 'connect@communitybuilders.net',
-            contact_phone: '+1 (555) 456-7890',
-            website: 'https://communitybuilders.net',
             wish_count: 178,
             donation_count: 234,
-            category: 'Community',
             established: 2012
         },
         {
             id: 5,
             name: 'Bright Future Foundation',
-            logo: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://www.freeiconspng.com/thumbs/dell-logo-icon-png/dell-icon-1.png', // Bright/sun-like logo
             description: 'Creating opportunities for children through educational support and mentorship.',
-            address: '202 Bright Way, Seattle, WA 98101',
-            contact_email: 'support@brightfuture.org',
-            contact_phone: '+1 (555) 567-8901',
-            website: 'https://brightfuture.org',
             wish_count: 267,
             donation_count: 345,
-            category: 'Education',
             established: 2016
         },
         {
             id: 6,
             name: 'Youth Development Alliance',
-            logo: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://platform.sbnation.com/wp-content/uploads/sites/2/team-logos/logo-liverpooloffside.png?w=256', // Growth/development logo
             description: 'Fostering youth growth through comprehensive development programs.',
-            address: '303 Youth Plaza, Denver, CO 80201',
-            contact_email: 'youth@yda.org',
-            contact_phone: '+1 (555) 678-9012',
-            website: 'https://yda.org',
             wish_count: 195,
             donation_count: 278,
-            category: 'Youth Development',
             established: 2014
         },
         {
             id: 7,
             name: 'Learning Tree Organization',
-            logo: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://platform.sbnation.com/wp-content/uploads/sites/2/team-logos/logo-canishoopus.png?w=256', // Tree/knowledge logo
             description: 'Providing educational resources and support to children in underserved areas.',
-            address: '404 Learning Street, Boston, MA 02101',
-            contact_email: 'learn@learningtree.org',
-            contact_phone: '+1 (555) 789-0123',
-            website: 'https://learningtree.org',
             wish_count: 223,
             donation_count: 289,
-            category: 'Education',
             established: 2017
         },
         {
             id: 8,
             name: 'Kids Care Network',
-            logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+            logo: 'https://www.freeiconspng.com/thumbs/dell-logo-icon-png/dell-icon-1.png', // Care/health focused logo
             description: 'Ensuring every child has access to essential care and educational support.',
-            address: '505 Care Avenue, Austin, TX 73301',
-            contact_email: 'care@kidscare.net',
-            contact_phone: '+1 (555) 890-1234',
-            website: 'https://kidscare.net',
             wish_count: 156,
             donation_count: 212,
-            category: 'Child Welfare',
             established: 2013
         }
     ];

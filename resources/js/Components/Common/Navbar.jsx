@@ -49,7 +49,7 @@ export default function Navbar() {
                             <Link
                                 href={route('about')}
                                 className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('about')) ? 'nav-item active' : ''}`}>
-                                About Us
+                                About
                             </Link>
 
                             {/*<div className="relative group">*/}
@@ -106,7 +106,7 @@ export default function Navbar() {
                             <Link
                                 href={route('partner')}
                                 className={`text-gray-500 hover:text-gray-700 inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('partner') ? 'nav-item active' : ''}`}>
-                                Our Partners
+                                Partners
                             </Link>
 
                             <Link
@@ -293,7 +293,7 @@ export default function Navbar() {
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('about')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
-                        About Us
+                        About
                     </Link>
                     <Link
                         href={`${route('home')}#how-it-works`}
@@ -335,7 +335,7 @@ export default function Navbar() {
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('partner')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
-                        Our Partners
+                        Partners
                     </Link>
 
                     <Link
@@ -343,7 +343,7 @@ export default function Navbar() {
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-black ${(route().current('contact')) ? 'nav-item active' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
-                        Contact Us
+                        Contact
                     </Link>
 
                 </div>
