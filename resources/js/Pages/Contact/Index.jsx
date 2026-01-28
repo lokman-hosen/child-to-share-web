@@ -31,20 +31,20 @@ const ContactPage = () => {
 
             {/* Hero Section */}
             <section className="relative py-16 md:py-20 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5"></div>
                 <div className="container-fluid px-4 sm:px-6 lg:px-8 mx-auto relative">
                     <div className="max-w-3xl mx-auto text-center">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-accent mb-6">
                             Get in <span
-                            className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Touch</span>
+                            className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Touch</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-600 mb-8">
+                        <p className="text-lg md:text-xl text-neutral mb-8">
                             We're here to help answer your questions and support your journey with ThreeWish.
                             Whether you need assistance or want to partner with us, we'd love to hear from you.
                         </p>
-                        <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full">
+                        <div className="inline-flex items-center px-4 py-2 bg-primary/10 rounded-full">
                             <span className="w-3 h-3 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                            <span className="text-blue-700 font-medium">Support team available</span>
+                            <span className="text-primary font-medium">Support team available</span>
                         </div>
                     </div>
                 </div>
@@ -58,47 +58,47 @@ const ContactPage = () => {
                         <div>
                             {/* Direct Contact Info */}
                             <div className="mb-12">
-                                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+                                <h2 className="text-2xl md:text-3xl font-bold text-accent mb-8">
                                     Direct Contact
                                 </h2>
                                 <div className="space-y-6">
                                     <div
                                         className="flex items-start space-x-4 p-5 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
                                         <div
-                                            className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                                            <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"
+                                            className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                            <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor"
                                                  viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                                       d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                             </svg>
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-900 mb-1">General Inquiries</h3>
+                                            <h3 className="font-semibold text-accent mb-1">General Inquiries</h3>
                                             <a href="mailto:hello@threewish.org"
-                                               className="text-blue-600 hover:text-blue-700 text-lg">
+                                               className="text-primary hover:text-primary/80 text-lg">
                                                 hello@threewish.org
                                             </a>
-                                            <p className="text-gray-500 text-sm mt-1">Response within 24 hours</p>
+                                            <p className="text-neutral text-sm mt-1">Response within 24 hours</p>
                                         </div>
                                     </div>
 
                                     <div
                                         className="flex items-start space-x-4 p-5 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
                                         <div
-                                            className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                                            <svg className="w-6 h-6 text-green-600" fill="none"
+                                            className="flex-shrink-0 w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                                            <svg className="w-6 h-6 text-secondary" fill="none"
                                                  stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                             </svg>
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-900 mb-1">Support Hotline</h3>
+                                            <h3 className="font-semibold text-accent mb-1">Support Hotline</h3>
                                             <a href="tel:+11234567890"
-                                               className="text-blue-600 hover:text-blue-700 text-lg">
+                                               className="text-primary hover:text-primary/80 text-lg">
                                                 +1 (123) 456-7890
                                             </a>
-                                            <p className="text-gray-500 text-sm mt-1">24/7 support for urgent
+                                            <p className="text-neutral text-sm mt-1">24/7 support for urgent
                                                 matters</p>
                                         </div>
                                     </div>
@@ -106,21 +106,21 @@ const ContactPage = () => {
                                     <div
                                         className="flex items-start space-x-4 p-5 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
                                         <div
-                                            className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                                            <svg className="w-6 h-6 text-purple-600" fill="none"
+                                            className="flex-shrink-0 w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                                            <svg className="w-6 h-6 text-accent" fill="none"
                                                  stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                                       d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                                             </svg>
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-gray-900 mb-1">Partnership
+                                            <h3 className="font-semibold text-accent mb-1">Partnership
                                                 Inquiries</h3>
                                             <a href="mailto:partners@threewish.org"
-                                               className="text-blue-600 hover:text-blue-700 text-lg">
+                                               className="text-primary hover:text-primary/80 text-lg">
                                                 partners@threewish.org
                                             </a>
-                                            <p className="text-gray-500 text-sm mt-1">For organizations &
+                                            <p className="text-neutral text-sm mt-1">For organizations &
                                                 collaborations</p>
                                         </div>
                                     </div>
@@ -129,25 +129,25 @@ const ContactPage = () => {
 
                             {/* Office Info */}
                             <div>
-                                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+                                <h2 className="text-2xl md:text-3xl font-bold text-accent mb-8">
                                     Visit Our Office
                                 </h2>
                                 <div
                                     className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                                     {/* Map Placeholder */}
-                                    <div className="h-64 bg-gradient-to-br from-blue-100 to-purple-100 relative">
+                                    <div className="h-64 bg-gradient-to-br from-primary/10 to-secondary/10 relative">
                                         <div className="absolute inset-0 flex items-center justify-center">
                                             <div className="text-center">
                                                 <div
                                                     className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center mx-auto mb-4">
-                                                    <svg className="w-8 h-8 text-blue-600" fill="currentColor"
+                                                    <svg className="w-8 h-8 text-primary" fill="currentColor"
                                                          viewBox="0 0 20 20">
                                                         <path fillRule="evenodd"
                                                               d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
                                                               clipRule="evenodd"/>
                                                     </svg>
                                                 </div>
-                                                <p className="text-gray-700 font-medium">Google Map Integration
+                                                <p className="text-neutral font-medium">Google Map Integration
                                                     Here</p>
                                             </div>
                                         </div>
@@ -157,7 +157,7 @@ const ContactPage = () => {
                                     <div className="p-6 md:p-8">
                                         <div className="space-y-4">
                                             <div className="flex items-start space-x-3">
-                                                <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0"
+                                                <svg className="w-5 h-5 text-neutral mt-1 flex-shrink-0"
                                                      fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round"
                                                           strokeWidth={2}
@@ -166,8 +166,8 @@ const ContactPage = () => {
                                                           strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                                 </svg>
                                                 <div>
-                                                    <h4 className="font-semibold text-gray-900">Address</h4>
-                                                    <p className="text-gray-600">
+                                                    <h4 className="font-semibold text-accent">Address</h4>
+                                                    <p className="text-neutral">
                                                         123 Giving Avenue, Suite 500<br/>
                                                         San Francisco, CA 94107<br/>
                                                         United States
@@ -176,15 +176,15 @@ const ContactPage = () => {
                                             </div>
 
                                             <div className="flex items-start space-x-3">
-                                                <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0"
+                                                <svg className="w-5 h-5 text-neutral mt-1 flex-shrink-0"
                                                      fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round"
                                                           strokeWidth={2}
                                                           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                 </svg>
                                                 <div>
-                                                    <h4 className="font-semibold text-gray-900">Contact Hours</h4>
-                                                    <p className="text-gray-600">
+                                                    <h4 className="font-semibold text-accent">Contact Hours</h4>
+                                                    <p className="text-neutral">
                                                         Monday - Friday: 9:00 AM - 6:00 PM PST<br/>
                                                         Saturday: 10:00 AM - 4:00 PM PST<br/>
                                                         Sunday: Closed
@@ -193,15 +193,15 @@ const ContactPage = () => {
                                             </div>
 
                                             <div className="flex items-start space-x-3">
-                                                <svg className="w-5 h-5 text-gray-400 mt-1 flex-shrink-0"
+                                                <svg className="w-5 h-5 text-neutral mt-1 flex-shrink-0"
                                                      fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round"
                                                           strokeWidth={2}
                                                           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                 </svg>
                                                 <div>
-                                                    <h4 className="font-semibold text-gray-900">Note</h4>
-                                                    <p className="text-gray-600">
+                                                    <h4 className="font-semibold text-accent">Note</h4>
+                                                    <p className="text-neutral">
                                                         Appointments are recommended for in-person visits.
                                                         Please contact us in advance to ensure availability.
                                                     </p>
@@ -217,10 +217,10 @@ const ContactPage = () => {
                         <div>
                             <div className="sticky top-8">
                                 <div className="bg-white rounded-3xl shadow-lg p-6 md:p-8">
-                                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+                                    <h2 className="text-2xl md:text-3xl font-bold text-accent mb-2">
                                         Send us a Message
                                     </h2>
-                                    <p className="text-gray-600 mb-8">
+                                    <p className="text-neutral mb-8">
                                         Fill out the form below and we'll get back to you as soon as possible.
                                     </p>
 
@@ -228,7 +228,7 @@ const ContactPage = () => {
                                         {/* Name Field */}
                                         <div>
                                             <label htmlFor="name"
-                                                   className="block text-sm font-medium text-gray-700 mb-2">
+                                                   className="block text-sm font-medium text-accent mb-2">
                                                 Full Name *
                                             </label>
                                             <input
@@ -238,7 +238,7 @@ const ContactPage = () => {
                                                 value={formData.name}
                                                 onChange={handleChange}
                                                 required
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                                className="w-full px-4 py-3 border border-neutral/30 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
                                                 placeholder="John Doe"
                                             />
                                         </div>
@@ -246,8 +246,8 @@ const ContactPage = () => {
                                         {/* Email Field (Optional) */}
                                         <div>
                                             <label htmlFor="email"
-                                                   className="block text-sm font-medium text-gray-700 mb-2">
-                                                Email Address <span className="text-gray-400">(Optional)</span>
+                                                   className="block text-sm font-medium text-accent mb-2">
+                                                Email Address <span className="text-neutral/60">(Optional)</span>
                                             </label>
                                             <input
                                                 type="email"
@@ -255,7 +255,7 @@ const ContactPage = () => {
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                                className="w-full px-4 py-3 border border-neutral/30 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
                                                 placeholder="john@example.com"
                                             />
                                         </div>
@@ -263,7 +263,7 @@ const ContactPage = () => {
                                         {/* Phone Field */}
                                         <div>
                                             <label htmlFor="phone"
-                                                   className="block text-sm font-medium text-gray-700 mb-2">
+                                                   className="block text-sm font-medium text-accent mb-2">
                                                 Phone Number *
                                             </label>
                                             <input
@@ -273,7 +273,7 @@ const ContactPage = () => {
                                                 value={formData.phone}
                                                 onChange={handleChange}
                                                 required
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                                className="w-full px-4 py-3 border border-neutral/30 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
                                                 placeholder="+1 (555) 123-4567"
                                             />
                                         </div>
@@ -281,7 +281,7 @@ const ContactPage = () => {
                                         {/* Subject Field */}
                                         <div>
                                             <label htmlFor="subject"
-                                                   className="block text-sm font-medium text-gray-700 mb-2">
+                                                   className="block text-sm font-medium text-accent mb-2">
                                                 Subject *
                                             </label>
                                             <select
@@ -290,7 +290,7 @@ const ContactPage = () => {
                                                 value={formData.subject}
                                                 onChange={handleChange}
                                                 required
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
+                                                className="w-full px-4 py-3 border border-neutral/30 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
                                             >
                                                 <option value="">Select a subject</option>
                                                 <option value="general">General Inquiry</option>
@@ -304,7 +304,7 @@ const ContactPage = () => {
                                         {/* Message Field */}
                                         <div>
                                             <label htmlFor="message"
-                                                   className="block text-sm font-medium text-gray-700 mb-2">
+                                                   className="block text-sm font-medium text-accent mb-2">
                                                 Message *
                                             </label>
                                             <textarea
@@ -314,7 +314,7 @@ const ContactPage = () => {
                                                 onChange={handleChange}
                                                 required
                                                 rows={6}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 resize-none"
+                                                className="w-full px-4 py-3 border border-neutral/30 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200 resize-none"
                                                 placeholder="Tell us how we can help you..."
                                             ></textarea>
                                         </div>
@@ -322,7 +322,7 @@ const ContactPage = () => {
                                         {/* Submit Button */}
                                         <button
                                             type="submit"
-                                            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                                            className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-semibold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
                                         >
                                             <span className="flex items-center justify-center">
                                                 Send Message
@@ -334,18 +334,18 @@ const ContactPage = () => {
                                             </span>
                                         </button>
 
-                                        <p className="text-center text-gray-500 text-sm">
+                                        <p className="text-center text-neutral text-sm">
                                             We typically respond within 24 hours. For urgent matters, please call
                                             our support hotline.
                                         </p>
                                     </form>
 
                                     {/* Additional Info */}
-                                    <div className="mt-8 pt-8 border-t border-gray-100">
-                                        <h4 className="font-semibold text-gray-900 mb-3">Other Ways to Connect</h4>
+                                    <div className="mt-8 pt-8 border-t border-neutral/10">
+                                        <h4 className="font-semibold text-accent mb-3">Other Ways to Connect</h4>
                                         <div className="flex space-x-4">
                                             <a href="#"
-                                               className="text-gray-400 hover:text-blue-600 transition-colors duration-200">
+                                               className="text-neutral/60 hover:text-primary transition-colors duration-200">
                                                 <span className="sr-only">Facebook</span>
                                                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd"
@@ -354,7 +354,7 @@ const ContactPage = () => {
                                                 </svg>
                                             </a>
                                             <a href="#"
-                                               className="text-gray-400 hover:text-blue-400 transition-colors duration-200">
+                                               className="text-neutral/60 hover:text-primary/80 transition-colors duration-200">
                                                 <span className="sr-only">Twitter</span>
                                                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                                     <path
@@ -362,7 +362,7 @@ const ContactPage = () => {
                                                 </svg>
                                             </a>
                                             <a href="#"
-                                               className="text-gray-400 hover:text-pink-600 transition-colors duration-200">
+                                               className="text-neutral/60 hover:text-secondary transition-colors duration-200">
                                                 <span className="sr-only">Instagram</span>
                                                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd"
