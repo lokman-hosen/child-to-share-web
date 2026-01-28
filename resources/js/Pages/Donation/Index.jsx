@@ -57,7 +57,7 @@ const Index = ({donations, categories, filters, module}) => {
             available: 'bg-green-100 text-green-800',
             pending: 'bg-yellow-100 text-yellow-800',
             completed: 'bg-gray-100 text-gray-800',
-            reserved: 'bg-blue-100 text-blue-800',
+            reserved: 'bg-primary/10 text-primary',
         };
 
         const colorClass = statusColors[status] || 'bg-gray-100 text-gray-800';
@@ -73,13 +73,16 @@ const Index = ({donations, categories, filters, module}) => {
             <Head title="Gifts"/>
             <Hero/>
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-                <div className="filter-section mb-6">
+                <div className="filter-section mb-8">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         {/* Left Title */}
-                        <h2 className="text-xl font-semibold text-gray-900">Filter Gifts</h2>
+                        <div>
+                            <h2 className="text-2xl font-bold text-accent">Filter Gifts</h2>
+                            <p className="text-gray-600 text-sm mt-1">Find gifts that match your interests</p>
+                        </div>
 
                         {/* Right Filters */}
-                        <div className="flex flex-col sm:flex-row gap-2">
+                        <div className="flex flex-col sm:flex-row gap-3">
                             <SelectInput
                                 className="w-full sm:w-auto md:w-[350px]"
                                 id="category_id"
@@ -96,7 +99,7 @@ const Index = ({donations, categories, filters, module}) => {
                     <>
                         {/* Mobile View - 2 columns */}
                         <div className="block md:hidden">
-                            <div className="grid grid-cols-2 gap-2 mb-6">
+                            <div className="grid grid-cols-2 gap-4 mb-6">
                                 {donationListData.map((donation, index) => (
                                     <SingleDonationIteamMobile donation={donation} key={index} />
                                 ))}
@@ -104,7 +107,7 @@ const Index = ({donations, categories, filters, module}) => {
                         </div>
 
                         {/* Desktop View - Original layout */}
-                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-2">
+                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
                             {donationListData.map((donation, index) => (
                                 <SingleDonationItem key={index} donation={donation}/>
                             ))}
@@ -112,8 +115,21 @@ const Index = ({donations, categories, filters, module}) => {
                     </>
                 ) : (
                     <div className="grid grid-cols-1 gap-6 mb-8">
-                        <div className="grid grid-cols-1">
-                            <p className="text-center text-gray-500 py-8">No donations found</p>
+                        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-12 text-center">
+                            <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary/10 rounded-full mb-4">
+                                <FontAwesomeIcon icon={faGift} className="text-secondary text-2xl"/>
+                            </div>
+                            <h3 className="text-xl font-semibold text-accent mb-2">No Gifts Found</h3>
+                            <p className="text-gray-600 mb-4">Check back later or try different filters</p>
+                            <button
+                                onClick={() => setCategoryId('')}
+                                className="inline-flex items-center text-primary hover:text-primary-dark font-medium group"
+                            >
+                                Clear Filters
+                                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 )}
