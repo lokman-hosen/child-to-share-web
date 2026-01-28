@@ -122,8 +122,8 @@ const Hero = ({ user }) => {
                                         onClick={() => goToSlide(index)}
                                         className={`w-3 h-3 rounded-full transition-all duration-300 ${
                                             index === currentSlide
-                                                ? 'bg-white scale-125'
-                                                : 'bg-white/60 hover:bg-white/80'
+                                                ? 'bg-primary scale-125'
+                                                : 'bg-white/60 hover:bg-primary/80'
                                         }`}
                                         aria-label={`Go to slide ${index + 1}`}
                                     />
@@ -145,7 +145,7 @@ const Hero = ({ user }) => {
 
                         {/* Bottom Part - Text Box */}
                         <div className="bg-gradient-to-br from-white to-gray-50 p-6 md:p-8 border border-gray-100">
-                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                            <h2 className="text-2xl md:text-3xl font-bold text-accent mb-4">
                                 Where Children Learn the Joy of Giving
                             </h2>
                             <p className="text-gray-700 text-lg mb-6">
@@ -158,7 +158,7 @@ const Hero = ({ user }) => {
                                 {!user && (
                                     <Link
                                         href={route('login')}
-                                        className="bg-black hover:bg-gray-800 px-6 py-3 rounded-md text-white font-medium text-center transition-all duration-300 hover:scale-105"
+                                        className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary px-6 py-3 rounded-md text-white font-medium text-center transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
                                     >
                                         Sign In ThreeWish
                                         <i className="fas fa-arrow-right ml-2"></i>
@@ -166,7 +166,7 @@ const Hero = ({ user }) => {
                                 )}
                                 <Link
                                     href={`${route('home')}#how-it-works`}
-                                    className="bg-white border-2 border-gray-800 hover:bg-gray-800 hover:text-white px-6 py-3 rounded-md text-base font-medium text-center transition-all duration-300 hover:scale-105"
+                                    className="bg-white border-2 border-primary hover:bg-primary hover:text-white px-6 py-3 rounded-md text-base font-medium text-center transition-all duration-300 hover:scale-105 shadow-md hover:shadow-lg"
                                 >
                                     How It Works
                                 </Link>
