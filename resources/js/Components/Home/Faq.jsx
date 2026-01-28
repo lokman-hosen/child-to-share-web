@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from '@inertiajs/react';
 
 const Faq = () => {
     const [openIndex, setOpenIndex] = useState(0); // First FAQ open by default
@@ -45,8 +46,8 @@ const Faq = () => {
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <div className="text-center mb-12 md:mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Frequently Asked <span className="text-blue-600">Questions</span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-accent mb-4">
+                        Frequently Asked <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Questions</span>
                     </h2>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Find answers to common questions about how ThreeWish works and keeps children safe
@@ -58,22 +59,22 @@ const Faq = () => {
                     {faqs.map((faq, index) => (
                         <div
                             key={faq.id}
-                            className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100"
+                            className="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden border border-gray-100 group"
                         >
                             <button
                                 onClick={() => toggleFaq(index)}
-                                className="w-full text-left px-6 py-5 md:px-8 md:py-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 rounded-xl"
+                                className="w-full text-left px-6 py-5 md:px-8 md:py-6 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-xl group-hover:border-primary/20"
                                 aria-expanded={openIndex === index}
                                 aria-controls={`faq-content-${faq.id}`}
                             >
                                 <div className="flex items-center justify-between">
-                                    <h3 className="text-lg md:text-xl font-semibold text-gray-900 pr-8">
+                                    <h3 className="text-lg md:text-xl font-semibold text-accent pr-8 group-hover:text-primary transition-colors duration-200">
                                         {faq.question}
                                     </h3>
                                     <span className="flex-shrink-0 ml-4">
                                         <svg
-                                            className={`w-6 h-6 text-blue-600 transform transition-transform duration-300 ${
-                                                openIndex === index ? 'rotate-180' : ''
+                                            className={`w-6 h-6 text-primary transform transition-all duration-300 ${
+                                                openIndex === index ? 'rotate-180 scale-110' : ''
                                             }`}
                                             fill="none"
                                             stroke="currentColor"
@@ -109,15 +110,15 @@ const Faq = () => {
                                 {/* Additional actions if needed */}
                                 {index === 0 && openIndex === 0 && (
                                     <div className="mt-4">
-                                        <a
+                                        <Link
                                             href="/about"
-                                            className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+                                            className="inline-flex items-center text-primary hover:text-primary-dark font-medium group"
                                         >
                                             Learn more about ThreeWish
-                                            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                             </svg>
-                                        </a>
+                                        </Link>
                                     </div>
                                 )}
                             </div>
@@ -127,32 +128,32 @@ const Faq = () => {
 
                 {/* Still have questions? */}
                 <div className="mt-12 md:mt-16 text-center">
-                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 md:p-10">
-                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+                    <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 md:p-10 border border-primary/10">
+                        <h3 className="text-xl md:text-2xl font-bold text-accent mb-4">
                             Still have questions?
                         </h3>
                         <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                             Can't find the answer you're looking for? Our support team is here to help.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <a
+                            <Link
                                 href="/contact"
-                                className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300"
+                                className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
                             >
                                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                 </svg>
                                 Contact Support
-                            </a>
-                            <a
+                            </Link>
+                            <Link
                                 href="/help-center"
-                                className="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-gray-800 font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200"
+                                className="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-accent font-medium rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-primary/20 hover:border-primary"
                             >
                                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 Visit Help Center
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>

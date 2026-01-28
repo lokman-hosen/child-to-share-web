@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {Link, router} from "@inertiajs/react";
+import {Link} from "@inertiajs/react";
 
 const OurPartners = () => {
     // Sample partner logos - replace with your actual data from database
@@ -89,12 +89,12 @@ const OurPartners = () => {
     const duplicatedPartners = [...partners, ...partners];
 
     return (
-        <section className="py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+        <section className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
             <div className="container-fluid px-4 sm:px-6 lg:px-8 mx-auto">
                 {/* Section Header */}
                 <div className="text-center mb-12 md:mb-16">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                        Our Trusted <span className="text-blue-600">Partners</span>
+                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-4">
+                        Our Trusted <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Partners</span>
                     </h2>
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                         We collaborate with organizations that share our vision of creating
@@ -114,8 +114,9 @@ const OurPartners = () => {
                     <div className="absolute right-0 top-0 bottom-0 w-24 md:w-32 lg:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
                     {/* Scrolling Logos Container */}
+                    <br/>
                     <div
-                        className="flex items-center gap-2 md:gap-4 lg:gap-6 h-48"
+                        className="flex items-center gap-6 md:gap-8 lg:gap-12 h-48"
                         ref={contentRef}
                         style={{ willChange: 'transform' }}
                     >
@@ -126,10 +127,12 @@ const OurPartners = () => {
                                 style={{ width: '200px' }}
                             >
                                 <a
+                                    href={partner.website}
+                                    target="_blank"
                                     rel="noopener noreferrer"
-                                    className="block p-1 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
+                                    className="block p-4 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
                                 >
-                                    <div className="h-26 flex items-center justify-center">
+                                    <div className="h-32 flex items-center justify-center">
                                         <img
                                             src={partner.logo}
                                             alt={partner.name}
@@ -137,9 +140,9 @@ const OurPartners = () => {
                                         />
                                     </div>
                                     {/* Tooltip */}
-                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20">
+                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-accent text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
                                         {partner.name}
-                                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-900"></div>
+                                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-accent"></div>
                                     </div>
                                 </a>
                             </div>
@@ -147,11 +150,31 @@ const OurPartners = () => {
                     </div>
                 </div>
 
+                {/* Stats Section */}
+                <div className="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
+                    <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">50+</div>
+                        <div className="text-accent font-medium">Partner Organizations</div>
+                    </div>
+                    <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                        <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">1000+</div>
+                        <div className="text-accent font-medium">Communities Reached</div>
+                    </div>
+                    <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                        <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">25+</div>
+                        <div className="text-accent font-medium">Countries</div>
+                    </div>
+                    <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
+                        <div className="text-3xl md:text-4xl font-bold text-neutral mb-2">5 Years</div>
+                        <div className="text-accent font-medium">Of Collaboration</div>
+                    </div>
+                </div>
+
                 {/* CTA Button */}
                 <div className="text-center mt-12 md:mt-16">
                     <Link
-                        href={route('register')}
-                        className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                        href={route('partner')}
+                        className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                     >
                         Become a Partner
                         <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,32 +186,6 @@ const OurPartners = () => {
                     </p>
                 </div>
             </div>
-
-            {/* Add custom animations */}
-            <style jsx>{`
-                @keyframes scroll {
-                    0% {
-                        transform: translateX(0);
-                    }
-                    100% {
-                        transform: translateX(-50%);
-                    }
-                }
-
-                .animate-scroll {
-                    animation: scroll 30s linear infinite;
-                }
-
-                .animate-scroll:hover {
-                    animation-play-state: paused;
-                }
-
-                @media (max-width: 768px) {
-                    .animate-scroll {
-                        animation: scroll 20s linear infinite;
-                    }
-                }
-            `}</style>
         </section>
     );
 };
