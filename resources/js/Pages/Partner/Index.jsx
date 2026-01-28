@@ -44,7 +44,7 @@ const PartnersPage = () => {
         {
             id: 5,
             name: 'Bright Future Foundation',
-            logo: 'https://www.freeiconspng.com/thumbs/dell-logo-icon-png/dell-icon-1.png', // Bright/sun-like logo
+            logo: 'https://data2.nssmag.com/images/galleries/31378/Loghi-eFootball-nss9.png', // Bright/sun-like logo
             description: 'Creating opportunities for children through educational support and mentorship.',
             wish_count: 267,
             donation_count: 345,
@@ -71,7 +71,7 @@ const PartnersPage = () => {
         {
             id: 8,
             name: 'Kids Care Network',
-            logo: 'https://www.freeiconspng.com/thumbs/dell-logo-icon-png/dell-icon-1.png', // Care/health focused logo
+            logo: 'https://static.wixstatic.com/media/591a23_a908ba13e72847c7b7a8047e743cc866~mv2.png', // Care/health focused logo
             description: 'Ensuring every child has access to essential care and educational support.',
             wish_count: 156,
             donation_count: 212,
