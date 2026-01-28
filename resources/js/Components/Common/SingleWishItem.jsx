@@ -36,8 +36,8 @@ const SingleWishItem = ({wish}) => {
                                         className="w-full h-full object-cover rounded-full"
                                     />
                                 ) : (
-                                    <div className="w-full h-32 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl"/>
+                                    <div className="h-24 w-24 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center rounded-full">
+                                        <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl rounded-full"/>
                                     </div>
                                 )}
                             </div>
