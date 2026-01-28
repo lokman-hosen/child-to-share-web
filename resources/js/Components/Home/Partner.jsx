@@ -126,8 +126,6 @@ const OurPartners = () => {
                                 style={{ width: '200px' }}
                             >
                                 <a
-                                    href={partner.website}
-                                    target="_blank"
                                     rel="noopener noreferrer"
                                     className="block p-1 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
                                 >
