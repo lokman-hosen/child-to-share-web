@@ -25,46 +25,45 @@ const SingleWishItem = ({wish}) => {
                             )}
                         </div>
                         <div className="badge badge-wish">WISH</div>
+                        {/* Wisher Image - Bottom Right Corner */}
+                        <div className="absolute bottom-2 right-2">
+                            <div className="bg-white rounded-full h-24 w-24 flex items-center justify-center shadow-md border border-gray-200" title={wish.user?.name || 'Wisher'}>
+
+                                {wish.featured_image?.file_path ? (
+                                    <img
+                                        src={`/storage/${wish.featured_image.file_path}`}
+                                        alt={wish.title}
+                                        className="w-full h-full object-cover rounded-full"
+                                    />
+                                ) : (
+                                    <div className="w-full h-32 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+                                        <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl"/>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
                     <div className="p-2">
-                        {/*<div className="flex flex-row">*/}
-                        <h3 className="font-medium text-gray-900 mb-1">{textLimit(wish.user.name, 18)}</h3>
-                            <p className="text-gray-600 text-xs mt-1">
-                                {wish?.distance ? (
-                                    <span className="ml-1">{wish?.distance} km away</span>
-                                ) : (
-                                    <span className="ml-1">{wish.age_range} yrs</span>
-                                )}
-                            </p>
-                        {/*</div>*/}
-                            <p className="text-gray-500 text-md mb-3">
-                                {wish.description && textLimit(wish.description, 18)}
-                            </p>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <div className="bg-gray-100 rounded-full h-10 w-10 flex items-center justify-center">
-                                        {wish.featured_image?.file_path ? (
-                                            <img
-                                                src={`/storage/${wish.featured_image.file_path}`}
-                                                alt={wish.title}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        ) : (
-                                            <div
-                                                className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl"/>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="ml-2">
-                                        <p className="text-sm font-medium text-gray-900">{wish.title}</p>
+                        <div className="flex flex-row">
+                            <h3 className="text-md font-bold text-gray-900">For: {textLimit(wish.title, 40)}</h3>
+                        </div>
 
-                                    </div>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <div>
+                                    <p className="text-gray-600 text-xs">
+                                        {wish?.distance ? (
+                                            <span>Dis: {wish?.distance} km away</span>
+                                        ) : (
+                                            <span>Ag: {wish.age_range} yrs</span>
+                                        )}
+                                    </p>
                                 </div>
-                                <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-sm">
-                                    <FontAwesomeIcon icon={faArrowRight}/>
-                                </button>
                             </div>
+                            <button className="bg-black text-white hover:bg-gray-700 px-1 py-1 rounded text-xs">
+                                <FontAwesomeIcon icon={faArrowRight}/>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </Link>
