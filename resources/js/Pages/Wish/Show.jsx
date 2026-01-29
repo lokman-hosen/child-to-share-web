@@ -81,13 +81,13 @@ const Show = ({wish, module}) => {
                 title = {wish.title}
                 subTitle = {wish.description}
             />
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <main className="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 py-8 sm:py-12">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     {/* Card Body */}
-                    <div className="px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="px-1 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             <div className="border-t border-gray-200">
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-2 sm:p-6">
                                     {/* Left Column - Media Carousel */}
                                     <div className="lg:col-span-2">
                                         {/* Main Carousel */}
