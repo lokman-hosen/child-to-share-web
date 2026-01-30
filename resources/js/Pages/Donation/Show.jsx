@@ -299,7 +299,7 @@ const Show = ({donation, module}) => {
 
                                         {/* Donor Info */}
                                         <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/20 shadow-sm">
-                                            <p className="text-xs font-medium text-primary uppercase tracking-wide mb-3">Donor</p>
+                                            <p className="text-xs font-medium text-primary uppercase tracking-wide mb-3">Contributor</p>
                                             <div className="flex items-center space-x-4 group cursor-pointer" onClick={() => openModal(donation.user)}>
                                                 {/* User Avatar */}
                                                 <div className="relative flex-shrink-0">

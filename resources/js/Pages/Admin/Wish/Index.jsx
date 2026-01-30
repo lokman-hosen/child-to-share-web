@@ -77,7 +77,7 @@ export default function Index() {
                                                 </span>
                                             <span
                                                 className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                    Donor: Sarah Johnson
+                                                    Contributor: Sarah Johnson
                                                 </span>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@ export default function Index() {
                                                 </span>
                                             <span
                                                 className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                    Donor: Robert Chen
+                                                    Contributor: Robert Chen
                                                 </span>
                                         </div>
                                     </div>
@@ -144,7 +144,7 @@ export default function Index() {
                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date
                                 </th>
                                 <th scope="col"
-                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Donor
+                                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contributor
                                 </th>
                             </tr>
                             </thead>

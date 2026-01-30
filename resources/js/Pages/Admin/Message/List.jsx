@@ -55,7 +55,7 @@ export default function Dashboard() {
                                             <div>
                                                 <h3 className="text-lg font-medium text-gray-900">Book Gift
                                                     Fulfilment</h3>
-                                                <p className="text-sm text-gray-500">Donor: Sarah Johnson → Wisher:
+                                                <p className="text-sm text-gray-500">Contributor: Sarah Johnson → Wisher:
                                                     Emily, 7</p>
                                                 <div className="mt-1 flex items-center">
                                                 <span
@@ -95,7 +95,7 @@ export default function Dashboard() {
                                             <div>
                                                 <h3 className="text-lg font-medium text-gray-900">Winter Coat
                                                     Fulfilment</h3>
-                                                <p className="text-sm text-gray-500">Donor: Robert Chen → Wisher:
+                                                <p className="text-sm text-gray-500">Contributor: Robert Chen → Wisher:
                                                     Michael, 9</p>
                                                 <div className="mt-1 flex items-center">
                                                 <span
@@ -136,7 +136,7 @@ export default function Dashboard() {
                                             <div>
                                                 <h3 className="text-lg font-medium text-gray-900">Pickup Assistance
                                                     Request</h3>
-                                                <p className="text-sm text-gray-500">Guardian: Maria Johnson → Donor:
+                                                <p className="text-sm text-gray-500">Guardian: Maria Johnson → Contributor:
                                                     Sarah Johnson</p>
                                                 <div className="mt-1 flex items-center">
                                                 <span

@@ -229,7 +229,7 @@ const WishList = ({userType, wishRequests}) => {
                                                 <Button
                                                     onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
                                                     className="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-                                                    <FontAwesomeIcon icon={faHandHoldingHand} className="mr-2" /> Accept Donor Fulfilment Request
+                                                    <FontAwesomeIcon icon={faHandHoldingHand} className="mr-2" /> Accept Contributor Fulfilment Request
                                                 </Button>
                                             ) : (
                                                 <Link

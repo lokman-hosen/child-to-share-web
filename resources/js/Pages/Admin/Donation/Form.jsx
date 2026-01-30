@@ -188,7 +188,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                 { getLoginUser().role == 'super-admin' &&
                     <SelectInput
                         id="user_id"
-                        label="Select Donor"
+                        label="Select Contributor"
                         value={data.user_id}
                         onChange={(e) => setData('user_id', e.target.value)}
                         error={errors.user_id}

@@ -40,7 +40,7 @@ const HowWorks = () => {
                 </svg>
             ),
             title: "Fulfill Wishes & Build Friendships",
-            description: "Donors fulfill wishes and children learn the joy of giving and receiving.",
+            description: "Contributors fulfill wishes and children learn the joy of giving and receiving.",
             color: "from-accent to-accent-light",
             bgColor: "bg-neutral/5",
             iconColor: "text-accent"

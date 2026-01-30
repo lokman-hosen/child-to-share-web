@@ -366,7 +366,7 @@ const Show = ({wish, module}) => {
                                                         onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
                                                         className="w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary shadow-lg hover:shadow-xl transition-all duration-300"
                                                     >
-                                                        <FontAwesomeIcon icon={faHandHoldingHand} className="mr-2" /> Accept Donor Fulfilment Request
+                                                        <FontAwesomeIcon icon={faHandHoldingHand} className="mr-2" /> Accept Contributor Fulfilment Request
                                                     </Button>
                                                 ) : (
                                                     <Link

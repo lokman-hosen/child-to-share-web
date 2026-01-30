@@ -171,7 +171,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         <div className="border-b border-gray-200 pb-6">
                                             <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
                                                 <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
-                                                Donor Info
+                                                Contributor Info
                                             </h3>
                                             <div
                                                 className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
@@ -389,7 +389,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     <div className="border-gray-200 pb-6">
                                         <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
                                             <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
-                                            Donor Info
+                                            Contributor Info
                                         </h3>
                                         <div
                                             className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
@@ -726,10 +726,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                             <>
                                                 <span
                                                     className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                    Donor: {wish.latest_fulfillment?.donation?.user?.name}
+                                                    Contributor: {wish.latest_fulfillment?.donation?.user?.name}
                                                 </span>
                                                 <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                    Donor Message: {wish.latest_fulfillment?.note}
+                                                    Contributor Message: {wish.latest_fulfillment?.note}
                                                 </span>
                                             </>
                                         )}

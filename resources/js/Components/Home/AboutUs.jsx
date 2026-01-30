@@ -88,7 +88,7 @@ const AboutSection = () => {
                                     </div>
                                     <div className="text-center">
                                         <div className="text-2xl font-bold text-blue-600">500+</div>
-                                        <div className="text-sm text-gray-600">Donors</div>
+                                        <div className="text-sm text-gray-600">Contributors</div>
                                     </div>
                                     <div className="text-center">
                                         <div className="text-2xl font-bold text-emerald-600">2000+</div>

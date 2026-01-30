@@ -55,7 +55,7 @@ const Index = ({fulfillList,activeDonorCount,fulfilledWishCount,totalWishCount, 
                         </div>
                         <div className="text-center bg-gradient-to-br from-secondary/5 to-secondary/10 rounded-xl p-6 border border-secondary/20">
                             <div className="text-4xl font-bold text-secondary mb-2">{activeDonorCount}</div>
-                            <div className="text-accent font-medium">Active Donors</div>
+                            <div className="text-accent font-medium">Active Contributors</div>
                             <div className="h-1 w-12 bg-gradient-to-r from-secondary to-secondary-dark mx-auto mt-3 rounded-full"></div>
                         </div>
                         <div className="text-center bg-gradient-to-br from-primary-dark/5 to-primary-dark/10 rounded-xl p-6 border border-primary-dark/20">
@@ -109,7 +109,7 @@ const Index = ({fulfillList,activeDonorCount,fulfilledWishCount,totalWishCount, 
                                                 <FontAwesomeIcon icon={faHandsHelping} className="text-sm"/>
                                             </div>
                                             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary to-primary-dark text-white px-3 py-1.5 rounded-full shadow text-xs font-bold whitespace-nowrap">
-                                                Donor
+                                                Contributor
                                             </div>
                                         </div>
                                     </div>
@@ -164,8 +164,8 @@ const Index = ({fulfillList,activeDonorCount,fulfilledWishCount,totalWishCount, 
                                 <div className="border-t border-gray-100 p-6">
                                     <div className="flex justify-between items-center mb-4">
                                         <div>
-                                            <h4 className="font-bold text-accent text-sm md:text-base">{wishFulfilment.donation?.user?.name || 'Donor'}</h4>
-                                            <p className="text-xs text-gray-500">Generous Donor</p>
+                                            <h4 className="font-bold text-accent text-sm md:text-base">{wishFulfilment.donation?.user?.name || 'Contributor'}</h4>
+                                            <p className="text-xs text-gray-500">Generous Contributor</p>
                                         </div>
                                         <div className="text-right">
                                             <h4 className="font-bold text-accent text-sm md:text-base">{wishFulfilment.wish?.user?.name || 'Wisher'}</h4>

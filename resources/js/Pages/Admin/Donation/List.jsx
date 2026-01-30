@@ -135,7 +135,7 @@ export default function List({module, donations}) {
                                                             <span className="capitalize">{donation.item_condition}</span>
                                                         </div>
                                                         <div className="flex items-center text-sm text-gray-600">
-                                                            <span className="font-medium mr-2">Donor:</span>
+                                                            <span className="font-medium mr-2">Contributor:</span>
                                                             <span>{donation.user.name}</span>
                                                         </div>
                                                         <div className="flex items-center text-sm text-gray-600">
@@ -212,7 +212,7 @@ export default function List({module, donations}) {
                                                 <thead className="bg-gray-50">
                                                 <tr>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Donor Name</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Contributor Name</th>
                                                     <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Status</th>
                                                     <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
                                                 </tr>
@@ -363,7 +363,7 @@ export default function List({module, donations}) {
                                                                     <span className="capitalize">{donation.item_condition}</span>
                                                                 </div>
                                                                 <div className="flex items-center text-sm text-gray-600">
-                                                                    <span className="font-medium mr-2">Donor:</span>
+                                                                    <span className="font-medium mr-2">Contributor:</span>
                                                                     <span>{donation.user.name}</span>
                                                                 </div>
                                                             </div>

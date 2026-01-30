@@ -154,7 +154,7 @@ const AdminDashboard = () => {
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-gray-900">New Fulfilment request</p>
-                                        <p className="text-sm text-gray-500">Donor Sarah Johnson wants to fulfill a wish
+                                        <p className="text-sm text-gray-500">Contributor Sarah Johnson wants to fulfill a wish
                                             for books</p>
                                     </div>
                                     <div className="ml-auto">

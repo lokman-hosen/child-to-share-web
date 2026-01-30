@@ -23,7 +23,7 @@ const DonorDashboard = ({availableDonationCount, donatedDonationCount}) => {
             </div>
             <div className="px-10 py-8">
                 <div className="flex items-left mb-6">
-                    <h1 className="text-2xl font-bold text-gray-900 mt-1">Donor Dashboard</h1>
+                    <h1 className="text-2xl font-bold text-gray-900 mt-1">Contributor Dashboard</h1>
                 </div>
                 <Cards
                     userType = 'donor'

@@ -244,11 +244,11 @@ export default function List({module, wishes}) {
                                                                                     <>
                                                                                         <span
                                                                                             className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                                        Donor: {wish.latest_fulfillment?.donation?.user?.name}
+                                                                                        Contributor: {wish.latest_fulfillment?.donation?.user?.name}
                                                                                     </span>
                                                                                         <span
                                                                                             className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
-                                                                                        Donor Message: {wish.latest_fulfillment?.note}
+                                                                                        Contributor Message: {wish.latest_fulfillment?.note}
                                                                                     </span>
                                                                                     </>
                                                                                 )}

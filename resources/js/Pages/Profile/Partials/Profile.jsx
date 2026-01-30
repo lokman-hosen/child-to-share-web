@@ -271,7 +271,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-yellow-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Donor Connections</div>
+                                <div className="text-sm font-medium text-gray-700">Contributor Connections</div>
                             </div>
                         </div>
                     </div>
@@ -319,7 +319,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-yellow-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Donor Connections</div>
+                                <div className="text-sm font-medium text-gray-700">Contributor Connections</div>
                             </div>
                         </div>
                     </div>

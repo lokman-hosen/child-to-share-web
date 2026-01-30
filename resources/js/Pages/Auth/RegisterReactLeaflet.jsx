@@ -251,7 +251,7 @@ export default function Register({guardianRelations,genders, organizations}) {
                                     onClick={() => setData('role', 'donor')}
                                     className={`role-option p-5 text-center ${data.role === 'donor' ? 'selected' : ''}`} data-role="donor">
                                     <div className="text-4xl mb-3 text-green-500">🎁</div>
-                                    <h3 className="font-semibold">Donate Items(Donor)</h3>
+                                    <h3 className="font-semibold">Donate Items(Contributor)</h3>
                                     <p className="text-sm text-gray-600 mt-2">Share items with children in need</p>
                                 </div>
 

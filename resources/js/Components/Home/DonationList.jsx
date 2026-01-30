@@ -10,7 +10,7 @@ const DonationList = ({donations, user}) => {
         <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center mb-10">
-                    <h2 className="text-2xl font-semibold text-accent section-title">Recent Gifts from Donors</h2>
+                    <h2 className="text-2xl font-semibold text-accent section-title">Recent Gifts from Contributors</h2>
                     <Link
                         href={route('donation.index')}
                         className="text-primary font-medium hover:text-primary-dark flex items-center text-sm">

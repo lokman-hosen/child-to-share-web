@@ -148,7 +148,7 @@ const Summary = ({activeDonorCount, activeWisherCount,totalWishCount,fulfilWishC
                         <div className="text-3xl md:text-4xl font-bold text-secondary mb-3">
                             {inView ? counts.activeDonors : 0}
                         </div>
-                        <div className="text-accent font-medium">Active Donors</div>
+                        <div className="text-accent font-medium">Active Contributors</div>
                         <div className="h-1 w-12 bg-gradient-to-r from-secondary to-secondary/70 mx-auto mt-3 rounded-full"></div>
                     </div>
 
