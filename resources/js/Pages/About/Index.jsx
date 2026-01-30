@@ -43,7 +43,7 @@ const Index = () => {
                         About <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-white">ThreeWish</span>
                     </h1>
                     <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8 opacity-90 leading-relaxed">
-                        Where technology meets compassion, creating magical connections between donors and dreamers
+                        Where technology meets compassion, creating magical connections between contributors and dreamers
                     </p>
                     <div className="flex flex-wrap justify-center gap-4 my-8">
                         <Link

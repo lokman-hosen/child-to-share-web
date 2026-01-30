@@ -35,7 +35,7 @@ const Index = ({fulfillList,activeDonorCount,fulfilledWishCount,totalWishCount, 
                     </div>
 
                     <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-95 leading-relaxed">
-                        Celebrating successful matches between generous donors and happy wishers
+                        Celebrating successful matches between generous contributors and happy wishers
                     </p>
                 </div>
             </div>

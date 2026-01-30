@@ -26,7 +26,7 @@ const HowWorks = () => {
                 </svg>
             ),
             title: "Get Matched by Location",
-            description: "Our system matches wishes with donors in the same community",
+            description: "Our system matches wishes with contributors in the same community",
             color: "from-secondary to-secondary-dark",
             bgColor: "bg-secondary/5",
             iconColor: "text-secondary"
@@ -56,7 +56,7 @@ const HowWorks = () => {
                         HOW <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">THREEWISH</span> WORKS
                     </h2>
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-                        A simple three-step process that connects children's wishes with generous donors
+                        A simple three-step process that connects children's wishes with generous contributors
                     </p>
                 </div>
 

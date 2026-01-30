@@ -32,7 +32,7 @@ const Hero = ({title, subTitle}) => {
                 </div>
 
                 <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-95 leading-relaxed">
-                    {subTitle ? textLimit(subTitle, 20) : 'Browse items that generous donors are sharing with children in their community'}
+                    {subTitle ? textLimit(subTitle, 20) : 'Browse items that generous contributors are sharing with children in their community'}
                 </p>
 
                 {/* Decorative Elements */}

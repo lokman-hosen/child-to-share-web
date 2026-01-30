@@ -18,7 +18,7 @@ const Faq = () => {
         {
             id: 3,
             question: "How does the matching work?",
-            answer: "Our system uses geolocation to match wishes with donors in the same community. Contributors see wishes based on proximity, with the option to expand search radius."
+            answer: "Our system uses geolocation to match wishes with contributors in the same community. Contributors see wishes based on proximity, with the option to expand search radius."
         },
         {
             id: 4,

@@ -47,7 +47,7 @@ const RegistrationCTA = ({user}) => {
                                         </svg>
                                     </div>
                                     <h3 className="font-bold text-accent text-lg mb-3">As a Wisher</h3>
-                                    <p className="text-gray-600 text-sm mb-4">Create wishes for items you need and connect with generous donors.</p>
+                                    <p className="text-gray-600 text-sm mb-4">Create wishes for items you need and connect with generous contributors.</p>
                                     <Link
                                         href={route('register', {role: 'wisher'})}
                                         className="inline-flex items-center justify-center w-full bg-gradient-to-r from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary text-accent font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
