@@ -128,4 +128,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Donation::class);
     }
+
+    public function wishes(): HasMany
+    {
+        return $this->hasMany(Wish::class);
+    }
 }

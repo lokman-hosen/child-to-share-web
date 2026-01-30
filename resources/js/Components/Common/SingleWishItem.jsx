@@ -4,7 +4,7 @@ import {faArrowRight, faStar, faUserAlt} from "@fortawesome/free-solid-svg-icons
 import {textLimit} from "@/utils.jsx";
 import {Link} from "@inertiajs/react";
 
-const SingleWishItemMobile = ({wish}) => {
+const SingleWishItem = ({wish}) => {
     const getStatusBadge = (status) => {
         const statusColors = {
             available: 'bg-green-100 text-green-800',
@@ -26,16 +26,16 @@ const SingleWishItemMobile = ({wish}) => {
             <Link href={route('wish.show', {id: wish.id})}>
                 <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
                     <div className="relative">
-                        <div className="w-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                        <div className="w-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative pt-[75%]">
                             {wish.user.image ? (
                                 <img
                                     src={`/storage/${wish.user.image}`}
                                     alt={wish.user.name}
-                                    className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                                    className="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    style={{objectPosition: 'center 30%'}}
                                 />
                             ) : (
-                                <div
-                                    className="w-full h-56 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faUserAlt} className="text-gray-400 text-8xl"/>
                                 </div>
                             )}
@@ -102,4 +102,4 @@ const SingleWishItemMobile = ({wish}) => {
     );
 };
 
-export default SingleWishItemMobile;
+export default SingleWishItem;

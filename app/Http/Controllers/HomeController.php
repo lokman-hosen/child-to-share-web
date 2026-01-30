@@ -31,10 +31,11 @@ class HomeController extends Controller
      */
     public function index(): Response
     {
-        $donations = $this->donationService->donationByStatus('available', 'list', 6, 'frontend');
-        $wishes = $this->wishService->wishByStatus('approved', 'list', 6, 'frontend');
+        $donations = $this->donationService->donationByStatus('available', 'list', 6, 'frontend', null, true);
+        $wishes = $this->wishService->wishByStatus('approved', 'list', 6, 'frontend', null, true);
         $wisherImages = $this->wishService->getRandomWisherImage();
         $activeDonorCount = $this->userService->userByRoleAndStatus('donor', true);
+        $activeWisherCount = $this->userService->userByRoleAndStatus('wisher', true);
         $totalWishCount = $this->wishService
             ->wishByStatus(null, 'count',  null,'frontend');
         $fulfilledWishCount = $this->wishService
@@ -48,6 +49,7 @@ class HomeController extends Controller
             'donations' => $donations,
             'wishes' => $wishes,
             'activeDonorCount' => $activeDonorCount,
+            'activeWisherCount' => $activeWisherCount,
             'totalWishCount' => $totalWishCount,
             'wisherImages' => $wisherImages,
             'fulfilWishCount' => $fulfilledWishCount,

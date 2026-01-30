@@ -132,12 +132,12 @@ UserService extends BaseService
     {
         $query = $this->user->where('is_active', $status);
         if ($role == 'donor'){
-            $query->whereHas('roles', function ($role) {
+            $query->has('donations')->whereHas('roles', function ($role) {
                 $role->where('slug', 'donor');
             });
         }
         if ($role == 'wisher'){
-            $query->whereHas('roles', function ($role) {
+            $query->has('wishes')->whereHas('roles', function ($role) {
                 $role->where('slug', 'wisher');
             });
         }

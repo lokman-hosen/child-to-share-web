@@ -63,10 +63,10 @@ class WishService extends BaseService
             ->paginate(10) // Pagination: 10 items per page
             ->withQueryString();
     }
-    public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend', $userId = null): Collection|int
+    public function wishByStatus($status = null, $resource = 'list', $limit = null, $for = 'frontend', $userId = null, $inRandom = false): Collection|int
     {
         $userId = $userId ?? Auth::id();
-        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage'])->orderBy('created_at', 'desc');
+        $query = $this->wish->with(['user', 'category', 'files', 'featuredImage']);
         if ($for == 'admin') {
             if (Auth::user()->user_type === 'organization'){
                 $query->whereHas('user', function ($user) {
@@ -78,6 +78,9 @@ class WishService extends BaseService
         }
         if (isset($status)) {
             $query->where('status', $status);
+        }
+        if ($inRandom) {
+            $query->inRandomOrder();
         }
         if (isset($limit)) {
             $query->limit($limit);

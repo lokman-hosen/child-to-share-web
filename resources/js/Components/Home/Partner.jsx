@@ -153,19 +153,19 @@ const OurPartners = () => {
                 {/* Stats Section */}
                 <div className="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">50+</div>
+                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">6+</div>
                         <div className="text-accent font-medium">Partner Organizations</div>
                     </div>
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                        <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">1000+</div>
+                        <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">10+</div>
                         <div className="text-accent font-medium">Communities Reached</div>
                     </div>
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                        <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">25+</div>
+                        <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">1</div>
                         <div className="text-accent font-medium">Countries</div>
                     </div>
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                        <div className="text-3xl md:text-4xl font-bold text-neutral mb-2">5 Years</div>
+                        <div className="text-3xl md:text-4xl font-bold text-neutral mb-2">1 Years</div>
                         <div className="text-accent font-medium">Of Collaboration</div>
                     </div>
                 </div>
