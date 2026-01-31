@@ -6,24 +6,24 @@ const Hero = ({ user }) => {
     const [slides, setSlides] = useState([
         {
             id: 1,
-            image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+            image: "/images/banner/1.jpeg",
             caption: "Children learning the joy of giving"
         },
         {
             id: 2,
-            image: "https://randyandrayelynnjassman.com/wp-content/uploads/2018/06/Randy-and-Raylynn-Jassman-Children-Giving-Back-Blog-1024x680-1.jpg",
+            image: "/images/banner/2.jpeg",
             caption: "Making wishes come true"
         },
-        {
-            id: 3,
-            image: "https://www.goodwillaz.org/wp-content/uploads/2024/08/Screenshot-2024-08-06-at-3.13.20%E2%80%AFPM.png",
-            caption: "Building community connections"
-        },
-        {
-            id: 4,
-            image: "https://www.shutterstock.com/image-photo/boy-child-puts-toys-cardboard-600nw-2423704351.jpg",
-            caption: "Building community connections"
-        }
+        // {
+        //     id: 3,
+        //     image: "https://www.goodwillaz.org/wp-content/uploads/2024/08/Screenshot-2024-08-06-at-3.13.20%E2%80%AFPM.png",
+        //     caption: "Building community connections"
+        // },
+        // {
+        //     id: 4,
+        //     image: "https://www.shutterstock.com/image-photo/boy-child-puts-toys-cardboard-600nw-2423704351.jpg",
+        //     caption: "Building community connections"
+        // }
     ]);
 
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -137,7 +137,7 @@ const Hero = ({ user }) => {
                         {/* Top Part - Image */}
                         <div className="hidden md:block w-full h-[250px] md:h-[308px] overflow-hidden">
                             <img
-                                src="https://www.sumablessings.org/assets/images/blog/690e6ebc37ed21762553532.jpeg"
+                                src="/images/banner/hero.jpeg"
                                 alt="ThreeWish Community"
                                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
                             />
@@ -150,6 +150,8 @@ const Hero = ({ user }) => {
                             </h2>
                             <p className="text-gray-700 text-lg mb-6">
                                 ThreeWish connects children who have items to share with those who have wishes to fulfill.
+                            </p>
+                            <p className="text-gray-700 text-lg mb-6">
                                 Our platform creates meaningful connections and teaches valuable lessons about generosity
                                 and community.
                             </p>

@@ -30,17 +30,17 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-4 text-white">Support</h3>
                         <ul className="space-y-2">
+                            {/*<li>*/}
+                            {/*    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Help Center</a>*/}
+                            {/*</li>*/}
+                            {/*<li>*/}
+                            {/*    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Safety Guidelines</a>*/}
+                            {/*</li>*/}
+                            {/*<li>*/}
+                            {/*    <a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Community Rules</a>*/}
+                            {/*</li>*/}
                             <li>
-                                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Help Center</a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Safety Guidelines</a>
-                            </li>
-                            <li>
-                                <a href="#" className="text-gray-300 hover:text-white transition-colors duration-200">Community Rules</a>
-                            </li>
-                            <li>
-                                <Link href={route('contact')} className="text-gray-300 hover:text-white transition-colors duration-200">Contact Us</Link>
+                                <Link href={route('contact')} className="text-gray-300 hover:text-white transition-colors duration-200">Help Center</Link>
                             </li>
                         </ul>
                     </div>
