@@ -124,7 +124,7 @@ const PartnersPage = () => {
                             </div>
                             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">
                                 <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">{stats.totalDonations}+</div>
-                                <div className="text-accent font-medium">Donations Made</div>
+                                <div className="text-accent font-medium">Contributions Made</div>
                                 <div className="h-1 w-12 bg-gradient-to-r from-primary-dark to-primary mx-auto mt-3 rounded-full"></div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@ const PartnersPage = () => {
                                                 <div className="h-8 w-px bg-gray-200"></div>
                                                 <div className="text-center">
                                                     <div className="text-lg font-bold text-secondary">{partner.donation_count}</div>
-                                                    <div className="text-xs text-gray-500">Donations</div>
+                                                    <div className="text-xs text-gray-500">Contributions</div>
                                                 </div>
                                                 <div className="h-8 w-px bg-gray-200"></div>
                                                 <div className="text-center">

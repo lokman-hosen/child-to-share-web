@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import {Link} from "@inertiajs/react";
 
 const Summary = ({activeDonorCount, activeWisherCount,totalWishCount,fulfilWishCount,community}) => {
     const [inView, setInView] = useState(false);
@@ -128,37 +129,45 @@ const Summary = ({activeDonorCount, activeWisherCount,totalWishCount,fulfilWishC
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8 text-center">
-                    <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                        <div className="text-3xl md:text-4xl font-bold text-black mb-3">
-                            {inView ? counts.totalWishes : 0}
+                    <Link href={route('wish.index')}>
+                        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div className="text-3xl md:text-4xl font-bold text-black mb-3">
+                                {inView ? counts.totalWishes : 0}
+                            </div>
+                            <div className="text-accent font-medium">Total Wishes</div>
+                            <div className="h-1 w-12 bg-gradient-to-r from-black to-primary mx-auto mt-3 rounded-full"></div>
                         </div>
-                        <div className="text-accent font-medium">Total Wishes</div>
-                        <div className="h-1 w-12 bg-gradient-to-r from-black to-primary mx-auto mt-3 rounded-full"></div>
-                    </div>
+                    </Link>
 
-                    <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                        <div className="text-3xl md:text-4xl font-bold text-primary mb-3">
-                            {inView ? counts.fulfilledWishes : 0}
+                    <Link href={route('fulfillment.index')}>
+                        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div className="text-3xl md:text-4xl font-bold text-primary mb-3">
+                                {inView ? counts.fulfilledWishes : 0}
+                            </div>
+                            <div className="text-accent font-medium">Wishes Fulfilled</div>
+                            <div className="h-1 w-12 bg-gradient-to-r from-primary to-primary/70 mx-auto mt-3 rounded-full"></div>
                         </div>
-                        <div className="text-accent font-medium">Wishes Fulfilled</div>
-                        <div className="h-1 w-12 bg-gradient-to-r from-primary to-primary/70 mx-auto mt-3 rounded-full"></div>
-                    </div>
+                    </Link>
 
-                    <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                        <div className="text-3xl md:text-4xl font-bold text-secondary mb-3">
-                            {inView ? counts.activeDonors : 0}
+                    <Link href={route('donation.index')}>
+                        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div className="text-3xl md:text-4xl font-bold text-secondary mb-3">
+                                {inView ? counts.activeDonors : 0}
+                            </div>
+                            <div className="text-accent font-medium">Active Contributors</div>
+                            <div className="h-1 w-12 bg-gradient-to-r from-secondary to-secondary/70 mx-auto mt-3 rounded-full"></div>
                         </div>
-                        <div className="text-accent font-medium">Active Contributors</div>
-                        <div className="h-1 w-12 bg-gradient-to-r from-secondary to-secondary/70 mx-auto mt-3 rounded-full"></div>
-                    </div>
+                    </Link>
 
-                    <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
-                        <div className="text-3xl md:text-4xl font-bold text-primary/80 mb-3">
-                            {inView ? counts.happyWishers : 0}
+                    <Link href={route('wish.index')}>
+                        <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+                            <div className="text-3xl md:text-4xl font-bold text-primary/80 mb-3">
+                                {inView ? counts.happyWishers : 0}
+                            </div>
+                            <div className="text-accent font-medium">Happy Wishers</div>
+                            <div className="h-1 w-12 bg-gradient-to-r from-primary/80 to-primary mx-auto mt-3 rounded-full"></div>
                         </div>
-                        <div className="text-accent font-medium">Happy Wishers</div>
-                        <div className="h-1 w-12 bg-gradient-to-r from-primary/80 to-primary mx-auto mt-3 rounded-full"></div>
-                    </div>
+                    </Link>
 
                     <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                         <div className="text-3xl md:text-4xl font-bold text-neutral mb-3">

@@ -8,7 +8,7 @@ import Pagination from "@/Components/Admin/Pagination.jsx";
 export default function Dashboard() {
     return (
         <AuthenticatedLayout>
-            <Head title="Donation List"/>
+            <Head title="Contribution List"/>
             <div className="px-10 py-8">
                 <h1 className="text-2xl font-bold text-gray-900 mb-6">Gifts List</h1>
                 <div className="bg-white shadow rounded-lg p-6">

@@ -237,7 +237,7 @@ export default function Register({genders}) {
             <Head title="Register"/>
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="card bg-white rounded-lg shadow-lg overflow-hidden">
-                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white py-8 px-6 text-center">
+                    <div className="bg-gradient-to-r from-primary to-secondary text-white py-8 px-6 text-center">
                         <h1 className="text-3xl font-bold mb-2">Join ThreeWish</h1>
                         <p className="text-lg">Create an account to start sharing or making wishes</p>
                     </div>
@@ -245,24 +245,34 @@ export default function Register({genders}) {
                     <form onSubmit={submit} className="space-y-6">
                         <div className="px-6 pb-8 mt-5">
                             <br/>
-                            <h2 className="text-xl font-semibold mb-4">Sign Up As:</h2>
+                            <h2 className="text-xl font-semibold text-accent mb-4">Sign Up As:</h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                                 <div
                                     onClick={() => setData('user_type', 'person')}
-                                    className={`role-option p-5 text-center ${data.user_type === 'person' ? 'selected' : ''}`} data-user-type="person">
-                                    <div className="text-4xl mb-3 text-green-500">
+                                    className={`role-option p-5 text-center border-2 rounded-lg transition-all duration-200 cursor-pointer ${
+                                        data.user_type === 'person'
+                                            ? 'border-primary bg-primary/10 shadow-md'
+                                            : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+                                    }`}
+                                    data-user-type="person">
+                                    <div className="text-4xl mb-3 text-primary">
                                         <FontAwesomeIcon icon={faUser}/>
                                     </div>
-                                    <h3 className="font-semibold">Person/Individual</h3>
+                                    <h3 className="font-semibold text-accent">Person/Individual</h3>
                                 </div>
 
                                 <div
                                     onClick={() => setData('user_type', 'organization')}
-                                    className={`role-option p-5 text-center ${data.user_type === 'organization' ? 'selected' : ''}`} data-user-type="organization">
-                                    <div className="text-4xl mb-3 text-purple-500">
+                                    className={`role-option p-5 text-center border-2 rounded-lg transition-all duration-200 cursor-pointer ${
+                                        data.user_type === 'organization'
+                                            ? 'border-secondary bg-secondary/10 shadow-md'
+                                            : 'border-gray-200 hover:border-secondary/50 hover:bg-gray-50'
+                                    }`}
+                                    data-user-type="organization">
+                                    <div className="text-4xl mb-3 text-secondary">
                                         <FontAwesomeIcon icon={faBuilding}/>
                                     </div>
-                                    <h3 className="font-semibold">Organization</h3>
+                                    <h3 className="font-semibold text-accent">Organization</h3>
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -344,7 +354,7 @@ export default function Register({genders}) {
 
                             {/* Location Search Section */}
                             <div className="mt-6">
-                                <label className="block text-gray-700 font-semibold mb-4">
+                                <label className="block text-accent font-semibold mb-4">
                                     {data.user_type === 'person' ? ' Your Location' : ' Organization Location'} (Search and select)
                                     <span className="text-red-600">*</span>
                                 </label>
@@ -361,24 +371,24 @@ export default function Register({genders}) {
                                                     : handleSearchFallback(e.target.value)
                                             }
                                             placeholder="Search location (address, city, landmark...)"
-                                            className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                            className="w-full px-4 py-3 pl-11 border border-neutral/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
                                         />
                                         <FontAwesomeIcon
                                             icon={faSearch}
-                                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral/60"
                                         />
                                         {isSearching && (
                                             <FontAwesomeIcon
                                                 icon={faSpinner}
                                                 spin
-                                                className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                                className="absolute right-12 top-1/2 transform -translate-y-1/2 text-neutral/60"
                                             />
                                         )}
 
                                         {searchQuery && (
                                             <Button
                                                 onClick={handleClearSearch}
-                                                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral/60 hover:text-accent transition-colors duration-200"
                                             >
                                                 <FontAwesomeIcon icon={faClose} />
                                             </Button>
@@ -387,7 +397,7 @@ export default function Register({genders}) {
 
                                     {/* Search Suggestions */}
                                     {searchSuggestions.length > 0 && (
-                                        <div className="absolute z-[9999] w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                        <div className="absolute z-[9999] w-full mt-1 bg-white border border-neutral/20 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                             {searchSuggestions.map((suggestion, index) => (
                                                 <div
                                                     key={isGoogleMapsAvailable ? suggestion.place_id : index}
@@ -396,21 +406,21 @@ export default function Register({genders}) {
                                                             ? handleSuggestionSelect(suggestion)
                                                             : handleSuggestionSelectFallback(suggestion)
                                                     }
-                                                    className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                                                    className="px-4 py-3 hover:bg-primary/5 cursor-pointer border-b border-neutral/10 last:border-b-0 transition-colors duration-200"
                                                 >
                                                     <div className="flex items-start">
                                                         <FontAwesomeIcon
                                                             icon={faMapMarkerAlt}
-                                                            className="text-blue-500 mt-1 mr-3 flex-shrink-0"
+                                                            className="text-primary mt-1 mr-3 flex-shrink-0"
                                                         />
                                                         <div>
-                                                            <div className="font-medium text-gray-900">
+                                                            <div className="font-medium text-accent">
                                                                 {isGoogleMapsAvailable
                                                                     ? suggestion.structured_formatting.main_text
                                                                     : suggestion.display_name.split(',').slice(0, 2).join(',')
                                                                 }
                                                             </div>
-                                                            <div className="text-sm text-gray-500">
+                                                            <div className="text-sm text-neutral">
                                                                 {isGoogleMapsAvailable
                                                                     ? suggestion.structured_formatting.secondary_text
                                                                     : suggestion.display_name.split(',').slice(2).join(',')
@@ -431,8 +441,8 @@ export default function Register({genders}) {
                                 )}
 
                                 {data.latitude && data.longitude && (
-                                    <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
-                                        <p className="text-green-700 text-sm">
+                                    <div className="mt-3 p-3 bg-primary/10 border border-primary/30 rounded-lg">
+                                        <p className="text-primary text-sm">
                                             <strong>Location set successfully!</strong><br />
                                             Coordinates captured for better service matching.
                                         </p>
@@ -454,10 +464,10 @@ export default function Register({genders}) {
                             <button
                                 type="submit"
                                 disabled={processing}
-                                className={`w-full mt-5 py-3 rounded-lg font-semibold text-lg transition-colors focus:ring-4 focus:ring-purple-200 ${
+                                className={`w-full mt-5 py-3 rounded-lg font-semibold text-lg transition-all duration-200 focus:ring-4 focus:ring-primary/30 ${
                                     processing
-                                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
-                                        : 'bg-purple-600 text-white hover:bg-purple-700'
+                                        ? 'bg-neutral/40 text-neutral/60 cursor-not-allowed'
+                                        : 'bg-gradient-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90 hover:shadow-lg transform hover:-translate-y-0.5'
                                 }`}
                             >
                                 {processing ? (
@@ -469,11 +479,11 @@ export default function Register({genders}) {
                                     'Create Account'
                                 )}
                             </button>
-                            <p className="text-center mt-6 text-gray-600">
+                            <p className="text-center mt-6 text-neutral">
                                 Already have an account?
                                 <Link
                                     href={route('login')}
-                                    className="text-purple-600 font-semibold hover:underline ml-1"
+                                    className="text-primary font-semibold hover:underline ml-1 transition-colors duration-200"
                                 >
                                     Log In
                                 </Link>

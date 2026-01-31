@@ -24,7 +24,7 @@ const SingleDonationItem = ({donation}) => {
                         )}
                     </div>
                     <div className="absolute top-3 left-3 bg-secondary text-accent px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                        DONATION
+                        CONTRIBUTION
                     </div>
                 </div>
                 <div className="p-6">

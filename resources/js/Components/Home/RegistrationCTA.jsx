@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from "@inertiajs/react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGift, faStar} from "@fortawesome/free-solid-svg-icons";
 
 const RegistrationCTA = ({user}) => {
     return (
@@ -18,9 +20,7 @@ const RegistrationCTA = ({user}) => {
                             <div className="flex flex-col lg:flex-row justify-center gap-6 mb-10">
                                 <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-6 flex-1 max-w-sm mx-auto lg:mx-0">
                                     <div className="h-12 w-12 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center mb-4 mx-auto">
-                                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
+                                        <FontAwesomeIcon icon={faGift} className="text-white text-3xl"/>
                                     </div>
                                     <h3 className="font-bold text-accent text-lg mb-3">As a Contributor</h3>
                                     <p className="text-gray-600 text-sm mb-4">Share items you no longer need and bring joy to children in your community.</p>
@@ -42,9 +42,7 @@ const RegistrationCTA = ({user}) => {
 
                                 <div className="bg-gradient-to-br from-secondary/5 to-secondary/10 rounded-2xl p-6 flex-1 max-w-sm mx-auto lg:mx-0">
                                     <div className="h-12 w-12 bg-gradient-to-br from-secondary to-secondary-dark rounded-xl flex items-center justify-center mb-4 mx-auto">
-                                        <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                                        </svg>
+                                        <FontAwesomeIcon icon={faStar} className="text-white text-3xl"/>
                                     </div>
                                     <h3 className="font-bold text-accent text-lg mb-3">As a Wisher</h3>
                                     <p className="text-gray-600 text-sm mb-4">Create wishes for items you need and connect with generous contributors.</p>
