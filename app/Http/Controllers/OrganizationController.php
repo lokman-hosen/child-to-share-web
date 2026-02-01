@@ -6,15 +6,36 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrganizationRequest;
 use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
+use App\Services\DonationService;
+use App\Services\OrganizationService;
+use App\Services\WishService;
+use Inertia\Inertia;
 
 class OrganizationController extends Controller
 {
+    const moduleDirectory = 'Partner/';
+    const moduleName = 'Partner List';
+    public function __construct(
+        protected OrganizationService $organizationService,
+        protected WishService $wishService,
+        protected DonationService $donationService,
+
+    ){}
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $organizations = $this->organizationService->organizationList();
+        $totalWishCount = $this->wishService->wishByStatus(null, 'count',  null,'frontend');
+        $totalDonationCount = $this->donationService->DonationByStatus(null, 'count',  null,'frontend');
+        return Inertia::render(self::moduleDirectory.'Index', [
+            'module' => self::moduleName,
+            'organizations' => $organizations,
+            'totalWishCount' => $totalWishCount,
+            'totalDonationCount' => $totalDonationCount,
+        ]);
     }
 
     /**

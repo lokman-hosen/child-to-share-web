@@ -126,7 +126,7 @@ class OrganizationService extends BaseService
 
     public function organizationList()
     {
-        return $this->organization->with('user')->where('is_active', true)->orderBy('name')->get();
+        return $this->organization->with(['user'])->where('is_active', true)->orderBy('name')->get();
     }
 
 }

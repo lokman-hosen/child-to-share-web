@@ -55,6 +55,10 @@ Route::get('/partner', function () {
     return Inertia::render('Partner/Index');
 })->name('partner');
 
+Route::controller(\App\Http\Controllers\OrganizationController::class)->group(function () {
+    Route::get('partner', 'index')->name('partner');
+});
+
 
 //Route::get('/dashboard', function () {
 //    return Inertia::render('Dashboard');

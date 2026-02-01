@@ -4,7 +4,7 @@ import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHandshake, faUsers, faHeart, faStar, faBuilding, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
-const PartnersPage = () => {
+const PartnersPage = ({organizations, totalWishCount, totalDonationCount}) => {
     // Sample partner data - will come from database later
     const partners = [
         {
@@ -113,17 +113,17 @@ const PartnersPage = () => {
                         {/* Stats */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
                             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">
-                                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{stats.totalPartners}+</div>
+                                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{organizations.length}+</div>
                                 <div className="text-accent font-medium">Trusted Partners</div>
                                 <div className="h-1 w-12 bg-gradient-to-r from-primary to-primary-dark mx-auto mt-3 rounded-full"></div>
                             </div>
                             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">
-                                <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">{stats.totalWishes}+</div>
+                                <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">{totalWishCount ?? 0}+</div>
                                 <div className="text-accent font-medium">Wishes Created</div>
                                 <div className="h-1 w-12 bg-gradient-to-r from-secondary to-secondary-dark mx-auto mt-3 rounded-full"></div>
                             </div>
                             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">
-                                <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">{stats.totalDonations}+</div>
+                                <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">{totalDonationCount ?? 0}+</div>
                                 <div className="text-accent font-medium">Contributions Made</div>
                                 <div className="h-1 w-12 bg-gradient-to-r from-primary-dark to-primary mx-auto mt-3 rounded-full"></div>
                             </div>
@@ -164,17 +164,17 @@ const PartnersPage = () => {
 
                             {/* Partners Grid */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                {partners.map((partner) => (
+                                {organizations.map((organization) => (
                                     <div
-                                        key={partner.id}
+                                        key={organization.id}
                                         className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-200 hover:border-primary/20"
                                     >
                                         {/* Logo Header */}
                                         <div className="relative h-48 bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center p-4">
                                             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
                                             <img
-                                                src={partner.logo}
-                                                alt={partner.name}
+                                                src={organization.user.image}
+                                                alt={organization.name}
                                                 className="max-h-32 w-auto object-contain group-hover:scale-110 transition-transform duration-300"
                                             />
                                         </div>
@@ -182,31 +182,33 @@ const PartnersPage = () => {
                                         {/* Partner Info */}
                                         <div className="p-6">
                                             <h3 className="text-xl font-bold text-accent mb-3 group-hover:text-primary transition-colors duration-200">
-                                                {partner.name}
+                                                {organization.name}
                                             </h3>
 
                                             {/* Stats */}
                                             <div className="flex items-center justify-between mb-6">
-                                                <div className="text-center">
-                                                    <div className="text-lg font-bold text-primary">{partner.wish_count}</div>
-                                                    <div className="text-xs text-gray-500">Wishes</div>
-                                                </div>
-                                                <div className="h-8 w-px bg-gray-200"></div>
-                                                <div className="text-center">
-                                                    <div className="text-lg font-bold text-secondary">{partner.donation_count}</div>
-                                                    <div className="text-xs text-gray-500">Contributions</div>
-                                                </div>
-                                                <div className="h-8 w-px bg-gray-200"></div>
-                                                <div className="text-center">
-                                                    <div className="text-lg font-bold text-primary-dark">{partner.established}</div>
-                                                    <div className="text-xs text-gray-500">Established</div>
-                                                </div>
+                                                {/*<div className="text-center">*/}
+                                                {/*    <div className="text-lg font-bold text-primary">{partner.wish_count}</div>*/}
+                                                {/*    <div className="text-xs text-gray-500">Wishes</div>*/}
+                                                {/*</div>*/}
+                                                {/*<div className="h-8 w-px bg-gray-200"></div>*/}
+                                                {/*<div className="text-center">*/}
+                                                {/*    <div className="text-lg font-bold text-secondary">{partner.donation_count}</div>*/}
+                                                {/*    <div className="text-xs text-gray-500">Contributions</div>*/}
+                                                {/*</div>*/}
+                                                {/*<div className="h-8 w-px bg-gray-200"></div>*/}
+                                                {/*<div className="text-center">*/}
+                                                {/*    <div className="text-lg font-bold text-primary-dark">*/}
+                                                {/*        {organization.user?.dob ? organization.user.dob.split('-')[0] : ''}*/}
+                                                {/*    </div>*/}
+                                                {/*    <div className="text-xs text-gray-500">Established</div>*/}
+                                                {/*</div>*/}
                                             </div>
 
                                             {/* Description */}
-                                            <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                                                {partner.description}
-                                            </p>
+                                            {/*<p className="text-sm text-gray-600 mb-4 line-clamp-2">*/}
+                                            {/*    {organization.description}*/}
+                                            {/*</p>*/}
 
                                             {/* Decorative Element */}
                                             <div className="mt-4 pt-4 border-t border-gray-100">
@@ -256,13 +258,13 @@ const PartnersPage = () => {
                                         <FontAwesomeIcon icon={faChartLine} className="w-5 h-5 mr-2" />
                                         Apply to Become a Partner
                                     </Link>
-                                    <Link
-                                        href="#partner-list"
-                                        className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-semibold rounded-xl border-2 border-white/30 hover:border-white/40 transition-all duration-300"
-                                    >
-                                        <FontAwesomeIcon icon={faStar} className="w-5 h-5 mr-2" />
-                                        View Success Stories
-                                    </Link>
+                                    {/*<Link*/}
+                                    {/*    href="#partner-list"*/}
+                                    {/*    className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-semibold rounded-xl border-2 border-white/30 hover:border-white/40 transition-all duration-300"*/}
+                                    {/*>*/}
+                                    {/*    <FontAwesomeIcon icon={faStar} className="w-5 h-5 mr-2" />*/}
+                                    {/*    View Success Stories*/}
+                                    {/*</Link>*/}
                                 </div>
                             </div>
                         </div>
