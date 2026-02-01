@@ -14,6 +14,7 @@ import WishList from "@/Components/Home/WishList.jsx";
 import Category from "@/Components/Home/Category.jsx";
 import Partner from "@/Components/Home/Partner.jsx";
 import ImplementationBody from "@/Components/Home/ImplementationBody.jsx";
+import SDG from "@/Components/Home/SDG.jsx";
 
 export default function Welcome({ auth, donations, wishes, wisherImages,
                                     activeDonorCount, totalWishCount,
@@ -57,6 +58,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                 <Category categories={categories}/>
                 <Partner organizations={organizations}/>
                 <ImplementationBody/>
+                <SDG/>
                 <RegistrationCTA user={user} />
                 <Faq/>
             </div>
