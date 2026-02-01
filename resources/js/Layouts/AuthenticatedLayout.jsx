@@ -75,18 +75,18 @@ export default function AuthenticatedLayout({ header, children }) {
                                 />
                                 <span className="text-xs font-medium">Dashboard</span>
                             </Link>
-                            <Link
-                                href={route('users.index')}
-                                className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${
-                                    isActiveRoute('/users') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-500'
-                                }`}
-                            >
-                                <FontAwesomeIcon
-                                    icon={faUsers}
-                                    className={`w-5 h-5 ${isActiveRoute('/users') ? 'scale-110' : ''} transition-transform`}
-                                />
-                                <span className="text-xs font-medium">Users</span>
-                            </Link>
+                            {/*<Link*/}
+                            {/*    href={route('users.index')}*/}
+                            {/*    className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-all duration-200 ${*/}
+                            {/*        isActiveRoute('/users') ? 'text-purple-600' : 'text-gray-600 hover:text-purple-500'*/}
+                            {/*    }`}*/}
+                            {/*>*/}
+                            {/*    <FontAwesomeIcon*/}
+                            {/*        icon={faUsers}*/}
+                            {/*        className={`w-5 h-5 ${isActiveRoute('/users') ? 'scale-110' : ''} transition-transform`}*/}
+                            {/*    />*/}
+                            {/*    <span className="text-xs font-medium">Users</span>*/}
+                            {/*</Link>*/}
 
                             {/* Donations */}
                             <Link

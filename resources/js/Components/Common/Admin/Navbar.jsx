@@ -29,12 +29,12 @@ export default function Navbar({ onMenuClick }) {
                                 <img
                                     src="/images/3wish.png"
                                     alt="ThreeWish Logo"
-                                    className="h-12 w-10 object-cover rounded" // Better styling
+                                    className="h-12 object-cover rounded" // Better styling
                                     onError={(e) => {
                                         e.target.style.display = 'none'; // Hide broken images
                                     }}
                                 />
-                                <span className="font-bold text-xl text-blue-600 hidden sm:block">ThreeWish</span>
+                                {/*<span className="font-bold text-xl text-blue-600 hidden sm:block">ThreeWish</span>*/}
                             </div>
                         </Link>
                     </div>

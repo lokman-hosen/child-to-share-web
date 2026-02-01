@@ -74,32 +74,11 @@ const ContactPage = () => {
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-accent mb-1">General Inquiries</h3>
-                                            <a href="mailto:hello@threewish.org"
+                                            <a href="mailto:info@threewish.org"
                                                className="text-primary hover:text-primary/80 text-lg">
-                                                hello@threewish.org
+                                                info@threewish.org
                                             </a>
                                             <p className="text-neutral text-sm mt-1">Response within 24 hours</p>
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        className="flex items-start space-x-4 p-5 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
-                                        <div
-                                            className="flex-shrink-0 w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
-                                            <svg className="w-6 h-6 text-secondary" fill="none"
-                                                 stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h3 className="font-semibold text-accent mb-1">Support Hotline</h3>
-                                            <a href="tel:+11234567890"
-                                               className="text-primary hover:text-primary/80 text-lg">
-                                                +1 (123) 456-7890
-                                            </a>
-                                            <p className="text-neutral text-sm mt-1">24/7 support for urgent
-                                                matters</p>
                                         </div>
                                     </div>
 
@@ -120,8 +99,9 @@ const ContactPage = () => {
                                                className="text-primary hover:text-primary/80 text-lg">
                                                 partners@threewish.org
                                             </a>
-                                            <p className="text-neutral text-sm mt-1">For organizations &
-                                                collaborations</p>
+                                            <p className="text-neutral text-sm mt-1">
+                                                101, Central Road, Dhanmondi, Dhaka, Bangladesh
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -134,23 +114,16 @@ const ContactPage = () => {
                                 </h2>
                                 <div
                                     className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
-                                    {/* Map Placeholder */}
-                                    <div className="h-64 bg-gradient-to-br from-primary/10 to-secondary/10 relative">
-                                        <div className="absolute inset-0 flex items-center justify-center">
-                                            <div className="text-center">
-                                                <div
-                                                    className="w-16 h-16 bg-white rounded-full shadow-lg flex items-center justify-center mx-auto mb-4">
-                                                    <svg className="w-8 h-8 text-primary" fill="currentColor"
-                                                         viewBox="0 0 20 20">
-                                                        <path fillRule="evenodd"
-                                                              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                                                              clipRule="evenodd"/>
-                                                    </svg>
-                                                </div>
-                                                <p className="text-neutral font-medium">Google Map Integration
-                                                    Here</p>
-                                            </div>
-                                        </div>
+                                    {/* Map Section - Simplified */}
+                                    <div className="w-full relative" style={{ paddingTop: '56.25%' }}> {/* 16:9 aspect ratio */}
+                                        <iframe
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.1667131625422!2d90.3882138!3d23.741433699999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b945a28f3e5b%3A0xb9984bbe703dec07!2sHashimukh%20Somaj%20Kallayan%20Songstha!5e0!3m2!1sen!2sbd!4v1769917575795!5m2!1sen!2sbd"
+                                            className="absolute top-0 left-0 w-full h-full border-0"
+                                            allowFullScreen
+                                            loading="lazy"
+                                            referrerPolicy="no-referrer-when-downgrade"
+                                            title="Hashimukh Somaj Kallayan Songstha Location"
+                                        />
                                     </div>
 
                                     {/* Office Details */}
@@ -185,7 +158,7 @@ const ContactPage = () => {
                                                 <div>
                                                     <h4 className="font-semibold text-accent">Contact Hours</h4>
                                                     <p className="text-neutral">
-                                                        Monday - Friday: 9:00 AM - 6:00 PM PST<br/>
+                                                        Sunday - Thursday: 9:00 AM - 6:00 PM PST<br/>
                                                         Saturday: 10:00 AM - 4:00 PM PST<br/>
                                                         Sunday: Closed
                                                     </p>
