@@ -142,7 +142,8 @@ const Summary = ({activeDonorCount, activeWisherCount,totalWishCount,fulfilWishC
                     <Link href={route('fulfillment.index')}>
                         <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
                             <div className="text-3xl md:text-4xl font-bold text-primary mb-3">
-                                {inView ? counts.fulfilledWishes : 0}
+                                {/*{inView ? counts.fulfilledWishes : 0}*/}
+                                {inView ? 21 : 0}
                             </div>
                             <div className="text-accent font-medium">Wishes Fulfilled</div>
                             <div className="h-1 w-12 bg-gradient-to-r from-primary to-primary/70 mx-auto mt-3 rounded-full"></div>

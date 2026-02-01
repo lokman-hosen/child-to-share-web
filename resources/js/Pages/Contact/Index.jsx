@@ -85,23 +85,21 @@ const ContactPage = () => {
                                     <div
                                         className="flex items-start space-x-4 p-5 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
                                         <div
-                                            className="flex-shrink-0 w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-                                            <svg className="w-6 h-6 text-accent" fill="none"
+                                            className="flex-shrink-0 w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                                            <svg className="w-6 h-6 text-secondary" fill="none"
                                                  stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                             </svg>
                                         </div>
                                         <div>
-                                            <h3 className="font-semibold text-accent mb-1">Partnership
-                                                Inquiries</h3>
-                                            <a href="mailto:partners@threewish.org"
+                                            <h3 className="font-semibold text-accent mb-1">Support Hotline</h3>
+                                            <a href="tel:+8801794146555"
                                                className="text-primary hover:text-primary/80 text-lg">
-                                                partners@threewish.org
+                                                +880 1794 1465 55
                                             </a>
-                                            <p className="text-neutral text-sm mt-1">
-                                                101, Central Road, Dhanmondi, Dhaka, Bangladesh
-                                            </p>
+                                            <p className="text-neutral text-sm mt-1">24/7 support for urgent
+                                                matters</p>
                                         </div>
                                     </div>
                                 </div>
@@ -141,9 +139,7 @@ const ContactPage = () => {
                                                 <div>
                                                     <h4 className="font-semibold text-accent">Address</h4>
                                                     <p className="text-neutral">
-                                                        123 Giving Avenue, Suite 500<br/>
-                                                        San Francisco, CA 94107<br/>
-                                                        United States
+                                                        101, Central Road, Dhanmondi, Dhaka, Bangladesh
                                                     </p>
                                                 </div>
                                             </div>
@@ -159,8 +155,8 @@ const ContactPage = () => {
                                                     <h4 className="font-semibold text-accent">Contact Hours</h4>
                                                     <p className="text-neutral">
                                                         Sunday - Thursday: 9:00 AM - 6:00 PM PST<br/>
-                                                        Saturday: 10:00 AM - 4:00 PM PST<br/>
-                                                        Sunday: Closed
+                                                        {/*Saturday: 10:00 AM - 4:00 PM PST<br/>*/}
+                                                        Friday and Sunday: Closed
                                                     </p>
                                                 </div>
                                             </div>
@@ -247,7 +243,7 @@ const ContactPage = () => {
                                                 onChange={handleChange}
                                                 required
                                                 className="w-full px-4 py-3 border border-neutral/30 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                                                placeholder="+1 (555) 123-4567"
+                                                placeholder="+880 1794 1465 55"
                                             />
                                         </div>
 
