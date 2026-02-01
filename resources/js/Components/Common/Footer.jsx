@@ -47,7 +47,7 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold mb-4 text-white">Connect With Us</h3>
                         <div className="flex space-x-4">
-                            <a target="_blank" href="https://www.facebook.com/profile.php?id=61586854725530 " className="text-gray-300 hover:text-primary transition-colors duration-200">
+                            <a target="_blank" href="https://www.facebook.com/profile.php?id=61586854725530" className="text-gray-300 hover:text-primary transition-colors duration-200">
                                 <span className="sr-only">Facebook</span>
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path fillRule="evenodd"
