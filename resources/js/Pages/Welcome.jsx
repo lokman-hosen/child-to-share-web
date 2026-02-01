@@ -60,6 +60,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
             </div>
             <Footer/>
 
+
             {/* Mobile Bottom Navigation Bar */}
             <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden">
                 {/* Background blur effect */}
