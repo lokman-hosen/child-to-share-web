@@ -13,6 +13,7 @@ import {faGift, faPlug, faPlus, faStar, faHome, faUser, faHandHoldingHeart} from
 import WishList from "@/Components/Home/WishList.jsx";
 import Category from "@/Components/Home/Category.jsx";
 import Partner from "@/Components/Home/Partner.jsx";
+import ImplementationBody from "@/Components/Home/ImplementationBody.jsx";
 
 export default function Welcome({ auth, donations, wishes, wisherImages,
                                     activeDonorCount, totalWishCount,
@@ -55,6 +56,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                 <HowWorks/>
                 <Category categories={categories}/>
                 <Partner organizations={organizations}/>
+                <ImplementationBody/>
                 <RegistrationCTA user={user} />
                 <Faq/>
             </div>
