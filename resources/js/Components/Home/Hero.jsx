@@ -6,12 +6,12 @@ const Hero = ({ user }) => {
     const [slides, setSlides] = useState([
         {
             id: 1,
-            image: "/images/banner/1.jpeg",
+            image: "/images/banner/2.jpeg",
             caption: "Children learning the joy of giving"
         },
         {
             id: 2,
-            image: "/images/banner/2.jpeg",
+            image: "/images/banner/1.jpeg",
             caption: "Making wishes come true"
         },
         // {
