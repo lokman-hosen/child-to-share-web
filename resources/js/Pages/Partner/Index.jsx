@@ -173,7 +173,7 @@ const PartnersPage = ({organizations, totalWishCount, totalDonationCount}) => {
                                         <div className="relative h-48 bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center p-4">
                                             <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
                                             <img
-                                                src={organization.user.image}
+                                                src={`/storage/${organization.user.image}`}
                                                 alt={organization.name}
                                                 className="max-h-32 w-auto object-contain group-hover:scale-110 transition-transform duration-300"
                                             />
