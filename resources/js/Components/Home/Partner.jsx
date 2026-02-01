@@ -147,6 +147,7 @@ const OurPartners = ({organizations}) => {
                         {/*        </a>*/}
                         {/*    </div>*/}
                         {/*))}*/}
+
                         {organizations.length > 0 ? (
                             organizations.map((organization) => (
                                 <div
