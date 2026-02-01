@@ -1,58 +1,58 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {Link} from "@inertiajs/react";
 
-const OurPartners = () => {
+const OurPartners = ({organizations}) => {
     // Sample partner logos - replace with your actual data from database
-    const [partners, setPartners] = useState([
-        {
-            id: 1,
-            name: 'Education First',
-            logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-        {
-            id: 2,
-            name: 'Children\'s Hope',
-            logo: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-        {
-            id: 3,
-            name: 'Future Leaders',
-            logo: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-        {
-            id: 4,
-            name: 'Youth Development',
-            logo: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-        {
-            id: 5,
-            name: 'Community Builders',
-            logo: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-        {
-            id: 6,
-            name: 'Hope Foundation',
-            logo: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-        {
-            id: 7,
-            name: 'Learning Tree',
-            logo: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-        {
-            id: 8,
-            name: 'Bright Future',
-            logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
-            website: 'https://example.com'
-        },
-    ]);
+    // const [partners, setPartners] = useState([
+    //     {
+    //         id: 1,
+    //         name: 'Education First',
+    //         logo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    //     {
+    //         id: 2,
+    //         name: 'Children\'s Hope',
+    //         logo: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    //     {
+    //         id: 3,
+    //         name: 'Future Leaders',
+    //         logo: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    //     {
+    //         id: 4,
+    //         name: 'Youth Development',
+    //         logo: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    //     {
+    //         id: 5,
+    //         name: 'Community Builders',
+    //         logo: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    //     {
+    //         id: 6,
+    //         name: 'Hope Foundation',
+    //         logo: 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    //     {
+    //         id: 7,
+    //         name: 'Learning Tree',
+    //         logo: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    //     {
+    //         id: 8,
+    //         name: 'Bright Future',
+    //         logo: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=100&q=80',
+    //         website: 'https://example.com'
+    //     },
+    // ]);
 
     const [isPaused, setIsPaused] = useState(false);
     const containerRef = useRef(null);
@@ -86,7 +86,7 @@ const OurPartners = () => {
     }, [isPaused]);
 
     // Clone partners to create seamless loop
-    const duplicatedPartners = [...partners, ...partners];
+    //const duplicatedPartners = [...partners, ...partners];
 
     return (
         <section className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
@@ -120,33 +120,67 @@ const OurPartners = () => {
                         ref={contentRef}
                         style={{ willChange: 'transform' }}
                     >
-                        {duplicatedPartners.map((partner, index) => (
-                            <div
-                                key={`${partner.id}-${index}`}
-                                className="flex-shrink-0 group relative"
-                                style={{ width: '200px' }}
-                            >
-                                <a
-                                    href={partner.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="block p-4 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
+                        {/*{duplicatedPartners.map((partner, index) => (*/}
+                        {/*    <div*/}
+                        {/*        key={`${partner.id}-${index}`}*/}
+                        {/*        className="flex-shrink-0 group relative"*/}
+                        {/*        style={{ width: '200px' }}*/}
+                        {/*    >*/}
+                        {/*        <a*/}
+                        {/*            href={partner.website}*/}
+                        {/*            target="_blank"*/}
+                        {/*            rel="noopener noreferrer"*/}
+                        {/*            className="block p-4 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"*/}
+                        {/*        >*/}
+                        {/*            <div className="h-32 flex items-center justify-center">*/}
+                        {/*                <img*/}
+                        {/*                    src={partner.logo}*/}
+                        {/*                    alt={partner.name}*/}
+                        {/*                    className="max-h-24 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"*/}
+                        {/*                />*/}
+                        {/*            </div>*/}
+                        {/*            /!* Tooltip *!/*/}
+                        {/*            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-accent text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">*/}
+                        {/*                {partner.name}*/}
+                        {/*                <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-accent"></div>*/}
+                        {/*            </div>*/}
+                        {/*        </a>*/}
+                        {/*    </div>*/}
+                        {/*))}*/}
+                        {organizations.length > 0 ? (
+                            organizations.map((organization) => (
+                                <div
+                                    key={organization.id}
+                                    className="flex-shrink-0 group relative"
+                                    style={{ width: '300px' }}
                                 >
-                                    <div className="h-32 flex items-center justify-center">
-                                        <img
-                                            src={partner.logo}
-                                            alt={partner.name}
-                                            className="max-h-24 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
-                                        />
-                                    </div>
-                                    {/* Tooltip */}
-                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-accent text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
-                                        {partner.name}
-                                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-accent"></div>
-                                    </div>
-                                </a>
-                            </div>
-                        ))}
+                                    <a
+                                        href=""
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block p-2 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
+                                    >
+                                        <div className="h-32 flex items-center justify-center">
+                                            <img
+                                                src={`/storage/${organization.user.image}`}
+                                                alt={organization.name}
+                                                className="max-h-24 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
+                                            />
+                                        </div>
+                                        {/* Tooltip */}
+                                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-accent text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
+                                            {organization.name}
+                                            <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-accent"></div>
+                                        </div>
+                                    </a>
+                                </div>
+                            ))
+
+                        ):(
+                            <p>ffg</p>
+                        )
+
+                        }
                     </div>
                 </div>
 

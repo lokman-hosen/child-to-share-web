@@ -16,7 +16,7 @@ import Partner from "@/Components/Home/Partner.jsx";
 
 export default function Welcome({ auth, donations, wishes, wisherImages,
                                     activeDonorCount, totalWishCount,
-                                    fulfilWishCount, community, categories, activeWisherCount }) {
+                                    fulfilWishCount, community, categories, activeWisherCount, organizations }) {
     const user = usePage().props.auth.user;
     const { url } = usePage();
 
@@ -54,7 +54,7 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                 />
                 <HowWorks/>
                 <Category categories={categories}/>
-                <Partner/>
+                <Partner organizations={organizations}/>
                 <RegistrationCTA user={user} />
                 <Faq/>
             </div>

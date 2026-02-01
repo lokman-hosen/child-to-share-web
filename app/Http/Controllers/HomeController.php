@@ -42,6 +42,7 @@ class HomeController extends Controller
             ->wishByStatus('fulfilled', 'count',  null,'frontend');
         $organizationCount = $this->organizationService->count();
         $categories = $this->categoryService->getList();
+        $organizations = $this->organizationService->organizationList();
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -55,6 +56,7 @@ class HomeController extends Controller
             'fulfilWishCount' => $fulfilledWishCount,
             'community' => $organizationCount,
             'categories' => $categories,
+            'organizations' => $organizations,
         ]);
     }
 }
