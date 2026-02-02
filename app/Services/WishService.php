@@ -336,9 +336,9 @@ class WishService extends BaseService
 
         if ($request->filled('organization_id')) {
             $query->whereHas('user', function ($user) use ($query, $request) {
-                if (isset($user->organization)){
+                //if (isset($user->organization)){
                     $query->where('organization_id', $request->organization_id);
-                }
+                //}
             });
         }
         // by login donor created donations category ID

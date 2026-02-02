@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Services\CategoryService;
 use App\Services\DonationService;
+use App\Services\OrganizationService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -14,7 +15,8 @@ class DonationController extends Controller
 {
     public function __construct(
         protected CategoryService $categoryService,
-        protected DonationService $donationService
+        protected DonationService $donationService,
+        protected OrganizationService $organizationService,
 
     ){}
     const moduleDirectory = 'Donation/';
@@ -26,10 +28,12 @@ class DonationController extends Controller
     {
         $categories = $this->categoryService->listByStatus();
         $donations = $this->donationService->getListByStatus($request, 'available');
+        $organizations = $this->organizationService->listByStatus();
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'donations' => $donations,
             'categories' => $categories,
+            'organizations' => $organizations,
         ]);
     }
 

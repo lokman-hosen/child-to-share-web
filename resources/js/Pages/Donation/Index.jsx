@@ -12,11 +12,12 @@ import Pagination from "@/Components/Pagination.jsx";
 import SingleDonationItem from "@/Components/Common/SingleDonationIteam.jsx";
 import SingleDonationIteamMobile from "@/Components/Common/SingleDonationIteamMobile.jsx";
 
-const Index = ({donations, categories, filters, module}) => {
+const Index = ({donations, categories, filters, organizations, module}) => {
     const donationListData = donations?.data || [];
     const donationsLinks = donations?.links || [];
     const safeFilters = filters || [];
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
+    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
 
     // Use a ref to prevent useEffect from running on initial render for filters/sort
@@ -30,13 +31,14 @@ const Index = ({donations, categories, filters, module}) => {
 
         const query = {
             category_id: categoryId,
+            organization_id: organizationId,
         };
 
         router.get(route('donation.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [categoryId]);
+    }, [categoryId,organizationId]);
 
     // Get featured image URL
     const getFeaturedImage = (donation) => {
@@ -68,6 +70,9 @@ const Index = ({donations, categories, filters, module}) => {
         );
     };
 
+    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+
+
     return (
         <GuestLayout>
             <Head title="Gifts"/>
@@ -83,6 +88,14 @@ const Index = ({donations, categories, filters, module}) => {
 
                         {/* Right Filters */}
                         <div className="flex flex-col sm:flex-row gap-3">
+                            <SelectInput
+                                className="w-full"
+                                id="organization_id"
+                                label="Organization"
+                                value={organizationId}
+                                onChange={(e) => setOrganizationId(e.target.value)}
+                                options={organizationOptions}
+                            />
                             <SelectInput
                                 className="w-full sm:w-auto md:w-[350px]"
                                 id="category_id"

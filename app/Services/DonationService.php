@@ -195,6 +195,13 @@ class DonationService extends BaseService
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
+        if ($request->filled('organization_id')) {
+            $query->whereHas('user', function ($user) use ($query, $request) {
+                //if (isset($user->organization)){
+                    $user->where('organization_id', $request->organization_id);
+                //}
+            });
+        }
         return $query->orderBy('created_at', 'desc')->paginate(12)->withQueryString();
     }
 
