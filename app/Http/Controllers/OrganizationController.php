@@ -10,6 +10,7 @@ use App\Services\DonationService;
 use App\Services\OrganizationService;
 use App\Services\WishService;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class OrganizationController extends Controller
 {
@@ -25,7 +26,7 @@ class OrganizationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): Response
     {
         $organizations = $this->organizationService->organizationList();
         $totalWishCount = $this->wishService->wishByStatus(null, 'count',  null,'frontend');

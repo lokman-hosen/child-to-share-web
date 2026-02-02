@@ -126,7 +126,21 @@ class OrganizationService extends BaseService
 
     public function organizationList()
     {
-        return $this->organization->with(['user'])->where('is_active', true)->orderBy('name')->get();
+        return $this->organization->with(['user' => function ($query) {
+            $query->withCount(['wishes', 'donations']);
+        }])
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get()
+            ->map(function ($organization) {
+                // Sum wish counts from all users in the organization
+                $organization->total_wishes_count = $organization->user ?
+                    $organization->user->wishes_count : 0;
+                // Sum donation counts from all users in the organization
+                $organization->total_donations_count = $organization->user ?
+                    $organization->user->donations_count : 0;
+                return $organization;
+            });
     }
 
 }

@@ -187,22 +187,22 @@ const PartnersPage = ({organizations, totalWishCount, totalDonationCount}) => {
 
                                             {/* Stats */}
                                             <div className="flex items-center justify-between mb-6">
-                                                {/*<div className="text-center">*/}
-                                                {/*    <div className="text-lg font-bold text-primary">{partner.wish_count}</div>*/}
-                                                {/*    <div className="text-xs text-gray-500">Wishes</div>*/}
-                                                {/*</div>*/}
-                                                {/*<div className="h-8 w-px bg-gray-200"></div>*/}
-                                                {/*<div className="text-center">*/}
-                                                {/*    <div className="text-lg font-bold text-secondary">{partner.donation_count}</div>*/}
-                                                {/*    <div className="text-xs text-gray-500">Contributions</div>*/}
-                                                {/*</div>*/}
-                                                {/*<div className="h-8 w-px bg-gray-200"></div>*/}
-                                                {/*<div className="text-center">*/}
-                                                {/*    <div className="text-lg font-bold text-primary-dark">*/}
-                                                {/*        {organization.user?.dob ? organization.user.dob.split('-')[0] : ''}*/}
-                                                {/*    </div>*/}
-                                                {/*    <div className="text-xs text-gray-500">Established</div>*/}
-                                                {/*</div>*/}
+                                                <div className="text-center">
+                                                    <div className="text-lg font-bold text-primary">{organization.total_wishes_count}</div>
+                                                    <div className="text-xs text-gray-500">Wishes</div>
+                                                </div>
+                                                <div className="h-8 w-px bg-gray-200"></div>
+                                                <div className="text-center">
+                                                    <div className="text-lg font-bold text-secondary">{organization.total_donations_count}</div>
+                                                    <div className="text-xs text-gray-500">Contributions</div>
+                                                </div>
+                                                <div className="h-8 w-px bg-gray-200"></div>
+                                                <div className="text-center">
+                                                    <div className="text-lg font-bold text-primary-dark">
+                                                        {organization.user?.dob ? organization.user.dob.split('-')[0] : ''}
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">Established</div>
+                                                </div>
                                             </div>
 
                                             {/* Description */}
