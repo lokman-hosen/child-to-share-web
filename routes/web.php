@@ -44,16 +44,12 @@ Route::controller(\App\Http\Controllers\DonationController::class)->group(functi
 Route::controller(\App\Http\Controllers\FulfilmentController::class)->group(function () {
     Route::get('wish-fulfillment', 'index')->name('fulfillment.index');
 });
-Route::get('/about', function () {
-    return Inertia::render('About/Index');
-})->name('about');
+
 Route::get('/contact', function () {
     return Inertia::render('Contact/Index');
 })->name('contact');
 
-Route::get('/partner', function () {
-    return Inertia::render('Partner/Index');
-})->name('partner');
+Route::get('/about', \App\Http\Controllers\AboutController::class)->name('about');
 
 Route::controller(\App\Http\Controllers\OrganizationController::class)->group(function () {
     Route::get('partner', 'index')->name('partner');

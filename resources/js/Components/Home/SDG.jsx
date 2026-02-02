@@ -99,7 +99,7 @@ const SDG = () => {
                         {sdgGoals.map((goal) => (
                             <div
                                 key={goal.id}
-                                className="flex flex-col items-center"
+                                className="md:flex flex-col items-center hidden md:block"
                             >
                                 <div
                                     className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl mb-2"

@@ -69,7 +69,7 @@ const Hero = ({ user }) => {
 
                     {/* Left Column - Image Carousel (2/3 width on large screens) */}
                     <div className="w-full lg:w-2/3">
-                        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[650px] overflow-hidden shadow-xl">
+                        <div className="relative w-full h-[400px] md:h-[500px] lg:h-[700px] xl:h-[674px] overflow-hidden shadow-xl">
                             {/* Slides */}
                             {slides.map((slide, index) => (
                                 <div
@@ -78,11 +78,16 @@ const Hero = ({ user }) => {
                                         index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
                                     } ${fade ? 'animate-fadeIn' : ''}`}
                                 >
-                                    <img
-                                        src={slide.image}
-                                        alt={`Slide ${index + 1}`}
-                                        className="w-full h-full object-cover"
-                                    />
+                                    <div className="relative w-full h-full">
+                                        <img
+                                            src={slide.image}
+                                            alt={`Slide ${index + 1}`}
+                                            className="w-full h-full object-cover object-center"
+                                            style={{ minHeight: '100%', minWidth: '100%' }}
+                                        />
+                                        {/* Gradient overlay for better text visibility */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                                    </div>
                                     {slide.caption && (
                                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
                                             <p className="text-white text-lg md:text-xl font-medium text-center">

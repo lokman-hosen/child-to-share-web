@@ -19,7 +19,7 @@ import {
     faChartLine
 } from "@fortawesome/free-solid-svg-icons";
 
-const Index = () => {
+const Index = ({fulfilWishCount,activeDonorCount,totalWishCount,organizations}) => {
     return (
         <GuestLayout>
             <Head title="About ThreeWish - Our Mission & Vision" />
@@ -62,30 +62,30 @@ const Index = () => {
                 </div>
 
                 {/* Stats Bar */}
-                {/*<div className="relative bg-white/10 backdrop-blur-sm border-t border-white/20">*/}
-                {/*    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">*/}
-                {/*        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">*/}
-                {/*            {[*/}
-                {/*                { icon: faHandHoldingHeart, value: "1000+", label: "Children Helped" },*/}
-                {/*                { icon: faSmile, value: "500+", label: "Happy Contributors" },*/}
-                {/*                { icon: faGift, value: "2000+", label: "Wishes Granted" },*/}
-                {/*                { icon: faRibbon, value: "98%", label: "Satisfaction Rate" }*/}
-                {/*            ].map((stat, index) => (*/}
-                {/*                <div key={index} className="text-center group">*/}
-                {/*                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 group-hover:bg-white/30 transition-all duration-300">*/}
-                {/*                        <FontAwesomeIcon icon={stat.icon} className="text-2xl text-white" />*/}
-                {/*                    </div>*/}
-                {/*                    <div className="text-3xl font-bold text-white mb-1 group-hover:text-secondary transition-colors">*/}
-                {/*                        {stat.value}*/}
-                {/*                    </div>*/}
-                {/*                    <div className="text-sm text-white/80 group-hover:text-white transition-colors">*/}
-                {/*                        {stat.label}*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-                {/*            ))}*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className="relative bg-white/10 backdrop-blur-sm border-t border-white/20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            {[
+                                { icon: faHandHoldingHeart, value: fulfilWishCount+'+', label: "Children Helped" },
+                                { icon: faSmile, value: activeDonorCount+"+", label: "Happy Contributors" },
+                                { icon: faStar, value: totalWishCount+"+", label: "Wishes Granted" },
+                                { icon: faRibbon, value: organizations.length+"+", label: "Partner" }
+                            ].map((stat, index) => (
+                                <div key={index} className="text-center group">
+                                    <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 group-hover:bg-white/30 transition-all duration-300">
+                                        <FontAwesomeIcon icon={stat.icon} className="text-2xl text-white" />
+                                    </div>
+                                    <div className="text-3xl font-bold text-white mb-1 group-hover:text-secondary transition-colors">
+                                        {stat.value}
+                                    </div>
+                                    <div className="text-sm text-white/80 group-hover:text-white transition-colors">
+                                        {stat.label}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Main Content */}
