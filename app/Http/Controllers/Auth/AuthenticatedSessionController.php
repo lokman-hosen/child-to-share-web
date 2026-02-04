@@ -43,6 +43,11 @@ class AuthenticatedSessionController extends Controller
                 return redirect()->intended(route('wish.index', absolute: false));
             }
         }
+        if (Auth::check()){
+            if (checkDonorWisher()){
+                return redirect()->intended(route('home', absolute: false));
+            }
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }
