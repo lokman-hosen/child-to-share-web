@@ -25,7 +25,7 @@ const Index = ({fulfilWishCount,activeDonorCount,totalWishCount,organizations}) 
             <Head title="About ThreeWish - Our Mission & Vision" />
 
             {/* Hero Section */}
-            <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12 relative bg-gradient-to-br from-primary via-primary/90 to-primary-dark text-white overflow-hidden">
+            <div className="mx-auto px-2 sm:px-2 lg:px-5 py-5 relative bg-gradient-to-br from-primary via-primary/90 to-primary-dark text-white overflow-hidden">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-32 -translate-y-32"></div>

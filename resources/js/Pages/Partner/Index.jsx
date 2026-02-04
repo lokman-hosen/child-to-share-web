@@ -93,7 +93,7 @@ const PartnersPage = ({organizations, totalWishCount, totalDonationCount}) => {
             <Head title="Our Partners - ThreeWish"/>
 
             {/* Hero Section */}
-            <section className="relative py-16 md:py-20 overflow-hidden">
+            <section className="relative py-5 md:py-5 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5"></div>
                 <div className="container-fluid px-4 sm:px-6 lg:px-8 mx-auto relative">
                     <div className="max-w-4xl mx-auto text-center">

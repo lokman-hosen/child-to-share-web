@@ -30,7 +30,7 @@ const ContactPage = () => {
             <Head title="About ThreeWish - Our Mission & Vision"/>
 
             {/* Hero Section */}
-            <section className="relative py-16 md:py-20 overflow-hidden">
+            <section className="relative py-5 md:py-5 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5"></div>
                 <div className="container-fluid px-4 sm:px-6 lg:px-8 mx-auto relative">
                     <div className="max-w-3xl mx-auto text-center">

@@ -12,7 +12,7 @@ const Index = ({fulfillList,activeDonorCount,fulfilledWishCount,totalWishCount, 
     return (
         <GuestLayout>
             <Head title="Fulfilled Wishes"/>
-            <div className="relative bg-gradient-to-r from-primary via-primary/90 to-primary-dark text-white py-16 overflow-hidden">
+            <div className="relative bg-gradient-to-r from-primary via-primary/90 to-primary-dark text-white py-5 overflow-hidden">
                 {/* Background Pattern */}
                 <div className="absolute inset-0 opacity-5">
                     <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>

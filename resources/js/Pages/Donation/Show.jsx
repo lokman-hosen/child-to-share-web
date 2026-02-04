@@ -72,10 +72,10 @@ const Show = ({donation, module}) => {
     return (
         <GuestLayout>
             <Head title="Item Detail"/>
-            <Hero
-                title = {donation.title}
-                subTitle = {donation.description}
-            />
+            {/*<Hero*/}
+            {/*    title = {donation.title}*/}
+            {/*    subTitle = {donation.description}*/}
+            {/*/>*/}
             <main className="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 py-8 sm:py-12">
                 <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
                     {/* Card Body */}

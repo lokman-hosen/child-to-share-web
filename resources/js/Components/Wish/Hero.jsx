@@ -4,7 +4,7 @@ import { faStar, faHeart, faChild } from '@fortawesome/free-solid-svg-icons';
 
 const Hero = () => {
     return (
-        <div className="relative bg-gradient-to-r from-primary via-primary/90 to-primary-dark text-white py-16 md:py-20 overflow-hidden">
+        <div className="relative bg-gradient-to-r from-primary via-primary/90 to-primary-dark text-white py-3 md:py-3 overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>
