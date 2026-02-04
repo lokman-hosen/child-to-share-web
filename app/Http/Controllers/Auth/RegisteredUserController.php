@@ -34,11 +34,11 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        //$organizations =  $this->organizationService->listByStatus();
+        $organizations =  $this->organizationService->listByStatus();
         return Inertia::render('Auth/Register',[
-            //'guardianRelations' => CommonHelper::guardianRelations(),
+            'guardianRelations' => CommonHelper::guardianRelations(),
             'genders' => CommonHelper::genders(),
-            //'organizations' => $organizations
+            'organizations' => $organizations
         ]);
     }
 
@@ -60,10 +60,10 @@ class RegisteredUserController extends Controller
                 $imageFile = $request->file('photo');
                 $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
             }
-//            $organization = null;
-//            if ($request->filled('organization')) {
-//                $organization = $this->organizationService->findByName($request->organization);
-//            }
+            $organization = null;
+            if ($request->filled('organization')) {
+                $organization = $this->organizationService->findByName($request->organization);
+            }
 
             // Step 2: Create the user record
             $user = User::create([
@@ -77,6 +77,7 @@ class RegisteredUserController extends Controller
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
                 //'be_leader' => $request->be_leader,
+                'organization_id' => $organization ? $organization->id : null,
                 'is_verified' => true,
                 'is_active' => true,
                 'password' => Hash::make($request->password),

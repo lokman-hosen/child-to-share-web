@@ -119,6 +119,7 @@ class OrganizationService extends BaseService
        if (!isset($organization)) {
            $organization = $this->organization->create([
                'name' => $name,
+               'is_active' => 0,
            ]);
        }
        return $organization;

@@ -301,7 +301,7 @@ export default function List({module, donations}) {
                                                     ))
                                                 ) : (
                                                     <tr>
-                                                        <td colSpan="3" className="px-6 py-12 text-center">
+                                                        <td colSpan="4" className="px-6 py-12 text-center">
                                                             <div className="text-center">
                                                                 <FontAwesomeIcon icon={faGift} className="text-gray-300 text-5xl mb-4" />
                                                                 <p className="text-gray-500 text-lg mb-2">No donations found</p>

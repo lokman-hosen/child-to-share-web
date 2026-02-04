@@ -15,8 +15,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Button} from "@headlessui/react";
+import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
-export default function Register({genders}) {
+export default function Register({guardianRelations,genders,organizations}) {
     // State to manage the selected role
     const [searchQuery, setSearchQuery] = useState('');
     const [searchSuggestions, setSearchSuggestions] = useState([]);
@@ -37,7 +38,13 @@ export default function Register({genders}) {
         latitude: '',
         longitude: '',
         password: '',
-        user_type: 'person'
+        user_type: 'person',
+
+        organization: '',
+        guardian_name: '',
+        guardian_phone: '',
+        relationship: '',
+
     });
 
     // Initialize Google Maps services
@@ -67,7 +74,7 @@ export default function Register({genders}) {
     };
 
     const genderOptions = getCommonOptions(genders);
-    //const relationOptions = getCommonOptions(guardianRelations);
+    const relationOptions = getCommonOptions(guardianRelations);
 
     const handleFileChange = (field, file) => {
         setData(field, file);
@@ -229,6 +236,19 @@ export default function Register({genders}) {
         }
     };
 
+    const calculateAge = (dobString) => {
+        if (!dobString) return 0;
+        const today = new Date();
+        const birthDate = new Date(dobString);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    };
+
     // Check if Google Maps is available
     const isGoogleMapsAvailable = !!window.google;
 
@@ -317,16 +337,29 @@ export default function Register({genders}) {
                                     required
                                 />
 
+
+
                                 {data.user_type === 'person' && (
-                                    <SelectInput
-                                        id="gender"
-                                        label="Select Gender"
-                                        value={data.gender}
-                                        onChange={(e) => setData('gender', e.target.value)}
-                                        error={errors.gender}
-                                        options={genderOptions}
-                                        required
-                                    />
+                                   <>
+                                       <CustomCreatableSelect
+                                           id="organization"
+                                           label="Org/Institution/School(select or type to create new)"
+                                           value={data.organization}
+                                           onChange={(value) => setData('organization', value)}
+                                           options={organizations}
+                                           error={errors.organization}
+                                           placeholder="Select or type to create new organization"
+                                       />
+                                       <SelectInput
+                                           id="gender"
+                                           label="Select Gender"
+                                           value={data.gender}
+                                           onChange={(e) => setData('gender', e.target.value)}
+                                           error={errors.gender}
+                                           options={genderOptions}
+                                           required
+                                       />
+                                   </>
                                 )}
 
                                 <TextInput
@@ -339,6 +372,7 @@ export default function Register({genders}) {
                                     placeholder="Enter password. Min 8 character"
                                     required
                                 />
+
                             </div>
 
                             <div className="grid grid-cols-1 gap-6 mt-5">
@@ -351,6 +385,39 @@ export default function Register({genders}) {
                                     accept="image/png, image/jpg, image/jpeg"
                                 />
                             </div>
+
+                            {/* Wisher-specific fields (Conditional Rendering) */}
+                            {(data.user_type === 'person' && calculateAge(data.dob) < 18) && (
+                                <>
+                                    <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian Information</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <TextInput
+                                            id="guardian_name"
+                                            label="Guardian Name"
+                                            value={data.guardian_name}
+                                            onChange={(e) => setData('guardian_name', e.target.value)}
+                                            error={errors.guardian_name}
+                                            placeholder="Enter guardian name"
+                                        />
+                                        <TextInput
+                                            id="guardian_phone"
+                                            label="Guardian Phone"
+                                            value={data.guardian_phone}
+                                            onChange={(e) => setData('guardian_phone', e.target.value)}
+                                            error={errors.guardian_phone}
+                                            placeholder="Guardian phone: 017********"
+                                        />
+                                        <SelectInput
+                                            id="relationship"
+                                            label="Relation with guardian"
+                                            value={data.relationship}
+                                            onChange={(e) => setData('relationship', e.target.value)}
+                                            error={errors.relationship}
+                                            options={relationOptions}
+                                        />
+                                    </div>
+                                </>
+                            )}
 
                             {/* Location Search Section */}
                             <div className="mt-6">
