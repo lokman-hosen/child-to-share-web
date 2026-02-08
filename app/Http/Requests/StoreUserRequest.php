@@ -30,7 +30,7 @@ class StoreUserRequest extends FormRequest
             'email' => 'nullable|string|email|max:255|unique:users',
             //'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'password' => ['required',Rules\Password::defaults()],
-            //'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
+            'role' => ['required', Rule::in(['donor', 'wisher', 'leader'])],
             'dob' => 'required|date|before:today',
             'address' => 'nullable|string',
             //'organization' => 'required|string',
