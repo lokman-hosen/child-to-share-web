@@ -39,6 +39,7 @@ export default function Register({guardianRelations,genders,organizations}) {
         longitude: '',
         password: '',
         user_type: 'person',
+        role: 'donor',
 
         organization: '',
         guardian_name: '',
@@ -266,33 +267,146 @@ export default function Register({guardianRelations,genders,organizations}) {
                         <div className="px-6 pb-8 mt-5">
                             <br/>
                             <h2 className="text-xl font-semibold text-accent mb-4">Sign Up As:</h2>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                            <div className="flex flex-col sm:flex-row gap-3 mb-6">
                                 <div
                                     onClick={() => setData('user_type', 'person')}
-                                    className={`role-option p-5 text-center border-2 rounded-lg transition-all duration-200 cursor-pointer ${
+                                    className={`flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
                                         data.user_type === 'person'
-                                            ? 'border-primary bg-primary/10 shadow-md'
+                                            ? 'border-primary bg-primary/5 shadow-md'
                                             : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
                                     }`}
-                                    data-user-type="person">
-                                    <div className="text-4xl mb-3 text-primary">
-                                        <FontAwesomeIcon icon={faUser}/>
+                                    data-user-type="person"
+                                >
+                                    <div className="flex-shrink-0 mr-4">
+                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                            data.user_type === 'person'
+                                                ? 'bg-primary text-white'
+                                                : 'bg-gray-100 text-gray-600'
+                                        }`}>
+                                            <FontAwesomeIcon icon={faUser} className="w-5 h-5"/>
+                                        </div>
                                     </div>
-                                    <h3 className="font-semibold text-accent">Person/Individual</h3>
+                                    <div className="text-left">
+                                        <h3 className="font-semibold text-accent">Person/Individual</h3>
+                                        <p className="text-sm text-neutral/70 mt-1">Register as an individual</p>
+                                    </div>
+                                    {/*{data.user_type === 'person' && (*/}
+                                    {/*    <div className="ml-auto">*/}
+                                    {/*        <svg className="w-5 h-5 text-primary" fill="currentColor"*/}
+                                    {/*             viewBox="0 0 20 20">*/}
+                                    {/*            <path fillRule="evenodd"*/}
+                                    {/*                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"*/}
+                                    {/*                  clipRule="evenodd"/>*/}
+                                    {/*        </svg>*/}
+                                    {/*    </div>*/}
+                                    {/*)}*/}
                                 </div>
 
                                 <div
                                     onClick={() => setData('user_type', 'organization')}
-                                    className={`role-option p-5 text-center border-2 rounded-lg transition-all duration-200 cursor-pointer ${
+                                    className={`flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
                                         data.user_type === 'organization'
-                                            ? 'border-secondary bg-secondary/10 shadow-md'
+                                            ? 'border-secondary bg-secondary/5 shadow-md'
                                             : 'border-gray-200 hover:border-secondary/50 hover:bg-gray-50'
                                     }`}
-                                    data-user-type="organization">
-                                    <div className="text-4xl mb-3 text-secondary">
-                                        <FontAwesomeIcon icon={faBuilding}/>
+                                    data-user-type="organization"
+                                >
+                                    <div className="flex-shrink-0 mr-4">
+                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                            data.user_type === 'organization'
+                                                ? 'bg-secondary text-white'
+                                                : 'bg-gray-100 text-gray-600'
+                                        }`}>
+                                            <FontAwesomeIcon icon={faBuilding} className="w-5 h-5"/>
+                                        </div>
                                     </div>
-                                    <h3 className="font-semibold text-accent">Organization</h3>
+                                    <div className="text-left">
+                                        <h3 className="font-semibold text-accent">Organization</h3>
+                                        <p className="text-sm text-neutral/70 mt-1">Register as an organization</p>
+                                    </div>
+                                    {/*{data.user_type === 'organization' && (*/}
+                                    {/*    <div className="ml-auto">*/}
+                                    {/*        <svg className="w-5 h-5 text-secondary" fill="currentColor"*/}
+                                    {/*             viewBox="0 0 20 20">*/}
+                                    {/*            <path fillRule="evenodd"*/}
+                                    {/*                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"*/}
+                                    {/*                  clipRule="evenodd"/>*/}
+                                    {/*        </svg>*/}
+                                    {/*    </div>*/}
+                                    {/*)}*/}
+                                </div>
+                            </div>
+
+                            <h2 className="text-xl font-semibold text-accent mb-4">I want to:</h2>
+                            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                                <div
+                                    onClick={() => setData('role', 'donor')}
+                                    className={`role-option flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
+                                        data.role === 'donor'
+                                            ? 'border-primary bg-primary/5 shadow-md'
+                                            : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
+                                    }`}
+                                    data-role="donor"
+                                >
+                                    <div className="flex-shrink-0 mr-4">
+                                        <div
+                                            className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
+                                                data.role === 'donor'
+                                                    ? 'bg-primary text-white'
+                                                    : 'bg-gray-100 text-gray-600'
+                                            }`}>
+                                            🎁
+                                        </div>
+                                    </div>
+                                    <div className="text-left">
+                                        <h3 className="font-semibold text-accent">Donate Items</h3>
+                                        <p className="text-sm text-neutral/70 mt-1">Share items with children</p>
+                                    </div>
+                                    {data.role === 'donor' && (
+                                        <div className="ml-auto">
+                                            <svg className="w-5 h-5 text-primary" fill="currentColor"
+                                                 viewBox="0 0 20 20">
+                                                <path fillRule="evenodd"
+                                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                      clipRule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div
+                                    onClick={() => setData('role', 'wisher')}
+                                    className={`role-option flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
+                                        data.role === 'wisher'
+                                            ? 'border-secondary bg-secondary/5 shadow-md'
+                                            : 'border-gray-200 hover:border-secondary/50 hover:bg-gray-50'
+                                    }`}
+                                    data-role="wisher"
+                                >
+                                    <div className="flex-shrink-0 mr-4">
+                                        <div
+                                            className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
+                                                data.role === 'wisher'
+                                                    ? 'bg-secondary text-white'
+                                                    : 'bg-gray-100 text-gray-600'
+                                            }`}>
+                                            ✨
+                                        </div>
+                                    </div>
+                                    <div className="text-left">
+                                        <h3 className="font-semibold text-accent">Make a Wish</h3>
+                                        <p className="text-sm text-neutral/70 mt-1">Request items you need</p>
+                                    </div>
+                                    {data.role === 'wisher' && (
+                                        <div className="ml-auto">
+                                            <svg className="w-5 h-5 text-secondary" fill="currentColor"
+                                                 viewBox="0 0 20 20">
+                                                <path fillRule="evenodd"
+                                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                      clipRule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -338,28 +452,27 @@ export default function Register({guardianRelations,genders,organizations}) {
                                 />
 
 
-
                                 {data.user_type === 'person' && (
-                                   <>
-                                       <CustomCreatableSelect
-                                           id="organization"
-                                           label="Org/Institution/School(select or type to create new)"
-                                           value={data.organization}
-                                           onChange={(value) => setData('organization', value)}
-                                           options={organizations}
-                                           error={errors.organization}
-                                           placeholder="Select or type to create new organization"
-                                       />
-                                       <SelectInput
-                                           id="gender"
-                                           label="Select Gender"
-                                           value={data.gender}
-                                           onChange={(e) => setData('gender', e.target.value)}
-                                           error={errors.gender}
-                                           options={genderOptions}
-                                           required
-                                       />
-                                   </>
+                                    <>
+                                        <CustomCreatableSelect
+                                            id="organization"
+                                            label="Org/Institution/School(select or type to create new)"
+                                            value={data.organization}
+                                            onChange={(value) => setData('organization', value)}
+                                            options={organizations}
+                                            error={errors.organization}
+                                            placeholder="Select or type to create new organization"
+                                        />
+                                        <SelectInput
+                                            id="gender"
+                                            label="Select Gender"
+                                            value={data.gender}
+                                            onChange={(e) => setData('gender', e.target.value)}
+                                            error={errors.gender}
+                                            options={genderOptions}
+                                            required
+                                        />
+                                    </>
                                 )}
 
                                 <TextInput
@@ -387,9 +500,10 @@ export default function Register({guardianRelations,genders,organizations}) {
                             </div>
 
                             {/* Wisher-specific fields (Conditional Rendering) */}
-                            {(data.user_type === 'person' && calculateAge(data.dob) < 18) && (
+                            {(data.user_type === 'person' && calculateAge(data.dob) < 18 && data.role !== 'donor') && (
                                 <>
-                                    <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian Information</h3>
+                                    <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian
+                                        Information</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <TextInput
                                             id="guardian_name"
@@ -422,7 +536,8 @@ export default function Register({guardianRelations,genders,organizations}) {
                             {/* Location Search Section */}
                             <div className="mt-6">
                                 <label className="block text-accent font-semibold mb-4">
-                                    {data.user_type === 'person' ? ' Your Location' : ' Organization Location'} (Search and select)
+                                    {data.user_type === 'person' ? ' Your Location' : ' Organization Location'} (Search
+                                    and select)
                                     <span className="text-red-600">*</span>
                                 </label>
 
@@ -457,14 +572,15 @@ export default function Register({guardianRelations,genders,organizations}) {
                                                 onClick={handleClearSearch}
                                                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral/60 hover:text-accent transition-colors duration-200"
                                             >
-                                                <FontAwesomeIcon icon={faClose} />
+                                                <FontAwesomeIcon icon={faClose}/>
                                             </Button>
                                         )}
                                     </div>
 
                                     {/* Search Suggestions */}
                                     {searchSuggestions.length > 0 && (
-                                        <div className="absolute z-[9999] w-full mt-1 bg-white border border-neutral/20 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                        <div
+                                            className="absolute z-[9999] w-full mt-1 bg-white border border-neutral/20 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                             {searchSuggestions.map((suggestion, index) => (
                                                 <div
                                                     key={isGoogleMapsAvailable ? suggestion.place_id : index}
@@ -510,7 +626,7 @@ export default function Register({guardianRelations,genders,organizations}) {
                                 {data.latitude && data.longitude && (
                                     <div className="mt-3 p-3 bg-primary/10 border border-primary/30 rounded-lg">
                                         <p className="text-primary text-sm">
-                                            <strong>Location set successfully!</strong><br />
+                                            <strong>Location set successfully!</strong><br/>
                                             Coordinates captured for better service matching.
                                         </p>
                                     </div>
@@ -539,7 +655,7 @@ export default function Register({guardianRelations,genders,organizations}) {
                             >
                                 {processing ? (
                                     <>
-                                        <FontAwesomeIcon icon={faSpinner} spin className="mr-2" />
+                                        <FontAwesomeIcon icon={faSpinner} spin className="mr-2"/>
                                         Creating Account...
                                     </>
                                 ) : (

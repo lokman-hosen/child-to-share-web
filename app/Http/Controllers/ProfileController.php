@@ -47,7 +47,7 @@ class ProfileController extends Controller
             $fulfilledWishCount = $this->wishService
                 ->wishByStatus('fulfilled', 'count',  null,'admin', $id);
         }elseif ($user->role == 'donor'){
-            $user->load(['roles', 'organizations']);
+            $user->load(['roles', 'organization']);
             // donation
             $availableDonationCount = $this->donationService
                 ->donationByStatus('available', 'count',  null,'admin', $id);
@@ -55,7 +55,7 @@ class ProfileController extends Controller
                 ->donationByStatus('donated', 'count',  null,'admin', $id);
         }elseif ($user->role == 'wisher'){
             $user->load(
-                ['wisher', 'organizations']
+                ['wisher', 'organization']
             );
             $totalWishCount = $this->wishService
                 ->wishByStatus(null, 'count',  null,'admin', $id);

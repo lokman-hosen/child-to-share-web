@@ -84,7 +84,12 @@ class RegisteredUserController extends Controller
             ]);
             // assign role
             if ($user){
-                $user->roles()->attach([3,4]);
+                if ($request->role == 'donor'){
+                    $user->roles()->attach([3]);
+                }elseif ($request->role == 'wisher'){
+                    $user->roles()->attach([4]);
+                }
+                //$user->roles()->attach([3,4]);
             }
             // save organization info
             if ($request->user_type == 'organization' and $user){
