@@ -46,16 +46,16 @@ class ProfileController extends Controller
                 ->wishByStatus('approved', 'count',  null,'admin', $id);
             $fulfilledWishCount = $this->wishService
                 ->wishByStatus('fulfilled', 'count',  null,'admin', $id);
-        }elseif ($user->role == 'donor'){
+        }elseif ($user->role == 'donor' and $user->organization){
             $user->load(['roles', 'organization']);
             // donation
             $availableDonationCount = $this->donationService
                 ->donationByStatus('available', 'count',  null,'admin', $id);
             $donatedDonationCount = $this->donationService
                 ->donationByStatus('donated', 'count',  null,'admin', $id);
-        }elseif ($user->role == 'wisher'){
+        }elseif ($user->role == 'wisher' and $user->organization){
             $user->load(
-                ['wisher', 'organization']
+                ['roles', 'organization']
             );
             $totalWishCount = $this->wishService
                 ->wishByStatus(null, 'count',  null,'admin', $id);
