@@ -262,6 +262,17 @@ export default function LeftSidebar({ onClose }) {
                                 Users(wisher,donor)
                             </Link>
                         </li>
+
+                        <li className="mb-1">
+                            <Link
+                                href={route('wish.fulfill.list')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('wish.fulfill.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
+                                Fulfill Wishes
+                            </Link>
+                        </li>
                         <li className="mb-1">
                             <Link
                                 href={route('wishes.index')}

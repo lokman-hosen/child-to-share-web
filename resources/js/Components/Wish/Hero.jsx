@@ -27,22 +27,22 @@ const Hero = () => {
                 <FontAwesomeIcon icon={faChild} className="text-white text-3xl" />
             </div>
 
-            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-3xl mb-8 shadow-lg">
-                    <FontAwesomeIcon icon={faStar} className="text-white text-3xl" />
+            <div className="relative max-w-7xl mx-auto px-2 sm:px-6 lg:px-4 text-center">
+                <div className="inline-flex items-center justify-center w-14 h-14 bg-white/20 backdrop-blur-sm rounded-3xl mb-4 shadow-lg">
+                    <FontAwesomeIcon icon={faStar} className="text-white text-2xl" />
                 </div>
 
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
+                <h1 className="md:text-5xl font-bold mb-1 tracking-tight">
                     Children's <span className="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-secondary-light">Wishes</span>
                 </h1>
 
-                <div className="flex items-center justify-center mb-8">
+                <div className="flex items-center justify-center mb-2">
                     <div className="h-1 w-20 bg-gradient-to-r from-secondary to-secondary-dark rounded-full"></div>
                     <div className="h-1 w-12 bg-gradient-to-r from-secondary-dark to-secondary rounded-full mx-3"></div>
                     <div className="h-1 w-20 bg-gradient-to-r from-secondary to-secondary-dark rounded-full"></div>
                 </div>
 
-                <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-95 leading-relaxed mb-8">
+                <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-95 leading-relaxed mb-6">
                     Discover heartfelt wishes from children in your community and help make their dreams come true
                 </p>
 

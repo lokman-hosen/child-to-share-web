@@ -390,7 +390,7 @@ class WishService extends BaseService
         }
         if ($request->filled('categoryIds') and count($request->categoryIds) > 0) {
             $query->whereIn('wishes.category_id', $request->categoryIds);
-        }elseif (Auth::check() and getCurrentRouteName() != 'wish.index'){
+        }elseif (Auth::check() and getCurrentRouteName() != 'wish.index' and (checkDonor() or checkWisher() or checkDonorWisher())){
             $query->whereHas('fulfillments.wish', function ($q) {
                 $q->where('user_id', Auth::id());
             });
