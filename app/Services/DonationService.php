@@ -7,6 +7,7 @@ use App\Models\File;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -229,10 +230,33 @@ class DonationService extends BaseService
 
     public function getDonationsByCategoryAndStatus(string $categoryId, string $status = null)
     {
-        return $this->donation->where('user_id', Auth::id())
-            ->where('category_id', $categoryId)
-            ->where('status', $status)
-            ->orderBy('title', 'asc')
-            ->get(['id', 'title as name']);
+        $query = $this->donation->where('category_id', $categoryId)->where('status', $status);
+        if (!checkAdmin()){
+            $query->where('donations.user_id', Auth::id());
+        }
+        return $query->join('users', 'donations.user_id', '=', 'users.id')
+            ->leftJoin('organizations', 'users.organization_id', '=', 'organizations.id')
+            ->orderBy('donations.title', 'asc')
+            ->select([
+                'donations.id',
+                DB::raw("CONCAT(
+                donations.title,
+                ' (Donor: ', users.name,
+                IF(organizations.name IS NOT NULL,
+                   CONCAT(' - ', organizations.name),
+                   ''),
+                ')'
+            ) as name")
+            ])
+            ->get();
     }
+
+//    public function getDonationsByCategoryAndStatus(string $categoryId, string $status = null)
+//    {
+//        return $this->donation->where('user_id', Auth::id())
+//            ->where('category_id', $categoryId)
+//            ->where('status', $status)
+//            ->orderBy('title', 'asc')
+//            ->get(['id', 'title as name']);
+//    }
 }

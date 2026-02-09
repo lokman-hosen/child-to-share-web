@@ -13,7 +13,7 @@ import {
     faMapMarkerAlt,
     faUserCircle,
     faCalendarAlt,
-    faTag, faInfoCircle, faBuilding
+    faTag, faInfoCircle, faBuilding, faSync
 } from "@fortawesome/free-solid-svg-icons";
 import Hero from "@/Components/Donation/Hero.jsx";
 import UserProfileModal from '@/Components/Common/UserProfileModal.jsx';
@@ -263,7 +263,7 @@ const Show = ({wish, module}) => {
                                                     </div>
                                                 </div>
                                                 <div className="flex items-start space-x-3">
-                                                    <FontAwesomeIcon icon={faStar} className="text-primary mt-1" />
+                                                    <FontAwesomeIcon icon={faSync} className="text-primary mt-1" />
                                                     <div>
                                                         <dt className="text-sm font-medium text-gray-500">Status:</dt>
                                                         <dd className="text-sm">
@@ -274,17 +274,6 @@ const Show = ({wish, module}) => {
                                                         </dd>
                                                     </div>
                                                 </div>
-                                                {wish.organization && (
-                                                    <div className="flex items-start space-x-3">
-                                                        <FontAwesomeIcon icon={faHeart} className="text-primary mt-1" />
-                                                        <div>
-                                                            <dt className="text-sm font-medium text-gray-500">Organization:</dt>
-                                                            <dd className="text-sm text-accent font-medium">
-                                                                {wish.organization.name}
-                                                            </dd>
-                                                        </div>
-                                                    </div>
-                                                )}
                                                 <div className="flex items-start space-x-3">
                                                     <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary mt-1" />
                                                     <div>

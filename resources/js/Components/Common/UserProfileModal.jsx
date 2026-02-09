@@ -77,9 +77,9 @@ const UserProfileModal = ({isOpen, onClose, user, dataType, additionalData}) => 
                                 <>
                                     {/* Email */}
                                     {user?.email && (
-                                        <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                                                <FontAwesomeIcon icon={faEnvelope} className="text-primary w-5 h-5" />
+                                        <div className="flex items-center space-x-3 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                                            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
+                                                <FontAwesomeIcon icon={faEnvelope} className="text-primary w-4 h-4" />
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-sm text-gray-500">Email</p>
@@ -90,8 +90,8 @@ const UserProfileModal = ({isOpen, onClose, user, dataType, additionalData}) => 
 
                                     {/* Phone */}
                                     {user?.phone && (
-                                        <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                            <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                                        <div className="flex items-center space-x-3 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                                            <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center">
                                                 <FontAwesomeIcon icon={faPhone} className="text-secondary w-5 h-5" />
                                             </div>
                                             <div className="flex-1">
@@ -104,8 +104,8 @@ const UserProfileModal = ({isOpen, onClose, user, dataType, additionalData}) => 
                             )}
 
                             {user?.gender && (
-                                <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                <div className="flex items-center space-x-3 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                                    <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                                         <FontAwesomeIcon icon={faUser} className="text-primary w-5 h-5" />
                                     </div>
                                     <div className="flex-1">
@@ -117,8 +117,8 @@ const UserProfileModal = ({isOpen, onClose, user, dataType, additionalData}) => 
 
                             {/* Address */}
                             {user?.address && (
-                                <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                    <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                                <div className="flex items-center space-x-3 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                                    <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center">
                                         <FontAwesomeIcon icon={faMapMarkerAlt} className="text-secondary w-5 h-5" />
                                     </div>
                                     <div className="flex-1">
@@ -132,8 +132,8 @@ const UserProfileModal = ({isOpen, onClose, user, dataType, additionalData}) => 
                                 <>
                                     {/* Age Range (from wish) */}
                                     {additionalData?.age_range && (
-                                        <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                        <div className="flex items-center space-x-3 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                                            <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
                                                 <FontAwesomeIcon icon={faChild} className="text-primary w-5 h-5" />
                                             </div>
                                             <div className="flex-1">
@@ -145,8 +145,8 @@ const UserProfileModal = ({isOpen, onClose, user, dataType, additionalData}) => 
 
                                     {/* Distance (from wish or donation) */}
                                     {additionalData?.distance && (
-                                        <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                            <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                                        <div className="flex items-center space-x-3 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                                            <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center">
                                                 <FontAwesomeIcon icon={faLocationDot} className="text-secondary w-5 h-5" />
                                             </div>
                                             <div className="flex-1">
@@ -164,8 +164,8 @@ const UserProfileModal = ({isOpen, onClose, user, dataType, additionalData}) => 
                                 <>
                                     {/* Distance (from wish or donation) */}
                                     {additionalData?.distance && (
-                                        <div className="flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
-                                            <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                                        <div className="flex items-center space-x-3 p-2 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200">
+                                            <div className="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center">
                                                 <FontAwesomeIcon icon={faLocationDot} className="text-secondary w-5 h-5" />
                                             </div>
                                             <div className="flex-1">
