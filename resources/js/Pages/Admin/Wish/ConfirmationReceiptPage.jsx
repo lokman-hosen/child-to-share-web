@@ -747,7 +747,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                 </div>
 
                                 {/* Admin Controls */}
-                                {userType == 'admin' && (
+                                {checkAdmin(userType) && (
                                     <div className="mt-8 pt-6 border-t">
                                         <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
                                             <FontAwesomeIcon
