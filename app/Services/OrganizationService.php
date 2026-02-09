@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Actions\FileSizes;
+use App\Models\Donation;
 use App\Models\Organization;
 use App\Models\User;
+use App\Models\Wish;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -127,21 +129,11 @@ class OrganizationService extends BaseService
 
     public function organizationList()
     {
-        return $this->organization->with(['user' => function ($query) {
-            $query->withCount(['wishes', 'donations']);
-        }])
-            ->where('is_active', true)
-            ->orderBy('name')
-            ->get()
-            ->map(function ($organization) {
-                // Sum wish counts from all users in the organization
-                $organization->total_wishes_count = $organization->user ?
-                    $organization->user->wishes_count : 0;
-                // Sum donation counts from all users in the organization
-                $organization->total_donations_count = $organization->user ?
-                    $organization->user->donations_count : 0;
-                return $organization;
-            });
+        $organizations = $this->organization->with(['user'])->where('is_active', true)->orderBy('name')->get();
+        return $organizations->map(function ($organization, int $key) {
+            $organization['total_wishes_count'] = getWishByOrganizationId($organization->id, 'count');
+            $organization['total_donations_count'] = getDonationByOrganizationId($organization->id, 'count');
+            return $organization;
+        });
     }
-
 }

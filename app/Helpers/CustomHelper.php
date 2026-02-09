@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Donation;
+use App\Models\Wish;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
@@ -147,6 +149,31 @@ function getCurrentRouteName(): ?string
 {
     return Route::currentRouteName();
 }
+
+function getWishByOrganizationId(string $organizationId, string $type)
+{
+    $wishes = Wish::whereHas('user', function ($user) use ($organizationId) {
+        $user->where('organization_id', $organizationId);
+    });
+    if ($type == 'count') {
+        return $wishes->count();
+    }else{
+        return $wishes->get();
+    }
+}
+
+function getDonationByOrganizationId(string $organizationId, string $type)
+{
+    $donations = Donation::whereHas('user', function ($user) use ($organizationId) {
+        $user->where('organization_id', $organizationId);
+    });
+    if ($type == 'count') {
+        return $donations->count();
+    }else{
+        return $donations->get();
+    }
+}
+
 
 
 
