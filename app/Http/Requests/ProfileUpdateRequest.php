@@ -38,21 +38,24 @@ class ProfileUpdateRequest extends FormRequest
         ];
 
         // Add conditional validation for 'wisher'
-        if ($this->user()->role === 'wisher') {
-            $rules = array_merge($rules, [
-                'guardian_name' => 'required|string|max:255',
-                'guardian_phone' => 'required|string|max:20',
-                'relationship' => 'required|string|max:255',
-            ]);
+        if ($this->user()->user_type != 'organization'){
+            if ($this->user()->role === 'wisher') {
+                $rules = array_merge($rules, [
+                    'guardian_name' => 'required|string|max:255',
+                    'guardian_phone' => 'required|string|max:20',
+                    'relationship' => 'required|string|max:255',
+                ]);
+            }
+            $checkAge = $this->ageCalculate($this->dob);
+            if (($this->user()->role === 'donor') and $checkAge <= 18 ) {
+                $rules = array_merge($rules, [
+                    'guardian_name' => 'required|string|max:255',
+                    'guardian_phone' => 'required|string|max:20',
+                    'relationship' => 'required|string|max:255',
+                ]);
+            }
         }
-        $checkAge = $this->ageCalculate($this->dob);
-        if (($this->user()->role === 'donor') and $checkAge <= 18 ) {
-            $rules = array_merge($rules, [
-                'guardian_name' => 'required|string|max:255',
-                'guardian_phone' => 'required|string|max:20',
-                'relationship' => 'required|string|max:255',
-            ]);
-        }
+
         return $rules;
     }
 
