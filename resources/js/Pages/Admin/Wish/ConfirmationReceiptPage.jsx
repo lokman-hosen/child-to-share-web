@@ -176,6 +176,17 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {/* Admin View (Both Users) */}
                             {checkAdmin(userType) && (
                                 <div className="grid grid-cols-1">
+                                    <div className="p-6">
+                                        <button
+                                            onClick={() => {
+                                                setActionType('confirm');
+                                                setShowActionModal(true);
+                                            }}
+                                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+                                        >
+                                            Confirm Receipt
+                                        </button>
+                                    </div>
                                     {/* Donor Card */}
                                     <div className="bg-white shadow rounded-lg p-6">
                                         <div className="border-b border-gray-200 pb-6">
@@ -1000,23 +1011,31 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
                     <div className="bg-white w-full max-w-lg rounded-xl shadow-xl p-6">
                         {/* Header */}
-                        <h2
-                            className={`text-lg font-semibold mb-2 ${
-                                actionType == 'confirm'
-                                    ? 'text-green-700'
-                                    : 'text-red-700'
-                            }`}
-                        >
-                            {actionType == 'confirm'
-                                ? 'Confirm Receipt'
-                                : 'Report Issue / Request Return'}
-                        </h2>
 
-                        <p className="text-sm text-gray-600 mb-4">
-                            {actionType == 'confirm'
-                                ? 'Please confirm that you received the donation successfully.'
-                                : 'Please describe the issue clearly so we can review it.'}
-                        </p>
+                        { checkAdmin(userType) ? (
+                            <h2 className="text-lg font-semibold mb-2 text-green-700">Confirm Wish Fulfillment</h2>
+                        ) : (
+                            <>
+                                <h2
+                                    className={`text-lg font-semibold mb-2 ${
+                                        actionType == 'confirm'
+                                            ? 'text-green-700'
+                                            : 'text-red-700'
+                                    }`}
+                                >
+                                    {actionType == 'confirm'
+                                        ? 'Confirm Receipt'
+                                        : 'Report Issue / Request Return'}
+                                </h2>
+
+                                <p className="text-sm text-gray-600 mb-4">
+                                    {actionType == 'confirm'
+                                        ? 'Please confirm that you received the donation successfully.'
+                                        : 'Please describe the issue clearly so we can review it.'}
+                                </p>
+                            </>
+                        )}
+
 
                         {/* Form */}
                         <form
@@ -1088,14 +1107,16 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     type="submit"
                                     disabled={actionForm.processing}
                                     className={`px-5 py-2 rounded-md text-white ${
-                                        actionType == 'confirm'
+                                        actionType === 'confirm'
                                             ? 'bg-green-600 hover:bg-green-700'
                                             : 'bg-red-600 hover:bg-red-700'
                                     }`}
                                 >
-                                    {actionType == 'confirm'
-                                        ? 'Confirm Receipt'
-                                        : 'Submit Issue'}
+                                    {checkAdmin(userType)
+                                        ? 'Confirm Fulfilment'
+                                        : actionType === 'confirm'
+                                            ? 'Confirm Receipt'
+                                            : 'Submit Issue'}
                                 </button>
                             </div>
                         </form>
