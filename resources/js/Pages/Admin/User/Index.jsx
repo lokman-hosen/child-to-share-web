@@ -238,7 +238,7 @@ export default function Index({module, users }) {
                                                                     </span>
                                                                 </div>
                                                                 <span className="text-xs text-gray-500">
-                                                                    Joined: {formatDate(user.created_at)}
+                                                                    Joined: {user.created_at}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -415,7 +415,7 @@ export default function Index({module, users }) {
                                                                         </div>
 
                                                                         <div className="text-xs text-gray-500 text-right">
-                                                                            Created: {formatDate(user.created_at)}
+                                                                            Created: {user.created_at}
                                                                         </div>
 
                                                                         <div className="flex space-x-2">
@@ -584,7 +584,7 @@ export default function Index({module, users }) {
                                                             <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
                                                                 <div className="flex items-center justify-between">
                                                                     <div className="text-sm text-gray-500">
-                                                                        Joined {formatDate(user.created_at)}
+                                                                        Joined {user.created_at}
                                                                     </div>
                                                                     <div className="flex space-x-2">
                                                                         <Link
