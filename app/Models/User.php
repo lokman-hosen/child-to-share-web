@@ -74,8 +74,7 @@ class User extends Authenticatable
             $roles = $this->roles->pluck('slug');
             if ($roles->contains('donor') and $roles->contains('wisher')){
                 return 'donor-wisher';
-            }
-            elseif ($roles->contains('donor')){
+            }elseif ($roles->contains('donor')){
                 return 'donor';
             }elseif ($roles->contains('wisher')){
                 return 'wisher';

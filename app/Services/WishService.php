@@ -533,6 +533,9 @@ class WishService extends BaseService
         return $fulfillment;
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function confirmWishReceive($request): ?object
     {
         $fulfillment = $this->findFulfillmentById($request->id);
@@ -544,10 +547,20 @@ class WishService extends BaseService
                 }
             }
             // fulfillment
-            $fulfillment->update([
-                'status' => 'completed',
-            ]);
 
+            if (checkAdmin()){
+                $fulfillment->update([
+                    'status' => 'completed',
+                    'delivered_at' => now(),
+                    'confirmed_by' => Auth::id(),
+                    'confirmed_at' => now(),
+                    'confirm_note' => checkEmpty($request->comment),
+                ]);
+            }else{
+                $fulfillment->update([
+                    'status' => 'completed',
+                ]);
+            }
 
             // donation
             $fulfillment = $this->findFulfillmentById($request->id);

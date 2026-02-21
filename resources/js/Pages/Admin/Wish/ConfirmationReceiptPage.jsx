@@ -176,17 +176,20 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {/* Admin View (Both Users) */}
                             {checkAdmin(userType) && (
                                 <div className="grid grid-cols-1">
-                                    <div className="p-6">
-                                        <button
-                                            onClick={() => {
-                                                setActionType('confirm');
-                                                setShowActionModal(true);
-                                            }}
-                                            className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
-                                        >
-                                            Confirm Receipt
-                                        </button>
-                                    </div>
+                                    {fulfillment.status != 'completed' && (
+                                        <div className="p-6">
+                                            <button
+                                                onClick={() => {
+                                                    setActionType('confirm');
+                                                    setShowActionModal(true);
+                                                }}
+                                                className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
+                                            >
+                                                Confirm Receipt
+                                            </button>
+                                        </div>
+                                    )}
+
                                     {/* Donor Card */}
                                     <div className="bg-white shadow rounded-lg p-6">
                                         <div className="border-b border-gray-200 pb-6">
@@ -658,7 +661,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 <p className="text-sm text-gray-500">Age
                                                     range: {wish.age_range}yrs, {textLimit(wish.description, 10)}</p>
                                                 <div className="mt-1 flex items-center">
-                                                    <div>
+                                                    <div className="gap-1">
                                                         <span
                                                             className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                             {wish.status}
@@ -676,7 +679,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     <div>
                                         {/*donor action*/}
                                         <div className="mb-3">
-                                            <div className="mt-2">
+                                            <div className="mt-2 space-x-1">
                                                 {fulfillment.wish.user_id != currentUser.id && (
                                                     fulfillment.status == 'accepted_by_wisher' ? (
                                                         <Link

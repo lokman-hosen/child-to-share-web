@@ -50,7 +50,8 @@ const Index = ({fulfillList,activeDonorCount,fulfilledWishCount,totalWishCount, 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div className="text-center bg-gradient-to-br from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/20">
                             <div className="text-4xl font-bold text-primary mb-2">
-                                {/*{fulfilledWishCount}*/} 21
+                                {fulfilledWishCount}
+                                {/*21*/}
                             </div>
                             <div className="text-accent font-medium">Total Fulfilled Wishes</div>
                             <div className="h-1 w-12 bg-gradient-to-r from-primary to-primary-dark mx-auto mt-3 rounded-full"></div>
