@@ -12,6 +12,7 @@ use App\Models\Wish;
 use App\Notifications\NewMessageNotification;
 use App\Services\CategoryService;
 use App\Services\DonationService;
+use App\Services\OrganizationService;
 use App\Services\UserService;
 use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
@@ -31,6 +32,7 @@ class WishController extends Controller
         protected CategoryService $categoryService,
         protected UserService $userService,
         protected DonationService $donationService,
+        protected OrganizationService $organizationService,
 
     ){}
     /**
@@ -40,8 +42,13 @@ class WishController extends Controller
     {
         Gate::authorize('viewAny', Wish::class);
         $wishes = $this->wishService->getListWithFilter($request);
+        $categories = $this->categoryService->listByStatus();
+        $organizations = $this->organizationService->listByStatus();
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
+            'categories' => $categories,
+            'organizations' => $organizations,
+            'ageRanges' => ageRanges(),
             'wishes' => $wishes,
         ]);
     }

@@ -42,6 +42,10 @@ class WishService extends BaseService
         $sortColumn = $request->input('sort', 'created_at');
         $sortDirection = $request->input('direction', 'desc');
         $searchName = $request->input('search_name');
+        $searchCategory = $request->input('category_id');
+        $searchOrganization = $request->input('organization_id');
+        $searchAgeRange = $request->input('age_range');
+        $searchCommon = $request->input('search_common');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfillment', 'latestFulfillment.donation.user']);
@@ -58,6 +62,27 @@ class WishService extends BaseService
         })
             ->when($filterStatus, function ($query, $filterStatus) {
                 $query->where('status', $filterStatus);
+            })
+            ->when($searchCategory, function ($query, $searchCategory) {
+                $query->where('category_id', $searchCategory);
+            })
+            ->when($searchCategory, function ($query, $searchCategory) {
+                $query->where('category_id', $searchCategory);
+            })
+            ->when($searchAgeRange, function ($query, $searchAgeRange) {
+                $query->where('wishes.age_range', $searchAgeRange);
+            })
+            ->when($searchOrganization, function ($query, $searchOrganization) {
+                $query->whereHas('user', function ($user) use ($query, $searchOrganization) {
+                    $user->where('organization_id', $searchOrganization);
+                });
+            })
+            ->when($searchCategory, function ($query, $searchCategory) {
+                $query->where('category_id', $searchCategory);
+            })
+            ->when($searchCommon, function ($query, $searchCommon) {
+                $query->where('title', 'like', '%' . $searchCommon . '%')
+                ->orWhere('description', 'like', '%' . $searchCommon . '%');
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10) // Pagination: 10 items per page
