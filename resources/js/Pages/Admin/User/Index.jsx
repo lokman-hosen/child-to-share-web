@@ -159,14 +159,6 @@ export default function Index({module, filters, users, organizations, genders })
                         <div className="space-y-8">
                             <div className="w-2xl space-y-8">
                                 <div className="grid grid-cols-3 gap-4">
-                                    <SelectInput
-                                        className="w-full"
-                                        id="organization_id"
-                                        label="Organization"
-                                        value={organizationId}
-                                        onChange={(e) => setOrganizationId(e.target.value)}
-                                        options={organizationOptions}
-                                    />
                                     <TextInput
                                         id="name"
                                         className="w-full"
@@ -174,6 +166,14 @@ export default function Index({module, filters, users, organizations, genders })
                                         value={searchCommon}
                                         onChange={(e) => setSearchCommon(e.target.value)}
                                         placeholder="Search by name,email,phone,guardin name & phone"
+                                    />
+                                    <SelectInput
+                                        className="w-full"
+                                        id="organization_id"
+                                        label="Organization"
+                                        value={organizationId}
+                                        onChange={(e) => setOrganizationId(e.target.value)}
+                                        options={organizationOptions}
                                     />
 
                                     <SelectInput
