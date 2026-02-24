@@ -32,9 +32,11 @@ class UserController extends Controller
     {
         $users = $this->userService->getListWithFilter($request);
         $organizations = $this->organizationService->listByStatus();
+        $genders = CommonHelper::genders();
         return inertia(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'organizations' => $organizations,
+            'genders' => $genders,
             'users' => $users
         ]);
     }

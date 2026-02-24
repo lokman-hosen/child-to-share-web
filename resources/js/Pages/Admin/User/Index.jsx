@@ -3,19 +3,21 @@ import {Head, Link, router} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGridHorizontal, faPlus, faStar, faTable, faUsers, faEnvelope, faPhone, faVenusMars, faMapMarkerAlt, faCalendar, faBuilding, faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
-import {getDropdownOptions, textLimit} from "@/utils.jsx";
+import {getCommonOptions, getDropdownOptions, textLimit} from "@/utils.jsx";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import TextInput from "@/Components/TextInputField.jsx";
 
-export default function Index({module, filters, users, organizations }) {
+export default function Index({module, filters, users, organizations, genders }) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
     const safeFilters = filters || [];
 
     const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
+    const [gender, setGender] = useState((safeFilters?.gender) || '');
 
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+    const genderOptions = getCommonOptions(genders);
 
     const userListData = users?.data || [];
     const usersLinks = users?.links || [];
@@ -33,14 +35,14 @@ export default function Index({module, filters, users, organizations }) {
             //category_id: categoryId,
             organization_id: organizationId,
             search_common: searchCommon,
-            //distance_range: distanceRange,
+            gender: gender,
         };
 
         router.get(route('users.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [organizationId,searchCommon]);
+    }, [organizationId,searchCommon, gender]);
 
     // Helper function to format date
     const formatDate = (dateString) => {
@@ -172,6 +174,15 @@ export default function Index({module, filters, users, organizations }) {
                                         value={searchCommon}
                                         onChange={(e) => setSearchCommon(e.target.value)}
                                         placeholder="Search by name,email,phone,guardin name & phone"
+                                    />
+
+                                    <SelectInput
+                                        className="w-full"
+                                        id="gender"
+                                        label="Gender"
+                                        value={gender}
+                                        onChange={(e) => setGender(e.target.value)}
+                                        options={genderOptions}
                                     />
                                 </div>
 
