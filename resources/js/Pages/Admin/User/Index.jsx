@@ -1,16 +1,46 @@
-import React, {useState} from "react";
-import { Head, Link } from "@inertiajs/react";
+import React, {useEffect, useRef, useState} from "react";
+import {Head, Link, router} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGridHorizontal, faPlus, faStar, faTable, faUsers, faEnvelope, faPhone, faVenusMars, faMapMarkerAlt, faCalendar, faBuilding, faCheckCircle, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
-import {textLimit} from "@/utils.jsx";
+import {getDropdownOptions, textLimit} from "@/utils.jsx";
 import Pagination from "@/Components/Admin/Pagination.jsx";
+import SelectInput from "@/Components/SelectInput.jsx";
+import TextInput from "@/Components/TextInputField.jsx";
 
-export default function Index({module, users }) {
+export default function Index({module, filters, users, organizations }) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
+    const safeFilters = filters || [];
+
+    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
+    const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
+
+    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
 
     const userListData = users?.data || [];
     const usersLinks = users?.links || [];
+
+    const initialRender = useRef(true);
+
+
+    useEffect(() => {
+        if (initialRender.current) {
+            initialRender.current = false;
+            return;
+        }
+
+        const query = {
+            //category_id: categoryId,
+            organization_id: organizationId,
+            search_common: searchCommon,
+            //distance_range: distanceRange,
+        };
+
+        router.get(route('users.index'), query, {
+            preserveState: true,
+            replace: true,
+        });
+    }, [organizationId,searchCommon]);
 
     // Helper function to format date
     const formatDate = (dateString) => {
@@ -126,6 +156,24 @@ export default function Index({module, users }) {
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             <div className="w-2xl space-y-8">
+                                <div className="grid grid-cols-3 gap-4">
+                                    <SelectInput
+                                        className="w-full"
+                                        id="organization_id"
+                                        label="Organization"
+                                        value={organizationId}
+                                        onChange={(e) => setOrganizationId(e.target.value)}
+                                        options={organizationOptions}
+                                    />
+                                    <TextInput
+                                        id="name"
+                                        className="w-full"
+                                        label="Common Search"
+                                        value={searchCommon}
+                                        onChange={(e) => setSearchCommon(e.target.value)}
+                                        placeholder="Search by name,email,phone,guardin name & phone"
+                                    />
+                                </div>
 
                                 {/* Mobile Card View (Always for mobile) */}
                                 <div className="md:hidden space-y-4">
@@ -134,11 +182,14 @@ export default function Index({module, users }) {
                                             const status = getStatusBadge(user);
                                             const genderInfo = getGenderInfo(user.gender);
                                             return (
-                                                <div key={user.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+                                                <div key={user.id}
+                                                     className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                                                     {/* Card Header with Status */}
-                                                    <div className="flex justify-between items-center p-4 bg-gray-50 border-b">
+                                                    <div
+                                                        className="flex justify-between items-center p-4 bg-gray-50 border-b">
                                                         <div className="flex items-center space-x-3">
-                                                            <div className="h-12 w-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                                                            <div
+                                                                className="h-12 w-12 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
                                                                 {user.image ? (
                                                                     <img
                                                                         src={`/storage/${user.image}`}
@@ -146,7 +197,8 @@ export default function Index({module, users }) {
                                                                         className="w-full h-full object-cover"
                                                                     />
                                                                 ) : (
-                                                                    <span className="text-lg font-semibold text-blue-600">
+                                                                    <span
+                                                                        className="text-lg font-semibold text-blue-600">
                                                                         {user.name.charAt(0).toUpperCase()}
                                                                     </span>
                                                                 )}
@@ -156,7 +208,8 @@ export default function Index({module, users }) {
                                                                 <p className="text-sm text-gray-500">{user.email}</p>
                                                             </div>
                                                         </div>
-                                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.class}`}>
+                                                        <span
+                                                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.class}`}>
                                                             {status.text}
                                                         </span>
                                                     </div>
@@ -166,11 +219,14 @@ export default function Index({module, users }) {
                                                         <div className="space-y-3">
                                                             <div className="grid grid-cols-2 gap-3">
                                                                 <div className="flex items-center text-sm">
-                                                                    <FontAwesomeIcon icon={faPhone} className="text-gray-400 mr-2 w-4 h-4" />
-                                                                    <span className="text-gray-600">{user.phone || 'N/A'}</span>
+                                                                    <FontAwesomeIcon icon={faPhone}
+                                                                                     className="text-gray-400 mr-2 w-4 h-4"/>
+                                                                    <span
+                                                                        className="text-gray-600">{user.phone || 'N/A'}</span>
                                                                 </div>
                                                                 <div className="flex items-center text-sm">
-                                                                    <FontAwesomeIcon icon={faVenusMars} className="text-gray-400 mr-2 w-4 h-4" />
+                                                                    <FontAwesomeIcon icon={faVenusMars}
+                                                                                     className="text-gray-400 mr-2 w-4 h-4"/>
                                                                     <span className={`capitalize ${genderInfo.color}`}>
                                                                         {user.gender} {genderInfo.icon}
                                                                     </span>
@@ -179,7 +235,8 @@ export default function Index({module, users }) {
 
                                                             <div className="grid grid-cols-2 gap-3">
                                                                 <div className="flex items-center text-sm">
-                                                                    <FontAwesomeIcon icon={faCalendar} className="text-gray-400 mr-2 w-4 h-4" />
+                                                                    <FontAwesomeIcon icon={faCalendar}
+                                                                                     className="text-gray-400 mr-2 w-4 h-4"/>
                                                                     <span className="text-gray-600">
                                                                         {formatDate(user.dob)} ({calculateAge(user.dob)} yrs)
                                                                     </span>
@@ -187,8 +244,10 @@ export default function Index({module, users }) {
                                                                 <div className="flex items-center text-sm">
                                                                     {user.organization ? (
                                                                         <>
-                                                                            <FontAwesomeIcon icon={faBuilding} className="text-gray-400 mr-2 w-4 h-4" />
-                                                                            <span className="text-gray-600 truncate">{user.organization.name}</span>
+                                                                            <FontAwesomeIcon icon={faBuilding}
+                                                                                             className="text-gray-400 mr-2 w-4 h-4"/>
+                                                                            <span
+                                                                                className="text-gray-600 truncate">{user.organization.name}</span>
                                                                         </>
                                                                     ) : (
                                                                         <span className="text-gray-400 text-sm">No organization</span>
@@ -198,7 +257,8 @@ export default function Index({module, users }) {
 
                                                             {user.guardian_name && (
                                                                 <div className="bg-blue-50 rounded-lg p-3">
-                                                                    <p className="text-xs font-medium text-blue-800 mb-1">Guardian Info</p>
+                                                                    <p className="text-xs font-medium text-blue-800 mb-1">Guardian
+                                                                        Info</p>
                                                                     <div className="grid grid-cols-2 gap-2">
                                                                         <div>
                                                                             <p className="text-xs text-gray-600">Name:</p>
@@ -220,20 +280,29 @@ export default function Index({module, users }) {
 
                                                             {user.address && (
                                                                 <div className="flex items-start text-sm">
-                                                                    <FontAwesomeIcon icon={faMapMarkerAlt} className="text-gray-400 mr-2 w-4 h-4 mt-0.5" />
-                                                                    <span className="text-gray-600 line-clamp-2">{user.address}</span>
+                                                                    <FontAwesomeIcon icon={faMapMarkerAlt}
+                                                                                     className="text-gray-400 mr-2 w-4 h-4 mt-0.5"/>
+                                                                    <span
+                                                                        className="text-gray-600 line-clamp-2">{user.address}</span>
                                                                 </div>
                                                             )}
 
                                                             {/* Verification Status */}
-                                                            <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                                                            <div
+                                                                className="flex items-center justify-between pt-3 border-t border-gray-100">
                                                                 <div className="space-x-3">
-                                                                    <span className={`inline-flex items-center text-xs ${user.email_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
-                                                                        <FontAwesomeIcon icon={user.email_verified_at ? faCheckCircle : faTimesCircle} className="mr-1 w-3 h-3" />
+                                                                    <span
+                                                                        className={`inline-flex items-center text-xs ${user.email_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
+                                                                        <FontAwesomeIcon
+                                                                            icon={user.email_verified_at ? faCheckCircle : faTimesCircle}
+                                                                            className="mr-1 w-3 h-3"/>
                                                                         Email
                                                                     </span>
-                                                                    <span className={`inline-flex items-center text-xs ${user.phone_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
-                                                                        <FontAwesomeIcon icon={user.phone_verified_at ? faCheckCircle : faTimesCircle} className="mr-1 w-3 h-3" />
+                                                                    <span
+                                                                        className={`inline-flex items-center text-xs ${user.phone_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
+                                                                        <FontAwesomeIcon
+                                                                            icon={user.phone_verified_at ? faCheckCircle : faTimesCircle}
+                                                                            className="mr-1 w-3 h-3"/>
                                                                         Phone
                                                                     </span>
                                                                 </div>
@@ -244,7 +313,8 @@ export default function Index({module, users }) {
                                                         </div>
 
                                                         {/* Action Button */}
-                                                        <div className="flex justify-end items-center pt-4 border-t border-gray-100 mt-4">
+                                                        <div
+                                                            className="flex justify-end items-center pt-4 border-t border-gray-100 mt-4">
                                                             <Link
                                                                 href={route('my.profile', user.id)}
                                                                 className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
@@ -258,7 +328,7 @@ export default function Index({module, users }) {
                                         })
                                     ) : (
                                         <div className="text-center py-12">
-                                            <FontAwesomeIcon icon={faUsers} className="text-gray-300 text-6xl mb-4" />
+                                            <FontAwesomeIcon icon={faUsers} className="text-gray-300 text-6xl mb-4"/>
                                             <p className="text-gray-500 text-lg mb-2">No users found</p>
                                             <p className="text-gray-400 text-sm mb-6">
                                                 Start by adding your first user to the system
@@ -267,7 +337,7 @@ export default function Index({module, users }) {
                                                 href={route('users.create')}
                                                 className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                                             >
-                                                <FontAwesomeIcon icon={faPlus} />
+                                                <FontAwesomeIcon icon={faPlus}/>
                                                 <span>Add First User</span>
                                             </Link>
                                         </div>
@@ -278,7 +348,8 @@ export default function Index({module, users }) {
                                 <div className="hidden md:block">
                                     {viewMode === 'table' ? (
                                         /* Table View */
-                                        <div className="overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
+                                        <div
+                                            className="overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
                                             <table className="min-w-full divide-y divide-gray-200">
                                                 <thead className="bg-gray-50">
                                                 <tr>
@@ -302,11 +373,13 @@ export default function Index({module, users }) {
                                                         const status = getStatusBadge(user);
                                                         const genderInfo = getGenderInfo(user.gender);
                                                         return (
-                                                            <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                                                            <tr key={user.id}
+                                                                className="hover:bg-gray-50 transition-colors">
                                                                 {/* User Information Column */}
                                                                 <td className="px-6 py-4">
                                                                     <div className="flex items-center">
-                                                                        <div className="h-12 w-12 flex-shrink-0 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100">
+                                                                        <div
+                                                                            className="h-12 w-12 flex-shrink-0 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100">
                                                                             {user.image ? (
                                                                                 <img
                                                                                     src={`/storage/${user.image}`}
@@ -314,16 +387,20 @@ export default function Index({module, users }) {
                                                                                     className="w-full h-full object-cover"
                                                                                 />
                                                                             ) : (
-                                                                                <div className="w-full h-full flex items-center justify-center">
-                                                                                    <span className="text-lg font-semibold text-blue-600">
+                                                                                <div
+                                                                                    className="w-full h-full flex items-center justify-center">
+                                                                                    <span
+                                                                                        className="text-lg font-semibold text-blue-600">
                                                                                         {user.name.charAt(0).toUpperCase()}
                                                                                     </span>
                                                                                 </div>
                                                                             )}
                                                                         </div>
                                                                         <div className="ml-4">
-                                                                            <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                                                                            {user.email &&  <div className="text-sm text-gray-500">{user.email}</div>}
+                                                                            <div
+                                                                                className="text-sm font-medium text-gray-900">{user.name}</div>
+                                                                            {user.email && <div
+                                                                                className="text-sm text-gray-500">{user.email}</div>}
                                                                             <div className="mt-1 flex items-center">
                                                                                 <span className="text-xs text-gray-500">
                                                                                     Role: {user.role}
@@ -336,25 +413,31 @@ export default function Index({module, users }) {
                                                                 {/* Contact & Demographics Column */}
                                                                 <td className="px-6 py-4">
                                                                     <div className="space-y-2">
-                                                                        { user.phone &&
-                                                                            <div className="flex items-center text-sm text-gray-900">
-                                                                                <FontAwesomeIcon icon={faPhone} className="text-gray-400 mr-2 w-4 h-4" />
+                                                                        {user.phone &&
+                                                                            <div
+                                                                                className="flex items-center text-sm text-gray-900">
+                                                                                <FontAwesomeIcon icon={faPhone}
+                                                                                                 className="text-gray-400 mr-2 w-4 h-4"/>
                                                                                 {user.phone}
                                                                             </div>
                                                                         }
                                                                         <div className="flex items-center text-sm">
-                                                                            <FontAwesomeIcon icon={faVenusMars} className="text-gray-400 mr-2 w-4 h-4" />
-                                                                            <span className={`capitalize ${genderInfo.color}`}>
+                                                                            <FontAwesomeIcon icon={faVenusMars}
+                                                                                             className="text-gray-400 mr-2 w-4 h-4"/>
+                                                                            <span
+                                                                                className={`capitalize ${genderInfo.color}`}>
                                                                                 {user.gender} {genderInfo.icon}
                                                                             </span>
                                                                             <span className="mx-2">•</span>
-                                                                            <span className="text-gray-600">{calculateAge(user.dob)} yrs</span>
+                                                                            <span
+                                                                                className="text-gray-600">{calculateAge(user.dob)} yrs</span>
                                                                         </div>
                                                                         <div className="text-sm text-gray-600">
                                                                             DOB: {formatDate(user.dob)}
                                                                         </div>
                                                                         {user.address && (
-                                                                            <div className="text-sm text-gray-600 truncate max-w-xs">
+                                                                            <div
+                                                                                className="text-sm text-gray-600 truncate max-w-xs">
                                                                                 {user.address}
                                                                             </div>
                                                                         )}
@@ -368,26 +451,33 @@ export default function Index({module, users }) {
                                                                             <div>
                                                                                 <p className="text-xs font-medium text-gray-500 mb-1">Guardian</p>
                                                                                 <p className="text-sm font-medium text-gray-900">{user.guardian_name}</p>
-                                                                                <div className="flex items-center text-xs text-gray-600">
-                                                                                    <FontAwesomeIcon icon={faPhone} className="mr-1 w-3 h-3" />
+                                                                                <div
+                                                                                    className="flex items-center text-xs text-gray-600">
+                                                                                    <FontAwesomeIcon icon={faPhone}
+                                                                                                     className="mr-1 w-3 h-3"/>
                                                                                     {user.guardian_phone || 'N/A'}
                                                                                     {user.relationship && (
-                                                                                        <span className="ml-2 capitalize text-gray-500">
+                                                                                        <span
+                                                                                            className="ml-2 capitalize text-gray-500">
                                                                                             ({user.relationship})
                                                                                         </span>
                                                                                     )}
                                                                                 </div>
                                                                             </div>
                                                                         ) : (
-                                                                            <p className="text-sm text-gray-400">No guardian info</p>
+                                                                            <p className="text-sm text-gray-400">No
+                                                                                guardian info</p>
                                                                         )}
 
                                                                         {user.organization && (
-                                                                            <div className="pt-2 border-t border-gray-100">
+                                                                            <div
+                                                                                className="pt-2 border-t border-gray-100">
                                                                                 <p className="text-xs font-medium text-gray-500 mb-1">Organization</p>
                                                                                 <div className="flex items-center">
-                                                                                    <FontAwesomeIcon icon={faBuilding} className="text-gray-400 mr-2 w-4 h-4" />
-                                                                                    <span className="text-sm text-gray-900 truncate max-w-xs">
+                                                                                    <FontAwesomeIcon icon={faBuilding}
+                                                                                                     className="text-gray-400 mr-2 w-4 h-4"/>
+                                                                                    <span
+                                                                                        className="text-sm text-gray-900 truncate max-w-xs">
                                                                                         {user.organization.name}
                                                                                     </span>
                                                                                 </div>
@@ -399,22 +489,30 @@ export default function Index({module, users }) {
                                                                 {/* Status & Actions Column */}
                                                                 <td className="px-6 py-4">
                                                                     <div className="flex flex-col items-end space-y-3">
-                                                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${status.class}`}>
+                                                                        <span
+                                                                            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${status.class}`}>
                                                                             {status.text}
                                                                         </span>
 
                                                                         <div className="flex space-x-2">
-                                                                            <span className={`inline-flex items-center text-xs ${user.email_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
-                                                                                <FontAwesomeIcon icon={user.email_verified_at ? faCheckCircle : faTimesCircle} className="mr-1 w-3 h-3" />
+                                                                            <span
+                                                                                className={`inline-flex items-center text-xs ${user.email_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
+                                                                                <FontAwesomeIcon
+                                                                                    icon={user.email_verified_at ? faCheckCircle : faTimesCircle}
+                                                                                    className="mr-1 w-3 h-3"/>
                                                                                 Email
                                                                             </span>
-                                                                            <span className={`inline-flex items-center text-xs ${user.phone_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
-                                                                                <FontAwesomeIcon icon={user.phone_verified_at ? faCheckCircle : faTimesCircle} className="mr-1 w-3 h-3" />
+                                                                            <span
+                                                                                className={`inline-flex items-center text-xs ${user.phone_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
+                                                                                <FontAwesomeIcon
+                                                                                    icon={user.phone_verified_at ? faCheckCircle : faTimesCircle}
+                                                                                    className="mr-1 w-3 h-3"/>
                                                                                 Phone
                                                                             </span>
                                                                         </div>
 
-                                                                        <div className="text-xs text-gray-500 text-right">
+                                                                        <div
+                                                                            className="text-xs text-gray-500 text-right">
                                                                             Created: {user.created_at}
                                                                         </div>
 
@@ -443,7 +541,8 @@ export default function Index({module, users }) {
                                                             <div className="text-center">
                                                                 <FontAwesomeIcon icon={faUsers}
                                                                                  className="text-gray-300 text-5xl mb-4"/>
-                                                                <p className="text-gray-500 text-lg mb-2">No users found</p>
+                                                                <p className="text-gray-500 text-lg mb-2">No users
+                                                                    found</p>
                                                                 <p className="text-gray-400 text-sm mb-6">
                                                                     Start by adding your first user to the system
                                                                 </p>
@@ -451,7 +550,7 @@ export default function Index({module, users }) {
                                                                     href={route('users.create')}
                                                                     className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                                                                 >
-                                                                    <FontAwesomeIcon icon={faPlus} />
+                                                                    <FontAwesomeIcon icon={faPlus}/>
                                                                     <span>Add First User</span>
                                                                 </Link>
                                                             </div>
@@ -469,12 +568,15 @@ export default function Index({module, users }) {
                                                     const status = getStatusBadge(user);
                                                     const genderInfo = getGenderInfo(user.gender);
                                                     return (
-                                                        <div key={user.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                                                        <div key={user.id}
+                                                             className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
                                                             {/* Card Header */}
-                                                            <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 border-b">
+                                                            <div
+                                                                className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 border-b">
                                                                 <div className="flex items-center justify-between mb-4">
                                                                     <div className="flex items-center space-x-3">
-                                                                        <div className="h-14 w-14 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                                                                        <div
+                                                                            className="h-14 w-14 rounded-full overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
                                                                             {user.image ? (
                                                                                 <img
                                                                                     src={`/storage/${user.image}`}
@@ -482,7 +584,8 @@ export default function Index({module, users }) {
                                                                                     className="w-full h-full object-cover"
                                                                                 />
                                                                             ) : (
-                                                                                <span className="text-xl font-semibold text-blue-600">
+                                                                                <span
+                                                                                    className="text-xl font-semibold text-blue-600">
                                                                                     {user.name.charAt(0).toUpperCase()}
                                                                                 </span>
                                                                             )}
@@ -494,20 +597,26 @@ export default function Index({module, users }) {
                                                                             <p className="text-sm text-gray-500">{user.email}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.class}`}>
+                                                                    <span
+                                                                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.class}`}>
                                                                         {status.text}
                                                                     </span>
                                                                 </div>
 
                                                                 {/* Quick Info */}
                                                                 <div className="grid grid-cols-2 gap-3">
-                                                                    <div className="flex items-center text-sm text-gray-600">
-                                                                        <FontAwesomeIcon icon={faPhone} className="mr-2 w-4 h-4" />
+                                                                    <div
+                                                                        className="flex items-center text-sm text-gray-600">
+                                                                        <FontAwesomeIcon icon={faPhone}
+                                                                                         className="mr-2 w-4 h-4"/>
                                                                         <span>{user.phone || 'N/A'}</span>
                                                                     </div>
-                                                                    <div className="flex items-center text-sm text-gray-600">
-                                                                        <FontAwesomeIcon icon={faVenusMars} className={`mr-2 w-4 h-4 ${genderInfo.color}`} />
-                                                                        <span className="capitalize">{user.gender}</span>
+                                                                    <div
+                                                                        className="flex items-center text-sm text-gray-600">
+                                                                        <FontAwesomeIcon icon={faVenusMars}
+                                                                                         className={`mr-2 w-4 h-4 ${genderInfo.color}`}/>
+                                                                        <span
+                                                                            className="capitalize">{user.gender}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -522,7 +631,8 @@ export default function Index({module, users }) {
                                                                             <p className="text-lg font-semibold text-gray-900">{calculateAge(user.dob)} years</p>
                                                                         </div>
                                                                         <div className="text-right">
-                                                                            <p className="text-xs font-medium text-gray-500">Date of Birth</p>
+                                                                            <p className="text-xs font-medium text-gray-500">Date
+                                                                                of Birth</p>
                                                                             <p className="text-sm text-gray-900">{formatDate(user.dob)}</p>
                                                                         </div>
                                                                     </div>
@@ -532,10 +642,12 @@ export default function Index({module, users }) {
                                                                         <div className="bg-blue-50 rounded-lg p-4">
                                                                             <p className="text-xs font-medium text-blue-800 mb-2">Guardian</p>
                                                                             <p className="text-sm font-medium text-gray-900 mb-1">{user.guardian_name}</p>
-                                                                            <div className="flex items-center justify-between text-sm text-gray-600">
+                                                                            <div
+                                                                                className="flex items-center justify-between text-sm text-gray-600">
                                                                                 <span>{user.guardian_phone || 'N/A'}</span>
                                                                                 {user.relationship && (
-                                                                                    <span className="capitalize text-gray-500">({user.relationship})</span>
+                                                                                    <span
+                                                                                        className="capitalize text-gray-500">({user.relationship})</span>
                                                                                 )}
                                                                             </div>
                                                                         </div>
@@ -544,7 +656,8 @@ export default function Index({module, users }) {
                                                                     {/* Organization */}
                                                                     {user.organization && (
                                                                         <div className="flex items-center">
-                                                                            <FontAwesomeIcon icon={faBuilding} className="text-gray-400 mr-3 w-5 h-5" />
+                                                                            <FontAwesomeIcon icon={faBuilding}
+                                                                                             className="text-gray-400 mr-3 w-5 h-5"/>
                                                                             <div>
                                                                                 <p className="text-xs font-medium text-gray-500">Organization</p>
                                                                                 <p className="text-sm text-gray-900 truncate">{user.organization.name}</p>
@@ -555,7 +668,8 @@ export default function Index({module, users }) {
                                                                     {/* Address */}
                                                                     {user.address && (
                                                                         <div className="flex items-start">
-                                                                            <FontAwesomeIcon icon={faMapMarkerAlt} className="text-gray-400 mr-3 w-5 h-5 mt-0.5" />
+                                                                            <FontAwesomeIcon icon={faMapMarkerAlt}
+                                                                                             className="text-gray-400 mr-3 w-5 h-5 mt-0.5"/>
                                                                             <div className="flex-1">
                                                                                 <p className="text-xs font-medium text-gray-500">Address</p>
                                                                                 <p className="text-sm text-gray-900 line-clamp-2">{user.address}</p>
@@ -565,14 +679,21 @@ export default function Index({module, users }) {
 
                                                                     {/* Verification Status */}
                                                                     <div className="pt-4 border-t border-gray-100">
-                                                                        <p className="text-xs font-medium text-gray-500 mb-2">Verification Status</p>
+                                                                        <p className="text-xs font-medium text-gray-500 mb-2">Verification
+                                                                            Status</p>
                                                                         <div className="flex items-center space-x-4">
-                                                                            <span className={`inline-flex items-center text-sm ${user.email_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
-                                                                                <FontAwesomeIcon icon={user.email_verified_at ? faCheckCircle : faTimesCircle} className="mr-1.5 w-4 h-4" />
+                                                                            <span
+                                                                                className={`inline-flex items-center text-sm ${user.email_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
+                                                                                <FontAwesomeIcon
+                                                                                    icon={user.email_verified_at ? faCheckCircle : faTimesCircle}
+                                                                                    className="mr-1.5 w-4 h-4"/>
                                                                                 Email
                                                                             </span>
-                                                                            <span className={`inline-flex items-center text-sm ${user.phone_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
-                                                                                <FontAwesomeIcon icon={user.phone_verified_at ? faCheckCircle : faTimesCircle} className="mr-1.5 w-4 h-4" />
+                                                                            <span
+                                                                                className={`inline-flex items-center text-sm ${user.phone_verified_at ? 'text-green-600' : 'text-gray-400'}`}>
+                                                                                <FontAwesomeIcon
+                                                                                    icon={user.phone_verified_at ? faCheckCircle : faTimesCircle}
+                                                                                    className="mr-1.5 w-4 h-4"/>
                                                                                 Phone
                                                                             </span>
                                                                         </div>
@@ -581,7 +702,8 @@ export default function Index({module, users }) {
                                                             </div>
 
                                                             {/* Card Footer */}
-                                                            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
+                                                            <div
+                                                                className="px-6 py-4 bg-gray-50 border-t border-gray-100">
                                                                 <div className="flex items-center justify-between">
                                                                     <div className="text-sm text-gray-500">
                                                                         Joined {user.created_at}
@@ -601,7 +723,8 @@ export default function Index({module, users }) {
                                                 })
                                             ) : (
                                                 <div className="col-span-full text-center py-12">
-                                                    <FontAwesomeIcon icon={faUsers} className="text-gray-300 text-6xl mb-4" />
+                                                    <FontAwesomeIcon icon={faUsers}
+                                                                     className="text-gray-300 text-6xl mb-4"/>
                                                     <p className="text-gray-500 text-lg mb-2">No users found</p>
                                                     <p className="text-gray-400 text-sm mb-6">
                                                         Start by adding your first user to the system
@@ -610,7 +733,7 @@ export default function Index({module, users }) {
                                                         href={route('users.create')}
                                                         className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
                                                     >
-                                                        <FontAwesomeIcon icon={faPlus} />
+                                                        <FontAwesomeIcon icon={faPlus}/>
                                                         <span>Add First User</span>
                                                     </Link>
                                                 </div>
@@ -620,7 +743,7 @@ export default function Index({module, users }) {
                                 </div>
 
                                 {/* Pagination */}
-                                {usersLinks.length > 1 && <Pagination data={users} links={usersLinks} />}
+                                {usersLinks.length > 1 && <Pagination data={users} links={usersLinks}/>}
                             </div>
                         </div>
                     </div>

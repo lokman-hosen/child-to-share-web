@@ -29,7 +29,8 @@ UserService extends BaseService
     {
         $sortColumn = $request->input('sort', 'created_at');
         $sortDirection = $request->input('direction', 'desc');
-        $searchName = $request->input('search_name');
+        $searchOrganization = $request->input('organization_id');
+        $searchCommon = $request->input('search_common');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->user->load('organization')->query();
@@ -38,11 +39,16 @@ UserService extends BaseService
                 ->where('organization_id', Auth::user()?->organization_id);
         }
 
-        return $query->when($searchName, function ($query, $searchName) {
-            $query->where('name', 'like', '%' . $searchName . '%');
-        })
-            ->when($filterStatus, function ($query, $filterStatus) {
+        return $query->when($searchCommon, function ($query, $searchCommon) {
+            $query->where('name', 'like', '%' . $searchCommon . '%')
+                ->orWhere('email', 'like', '%' . $searchCommon . '%')
+                ->orWhere('phone', 'like', '%' . $searchCommon . '%')
+                ->orWhere('guardian_phone', 'like', '%' . $searchCommon . '%')
+                ->orWhere('guardian_name', 'like', '%' . $searchCommon . '%');
+        })->when($filterStatus, function ($query, $filterStatus) {
                 $query->where('status', $filterStatus);
+            })->when($searchOrganization, function ($query, $searchOrganization) {
+                $query->where('organization_id', $searchOrganization);
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10) // Pagination: 10 items per page
