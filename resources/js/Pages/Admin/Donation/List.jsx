@@ -206,7 +206,7 @@ export default function List({module, filters, donations, organizations,categori
 
                                     {/* Filter Fields - Responsive Grid */}
                                     <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
                                             {/* Search Input - Enhanced with icon */}
                                             <div className="relative">
                                                 <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
