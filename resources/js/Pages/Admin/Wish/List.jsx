@@ -212,7 +212,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
 
                                 {/* Filter Fields - Responsive Grid */}
                                 <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                         {/* Search Input - Enhanced with icon */}
                                         <div className="relative">
                                             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
@@ -301,26 +301,26 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         </div>
 
                                         {/* Distance Range Select (Conditional) */}
-                                        {distanceRangeOptions.length > 0 && (
-                                            <div>
-                                                <label htmlFor="distance_range" className="block text-sm font-medium text-gray-700 mb-2">
-                                                    Distance from you
-                                                </label>
-                                                <select
-                                                    id="distance_range"
-                                                    value={distanceRange}
-                                                    onChange={(e) => setDistanceRange(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
-                                                >
-                                                    <option value="">Any Distance</option>
-                                                    {distanceRangeOptions.map(option => (
-                                                        <option key={option.value} value={option.value}>
-                                                            {option.label}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        )}
+                                        {/*{distanceRangeOptions.length > 0 && (*/}
+                                        {/*    <div>*/}
+                                        {/*        <label htmlFor="distance_range" className="block text-sm font-medium text-gray-700 mb-2">*/}
+                                        {/*            Distance from you*/}
+                                        {/*        </label>*/}
+                                        {/*        <select*/}
+                                        {/*            id="distance_range"*/}
+                                        {/*            value={distanceRange}*/}
+                                        {/*            onChange={(e) => setDistanceRange(e.target.value)}*/}
+                                        {/*            className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"*/}
+                                        {/*        >*/}
+                                        {/*            <option value="">Any Distance</option>*/}
+                                        {/*            {distanceRangeOptions.map(option => (*/}
+                                        {/*                <option key={option.value} value={option.value}>*/}
+                                        {/*                    {option.label}*/}
+                                        {/*                </option>*/}
+                                        {/*            ))}*/}
+                                        {/*        </select>*/}
+                                        {/*    </div>*/}
+                                        {/*)}*/}
                                     </div>
 
                                     {/* Clear Filters Button - Mobile Only */}
