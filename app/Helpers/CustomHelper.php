@@ -174,6 +174,13 @@ function getDonationByOrganizationId(string $organizationId, string $type)
     }
 }
 
+function getRoles(): array
+{
+    return ['3' => 'Donor', '4' => 'Wisher', 'both' => 'Donor & Wisher'];
+}
+
+
+
 
 
 

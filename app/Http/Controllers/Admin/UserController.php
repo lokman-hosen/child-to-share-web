@@ -36,6 +36,7 @@ class UserController extends Controller
         return inertia(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'organizations' => $organizations,
+            'roles' => getRoles(),
             'genders' => $genders,
             'users' => $users
         ]);

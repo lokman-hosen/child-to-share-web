@@ -32,6 +32,7 @@ UserService extends BaseService
         $searchOrganization = $request->input('organization_id');
         $searchCommon = $request->input('search_common');
         $searchGender = $request->input('gender');
+        $searchRole = $request->input('role');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->user->load('organization')->query();
@@ -54,6 +55,19 @@ UserService extends BaseService
             })
             ->when($searchGender, function ($query, $searchGender) {
                 $query->where('gender', $searchGender);
+            })
+            ->when($searchRole, function ($query, $searchRole) {
+                if ($searchRole == 'both') {
+                    $query->whereHas('roles', function ($q) {
+                        $q->where('roles.id', 3);
+                    })->whereHas('roles', function ($q) {
+                        $q->where('roles.id', 4);
+                    });
+                } else {
+                    $query->whereHas('roles', function ($q) use ($searchRole) {
+                        $q->where('roles.id', $searchRole);
+                    });
+                }
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10) // Pagination: 10 items per page

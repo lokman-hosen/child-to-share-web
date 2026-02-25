@@ -8,7 +8,7 @@ import Pagination from "@/Components/Admin/Pagination.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import TextInput from "@/Components/TextInputField.jsx";
 
-export default function Index({module, filters, users, organizations, genders }) {
+export default function Index({module, filters, roles, users, organizations, genders }) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
     const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
     const [activeFilterCount, setActiveFilterCount] = useState(0);
@@ -17,9 +17,11 @@ export default function Index({module, filters, users, organizations, genders })
     const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
     const [gender, setGender] = useState((safeFilters?.gender) || '');
+    const [role, setRole] = useState((safeFilters?.role) || '');
 
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
     const genderOptions = getCommonOptions(genders);
+    const roleOptions = getCommonOptions(roles);
 
     const userListData = users?.data || [];
     const usersLinks = users?.links || [];
@@ -32,8 +34,9 @@ export default function Index({module, filters, users, organizations, genders })
         if (organizationId) count++;
         if (searchCommon) count++;
         if (gender) count++;
+        if (role) count++;
         setActiveFilterCount(count);
-    }, [organizationId, searchCommon, gender]);
+    }, [organizationId, searchCommon, gender,role]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -45,19 +48,21 @@ export default function Index({module, filters, users, organizations, genders })
             organization_id: organizationId,
             search_common: searchCommon,
             gender: gender,
+            role: role,
         };
 
         router.get(route('users.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [organizationId, searchCommon, gender]);
+    }, [organizationId, searchCommon, gender,role]);
 
     // Clear all filters
     const clearAllFilters = () => {
         setOrganizationId('');
         setSearchCommon('');
         setGender('');
+        setRole('');
     };
 
     // Helper function to format date
@@ -224,7 +229,7 @@ export default function Index({module, filters, users, organizations, genders })
 
                                 {/* Filter Fields - Responsive Grid */}
                                 <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                                         {/* Search Input - Enhanced with icon */}
                                         <div className="relative">
                                             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
@@ -286,6 +291,26 @@ export default function Index({module, filters, users, organizations, genders })
                                             >
                                                 <option value="">All Genders</option>
                                                 {genderOptions.map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* Gender Select - Enhanced styling */}
+                                        <div>
+                                            <label htmlFor="gender" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Role
+                                            </label>
+                                            <select
+                                                id="role"
+                                                value={role}
+                                                onChange={(e) => setRole(e.target.value)}
+                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                            >
+                                                <option value="">Select Role</option>
+                                                {roleOptions.map(option => (
                                                     <option key={option.value} value={option.value}>
                                                         {option.label}
                                                     </option>
