@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateDonationRequest;
 use App\Models\Donation;
 use App\Services\CategoryService;
 use App\Services\DonationService;
+use App\Services\OrganizationService;
 use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class DonationController extends Controller
         protected CategoryService $categoryService,
         protected DonationService $donationService,
         protected UserService $userService,
+        protected OrganizationService $organizationService,
 
     ){}
     /**
@@ -33,9 +35,13 @@ class DonationController extends Controller
     {
         Gate::authorize('viewAny', Donation::class);
         $donations = $this->donationService->getListWithFilter($request);
+        $categories = $this->categoryService->listByStatus();
+        $organizations = $this->organizationService->listByStatus();
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
             'donations' => $donations,
+            'categories' => $categories,
+            'organizations' => $organizations,
         ]);
     }
 

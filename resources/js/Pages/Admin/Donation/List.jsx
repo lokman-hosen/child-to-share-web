@@ -1,15 +1,75 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {Head, Link} from '@inertiajs/react';
-import React, { useState } from "react";
+import {Head, Link,router} from '@inertiajs/react';
+import React, {useEffect, useRef, useState} from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift, faPlus, faTable, faGridHorizontal, faEye} from "@fortawesome/free-solid-svg-icons";
+import {
+    faGift,
+    faPlus,
+    faTable,
+    faGridHorizontal,
+    faEye,
+    faFilter,
+    faTimes,
+    faSearch
+} from "@fortawesome/free-solid-svg-icons";
+import {getDropdownOptions} from "@/utils.jsx";
 
-export default function List({module, donations}) {
+export default function List({module, filters, donations, organizations,categories}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
+    const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
+    const [activeFilterCount, setActiveFilterCount] = useState(0);
+
+
+    const safeFilters = filters || [];
+
+    const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
+    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
+    const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
+
+    const categoryOptions = getDropdownOptions(categories, 'id', 'name');
+    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+
 
     const donationListData = donations?.data || [];
     const donationsLinks = donations?.links || [];
+
+    // Use a ref to prevent useEffect from running on initial render for filters/sort
+    const initialRender = useRef(true);
+
+    // Calculate active filters count
+    useEffect(() => {
+        let count = 0;
+        if (organizationId) count++;
+        if (searchCommon) count++;
+        if (categoryId) count++;
+        setActiveFilterCount(count);
+    }, [organizationId, categoryId,searchCommon]);
+
+    useEffect(() => {
+        if (initialRender.current) {
+            initialRender.current = false;
+            return;
+        }
+
+        const query = {
+            category_id: categoryId,
+            organization_id: organizationId,
+            search_common: searchCommon,
+        };
+
+        router.get(route('donations.index'), query, {
+            preserveState: true,
+            replace: true,
+        });
+    }, [categoryId, organizationId, searchCommon]);
+
+    // Clear all filters
+    const clearAllFilters = () => {
+        setOrganizationId('');
+        setSearchCommon('');
+        setCategoryId('');
+    };
 
     // Status badge color function
     const getStatusColor = (status) => {
@@ -94,6 +154,141 @@ export default function List({module, donations}) {
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             <div className="w-2xl space-y-8">
+
+                                {/* Enhanced Filter Section */}
+                                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                                    {/* Filter Header - Always visible */}
+                                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                                        <div className="flex items-center space-x-3 mb-4 sm:mb-0">
+                                            <div className="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                                <FontAwesomeIcon icon={faFilter} className="text-blue-600 text-lg" />
+                                            </div>
+                                            <div>
+                                                <h2 className="text-lg font-semibold text-gray-900">Filter Gifts</h2>
+                                                <p className="text-sm text-gray-500">
+                                                    Find specific wishes by organization, category, or age range
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center space-x-3">
+                                            {/* Mobile Filter Toggle */}
+                                            <button
+                                                onClick={() => setShowFilters(!showFilters)}
+                                                className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                            >
+                                                <FontAwesomeIcon icon={showFilters ? faTimes : faFilter} className="mr-2" />
+                                                {showFilters ? 'Hide Filters' : 'Show Filters'}
+                                                {activeFilterCount > 0 && (
+                                                    <span className="ml-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                                    {activeFilterCount}
+                                                </span>
+                                                )}
+                                            </button>
+
+                                            {/* Active Filters Count - Desktop */}
+                                            {activeFilterCount > 0 && (
+                                                <div className="hidden md:flex items-center space-x-2">
+                                                <span className="text-sm text-gray-500">
+                                                    {activeFilterCount} active filter{activeFilterCount !== 1 ? 's' : ''}
+                                                </span>
+                                                    <button
+                                                        onClick={clearAllFilters}
+                                                        className="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
+                                                    >
+                                                        <FontAwesomeIcon icon={faTimes} className="mr-1.5 w-3 h-3" />
+                                                        Clear All
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Filter Fields - Responsive Grid */}
+                                    <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                            {/* Search Input - Enhanced with icon */}
+                                            <div className="relative">
+                                                <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Common Search
+                                                </label>
+                                                <div className="relative">
+                                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        id="search"
+                                                        value={searchCommon}
+                                                        onChange={(e) => setSearchCommon(e.target.value)}
+                                                        placeholder="Search by title, description..."
+                                                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                    />
+                                                    {searchCommon && (
+                                                        <button
+                                                            onClick={() => setSearchCommon('')}
+                                                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                                        >
+                                                            <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            {/* Organization Select */}
+                                            <div>
+                                                <label htmlFor="organization_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Organization
+                                                </label>
+                                                <select
+                                                    id="organization_id"
+                                                    value={organizationId}
+                                                    onChange={(e) => setOrganizationId(e.target.value)}
+                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                >
+                                                    <option value="">All Organizations</option>
+                                                    {organizationOptions.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
+                                            {/* Category Select */}
+                                            <div>
+                                                <label htmlFor="category_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Category
+                                                </label>
+                                                <select
+                                                    id="category_id"
+                                                    value={categoryId}
+                                                    onChange={(e) => setCategoryId(e.target.value)}
+                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                >
+                                                    <option value="">All Categories</option>
+                                                    {categoryOptions.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        {/* Clear Filters Button - Mobile Only */}
+                                        {activeFilterCount > 0 && (
+                                            <div className="mt-4 md:hidden">
+                                                <button
+                                                    onClick={clearAllFilters}
+                                                    className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
+                                                >
+                                                    <FontAwesomeIcon icon={faTimes} className="mr-2" />
+                                                    Clear All Filters ({activeFilterCount})
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
 
                                 {/* Mobile Card View (Always for mobile) */}
                                 <div className="md:hidden space-y-4">

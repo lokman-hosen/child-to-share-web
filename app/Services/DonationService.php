@@ -24,18 +24,29 @@ class DonationService extends BaseService
     {
         $sortColumn = $request->input('sort', 'created_at');
         $sortDirection = $request->input('direction', 'desc');
-        $searchName = $request->input('search_name');
+        $searchCommon = $request->input('search_common');
+        $searchCategory = $request->input('category_id');
+        $searchOrganization = $request->input('organization_id');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->donation->with(['user', 'files', 'featuredImage']);
         if (checkDonor() or checkDonorWisher()){
             $query->where('user_id', Auth::id());
         }
-        return $query->when($searchName, function ($query, $searchName) {
-                $query->where('name', 'like', '%' . $searchName . '%');
-            })
+        return $query->when($searchCommon, function ($query, $searchCommon) {
+            $query->where('name', 'like', '%' . $searchCommon . '%')
+                ->orWhere('description', 'like', '%' . $searchCommon . '%');
+        })
             ->when($filterStatus, function ($query, $filterStatus) {
                 $query->where('status', $filterStatus);
+            })
+            ->when($searchOrganization, function ($query, $searchOrganization) {
+                $query->whereHas('user', function ($user) use ($query, $searchOrganization) {
+                    $user->where('organization_id', $searchOrganization);
+                });
+            })
+            ->when($searchCategory, function ($query, $searchCategory) {
+                $query->where('category_id', $searchCategory);
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(12) // Pagination: 10 items per page
