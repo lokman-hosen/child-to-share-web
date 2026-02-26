@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Donation;
 use App\Models\File;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ class DonationService extends BaseService
 {
     public function __construct(
         protected Donation $donation,
+        protected User $user,
         protected CategoryService $categoryService,
     ){
         $this->model = $this->donation;
@@ -185,17 +187,22 @@ class DonationService extends BaseService
         $userId = $userId ?? Auth::id();
         $query = Donation::with(['user', 'category', 'files', 'featuredImage']);
         if ($for === 'admin') {
-            if (Auth::user()->user_type === 'organization'){
-                $query->whereHas('user', function ($user) {
-                    $user->where('organization_id', Auth::user()->organization_id);
+            $orgUser = $this->user->findOrFail($userId);
+            if ($orgUser->user_type == 'organization'){
+                $query->whereHas('user', function ($user) use($orgUser) {
+                    $user->where('organization_id', $orgUser?->organization?->id);
                 });
             }else{
-                $query->where('user_id', $userId);
+                if (Auth::user()->user_type === 'organization'){
+                    $query->whereHas('user', function ($user) {
+                        $user->where('organization_id', Auth::user()->organization_id);
+                    });
+                }else{
+                    $query->where('user_id', $userId);
+                }
             }
         }
-        if (isset($status)) {
-            $query->where('status', $status);
-        }
+
         if ($inRandom) {
             $query->inRandomOrder();
         }

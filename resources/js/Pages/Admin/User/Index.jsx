@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
-import {Head, Link, router} from "@inertiajs/react";
+import {Head, Link, router, usePage} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGridHorizontal, faPlus, faStar, faTable, faUsers, faEnvelope, faPhone, faVenusMars, faMapMarkerAlt, faCalendar, faBuilding, faCheckCircle, faTimesCircle, faFilter, faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
@@ -9,12 +9,14 @@ import SelectInput from "@/Components/SelectInput.jsx";
 import TextInput from "@/Components/TextInputField.jsx";
 
 export default function Index({module, filters, roles, users, organizations, genders }) {
+    const params = new URLSearchParams(window.location.search)
+    const orgId = params.get('organization_id') || '';
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
     const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
     const [activeFilterCount, setActiveFilterCount] = useState(0);
     const safeFilters = filters || [];
 
-    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
+    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || orgId);
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
     const [gender, setGender] = useState((safeFilters?.gender) || '');
     const [role, setRole] = useState((safeFilters?.role) || '');

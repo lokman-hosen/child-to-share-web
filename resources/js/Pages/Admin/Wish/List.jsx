@@ -9,6 +9,8 @@ import TextInput from "@/Components/TextInputField.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 
 export default function List({module, wishes, categories, filters, ageRanges, distanceRanges, organizations}) {
+    const params = new URLSearchParams(window.location.search)
+    const orgId = params.get('organization_id') || '';
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
     const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
     const [activeFilterCount, setActiveFilterCount] = useState(0);
@@ -18,7 +20,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
     const safeFilters = filters || [];
 
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
-    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
+    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || orgId);
     const [ageRange, setAgeRange] = useState((safeFilters?.age_range) || '');
     const [distanceRange, setDistanceRange] = useState((safeFilters?.distance_range) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');

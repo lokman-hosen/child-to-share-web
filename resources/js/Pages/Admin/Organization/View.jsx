@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {Head, Link} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowLeft, faEdit, faList, faPlusCircle} from "@fortawesome/free-solid-svg-icons";
@@ -55,24 +55,29 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                 </div>
                 <div className="px-10 py-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-                        <div
-                            className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-blue-500">
-                            <div className="px-4 py-5 sm:p-6">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                        <i className="fas fa-users text-blue-600"></i>
-                                    </div>
-                                    <div className="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Members</dt>
-                                            <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">{totalMembers}</div>
-                                            </dd>
-                                        </dl>
+                        <Link
+                            href={route('users.index', {
+                            'organization_id' : organization.id
+                        })}>
+                            <div
+                                className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-blue-500">
+                                <div className="px-4 py-5 sm:p-6">
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0 bg-blue-100 rounded-md p-3">
+                                            <i className="fas fa-users text-blue-600"></i>
+                                        </div>
+                                        <div className="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt className="text-sm font-medium text-gray-500 truncate">Total Members</dt>
+                                                <dd className="flex items-baseline">
+                                                    <div className="text-2xl font-semibold text-gray-900">{totalMembers}</div>
+                                                </dd>
+                                            </dl>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
 
                         <div
                             className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-green-500">
@@ -95,40 +100,54 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
 
                         <div
                             className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-yellow-500">
-                            <div className="px-4 py-5 sm:p-6">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0 bg-yellow-100 rounded-md p-3">
-                                        <i className="fas fa-star text-yellow-600"></i>
-                                    </div>
-                                    <div className="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Active Wishes</dt>
-                                            <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">{activeWishCount}</div>
-                                            </dd>
-                                        </dl>
+                            <Link
+                                href={route('wishes.index', {
+                                    'organization_id': organization.id
+                                })}>
+                                <div className="px-4 py-5 sm:p-6">
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0 bg-yellow-100 rounded-md p-3">
+                                            <i className="fas fa-star text-yellow-600"></i>
+                                        </div>
+                                        <div className="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt className="text-sm font-medium text-gray-500 truncate">Total Wishes</dt>
+                                                <dd className="flex items-baseline">
+                                                    <div
+                                                        className="text-2xl font-semibold text-gray-900">{activeWishCount}</div>
+                                                </dd>
+                                            </dl>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
 
                         <div
                             className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-purple-500">
-                            <div className="px-4 py-5 sm:p-6">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
-                                        <i className="fas fa-hand-holding-heart text-purple-600"></i>
-                                    </div>
-                                    <div className="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Total Gifts</dt>
-                                            <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
-                                            </dd>
-                                        </dl>
+
+                            <Link
+                                href={route('donations.index', {
+                                    'organization_id': organization.id
+                                })}>
+                                <div className="px-4 py-5 sm:p-6">
+                                    <div className="flex items-center">
+                                        <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
+                                            <i className="fas fa-hand-holding-heart text-purple-600"></i>
+                                        </div>
+                                        <div className="ml-5 w-0 flex-1">
+                                            <dl>
+                                                <dt className="text-sm font-medium text-gray-500 truncate">Total Gifts
+                                                </dt>
+                                                <dd className="flex items-baseline">
+                                                    <div
+                                                        className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
+                                                </dd>
+                                            </dl>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
