@@ -27,6 +27,7 @@ class DonationService extends BaseService
         $searchCommon = $request->input('search_common');
         $searchCategory = $request->input('category_id');
         $searchOrganization = $request->input('organization_id');
+        $searchType = $request->input('type');
         $filterStatus = $request->input('filter_status');
         // Keep query parameters when paginating
         $query = $this->donation->with(['user', 'files', 'featuredImage']);
@@ -44,6 +45,17 @@ class DonationService extends BaseService
                 $query->whereHas('user', function ($user) use ($query, $searchOrganization) {
                     $user->where('organization_id', $searchOrganization);
                 });
+            })
+            ->when($searchType, function ($query, $searchType) {
+                if ($searchType == 'single'){
+                    $query->whereHas('user', function ($user) use ($query, $searchType) {
+                        $user->whereNull('organization_id');
+                    });
+                }elseif ($searchType == 'organization'){
+                    $query->whereHas('user', function ($user) use ($query, $searchType) {
+                        $user->whereNotNull('organization_id');
+                    });
+                }
             })
             ->when($searchCategory, function ($query, $searchCategory) {
                 $query->where('category_id', $searchCategory);

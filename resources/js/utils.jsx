@@ -97,6 +97,13 @@ export const getLoginUser = () =>{
     return usePage().props.auth.user;
 }
 
+export const wishAndDonationType = () => {
+    return [
+        { value: 'single', label: 'Single(Not belongs to any organization)' },
+        { value: 'organization', label: 'Belongs to any organization' },
+    ]
+}
+
 
 
 

@@ -13,7 +13,7 @@ import {
     faTimes,
     faSearch
 } from "@fortawesome/free-solid-svg-icons";
-import {getDropdownOptions} from "@/utils.jsx";
+import {getDropdownOptions, wishAndDonationType} from "@/utils.jsx";
 
 export default function List({module, filters, donations, organizations,categories}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -26,6 +26,7 @@ export default function List({module, filters, donations, organizations,categori
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
     const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
+    const [type, setType] = useState((safeFilters?.type) || '');
 
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
@@ -43,8 +44,9 @@ export default function List({module, filters, donations, organizations,categori
         if (organizationId) count++;
         if (searchCommon) count++;
         if (categoryId) count++;
+        if (type) count++;
         setActiveFilterCount(count);
-    }, [organizationId, categoryId,searchCommon]);
+    }, [organizationId, categoryId,searchCommon,type]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -56,19 +58,21 @@ export default function List({module, filters, donations, organizations,categori
             category_id: categoryId,
             organization_id: organizationId,
             search_common: searchCommon,
+            type: type,
         };
 
         router.get(route('donations.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [categoryId, organizationId, searchCommon]);
+    }, [categoryId, organizationId, searchCommon,type]);
 
     // Clear all filters
     const clearAllFilters = () => {
         setOrganizationId('');
         setSearchCommon('');
         setCategoryId('');
+        setType('');
     };
 
     // Status badge color function
@@ -206,15 +210,19 @@ export default function List({module, filters, donations, organizations,categori
 
                                     {/* Filter Fields - Responsive Grid */}
                                     <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+                                        <div
+                                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                                             {/* Search Input - Enhanced with icon */}
                                             <div className="relative">
-                                                <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="search"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
                                                     Common Search
                                                 </label>
                                                 <div className="relative">
-                                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                        <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                    <div
+                                                        className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        <FontAwesomeIcon icon={faSearch}
+                                                                         className="text-gray-400 w-4 h-4"/>
                                                     </div>
                                                     <input
                                                         type="text"
@@ -229,14 +237,16 @@ export default function List({module, filters, donations, organizations,categori
                                                             onClick={() => setSearchCommon('')}
                                                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                         >
-                                                            <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                            <FontAwesomeIcon icon={faTimes}
+                                                                             className="text-gray-400 hover:text-gray-600 w-4 h-4"/>
                                                         </button>
                                                     )}
                                                 </div>
                                             </div>
                                             {/* Organization Select */}
                                             <div>
-                                                <label htmlFor="organization_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="organization_id"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
                                                     Organization
                                                 </label>
                                                 <select
@@ -254,9 +264,30 @@ export default function List({module, filters, donations, organizations,categori
                                                 </select>
                                             </div>
 
+                                            <div>
+                                                <label htmlFor="organization_id"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Donation Type(Single/organization)
+                                                </label>
+                                                <select
+                                                    id="type"
+                                                    value={type}
+                                                    onChange={(e) => setType(e.target.value)}
+                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                >
+                                                    <option value="">Select Type</option>
+                                                    {wishAndDonationType().map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
                                             {/* Category Select */}
                                             <div>
-                                                <label htmlFor="category_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="category_id"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
                                                     Category
                                                 </label>
                                                 <select
@@ -282,7 +313,7 @@ export default function List({module, filters, donations, organizations,categori
                                                     onClick={clearAllFilters}
                                                     className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
                                                 >
-                                                    <FontAwesomeIcon icon={faTimes} className="mr-2" />
+                                                    <FontAwesomeIcon icon={faTimes} className="mr-2"/>
                                                     Clear All Filters ({activeFilterCount})
                                                 </button>
                                             </div>

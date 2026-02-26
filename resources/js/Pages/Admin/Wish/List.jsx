@@ -4,7 +4,7 @@ import React, {useEffect, useRef, useState} from "react";
 import Pagination from "@/Components/Admin/Pagination.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faPlus, faTable, faGridHorizontal, faFilter, faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {getDropdownOptions, getFulfilmentStatus, getStatusOptions, textLimit} from "@/utils.jsx";
+import {getDropdownOptions, getFulfilmentStatus, getStatusOptions, textLimit, wishAndDonationType} from "@/utils.jsx";
 import TextInput from "@/Components/TextInputField.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 
@@ -22,12 +22,12 @@ export default function List({module, wishes, categories, filters, ageRanges, di
     const [ageRange, setAgeRange] = useState((safeFilters?.age_range) || '');
     const [distanceRange, setDistanceRange] = useState((safeFilters?.distance_range) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
+    const [type, setType] = useState((safeFilters?.type) || '');
 
 
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
     const ageRangeOptions = getStatusOptions(ageRanges);
-    const distanceRangeOptions = getStatusOptions(distanceRanges);
 
     // Use a ref to prevent useEffect from running on initial render for filters/sort
     const initialRender = useRef(true);
@@ -39,9 +39,10 @@ export default function List({module, wishes, categories, filters, ageRanges, di
         if (searchCommon) count++;
         if (categoryId) count++;
         if (ageRange) count++;
+        if (type) count++;
         if (distanceRange) count++;
         setActiveFilterCount(count);
-    }, [organizationId, categoryId, ageRange, distanceRange,searchCommon]);
+    }, [organizationId, categoryId, ageRange, distanceRange,searchCommon,type]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -55,13 +56,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
             search_common: searchCommon,
             age_range: ageRange,
             distance_range: distanceRange,
+            type: type,
         };
 
         router.get(route('wishes.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [categoryId, ageRange, distanceRange, organizationId, searchCommon]);
+    }, [categoryId, ageRange, distanceRange, organizationId, searchCommon,type]);
 
     // Clear all filters
     const clearAllFilters = () => {
@@ -70,6 +72,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
         setCategoryId('');
         setAgeRange('');
         setDistanceRange('');
+        setType('');
     };
 
     // Status badge color function
@@ -212,7 +215,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
 
                                 {/* Filter Fields - Responsive Grid */}
                                 <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                         {/* Search Input - Enhanced with icon */}
                                         <div className="relative">
                                             <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
@@ -253,6 +256,25 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                             >
                                                 <option value="">All Organizations</option>
                                                 {organizationOptions.map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="organization_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Wish Type(Single/organization)
+                                            </label>
+                                            <select
+                                                id="type"
+                                                value={type}
+                                                onChange={(e) => setType(e.target.value)}
+                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                            >
+                                                <option value="">Select Type</option>
+                                                {wishAndDonationType().map(option => (
                                                     <option key={option.value} value={option.value}>
                                                         {option.label}
                                                     </option>

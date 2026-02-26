@@ -44,6 +44,7 @@ class WishService extends BaseService
         $searchName = $request->input('search_name');
         $searchCategory = $request->input('category_id');
         $searchOrganization = $request->input('organization_id');
+        $searchType = $request->input('type');
         $searchAgeRange = $request->input('age_range');
         $searchCommon = $request->input('search_common');
         $filterStatus = $request->input('filter_status');
@@ -76,6 +77,17 @@ class WishService extends BaseService
                 $query->whereHas('user', function ($user) use ($query, $searchOrganization) {
                     $user->where('organization_id', $searchOrganization);
                 });
+            })
+            ->when($searchType, function ($query, $searchType) {
+                if ($searchType == 'single'){
+                    $query->whereHas('user', function ($user) use ($query, $searchType) {
+                        $user->whereNull('organization_id');
+                    });
+                }elseif ($searchType == 'organization'){
+                    $query->whereHas('user', function ($user) use ($query, $searchType) {
+                        $user->whereNotNull('organization_id');
+                    });
+                }
             })
             ->when($searchCategory, function ($query, $searchCategory) {
                 $query->where('category_id', $searchCategory);
