@@ -13,9 +13,9 @@ import {
     faTimes,
     faSearch
 } from "@fortawesome/free-solid-svg-icons";
-import {getDropdownOptions, wishAndDonationType} from "@/utils.jsx";
+import {getDropdownOptions, getStatusOptions, wishAndDonationType} from "@/utils.jsx";
 
-export default function List({module, filters, donations, organizations,categories}) {
+export default function List({module, filters, donations, organizations,categories,donationStatus}) {
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
     const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
     const [activeFilterCount, setActiveFilterCount] = useState(0);
@@ -27,9 +27,12 @@ export default function List({module, filters, donations, organizations,categori
     const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
     const [type, setType] = useState((safeFilters?.type) || '');
+    const [status, setStatus] = useState((safeFilters?.status) || '');
 
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+    const donationStatusOptions = getStatusOptions(donationStatus);
+
 
 
     const donationListData = donations?.data || [];
@@ -45,8 +48,9 @@ export default function List({module, filters, donations, organizations,categori
         if (searchCommon) count++;
         if (categoryId) count++;
         if (type) count++;
+        if (status) count++;
         setActiveFilterCount(count);
-    }, [organizationId, categoryId,searchCommon,type]);
+    }, [organizationId, categoryId,searchCommon,type,status]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -59,13 +63,14 @@ export default function List({module, filters, donations, organizations,categori
             organization_id: organizationId,
             search_common: searchCommon,
             type: type,
+            status: status,
         };
 
         router.get(route('donations.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [categoryId, organizationId, searchCommon,type]);
+    }, [categoryId, organizationId, searchCommon,type,status]);
 
     // Clear all filters
     const clearAllFilters = () => {
@@ -73,6 +78,7 @@ export default function List({module, filters, donations, organizations,categori
         setSearchCommon('');
         setCategoryId('');
         setType('');
+        setStatus('');
     };
 
     // Status badge color function
@@ -298,6 +304,25 @@ export default function List({module, filters, donations, organizations,categori
                                                 >
                                                     <option value="">All Categories</option>
                                                     {categoryOptions.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
+                                            <div>
+                                                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Status
+                                                </label>
+                                                <select
+                                                    id="status"
+                                                    value={status}
+                                                    onChange={(e) => setStatus(e.target.value)}
+                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                >
+                                                    <option value="">All Status</option>
+                                                    {donationStatusOptions.map(option => (
                                                         <option key={option.value} value={option.value}>
                                                             {option.label}
                                                         </option>

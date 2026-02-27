@@ -30,7 +30,7 @@ class DonationService extends BaseService
         $searchCategory = $request->input('category_id');
         $searchOrganization = $request->input('organization_id');
         $searchType = $request->input('type');
-        $filterStatus = $request->input('filter_status');
+        $filterStatus = $request->input('status');
         // Keep query parameters when paginating
         $query = $this->donation->with(['user', 'files', 'featuredImage']);
         if (checkDonor() or checkDonorWisher()){

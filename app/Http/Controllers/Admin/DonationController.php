@@ -42,6 +42,7 @@ class DonationController extends Controller
             'donations' => $donations,
             'categories' => $categories,
             'organizations' => $organizations,
+            'donationStatus' => donationStatus(),
         ]);
     }
 
