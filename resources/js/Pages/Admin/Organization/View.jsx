@@ -166,7 +166,9 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-xl font-semibold text-gray-900">Recent Gifts</h2>
                                     <Link
-                                        href={route('donations.index')}
+                                        href={route('donation.index', {
+                                            'organization_id' : organization.id
+                                        })}
                                         className="text-sm text-blue-600 hover:text-blue-800">View All
                                     </Link>
                                 </div>
@@ -238,7 +240,9 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
 
                                 <div className="flex text-center mt-4">
                                     <Link
-                                        href={route('donations.index')}
+                                        href={route('donations.index',{
+                                            'organization_id' : organization.id
+                                        })}
                                         className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
                                         Load More Gifts
                                     </Link>
@@ -286,7 +290,9 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                 {totalMembers > 0 ?
                                     (
                                         <Link
-                                            href={route('users.index')}
+                                            href={route('users.index',{
+                                                'organization_id' : organization.id
+                                            })}
                                             className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
                                             View All Members
                                         </Link>
@@ -316,7 +322,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                     </Link>
 
                                     <Link
-                                        href={route('organizations.edit', organization.id)}
+                                        href={route('organizations.index')}
                                         className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                         <FontAwesomeIcon icon={faList}/> Organization List
                                     </Link>
