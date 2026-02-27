@@ -33,9 +33,12 @@ UserService extends BaseService
         $searchCommon = $request->input('search_common');
         $searchGender = $request->input('gender');
         $searchRole = $request->input('role');
-        $filterStatus = $request->input('status');
+        //$filterStatus = $request->input('status');
         // Keep query parameters when paginating
         $query = $this->user->load('organization')->query();
+        if ($request->filled('status')){
+            $query->where('is_active', $request->status);
+        }
         if (Auth::user()?->user_type == 'organization') {
             $query->where('id', '<>', Auth::id())
                 ->where('organization_id', Auth::user()?->organization_id);
@@ -48,9 +51,9 @@ UserService extends BaseService
                 ->orWhere('guardian_phone', 'like', '%' . $searchCommon . '%')
                 ->orWhere('guardian_name', 'like', '%' . $searchCommon . '%');
         })
-            ->when($filterStatus, function ($query, $filterStatus) {
-                $query->where('is_active', $filterStatus);
-            })
+//            ->when($filterStatus, function ($query, $filterStatus) {
+//                $query->where('is_active', $filterStatus);
+//            })
             ->when($searchOrganization, function ($query, $searchOrganization) {
                 $query->where('organization_id', $searchOrganization);
             })
