@@ -47,7 +47,7 @@ class WishService extends BaseService
         $searchType = $request->input('type');
         $searchAgeRange = $request->input('age_range');
         $searchCommon = $request->input('search_common');
-        $filterStatus = $request->input('filter_status');
+        $filterStatus = $request->input('status');
         // Keep query parameters when paginating
         $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfillment', 'latestFulfillment.donation.user']);
         if (checkWisher() or checkDonorWisher()){

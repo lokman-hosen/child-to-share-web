@@ -50,6 +50,7 @@ class WishController extends Controller
             'organizations' => $organizations,
             'ageRanges' => ageRanges(),
             'wishes' => $wishes,
+            'wishStatus' => wishStatus(),
         ]);
     }
 

@@ -8,7 +8,7 @@ import {getDropdownOptions, getFulfilmentStatus, getStatusOptions, textLimit, wi
 import TextInput from "@/Components/TextInputField.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 
-export default function List({module, wishes, categories, filters, ageRanges, distanceRanges, organizations}) {
+export default function List({module, wishes, categories, filters, ageRanges, distanceRanges, organizations,wishStatus}) {
     const params = new URLSearchParams(window.location.search)
     const orgId = params.get('organization_id') || '';
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
@@ -25,11 +25,13 @@ export default function List({module, wishes, categories, filters, ageRanges, di
     const [distanceRange, setDistanceRange] = useState((safeFilters?.distance_range) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
     const [type, setType] = useState((safeFilters?.type) || '');
+    const [status, setStatus] = useState((safeFilters?.status) || '');
 
 
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
     const ageRangeOptions = getStatusOptions(ageRanges);
+    const wishStatusOptions = getStatusOptions(wishStatus);
 
     // Use a ref to prevent useEffect from running on initial render for filters/sort
     const initialRender = useRef(true);
@@ -42,9 +44,10 @@ export default function List({module, wishes, categories, filters, ageRanges, di
         if (categoryId) count++;
         if (ageRange) count++;
         if (type) count++;
+        if (status) count++;
         if (distanceRange) count++;
         setActiveFilterCount(count);
-    }, [organizationId, categoryId, ageRange, distanceRange,searchCommon,type]);
+    }, [organizationId, categoryId, ageRange, distanceRange,searchCommon,type,status]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -59,13 +62,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
             age_range: ageRange,
             distance_range: distanceRange,
             type: type,
+            status: status,
         };
 
         router.get(route('wishes.index'), query, {
             preserveState: true,
             replace: true,
         });
-    }, [categoryId, ageRange, distanceRange, organizationId, searchCommon,type]);
+    }, [categoryId, ageRange, distanceRange, organizationId, searchCommon,type,status]);
 
     // Clear all filters
     const clearAllFilters = () => {
@@ -75,6 +79,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
         setAgeRange('');
         setDistanceRange('');
         setType('');
+        setStatus('');
     };
 
     // Status badge color function
@@ -317,6 +322,25 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                             >
                                                 <option value="">All Age Ranges</option>
                                                 {ageRangeOptions.map(option => (
+                                                    <option key={option.value} value={option.value}>
+                                                        {option.label}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Status
+                                            </label>
+                                            <select
+                                                id="status"
+                                                value={status}
+                                                onChange={(e) => setStatus(e.target.value)}
+                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                            >
+                                                <option value="">All Status</option>
+                                                {wishStatusOptions.map(option => (
                                                     <option key={option.value} value={option.value}>
                                                         {option.label}
                                                     </option>
