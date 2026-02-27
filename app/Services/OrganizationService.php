@@ -24,16 +24,20 @@ class OrganizationService extends BaseService
     {
         $sortColumn = $request->input('sort', 'created_at');
         $sortDirection = $request->input('direction', 'desc');
-        $searchName = $request->input('search_name');
-        $filterStatus = $request->input('filter_status');
+        $searchCommon = $request->input('search_common');
+        $filterStatus = $request->input('status');
         // Keep query parameters when paginating
         $query = $this->organization;
 
-        return $query->when($searchName, function ($query, $searchName) {
-            $query->where('name', 'like', '%' . $searchName . '%');
-        })
+        return $query->when($searchCommon, function ($query, $searchCommon) {
+                $query->where('name', 'like', '%' . $searchCommon . '%')
+                    ->orWhere('contact_email', 'like', '%' . $searchCommon . '%')
+                    ->orWhere('contact_phone', 'like', '%' . $searchCommon . '%')
+                    ->orWhere('description', 'like', '%' . $searchCommon . '%')
+                    ->orWhere('address', 'like', '%' . $searchCommon . '%');
+            })
             ->when($filterStatus, function ($query, $filterStatus) {
-                $query->where('status', $filterStatus);
+                $query->where('is_active', $filterStatus);
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10) // Pagination: 10 items per page

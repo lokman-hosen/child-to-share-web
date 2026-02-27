@@ -20,9 +20,7 @@ export default function List({module, filters, donations, organizations,categori
     const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
     const [activeFilterCount, setActiveFilterCount] = useState(0);
 
-
     const safeFilters = filters || [];
-
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
     const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
@@ -32,8 +30,6 @@ export default function List({module, filters, donations, organizations,categori
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
     const donationStatusOptions = getStatusOptions(donationStatus);
-
-
 
     const donationListData = donations?.data || [];
     const donationsLinks = donations?.links || [];
