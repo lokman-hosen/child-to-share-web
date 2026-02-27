@@ -207,7 +207,7 @@ export default function List({ module, filters, organizations }) {
                         {/*</div>*/}
 
                         {/* Enhanced Filter Section */}
-                        <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                        <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6">
                             {/* Filter Header - Always visible */}
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                                 <div className="flex items-center space-x-3 mb-4 sm:mb-0">
