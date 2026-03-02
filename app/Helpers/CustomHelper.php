@@ -187,7 +187,11 @@ function getOrganizationList()
         if (Auth::user()->userType == 'organization'){
             $query->where('id', Auth::user()->organization->id);
         }
+        if (checkDonor() or checkWisher() or checkDonorWisher()){
+            $query->where('id', Auth::user()?->organization?->id);
+        }
     }
+
     return $query->get(['id', 'name']);
 }
 
