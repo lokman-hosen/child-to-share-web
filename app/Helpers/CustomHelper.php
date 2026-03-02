@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Donation;
+use App\Models\Organization;
 use App\Models\Wish;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -177,6 +178,17 @@ function getDonationByOrganizationId(string $organizationId, string $type)
 function getRoles(): array
 {
     return ['3' => 'Donor', '4' => 'Wisher', 'both' => 'Donor & Wisher'];
+}
+
+function getOrganizationList()
+{
+    $query = Organization::where('is_active', 1);
+    if (Auth::check()){
+        if (Auth::user()->userType == 'organization'){
+            $query->where('id', Auth::user()->organization->id);
+        }
+    }
+    return $query->get(['id', 'name']);
 }
 
 

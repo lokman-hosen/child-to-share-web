@@ -43,7 +43,7 @@ class WishController extends Controller
         Gate::authorize('viewAny', Wish::class);
         $wishes = $this->wishService->getListWithFilter($request);
         $categories = $this->categoryService->listByStatus();
-        $organizations = $this->organizationService->listByStatus();
+        $organizations = getOrganizationList();
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
             'categories' => $categories,
