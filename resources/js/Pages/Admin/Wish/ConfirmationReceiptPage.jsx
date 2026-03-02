@@ -412,7 +412,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         <div className="border-gray-200 pb-6">
                                             <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
                                                 <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
-                                                Contributor Info 11
+                                                Contributor Info
                                             </h3>
                                             <div
                                                 className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">

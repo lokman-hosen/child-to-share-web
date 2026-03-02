@@ -279,6 +279,9 @@ class WishController extends Controller
 
         // 🔔 Notify other user
         $receiver = auth()->id() === $fulfilment->wish->user_id ? $fulfilment->donation->user : $fulfilment->wish->user;
+        if (!isset($receiver->email) and $receiver->organization){
+            $receiver = $receiver->organization->user;
+        }
 
         //if (! cache()->has("user-online-{$receiver->id}")) {
             $receiver->notify(new NewMessageNotification($fulfilMessage));
