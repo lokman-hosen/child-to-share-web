@@ -10,12 +10,13 @@ import {
     faEye,
     faGift,
     faList,
-    faCheck, faArrowLeft
+    faCheck, faArrowLeft, faStar, faArrowRightArrowLeft, faGifts
 } from "@fortawesome/free-solid-svg-icons";
 import Form from "@/Pages/Admin/Donation/Form.jsx";
 import {Button} from "@headlessui/react";
+import {getFulfilmentStatus, textLimit} from "@/utils.jsx";
 
-export default function List({module, donation}) {
+export default function List({module, donation, wishes}) {
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -399,6 +400,187 @@ export default function List({module, donation}) {
                                             )}
 
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-1 gap-6 p-6">
+                                    <div className="overflow-x-auto bg-white shadow rounded-lg px-1 py-2">
+                                        <table className="wish-table w-full">
+                                            <thead className="bg-gray-50">
+                                            <tr>
+                                                <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item
+                                                    Info.
+                                                </th>
+                                                <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher</th>
+                                                <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Distance</th>
+                                                <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment
+                                                    status
+                                                </th>
+                                                <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-200">
+                                            {wishes.length > 0 ? (
+                                                wishes.map((wish, index) => (
+                                                    <tr key={wish.id}
+                                                        className="hover:bg-gray-50 transition-colors">
+                                                        <td className="p-6 border-b border-gray-100">
+                                                            <div className="flex items-center justify-between">
+                                                                <div className="flex items-center">
+                                                                    <div
+                                                                        className="h-16 w-16 bg-purple-100 rounded-md flex items-center justify-center mr-4">
+                                                                        {wish.featured_image?.file_path ? (
+                                                                            <img
+                                                                                src={`/storage/${wish.featured_image.file_path}`}
+                                                                                alt={wish.title}
+                                                                                className="w-full h-full object-cover"
+                                                                            />
+                                                                        ) : (
+                                                                            <div
+                                                                                className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                                                                                <FontAwesomeIcon icon={faStar}
+                                                                                                 className="text-gray-400"/>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                    <div>
+                                                                        <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
+                                                                        <p className="text-sm text-gray-500">Age
+                                                                            range: {wish.age_range}, {textLimit(wish.description, 10)}</p>
+                                                                        <div className="mt-1 flex items-center">
+                                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                                                {wish.status}
+                                                                            </span>
+                                                                            <span
+                                                                                className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                                {wish.created_at}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </td>
+                                                        <td className="p-6 border-b border-gray-100">
+                                                            <div className="flex items-center">
+                                                                {/* Avatar Container - More elegant design */}
+                                                                <div className="relative group">
+                                                                    {/* Image Container with enhanced styling */}
+                                                                    <div
+                                                                        className="h-20 w-20 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mr-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-white group-hover:scale-105">
+                                                                        {wish.user.image ? (
+                                                                            <img
+                                                                                src={`/storage/${wish.user.image}`}
+                                                                                alt={wish.user.name}
+                                                                                className="w-full h-full object-cover"
+                                                                            />
+                                                                        ) : (
+                                                                            <div
+                                                                                className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
+                                                                                <FontAwesomeIcon
+                                                                                    icon={faStar}
+                                                                                    className="text-2xl text-gradient-to-r from-purple-400 to-pink-500"
+                                                                                />
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+
+                                                                    {/* Optional subtle glow effect on hover */}
+                                                                    <div
+                                                                        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-200 to-pink-200 opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10"></div>
+                                                                </div>
+
+                                                                {/* Name with enhanced typography */}
+                                                                <div>
+                                                                    <h3 className="text-xl font-semibold text-gray-800 tracking-tight">
+                                                                        {wish.user.name}
+                                                                    </h3>
+                                                                    {/* Optional subtitle/tagline */}
+                                                                    <p className="text-sm text-gray-500 mt-1 flex items-center">
+                                                                        <FontAwesomeIcon icon={faStar} className="text-red-400 mr-2 text-xs"/>
+                                                                        Wish Maker
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
+                                                            {wish.distance ? `${wish.distance + 'km'}` : 'n/a'}
+                                                        </td>
+                                                        <td className="p-6 border-b border-gray-100">
+                                                            <div className="flex flex-col items-center">
+                                                                <div className="mt-2">
+                                                                    { wish.latest_fulfillment ? (
+                                                                        <span
+                                                                            className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm text-white bg-blue-500">
+                                                                              {getFulfilmentStatus(wish.latest_fulfillment.status)}
+                                                                            </span>
+                                                                    ) : (
+                                                                        <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                                                {wish.status}
+                                                                            </span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-6 border-b border-gray-100">
+                                                            <div className="flex flex-col items-end">
+                                                                <div className="mt-2">
+                                                                    { wish.status == 'Fulfilled' ? (
+                                                                        <Link
+                                                                            href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
+                                                                        >
+                                                                                <span
+                                                                                    className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                    title="Fulfillment Detail"
+                                                                                >
+                                                                                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
+                                                                                </span>
+                                                                        </Link>
+                                                                    ) : !wish.latest_fulfillment ? (
+                                                                        <Link
+                                                                            href={route('wish.fulfill.detail', wish.id)}
+                                                                            className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                            title="Fulfill Wish"
+                                                                        >
+                                                                            <FontAwesomeIcon icon={faGifts} size="md"/>
+                                                                        </Link>
+                                                                    ) : wish.latest_fulfillment?.status ? (
+                                                                        <Link
+                                                                            href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
+                                                                        >
+                                                                                <span
+                                                                                    className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                    title="Fulfillment Detail"
+                                                                                >
+                                                                                    <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
+                                                                                </span>
+                                                                        </Link>
+                                                                    ) : null
+
+                                                                    }
+                                                                    <Link
+                                                                        href={route('wish.show', wish.id)}
+                                                                        className="ml-2 inline-flex items-center px-2 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
+                                                                        title="View Detail"
+                                                                    >
+                                                                        <FontAwesomeIcon icon={faEye} size="md"/>
+                                                                    </Link>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            ) : (
+                                                <tr>
+                                                    <td colSpan="5" className="px-6 py-12 text-center">
+                                                        <div className="text-center">
+                                                            <p className="text-gray-500 text-lg mb-2">No wishes found</p>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

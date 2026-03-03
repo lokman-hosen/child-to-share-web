@@ -10,6 +10,7 @@ use App\Services\CategoryService;
 use App\Services\DonationService;
 use App\Services\OrganizationService;
 use App\Services\UserService;
+use App\Services\WishService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,7 @@ class DonationController extends Controller
         protected DonationService $donationService,
         protected UserService $userService,
         protected OrganizationService $organizationService,
+        protected WishService $wishService,
 
     ){}
     /**
@@ -88,6 +90,11 @@ class DonationController extends Controller
     public function show(Donation $donation): Response
     {
         Gate::authorize('view', $donation);
+        $wishes = collect();
+        if ($donation->status == 'available'){
+           $wishes = $this->wishService->getWishByCategoryAndStatus($donation->category_id, 'approved');
+        }
+
         $donation->load([
             'user',
             'organization',
@@ -99,6 +106,7 @@ class DonationController extends Controller
         return Inertia::render(self::moduleDirectory.'Show', [
             'module' => self::moduleName,
             'donation' => $donation,
+            'wishes' => $wishes,
         ]);
     }
 

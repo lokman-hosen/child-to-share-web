@@ -685,4 +685,13 @@ class WishService extends BaseService
     {
         return $this->fulfillment->find($id);
     }
+
+    public function getWishByCategoryAndStatus(string $categoryId, string $status)
+    {
+        return $this->wish->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment'])
+            ->where('category_id', $categoryId)
+            ->where('status', $status)
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
 }
