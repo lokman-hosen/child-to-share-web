@@ -70,19 +70,19 @@ export default function LeftSidebar({ onClose }) {
                                 Dashboard
                             </Link>
                         </li>
-                        <hr/>
-                        {user.userType == 'organization' && (
-                            <li className="mb-1">
-                                <Link
-                                    href={route('users.index')}
-                                    onClick={onClose}
-                                    className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('users.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
-                                >
-                                    <FontAwesomeIcon icon={faUsers} className="mr-2"/>
-                                    Users(wisher)
-                                </Link>
-                            </li>
-                        )}
+                        {/*<hr/>*/}
+                        {/*{user.userType == 'organization' && (*/}
+                        {/*    <li className="mb-1">*/}
+                        {/*        <Link*/}
+                        {/*            href={route('users.index')}*/}
+                        {/*            onClick={onClose}*/}
+                        {/*            className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('users.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}*/}
+                        {/*        >*/}
+                        {/*            <FontAwesomeIcon icon={faUsers} className="mr-2"/>*/}
+                        {/*            Users(wisher)*/}
+                        {/*        </Link>*/}
+                        {/*    </li>*/}
+                        {/*)}*/}
 
                         <li className="mb-1">
                             <Link
@@ -118,17 +118,21 @@ export default function LeftSidebar({ onClose }) {
                             </Link>
                         </li>
                         <hr/>
-                        <li className="mb-1">
-                            <Link
-                                href={route('organizations.index')}
-                                onClick={onClose}
-                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
-                            >
-                                <FontAwesomeIcon icon={faUserCircle} className="mr-2" />
-                                Organizations
-                            </Link>
-                        </li>
-                        <hr/>
+                        {user.user_type == 'organization' && (
+                            <>
+                                <li className="mb-1">
+                                    <Link
+                                        href={route('organizations.index')}
+                                        onClick={onClose}
+                                        className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('organizations.index') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                                    >
+                                        <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
+                                        Organizations
+                                    </Link>
+                                </li>
+                                <hr/>
+                            </>
+                        )}
                         <li className="mb-1">
                             <Link
                                 href={route('logout')}

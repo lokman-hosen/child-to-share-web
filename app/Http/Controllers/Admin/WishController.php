@@ -43,7 +43,7 @@ class WishController extends Controller
         Gate::authorize('viewAny', Wish::class);
         $wishes = $this->wishService->getListWithFilter($request);
         $categories = $this->categoryService->listByStatus();
-        $organizations = $this->organizationService->listByStatus();
+        $organizations = getOrganizationList();
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
             'categories' => $categories,
@@ -279,10 +279,13 @@ class WishController extends Controller
 
         // 🔔 Notify other user
         $receiver = auth()->id() === $fulfilment->wish->user_id ? $fulfilment->donation->user : $fulfilment->wish->user;
+        if (!isset($receiver->email) and $receiver->organization){
+            $receiver = $receiver->organization->user;
+        }
 
-        //if (! cache()->has("user-online-{$receiver->id}")) {
+        if (! cache()->has("user-online-{$receiver->id}")) {
             $receiver->notify(new NewMessageNotification($fulfilMessage));
-        //}
+        }
 
         return redirect()->back();
     }

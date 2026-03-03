@@ -31,7 +31,7 @@ class UserController extends Controller
     public function index(Request $request): Response
     {
         $users = $this->userService->getListWithFilter($request);
-        $organizations = $this->organizationService->listByStatus();
+        $organizations = getOrganizationList();
         $genders = CommonHelper::genders();
         return inertia(self::moduleDirectory.'Index', [
             'module' => self::moduleName,

@@ -28,7 +28,12 @@ class OrganizationService extends BaseService
         $filterStatus = $request->input('status');
         // Keep query parameters when paginating
         $query = $this->organization;
-
+        if (Auth::user()->userType == 'organization'){
+            $query = $query->where('id', Auth::user()->organization->id);
+        }
+        if (checkDonor() or checkWisher() or checkDonorWisher()){
+            $query = $query->where('id', Auth::user()?->organization?->id);
+        }
         return $query->when($searchCommon, function ($query, $searchCommon) {
                 $query->where('name', 'like', '%' . $searchCommon . '%')
                     ->orWhere('contact_email', 'like', '%' . $searchCommon . '%')

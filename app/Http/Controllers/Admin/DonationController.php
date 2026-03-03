@@ -36,7 +36,7 @@ class DonationController extends Controller
         Gate::authorize('viewAny', Donation::class);
         $donations = $this->donationService->getListWithFilter($request);
         $categories = $this->categoryService->listByStatus();
-        $organizations = $this->organizationService->listByStatus();
+        $organizations = getOrganizationList();
         return Inertia::render(self::moduleDirectory.'List', [
             'module' => self::moduleName,
             'donations' => $donations,

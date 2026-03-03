@@ -30,17 +30,23 @@ class OrganizationController extends Controller
      */
     public function index(Request $request): Response
     {
-        if (checkAdmin()){
-            $organizations = $this->organizationService->getListWithFilter($request);
-            return Inertia::render(self::moduleDirectory.'List', [
-                'module' => self::moduleName,
-                'organizations' => $organizations,
-            ]);
-        }else{
-            return Inertia::render(self::moduleDirectory.'Index', [
-                'module' => self::moduleName,
-            ]);
-        }
+//        if (checkAdmin()){
+//            $organizations = $this->organizationService->getListWithFilter($request);
+//            return Inertia::render(self::moduleDirectory.'List', [
+//                'module' => self::moduleName,
+//                'organizations' => $organizations,
+//            ]);
+//        }else{
+//            return Inertia::render(self::moduleDirectory.'Index', [
+//                'module' => self::moduleName,
+//            ]);
+//        }
+
+        $organizations = $this->organizationService->getListWithFilter($request);
+        return Inertia::render(self::moduleDirectory.'List', [
+            'module' => self::moduleName,
+            'organizations' => $organizations,
+        ]);
     }
 
     /**
