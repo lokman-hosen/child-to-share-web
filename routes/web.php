@@ -97,7 +97,7 @@ Route::prefix('admin')->group(function () {
             Route::delete('wish-file/{fileId}', 'deleteWishFile')->name('wishes.file.delete');
             Route::get('wish-file/{fileId}', 'makeFeatureFile')->name('wishes.file.feature');
             Route::get('wish-fulfill', 'wishList')->name('wish.fulfill.list');
-            Route::get('wish-fulfill/{wishId}', 'wishDetail')->name('wish.fulfill.detail');
+            Route::get('wish-fulfill/{wishId}/{donationId?}', 'wishDetail')->name('wish.fulfill.detail');
             Route::post('wish-fulfill', 'storeWishFulfilInfo')->name('wish.fulfill.store');
             Route::get('wish-fulfill-status', 'updateWishFulfilStatus')->name('wish.fulfill.status.change');
             Route::post('wish-message', 'storeWishFulfilMessage')->name('wish.fulfill.message.store');

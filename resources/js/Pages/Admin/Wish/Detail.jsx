@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {Head, Link, router, useForm} from '@inertiajs/react';
+import {Head, Link, router, useForm, usePage} from '@inertiajs/react';
 import React, { useState, useEffect } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
@@ -13,9 +13,13 @@ import {getDropdownOptions} from "@/utils.jsx";
 import DateTimePicker from "@/Components/DateTimePicker.jsx";
 
 export default function Detail({module, wish, donations}) {
+    const segments = window.location.pathname.split('/');
+
+    const donationId = segments[4] ?? null;  // 32
+
     const { data, setData, post, put, processing, errors, reset } = useForm({
         wish_id: wish.id,
-        donation_id: '',
+        donation_id: donationId,
         need_admin_assistance: false,
         note: '',
         scheduled_at: null, // Changed from empty string to null
