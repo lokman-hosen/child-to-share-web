@@ -189,11 +189,15 @@ class WishController extends Controller
             $categoryIds = Auth::user()->donations()->where('status', 'available')->pluck('category_id')->unique();
         }
         $request->merge(['categoryIds' => $categoryIds]);
+        $categories = $this->categoryService->listByStatus();
+        $organizations = $this->organizationService->listByStatus();
 
         $wishes = $this->wishService->getListByStatus($request, null);
         return Inertia::render(self::moduleDirectory.'FullFillWish', [
             'module' => "Wishes Fulfillment",
             'wishes' => $wishes,
+            'categories' => $categories,
+            'organizations' => $organizations,
         ]);
     }
 

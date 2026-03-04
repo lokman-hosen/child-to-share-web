@@ -30,8 +30,8 @@ class WishController extends Controller
     public function index(Request $request): Response
     {
         $categories = $this->categoryService->listByStatus();
-        $wishes = $this->wishService->getListByStatus($request, 'approved');
         $organizations = $this->organizationService->listByStatus();
+        $wishes = $this->wishService->getListByStatus($request, 'approved');
         return Inertia::render(self::moduleDirectory.'Index', [
             'module' => self::moduleName,
             'wishes' => $wishes,
