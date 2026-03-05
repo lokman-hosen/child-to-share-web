@@ -49,7 +49,8 @@ UserService extends BaseService
                 ->orWhere('email', 'like', '%' . $searchCommon . '%')
                 ->orWhere('phone', 'like', '%' . $searchCommon . '%')
                 ->orWhere('guardian_phone', 'like', '%' . $searchCommon . '%')
-                ->orWhere('guardian_name', 'like', '%' . $searchCommon . '%');
+                ->orWhere('guardian_name', 'like', '%' . $searchCommon . '%')
+                ->orWhere('address', 'like', '%' . $searchCommon . '%');
         })
 //            ->when($filterStatus, function ($query, $filterStatus) {
 //                $query->where('is_active', $filterStatus);

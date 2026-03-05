@@ -198,6 +198,7 @@ class WishController extends Controller
             'wishes' => $wishes,
             'categories' => $categories,
             'organizations' => $organizations,
+            'wishStatus' => wishStatus(),
         ]);
     }
 

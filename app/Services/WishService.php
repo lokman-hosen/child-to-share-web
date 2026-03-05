@@ -373,6 +373,13 @@ class WishService extends BaseService
         if (isset($status)) {
             $query->where('wishes.status', $status);
         }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        if ($request->filled('search_common')){
+            $query->where('title', 'like', '%' . $request->search_common . '%')
+                ->orWhere('description', 'like', '%' . $request->search_common . '%');
+        }
 
         if ($request->filled('category_id')) {
             $query->where('wishes.category_id', $request->category_id);
@@ -426,9 +433,26 @@ class WishService extends BaseService
         $query = $this->wish->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment']);
 
         if (isset($status)) {
-            $query->where('status', $status);
+            $query->where('wishes.status', $status);
+        }
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
+        if ($request->filled('search_common')){
+            $query->where('title', 'like', '%' . $request->search_common . '%')
+                ->orWhere('description', 'like', '%' . $request->search_common . '%');
+        }
+
+        if ($request->filled('wisher_info')) {
+            $query->whereHas('user', function ($user) use ($request) {
+                $user->where('name', 'like', '%' . $request->wisher_info . '%')
+                    ->orWhere('email', 'like', '%' . $request->wisher_info . '%')
+                    ->orWhere('phone', 'like', '%' . $request->wisher_info . '%')
+                    ->orWhere('guardian_phone', 'like', '%' . $request->wisher_info . '%')
+                    ->orWhere('address', 'like', '%' . $request->wisher_info . '%');
+            });
+        }
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }

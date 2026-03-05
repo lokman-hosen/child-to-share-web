@@ -11,9 +11,9 @@ import {
     faEye,
     faArrowRightArrowLeft, faGifts, faFilter, faTimes, faSearch
 } from "@fortawesome/free-solid-svg-icons";
-import {getDropdownOptions, getFulfilmentStatus, textLimit, wishAndDonationType} from "@/utils.jsx";
+import {getDropdownOptions, getFulfilmentStatus, getStatusOptions, textLimit, wishAndDonationType} from "@/utils.jsx";
 
-export default function List({module, filters, wishes,organizations,categories}) {
+export default function List({module, filters, wishes,organizations,categories,wishStatus}) {
     const safeFilters = filters || [];
     const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
     const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
@@ -25,11 +25,14 @@ export default function List({module, filters, wishes,organizations,categories})
     const [categoryId, setCategoryId] = useState((safeFilters?.category_id) || '');
     const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
+    const [wisherInfo, setWisherInfo] = useState((safeFilters?.wisher_info) || '');
     const [status, setStatus] = useState((safeFilters?.status) || '');
 
 
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
+    const wishStatusOptions = getStatusOptions(wishStatus);
+
 
     // Use a ref to prevent useEffect from running on initial render for filters/sort
     const initialRender = useRef(true);
@@ -39,10 +42,11 @@ export default function List({module, filters, wishes,organizations,categories})
         let count = 0;
         if (organizationId) count++;
         if (searchCommon) count++;
+        if (wisherInfo) count++;
         if (categoryId) count++;
         if (status) count++;
         setActiveFilterCount(count);
-    }, [organizationId, categoryId,searchCommon,status]);
+    }, [organizationId,categoryId,searchCommon,wisherInfo,status]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -54,6 +58,7 @@ export default function List({module, filters, wishes,organizations,categories})
             category_id: categoryId,
             organization_id: organizationId,
             search_common: searchCommon,
+            wisher_info: wisherInfo,
             status: status,
         };
 
@@ -61,16 +66,14 @@ export default function List({module, filters, wishes,organizations,categories})
             preserveState: true,
             replace: true,
         });
-    }, [categoryId,organizationId, searchCommon,status]);
+    }, [categoryId,organizationId, searchCommon,wisherInfo,status]);
 
     // Clear all filters
     const clearAllFilters = () => {
         setOrganizationId('');
         setSearchCommon('');
+        setWisherInfo('');
         setCategoryId('');
-        setAgeRange('');
-        setDistanceRange('');
-        setType('');
         setStatus('');
     };
 
@@ -157,7 +160,7 @@ export default function List({module, filters, wishes,organizations,categories})
                                             <div>
                                                 <h2 className="text-lg font-semibold text-gray-900">Filter Wishes</h2>
                                                 <p className="text-sm text-gray-500">
-                                                    Find specific wishes by organization, category, or age range
+                                                    Find specific wishes by organization, category etc.
                                                 </p>
                                             </div>
                                         </div>
@@ -197,22 +200,26 @@ export default function List({module, filters, wishes,organizations,categories})
 
                                     {/* Filter Fields - Responsive Grid */}
                                     <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                                        <div
+                                            className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                             {/* Search Input - Enhanced with icon */}
                                             <div className="relative">
-                                                <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="search"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
                                                     Common Search
                                                 </label>
                                                 <div className="relative">
-                                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                        <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                    <div
+                                                        className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        <FontAwesomeIcon icon={faSearch}
+                                                                         className="text-gray-400 w-4 h-4"/>
                                                     </div>
                                                     <input
                                                         type="text"
                                                         id="search"
                                                         value={searchCommon}
                                                         onChange={(e) => setSearchCommon(e.target.value)}
-                                                        placeholder="Search by title, description..."
+                                                        placeholder="Search by wish title, description..."
                                                         className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
                                                     />
                                                     {searchCommon && (
@@ -220,14 +227,47 @@ export default function List({module, filters, wishes,organizations,categories})
                                                             onClick={() => setSearchCommon('')}
                                                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                         >
-                                                            <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                            <FontAwesomeIcon icon={faTimes}
+                                                                             className="text-gray-400 hover:text-gray-600 w-4 h-4"/>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="relative">
+                                                <label htmlFor="search"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Wisher Info
+                                                </label>
+                                                <div className="relative">
+                                                    <div
+                                                        className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        <FontAwesomeIcon icon={faSearch}
+                                                                         className="text-gray-400 w-4 h-4"/>
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        id="wisher_info"
+                                                        value={wisherInfo}
+                                                        onChange={(e) => setWisherInfo(e.target.value)}
+                                                        placeholder="Search by wisher name, phone, email, address, guardin name & phone..."
+                                                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                    />
+                                                    {wisherInfo && (
+                                                        <button
+                                                            onClick={() => setWisherInfo('')}
+                                                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                                        >
+                                                            <FontAwesomeIcon icon={faTimes}
+                                                                             className="text-gray-400 hover:text-gray-600 w-4 h-4"/>
                                                         </button>
                                                     )}
                                                 </div>
                                             </div>
                                             {/* Organization Select */}
                                             <div>
-                                                <label htmlFor="organization_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="organization_id"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
                                                     Organization
                                                 </label>
                                                 <select
@@ -247,7 +287,8 @@ export default function List({module, filters, wishes,organizations,categories})
 
                                             {/* Category Select */}
                                             <div>
-                                                <label htmlFor="category_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="category_id"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
                                                     Category
                                                 </label>
                                                 <select
@@ -264,29 +305,25 @@ export default function List({module, filters, wishes,organizations,categories})
                                                     ))}
                                                 </select>
                                             </div>
-
-
-                                            {/* Distance Range Select (Conditional) */}
-                                            {/*{distanceRangeOptions.length > 0 && (*/}
-                                            {/*    <div>*/}
-                                            {/*        <label htmlFor="distance_range" className="block text-sm font-medium text-gray-700 mb-2">*/}
-                                            {/*            Distance from you*/}
-                                            {/*        </label>*/}
-                                            {/*        <select*/}
-                                            {/*            id="distance_range"*/}
-                                            {/*            value={distanceRange}*/}
-                                            {/*            onChange={(e) => setDistanceRange(e.target.value)}*/}
-                                            {/*            className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"*/}
-                                            {/*        >*/}
-                                            {/*            <option value="">Any Distance</option>*/}
-                                            {/*            {distanceRangeOptions.map(option => (*/}
-                                            {/*                <option key={option.value} value={option.value}>*/}
-                                            {/*                    {option.label}*/}
-                                            {/*                </option>*/}
-                                            {/*            ))}*/}
-                                            {/*        </select>*/}
-                                            {/*    </div>*/}
-                                            {/*)}*/}
+                                            <div>
+                                                <label htmlFor="status"
+                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Wish Status
+                                                </label>
+                                                <select
+                                                    id="status"
+                                                    value={status}
+                                                    onChange={(e) => setStatus(e.target.value)}
+                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                >
+                                                    <option value="">All Status</option>
+                                                    {wishStatusOptions.map(option => (
+                                                        <option key={option.value} value={option.value}>
+                                                            {option.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
                                         </div>
 
                                         {/* Clear Filters Button - Mobile Only */}
@@ -296,7 +333,7 @@ export default function List({module, filters, wishes,organizations,categories})
                                                     onClick={clearAllFilters}
                                                     className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
                                                 >
-                                                    <FontAwesomeIcon icon={faTimes} className="mr-2" />
+                                                    <FontAwesomeIcon icon={faTimes} className="mr-2"/>
                                                     Clear All Filters ({activeFilterCount})
                                                 </button>
                                             </div>
