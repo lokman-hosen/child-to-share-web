@@ -80,6 +80,7 @@ Route::prefix('admin')->group(function () {
             'wishes' => WishController::class,
             'messages' => MessageController::class,
             'organizations' => OrganizationController::class,
+            'categories' => CategoryController::class,
         ]);
 
         Route::controller(DonationController::class)->group(function () {

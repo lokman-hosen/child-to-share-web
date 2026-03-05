@@ -8,17 +8,30 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Models\Donation;
 use App\Models\File;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CategoryController extends Controller
 {
+    const moduleDirectory = 'Admin/Category/';
+    const moduleName = 'Category';
+
+    public function __construct(
+        protected CategoryService $categoryService,
+    ){}
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        $categories = $this->categoryService->getListWithFilter($request);
+        return Inertia::render(self::moduleDirectory.'List', [
+            'module' => self::moduleName,
+            'categories' => $categories
+        ]);
     }
 
     /**

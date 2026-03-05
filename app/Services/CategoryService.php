@@ -17,22 +17,20 @@ class CategoryService extends BaseService
     {
         $sortColumn = $request->input('sort', 'created_at');
         $sortDirection = $request->input('direction', 'desc');
-        $searchName = $request->input('search_name');
-        $filterStatus = $request->input('filter_status');
-        $filterCreated = $request->input('filter_created_at');
+        $searchCommon = $request->input('search_common');
         // Keep query parameters when paginating
-        return $this->category->when($searchName, function ($query, $searchName) {
-                $query->where('name', 'like', '%' . $searchName . '%');
-            })
-            ->when($filterCreated, function ($query, $filterCreated) {
-                $query->whereDate('created_at', $filterCreated);
-            })
-            ->when($filterStatus, function ($query, $filterStatus) {
-                if ($filterStatus === 'active') {
-                    $query->where('status', true);
-                } elseif ($filterStatus === 'inactive') {
-                    $query->where('status', false);
-                }
+        $query = $this->category;
+        if ($request->filled('status')) {
+            if ($request->status == 1){
+                $query = $query->where('is_active', 1);
+            }else{
+                $query = $query->where('is_active', 0);
+            }
+        }
+        return $query->withCount('wishes', 'donations')
+            ->when($searchCommon, function ($query, $searchName) {
+                $query->where('name', 'like', '%' . $searchName . '%')
+                    ->where('slug', 'like', '%' . $searchName . '%');
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10) // Pagination: 10 items per page

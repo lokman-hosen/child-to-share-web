@@ -3,7 +3,7 @@ import {
     faGift,
     faSignOutAlt,
     faUserCircle,
-    faTimes, faDashboard, faStar, faUsers
+    faTimes, faDashboard, faStar, faUsers, faListDots
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -317,6 +317,17 @@ export default function LeftSidebar({ onClose }) {
                             >
                                 <FontAwesomeIcon icon={faUserCircle} className="mr-2"/>
                                 Organizations
+                            </Link>
+                        </li>
+                        <hr/>
+                        <li className="mb-1">
+                            <Link
+                                href={route('categories.index')}
+                                onClick={onClose}
+                                className={`nav-item block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 transition-colors ${route().current('categories.*') ? 'bg-purple-50 text-purple-700 border-l-4 border-purple-500' : ''}`}
+                            >
+                                <FontAwesomeIcon icon={faListDots} className="mr-2"/>
+                                Categories
                             </Link>
                         </li>
                         <hr/>
