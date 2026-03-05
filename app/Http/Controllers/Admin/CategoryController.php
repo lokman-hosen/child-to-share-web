@@ -9,8 +9,10 @@ use App\Models\Category;
 use App\Models\Donation;
 use App\Models\File;
 use App\Services\CategoryService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -37,17 +39,24 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render(self::moduleDirectory.'Create', [
+            'module' => self::moduleName,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request): RedirectResponse
     {
-        //
+        $request->merge(['slug' => Str::slug($request->name)]);
+        $category = $this->categoryService->create($request->all());
+        if ($category){
+            return redirect()->route('categories.index')->with('success', 'Category created successfully!');
+        }
+        return redirect()->route('categories.index')->with('error', 'Error to created category');
     }
 
     /**
@@ -61,9 +70,14 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
+    public function edit(Category $category): Response
     {
-        //
+        $statuses = getStatus();
+        return Inertia::render(self::moduleDirectory.'Edit', [
+            'module' => self::moduleName,
+            'category' => $category,
+            'statuses' => $statuses,
+        ]);
     }
 
     /**
@@ -71,7 +85,12 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        $request->merge(['slug' => Str::slug($request->name)]);
+        $category = $this->categoryService->update($request->all(), $category->id);
+        if ($category){
+            return redirect()->route('categories.index')->with('success', 'Category updated successfully!');
+        }
+        return redirect()->route('categories.index')->with('error', 'Error to updated category');
     }
 
     /**
