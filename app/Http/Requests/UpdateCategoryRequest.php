@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UpdateCategoryRequest extends FormRequest
 {
@@ -21,8 +23,13 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $currentId = Request::segment(3);
         return [
-            //
+            'name' => [
+                ['required','string'],
+                Rule::unique('categories')->ignore($currentId),
+            ],
+            'is_active' => ['required', Rule::in([1, 0])],
         ];
     }
 }

@@ -2,29 +2,21 @@ import React, {useEffect, useRef, useState} from 'react';
 import { useForm } from '@inertiajs/react';
 import TextInput from '@/Components/TextInputField.jsx';
 import SelectInput from '@/Components/SelectInput.jsx';
-import {getDropdownOptions, getStatusOptions} from "@/utils.jsx";
+import {getStatusOptions} from "@/utils.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faArrowLeft, faClose,
     faEdit, faMapMarkerAlt,
-    faSearch,
-    faSpinner,
     faSquarePlus,
-    faTrash,
-    faUpload
 } from "@fortawesome/free-solid-svg-icons";
-import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
-import Checkbox from "@/Components/Checkbox.jsx";
-import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
-import FileInput from "@/Components/FileInput.jsx";
-import {Button} from "@headlessui/react";
 
 const Form = ({category, statuses}) => {
+    console.log(category)
     const { data, setData, post, put, processing, errors, reset } = useForm({
         name: category?.name || '',
         description: category?.description || '',
-        is_active: category?.is_active || 1,
+        is_active: category?.is_active || '',
     });
 
 
@@ -32,9 +24,9 @@ const Form = ({category, statuses}) => {
         if (category) {
             setData((prevData) => ({
                 ...prevData,
-                name: category?.name || '',
-                description: category?.description || '',
-                is_active: category?.is_active ||'',
+                name: category?.name,
+                description: category?.description,
+                is_active: category?.is_active,
             }));
         } else {
             reset();
@@ -86,7 +78,7 @@ const Form = ({category, statuses}) => {
                     required
                 />
                 <SelectInput
-                    id="status"
+                    id="is_active"
                     label="Status"
                     value={data.is_active}
                     onChange={(e) => setData('is_active', e.target.value)}

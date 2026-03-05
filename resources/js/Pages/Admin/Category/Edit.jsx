@@ -5,7 +5,7 @@ import Form from './Form';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift, faList} from "@fortawesome/free-solid-svg-icons";
 
-export default function Edit({module,category}) {
+export default function Edit({module,category,statuses}) {
     return (
         <AuthenticatedLayout>
             <Head title={`Edit ${module}: ${category.name}`} />
