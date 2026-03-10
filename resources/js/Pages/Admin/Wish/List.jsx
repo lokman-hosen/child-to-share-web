@@ -26,6 +26,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
     const [distanceRange, setDistanceRange] = useState((safeFilters?.distance_range) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
     const [type, setType] = useState((safeFilters?.type) || '');
+    const [wisherName, setWisherName] = useState((safeFilters?.wisher_name) || '');
     const [status, setStatus] = useState((safeFilters?.status) || '');
 
 
@@ -45,10 +46,11 @@ export default function List({module, wishes, categories, filters, ageRanges, di
         if (categoryId) count++;
         if (ageRange) count++;
         if (type) count++;
+        if (wisherName) count++;
         if (status) count++;
         if (distanceRange) count++;
         setActiveFilterCount(count);
-    }, [organizationId, categoryId, ageRange, distanceRange,searchCommon,type,status]);
+    }, [organizationId, categoryId, ageRange, distanceRange,searchCommon,type,wisherName,status]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -63,6 +65,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
             age_range: ageRange,
             distance_range: distanceRange,
             type: type,
+            wisher_name: wisherName,
             status: status,
         };
 
@@ -70,7 +73,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
             preserveState: true,
             replace: true,
         });
-    }, [categoryId, ageRange, distanceRange, organizationId, searchCommon,type,status]);
+    }, [categoryId, ageRange, distanceRange, organizationId, searchCommon,type,wisherName,status]);
 
     // Clear all filters
     const clearAllFilters = () => {
@@ -80,6 +83,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
         setAgeRange('');
         setDistanceRange('');
         setType('');
+        setWisherName('');
         setStatus('');
     };
 
@@ -244,6 +248,33 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                 {searchCommon && (
                                                     <button
                                                         onClick={() => setSearchCommon('')}
+                                                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                                    >
+                                                        <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="relative">
+                                            <label htmlFor="wisher_name" className="block text-sm font-medium text-gray-700 mb-2">
+                                                Wisher name
+                                            </label>
+                                            <div className="relative">
+                                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                    <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                </div>
+                                                <input
+                                                    type="text"
+                                                    id="wisher_name"
+                                                    value={wisherName}
+                                                    onChange={(e) => setWisherName(e.target.value)}
+                                                    placeholder="Search by wisher name,phone,email,address,guardian name & phone"
+                                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                />
+                                                {wisherName && (
+                                                    <button
+                                                        onClick={() => setWisherName('')}
                                                         className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                     >
                                                         <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />

@@ -1,4 +1,5 @@
 ----USER TABLE PASSWORD Table-----
+Use NVM version: nvm use 22
 UPDATE ALL USER PASSWORD TO 1-8
 1. UPDATE users SET users.password = '$2y$10$r59CptWXU.RaQvBiQv9/COzIZLJCFh3DLX7qnOGynJ7jZ/kQrawJq';
 

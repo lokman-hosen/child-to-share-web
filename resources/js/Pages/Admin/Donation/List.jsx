@@ -25,6 +25,7 @@ export default function List({module, filters, donations, organizations,categori
     const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || '');
     const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
     const [type, setType] = useState((safeFilters?.type) || '');
+    const [donorName, setDonorName] = useState((safeFilters?.donor_name) || '');
     const [status, setStatus] = useState((safeFilters?.status) || '');
 
     const categoryOptions = getDropdownOptions(categories, 'id', 'name');
@@ -44,9 +45,10 @@ export default function List({module, filters, donations, organizations,categori
         if (searchCommon) count++;
         if (categoryId) count++;
         if (type) count++;
+        if (donorName) count++;
         if (status) count++;
         setActiveFilterCount(count);
-    }, [organizationId, categoryId,searchCommon,type,status]);
+    }, [organizationId, categoryId,searchCommon,type,donorName,status]);
 
     useEffect(() => {
         if (initialRender.current) {
@@ -59,6 +61,7 @@ export default function List({module, filters, donations, organizations,categori
             organization_id: organizationId,
             search_common: searchCommon,
             type: type,
+            donor_name: donorName,
             status: status,
         };
 
@@ -66,7 +69,7 @@ export default function List({module, filters, donations, organizations,categori
             preserveState: true,
             replace: true,
         });
-    }, [categoryId, organizationId, searchCommon,type,status]);
+    }, [categoryId, organizationId, searchCommon,type,donorName,status]);
 
     // Clear all filters
     const clearAllFilters = () => {
@@ -74,6 +77,7 @@ export default function List({module, filters, donations, organizations,categori
         setSearchCommon('');
         setCategoryId('');
         setType('');
+        setDonorName('');
         setStatus('');
     };
 
@@ -212,8 +216,7 @@ export default function List({module, filters, donations, organizations,categori
 
                                     {/* Filter Fields - Responsive Grid */}
                                     <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                        <div
-                                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                                        <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                             {/* Search Input - Enhanced with icon */}
                                             <div className="relative">
                                                 <label htmlFor="search"
@@ -245,6 +248,34 @@ export default function List({module, filters, donations, organizations,categori
                                                     )}
                                                 </div>
                                             </div>
+
+                                            <div className="relative">
+                                                <label htmlFor="donor_name" className="block text-sm font-medium text-gray-700 mb-2">
+                                                    Donor name
+                                                </label>
+                                                <div className="relative">
+                                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                        <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                    </div>
+                                                    <input
+                                                        type="text"
+                                                        id="donor_name"
+                                                        value={donorName}
+                                                        onChange={(e) => setDonorName(e.target.value)}
+                                                        placeholder="Search by donor name,phone,email,address,guardian name & phone"
+                                                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                    />
+                                                    {donorName && (
+                                                        <button
+                                                            onClick={() => setDonorName('')}
+                                                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                                                        >
+                                                            <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+
                                             {/* Organization Select */}
                                             <div>
                                                 <label htmlFor="organization_id"

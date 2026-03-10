@@ -30,6 +30,7 @@ class DonationService extends BaseService
         $searchCategory = $request->input('category_id');
         $searchOrganization = $request->input('organization_id');
         $searchType = $request->input('type');
+        $searchDonorName = $request->input('donor_name');
         $filterStatus = $request->input('status');
         // Keep query parameters when paginating
         $query = $this->donation->with(['user', 'files', 'featuredImage']);
@@ -61,6 +62,17 @@ class DonationService extends BaseService
             })
             ->when($searchCategory, function ($query, $searchCategory) {
                 $query->where('category_id', $searchCategory);
+            })
+
+            ->when($searchDonorName, function ($query, $searchDonorName) {
+                $query->whereHas('user', function ($user) use ($query, $searchDonorName) {
+                    $user->where('name', 'like', '%' . $searchDonorName . '%')
+                        ->orWhere('email', 'like', '%' . $searchDonorName . '%')
+                        ->orWhere('phone', 'like', '%' . $searchDonorName . '%')
+                        ->orWhere('guardian_phone', 'like', '%' . $searchDonorName . '%')
+                        ->orWhere('guardian_name', 'like', '%' . $searchDonorName . '%')
+                        ->orWhere('address', 'like', '%' . $searchDonorName . '%');
+                });
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(12) // Pagination: 10 items per page

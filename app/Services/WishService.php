@@ -47,6 +47,7 @@ class WishService extends BaseService
         $searchType = $request->input('type');
         $searchAgeRange = $request->input('age_range');
         $searchCommon = $request->input('search_common');
+        $searchWisherName = $request->input('wisher_name');
         $filterStatus = $request->input('status');
         // Keep query parameters when paginating
         $query = $this->wish->with(['user', 'files', 'featuredImage', 'latestFulfillment', 'latestFulfillment.donation.user']);
@@ -76,6 +77,16 @@ class WishService extends BaseService
             ->when($searchOrganization, function ($query, $searchOrganization) {
                 $query->whereHas('user', function ($user) use ($query, $searchOrganization) {
                     $user->where('organization_id', $searchOrganization);
+                });
+            })
+            ->when($searchWisherName, function ($query, $searchWisherName) {
+                $query->whereHas('user', function ($user) use ($query, $searchWisherName) {
+                    $user->where('name', 'like', '%' . $searchWisherName . '%')
+                        ->orWhere('email', 'like', '%' . $searchWisherName . '%')
+                        ->orWhere('phone', 'like', '%' . $searchWisherName . '%')
+                        ->orWhere('guardian_phone', 'like', '%' . $searchWisherName . '%')
+                        ->orWhere('guardian_name', 'like', '%' . $searchWisherName . '%')
+                        ->orWhere('address', 'like', '%' . $searchWisherName . '%');
                 });
             })
             ->when($searchType, function ($query, $searchType) {
