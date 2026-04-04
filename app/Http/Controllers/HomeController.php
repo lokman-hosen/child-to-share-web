@@ -40,6 +40,7 @@ class HomeController extends Controller
             ->wishByStatus(null, 'count',  null,'frontend');
         $fulfilledWishCount = $this->wishService
             ->wishByStatus('fulfilled', 'count',  null,'frontend');
+
         $organizationCount = $this->organizationService->count();
         $categories = $this->categoryService->getList();
         $organizations = $this->organizationService->organizationList();

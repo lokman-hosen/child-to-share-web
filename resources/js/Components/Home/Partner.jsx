@@ -188,7 +188,7 @@ const OurPartners = ({organizations}) => {
                 {/* Stats Section */}
                 <div className="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">6+</div>
+                        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{organizations.length}+</div>
                         <div className="text-accent font-medium">Partner Organizations</div>
                     </div>
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
