@@ -53,6 +53,8 @@ Route::get('/about', \App\Http\Controllers\AboutController::class)->name('about'
 
 Route::controller(\App\Http\Controllers\OrganizationController::class)->group(function () {
     Route::get('partner', 'index')->name('partner');
+    Route::get('contributor', 'getDonorList')->name('donor.list');
+    Route::get('wisher', 'getWisherList')->name('wisher.list');
 });
 
 

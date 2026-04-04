@@ -216,4 +216,23 @@ UserService extends BaseService
                 ];
             });
     }
+
+    public function getUsersByRole(string $role)
+    {
+        $query = $this->user->with('organization');
+        if (isset($role)){
+            if ($role == 'wisher'){
+                $query->whereHas('roles', function ($role) {
+                    $role->where('slug', 'wisher');
+                });
+            }
+            if ($role == 'donor'){
+                $query->whereHas('roles', function ($role) {
+                    $role->where('slug', 'donor');
+                });
+            }
+        }
+
+       return $query->orderBy('name', 'asc')->get(['id', 'name', 'image']);
+    }
 }

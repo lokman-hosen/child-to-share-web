@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateOrganizationRequest;
 use App\Models\Organization;
 use App\Services\DonationService;
 use App\Services\OrganizationService;
+use App\Services\UserService;
 use App\Services\WishService;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -20,6 +21,7 @@ class OrganizationController extends Controller
         protected OrganizationService $organizationService,
         protected WishService $wishService,
         protected DonationService $donationService,
+        Protected UserService $userService,
 
     ){}
 
@@ -85,5 +87,14 @@ class OrganizationController extends Controller
     public function destroy(Organization $organization)
     {
         //
+    }
+
+    public function getDonorList()
+    {
+        $users = $this->userService->getUsersByRole('donor');
+        return inertia(self::moduleDirectory.'Contributor', [
+            'module' => self::moduleName,
+            'users' => $users
+        ]);
     }
 }
