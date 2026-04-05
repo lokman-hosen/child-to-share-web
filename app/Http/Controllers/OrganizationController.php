@@ -94,7 +94,7 @@ class OrganizationController extends Controller
         $users = $this->userService->getUsersByRole('donor');
         return inertia(self::moduleDirectory.'Contributor', [
             'module' => self::moduleName,
-            'users' => $users
+            'contributors' => $users
         ]);
     }
 }

@@ -219,20 +219,32 @@ UserService extends BaseService
 
     public function getUsersByRole(string $role)
     {
-        $query = $this->user->with('organization');
-        if (isset($role)){
-            if ($role == 'wisher'){
-                $query->whereHas('roles', function ($role) {
-                    $role->where('slug', 'wisher');
-                });
-            }
-            if ($role == 'donor'){
-                $query->whereHas('roles', function ($role) {
-                    $role->where('slug', 'donor');
-                });
-            }
+//        $query = $this->user->with('organization');
+//        if (isset($role)){
+//            if ($role == 'wisher'){
+//                $query->whereHas('roles', function ($role) {
+//                    $role->where('slug', 'wisher');
+//                });
+//            }
+//            if ($role == 'donor'){
+//                $query->whereHas('roles', function ($role) {
+//                    $role->where('slug', 'donor');
+//                });
+//            }
+//        }
+
+        $query = $this->user->where('is_active', 1)->with('organization');
+        if ($role == 'donor'){
+            $query->has('donations')->whereHas('roles', function ($role) {
+                $role->where('slug', 'donor');
+            });
+        }
+        if ($role == 'wisher'){
+            $query->has('wishes')->whereHas('roles', function ($role) {
+                $role->where('slug', 'wisher');
+            });
         }
 
-       return $query->orderBy('name', 'asc')->get(['id', 'name', 'image']);
+       return $query->orderBy('name', 'asc')->get();
     }
 }
