@@ -54,17 +54,18 @@ const ContributorsPage = ({users}) => {
                     </div>
 
                     {/* Contributors Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {userListData.map((user) => (
-                            <div
-                                key={user.id}
-                                className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-200 hover:border-primary/20"
-                            >
-                                {/* Avatar/Logo Section */}
-                                <div className="relative h-48 bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center p-4">
-                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
+                    { userListData.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {userListData.map((user) => (
+                                <div
+                                    key={user.id}
+                                    className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-200 hover:border-primary/20"
+                                >
+                                    {/* Avatar/Logo Section */}
+                                    <div className="relative h-48 bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center p-4">
+                                        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
 
-                                    {user.organization ? (
+                                        {user.organization ? (
                                             // Organization - show logo or default building icon
                                             <div className="h-32 w-32 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                                                 {user.image ? (
@@ -80,23 +81,23 @@ const ContributorsPage = ({users}) => {
                                                 )}
                                             </div>
 
-                                    ) : (
-                                        // Individual donor - show photo or default avatar
-                                        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300">
-                                            {user.image ? (
-                                                <img
-                                                    src={`/storage/${user.image}`}
-                                                    alt={user.name}
-                                                    className="w-full h-full object-cover"
-                                                />
-                                            ) : (
-                                                <FontAwesomeIcon icon={faUser} className="text-primary text-5xl" />
-                                            )}
-                                        </div>
-                                    )}
+                                        ) : (
+                                            // Individual donor - show photo or default avatar
+                                            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300">
+                                                {user.image ? (
+                                                    <img
+                                                        src={`/storage/${user.image}`}
+                                                        alt={user.name}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <FontAwesomeIcon icon={faUser} className="text-primary text-5xl" />
+                                                )}
+                                            </div>
+                                        )}
 
-                                    {/* Type Badge */}
-                                    <div className="absolute top-4 right-4">
+                                        {/* Type Badge */}
+                                        <div className="absolute top-4 right-4">
                                         <span className={`text-xs font-semibold px-3 py-1.5 rounded-full shadow-md ${
                                             user.organization
                                                 ? 'bg-gradient-to-r from-secondary to-secondary-dark text-accent'
@@ -104,22 +105,29 @@ const ContributorsPage = ({users}) => {
                                         }`}>
                                             {(user.organization && (user.name == user.organization.name)) ? 'Organization' : 'Individual'}
                                         </span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Contributor Info */}
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-accent mb-2 group-hover:text-primary transition-colors duration-200 text-center">
-                                        {user.name}
-                                    </h3>
-                                    {/* Decorative Element */}
-                                    <div className="mt-4 pt-4 border-t border-gray-100">
-                                        <div className="h-1 w-16 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full mx-auto"></div>
+                                    {/* Contributor Info */}
+                                    <div className="p-6">
+                                        <h3 className="text-xl font-bold text-accent mb-2 group-hover:text-primary transition-colors duration-200 text-center">
+                                            {user.name}
+                                        </h3>
+                                        {/* Decorative Element */}
+                                        <div className="mt-4 pt-4 border-t border-gray-100">
+                                            <div className="h-1 w-16 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full mx-auto"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))}
+                        </div>
+                        ): (
+                        <div>
+                            asdasd
+                        </div>
+
+                    )}
+
                     {(userLinks.length > 1 && userListData.length > 1) && <Pagination links={userLinks} />}
 
                     {/* Call to Action */}
