@@ -10,6 +10,7 @@ use App\Services\DonationService;
 use App\Services\OrganizationService;
 use App\Services\UserService;
 use App\Services\WishService;
+use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -89,12 +90,13 @@ class OrganizationController extends Controller
         //
     }
 
-    public function getDonorList()
+    public function getUserListByRole()
     {
-        $users = $this->userService->getUsersByRole('donor');
+        $role = Route::currentRouteName() == 'donor.list' ? 'donor' : 'wisher';
+        $users = $this->userService->getUsersByRole($role);
         return inertia(self::moduleDirectory.'Contributor', [
             'module' => self::moduleName,
-            'contributors' => $users
+            'users' => $users
         ]);
     }
 }

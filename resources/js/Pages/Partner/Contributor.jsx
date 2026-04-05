@@ -3,91 +3,11 @@ import {Head, Link} from '@inertiajs/react';
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBuilding, faHeart, faUsers, faGift, faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons';
+import Pagination from "@/Components/Pagination.jsx";
 
-const ContributorsPage = ({contributors}) => {
-    // Sample contributors data - replace with actual data from database
-    // const contributors = [
-    //     {
-    //         id: 1,
-    //         name: 'Sarah Johnson',
-    //         type: 'individual', // individual or organization
-    //         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPB6Ph_aR9dpk8p7hRtCPZL08-GK1k9SKmHQ&s', // would be a URL if available
-    //         logo: null,
-    //         donation_count: 45,
-    //         join_date: '2023'
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'TechCares Foundation',
-    //         type: 'organization',
-    //         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbPeQmmRqSJlGvLYoQu7IfcMVTGu-1OW7L1w&s',
-    //         logo: 'https://img.logoipsum.com/288.svg',
-    //         donation_count: 128,
-    //         join_date: '2022'
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'Michael Chen',
-    //         type: 'individual',
-    //         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlDrSITgqLdFr1tIGd2ARDSDIgSsnp8WqLAw&s',
-    //         logo: null,
-    //         donation_count: 23,
-    //         join_date: '2024'
-    //     },
-    //     {
-    //         id: 4,
-    //         name: 'Green Hope Initiative',
-    //         type: 'organization',
-    //         image: null,
-    //         logo: 'https://img.logoipsum.com/296.svg',
-    //         donation_count: 89,
-    //         join_date: '2021'
-    //     },
-    //     {
-    //         id: 5,
-    //         name: 'Emily Rodriguez',
-    //         type: 'individual',
-    //         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlDrSITgqLdFr1tIGd2ARDSDIgSsnp8WqLAw&s',
-    //         logo: null,
-    //         donation_count: 67,
-    //         join_date: '2023'
-    //     },
-    //     {
-    //         id: 6,
-    //         name: 'Children First Alliance',
-    //         type: 'organization',
-    //         image: 'https://i.pinimg.com/736x/3b/2e/93/3b2e93191bc8030fb6f3be085414eeec.jpg',
-    //         logo: 'https://img.logoipsum.com/297.svg',
-    //         donation_count: 156,
-    //         join_date: '2020'
-    //     },
-    //     {
-    //         id: 7,
-    //         name: 'David Kim',
-    //         type: 'individual',
-    //         image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPB6Ph_aR9dpk8p7hRtCPZL08-GK1k9SKmHQ&s',
-    //         logo: null,
-    //         donation_count: 34,
-    //         join_date: '2024'
-    //     },
-    //     {
-    //         id: 8,
-    //         name: 'Bright Future Fund',
-    //         type: 'organization',
-    //         image: 'https://www.shutterstock.com/shutterstock/videos/11436452/thumb/1.jpg?ip=x480',
-    //         logo: 'https://img.logoipsum.com/295.svg',
-    //         donation_count: 112,
-    //         join_date: '2022'
-    //     }
-    // ];
-
-    // Statistics
-    // const stats = {
-    //     totalContributors: contributors.length,
-    //     totalDonations: contributors.reduce((sum, c) => sum + c.donation_count, 0),
-    //     individualCount: contributors.filter(c => c.type === 'individual').length,
-    //     organizationCount: contributors.filter(c => c.type === 'organization').length,
-    // };
+const ContributorsPage = ({users}) => {
+    const userListData = users?.data || [];
+    const userLinks = users?.links || [];
 
     return (
         <GuestLayout>
@@ -116,30 +36,6 @@ const ContributorsPage = ({contributors}) => {
                             Meet the generous individuals and organizations who make wishes come true through their
                             kindness and support. Every contribution creates a ripple of positive change.
                         </p>
-
-                        {/* Stats */}
-                        {/*<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">*/}
-                        {/*    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">*/}
-                        {/*        <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{stats.totalContributors}</div>*/}
-                        {/*        <div className="text-accent font-medium">Total Contributors</div>*/}
-                        {/*        <div className="h-1 w-12 bg-gradient-to-r from-primary to-primary-dark mx-auto mt-3 rounded-full"></div>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">*/}
-                        {/*        <div className="text-3xl md:text-4xl font-bold text-secondary mb-2">{stats.totalDonations}+</div>*/}
-                        {/*        <div className="text-accent font-medium">Total Donations</div>*/}
-                        {/*        <div className="h-1 w-12 bg-gradient-to-r from-secondary to-secondary-dark mx-auto mt-3 rounded-full"></div>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">*/}
-                        {/*        <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">{stats.individualCount}</div>*/}
-                        {/*        <div className="text-accent font-medium">Individual Donors</div>*/}
-                        {/*        <div className="h-1 w-12 bg-gradient-to-r from-primary-dark to-primary mx-auto mt-3 rounded-full"></div>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-sm border border-gray-200">*/}
-                        {/*        <div className="text-3xl md:text-4xl font-bold text-neutral mb-2">{stats.organizationCount}</div>*/}
-                        {/*        <div className="text-accent font-medium">Partner Orgs</div>*/}
-                        {/*        <div className="h-1 w-12 bg-gradient-to-r from-neutral to-neutral-dark mx-auto mt-3 rounded-full"></div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
                 </div>
             </section>
@@ -159,22 +55,22 @@ const ContributorsPage = ({contributors}) => {
 
                     {/* Contributors Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {contributors.map((contributor) => (
+                        {userListData.map((user) => (
                             <div
-                                key={contributor.id}
+                                key={user.id}
                                 className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group border border-gray-200 hover:border-primary/20"
                             >
                                 {/* Avatar/Logo Section */}
                                 <div className="relative h-48 bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center p-4">
                                     <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10"></div>
 
-                                    {contributor.organization ? (
+                                    {user.organization ? (
                                             // Organization - show logo or default building icon
                                             <div className="h-32 w-32 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                                                {contributor.image ? (
+                                                {user.image ? (
                                                     <img
-                                                        src={`/storage/${contributor.image}`}
-                                                        alt={contributor.name}
+                                                        src={`/storage/${user.image}`}
+                                                        alt={user.name}
                                                         className="max-h-32 max-w-full object-contain"
                                                     />
                                                 ) : (
@@ -187,10 +83,10 @@ const ContributorsPage = ({contributors}) => {
                                     ) : (
                                         // Individual donor - show photo or default avatar
                                         <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-300">
-                                            {contributor.image ? (
+                                            {user.image ? (
                                                 <img
-                                                    src={`/storage/${contributor.image}`}
-                                                    alt={contributor.name}
+                                                    src={`/storage/${user.image}`}
+                                                    alt={user.name}
                                                     className="w-full h-full object-cover"
                                                 />
                                             ) : (
@@ -202,11 +98,11 @@ const ContributorsPage = ({contributors}) => {
                                     {/* Type Badge */}
                                     <div className="absolute top-4 right-4">
                                         <span className={`text-xs font-semibold px-3 py-1.5 rounded-full shadow-md ${
-                                            contributor.organization
+                                            user.organization
                                                 ? 'bg-gradient-to-r from-secondary to-secondary-dark text-accent'
                                                 : 'bg-gradient-to-r from-primary to-primary-dark text-white'
                                         }`}>
-                                            {contributor.organization ? 'Organization' : 'Individual'}
+                                            {(user.organization && (user.name == user.organization.name)) ? 'Organization' : 'Individual'}
                                         </span>
                                     </div>
                                 </div>
@@ -214,7 +110,7 @@ const ContributorsPage = ({contributors}) => {
                                 {/* Contributor Info */}
                                 <div className="p-6">
                                     <h3 className="text-xl font-bold text-accent mb-2 group-hover:text-primary transition-colors duration-200 text-center">
-                                        {contributor.name}
+                                        {user.name}
                                     </h3>
                                     {/* Decorative Element */}
                                     <div className="mt-4 pt-4 border-t border-gray-100">
@@ -224,6 +120,7 @@ const ContributorsPage = ({contributors}) => {
                             </div>
                         ))}
                     </div>
+                    {(userLinks.length > 1 && userListData.length > 1) && <Pagination links={userLinks} />}
 
                     {/* Call to Action */}
                     <div className="mt-16 text-center">

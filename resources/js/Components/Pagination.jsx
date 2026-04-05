@@ -86,7 +86,7 @@ const Pagination = ({ links }) => {
                     preserveScroll
                     className={`px-3 py-2 rounded-lg border transition-all ${
                         currentPage === page
-                            ? "bg-purple-600 text-white border-purple-600"
+                            ? "bg-primary hover:bg-primary-dark text-white"
                             : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
                     }`}
                 >

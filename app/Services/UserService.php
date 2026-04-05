@@ -219,19 +219,6 @@ UserService extends BaseService
 
     public function getUsersByRole(string $role)
     {
-//        $query = $this->user->with('organization');
-//        if (isset($role)){
-//            if ($role == 'wisher'){
-//                $query->whereHas('roles', function ($role) {
-//                    $role->where('slug', 'wisher');
-//                });
-//            }
-//            if ($role == 'donor'){
-//                $query->whereHas('roles', function ($role) {
-//                    $role->where('slug', 'donor');
-//                });
-//            }
-//        }
 
         $query = $this->user->where('is_active', 1)->with('organization');
         if ($role == 'donor'){
@@ -245,6 +232,6 @@ UserService extends BaseService
             });
         }
 
-       return $query->orderBy('name', 'asc')->get();
+       return $query->orderBy('name', 'asc')->paginate(20);
     }
 }
