@@ -5,23 +5,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBuilding, faHeart, faUsers, faGift, faHandHoldingHeart, faUserPlus, faCity } from '@fortawesome/free-solid-svg-icons';
 import Pagination from "@/Components/Pagination.jsx";
 
-const ContributorsPage = ({users}) => {
+const ContributorsPage = ({users, type, title, subTitle, module}) => {
     const [activeTab, setActiveTab] = useState('individuals');
     const userListData = users?.data || [];
     const userLinks = users?.links || [];
 
     // Separate users into individuals and organizations
-    const individuals = userListData.filter(user => !user.organization);
+    const individuals = userListData.filter(user => (user.name !== user?.organization?.name));
     const organizations = userListData.filter(user => user.organization);
 
     const tabs = [
-        { id: 'individuals', label: 'Individual Donors', icon: faUserPlus, count: individuals.length, color: 'primary' },
-        { id: 'organizations', label: 'Partner Organizations', icon: faCity, count: organizations.length, color: 'secondary' }
+        { id: 'individuals', label: 'Individual', icon: faUserPlus, count: individuals.length, color: 'primary' },
+        { id: 'organizations', label: 'Organizations', icon: faCity, count: organizations.length, color: 'secondary' }
     ];
 
     return (
         <GuestLayout>
-            <Head title="Our Contributors - ThreeWish" />
+            <Head title={`${module}`}/>
 
             {/* Hero Section */}
             <section className="relative py-8 md:py-12 overflow-hidden">
@@ -33,7 +33,7 @@ const ContributorsPage = ({users}) => {
                         </div>
 
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-accent mb-6">
-                            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Contributors</span>
+                            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">{title}</span>
                         </h1>
 
                         <div className="flex items-center justify-center mb-6">
@@ -42,10 +42,7 @@ const ContributorsPage = ({users}) => {
                             <div className="h-1 w-20 bg-gradient-to-r from-secondary to-secondary-dark rounded-full"></div>
                         </div>
 
-                        <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-                            Meet the generous individuals and organizations who make wishes come true through their
-                            kindness and support. Every contribution creates a ripple of positive change.
-                        </p>
+                        <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">{subTitle}</p>
                     </div>
                 </div>
             </section>
@@ -166,7 +163,7 @@ const ContributorsPage = ({users}) => {
                                 <>
                                     <div className="text-center mb-10">
                                         <p className="text-gray-600">
-                                            Showing <span className="font-semibold text-secondary">{organizations.length}</span> dedicated partner organizations
+                                            Showing <span className="font-semibold text-secondary">{organizations.length}</span> dedicated organizations
                                         </p>
                                     </div>
 
@@ -223,8 +220,8 @@ const ContributorsPage = ({users}) => {
                                     <div className="inline-flex items-center justify-center w-20 h-20 bg-gray-100 rounded-full mb-4">
                                         <FontAwesomeIcon icon={faCity} className="text-gray-400 text-3xl" />
                                     </div>
-                                    <p className="text-gray-600 text-lg">No partner organizations found</p>
-                                    <p className="text-gray-500 text-sm mt-2">Be the first organization to partner with us!</p>
+                                    <p className="text-gray-600 text-lg">No organizations found</p>
+                                    <p className="text-gray-500 text-sm mt-2">Be the first organization to with us!</p>
                                 </div>
                             )}
                         </div>
@@ -241,7 +238,7 @@ const ContributorsPage = ({users}) => {
                     <div className="mt-16 text-center">
                         <div className="bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 rounded-3xl p-8 md:p-10 border border-gray-200 max-w-3xl mx-auto">
                             <FontAwesomeIcon icon={faHandHoldingHeart} className="text-primary text-4xl mb-4"/>
-                            <h3 className="text-2xl font-bold text-accent mb-3">Want to Join Our Contributors?</h3>
+                            <h3 className="text-2xl font-bold text-accent mb-3">Want to Join Our {type == 'donor' ? 'Contributors' : 'Wish Creator'} ?</h3>
                             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
                                 Every contribution, big or small, makes a difference in a child's life. Join our community of givers today.
                             </p>

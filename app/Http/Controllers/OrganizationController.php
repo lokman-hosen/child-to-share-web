@@ -90,12 +90,17 @@ class OrganizationController extends Controller
         //
     }
 
-    public function getUserListByRole()
+    public function getUserListByRole(): Response|\Inertia\ResponseFactory
     {
         $role = Route::currentRouteName() == 'donor.list' ? 'donor' : 'wisher';
         $users = $this->userService->getUsersByRole($role);
         return inertia(self::moduleDirectory.'Contributor', [
-            'module' => self::moduleName,
+            'module' => $role == 'donor' ? 'Contributors' : 'Wishers',
+            'type' => $role,
+            'title' => $role == 'donor' ? 'Contributors' : 'Happy Wish Creators',
+            'subTitle' => $role == 'donor' ?
+                'Meet the generous individuals and organizations who make wishes come true through their kindness and support. Every contribution creates a ripple of positive change' :
+                'Meet the individuals and organizations who share their needs and aspirations, seeking support to make their wishes a reality. Every wish is a step toward positive change, made possible through connection and compassion',
             'users' => $users
         ]);
     }
