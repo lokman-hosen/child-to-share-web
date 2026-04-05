@@ -122,21 +122,24 @@ const ContributorsPage = ({users}) => {
                             ))}
                         </div>
                         ): (
-                        <div>
-                            asdasd
+                        <div className="text-center">
+                            <p className="text-gray-600 max-w-md mx-auto">
+                                No data found
+                            </p>
                         </div>
 
                     )}
 
-                    {(userLinks.length > 1 && userListData.length > 1) && <Pagination links={userLinks} />}
+                    {(userLinks.length > 1 && userListData.length > 1) && <Pagination links={userLinks}/>}
 
                     {/* Call to Action */}
                     <div className="mt-16 text-center">
-                        <div className="bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 rounded-3xl p-8 md:p-10 border border-gray-200 max-w-3xl mx-auto">
-                            <FontAwesomeIcon icon={faHandHoldingHeart} className="text-primary text-4xl mb-4" />
+                        <div
+                            className="bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 rounded-3xl p-8 md:p-10 border border-gray-200 max-w-3xl mx-auto">
+                            <FontAwesomeIcon icon={faHandHoldingHeart} className="text-primary text-4xl mb-4"/>
                             <h3 className="text-2xl font-bold text-accent mb-3">Want to Join Our Contributors?</h3>
                             <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                                Every contribution, big or small, makes a difference in a child's life. Join our community of givers today.
+                            Every contribution, big or small, makes a difference in a child's life. Join our community of givers today.
                             </p>
                             <Link
                                 href={route('register')}
