@@ -7,6 +7,7 @@ export default function Navbar() {
     const user = usePage().props.auth.user;
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isContributorDropdownOpen, setIsContributorDropdownOpen] = useState(false);
 
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -16,8 +17,12 @@ export default function Navbar() {
         setIsProfileOpen(!isProfileOpen);
     };
 
+    const toggleContributorDropdown = () => {
+        setIsContributorDropdownOpen(!isContributorDropdownOpen);
+    };
+
     return (
-        <nav className="bg-white shadow-md">
+        <nav className="bg-white shadow-md relative z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
@@ -32,10 +37,9 @@ export default function Navbar() {
                                         e.target.style.display = 'none';
                                     }}
                                 />
-                                {/*<span className="font-bold text-xl text-gray-900">ThreeWish</span>*/}
                             </div>
                         </Link>
-                        <div className="hidden md:ml-6 md:flex md:space-x-8">
+                        <div className="hidden md:ml-2 md:flex md:space-x-2">
                             <Link
                                 href={route('home')}
                                 className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${
@@ -51,39 +55,6 @@ export default function Navbar() {
                                 className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('about')) ? 'nav-item active text-primary' : ''}`}>
                                 About
                             </Link>
-
-                            {/*<div className="relative group">*/}
-                            {/*    <a href="#"*/}
-                            {/*       className="text-gray-700 font-medium hover:text-primary transition flex items-center">*/}
-                            {/*        Categories <i className="fas fa-chevron-down ml-1 text-xs"></i>*/}
-                            {/*    </a>*/}
-                            {/*    <div*/}
-                            {/*        className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg dropdown-menu opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">*/}
-                            {/*        <div className="py-2">*/}
-                            {/*            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/5">Books*/}
-                            {/*                & Education</a>*/}
-                            {/*            <a href="#"*/}
-                            {/*               className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/5">Clothing</a>*/}
-                            {/*            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/5">Toys*/}
-                            {/*                & Games</a>*/}
-                            {/*            <a href="#"*/}
-                            {/*               className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/5">Electronics</a>*/}
-                            {/*            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-primary/5">Sports*/}
-                            {/*                Equipment</a>*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
-
-                            {/*<Link*/}
-                            {/*    href={`${route('home')}#how-it-works`}*/}
-                            {/*    className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${*/}
-                            {/*        route().current('home') && window.location.hash === '#how-it-works'*/}
-                            {/*            ? 'nav-item active text-primary'*/}
-                            {/*            : ''*/}
-                            {/*    }`}*/}
-                            {/*>*/}
-                            {/*    How It Works*/}
-                            {/*</Link>*/}
 
                             <Link
                                 href={route('donation.index')}
@@ -109,6 +80,44 @@ export default function Navbar() {
                                 Partners
                             </Link>
 
+                            {/* Contributor & Wisher Dropdown - Fixed z-index */}
+                            <div className="relative group">
+                                <button
+                                    className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-200 focus:outline-none ${route().current('*.list') ? 'nav-item active text-primary' : ''}`}
+                                >
+                                    Contributor & Wisher
+                                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                <div className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100">
+                                    <div className="py-2">
+                                        <Link
+                                            href={route('donor.list')}
+                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200"
+                                        >
+                                            <div className="flex items-center">
+                                                <svg className="w-4 h-4 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                                </svg>
+                                                Our Contributors
+                                            </div>
+                                        </Link>
+                                        <Link
+                                            href={route('wisher.list')}
+                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200"
+                                        >
+                                            <div className="flex items-center">
+                                                <svg className="w-4 h-4 mr-3 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                Our Happy Wish Creators
+                                            </div>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+
                             <Link
                                 href={route('contact')}
                                 className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('contact') ? 'nav-item active text-primary' : ''}`}>
@@ -116,15 +125,6 @@ export default function Navbar() {
                             </Link>
 
                         </div>
-
-                        {/*<div className="hidden lg:flex flex-1 max-w-md mx-8">*/}
-                        {/*    <div className="relative w-full">*/}
-                        {/*        <input type="text" className="input-search" placeholder="Wishes or donations.."/>*/}
-                        {/*            <button className="absolute right-0 top-0 h-full px-4 btn-search">*/}
-                        {/*                <i className="fas fa-search"></i>*/}
-                        {/*            </button>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
 
                     {/* Desktop Navigation - Show user profile if logged in, else show login/signup */}
@@ -156,7 +156,7 @@ export default function Navbar() {
                                     <FontAwesomeIcon icon={faChevronDown} className="ml-1 text-xs text-primary" />
                                 </button>
                                 {isProfileOpen && (
-                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border border-gray-200">
+                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
                                         <Link
                                             href={route('my.profile')}
                                             className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
@@ -247,7 +247,6 @@ export default function Navbar() {
                             aria-expanded={isMobileMenuOpen}
                         >
                             <span className="sr-only">Open main menu</span>
-                            {/* Hamburger icon */}
                             <svg
                                 className={`h-6 w-6 ${isMobileMenuOpen ? 'hidden' : 'block'}`}
                                 xmlns="http://www.w3.org/2000/svg"
@@ -258,7 +257,6 @@ export default function Navbar() {
                             >
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
-                            {/* X icon */}
                             <svg
                                 className={`h-6 w-6 ${isMobileMenuOpen ? 'block' : 'hidden'}`}
                                 xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +279,7 @@ export default function Navbar() {
                         href={route('home')}
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${
                             route().current('home') && window.location.hash !== '#how-it-works'
-                                ? 'nav-item active text-primary bg-primary'
+                                ? 'nav-item active text-white bg-primary'
                                 : ''
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -290,7 +288,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={route('about')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('about')) ? 'nav-item active text-primary bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('about')) ? 'nav-item active text-white bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         About
@@ -299,7 +297,7 @@ export default function Navbar() {
                         href={`${route('home')}#how-it-works`}
                         className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${
                             route().current('home') && window.location.hash === '#how-it-works'
-                                ? 'nav-item active text-primary bg-primary'
+                                ? 'nav-item active text-white bg-primary'
                                 : ''
                         }`}
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -308,7 +306,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                         href={route('donation.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active text-primary bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active text-white bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Gifts
@@ -316,7 +314,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('wish.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active text-primary bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active text-white bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Wishes
@@ -324,7 +322,7 @@ export default function Navbar() {
 
                     <Link
                         href={route('fulfillment.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('fulfillment.index')) ? 'nav-item active text-primary bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('fulfillment.index')) ? 'nav-item active text-white bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Fulfilled Wishes
@@ -332,15 +330,63 @@ export default function Navbar() {
 
                     <Link
                         href={route('partner')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('partner')) ? 'nav-item active text-primary bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('partner')) ? 'nav-item active text-white bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Partners
                     </Link>
 
+                    {/* Mobile Contributor Dropdown */}
+                    <div className="relative">
+                        <button
+                            onClick={toggleContributorDropdown}
+                            className="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary transition-colors duration-200"
+                        >
+                            <span>Contributor & Wisher</span>
+                            <svg
+                                className={`w-4 h-4 transition-transform duration-200 ${isContributorDropdownOpen ? 'rotate-180' : ''}`}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        {isContributorDropdownOpen && (
+                            <div className="pl-4 mt-1 space-y-1">
+                                <Link
+                                    href={route('donor.list')}
+                                    className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-white hover:bg-primary/80 transition-colors duration-200"
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        setIsContributorDropdownOpen(false);
+                                    }}
+                                >
+                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                    Our Contributors
+                                </Link>
+                                <Link
+                                    href={route('wisher.list')}
+                                    className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-white hover:bg-primary/80 transition-colors duration-200"
+                                    onClick={() => {
+                                        setIsMobileMenuOpen(false);
+                                        setIsContributorDropdownOpen(false);
+                                    }}
+                                >
+                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Our Happy Wish Creators
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+
                     <Link
                         href={route('contact')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('contact')) ? 'nav-item active text-primary bg-primary' : ''}`}
+                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('contact')) ? 'nav-item active text-white bg-primary' : ''}`}
                         onClick={() => setIsMobileMenuOpen(false)}
                     >
                         Contact
