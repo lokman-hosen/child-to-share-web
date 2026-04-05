@@ -232,6 +232,6 @@ UserService extends BaseService
             });
         }
 
-       return $query->orderBy('name', 'asc')->paginate(20);
+       return $query->orderBy('name', 'asc')->distinct('name')->paginate(20);
     }
 }
