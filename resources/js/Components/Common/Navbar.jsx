@@ -94,7 +94,7 @@ export default function Navbar() {
                                     <div className="py-2">
                                         <Link
                                             href={route('donor.list')}
-                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200"
+                                            className={`block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200 ${route().current('donor.list') ? 'nav-item active text-primary' : ''}`}
                                         >
                                             <div className="flex items-center">
                                                 <svg className="w-4 h-4 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,7 +105,7 @@ export default function Navbar() {
                                         </Link>
                                         <Link
                                             href={route('wisher.list')}
-                                            className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200"
+                                            className={`block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200 ${route().current('wisher.list') ? 'nav-item active text-primary' : ''}`}
                                         >
                                             <div className="flex items-center">
                                                 <svg className="w-4 h-4 mr-3 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
