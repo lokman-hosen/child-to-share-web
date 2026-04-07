@@ -12,7 +12,9 @@ const ContributorsPage = ({users, type, title, subTitle, module}) => {
 
     // Separate users into individuals and organizations
     const individuals = userListData.filter(user => (user.name !== user?.organization?.name));
-    const organizations = userListData.filter(user => user.organization);
+    const organizations = userListData.filter((user, index, self) =>
+        user.organization && index === self.findIndex((u) => u.organization?.id === user.organization?.id)
+    );
 
     const tabs = [
         { id: 'individuals', label: 'Individual', icon: faUserPlus, count: individuals.length, color: 'primary' },
