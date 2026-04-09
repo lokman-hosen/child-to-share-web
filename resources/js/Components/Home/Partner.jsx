@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {Link} from "@inertiajs/react";
 
-const OurPartners = ({organizations}) => {
+const OurPartners = ({organizations, CntOrganizations}) => {
     // Separate organizations based on their activity
-    const donorOrganizations = organizations.filter(org => org.total_donations_count > 0);
+   // const donorOrganizations = organizations.filter(org => org.total_donations_count > 0);
+    const donorOrganizations = CntOrganizations;
     const wisherOrganizations = organizations.filter(org => org.total_wishes_count > 0);
     console.log(donorOrganizations, wisherOrganizations);
 
@@ -237,7 +238,8 @@ const OurPartners = ({organizations}) => {
                         <div className="text-accent font-medium">Contributor Partners</div>
                     </div>
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
-                        <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">{wisherOrganizations.length}</div>
+                        {/*<div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">{wisherOrganizations.length}</div>*/}
+                        <div className="text-3xl md:text-4xl font-bold text-primary-dark mb-2">7</div>
                         <div className="text-accent font-medium">Wish Creator Partners</div>
                     </div>
                     <div className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">

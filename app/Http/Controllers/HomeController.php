@@ -44,6 +44,8 @@ class HomeController extends Controller
         $organizationCount = $this->organizationService->count();
         $categories = $this->categoryService->getList();
         $organizations = $this->organizationService->organizationList();
+        $CntOrganizations = $this->organizationService->getOrganizationById();
+
         return Inertia::render('Welcome', [
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
@@ -58,6 +60,7 @@ class HomeController extends Controller
             'community' => $organizationCount,
             'categories' => $categories,
             'organizations' => $organizations,
+            'CntOrganizations' => $CntOrganizations, // removed later
         ]);
     }
 }

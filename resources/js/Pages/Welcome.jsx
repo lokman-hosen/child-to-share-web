@@ -18,7 +18,7 @@ import SDG from "@/Components/Home/SDG.jsx";
 
 export default function Welcome({ auth, donations, wishes, wisherImages,
                                     activeDonorCount, totalWishCount,
-                                    fulfilWishCount, community, categories, activeWisherCount, organizations }) {
+                                    fulfilWishCount, community, categories, activeWisherCount, organizations, CntOrganizations }) {
     const user = usePage().props.auth.user;
     const { url } = usePage();
 
@@ -56,7 +56,10 @@ export default function Welcome({ auth, donations, wishes, wisherImages,
                 />
                 <HowWorks/>
                 <Category categories={categories}/>
-                <Partner organizations={organizations}/>
+                <Partner
+                    organizations={organizations}
+                    CntOrganizations = {CntOrganizations}
+                />
                 <ImplementationBody/>
                 <SDG/>
                 <RegistrationCTA user={user} />

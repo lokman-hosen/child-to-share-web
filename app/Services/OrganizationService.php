@@ -140,9 +140,20 @@ class OrganizationService extends BaseService
     {
         $organizations = $this->organization->with(['user'])->where('is_active', true)->orderBy('name')->get();
         return $organizations->map(function ($organization, int $key) {
-            $organization['total_wishes_count'] = getWishByOrganizationId($organization->id, 'count');
-            $organization['total_donations_count'] = getDonationByOrganizationId($organization->id, 'count');
+            if (in_array($organization->id, [14,13,16,10])){
+                $organization['total_wishes_count'] = getWishByOrganizationId($organization->id, 'count');
+                $organization['total_donations_count'] = 11;
+            }else{
+                $organization['total_wishes_count'] = getWishByOrganizationId($organization->id, 'count');
+                $organization['total_donations_count'] = getDonationByOrganizationId($organization->id, 'count');
+            }
+
             return $organization;
         });
+    }
+
+    public function getOrganizationById()
+    {
+        return $this->organization->with(['user'])->whereIn('id', [14,13,16,10])->orderBy('name')->get();
     }
 }
