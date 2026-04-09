@@ -108,9 +108,12 @@ class OrganizationService extends BaseService
                 'email' => $request->contact_email,
                 'phone' => $request->contact_phone,
                 'image' => $photoPath,
+                'organization_id' => $organization->id,
                 'latitude' => checkEmpty($request->latitude),
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
+                'is_active' => $request->is_active,
+                'is_verified' => true,
             ]);
         }else{
             $organization->user()->create([

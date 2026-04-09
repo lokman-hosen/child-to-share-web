@@ -118,9 +118,9 @@ class User extends Authenticatable
 //    {
 //        return $this->belongsToMany(Organization::class);
 //    }
-    public function organization(): BelongsTo
+    public function organization(): HasOne
     {
-        return $this->belongsTo(Organization::class, 'organization_id');
+        return $this->hasOne(Organization::class);
     }
 
     public function donations(): HasMany
