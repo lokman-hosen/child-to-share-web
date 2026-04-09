@@ -71,7 +71,7 @@ const OurPartners = ({organizations}) => {
                     <div className="absolute right-0 top-0 bottom-0 w-24 md:w-32 lg:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
                     <div
-                        className="flex items-center gap-6 md:gap-8 lg:gap-12 h-40"
+                        className="flex items-center gap-6 md:gap-8 lg:gap-12 h-56"
                         ref={contentRef}
                         style={{ willChange: 'transform' }}
                     >
@@ -148,21 +148,24 @@ const OurPartners = ({organizations}) => {
                     onMouseLeave={() => setIsPaused(false)}
                     ref={containerRef}
                 >
-                    <div className="absolute left-0 top-0 bottom-0 w-24 md:w-32 lg:w-48 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-                    <div className="absolute right-0 top-0 bottom-0 w-24 md:w-32 lg:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+                    <div
+                        className="absolute left-0 top-0 bottom-0 w-24 md:w-32 lg:w-48 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"/>
+                    <div
+                        className="absolute right-0 top-0 bottom-0 w-24 md:w-32 lg:w-48 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"/>
 
                     <div
-                        className="flex items-center gap-6 md:gap-8 lg:gap-12 h-40"
+                        className="flex items-center gap-6 md:gap-8 lg:gap-12 h-56"
                         ref={contentRef}
-                        style={{ willChange: 'transform' }}
+                        style={{willChange: 'transform'}}
                     >
                         {[...wisherOrganizations, ...wisherOrganizations].map((organization, idx) => (
                             <div
                                 key={`wisher-${organization.id}-${idx}`}
                                 className="flex-shrink-0 group relative"
-                                style={{ width: '250px' }}
+                                style={{width: '250px'}}
                             >
-                                <div className="block p-4 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
+                                <div
+                                    className="block p-4 bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100">
                                     <div className="h-24 flex items-center justify-center">
                                         {organization.user?.image ? (
                                             <img
@@ -171,20 +174,26 @@ const OurPartners = ({organizations}) => {
                                                 className="max-h-20 w-auto object-contain grayscale hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
                                             />
                                         ) : (
-                                            <div className="w-24 h-24 bg-gradient-to-br from-secondary/10 to-primary/10 rounded-xl flex items-center justify-center">
-                                                <svg className="w-12 h-12 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                            <div
+                                                className="w-24 h-24 bg-gradient-to-br from-secondary/10 to-primary/10 rounded-xl flex items-center justify-center">
+                                                <svg className="w-12 h-12 text-secondary" fill="none"
+                                                     stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                                                 </svg>
                                             </div>
                                         )}
                                     </div>
-                                    <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-accent text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
+                                    <div
+                                        className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-accent text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
                                         {organization.name}
-                                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-accent"></div>
+                                        <div
+                                            className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-accent"></div>
                                     </div>
                                 </div>
                                 {organization.total_wishes_count > 0 && (
-                                    <div className="absolute -top-2 -right-2 bg-secondary text-accent text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                                    <div
+                                        className="absolute -top-2 -right-2 bg-secondary text-accent text-xs font-bold px-2 py-1 rounded-full shadow-md">
                                         {organization.total_wishes_count}+ Wishes
                                     </div>
                                 )}
