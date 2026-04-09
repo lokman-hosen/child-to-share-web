@@ -93,25 +93,43 @@ class OrganizationService extends BaseService
     {
         $oldOrganization = $organization;
         // Handle file uploads
-        $photoPath = $organization->user->image;
+        $photoPath = $organization->user?->image;
         if ($request->hasFile('image')) {
             $imageFile = $request->file('image');
-            if ($organization->user->image && Storage::disk('public')->exists($organization->user->image)){
+            if (isset($organization->user) && $organization->user->image && Storage::disk('public')->exists($organization->user->image)){
                 $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'update', $organization->user->image);
             }else{
                 $photoPath = uploadImage($imageFile, FileSizes::PROFILE_IMAGE,'store', null);
             }
         }
+        if ($organization->user){
+            $organization->user()->update([
+                'name' => $request->name,
+                'email' => $request->contact_email,
+                'phone' => $request->contact_phone,
+                'image' => $photoPath,
+                'latitude' => checkEmpty($request->latitude),
+                'longitude' => checkEmpty($request->longitude),
+                'address' => checkEmpty($request->address),
+            ]);
+        }else{
+            $organization->user()->create([
+                'name' => $request->name,
+                'email' => $request->contact_email,
+                'phone' => $request->contact_phone,
+                'image' => $photoPath,
+                'dob' => now()->subYear(5),
+                'gender' => 'other',
+                'latitude' => checkEmpty($request->latitude),
+                'longitude' => checkEmpty($request->longitude),
+                'address' => checkEmpty($request->address),
+                'is_verified' => true,
+                'is_active' => true,
+                'password' => Hash::make(12345678),
+            ]);
+        }
 
-        $organization->user->update([
-            'name' => $request->name,
-            'email' => $request->contact_email,
-            'phone' => $request->contact_phone,
-            'image' => $photoPath,
-            'latitude' => checkEmpty($request->latitude),
-            'longitude' => checkEmpty($request->longitude),
-            'address' => checkEmpty($request->address),
-        ]);
+
 
         $oldOrganization->update([
             'name' => $request->name,
