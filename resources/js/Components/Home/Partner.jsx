@@ -219,16 +219,11 @@ const OurPartners = ({organizations}) => {
                     </p>
                 </div>
                 <div>
-
                     {/* Wisher Organizations Carousel */}
                     <WisherCarousel/>
-
                     {/* Donor Organizations Carousel */}
                     <DonorCarousel/>
-
                 </div>
-
-
 
                 {/* Stats Section */}
                 <div className="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 max-w-5xl mx-auto">
