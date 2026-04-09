@@ -120,6 +120,7 @@ class OrganizationService extends BaseService
                 'image' => $photoPath,
                 'dob' => now()->subYear(5),
                 'gender' => 'other',
+                'organization_id' => $organization->id,
                 'latitude' => checkEmpty($request->latitude),
                 'longitude' => checkEmpty($request->longitude),
                 'address' => checkEmpty($request->address),
@@ -129,14 +130,13 @@ class OrganizationService extends BaseService
             ]);
         }
 
-
-
         $oldOrganization->update([
             'name' => $request->name,
             'contact_email' => checkEmpty($request->contact_email),
             'contact_phone' => $request->contact_phone,
             'description' => checkEmpty($request->description),
             'address' => $request->address,
+            'logo' => $photoPath ?? null,
         ]);
 
         return $organization;
@@ -158,13 +158,8 @@ class OrganizationService extends BaseService
     {
         $organizations = $this->organization->with(['user'])->where('is_active', true)->orderBy('name')->get();
         return $organizations->map(function ($organization, int $key) {
-            if (in_array($organization->id, [14,13,16,10])){
-                $organization['total_wishes_count'] = getWishByOrganizationId($organization->id, 'count');
-                $organization['total_donations_count'] = 11;
-            }else{
-                $organization['total_wishes_count'] = getWishByOrganizationId($organization->id, 'count');
-                $organization['total_donations_count'] = getDonationByOrganizationId($organization->id, 'count');
-            }
+            $organization['total_wishes_count'] = getWishByOrganizationId($organization->id, 'count');
+            $organization['total_donations_count'] = getDonationByOrganizationId($organization->id, 'count');
 
             return $organization;
         });

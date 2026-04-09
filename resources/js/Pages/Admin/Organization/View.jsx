@@ -14,6 +14,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                     <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col md:flex-row items-center">
                             <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+                                User: {organization?.user}
                                 <div
                                     className="w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-lg">
                                     {organization?.user?.image ? (
