@@ -358,9 +358,9 @@ export default function List({ module, filters, organizations }) {
                                                         <td className="px-8 py-6">
                                                             <div className="flex items-center space-x-5">
                                                                 <div className="h-16 w-16 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-gray-200">
-                                                                    {organization.user?.image ? (
+                                                                    {organization?.user?.image ? (
                                                                         <img
-                                                                            src={`/storage/${organization.user.image}`}
+                                                                            src={`/storage/${organization?.user?.image}`}
                                                                             alt={organization.name}
                                                                             className="w-full h-full object-cover"
                                                                         />

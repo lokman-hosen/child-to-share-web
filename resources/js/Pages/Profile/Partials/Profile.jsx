@@ -22,9 +22,9 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
                                 <div
                                     className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
-                                    {user.image ? (
+                                    {user?.image ? (
                                         <img
-                                            src={`/storage/${user.image}`}
+                                            src={`/storage/${user?.image}`}
                                             alt={user.name}
                                             className="w-full h-full object-cover"
                                         />
@@ -223,7 +223,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                     {/*    </div>*/}
                     {/*)}*/}
 
-                    {(authUser.role === 'super-admin' && authUser.role === 'admin') || (authUser.id === user.id) &&
+                    {((authUser.role === 'super-admin' || authUser.role === 'admin') || (authUser.id === user.id)) &&
                         <div className="mt-6 flex">
                             <Link
                                 href={route('profile.update')}
