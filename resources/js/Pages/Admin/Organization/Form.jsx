@@ -54,7 +54,7 @@ const Form = ({organization, statuses}) => {
                 description: organization?.description || '',
                 latitude: organization?.user?.latitude || '',
                 longitude: organization?.user?.longitude || '',
-                is_active: organization?.is_active ||'',
+                is_active: organization?.is_active,
                 // Don't set attachments from donation as they're already stored
                 _method: 'PUT', // Ensure method spoofing is set for updates
             }));

@@ -27,7 +27,7 @@ class OrganizationService extends BaseService
         $searchCommon = $request->input('search_common');
         $filterStatus = $request->input('status');
         // Keep query parameters when paginating
-        $query = $this->organization;
+        $query = $this->organization->with('user');
         if (Auth::user()->userType == 'organization'){
             $query = $query->where('id', Auth::user()->organization->id);
         }
@@ -91,6 +91,14 @@ class OrganizationService extends BaseService
 
     public function updateOrganization($request, $organization)
     {
+        if (!$organization->user){
+            $user = $orgUser = User::where('email', $organization->contact_email)->first();
+            if ($orgUser){
+                $orgUser->update(['organization_id' => $organization->id]);
+                $organization->update(['user_id' => $user->id]);
+            }
+
+        }
         $oldOrganization = $organization;
         // Handle file uploads
         $photoPath = $organization->user?->image;
@@ -128,7 +136,6 @@ class OrganizationService extends BaseService
                 'password' => Hash::make(12345678),
             ]);
         }
-
 
 
         $oldOrganization->update([

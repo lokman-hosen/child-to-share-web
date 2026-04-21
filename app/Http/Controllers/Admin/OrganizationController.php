@@ -98,7 +98,7 @@ class OrganizationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Organization $organization)
+    public function edit(Organization $organization): Response
     {
         $organization->load('user');
         $statuses = getStatus();
@@ -112,7 +112,7 @@ class OrganizationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrganizationRequest $request, Organization $organization)
+    public function update(UpdateOrganizationRequest $request, Organization $organization): \Illuminate\Http\RedirectResponse
     {
         $organization = $this->organizationService->updateOrganization($request, $organization);
         if ($organization){
