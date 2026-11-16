@@ -28,7 +28,7 @@ class ProfileController extends Controller
     ){}
     const moduleDirectory = 'Profile/';
     const moduleName = 'Profile';
-    public function show(string $id = null): Response
+    public function show(?string $id = null): Response
     {
         $user = $id ? User::find($id) :  Auth::user();
         $availableDonationCount = $donatedDonationCount = $activeWishCount = $fulfilledWishCount = $totalWishCount = 0;

@@ -174,7 +174,7 @@ UserService extends BaseService
         return$query->count();
     }
 
-    public function getWisherAndDonorByRole(string $role = null)
+    public function getWisherAndDonorByRole(?string $role = null)
     {
         $query = $this->user->with('organization');
         if (isset($role)){

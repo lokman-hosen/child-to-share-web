@@ -122,13 +122,9 @@ class WishService extends BaseService
                     $user->where('organization_id', $orgUser?->organization?->id);
                 });
             }else{
-                if (Auth::user()->user_type === 'organization'){
-                    $query->whereHas('user', function ($user) {
-                        $user->where('organization_id', Auth::user()->organization_id);
-                    });
-                }else{
-                    $query->where('user_id', $userId);
-                }
+                // A specific (non-organization) user: count only their own items,
+                // even when the viewer is an organization looking at one of its members.
+                $query->where('user_id', $userId);
             }
         }
         if (isset($status)) {

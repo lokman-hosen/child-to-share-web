@@ -33,6 +33,43 @@ class User extends Authenticatable
 //    ];
     protected $appends = ['role','user_type'];
 
+    /** Never sent to anyone except admins, the user and their own organization. */
+    public const RESTRICTED_FIELDS = ['dob', 'guardian_name', 'guardian_phone', 'relationship'];
+
+    /** Additionally withheld from visitors who are not logged in. */
+    public const GUEST_HIDDEN_FIELDS = ['email', 'phone', 'email_verified_at', 'phone_verified_at'];
+
+    /** Viewer context, worked out once per authenticated user (avoids a roles query per serialized user). */
+    private static array $viewerCache = [];
+
+    /**
+     * Strip personal fields depending on who is looking. Inertia serializes every
+     * nested user (wish.user, donations.*.user, …) through here, so this one rule
+     * covers all pages.
+     */
+    public function toArray(): array
+    {
+        $data = parent::toArray();
+        $viewer = auth()->user();
+
+        if (! $viewer) {
+            return array_diff_key($data, array_flip([...self::RESTRICTED_FIELDS, ...self::GUEST_HIDDEN_FIELDS]));
+        }
+        if ($viewer->id == $this->id) {
+            return $data;
+        }
+
+        $ctx = self::$viewerCache[$viewer->id] ??= [
+            'admin' => in_array($viewer->role, ['admin', 'super-admin'], true),
+            'orgId' => $viewer->user_type === 'organization' ? $viewer->organization_id : null,
+        ];
+        if ($ctx['admin'] || ($ctx['orgId'] && $this->organization_id == $ctx['orgId'])) {
+            return $data;
+        }
+
+        return array_diff_key($data, array_flip(self::RESTRICTED_FIELDS));
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.
