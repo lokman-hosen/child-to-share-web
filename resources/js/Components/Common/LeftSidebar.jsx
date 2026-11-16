@@ -25,9 +25,7 @@ export function menuForUser(user) {
                 items: [
                     { label: 'My Gifts', route: 'donations.index', match: ['donations.*'], icon: faGift },
                     { label: 'My Wishes', route: 'wishes.index', match: ['wishes.*'], icon: faStar },
-                    // NOTE: kept identical to the previous sidebar, which checks `user_type`
-                    // (the shared auth user exposes `userType`, so this link is currently hidden).
-                    ...(user.user_type == 'organization'
+                    ...(user.userType == 'organization'
                         ? [{ label: 'Organizations', route: 'organizations.index', match: ['organizations.index'], icon: faBuilding }]
                         : []),
                 ],

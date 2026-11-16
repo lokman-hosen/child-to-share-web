@@ -76,7 +76,7 @@ class OrganizationService extends BaseService
 
         $organization = $user->organization()->create([
             'name' => $user->name,
-            'contact_email' => checkEmpty($user->phone),
+            'contact_email' => checkEmpty($user->email),
             'contact_phone' => $user->phone,
             'description' => checkEmpty($request->description),
             'address' => $request->address,

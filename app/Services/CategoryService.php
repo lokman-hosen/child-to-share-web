@@ -29,8 +29,10 @@ class CategoryService extends BaseService
         }
         return $query->withCount('wishes', 'donations')
             ->when($searchCommon, function ($query, $searchName) {
-                $query->where('name', 'like', '%' . $searchName . '%')
-                    ->where('slug', 'like', '%' . $searchName . '%');
+                $query->where(function ($q) use ($searchName) {
+                    $q->where('name', 'like', '%' . $searchName . '%')
+                        ->orWhere('slug', 'like', '%' . $searchName . '%');
+                });
             })
             ->orderBy($sortColumn, $sortDirection)
             ->paginate(10) // Pagination: 10 items per page

@@ -126,7 +126,7 @@ class WishController extends Controller
             $wishers = $this->userService->getOrganizationWisherList();
         }
         if (in_array(Auth::user()->role, ['admin', 'super-admin'])){
-            $wishers = $this->userService->getWisher();
+            $wishers = $this->userService->getWisherAndDonorByRole('wisher');
         }
         return Inertia::render(self::moduleDirectory.'Edit', [
             'module' => self::moduleName,

@@ -1,937 +1,125 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Head, Link, router, usePage} from "@inertiajs/react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGridHorizontal, faPlus, faStar, faTable, faUsers, faEnvelope, faPhone, faVenusMars, faMapMarkerAlt, faCalendar, faBuilding, faCheckCircle, faTimesCircle, faFilter, faSearch, faTimes} from "@fortawesome/free-solid-svg-icons";
-import {getCommonOptions, getDropdownOptions, getStatusOptions, textLimit} from "@/utils.jsx";
-import Pagination from "@/Components/Admin/Pagination.jsx";
-import SelectInput from "@/Components/SelectInput.jsx";
-import TextInput from "@/Components/TextInputField.jsx";
+import { Head, Link } from '@inertiajs/react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faCircleXmark, faEye, faPen, faPlus, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { AppPage, Badge, Button, DataTable, EmptyState, FilterBar, PageHeader, Pagination, RowAction, RowActions, SafeImage, SearchInput } from '@/Components/UI';
+import SelectInput from '@/Components/SelectInput.jsx';
+import useListFilters from '@/hooks/useListFilters';
+import { getCommonOptions, getDropdownOptions, getStatusOptions } from '@/utils.jsx';
 
-export default function Index({module, filters, roles, users, organizations, genders }) {
-    const params = new URLSearchParams(window.location.search)
-    const orgId = params.get('organization_id') || '';
-    const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
-    const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
-    const [activeFilterCount, setActiveFilterCount] = useState(0);
-    const safeFilters = filters || [];
+const KEYS = ['search_common', 'organization_id', 'gender', 'role', 'status'];
 
-    const [organizationId, setOrganizationId] = useState((safeFilters?.organization_id) || orgId);
-    const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
-    const [gender, setGender] = useState((safeFilters?.gender) || '');
-    const [role, setRole] = useState((safeFilters?.role) || '');
-    const [status, setStatus] = useState((safeFilters?.status) || '');
+const calculateAge = (dob) => {
+    if (!dob) return null;
+    const birth = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    return age;
+};
 
-    const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
-    const genderOptions = getCommonOptions(genders);
-    const roleOptions = getCommonOptions(roles);
+const Check = ({ ok, label }) => (
+    <span className={`inline-flex items-center gap-1 text-xs ${ok ? 'text-success-700' : 'text-slate-400'}`}>
+        <FontAwesomeIcon icon={ok ? faCircleCheck : faCircleXmark} className="h-3 w-3" aria-hidden="true" />
+        {label}
+        <span className="sr-only">{ok ? 'verified' : 'not verified'}</span>
+    </span>
+);
 
-    const userListData = users?.data || [];
-    const usersLinks = users?.links || [];
+export default function Index({ module, filters, roles, users, organizations, genders }) {
+    const rows = users?.data || [];
+    const { values, set, clear, activeCount } = useListFilters('users.index', KEYS, {
+        fallback: { ...(filters || {}), search_common: filters?.searchCommon },
+        debounce: ['search_common'],
+    });
+    const select = (key) => ({ value: values[key], onChange: (e) => set(key, e.target.value) });
 
-    const initialRender = useRef(true);
-
-    // Calculate active filters count
-    useEffect(() => {
-        let count = 0;
-        if (organizationId) count++;
-        if (searchCommon) count++;
-        if (gender) count++;
-        if (role) count++;
-        if (status) count++;
-        setActiveFilterCount(count);
-    }, [organizationId, searchCommon, gender,role,status]);
-
-    useEffect(() => {
-        if (initialRender.current) {
-            initialRender.current = false;
-            return;
-        }
-
-        const query = {
-            organization_id: organizationId,
-            search_common: searchCommon,
-            gender: gender,
-            role: role,
-            status: status,
-        };
-
-        router.get(route('users.index'), query, {
-            preserveState: true,
-            replace: true,
-        });
-    }, [organizationId, searchCommon, gender,role,status]);
-
-    // Clear all filters
-    const clearAllFilters = () => {
-        setOrganizationId('');
-        setSearchCommon('');
-        setGender('');
-        setRole('');
-        setStatus('');
-    };
-
-    // Helper function to format date
-    const formatDate = (dateString) => {
-        if (!dateString) return 'N/A';
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
-    };
-
-    // Helper function to calculate age from DOB
-    const calculateAge = (dob) => {
-        if (!dob) return 'N/A';
-        const birthDate = new Date(dob);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const m = today.getMonth() - birthDate.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
-        return age;
-    };
-
-    // Get status badge color
-    const getStatusBadge = (user) => {
-        if (user.is_active) {
-            return { text: 'Active', class: 'bg-primary-100 text-primary-800' };
-        } else {
-            return { text: 'Inactive', class: 'bg-red-100 text-red-800' };
-        }
-        if (user.is_verified) {
-            return { text: 'Verified', class: 'bg-green-100 text-green-800' };
-        }
-        return { text: 'Pending', class: 'bg-yellow-100 text-yellow-800' };
-    };
-
-    // Get gender icon and color
-    const getGenderInfo = (gender) => {
-        switch(gender) {
-            case 'male': return { icon: '♂', color: 'text-primary-600' };
-            case 'female': return { icon: '♀', color: 'text-primary-600' };
-            default: return { icon: '⚧', color: 'text-primary-600' };
-        }
-    };
+    const columns = [
+        { key: 'user', header: 'User', primary: true, render: (u) => (
+            <Link href={route('my.profile', u.id)} className="group flex min-w-0 items-center gap-3">
+                <SafeImage
+                    src={u.image ? `/storage/${u.image}` : null}
+                    alt=""
+                    className="h-10 w-10 shrink-0 rounded-full object-cover"
+                    fallback={<span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-50 text-sm font-semibold text-primary-700">{(u.name || '?').charAt(0).toUpperCase()}</span>}
+                />
+                <span className="min-w-0">
+                    <span className="block truncate font-medium text-slate-900 group-hover:text-primary-700">{u.name}</span>
+                    {(u.email || u.phone) && <span className="block truncate text-xs font-normal text-slate-500">{u.email || u.phone}</span>}
+                    {u.role && <span className="mt-0.5 block text-xs font-normal capitalize text-slate-500">{String(u.role).replace('-', ' ')}</span>}
+                </span>
+            </Link>
+        ) },
+        { key: 'contact', header: 'Contact', render: (u) => {
+            const age = calculateAge(u.dob);
+            return (
+                <div className="text-sm">
+                    <span className="block">{u.phone || <span className="text-slate-400">No phone</span>}</span>
+                    <span className="block text-xs capitalize text-slate-500">{[u.gender, age !== null && `${age} yrs`].filter(Boolean).join(' · ') || '—'}</span>
+                </div>
+            );
+        } },
+        { key: 'org', header: 'Guardian / organization', wide: true, render: (u) => (
+            <div className="max-w-[220px] text-sm">
+                {u.guardian_name ? (
+                    <span className="block truncate">{u.guardian_name}{u.relationship && <span className="text-slate-500"> ({u.relationship})</span>}</span>
+                ) : null}
+                {u.organization?.name ? <span className="block truncate text-xs text-slate-500">{u.organization.name}</span> : null}
+                {!u.guardian_name && !u.organization?.name && <span className="text-slate-400">—</span>}
+            </div>
+        ) },
+        { key: 'verified', header: 'Verified', wide: true, render: (u) => (
+            <span className="flex flex-wrap gap-x-3 gap-y-1">
+                <Check ok={!!u.email_verified_at} label="Email" />
+                <Check ok={!!u.phone_verified_at} label="Phone" />
+            </span>
+        ) },
+        { key: 'status', header: 'Status', aside: true, render: (u) => <Badge tone={u.is_active ? 'success' : 'neutral'} dot>{u.is_active ? 'Active' : 'Inactive'}</Badge> },
+        { key: 'actions', align: 'right', render: (u) => (
+            <RowActions>
+                <RowAction href={route('my.profile', u.id)} icon={faEye} label="View" aria-label={`View ${u.name}`} />
+                <RowAction href={route('users.edit', u.id)} icon={faPen} label="Edit" tone="primary" aria-label={`Edit ${u.name}`} />
+            </RowActions>
+        ) },
+    ];
 
     return (
         <AuthenticatedLayout>
-            <Head title={`${module} List`}/>
-            <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
-                    {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-2 py-2 sm:px-8 sm:py-5">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                            {/* Title Section */}
-                            <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-                                <div className="h-12 w-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                                    <FontAwesomeIcon
-                                        icon={faUsers}
-                                        className="text-white text-xl"
-                                    />
-                                </div>
-                                <div>
-                                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        {module} List
-                                    </h1>
-                                    <p className="text-primary-100 text-sm mt-1">
-                                        Manage all users in the system
-                                    </p>
-                                </div>
-                            </div>
+            <Head title={`${module} List`} />
+            <AppPage className="space-y-6">
+                <PageHeader
+                    title="Users"
+                    description="Wishers and contributors on ThreeWish."
+                    actions={<Button href={route('users.create')} icon={faPlus}>Add user</Button>}
+                />
 
-                            <div className="flex items-center space-x-4">
-                                {/* View Toggle - Desktop Only */}
-                                <div className="hidden md:flex items-center space-x-2 bg-white bg-opacity-20 rounded-lg p-1">
-                                    <button
-                                        onClick={() => setViewMode('table')}
-                                        className={`p-2 rounded-md transition-all duration-200 ${
-                                            viewMode === 'table'
-                                                ? 'bg-white text-primary-600 shadow-sm'
-                                                : 'text-white hover:bg-white hover:bg-opacity-10'
-                                        }`}
-                                        title="Table View"
-                                    >
-                                        <FontAwesomeIcon icon={faTable} className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                        onClick={() => setViewMode('grid')}
-                                        className={`p-2 rounded-md transition-all duration-200 ${
-                                            viewMode === 'grid'
-                                                ? 'bg-white text-primary-600 shadow-sm'
-                                                : 'text-white hover:bg-white hover:bg-opacity-10'
-                                        }`}
-                                        title="Grid View"
-                                    >
-                                        <FontAwesomeIcon icon={faGridHorizontal} className="w-4 h-4" />
-                                    </button>
-                                </div>
+                <FilterBar title="Filter users" active={activeCount > 0} activeCount={activeCount} onClear={clear} collapsible>
+                    <SearchInput id="search_common" label="Search" className="sm:col-span-2 lg:col-span-4" value={values.search_common} onChange={(v) => set('search_common', v)} placeholder="Name, email or phone…" />
+                    <SelectInput id="organization_id" label="Organization" {...select('organization_id')} options={getDropdownOptions(organizations, 'id', 'name')} placeholder="All organizations" />
+                    <SelectInput id="gender" label="Gender" {...select('gender')} options={getCommonOptions(genders || {})} placeholder="All genders" />
+                    <SelectInput id="role" label="Role" {...select('role')} options={getCommonOptions(roles || {})} placeholder="All roles" />
+                    <SelectInput id="status" label="Status" {...select('status')} options={getStatusOptions()} placeholder="All statuses" />
+                </FilterBar>
 
-                                {/* Action Button */}
-                                <Link
-                                    href={route('users.create')}
-                                    className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
-                                >
-                                    <FontAwesomeIcon icon={faPlus} className="text-primary-600" />
-                                    <span>Add New User</span>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
+                <DataTable
+                    caption="Users"
+                    columns={columns}
+                    rows={rows}
+                    empty={
+                        <EmptyState
+                            icon={faUsers}
+                            title={activeCount ? 'No users match these filters' : 'No users yet'}
+                            description={activeCount ? 'Try a different search or clear the filters.' : 'Add the first user to get started.'}
+                            action={activeCount
+                                ? <Button variant="secondary" onClick={clear}>Clear filters</Button>
+                                : <Button href={route('users.create')} icon={faPlus}>Add user</Button>}
+                        />
+                    }
+                />
 
-                    {/* Card Body */}
-                    <div className="px-6 py-8 sm:px-8 sm:py-10">
-                        <div className="space-y-8">
-                            {/* Enhanced Filter Section */}
-                            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
-                                {/* Filter Header - Always visible */}
-                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                                    <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-                                        <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                                            <FontAwesomeIcon icon={faFilter} className="text-primary-600 text-lg" />
-                                        </div>
-                                        <div>
-                                            <h2 className="text-lg font-semibold text-slate-900">Filter Users</h2>
-                                            <p className="text-sm text-slate-500">
-                                                Refine your search with specific criteria
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-center space-x-3">
-                                        {/* Mobile Filter Toggle */}
-                                        <button
-                                            onClick={() => setShowFilters(!showFilters)}
-                                            className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
-                                        >
-                                            <FontAwesomeIcon icon={showFilters ? faTimes : faFilter} className="mr-2" />
-                                            {showFilters ? 'Hide Filters' : 'Show Filters'}
-                                            {activeFilterCount > 0 && (
-                                                <span className="ml-2 bg-primary-600 text-white text-xs px-2 py-0.5 rounded-full">
-                                                    {activeFilterCount}
-                                                </span>
-                                            )}
-                                        </button>
-
-                                        {/* Active Filters Count - Desktop */}
-                                        {activeFilterCount > 0 && (
-                                            <div className="hidden md:flex items-center space-x-2">
-                                                <span className="text-sm text-slate-500">
-                                                    {activeFilterCount} active filter{activeFilterCount !== 1 ? 's' : ''}
-                                                </span>
-                                                <button
-                                                    onClick={clearAllFilters}
-                                                    className="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
-                                                >
-                                                    <FontAwesomeIcon icon={faTimes} className="mr-1.5 w-3 h-3" />
-                                                    Clear All
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Filter Fields - Responsive Grid */}
-                                <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        {/* Search Input - Enhanced with icon */}
-                                        <div className="relative">
-                                            <label htmlFor="search" className="block text-sm font-medium text-slate-700 mb-2">
-                                                Common Search
-                                            </label>
-                                            <div className="relative">
-                                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                    <FontAwesomeIcon icon={faSearch} className="text-slate-400 w-4 h-4" />
-                                                </div>
-                                                <input
-                                                    type="text"
-                                                    id="search"
-                                                    value={searchCommon}
-                                                    onChange={(e) => setSearchCommon(e.target.value)}
-                                                    placeholder="Search by name, email, phone..."
-                                                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
-                                                />
-                                                {searchCommon && (
-                                                    <button
-                                                        onClick={() => setSearchCommon('')}
-                                                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                                    >
-                                                        <FontAwesomeIcon icon={faTimes} className="text-slate-400 hover:text-slate-600 w-4 h-4" />
-                                                    </button>
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        {/* Organization Select - Enhanced styling */}
-                                        <div>
-                                            <label htmlFor="organization_id" className="block text-sm font-medium text-slate-700 mb-2">
-                                                Organization
-                                            </label>
-                                            <select
-                                                id="organization_id"
-                                                value={organizationId}
-                                                onChange={(e) => setOrganizationId(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
-                                            >
-                                                <option value="">All Organizations</option>
-                                                {organizationOptions.map(option => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-
-                                        {/* Gender Select - Enhanced styling */}
-                                        <div>
-                                            <label htmlFor="gender" className="block text-sm font-medium text-slate-700 mb-2">
-                                                Gender
-                                            </label>
-                                            <select
-                                                id="gender"
-                                                value={gender}
-                                                onChange={(e) => setGender(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
-                                            >
-                                                <option value="">All Genders</option>
-                                                {genderOptions.map(option => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-
-                                        {/* Gender Select - Enhanced styling */}
-                                        <div>
-                                            <label htmlFor="gender" className="block text-sm font-medium text-slate-700 mb-2">
-                                                Role
-                                            </label>
-                                            <select
-                                                id="role"
-                                                value={role}
-                                                onChange={(e) => setRole(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
-                                            >
-                                                <option value="">Select Role</option>
-                                                {roleOptions.map(option => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
-                                                Status
-                                            </label>
-                                            <select
-                                                id="status"
-                                                value={status}
-                                                onChange={(e) => setStatus(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
-                                            >
-                                                <option value="">All Status</option>
-                                                {getStatusOptions().map(option => (
-                                                    <option key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {/* Clear Filters Button - Mobile Only */}
-                                    {activeFilterCount > 0 && (
-                                        <div className="mt-4 md:hidden">
-                                            <button
-                                                onClick={clearAllFilters}
-                                                className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
-                                            >
-                                                <FontAwesomeIcon icon={faTimes} className="mr-2" />
-                                                Clear All Filters ({activeFilterCount})
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Mobile Card View (Always for mobile) */}
-                            <div className="md:hidden space-y-4">
-                                {userListData.length > 0 ? (
-                                    userListData.map((user) => {
-                                        const status = getStatusBadge(user);
-                                        const genderInfo = getGenderInfo(user.gender);
-                                        return (
-                                            <div key={user.id}
-                                                 className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
-                                                {/* Card Header with Status */}
-                                                <div
-                                                    className="flex justify-between items-center p-4 bg-slate-50 border-b">
-                                                    <div className="flex items-center space-x-3">
-                                                        <div
-                                                            className="h-12 w-12 rounded-full overflow-hidden bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center">
-                                                            {user.image ? (
-                                                                <img
-                                                                    src={`/storage/${user.image}`}
-                                                                    alt={user.name}
-                                                                    className="w-full h-full object-cover"
-                                                                />
-                                                            ) : (
-                                                                <span
-                                                                    className="text-lg font-semibold text-primary-600">
-                                                                    {user.name.charAt(0).toUpperCase()}
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        <div>
-                                                            <h3 className="font-semibold text-slate-900">{user.name}</h3>
-                                                            <p className="text-sm text-slate-500">{user.email}</p>
-                                                        </div>
-                                                    </div>
-                                                    <span
-                                                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.class}`}>
-                                                        {status.text}
-                                                    </span>
-                                                </div>
-
-                                                {/* Card Content */}
-                                                <div className="p-4">
-                                                    <div className="space-y-3">
-                                                        <div className="grid grid-cols-2 gap-3">
-                                                            <div className="flex items-center text-sm">
-                                                                <FontAwesomeIcon icon={faPhone}
-                                                                                 className="text-slate-400 mr-2 w-4 h-4"/>
-                                                                <span
-                                                                    className="text-slate-600">{user.phone || 'N/A'}</span>
-                                                            </div>
-                                                            <div className="flex items-center text-sm">
-                                                                <FontAwesomeIcon icon={faVenusMars}
-                                                                                 className="text-slate-400 mr-2 w-4 h-4"/>
-                                                                <span className={`capitalize ${genderInfo.color}`}>
-                                                                    {user.gender} {genderInfo.icon}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="grid grid-cols-2 gap-3">
-                                                            <div className="flex items-center text-sm">
-                                                                <FontAwesomeIcon icon={faCalendar}
-                                                                                 className="text-slate-400 mr-2 w-4 h-4"/>
-                                                                <span className="text-slate-600">
-                                                                    {formatDate(user.dob)} ({calculateAge(user.dob)} yrs)
-                                                                </span>
-                                                            </div>
-                                                            <div className="flex items-center text-sm">
-                                                                {user.organization ? (
-                                                                    <>
-                                                                        <FontAwesomeIcon icon={faBuilding}
-                                                                                         className="text-slate-400 mr-2 w-4 h-4"/>
-                                                                        <span
-                                                                            className="text-slate-600 truncate">{user.organization.name}</span>
-                                                                    </>
-                                                                ) : (
-                                                                    <span className="text-slate-400 text-sm">No organization</span>
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-                                                        {user.guardian_name && (
-                                                            <div className="bg-primary-50 rounded-lg p-3">
-                                                                <p className="text-xs font-medium text-primary-800 mb-1">Guardian
-                                                                    Info</p>
-                                                                <div className="grid grid-cols-2 gap-2">
-                                                                    <div>
-                                                                        <p className="text-xs text-slate-600">Name:</p>
-                                                                        <p className="text-sm font-medium text-slate-900">{user.guardian_name}</p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p className="text-xs text-slate-600">Phone:</p>
-                                                                        <p className="text-sm font-medium text-slate-900">{user.guardian_phone || 'N/A'}</p>
-                                                                    </div>
-                                                                    {user.relationship && (
-                                                                        <div className="col-span-2">
-                                                                            <p className="text-xs text-slate-600">Relationship:</p>
-                                                                            <p className="text-sm font-medium text-slate-900 capitalize">{user.relationship}</p>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        )}
-
-                                                        {user.address && (
-                                                            <div className="flex items-start text-sm">
-                                                                <FontAwesomeIcon icon={faMapMarkerAlt}
-                                                                                 className="text-slate-400 mr-2 w-4 h-4 mt-0.5"/>
-                                                                <span
-                                                                    className="text-slate-600 line-clamp-2">{user.address}</span>
-                                                            </div>
-                                                        )}
-
-                                                        {/* Verification Status */}
-                                                        <div
-                                                            className="flex items-center justify-between pt-3 border-t border-slate-100">
-                                                            <div className="space-x-3">
-                                                                <span
-                                                                    className={`inline-flex items-center text-xs ${user.email_verified_at ? 'text-green-600' : 'text-slate-400'}`}>
-                                                                    <FontAwesomeIcon
-                                                                        icon={user.email_verified_at ? faCheckCircle : faTimesCircle}
-                                                                        className="mr-1 w-3 h-3"/>
-                                                                    Email
-                                                                </span>
-                                                                <span
-                                                                    className={`inline-flex items-center text-xs ${user.phone_verified_at ? 'text-green-600' : 'text-slate-400'}`}>
-                                                                    <FontAwesomeIcon
-                                                                        icon={user.phone_verified_at ? faCheckCircle : faTimesCircle}
-                                                                        className="mr-1 w-3 h-3"/>
-                                                                    Phone
-                                                                </span>
-                                                            </div>
-                                                            <span className="text-xs text-slate-500">
-                                                                Joined: {user.created_at}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Action Button */}
-                                                    <div
-                                                        className="flex justify-end items-center pt-4 border-t border-slate-100 mt-4">
-                                                        <Link
-                                                            href={route('my.profile', user.id)}
-                                                            className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200"
-                                                        >
-                                                            View Details
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })
-                                ) : (
-                                    <div className="text-center py-12">
-                                        <FontAwesomeIcon icon={faUsers} className="text-slate-300 text-6xl mb-4"/>
-                                        <p className="text-slate-500 text-lg mb-2">No users found</p>
-                                        <p className="text-slate-400 text-sm mb-6">
-                                            Start by adding your first user to the system
-                                        </p>
-                                        <Link
-                                            href={route('users.create')}
-                                            className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
-                                        >
-                                            <FontAwesomeIcon icon={faPlus}/>
-                                            <span>Add First User</span>
-                                        </Link>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Desktop View - Table or Grid based on toggle */}
-                            <div className="hidden md:block">
-                                {viewMode === 'table' ? (
-                                    /* Table View */
-                                    <div
-                                        className="overflow-x-auto bg-white shadow rounded-lg border border-slate-200">
-                                        <table className="min-w-full divide-y divide-slate-200">
-                                            <thead className="bg-slate-50">
-                                            <tr>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                                                    User Information
-                                                </th>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Contact & Demographics
-                                                </th>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Guardian & Organization
-                                                </th>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Status & Actions
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody className="bg-white divide-y divide-slate-200">
-                                            {userListData.length > 0 ? (
-                                                userListData.map((user) => {
-                                                    const status = getStatusBadge(user);
-                                                    const genderInfo = getGenderInfo(user.gender);
-                                                    return (
-                                                        <tr key={user.id}
-                                                            className="hover:bg-slate-50 transition-colors">
-                                                            {/* User Information Column */}
-                                                            <td className="px-6 py-4">
-                                                                <div className="flex items-center">
-                                                                    <div
-                                                                        className="h-12 w-12 flex-shrink-0 rounded-full overflow-hidden bg-gradient-to-br from-primary-100 to-primary-100">
-                                                                        {user.image ? (
-                                                                            <img
-                                                                                src={`/storage/${user.image}`}
-                                                                                alt={user.name}
-                                                                                className="w-full h-full object-cover"
-                                                                            />
-                                                                        ) : (
-                                                                            <div
-                                                                                className="w-full h-full flex items-center justify-center">
-                                                                                    <span
-                                                                                        className="text-lg font-semibold text-primary-600">
-                                                                                        {user.name.charAt(0).toUpperCase()}
-                                                                                    </span>
-                                                                            </div>
-                                                                        )}
-                                                                    </div>
-                                                                    <div className="ml-4">
-                                                                        <div
-                                                                            className="text-sm font-medium text-slate-900">{user.name}</div>
-                                                                        {user.email && <div
-                                                                            className="text-sm text-slate-500">{user.email}</div>}
-                                                                        <div className="mt-1 flex items-center">
-                                                                                <span className="text-xs text-slate-500">
-                                                                                    Role: {user.role}
-                                                                                </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            {/* Contact & Demographics Column */}
-                                                            <td className="px-6 py-4">
-                                                                <div className="space-y-2">
-                                                                    {user.phone &&
-                                                                        <div
-                                                                            className="flex items-center text-sm text-slate-900">
-                                                                            <FontAwesomeIcon icon={faPhone}
-                                                                                             className="text-slate-400 mr-2 w-4 h-4"/>
-                                                                            {user.phone}
-                                                                        </div>
-                                                                    }
-                                                                    <div className="flex items-center text-sm">
-                                                                        <FontAwesomeIcon icon={faVenusMars}
-                                                                                         className="text-slate-400 mr-2 w-4 h-4"/>
-                                                                        <span
-                                                                            className={`capitalize ${genderInfo.color}`}>
-                                                                                {user.gender} {genderInfo.icon}
-                                                                            </span>
-                                                                        <span className="mx-2">•</span>
-                                                                        <span
-                                                                            className="text-slate-600">{calculateAge(user.dob)} yrs</span>
-                                                                    </div>
-                                                                    <div className="text-sm text-slate-600">
-                                                                        DOB: {formatDate(user.dob)}
-                                                                    </div>
-                                                                    {user.address && (
-                                                                        <div
-                                                                            className="text-sm text-slate-600 truncate max-w-xs">
-                                                                            {user.address}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </td>
-
-                                                            {/* Guardian & Organization Column */}
-                                                            <td className="px-6 py-4">
-                                                                <div className="space-y-3">
-                                                                    {user.guardian_name ? (
-                                                                        <div>
-                                                                            <p className="text-xs font-medium text-slate-500 mb-1">Guardian</p>
-                                                                            <p className="text-sm font-medium text-slate-900">{user.guardian_name}</p>
-                                                                            <div
-                                                                                className="flex items-center text-xs text-slate-600">
-                                                                                <FontAwesomeIcon icon={faPhone}
-                                                                                                 className="mr-1 w-3 h-3"/>
-                                                                                {user.guardian_phone || 'N/A'}
-                                                                                {user.relationship && (
-                                                                                    <span
-                                                                                        className="ml-2 capitalize text-slate-500">
-                                                                                            ({user.relationship})
-                                                                                        </span>
-                                                                                )}
-                                                                            </div>
-                                                                        </div>
-                                                                    ) : (
-                                                                        <p className="text-sm text-slate-400">No
-                                                                            guardian info</p>
-                                                                    )}
-
-                                                                    {user.organization && (
-                                                                        <div
-                                                                            className="pt-2 border-t border-slate-100">
-                                                                            <p className="text-xs font-medium text-slate-500 mb-1">Organization</p>
-                                                                            <div className="flex items-center">
-                                                                                <FontAwesomeIcon icon={faBuilding}
-                                                                                                 className="text-slate-400 mr-2 w-4 h-4"/>
-                                                                                <span
-                                                                                    className="text-sm text-slate-900 truncate max-w-xs">
-                                                                                        {user.organization.name}
-                                                                                    </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </td>
-
-                                                            {/* Status & Actions Column */}
-                                                            <td className="px-6 py-4">
-                                                                <div className="flex flex-col items-end space-y-3">
-                                                                        <span
-                                                                            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${status.class}`}>
-                                                                            {status.text}
-                                                                        </span>
-
-                                                                    <div className="flex space-x-2">
-                                                                            <span
-                                                                                className={`inline-flex items-center text-xs ${user.email_verified_at ? 'text-green-600' : 'text-slate-400'}`}>
-                                                                                <FontAwesomeIcon
-                                                                                    icon={user.email_verified_at ? faCheckCircle : faTimesCircle}
-                                                                                    className="mr-1 w-3 h-3"/>
-                                                                                Email
-                                                                            </span>
-                                                                        <span
-                                                                            className={`inline-flex items-center text-xs ${user.phone_verified_at ? 'text-green-600' : 'text-slate-400'}`}>
-                                                                                <FontAwesomeIcon
-                                                                                    icon={user.phone_verified_at ? faCheckCircle : faTimesCircle}
-                                                                                    className="mr-1 w-3 h-3"/>
-                                                                                Phone
-                                                                            </span>
-                                                                    </div>
-
-                                                                    <div
-                                                                        className="text-xs text-slate-500 text-right">
-                                                                        Created: {user.created_at}
-                                                                    </div>
-
-                                                                    <div className="flex space-x-2">
-                                                                        <Link
-                                                                            href={route('my.profile', user.id)}
-                                                                            className="inline-flex items-center px-3 py-1.5 bg-primary-600 text-white text-xs font-medium rounded-lg hover:bg-primary-700 transition-colors"
-                                                                        >
-                                                                            View
-                                                                        </Link>
-                                                                        <Link
-                                                                            href={route('users.edit', user.id)}
-                                                                            className="inline-flex items-center px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-medium rounded-lg hover:bg-slate-200 transition-colors"
-                                                                        >
-                                                                            Edit
-                                                                        </Link>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="4" className="px-6 py-12 text-center">
-                                                        <div className="text-center">
-                                                            <FontAwesomeIcon icon={faUsers}
-                                                                             className="text-slate-300 text-5xl mb-4"/>
-                                                            <p className="text-slate-500 text-lg mb-2">No users
-                                                                found</p>
-                                                            <p className="text-slate-400 text-sm mb-6">
-                                                                Start by adding your first user to the system
-                                                            </p>
-                                                            <Link
-                                                                href={route('users.create')}
-                                                                className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
-                                                            >
-                                                                <FontAwesomeIcon icon={faPlus}/>
-                                                                <span>Add First User</span>
-                                                            </Link>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                ) : (
-                                    /* Grid View */
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                                        {userListData.length > 0 ? (
-                                            userListData.map((user) => {
-                                                const status = getStatusBadge(user);
-                                                const genderInfo = getGenderInfo(user.gender);
-                                                return (
-                                                    <div key={user.id}
-                                                         className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
-                                                        {/* Card Header */}
-                                                        <div
-                                                            className="bg-gradient-to-r from-primary-50 to-primary-50 p-6 border-b">
-                                                            <div className="flex items-center justify-between mb-4">
-                                                                <div className="flex items-center space-x-3">
-                                                                    <div
-                                                                        className="h-14 w-14 rounded-full overflow-hidden bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center">
-                                                                        {user.image ? (
-                                                                            <img
-                                                                                src={`/storage/${user.image}`}
-                                                                                alt={user.name}
-                                                                                className="w-full h-full object-cover"
-                                                                            />
-                                                                        ) : (
-                                                                            <span
-                                                                                className="text-xl font-semibold text-primary-600">
-                                                                                    {user.name.charAt(0).toUpperCase()}
-                                                                                </span>
-                                                                        )}
-                                                                    </div>
-                                                                    <div>
-                                                                        <h3 className="font-semibold text-slate-900 group-hover:text-primary-600 transition-colors">
-                                                                            {user.name}
-                                                                        </h3>
-                                                                        <p className="text-sm text-slate-500">{user.email}</p>
-                                                                    </div>
-                                                                </div>
-                                                                <span
-                                                                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${status.class}`}>
-                                                                        {status.text}
-                                                                    </span>
-                                                            </div>
-
-                                                            {/* Quick Info */}
-                                                            <div className="grid grid-cols-2 gap-3">
-                                                                <div
-                                                                    className="flex items-center text-sm text-slate-600">
-                                                                    <FontAwesomeIcon icon={faPhone}
-                                                                                     className="mr-2 w-4 h-4"/>
-                                                                    <span>{user.phone || 'N/A'}</span>
-                                                                </div>
-                                                                <div
-                                                                    className="flex items-center text-sm text-slate-600">
-                                                                    <FontAwesomeIcon icon={faVenusMars}
-                                                                                     className={`mr-2 w-4 h-4 ${genderInfo.color}`}/>
-                                                                    <span
-                                                                        className="capitalize">{user.gender}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Card Body */}
-                                                        <div className="p-6">
-                                                            <div className="space-y-4">
-                                                                {/* Age and DOB */}
-                                                                <div className="flex items-center justify-between">
-                                                                    <div>
-                                                                        <p className="text-xs font-medium text-slate-500">Age</p>
-                                                                        <p className="text-lg font-semibold text-slate-900">{calculateAge(user.dob)} years</p>
-                                                                    </div>
-                                                                    <div className="text-right">
-                                                                        <p className="text-xs font-medium text-slate-500">Date
-                                                                            of Birth</p>
-                                                                        <p className="text-sm text-slate-900">{formatDate(user.dob)}</p>
-                                                                    </div>
-                                                                </div>
-
-                                                                {/* Guardian Info */}
-                                                                {user.guardian_name && (
-                                                                    <div className="bg-primary-50 rounded-lg p-4">
-                                                                        <p className="text-xs font-medium text-primary-800 mb-2">Guardian</p>
-                                                                        <p className="text-sm font-medium text-slate-900 mb-1">{user.guardian_name}</p>
-                                                                        <div
-                                                                            className="flex items-center justify-between text-sm text-slate-600">
-                                                                            <span>{user.guardian_phone || 'N/A'}</span>
-                                                                            {user.relationship && (
-                                                                                <span
-                                                                                    className="capitalize text-slate-500">({user.relationship})</span>
-                                                                            )}
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-
-                                                                {/* Organization */}
-                                                                {user.organization && (
-                                                                    <div className="flex items-center">
-                                                                        <FontAwesomeIcon icon={faBuilding}
-                                                                                         className="text-slate-400 mr-3 w-5 h-5"/>
-                                                                        <div>
-                                                                            <p className="text-xs font-medium text-slate-500">Organization</p>
-                                                                            <p className="text-sm text-slate-900 truncate">{user.organization.name}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-
-                                                                {/* Address */}
-                                                                {user.address && (
-                                                                    <div className="flex items-start">
-                                                                        <FontAwesomeIcon icon={faMapMarkerAlt}
-                                                                                         className="text-slate-400 mr-3 w-5 h-5 mt-0.5"/>
-                                                                        <div className="flex-1">
-                                                                            <p className="text-xs font-medium text-slate-500">Address</p>
-                                                                            <p className="text-sm text-slate-900 line-clamp-2">{user.address}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-
-                                                                {/* Verification Status */}
-                                                                <div className="pt-4 border-t border-slate-100">
-                                                                    <p className="text-xs font-medium text-slate-500 mb-2">Verification
-                                                                        Status</p>
-                                                                    <div className="flex items-center space-x-4">
-                                                                            <span
-                                                                                className={`inline-flex items-center text-sm ${user.email_verified_at ? 'text-green-600' : 'text-slate-400'}`}>
-                                                                                <FontAwesomeIcon
-                                                                                    icon={user.email_verified_at ? faCheckCircle : faTimesCircle}
-                                                                                    className="mr-1.5 w-4 h-4"/>
-                                                                                Email
-                                                                            </span>
-                                                                        <span
-                                                                            className={`inline-flex items-center text-sm ${user.phone_verified_at ? 'text-green-600' : 'text-slate-400'}`}>
-                                                                                <FontAwesomeIcon
-                                                                                    icon={user.phone_verified_at ? faCheckCircle : faTimesCircle}
-                                                                                    className="mr-1.5 w-4 h-4"/>
-                                                                                Phone
-                                                                            </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Card Footer */}
-                                                        <div
-                                                            className="px-6 py-4 bg-slate-50 border-t border-slate-100">
-                                                            <div className="flex items-center justify-between">
-                                                                <div className="text-sm text-slate-500">
-                                                                    Joined {user.created_at}
-                                                                </div>
-                                                                <div className="flex space-x-2">
-                                                                    <Link
-                                                                        href={route('my.profile', user.id)}
-                                                                        className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200"
-                                                                    >
-                                                                        View Details
-                                                                    </Link>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })
-                                        ) : (
-                                            <div className="col-span-full text-center py-12">
-                                                <FontAwesomeIcon icon={faUsers}
-                                                                 className="text-slate-300 text-6xl mb-4"/>
-                                                <p className="text-slate-500 text-lg mb-2">No users found</p>
-                                                <p className="text-slate-400 text-sm mb-6">
-                                                    Start by adding your first user to the system
-                                                </p>
-                                                <Link
-                                                    href={route('users.create')}
-                                                    className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
-                                                >
-                                                    <FontAwesomeIcon icon={faPlus}/>
-                                                    <span>Add First User</span>
-                                                </Link>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Pagination */}
-                            {usersLinks.length > 1 && <Pagination data={users} links={usersLinks}/>}
-                        </div>
-                    </div>
-                </div>
-            </div>
+                <Pagination data={users} />
+            </AppPage>
         </AuthenticatedLayout>
     );
 }

@@ -1,56 +1,20 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {Head, Link} from '@inertiajs/react';
-import React from "react";
+import { Head } from '@inertiajs/react';
+import { AppPage, PageHeader } from '@/Components/UI';
 import Form from './Form';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faGift, faList, faSquarePlus} from "@fortawesome/free-solid-svg-icons";
 
-export default function Create({module}) {
+export default function Create({ module }) {
     return (
         <AuthenticatedLayout>
             <Head title={`${module} Create`} />
-            <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
-                    {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 sm:px-8 sm:py-10">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                            {/* Title Section */}
-                            <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-                                <div className="h-12 w-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                                    <FontAwesomeIcon
-                                        icon={faGift}
-                                        className="text-white text-xl"
-                                    />
-                                </div>
-                                <div>
-                                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        Create {module} Item
-                                    </h1>
-                                    <p className="text-primary-100 text-sm mt-1">
-                                        Share your items and make wishes come true
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Action Button */}
-                            <Link
-                                href={route('organizations.index')}
-                                className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
-                            >
-                                <FontAwesomeIcon icon={faList} className="text-primary-600" />
-                                <span>View {module} List</span>
-                            </Link>
-                        </div>
-                    </div>
-
-                    {/* Card Body */}
-                    <div className="px-6 py-8 sm:px-8 sm:py-10">
-                        <div className="space-y-8">
-                            <Form module={module}/>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <AppPage width="form" className="space-y-6">
+                <PageHeader
+                    title="New organization"
+                    description="Add a partner organization that manages wishers or gifts."
+                    breadcrumbs={[{ label: 'Organizations', href: route('organizations.index') }, { label: 'New' }]}
+                />
+                <Form />
+            </AppPage>
         </AuthenticatedLayout>
     );
 }

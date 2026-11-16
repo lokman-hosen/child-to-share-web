@@ -1,359 +1,141 @@
+import { Head, Link } from '@inertiajs/react';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faEnvelope, faGift, faLocationDot, faPen, faPhone, faPlus, faStar, faCircleCheck, faUsers, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { AppPage, Badge, Button, Card, EmptyState, PageHeader, SafeImage, StatCard } from '@/Components/UI';
+import { getStatus } from '@/utils.jsx';
 
-import React from 'react';
-import {Head, Link, router} from "@inertiajs/react";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faEdit, faList, faPlusCircle} from "@fortawesome/free-solid-svg-icons";
+const initial = (s) => (s || '?').trim().charAt(0).toUpperCase();
 
-const View = ({module,organization,availableDonationCount,activeWishCount,fulfilledWishCount,totalMembers}) => {
+const StatLink = ({ href, ...props }) => (
+    <Link href={href} className="block rounded-card focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 [&>div]:transition [&>div]:hover:-translate-y-0.5 [&>div]:hover:shadow-card-hover">
+        <StatCard {...props} />
+    </Link>
+);
+
+const ContactRow = ({ icon, children }) => (
+    <li className="flex items-start gap-3 text-sm text-slate-700">
+        <FontAwesomeIcon icon={icon} className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+        <span className="min-w-0 break-words">{children}</span>
+    </li>
+);
+
+const View = ({ organization, availableDonationCount, activeWishCount, fulfilledWishCount, totalMembers }) => {
+    const members = (organization.users || []).filter((u) => u.id !== organization.user_id);
+    const preview = members.slice(0, 6);
+    const membersHref = route('users.index', { organization_id: organization.id });
+
     return (
         <AuthenticatedLayout>
-            <Head title="Organization Detail"/>
-            <div>
-                <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white py-8 px-6">
-                    <div className="max-w-6xl mx-auto">
-                        <div className="flex flex-col md:flex-row items-center">
-                            <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
-                                User: {organization?.user}
-                                <div
-                                    className="w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-lg">
-                                    {organization?.user?.image ? (
-                                        <img
-                                            src={`/storage/${organization?.user?.image}`}
-                                            alt={organization.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <i className="fas fa-school text-primary-500 text-4xl"></i>
-                                    )}
+            <Head title={`${organization.name} · Organization`} />
+            <AppPage className="space-y-6">
+                <PageHeader
+                    breadcrumbs={[{ label: 'Organizations', href: route('organizations.index') }, { label: organization.name }]}
+                    title={organization.name}
+                    icon={
+                        <SafeImage
+                            src={organization?.user?.image ? `/storage/${organization.user.image}` : null}
+                            alt=""
+                            className="h-10 w-10 rounded-xl object-cover"
+                            fallback={<span className="text-base font-semibold">{initial(organization.name)}</span>}
+                        />
+                    }
+                    description={organization.created_at ? `On ThreeWish since ${organization.created_at}` : undefined}
+                    actions={
+                        <>
+                            <Button variant="secondary" href={route('organizations.edit', organization.id)} icon={faPen}>Edit</Button>
+                            <Button href={route('wishes.create')} icon={faPlus}>Create wish</Button>
+                        </>
+                    }
+                />
 
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+                    <StatLink href={membersHref} icon={faUsers} label="Members" value={totalMembers} />
+                    <StatCard icon={faCircleCheck} tone="success" label="Wishes fulfilled" value={fulfilledWishCount} />
+                    <StatLink href={route('wishes.index', { organization_id: organization.id })} icon={faStar} tone="gold" label="Approved wishes" value={activeWishCount} />
+                    <StatLink href={route('donations.index', { organization_id: organization.id })} icon={faGift} tone="primary" label="Available gifts" value={availableDonationCount} />
+                </div>
 
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    <div className="space-y-6 lg:col-span-2">
+                        <Card>
+                            <h2 className="text-base font-semibold text-slate-900">About</h2>
+                            {organization.description ? (
+                                <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-slate-700">{organization.description}</p>
+                            ) : (
+                                <p className="mt-3 text-sm text-slate-500">No description yet.</p>
+                            )}
+                        </Card>
+
+                        <Card padded={false}>
+                            <div className="flex items-center justify-between gap-3 border-b border-slate-100 px-5 py-4 sm:px-6">
+                                <div>
+                                    <h2 className="text-base font-semibold text-slate-900">Members</h2>
+                                    <p className="text-sm text-slate-500">People managed by this organization.</p>
                                 </div>
+                                <Badge tone="primary">{totalMembers}</Badge>
                             </div>
-                            <div className="text-center md:text-left">
-                                <h1 className="text-3xl font-bold mb-2">{organization.name}</h1>
-                                <p className="text-lg opacity-90">Serving the community since  {organization.created_at}</p>
-                                <div className="flex flex-wrap justify-center md:justify-start mt-4 gap-3">
-                                <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-users mr-1"></i> {totalMembers} Members
-                                </span>
-                                    <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-gift mr-1"></i> {fulfilledWishCount} Wishes Fulfilled
-                                </span>
-                                    <span className="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm">
-                                    <i className="fas fa-map-marker-alt mr-1"></i> {organization?.address}
-                                </span>
+                            {preview.length ? (
+                                <>
+                                    <ul className="divide-y divide-slate-100">
+                                        {preview.map((m) => (
+                                            <li key={m.id} className="flex items-center gap-3 px-5 py-3 sm:px-6">
+                                                <SafeImage
+                                                    src={m.image ? `/storage/${m.image}` : null}
+                                                    alt=""
+                                                    className="h-9 w-9 shrink-0 rounded-full object-cover"
+                                                    fallback={<span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-50 text-sm font-semibold text-primary-700">{initial(m.name)}</span>}
+                                                />
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="truncate text-sm font-medium text-slate-900">{m.name}</p>
+                                                    {(m.email || m.phone) && <p className="truncate text-xs text-slate-500">{m.email || m.phone}</p>}
+                                                </div>
+                                                {m.role && <Badge className="capitalize">{String(m.role).replace('-', ' ')}</Badge>}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    <Link href={membersHref} className="flex items-center justify-center gap-2 border-t border-slate-100 px-5 py-3 text-sm font-medium text-primary-700 hover:bg-primary-50/50">
+                                        View all members <FontAwesomeIcon icon={faChevronRight} className="h-3 w-3" aria-hidden="true" />
+                                    </Link>
+                                </>
+                            ) : (
+                                <div className="p-5 sm:p-6">
+                                    <EmptyState icon={faUsers} title="No members yet" description="Wishers added to this organization will show up here." className="py-10" />
                                 </div>
+                            )}
+                        </Card>
+                    </div>
+
+                    <div className="space-y-6">
+                        <Card>
+                            <div className="flex items-center justify-between gap-3">
+                                <h2 className="text-base font-semibold text-slate-900">Contact</h2>
+                                {getStatus(organization.is_active)}
                             </div>
-                            <div className="ml-auto mt-4 md:mt-0">
-                                <button
-                                    className="bg-white text-primary-600 px-4 py-2 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
-                                    Join Organization
-                                </button>
+                            <ul className="mt-4 space-y-3">
+                                <ContactRow icon={faEnvelope}>
+                                    {organization.contact_email ? <a href={`mailto:${organization.contact_email}`} className="hover:text-primary-700">{organization.contact_email}</a> : <span className="text-slate-400">No email</span>}
+                                </ContactRow>
+                                <ContactRow icon={faPhone}>
+                                    {organization.contact_phone ? <a href={`tel:${organization.contact_phone}`} className="hover:text-primary-700">{organization.contact_phone}</a> : <span className="text-slate-400">No phone</span>}
+                                </ContactRow>
+                                <ContactRow icon={faLocationDot}>{organization.address || <span className="text-slate-400">No address</span>}</ContactRow>
+                                {organization.created_at && <ContactRow icon={faCalendar}>Joined {organization.created_at}</ContactRow>}
+                            </ul>
+                        </Card>
+
+                        <Card>
+                            <h2 className="text-base font-semibold text-slate-900">Quick links</h2>
+                            <div className="mt-4 grid gap-2">
+                                <Button variant="soft" href={route('wishes.index', { organization_id: organization.id })} icon={faStar}>Organization wishes</Button>
+                                <Button variant="soft" href={route('donations.index', { organization_id: organization.id })} icon={faGift}>Organization gifts</Button>
+                                <Button variant="soft" href={membersHref} icon={faUsers}>Members</Button>
                             </div>
-                        </div>
+                        </Card>
                     </div>
                 </div>
-                <div className="px-10 py-8">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-                        <Link
-                            href={route('users.index', {
-                            'organization_id' : organization.id
-                        })}>
-                            <div
-                                className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-primary-500">
-                                <div className="px-4 py-5 sm:p-6">
-                                    <div className="flex items-center">
-                                        <div className="flex-shrink-0 bg-primary-100 rounded-md p-3">
-                                            <i className="fas fa-users text-primary-600"></i>
-                                        </div>
-                                        <div className="ml-5 w-0 flex-1">
-                                            <dl>
-                                                <dt className="text-sm font-medium text-slate-500 truncate">Total Members</dt>
-                                                <dd className="flex items-baseline">
-                                                    <div className="text-2xl font-semibold text-slate-900">{totalMembers}</div>
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
-
-                        <div
-                            className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-green-500">
-                            <div className="px-4 py-5 sm:p-6">
-                                <div className="flex items-center">
-                                    <div className="flex-shrink-0 bg-green-100 rounded-md p-3">
-                                        <i className="fas fa-gift text-green-600"></i>
-                                    </div>
-                                    <div className="ml-5 w-0 flex-1">
-                                        <dl>
-                                            <dt className="text-sm font-medium text-slate-500 truncate">Wishes Fulfilled</dt>
-                                            <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-slate-900">{fulfilledWishCount}</div>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-yellow-500">
-                            <Link
-                                href={route('wishes.index', {
-                                    'organization_id': organization.id
-                                })}>
-                                <div className="px-4 py-5 sm:p-6">
-                                    <div className="flex items-center">
-                                        <div className="flex-shrink-0 bg-yellow-100 rounded-md p-3">
-                                            <i className="fas fa-star text-yellow-600"></i>
-                                        </div>
-                                        <div className="ml-5 w-0 flex-1">
-                                            <dl>
-                                                <dt className="text-sm font-medium text-slate-500 truncate">Total Wishes</dt>
-                                                <dd className="flex items-baseline">
-                                                    <div
-                                                        className="text-2xl font-semibold text-slate-900">{activeWishCount}</div>
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-
-                        <div
-                            className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-primary-500">
-
-                            <Link
-                                href={route('donations.index', {
-                                    'organization_id': organization.id
-                                })}>
-                                <div className="px-4 py-5 sm:p-6">
-                                    <div className="flex items-center">
-                                        <div className="flex-shrink-0 bg-primary-100 rounded-md p-3">
-                                            <i className="fas fa-hand-holding-heart text-primary-600"></i>
-                                        </div>
-                                        <div className="ml-5 w-0 flex-1">
-                                            <dl>
-                                                <dt className="text-sm font-medium text-slate-500 truncate">Total Gifts
-                                                </dt>
-                                                <dd className="flex items-baseline">
-                                                    <div
-                                                        className="text-2xl font-semibold text-slate-900">{availableDonationCount}</div>
-                                                </dd>
-                                            </dl>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <div className="lg:col-span-2">
-                            <div className="bg-white shadow rounded-lg p-6 mb-8">
-                                <h2 className="text-xl font-semibold text-slate-900 mb-4">About Our Organization</h2>
-                                <p className="text-slate-600 mb-4">{organization.description}</p>
-                                <div className="flex items-center text-sm text-slate-500">
-                                    <i className="fas fa-clock mr-2"></i>
-                                    <span>Joined ThreeWish: {organization.created_at}</span>
-                                </div>
-                            </div>
-
-                            <div className="bg-white shadow rounded-lg p-6">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-xl font-semibold text-slate-900">Recent Gifts</h2>
-                                    <Link
-                                        href={route('donation.index', {
-                                            'organization_id' : organization.id
-                                        })}
-                                        className="text-sm text-primary-600 hover:text-primary-800">View All
-                                    </Link>
-                                </div>
-
-                                <div className="space-y-4">
-                                    <div className="donation-card bg-slate-50 p-4 rounded-lg">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 mr-4">
-                                                <div
-                                                    className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
-                                                    <i className="fas fa-book text-green-600"></i>
-                                                </div>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="font-medium text-slate-900">Children's Books
-                                                    Collection</h3>
-                                                <p className="text-sm text-slate-500">Donated by Sarah Johnson • 2 days
-                                                    ago</p>
-                                            </div>
-                                            <div className="text-right">
-                                                <span
-                                                    className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Delivered</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="donation-card bg-slate-50 p-4 rounded-lg">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 mr-4">
-                                                <div
-                                                    className="h-12 w-12 bg-primary-100 rounded-full flex items-center justify-center">
-                                                    <i className="fas fa-tshirt text-primary-600"></i>
-                                                </div>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="font-medium text-slate-900">Winter Coats (Various
-                                                    Sizes)</h3>
-                                                <p className="text-sm text-slate-500">Donated by Robert Chen • 5 days
-                                                    ago</p>
-                                            </div>
-                                            <div className="text-right">
-                                                <span
-                                                    className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded">In Progress</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="donation-card bg-slate-50 p-4 rounded-lg">
-                                        <div className="flex items-center">
-                                            <div className="flex-shrink-0 mr-4">
-                                                <div
-                                                    className="h-12 w-12 bg-primary-100 rounded-full flex items-center justify-center">
-                                                    <i className="fas fa-laptop text-primary-600"></i>
-                                                </div>
-                                            </div>
-                                            <div className="flex-1">
-                                                <h3 className="font-medium text-slate-900">Laptops for Distance
-                                                    Learning</h3>
-                                                <p className="text-sm text-slate-500">Donated by Tech4Good Foundation • 1
-                                                    week ago</p>
-                                            </div>
-                                            <div className="text-right">
-                                                <span
-                                                    className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Delivered</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex text-center mt-4">
-                                    <Link
-                                        href={route('donations.index',{
-                                            'organization_id' : organization.id
-                                        })}
-                                        className="w-full mt-6 bg-slate-100 text-slate-700 py-2 rounded-lg font-medium hover:bg-slate-200 transition-colors">
-                                        Load More Gifts
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="bg-white shadow rounded-lg p-6 mb-8">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-xl font-semibold text-slate-900">Organization Members</h2>
-                                    <span
-                                        className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-0.5 rounded">{totalMembers} Members</span>
-                                </div>
-
-                                <div className="space-y-4">
-                                    {totalMembers > 0 ?
-                                        (
-                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-slate-50">
-                                                <div className="flex-shrink-0 mr-4">
-                                                    <div
-                                                        className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
-                                                        <span className="font-medium text-primary-600">M</span>
-                                                    </div>
-                                                </div>
-                                                <div className="flex-1">
-                                                    <h3 className="font-medium text-slate-900">Maria Rodriguez</h3>
-                                                    <p className="text-sm text-slate-500">Principal</p>
-                                                </div>
-                                                <div className="text-right">
-                                            <span
-                                                className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Admin</span>
-                                                </div>
-                                            </div>
-                                        ) :
-                                        (
-                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-slate-50">
-                                                <div className="flex-1 text-center">
-                                                    <p className="text-sm text-slate-500">No user</p>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                                {totalMembers > 0 ?
-                                    (
-                                        <Link
-                                            href={route('users.index',{
-                                                'organization_id' : organization.id
-                                            })}
-                                            className="w-full mt-6 bg-slate-100 text-slate-700 py-2 rounded-lg font-medium hover:bg-slate-200 transition-colors">
-                                            View All Members
-                                        </Link>
-                                    ):(
-                                        <button
-                                            onClick={() => window.history.back()}
-                                            className="w-full mt-6 bg-primary-600 text-white py-2 rounded-lg font-medium hover:bg-slate-200 transition-colors">
-                                            <FontAwesomeIcon icon={faArrowLeft}/>
-                                            <span>Back</span>
-                                        </button>
-                                    )
-                                }
-                            </div>
-
-                            <div className="bg-white shadow rounded-lg p-6">
-                                <h2 className="text-xl font-semibold text-slate-900 mb-4">Organization Actions</h2>
-                                <div className="space-y-3">
-                                    <Link
-                                        href={route('wishes.create')}
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
-                                        <FontAwesomeIcon icon={faPlusCircle}/> Create Wish for Organization
-                                    </Link>
-                                    <Link
-                                        href={route('organizations.edit', organization.id)}
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">
-                                        <FontAwesomeIcon icon={faEdit}/> Edit Organization
-                                    </Link>
-
-                                    <Link
-                                        href={route('organizations.index')}
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">
-                                        <FontAwesomeIcon icon={faList}/> Organization List
-                                    </Link>
-
-                                    <button
-                                        type="button"
-                                        onClick={() => window.history.back()}
-                                        className="w-full flex items-center justify-center bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
-                                    >
-                                        <div className="flex items-center space-x-2">
-                                            <FontAwesomeIcon icon={faArrowLeft}/>
-                                            <span>Back</span>
-                                        </div>
-                                    </button>
-                                    {/*<button*/}
-                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">*/}
-                                    {/*    <i className="fas fa-envelope mr-2"></i> Message Organization*/}
-                                    {/*</button>*/}
-                                    {/*<button*/}
-                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">*/}
-                                    {/*    <i className="fas fa-share-alt mr-2"></i> Share Organization*/}
-                                    {/*</button>*/}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </AppPage>
         </AuthenticatedLayout>
-
     );
 };
 

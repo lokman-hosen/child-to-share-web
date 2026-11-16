@@ -1,29 +1,27 @@
 import React, { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 //import './DateTimePicker.css';
 
-// Custom Input Component - Fixed
-const CustomInput = forwardRef(({ value, onClick, placeholder, error, disabled, required }, ref) => {
+// Custom input: shared .form-control look with a calendar icon
+const CustomInput = forwardRef(({ value, onClick, placeholder, error, disabled, required, id }, ref) => {
     return (
-        <div
-            className={`custom-input-wrapper ${error ? 'error' : ''} ${disabled ? 'disabled' : ''}`}
-            onClick={onClick}
-            ref={ref}
-        >
+        <div className="relative w-full cursor-pointer" onClick={onClick} ref={ref}>
             <input
+                id={id}
                 type="text"
-                className="custom-date-input"
+                className={`form-control cursor-pointer !pr-10 ${error ? 'form-control-error' : ''}`}
                 value={value || ''}
                 placeholder={placeholder}
                 readOnly
                 disabled={disabled}
+                required={required}
+                aria-invalid={error ? 'true' : undefined}
                 onClick={onClick}
             />
-            <span className="calendar-icon">
-        📅
-      </span>
-            {required && !value && <span className="required-asterisk">*</span>}
+            <FontAwesomeIcon icon={faCalendarDays} className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
         </div>
     );
 });
@@ -53,11 +51,11 @@ const DateTimePicker = forwardRef(({
                                    }, ref) => {
 
     return (
-        <div className={`date-time-picker-container ${className}`}>
+        <div className={`w-full ${className}`}>
             {label && (
-                <label className="date-time-picker-label text-gray-700">
+                <label htmlFor={props.id} className="mb-1.5 block text-sm font-medium text-slate-800">
                     {label}
-                    {required && <span className="required-asterisk">*</span>}
+                    {required && <span className="ml-0.5 text-danger-600" aria-hidden="true">*</span>}
                 </label>
             )}
 
@@ -75,6 +73,7 @@ const DateTimePicker = forwardRef(({
                 placeholderText={placeholder}
                 customInput={
                     <CustomInput
+                        id={props.id}
                         error={error}
                         disabled={disabled}
                         required={required}
@@ -91,7 +90,7 @@ const DateTimePicker = forwardRef(({
                 popperClassName="date-time-picker-popper"
                 {...props}
             />
-            {error && <div className="error-message">{error}</div>}
+            {error && <p className="mt-1.5 text-xs font-medium text-danger-700">{error}</p>}
         </div>
     );
 });

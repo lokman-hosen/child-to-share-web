@@ -1,4 +1,4 @@
-const SelectInput = ({ id, label, className = '', error, options, required, value, ...props }) => {
+const SelectInput = ({ id, label, className = '', error, options, required, value, placeholder = 'Select an option', ...props }) => {
     return (
         <div className={className}>
             <label htmlFor={id} className="block text-sm font-medium text-slate-800">
@@ -12,7 +12,7 @@ const SelectInput = ({ id, label, className = '', error, options, required, valu
                 value={value === null ? '' : value}
                 {...props}
             >
-                <option value="">Select an option</option>
+                <option value="">{placeholder}</option>
                 {options.map((option) => (
                     <option key={option.value} value={option.value}>
                         {option.label}

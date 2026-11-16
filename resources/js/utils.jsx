@@ -1,5 +1,6 @@
 import React from "react";
 import {usePage} from "@inertiajs/react";
+import Badge from "@/Components/UI/Badge";
 
 export const getDropdownOptions = (data, valueKey, labelKey) => {
     if (!data) {
@@ -71,14 +72,9 @@ export const getFulfilmentStatus = (status) => {
 };
 
 export const getStatus = (status) => {
-    if (status == 1) {
-        return <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-blue-600 text-white text-sm font-medium border">Active</span>
-
-    }else if(status == 0){
-        return <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-orange-600 text-white text-sm font-medium border">Inactive</span>
-    }else{
-        return 'n/a'
-    }
+    if (status == 1) return <Badge tone="success" dot>Active</Badge>;
+    if (status == 0 && status !== null && status !== '') return <Badge tone="neutral" dot>Inactive</Badge>;
+    return <span className="text-slate-400">n/a</span>;
 };
 
 export const searchReplace = (text, searchChars = '_', replaceWith = ' ') => {
@@ -99,8 +95,8 @@ export const getLoginUser = () =>{
 
 export const wishAndDonationType = () => {
     return [
-        { value: 'single', label: 'Single(Not belongs to any organization)' },
-        { value: 'organization', label: 'Belongs to any organization' },
+        { value: 'single', label: 'Individual (no organization)' },
+        { value: 'organization', label: 'Belongs to an organization' },
     ]
 }
 

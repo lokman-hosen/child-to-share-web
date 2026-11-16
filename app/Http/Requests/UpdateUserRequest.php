@@ -23,7 +23,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $currentId = Request::segment(2);
+        $user = $this->route('user');
+        $currentId = is_object($user) ? $user->id : $user;
         return [
             'name' => 'required|string|max:255',
             'phone' => [

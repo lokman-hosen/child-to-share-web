@@ -1,12 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import {Head, Link, router, useForm, usePage} from '@inertiajs/react';
-import React, { useState, useEffect } from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faArrowLeft, faEdit,
-    faList, faSquarePlus,
-    faStar
-} from "@fortawesome/free-solid-svg-icons";
+import { Head, useForm } from '@inertiajs/react';
+import React from "react";
+import { faPaperPlane, faStar } from "@fortawesome/free-solid-svg-icons";
+import { AppPage, Badge, Button, Card, FormActions, FormSection, PageHeader, SafeImage, statusTone } from "@/Components/UI";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import {getDropdownOptions} from "@/utils.jsx";
@@ -53,124 +49,76 @@ export default function Detail({module, wish, donations}) {
             onSuccess: () => {
                 reset();
             },
-            onError: (submissionErrors) => {
-                console.error("Form submission errors:", submissionErrors);
-            },
             preserveScroll: true,
         });
     };
 
     return (
         <AuthenticatedLayout>
-            <Head title="Wish Detail"/>
-            <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
-                    {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 sm:px-8 sm:py-10">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                            {/* Title Section */}
-                            <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-                                <div className="h-12 w-12 bg-white bg-opacity-20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                                    <FontAwesomeIcon
-                                        icon={faStar}
-                                        className="text-white text-xl"
-                                    />
-                                </div>
-                                <div>
-                                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                                        Fulfill Wish for "{wish.title}"
-                                    </h1>
-                                    <p className="text-primary-100 text-sm mt-1">
-                                        <span
-                                            className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mr-1">
-                                            {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
+            <Head title="Wish Detail" />
+            <AppPage width="form" className="space-y-6">
+                <PageHeader
+                    breadcrumbs={[{ label: 'Fulfill wishes', href: route('wish.fulfill.list') }, { label: wish.title }]}
+                    title="Offer a gift"
+                    description="Choose one of your available gifts and propose a delivery time. The wisher will be asked to confirm."
+                />
 
-                            {/* Action Button */}
-                            <Link
-                                href={route('wish.fulfill.list')}
-                                className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
-                            >
-                                <FontAwesomeIcon icon={faList} className="text-primary-600" />
-                                <span>View {module} List</span>
-                            </Link>
+                <Card className="flex items-center gap-4">
+                    <SafeImage
+                        src={wish.featured_image?.file_path ? `/storage/${wish.featured_image.file_path}` : null}
+                        alt=""
+                        fallbackIcon={faStar}
+                        className="h-16 w-16 shrink-0 rounded-lg object-cover ring-1 ring-slate-200 [&>svg]:h-6 [&>svg]:w-6"
+                    />
+                    <div className="min-w-0 flex-1">
+                        <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Wish</p>
+                        <p className="truncate text-base font-semibold text-slate-900">{wish.title}</p>
+                        <div className="mt-1 flex flex-wrap gap-2">
+                            <Badge tone={statusTone(wish.status)} dot>{wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}</Badge>
+                            {wish.age_range && <Badge>Age {wish.age_range}</Badge>}
                         </div>
                     </div>
+                </Card>
 
-                    {/* Card Body */}
-                    <div className="px-6 py-8 sm:px-8 sm:py-10">
-                        <div className="space-y-8">
-                            <div className="border-t border-slate-200">
-                                <form onSubmit={handleSubmit} className="space-y-1">
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
-                                        <SelectInput
-                                            id="donation_id"
-                                            label="Select Gift"
-                                            value={data.donation_id}
-                                            onChange={(e) => setData('donation_id', e.target.value)}
-                                            error={errors.donation_id}
-                                            options={donationOptions}
-                                            required
-                                        />
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <FormSection title="Your offer">
+                        <SelectInput
+                            id="donation_id"
+                            label="Gift"
+                            value={data.donation_id}
+                            onChange={(e) => setData('donation_id', e.target.value)}
+                            error={errors.donation_id}
+                            options={donationOptions}
+                            placeholder={donationOptions.length ? 'Select one of your gifts' : 'No gifts available'}
+                            required
+                        />
+                        <DateTimePicker
+                            selected={getSelectedDate()}
+                            onChange={handleDateChange}
+                            label="Deliver at"
+                            placeholder="Select date and time"
+                            required
+                            id="scheduled_at"
+                            error={errors.scheduled_at}
+                        />
+                        <TextareaInput
+                            id="note"
+                            label="Note for the wisher"
+                            className="md:col-span-2"
+                            value={data.note}
+                            onChange={(e) => setData('note', e.target.value)}
+                            error={errors.note}
+                            placeholder="Anything the wisher should know about the gift or delivery…"
+                            required
+                        />
+                    </FormSection>
 
-                                        {/* Fixed Date & Time Picker */}
-                                        <DateTimePicker
-                                            selected={getSelectedDate()} // Pass Date object or null
-                                            onChange={handleDateChange} // Pass function that receives Date object
-                                            label="Deliver at"
-                                            placeholder="Select date and time"
-                                            required
-                                            id="scheduled_at" // Optional: you can keep this if DateTimePicker accepts it
-                                            error={errors.scheduled_at}
-                                        />
-                                    </div>
-
-                                    <div className="grid grid-cols-1 px-6 py-2">
-                                        <TextareaInput
-                                            id="note"
-                                            label="Description/Note for wisher"
-                                            value={data.note}
-                                            onChange={(e) => setData('note', e.target.value)}
-                                            error={errors.note}
-                                            placeholder="Write note for wisher or anything you like"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="mt-8 flex justify-center space-x-4">
-                                        {/* Back Button */}
-                                        <button
-                                            type="button"
-                                            onClick={() => window.history.back()}
-                                            className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
-                                        >
-                                            <div className="flex items-center space-x-2">
-                                                <FontAwesomeIcon icon={faArrowLeft}/>
-                                                <span>Back</span>
-                                            </div>
-                                        </button>
-
-                                        {/* Submit Button */}
-                                        <button
-                                            type="submit"
-                                            disabled={processing}
-                                            className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
-                                        >
-                                            <div className="flex items-center space-x-2">
-                                                <FontAwesomeIcon icon={faStar}/>
-                                                <span>Requested Wisher</span>
-                                            </div>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                    <FormActions>
+                        <Button variant="secondary" onClick={() => window.history.back()}>Cancel</Button>
+                        <Button type="submit" icon={faPaperPlane} loading={processing}>Send request to wisher</Button>
+                    </FormActions>
+                </form>
+            </AppPage>
         </AuthenticatedLayout>
     );
 }

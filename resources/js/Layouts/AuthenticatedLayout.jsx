@@ -78,13 +78,13 @@ export default function AuthenticatedLayout({ header, children }) {
                 </aside>
             </div>
 
-            <div className={cn('flex min-h-screen flex-col transition-[padding] duration-200', collapsed ? 'md:pl-[4.5rem]' : 'md:pl-64')}>
+            <div className={cn('flex min-h-screen min-w-0 flex-col transition-[padding] duration-200', collapsed ? 'md:pl-[4.5rem]' : 'md:pl-64')}>
                 <Navbar
                     onMenuClick={() => setSidebarOpen(true)}
                     onCollapseToggle={toggleCollapsed}
                     collapsed={collapsed}
                 />
-                <main id="main-content" className={cn('flex-1', showBottomNav ? 'pb-20 md:pb-0' : '')}>
+                <main id="main-content" className={cn('min-w-0 flex-1', showBottomNav ? 'pb-20 md:pb-0' : '')}>
                     {header && (
                         <div className="border-b border-slate-200/80 bg-white">
                             <div className="px-4 py-5 sm:px-6 lg:px-8">{header}</div>

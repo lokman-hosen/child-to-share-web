@@ -1,18 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from '@inertiajs/react';
 import TextInput from '@/Components/TextInputField.jsx';
 import SelectInput from '@/Components/SelectInput.jsx';
 import {getDropdownOptions, getLoginUser, getStatusOptions} from "@/utils.jsx";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faArrowLeft, faEdit, faSquarePlus, faTrash, faUpload} from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Button, FormActions, FormSection, ImageUploader } from "@/Components/UI";
 import MultiSelectTextField from "@/Components/MultiSelectTextField.jsx";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import Checkbox from "@/Components/Checkbox.jsx";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
 
 const Form = ({categories, donation, statuses, module, itemConditions, donors}) => {
-    const fileInputRef = useRef(null);
-
     // Convert auto_tags from string/array to the format MultiSelect expects
     const formatTags = (tags) => {
         if (!tags) return [];
@@ -45,7 +43,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
     const { data, setData, post, put, processing, errors, reset } = useForm({
         title: donation?.title || '',
         item_condition: donation?.item_condition || '',
-        category: donation?.category.name || '',
+        category: donation?.category?.name || '',
         description: donation?.description || '',
         auto_tags: donation?.auto_tags || [],
         attachments: [], // Always start with empty array for new files
@@ -75,7 +73,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                 ...prevData,
                 title: donation?.title || '',
                 item_condition: donation?.item_condition || '',
-                category: donation?.category.name || '',
+                category: donation?.category?.name || '',
                 description: donation?.description || '',
                 auto_tags: formattedTags.map(tag => tag.value),
                 status: donation?.status || 'available',
@@ -103,100 +101,93 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                 reset();
                 setTags([]);
             },
-            onError: (submissionErrors) => {
-                console.error("Form submission errors:", submissionErrors);
-            },
             preserveScroll: true,
         });
     };
 
-    const handleFileChange = (e) => {
-        const files = Array.from(e.target.files);
-        setData('attachments', files);
-        // Clear the input so the same file can be selected again if needed
-        e.target.value = '';
-    };
-
-    const handleAddMoreFiles = (e) => {
-        const files = Array.from(e.target.files);
-        setData('attachments', [...data.attachments, ...files]);
-        // Clear the input
-        e.target.value = '';
-    };
-
-    const removeFile = (index) => {
-        const newAttachments = data.attachments.filter((_, i) => i !== index);
-        setData('attachments', newAttachments);
-    };
-
     const statusOptions = getStatusOptions(statuses);
     const donorOptions = getDropdownOptions(donors, 'id', 'name');
+    const isSuperAdmin = getLoginUser().role == 'super-admin';
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <CustomCreatableSelect
-                    id="item_condition"
-                    label="Item condition(type to create new)"
-                    value={data.item_condition}
-                    onChange={(value) => setData('item_condition', value)}
-                    options={itemConditions}
-                    error={errors.item_condition}
-                    placeholder="e.g., good, new, Like new or excellent etc."
-                    required
-                />
-
+            <FormSection title="Item details" description="Describe the item so the right wisher can find it.">
                 <TextInput
                     id="title"
-                    label="Item Name"
+                    label="Item name"
                     value={data.title}
                     onChange={(e) => setData('title', e.target.value)}
                     error={errors.title}
-                    placeholder="e.g., Winter Coat, Story Books, etc."
+                    placeholder="e.g. Winter coat, story books"
                     required
                 />
-                {/*<TextInput*/}
-                {/*    id="item_condition"*/}
-                {/*    label="Item condition"*/}
-                {/*    value={data.item_condition}*/}
-                {/*    onChange={(e) => setData('item_condition', e.target.value)}*/}
-                {/*    error={errors.item_condition}*/}
-                {/*    placeholder="e.g., good, new, Like new or excellent etc."*/}
-                {/*    required*/}
-                {/*/>*/}
-
                 <CustomCreatableSelect
                     id="category"
-                    label="Category(type to create new)"
+                    label="Category"
                     value={data.category}
                     onChange={(value) => setData('category', value)}
                     options={categories}
                     error={errors.category}
-                    placeholder="Select or type to create new category"
+                    placeholder="Pick or type a new category"
+                    required
+                />
+                <CustomCreatableSelect
+                    id="item_condition"
+                    label="Condition"
+                    value={data.item_condition}
+                    onChange={(value) => setData('item_condition', value)}
+                    options={itemConditions}
+                    error={errors.item_condition}
+                    placeholder="e.g. New, like new, good"
                     required
                 />
                 <MultiSelectTextField
                     id="auto_tags"
-                    label="Add multiple tags (use comma, space, or Enter)"
+                    label="Tags"
                     value={tags}
                     onChange={setTags}
-                    placeholder="e.g., toy, baby, like new etc"
+                    placeholder="e.g. toy, baby — press Enter or comma"
                     error={errors.auto_tags}
                     required
                 />
+                <TextareaInput
+                    id="description"
+                    label="Description"
+                    className="md:col-span-2"
+                    value={data.description}
+                    onChange={(e) => setData('description', e.target.value)}
+                    error={errors.description}
+                    placeholder="Size, age range, any defects, how it was used…"
+                    required
+                />
+            </FormSection>
 
-                { getLoginUser().role == 'super-admin' &&
+            <FormSection title="Photos" description={donation ? 'New photos are added to the ones already uploaded.' : 'Clear photos help wishers decide.'} columns="">
+                <ImageUploader
+                    id="attachments"
+                    label="Item photos"
+                    hint="PNG or JPG, at least 800×500. Images are optimized automatically."
+                    required={!donation}
+                    files={data.attachments}
+                    onChange={(files) => setData('attachments', files)}
+                    error={errors.attachments}
+                />
+            </FormSection>
+
+            <FormSection title="Options">
+                {isSuperAdmin && (
                     <SelectInput
                         id="user_id"
-                        label="Select Contributor"
+                        label="Contributor"
                         value={data.user_id}
                         onChange={(e) => setData('user_id', e.target.value)}
                         error={errors.user_id}
                         options={donorOptions}
+                        placeholder="Select a contributor"
                         required
                     />
-                }
-                { donation &&
+                )}
+                {donation && (
                     <SelectInput
                         id="status"
                         label="Status"
@@ -206,151 +197,22 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                         options={statusOptions}
                         required
                     />
-                }
-            </div>
+                )}
+                <label htmlFor="remember" className="flex cursor-pointer items-start gap-3 rounded-lg p-3 ring-1 ring-inset ring-slate-200 hover:bg-slate-50 md:col-span-2">
+                    <Checkbox id="remember" name="remember" className="mt-0.5" checked={data.remember} onChange={(e) => setData('remember', e.target.checked)} />
+                    <span>
+                        <span className="block text-sm font-medium text-slate-800">Request admin help with pickup or delivery</span>
+                        <span className="block text-xs text-slate-500">The ThreeWish team will contact you to arrange it.</span>
+                    </span>
+                </label>
+            </FormSection>
 
-            <div className="grid grid-cols-1 gap-6">
-                <TextareaInput
-                    id="description"
-                    label="Description"
-                    value={data.description}
-                    onChange={(e) => setData('description', e.target.value)}
-                    error={errors.description}
-                    placeholder="Enter item description"
-                    required
-                />
-
-                {/* File Upload Section */}
-                <div className="space-y-4">
-                    <label className="block text-sm font-medium text-slate-700">
-                        Attachment images(png,jpg,jpeg. Min size: 800x500)
-                        {!donation && (
-                            <span className="text-red-500">*</span>
-                        )}
-
-                    </label>
-
-                    {/* Main File Input */}
-                    <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            multiple
-                            // accept="image/png, image/jpg, image/jpeg,video/mp4"
-                            accept="image/png, image/jpg, image/jpeg"
-                            onChange={handleFileChange}
-                            className="hidden"
-                        />
-                        <button
-                            type="button"
-                            onClick={() => fileInputRef.current?.click()}
-                            className="bg-secondary-300 hover:bg-secondary-400 text-slate-900 font-semibold py-2 px-4 rounded-md shadow-sm"
-                        >
-                            <FontAwesomeIcon icon={faUpload} className="mr-2" />
-                            {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
-                        </button>
-                        <p className="mt-2 text-sm text-slate-500">
-                            {/*Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.*/}
-                            Upload images(min size: 800x500). Images will be automatically optimized.
-                        </p>
-                    </div>
-
-                    {/* Add More Files Button - Only show if there are already files */}
-                    {data.attachments.length > 0 && (
-                        <div className="text-center">
-                            <input
-                                type="file"
-                                multiple
-                                accept="image/png, image/jpg, image/jpeg,video/mp4"
-                                onChange={handleAddMoreFiles}
-                                id="add-more-files"
-                                className="hidden"
-                            />
-                            <button
-                                type="button"
-                                onClick={() => document.getElementById('add-more-files')?.click()}
-                                className="text-primary-600 hover:text-primary-800 text-sm font-medium"
-                            >
-                                <FontAwesomeIcon icon={faSquarePlus} className="mr-1" />
-                                Add More Files
-                            </button>
-                        </div>
-                    )}
-
-                    {/* Selected Files Preview */}
-                    {data.attachments.length > 0 && (
-                        <div className="mt-4">
-                            <h4 className="text-sm font-medium text-slate-700 mb-2">Selected Files:</h4>
-                            <div className="space-y-2">
-                                {data.attachments.map((file, index) => (
-                                    <div key={index} className="flex items-center justify-between bg-slate-50 p-3 rounded">
-                                        <div className="flex items-center">
-                                            <span className="text-sm text-slate-700">
-                                                {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                                            </span>
-                                        </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => removeFile(index)}
-                                            className="text-red-600 hover:text-red-800"
-                                        >
-                                            <FontAwesomeIcon icon={faTrash} />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {errors.attachments && (
-                        <p className="mt-1 text-sm text-red-600">{errors.attachments}</p>
-                    )}
-                </div>
-
-                <div className="flex items-center">
-                    <Checkbox
-                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded"
-                        name="remember"
-                        checked={data.remember}
-                        onChange={(e) =>
-                            setData('remember', e.target.checked)
-                        }
-                    />
-                    <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-700">Request admin assistance for pickup/delivery</label>
-                </div>
-            </div>
-
-            <div className="mt-8 flex justify-center space-x-4">
-                {/* Back Button */}
-                <button
-                    type="button"
-                    onClick={() => window.history.back()}
-                    className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
-                >
-                    <div className="flex items-center space-x-2">
-                        <FontAwesomeIcon icon={faArrowLeft}/>
-                        <span>Back</span>
-                    </div>
-                </button>
-                <button
-                    type="submit"
-                    disabled={processing}
-                    className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
-                >
-                    {donation ? (
-                        // Button content for Update User
-                        <div className="flex items-center space-x-2">
-                            <FontAwesomeIcon icon={faEdit}/>
-                            <span>Update</span>
-                        </div>
-                    ) : (
-                        <div className="flex items-center space-x-2">
-                            <FontAwesomeIcon icon={faSquarePlus}/>
-                            <span>Create</span>
-                        </div>
-                    )}
-                </button>
-            </div>
+            <FormActions>
+                <Button variant="secondary" onClick={() => window.history.back()}>Cancel</Button>
+                <Button type="submit" icon={faCheck} loading={processing}>
+                    {donation ? 'Save changes' : 'Add gift'}
+                </Button>
+            </FormActions>
         </form>
     );
 };

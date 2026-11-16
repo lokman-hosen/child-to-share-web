@@ -1,630 +1,89 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
-import { Head, Link, router } from '@inertiajs/react';
-import React, {useEffect, useRef, useState} from "react";
-import Pagination from "@/Components/Admin/Pagination.jsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-    faStar,
-    faPlus,
-    faTable,
-    faGridHorizontal,
-    faBuilding,
-    faEnvelope,
-    faPhone,
-    faLocationDot,
-    faCalendar,
-    faExternalLinkAlt,
-    faEdit,
-    faEye, faFilter, faTimes, faSearch
-} from "@fortawesome/free-solid-svg-icons";
-import {getStatus, getStatusOptions, wishAndDonationType} from "@/utils.jsx";
+import { Head, Link } from '@inertiajs/react';
+import { faBuilding, faEye, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { AppPage, Button, DataTable, EmptyState, FilterBar, PageHeader, Pagination, RowAction, RowActions, SafeImage, SearchInput } from '@/Components/UI';
+import SelectInput from '@/Components/SelectInput.jsx';
+import useListFilters from '@/hooks/useListFilters';
+import { getStatus, getStatusOptions } from '@/utils.jsx';
+
+const OrgAvatar = ({ org }) => (
+    <span className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-primary-50 text-sm font-semibold text-primary-700 ring-1 ring-slate-200">
+        {org?.user?.image ? (
+            <SafeImage src={`/storage/${org.user.image}`} alt="" className="h-full w-full object-cover" fallback={(org.name || '?').charAt(0).toUpperCase()} />
+        ) : (
+            (org.name || '?').charAt(0).toUpperCase()
+        )}
+    </span>
+);
 
 export default function List({ module, filters, organizations }) {
-    const [viewMode, setViewMode] = useState('table');
-    const [showFilters, setShowFilters] = useState(true); // For mobile filter toggle
-    const [activeFilterCount, setActiveFilterCount] = useState(0);
+    const rows = organizations?.data || [];
+    const { values, set, clear, activeCount } = useListFilters('organizations.index', ['search_common', 'status'], {
+        fallback: { search_common: filters?.searchCommon, status: filters?.status },
+        debounce: ['search_common'],
+    });
 
-    const organizationListData = organizations?.data || [];
-    const organizationsLinks = organizations?.links || [];
-    const safeFilters = filters || [];
-    const [searchCommon, setSearchCommon] = useState((safeFilters?.searchCommon) || '');
-    const [status, setStatus] = useState((safeFilters?.status) || '');
-
-
-    // Use a ref to prevent useEffect from running on the initial render for filters/sort
-    const initialRender = useRef(true);
-
-    // Calculate active filters count
-    useEffect(() => {
-        let count = 0;
-        if (searchCommon) count++;
-        if (status) count++;
-        setActiveFilterCount(count);
-    }, [searchCommon,status]);
-
-    useEffect(() => {
-        if (initialRender.current) {
-            initialRender.current = false;
-            return;
-        }
-
-        const query = {
-            search_common: searchCommon,
-            status: status,
-        };
-
-        router.get(route('organizations.index'), query, {
-            preserveState: true,
-            replace: true,
-        });
-    }, [searchCommon,status]);
-
-    // Clear all filters
-    const clearAllFilters = () => {
-        setSearchCommon('');
-        setStatus('');
-    };
-
-    const getStatusColor = (status) => {
-        switch (status) {
-            case '1':
-                return 'bg-emerald-100 text-emerald-800 border-emerald-200';
-            case '0':
-                return 'bg-rose-100 text-rose-800 border-rose-200';
-            default:
-                return 'bg-slate-100 text-slate-800 border-slate-200';
-        }
-    };
+    const columns = [
+        { key: 'name', header: 'Organization', primary: true, render: (o) => (
+            <Link href={route('organizations.show', o.id)} className="group flex min-w-0 items-center gap-3">
+                <OrgAvatar org={o} />
+                <span className="min-w-0">
+                    <span className="line-clamp-2 font-medium text-slate-900 group-hover:text-primary-700">{o.name}</span>
+                    {o.created_at && <span className="block text-xs font-normal text-slate-500">Since {o.created_at}</span>}
+                </span>
+            </Link>
+        ) },
+        { key: 'contact', header: 'Contact', render: (o) => (
+            <div className="min-w-0 text-sm">
+                {o.contact_email ? <a href={`mailto:${o.contact_email}`} className="block max-w-[220px] truncate text-slate-700 hover:text-primary-700">{o.contact_email}</a> : <span className="text-slate-400">No email</span>}
+                <span className="block text-slate-500">{o.contact_phone || 'No phone'}</span>
+            </div>
+        ) },
+        { key: 'address', header: 'Location', wide: true, render: (o) => o.address
+            ? <span className="line-clamp-2 max-w-[240px] text-sm">{o.address}</span>
+            : <span className="text-slate-400">Not provided</span> },
+        { key: 'status', header: 'Status', aside: true, render: (o) => getStatus(o.is_active) },
+        { key: 'actions', align: 'right', render: (o) => (
+            <RowActions>
+                <RowAction href={route('organizations.show', o.id)} icon={faEye} label="View" aria-label={`View ${o.name}`} />
+                <RowAction href={route('organizations.edit', o.id)} icon={faPen} label="Edit" tone="primary" aria-label={`Edit ${o.name}`} />
+            </RowActions>
+        ) },
+    ];
 
     return (
         <AuthenticatedLayout>
             <Head title={`${module} List`} />
-            <div className="px-4 sm:px-6 lg:px-8 py-8">
-                {/* Main Card Container */}
-                <div className="bg-gradient-to-br from-white to-slate-50 shadow-2xl rounded-3xl overflow-hidden border border-slate-100">
-                    {/* Card Header with Gradient */}
-                    <div className="relative bg-gradient-to-r from-primary-600 via-primary-600 to-primary-600 px-6 py-10 sm:px-10 sm:py-12 overflow-hidden">
-                        {/* Background Pattern */}
-                        <div className="absolute inset-0 opacity-10">
-                            <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-32 -translate-y-32"></div>
-                            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-48 translate-y-48"></div>
-                        </div>
+            <AppPage className="space-y-6">
+                <PageHeader
+                    title="Organizations"
+                    description="Partner organizations and the people they manage."
+                    actions={<Button href={route('organizations.create')} icon={faPlus}>New organization</Button>}
+                />
 
-                        <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-6 lg:space-y-0">
-                            {/* Title Section */}
-                            <div className="flex items-center space-x-5">
-                                <div className="h-16 w-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg border border-white/30">
-                                    <FontAwesomeIcon
-                                        icon={faBuilding}
-                                        className="text-white text-2xl"
-                                    />
-                                </div>
-                                <div>
-                                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
-                                        {module} Management
-                                    </h1>
-                                    <p className="text-primary-100 text-lg opacity-90">
-                                        Manage and organize all your partner organizations
-                                    </p>
-                                </div>
-                            </div>
+                <FilterBar title="Filter organizations" active={activeCount > 0} onClear={clear} columns="lg:grid-cols-2">
+                    <SearchInput id="search_common" label="Search" value={values.search_common} onChange={(v) => set('search_common', v)} placeholder="Name, email, phone or address…" />
+                    <SelectInput id="status" label="Status" value={values.status} onChange={(e) => set('status', e.target.value)} options={getStatusOptions()} placeholder="All statuses" />
+                </FilterBar>
 
-                            {/* Actions Section */}
-                            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                                {/* View Toggle */}
-                                <div className="flex items-center bg-white/20 backdrop-blur-sm rounded-xl p-1.5 border border-white/30">
-                                    <button
-                                        onClick={() => setViewMode('table')}
-                                        className={`p-2.5 rounded-lg transition-all duration-300 transform hover:scale-105 ${
-                                            viewMode === 'table'
-                                                ? 'bg-white text-primary-600 shadow-lg'
-                                                : 'text-white hover:bg-white/20'
-                                        }`}
-                                        title="Table View"
-                                    >
-                                        <FontAwesomeIcon icon={faTable} className="w-5 h-5" />
-                                    </button>
-                                    <button
-                                        onClick={() => setViewMode('grid')}
-                                        className={`p-2.5 rounded-lg transition-all duration-300 transform hover:scale-105 ${
-                                            viewMode === 'grid'
-                                                ? 'bg-white text-primary-600 shadow-lg'
-                                                : 'text-white hover:bg-white/20'
-                                        }`}
-                                        title="Grid View"
-                                    >
-                                        <FontAwesomeIcon icon={faGridHorizontal} className="w-5 h-5" />
-                                    </button>
-                                </div>
+                <DataTable
+                    caption="Organizations"
+                    columns={columns}
+                    rows={rows}
+                    empty={
+                        <EmptyState
+                            icon={faBuilding}
+                            title={activeCount ? 'No organizations match these filters' : 'No organizations yet'}
+                            description={activeCount ? 'Try a different search or clear the filters.' : 'Add your first partner organization.'}
+                            action={activeCount
+                                ? <Button variant="secondary" onClick={clear}>Clear filters</Button>
+                                : <Button href={route('organizations.create')} icon={faPlus}>New organization</Button>}
+                        />
+                    }
+                />
 
-                                {/* Create Button */}
-                                <Link
-                                    href={route('organizations.create')}
-                                    className="group inline-flex items-center justify-center space-x-3 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3.5 px-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-white/50"
-                                >
-                                    <div className="relative">
-                                        <div className="absolute -inset-1 bg-white/30 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                        <FontAwesomeIcon icon={faPlus} className="relative text-lg" />
-                                    </div>
-                                    <span className="text-lg">Create Organization</span>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Card Body */}
-                    <div className="px-4 sm:px-8 py-8">
-                        {/* Stats Bar */}
-                        {/*<div className="mb-8 grid grid-cols-1 md:grid-cols-4 gap-4">*/}
-                        {/*    <div className="bg-gradient-to-r from-primary-50 to-primary-50 rounded-2xl p-6 border border-primary-100">*/}
-                        {/*        <div className="flex items-center justify-between">*/}
-                        {/*            <div>*/}
-                        {/*                <p className="text-sm font-medium text-slate-600">Total Organizations</p>*/}
-                        {/*                <p className="text-3xl font-bold text-slate-900 mt-2">{organizations.total || 0}</p>*/}
-                        {/*            </div>*/}
-                        {/*            <div className="h-12 w-12 bg-primary-100 rounded-xl flex items-center justify-center">*/}
-                        {/*                <FontAwesomeIcon icon={faBuilding} className="text-primary-600 text-xl" />*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-2xl p-6 border border-emerald-100">*/}
-                        {/*        <div className="flex items-center justify-between">*/}
-                        {/*            <div>*/}
-                        {/*                <p className="text-sm font-medium text-slate-600">Active</p>*/}
-                        {/*                <p className="text-3xl font-bold text-slate-900 mt-2">*/}
-                        {/*                    {organizationListData.filter(o => getStatus(o.is_active)).length}*/}
-                        {/*                </p>*/}
-                        {/*            </div>*/}
-                        {/*            <div className="h-12 w-12 bg-emerald-100 rounded-xl flex items-center justify-center">*/}
-                        {/*                <div className="h-3 w-3 bg-emerald-500 rounded-full"></div>*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border border-amber-100">*/}
-                        {/*        <div className="flex items-center justify-between">*/}
-                        {/*            <div>*/}
-                        {/*                <p className="text-sm font-medium text-slate-600">Inactive</p>*/}
-                        {/*                <p className="text-3xl font-bold text-slate-900 mt-2">*/}
-                        {/*                    {organizationListData.filter(o => getStatus(o.is_active)).length}*/}
-                        {/*                </p>*/}
-                        {/*            </div>*/}
-                        {/*            <div className="h-12 w-12 bg-amber-100 rounded-xl flex items-center justify-center">*/}
-                        {/*                <div className="h-3 w-3 bg-amber-500 rounded-full"></div>*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*    <div className="bg-gradient-to-r from-primary-50 to-primary-50 rounded-2xl p-6 border border-primary-100">*/}
-                        {/*        <div className="flex items-center justify-between">*/}
-                        {/*            <div>*/}
-                        {/*                <p className="text-sm font-medium text-slate-600">This Month</p>*/}
-                        {/*                <p className="text-3xl font-bold text-slate-900 mt-2">0</p>*/}
-                        {/*            </div>*/}
-                        {/*            <div className="h-12 w-12 bg-primary-100 rounded-xl flex items-center justify-center">*/}
-                        {/*                <FontAwesomeIcon icon={faCalendar} className="text-primary-600 text-xl" />*/}
-                        {/*            </div>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
-
-                        {/* Enhanced Filter Section */}
-                        <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 mb-6">
-                            {/* Filter Header - Always visible */}
-                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                                <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-                                    <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faFilter} className="text-primary-600 text-lg" />
-                                    </div>
-                                    <div>
-                                        <h2 className="text-lg font-semibold text-slate-900">Filter Organization</h2>
-                                        <p className="text-sm text-slate-500">
-                                            Find specific name, email, phone, status
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center space-x-3">
-                                    {/* Mobile Filter Toggle */}
-                                    <button
-                                        onClick={() => setShowFilters(!showFilters)}
-                                        className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
-                                    >
-                                        <FontAwesomeIcon icon={showFilters ? faTimes : faFilter} className="mr-2" />
-                                        {showFilters ? 'Hide Filters' : 'Show Filters'}
-                                        {activeFilterCount > 0 && (
-                                            <span className="ml-2 bg-primary-600 text-white text-xs px-2 py-0.5 rounded-full">
-                                                    {activeFilterCount}
-                                                </span>
-                                        )}
-                                    </button>
-
-                                    {/* Active Filters Count - Desktop */}
-                                    {activeFilterCount > 0 && (
-                                        <div className="hidden md:flex items-center space-x-2">
-                                                <span className="text-sm text-slate-500">
-                                                    {activeFilterCount} active filter{activeFilterCount !== 1 ? 's' : ''}
-                                                </span>
-                                            <button
-                                                onClick={clearAllFilters}
-                                                className="inline-flex items-center px-3 py-1.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
-                                            >
-                                                <FontAwesomeIcon icon={faTimes} className="mr-1.5 w-3 h-3" />
-                                                Clear All
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Filter Fields - Responsive Grid */}
-                            <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
-                                <div
-                                    className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-6">
-                                    {/* Search Input - Enhanced with icon */}
-                                    <div className="relative">
-                                        <label htmlFor="search"
-                                               className="block text-sm font-medium text-slate-700 mb-2">
-                                            Common Search
-                                        </label>
-                                        <div className="relative">
-                                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <FontAwesomeIcon icon={faSearch} className="text-slate-400 w-4 h-4"/>
-                                            </div>
-                                            <input
-                                                type="text"
-                                                id="search"
-                                                value={searchCommon}
-                                                onChange={(e) => setSearchCommon(e.target.value)}
-                                                placeholder="Search by name, email, phone, description, address.."
-                                                className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
-                                            />
-                                            {searchCommon && (
-                                                <button
-                                                    onClick={() => setSearchCommon('')}
-                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                                                >
-                                                    <FontAwesomeIcon icon={faTimes} className="text-slate-400 hover:text-slate-600 w-4 h-4"/>
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
-
-
-                                    <div>
-                                        <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
-                                            Status
-                                        </label>
-                                        <select
-                                            id="status"
-                                            value={status}
-                                            onChange={(e) => setStatus(e.target.value)}
-                                            className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
-                                        >
-                                            <option value="">All Status</option>
-                                            {getStatusOptions().map(option => (
-                                                <option key={option.value} value={option.value}>
-                                                    {option.label}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                </div>
-
-                                {/* Clear Filters Button - Mobile Only */}
-                                {activeFilterCount > 0 && (
-                                    <div className="mt-4 md:hidden">
-                                        <button
-                                            onClick={clearAllFilters}
-                                            className="w-full inline-flex items-center justify-center px-4 py-2.5 bg-red-50 text-red-600 text-sm font-medium rounded-lg hover:bg-red-100 transition-colors"
-                                        >
-                                            <FontAwesomeIcon icon={faTimes} className="mr-2"/>
-                                            Clear All Filters ({activeFilterCount})
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Content Area */}
-                        <div className="overflow-x-auto bg-white shadow rounded-lg border border-slate-200">
-                            {/* Desktop View */}
-                            <div className="hidden md:block">
-                                {viewMode === 'table' ? (
-                                    /* Table View */
-                                    <div className="overflow-x-auto">
-                                        <table className="min-w-full divide-y divide-slate-200">
-                                            <thead className="bg-gradient-to-r from-slate-50 to-slate-100">
-                                            <tr>
-                                                <th className="px-8 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Organization
-                                                </th>
-                                                <th className="px-6 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Contact Information
-                                                </th>
-                                                <th className="px-6 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Location
-                                                </th>
-                                                <th className="px-6 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Status
-                                                </th>
-                                                <th className="px-6 py-5 text-right text-sm font-semibold text-slate-700 uppercase tracking-wider">
-                                                    Actions
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-slate-100">
-                                            {organizationListData.length > 0 ? (
-                                                organizationListData.map((organization) => (
-                                                    <tr key={organization.id} className="hover:bg-slate-50 transition-colors duration-200 group">
-                                                        <td className="px-8 py-6">
-                                                            <div className="flex items-center space-x-5">
-                                                                <div className="h-16 w-16 bg-gradient-to-br from-primary-100 to-primary-100 rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-slate-200">
-                                                                    {organization?.user?.image ? (
-                                                                        <img
-                                                                            src={`/storage/${organization?.user?.image}`}
-                                                                            alt={organization.name}
-                                                                            className="w-full h-full object-cover"
-                                                                        />
-                                                                    ) : (
-                                                                        <FontAwesomeIcon icon={faBuilding} className="text-primary-500 text-2xl" />
-                                                                    )}
-                                                                </div>
-                                                                <div>
-                                                                    <h3 className="text-lg font-semibold text-slate-900 group-hover:text-primary-600 transition-colors">
-                                                                        {organization.name}
-                                                                    </h3>
-                                                                    <p className="text-sm text-slate-500 mt-1 flex items-center">
-                                                                        <FontAwesomeIcon icon={faCalendar} className="w-3 h-3 mr-2" />
-                                                                        Since: {organization.created_at}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-6 py-6">
-                                                            <div className="space-y-2">
-                                                                <div className="flex items-center text-sm text-slate-700">
-                                                                    <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 mr-3 text-slate-400" />
-                                                                    <span className="truncate max-w-[200px]">{organization.contact_email}</span>
-                                                                </div>
-                                                                <div className="flex items-center text-sm text-slate-700">
-                                                                    <FontAwesomeIcon icon={faPhone} className="w-4 h-4 mr-3 text-slate-400" />
-                                                                    <span>{organization.contact_phone || 'N/A'}</span>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-6 py-6">
-                                                            <div className="flex items-center text-sm text-slate-700">
-                                                                <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 mr-3 text-slate-400" />
-                                                                <span className="truncate max-w-[180px]">{organization.address || 'No address provided'}</span>
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-6 py-6">
-                                                            {getStatus(organization.is_active)}
-                                                        </td>
-                                                        <td className="px-6 py-6">
-                                                            <div className="flex justify-end space-x-3">
-                                                                <Link
-                                                                    href={route('organizations.show', organization.id)}
-                                                                    className="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-primary-50 to-primary-50 text-primary-700 hover:text-white hover:from-primary-600 hover:to-primary-600 border border-primary-200 hover:border-primary-600 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 group/view"
-                                                                >
-                                                                    <FontAwesomeIcon icon={faEye} className="w-4 h-4 mr-2 group-hover/view:animate-pulse" />
-                                                                    View
-                                                                </Link>
-                                                                <Link
-                                                                    href={route('organizations.edit', organization.id)}
-                                                                    className="inline-flex items-center px-4 py-2.5 bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 hover:text-white hover:from-emerald-600 hover:to-teal-600 border border-emerald-200 hover:border-emerald-600 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 group/edit"
-                                                                >
-                                                                    <FontAwesomeIcon icon={faEdit} className="w-4 h-4 mr-2 group-hover/edit:animate-pulse" />
-                                                                    Edit
-                                                                </Link>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="5" className="px-8 py-16 text-center">
-                                                        <div className="max-w-md mx-auto">
-                                                            <div className="h-24 w-24 mx-auto bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center mb-6">
-                                                                <FontAwesomeIcon icon={faBuilding} className="text-slate-300 text-4xl" />
-                                                            </div>
-                                                            <h3 className="text-2xl font-semibold text-slate-700 mb-3">No Organizations Found</h3>
-                                                            <p className="text-slate-500 mb-8">
-                                                                Start by adding your first organization to manage partnerships and collaborations.
-                                                            </p>
-                                                            <Link
-                                                                href={route('organizations.create')}
-                                                                className="inline-flex items-center space-x-3 bg-gradient-to-r from-primary-600 to-primary-600 text-white font-semibold py-3.5 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                                                            >
-                                                                <FontAwesomeIcon icon={faPlus} />
-                                                                <span>Create First Organization</span>
-                                                            </Link>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                ) : (
-                                    /* Grid View */
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 p-6">
-                                        {organizationListData.length > 0 ? (
-                                            organizationListData.map((organization) => (
-                                                <div
-                                                    key={organization.id}
-                                                    className="group bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden hover:-translate-y-1"
-                                                >
-                                                    {/* Card Header */}
-                                                    <div className="relative h-48 overflow-hidden">
-                                                        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-600 opacity-90"></div>
-                                                        {organization.user?.image ? (
-                                                            <img
-                                                                src={`/storage/${organization.user.image}`}
-                                                                alt={organization.name}
-                                                                className="w-full h-full object-cover mix-blend-overlay opacity-30 group-hover:scale-110 transition-transform duration-700"
-                                                            />
-                                                        ) : (
-                                                            <div className="w-full h-full flex items-center justify-center">
-                                                                <FontAwesomeIcon icon={faBuilding} className="text-white text-6xl opacity-50" />
-                                                            </div>
-                                                        )}
-                                                        {/* Status Badge */}
-                                                        <div className="absolute top-4 right-4">
-                                                            <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold border ${getStatusColor(organization.is_active)} backdrop-blur-sm`}>
-                                                                {organization.is_active ? 'Active' : 'Inactive'}
-                                                            </span>
-                                                        </div>
-                                                        {/* Organization Name */}
-                                                        <div className="absolute bottom-4 left-4 right-4">
-                                                            <h3 className="text-xl font-bold text-white line-clamp-2">
-                                                                {organization.name}
-                                                            </h3>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Card Content */}
-                                                    <div className="p-6">
-                                                        <div className="space-y-4">
-                                                            {/* Contact Info */}
-                                                            <div className="space-y-3">
-                                                                <div className="flex items-center text-sm text-slate-600">
-                                                                    <FontAwesomeIcon icon={faEnvelope} className="w-4 h-4 mr-3 text-slate-400 flex-shrink-0" />
-                                                                    <span className="truncate">{organization.contact_email}</span>
-                                                                </div>
-                                                                <div className="flex items-center text-sm text-slate-600">
-                                                                    <FontAwesomeIcon icon={faPhone} className="w-4 h-4 mr-3 text-slate-400 flex-shrink-0" />
-                                                                    <span>{organization.contact_phone || 'N/A'}</span>
-                                                                </div>
-                                                                <div className="flex items-start text-sm text-slate-600">
-                                                                    <FontAwesomeIcon icon={faLocationDot} className="w-4 h-4 mr-3 text-slate-400 mt-0.5 flex-shrink-0" />
-                                                                    <span className="line-clamp-2">{organization.address || 'No address provided'}</span>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Created Date */}
-                                                            <div className="pt-4 border-t border-slate-100">
-                                                                <div className="flex items-center justify-between">
-                                                                    <div className="flex items-center text-sm text-slate-500">
-                                                                        <FontAwesomeIcon icon={faCalendar} className="w-4 h-4 mr-2" />
-                                                                        Since {new Date(organization.created_at).toLocaleDateString()}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            {/* Action Buttons */}
-                                                            <div className="pt-4 flex space-x-3">
-                                                                <Link
-                                                                    href={route('organizations.show', organization.id)}
-                                                                    className="flex-1 inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-primary-50 to-primary-50 text-primary-700 hover:text-white hover:from-primary-600 hover:to-primary-600 border border-primary-200 hover:border-primary-600 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105 group/view"
-                                                                >
-                                                                    <FontAwesomeIcon icon={faEye} className="w-4 h-4 mr-2 group-hover/view:animate-pulse" />
-                                                                    View Details
-                                                                </Link>
-                                                                <Link
-                                                                    href={route('organizations.edit', organization.id)}
-                                                                    className="inline-flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-slate-50 to-slate-100 text-slate-700 hover:text-white hover:from-slate-600 hover:to-slate-700 border border-slate-200 hover:border-slate-600 rounded-lg text-sm font-medium transition-all duration-300 transform hover:scale-105"
-                                                                    title="Edit"
-                                                                >
-                                                                    <FontAwesomeIcon icon={faEdit} className="w-4 h-4" />
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        ) : (
-                                            <div className="col-span-full">
-                                                {/* Same empty state as table view */}
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Mobile View */}
-                            <div className="md:hidden">
-                                <div className="p-4">
-                                    {organizationListData.length > 0 ? (
-                                        <div className="space-y-4">
-                                            {organizationListData.map((organization) => (
-                                                <div key={organization.id} className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm hover:shadow-md transition-shadow duration-300">
-                                                    <div className="flex items-start space-x-4">
-                                                        <div className="h-16 w-16 bg-gradient-to-br from-primary-100 to-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                                            {organization.user?.image ? (
-                                                                <img
-                                                                    src={`/storage/${organization.user.image}`}
-                                                                    alt={organization.name}
-                                                                    className="w-full h-full object-cover rounded-lg"
-                                                                />
-                                                            ) : (
-                                                                <FontAwesomeIcon icon={faBuilding} className="text-primary-500" />
-                                                            )}
-                                                        </div>
-                                                        <div className="flex-1 min-w-0">
-                                                            <div className="flex items-start justify-between">
-                                                                <div>
-                                                                    <h3 className="font-semibold text-slate-900 truncate">{organization.name}</h3>
-                                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium mt-1 ${getStatusColor(organization.is_active)}`}>
-                                                                        {organization.is_active || 'Inactive'}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="mt-3 space-y-2">
-                                                                <div className="flex items-center text-sm text-slate-600">
-                                                                    <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3 mr-2 text-slate-400 flex-shrink-0" />
-                                                                    <span className="truncate">{organization.contact_email}</span>
-                                                                </div>
-                                                                <div className="flex items-center text-sm text-slate-600">
-                                                                    <FontAwesomeIcon icon={faLocationDot} className="w-3 h-3 mr-2 text-slate-400 flex-shrink-0" />
-                                                                    <span className="truncate">{organization.address || 'No address'}</span>
-                                                                </div>
-                                                            </div>
-                                                            <div className="mt-4 flex justify-end space-x-2">
-                                                                <Link
-                                                                    href={route('organizations.show', organization.id)}
-                                                                    className="inline-flex items-center px-3 py-1.5 bg-primary-50 text-primary-700 rounded-lg text-sm font-medium hover:bg-primary-100 transition-colors"
-                                                                >
-                                                                    View
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="text-center py-12">
-                                            <div className="h-20 w-20 mx-auto bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center mb-6">
-                                                <FontAwesomeIcon icon={faBuilding} className="text-slate-300 text-3xl" />
-                                            </div>
-                                            <h3 className="text-lg font-semibold text-slate-700 mb-2">No Organizations</h3>
-                                            <p className="text-slate-500 text-sm mb-6">
-                                                Add your first organization to get started
-                                            </p>
-                                            <Link
-                                                href={route('organizations.create')}
-                                                className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2.5 px-6 rounded-lg hover:bg-primary-700 transition-colors"
-                                            >
-                                                <FontAwesomeIcon icon={faPlus} />
-                                                <span>Create Organization</span>
-                                            </Link>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Pagination */}
-                        {organizationsLinks.length > 1 && (
-                            <div className="mt-8 px-6">
-                                <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
-                                    <Pagination data={organizations} links={organizationsLinks} />
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+                <Pagination data={organizations} />
+            </AppPage>
         </AuthenticatedLayout>
     );
 }
