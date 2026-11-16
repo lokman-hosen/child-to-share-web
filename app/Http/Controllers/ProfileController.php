@@ -32,39 +32,22 @@ class ProfileController extends Controller
     {
         $user = $id ? User::find($id) :  Auth::user();
         $availableDonationCount = $donatedDonationCount = $activeWishCount = $fulfilledWishCount = $totalWishCount = 0;
-        if ($user->role == 'donor-wisher'){
-            // donation
+        $user->load(['roles', 'organization']);
+
+        // Gift stats for anyone who can give, wish stats for anyone who can wish (org membership no longer required)
+        if (in_array($user->role, ['donor', 'donor-wisher'])) {
             $availableDonationCount = $this->donationService
-                ->donationByStatus('available', 'count',  null,'admin', $id);
+                ->donationByStatus('available', 'count', null, 'admin', $user->id);
             $donatedDonationCount = $this->donationService
-                ->donationByStatus('donated', 'count',  null,'admin', $id);
-
+                ->donationByStatus('donated', 'count', null, 'admin', $user->id);
+        }
+        if (in_array($user->role, ['wisher', 'donor-wisher'])) {
             $totalWishCount = $this->wishService
-                ->wishByStatus(null, 'count',  null,'admin', $id);
-
+                ->wishByStatus(null, 'count', null, 'admin', $user->id);
             $activeWishCount = $this->wishService
-                ->wishByStatus('approved', 'count',  null,'admin', $id);
+                ->wishByStatus('approved', 'count', null, 'admin', $user->id);
             $fulfilledWishCount = $this->wishService
-                ->wishByStatus('fulfilled', 'count',  null,'admin', $id);
-        }elseif ($user->role == 'donor' and $user->organization){
-            $user->load(['roles', 'organization']);
-            // donation
-            $availableDonationCount = $this->donationService
-                ->donationByStatus('available', 'count',  null,'admin', $id);
-            $donatedDonationCount = $this->donationService
-                ->donationByStatus('donated', 'count',  null,'admin', $id);
-        }elseif ($user->role == 'wisher' and $user->organization){
-            $user->load(
-                ['roles', 'organization']
-            );
-            $totalWishCount = $this->wishService
-                ->wishByStatus(null, 'count',  null,'admin', $id);
-
-            $activeWishCount = $this->wishService
-                ->wishByStatus('approved', 'count',  null,'admin', $id);
-            $fulfilledWishCount = $this->wishService
-                ->wishByStatus('fulfilled', 'count',  null,'admin', $id);
-
+                ->wishByStatus('fulfilled', 'count', null, 'admin', $user->id);
         }
         return Inertia::render(self::moduleDirectory.'Partials/Profile', [
             'module' => self::moduleName,

@@ -1,45 +1,29 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import DeleteUserForm from './Partials/DeleteUserForm';
-import UpdatePasswordForm from './Partials/UpdatePasswordForm';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { AppPage, Button, PageHeader } from '@/Components/UI';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 
-export default function Edit({ mustVerifyEmail, status, user,guardianRelations,genders }) {
+// Password change and account deletion (./Partials/UpdatePasswordForm, ./Partials/DeleteUserForm)
+// are intentionally not shown, matching the previous page.
+export default function Edit({ mustVerifyEmail, status, user, guardianRelations, genders }) {
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl font-semibold leading-tight text-slate-800">
-                    Profile
-                </h2>
-            }
-        >
+        <AuthenticatedLayout>
             <Head title="Profile" />
-            <div className="px-10 py-8">
-                <div className="bg-white shadow rounded-lg p-6">
-                    <div className="mx-auto space-y-6 sm:px-6 lg:px-8">
-                        <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
-                            <UpdateProfileInformationForm
-                                mustVerifyEmail={mustVerifyEmail}
-                                status={status}
-                                user={user}
-                                guardianRelations={guardianRelations}
-                                genders={genders}
-                                className="max-w-xl"
-                            />
-                        </div>
-
-                        {/*<div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">*/}
-                        {/*    <UpdatePasswordForm className="max-w-xl" />*/}
-                        {/*</div>*/}
-
-                        {/*<div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">*/}
-                        {/*    <DeleteUserForm className="max-w-xl" />*/}
-                        {/*</div>*/}
-                    </div>
-                </div>
-            </div>
-
-
+            <AppPage width="form" className="space-y-6">
+                <PageHeader
+                    title="Edit profile"
+                    description="Keep your details up to date so contributors and wishers can reach you."
+                    actions={<Button variant="secondary" icon={faEye} href={route('my.profile')}>View profile</Button>}
+                />
+                <UpdateProfileInformationForm
+                    mustVerifyEmail={mustVerifyEmail}
+                    status={status}
+                    user={user}
+                    guardianRelations={guardianRelations}
+                    genders={genders}
+                />
+            </AppPage>
         </AuthenticatedLayout>
     );
 }

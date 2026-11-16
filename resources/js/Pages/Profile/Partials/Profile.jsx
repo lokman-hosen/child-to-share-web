@@ -1,330 +1,113 @@
-import {Head, Link, usePage} from "@inertiajs/react";
-import React from "react";
+import { Head } from '@inertiajs/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { format } from 'date-fns';
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {checkDonor, checkDonorWisher, checkWisher, getLoginUser} from "@/utils.jsx";
-import {faCheckCircle, faTimesCircle, faEnvelope, faPhone, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faCircleCheck, faCircleXmark, faEnvelope, faGift, faKey, faLocationDot, faPen, faPhone, faStar, faVenusMars, faCircleNotch, faHandHoldingHeart, faBuilding } from '@fortawesome/free-solid-svg-icons';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
+import { AppPage, Badge, Button, Card, PageHeader, SafeImage, StatCard } from '@/Components/UI';
+import { checkAdmin, checkDonor, checkDonorWisher, checkWisher, getLoginUser } from '@/utils.jsx';
 
-export default function Profile({ user,availableDonationCount,donatedDonationCount,fulfilledWishCount,activeWishCount,totalWishCount }) {
+const ROLE_LABEL = { donor: 'Contributor', wisher: 'Wisher', 'donor-wisher': 'Contributor & Wisher', admin: 'Admin', 'super-admin': 'Super admin' };
+
+const Verified = ({ ok, label }) => (
+    <span className={`inline-flex items-center gap-1 text-xs font-medium ${ok ? 'text-success-700' : 'text-slate-400'}`}>
+        <FontAwesomeIcon icon={ok ? faCircleCheck : faCircleXmark} className="h-3 w-3" aria-hidden="true" />
+        {ok ? 'Verified' : 'Not verified'}
+        <span className="sr-only">{label}</span>
+    </span>
+);
+
+const Row = ({ icon, label, children }) => (
+    <div className="flex items-start gap-3 py-3">
+        <FontAwesomeIcon icon={icon} className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+        <div className="min-w-0 flex-1">
+            <dt className="text-xs text-slate-500">{label}</dt>
+            <dd className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 break-words text-sm text-slate-900">{children}</dd>
+        </div>
+    </div>
+);
+
+export default function Profile({ user, availableDonationCount, donatedDonationCount, fulfilledWishCount, activeWishCount, totalWishCount }) {
     const authUser = getLoginUser();
+    const isSelf = authUser.id === user.id;
+    const canManage = checkAdmin(authUser.role) || isSelf;
+    const canSeePhone = checkAdmin(authUser.role) || isSelf;
+
+    const wishStats = [
+        { icon: faStar, tone: 'gold', label: 'Wishes created', value: totalWishCount },
+        { icon: faCircleNotch, tone: 'primary', label: 'Active wishes', value: activeWishCount },
+        { icon: faCircleCheck, tone: 'success', label: 'Wishes fulfilled', value: fulfilledWishCount },
+    ];
+    const giftStats = [
+        { icon: faGift, tone: 'primary', label: 'Available gifts', value: availableDonationCount },
+        { icon: faHandHoldingHeart, tone: 'success', label: 'Gifts given', value: donatedDonationCount },
+    ];
+    const stats = checkDonorWisher(user.role) ? [...wishStats, ...giftStats] : checkDonor(user.role) ? giftStats : checkWisher(user.role) ? wishStats : [];
 
     return (
         <AuthenticatedLayout>
-            <Head title="Gift Create"/>
-            <div className="px-10 py-8">
-                <h1 className="text-2xl font-bold text-slate-900 mb-6">Your Profile</h1>
+            <Head title={isSelf ? 'My profile' : `${user.name} · Profile`} />
+            <AppPage className="space-y-6">
+                <PageHeader
+                    title={isSelf ? 'My profile' : user.name}
+                    breadcrumbs={!isSelf && checkAdmin(authUser.role) ? [{ label: 'Users', href: route('users.index') }, { label: user.name }] : undefined}
+                    actions={canManage && (
+                        <>
+                            {isSelf && <Button variant="secondary" icon={faKey} href={route('user.password.form')}>Change password</Button>}
+                            <Button icon={faPen} href={isSelf ? route('profile.edit') : route('users.edit', user.id)}>Edit profile</Button>
+                        </>
+                    )}
+                />
 
-                <div className="bg-white shadow rounded-lg p-6">
-                    <div className="border-b border-slate-200 pb-6">
-                        <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
-                            {/* Profile Image - First Column */}
-                            <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
-                                <div
-                                    className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
-                                    {user?.image ? (
-                                        <img
-                                            src={`/storage/${user?.image}`}
-                                            alt={user.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                            alt={user.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* User Info - Second Column */}
-                            <div className="flex-1 text-center md:text-left w-full">
-                                <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">{user.name}</h2>
-                                <p className="text-sm text-slate-500 mb-3 md:mb-4">
-                                    {/*Member Since {format(new Date(user.created_at), 'MMMM do, yyyy')}*/}
-                                    Member Since {user.created_at}
-                                </p>
-
-                                {/* Stats Container */}
-                                <div className="flex flex-wrap justify-center md:justify-start gap-2">
-                                    {checkDonorWisher(user.role) && (
-                                        <>
-                                            <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
-                                                {totalWishCount} Wishes Created
-                                            </span>
-                                            <span
-                                                className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
-                                                0 Wishes Fulfilled
-                                            </span>
-                                            <span
-                                                className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded">
-                                                {availableDonationCount} Active Gifts
-                                            </span>
-                                        </>
-                                    )}
-
-                                    {checkDonor(user.role) && (
-                                        <>
-                                            <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
-                                                0 Wishes Fulfilled
-                                            </span>
-                                            <span
-                                                className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded">
-                                                {availableDonationCount} Active Gifts
-                                            </span>
-                                        </>
-                                    )}
-
-                                    {checkWisher(user.role) && (
-                                        <>
-                                            <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
-                                                {totalWishCount} Wishes Created
-                                            </span>
-                                            <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded">
-                                                {fulfilledWishCount} Wishes Fulfilled
-                                            </span>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
+                <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    <Card className="text-center lg:col-span-1">
+                        <SafeImage
+                            src={user?.image ? `/storage/${user.image}` : null}
+                            alt=""
+                            className="mx-auto h-28 w-28 rounded-full object-cover ring-4 ring-primary-50"
+                            fallback={<span className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-primary-50 text-4xl font-semibold text-primary-700 ring-4 ring-primary-50/60">{(user.name || '?').charAt(0).toUpperCase()}</span>}
+                        />
+                        <h2 className="mt-4 text-lg font-semibold text-slate-900">{user.name}</h2>
+                        <div className="mt-2 flex flex-wrap justify-center gap-2">
+                            {user.role && <Badge tone="primary">{ROLE_LABEL[user.role] || user.role}</Badge>}
+                            <Badge tone={user.is_active ? 'success' : 'neutral'} dot>{user.is_active ? 'Active' : 'Inactive'}</Badge>
                         </div>
-                    </div>
+                        <p className="mt-3 text-sm text-slate-500">Member since {user.created_at}</p>
+                        {user.organization?.name && (
+                            <p className="mt-1 flex items-center justify-center gap-1.5 text-sm text-slate-600">
+                                <FontAwesomeIcon icon={faBuilding} className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
+                                {user.organization.name}
+                            </p>
+                        )}
+                    </Card>
 
-                    <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                        <div>
-                            <h3 className="text-lg font-medium text-slate-900 mb-2">Contact Information</h3>
-                            <dl className="space-y-2">
-                                {/* Email with Verification */}
-                                <div>
-                                    <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
-                                        <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
-                                        <span>Email</span>
-                                    </dt>
-                                    <dd className="text-sm text-slate-900 flex items-center space-x-2 mt-1">
-                                        <span>{user.email}</span>
-                                        {user.email_verified_at ? (
-                                            <div title="Email Verified">
-                                                <FontAwesomeIcon
-                                                    icon={faCheckCircle}
-                                                    className="w-4 h-4 text-green-500"
-                                                    title="Email Verified"
-                                                />
-                                            </div>
-
-                                        ) : (
-                                            <div title="Email Not Verified">
-                                                <FontAwesomeIcon
-                                                    icon={faTimesCircle}
-                                                    className="w-4 h-4 text-slate-400"
-                                                    title="Email Not Verified"
-                                                />
-                                            </div>
-                                        )}
-                                    </dd>
-                                </div>
-
-                                {/* Phone with Verification - Conditional Display */}
-                                {(authUser.role === 'super_admin' || authUser.role === 'admin' || authUser.id === user.id) && (
-                                    <div>
-                                        <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
-                                            <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
-                                            <span>Phone</span>
-                                        </dt>
-                                        <dd className="text-sm text-slate-900 flex items-center space-x-2 mt-1">
-                                            <span>{user.phone}</span>
-                                            {user.phone_verified_at ? (
-                                                <div title="Phone Verified">
-                                                    <FontAwesomeIcon
-                                                        icon={faCheckCircle}
-                                                        className="w-4 h-4 text-green-500"
-                                                    />
-                                                </div>
-                                            ) : (
-                                                <div title="Phone Not Verified">
-                                                    <FontAwesomeIcon
-                                                        icon={faTimesCircle}
-                                                        className="w-4 h-4 text-slate-400"
-                                                    />
-                                                </div>
-
-                                            )}
-                                        </dd>
-                                    </div>
-                                )}
-
-                                {/* Other fields */}
-                                <div>
-                                    <dt className="text-sm font-medium text-slate-500">Location/Address</dt>
-                                    <dd className="text-sm text-slate-900">{user.address ?? 'n/a'}</dd>
-                                </div>
-                                <div>
-                                    <dt className="text-sm font-medium text-slate-500">Gender</dt>
-                                    <dd className="text-sm text-slate-900 uppercase">{user.gender ?? 'n/a'}</dd>
-                                </div>
-                            </dl>
-                            <button
-                                type="button"
-                                onClick={() => window.history.back()}
-                                className="mt-5 w-100 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
-                            >
-                                <div className="flex items-center space-x-2">
-                                    <FontAwesomeIcon icon={faArrowLeft}/>
-                                    <span>Back</span>
-                                </div>
-                            </button>
-                        </div>
-
-                        {/*<div>*/}
-                        {/*    <h3 className="text-lg font-medium text-slate-900 mb-2">Preferences</h3>*/}
-                        {/*    <dl className="space-y-2">*/}
-                        {/*        <div>*/}
-                        {/*            <dt className="text-sm font-medium text-slate-500">Default Search Radius</dt>*/}
-                        {/*            <dd className="text-sm text-slate-900">10 km</dd>*/}
-                        {/*        </div>*/}
-                        {/*        <div>*/}
-                        {/*            <dt className="text-sm font-medium text-slate-500">Notification Settings</dt>*/}
-                        {/*            <dd className="text-sm text-slate-900">Email & In-App</dd>*/}
-                        {/*        </div>*/}
-                        {/*        <div>*/}
-                        {/*            <dt className="text-sm font-medium text-slate-500">Admin Assistance</dt>*/}
-                        {/*            <dd className="text-sm text-slate-900">Enabled by default</dd>*/}
-                        {/*        </div>*/}
-                        {/*    </dl>*/}
-                        {/*</div>*/}
-                    </div>
-
-                    {/*{user.organizations.length > 0 && (*/}
-                    {/*    <div className="mt-6">*/}
-                    {/*        <h3 className="text-lg font-medium text-slate-900 mb-2">Your Organizations</h3>*/}
-                    {/*        <ul className="space-y-2">*/}
-                    {/*            <li className="flex items-center">*/}
-                    {/*                <div*/}
-                    {/*                    className="h-8 w-8 bg-primary-100 rounded-full flex items-center justify-center mr-2">*/}
-                    {/*                    <i className="fas fa-building text-primary-500 text-sm"></i>*/}
-                    {/*                </div>*/}
-                    {/*                <span className="text-sm text-slate-900">Community Center A</span>*/}
-                    {/*            </li>*/}
-                    {/*            <li className="flex items-center">*/}
-                    {/*                <div*/}
-                    {/*                    className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center mr-2">*/}
-                    {/*                    <i className="fas fa-school text-green-500 text-sm"></i>*/}
-                    {/*                </div>*/}
-                    {/*                <span className="text-sm text-slate-900">School B</span>*/}
-                    {/*            </li>*/}
-                    {/*            <li className="flex items-center">*/}
-                    {/*                <div*/}
-                    {/*                    className="h-8 w-8 bg-primary-100 rounded-full flex items-center justify-center mr-2">*/}
-                    {/*                    <i className="fas fa-child text-primary-500 text-sm"></i>*/}
-                    {/*                </div>*/}
-                    {/*                <span className="text-sm text-slate-900">Youth Program C</span>*/}
-                    {/*            </li>*/}
-                    {/*        </ul>*/}
-                    {/*    </div>*/}
-                    {/*)}*/}
-
-                    {((authUser.role === 'super-admin' || authUser.role === 'admin') || (authUser.id === user.id)) &&
-                        <div className="mt-6 flex">
-                            <Link
-                                href={route('profile.update')}
-                                className="inline-flex items-center px-4 py-2 border border-yellow-300 rounded-md shadow-sm text-sm font-medium text-yellow-700 bg-yellow-300 hover:bg-yellow-50">
-                                <i className="fas fa-edit mr-2"></i> Edit Profile
-                            </Link>
-                            <Link
-                                href={route('user.password.form')}
-                                className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700">
-                                <i className="fas fa-lock mr-2"></i> Change Password
-                            </Link>
-                        </div>
-                    }
+                    <Card className="lg:col-span-2">
+                        <h2 className="text-base font-semibold text-slate-900">Contact information</h2>
+                        <dl className="mt-1 divide-y divide-slate-100">
+                            <Row icon={faEnvelope} label="Email">
+                                {user.email ? <span className="break-all">{user.email}</span> : <span className="text-slate-400">Not provided</span>}
+                                {user.email && <Verified ok={!!user.email_verified_at} label="email" />}
+                            </Row>
+                            {canSeePhone && (
+                                <Row icon={faPhone} label="Phone">
+                                    {user.phone || <span className="text-slate-400">Not provided</span>}
+                                    {user.phone && <Verified ok={!!user.phone_verified_at} label="phone" />}
+                                </Row>
+                            )}
+                            <Row icon={faLocationDot} label="Address">{user.address ?? <span className="text-slate-400">n/a</span>}</Row>
+                            <Row icon={faVenusMars} label="Gender"><span className="capitalize">{user.gender ?? 'n/a'}</span></Row>
+                            {user.dob && <Row icon={faCalendar} label="Date of birth">{user.dob}</Row>}
+                        </dl>
+                    </Card>
                 </div>
 
-                {checkDonorWisher(user.role) && (
-                    <div className="bg-white shadow rounded-lg p-6 mt-6">
-                        <h2 className="text-lg font-medium text-slate-900 mb-4">Your Impact</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">0</div>
-                                <div className="text-sm font-medium text-slate-700">Wishes Fulfilled</div>
-                            </div>
-                            <div className="bg-green-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-green-600">0</div>
-                                <div className="text-sm font-medium text-slate-700">Children Helped</div>
-                            </div>
-                            <div className="bg-yellow-50 p-4 rounded-lg">
-                                <div
-                                    className="text-3xl font-bold text-yellow-600">{user?.organizations?.length ?? 0}</div>
-                                <div className="text-sm font-medium text-slate-700">Organizations Supported</div>
-                            </div>
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">{donatedDonationCount}</div>
-                                <div className="text-sm font-medium text-slate-700">Items Donated</div>
-                            </div>
-
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">{totalWishCount}</div>
-                                <div className="text-sm font-medium text-slate-700">Wishes Created</div>
-                            </div>
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">{activeWishCount}</div>
-                                <div className="text-sm font-medium text-slate-700">Active Wishes</div>
-                            </div>
-                            <div className="bg-yellow-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-yellow-600">0</div>
-                                <div className="text-sm font-medium text-slate-700">Contributor Connections</div>
-                            </div>
+                {stats.length > 0 && (
+                    <section aria-labelledby="impact-title" className="space-y-3">
+                        <h2 id="impact-title" className="text-lg font-semibold text-slate-900">{checkWisher(user.role) ? 'Wish history' : 'Impact'}</h2>
+                        <div className={`grid grid-cols-2 gap-3 sm:gap-4 ${stats.length > 3 ? 'lg:grid-cols-5' : 'lg:grid-cols-3'}`}>
+                            {stats.map((s) => <StatCard key={s.label} {...s} />)}
                         </div>
-                    </div>
+                    </section>
                 )}
-
-                {checkDonor(user.role) && (
-                    <div className="bg-white shadow rounded-lg p-6 mt-6">
-                        <h2 className="text-lg font-medium text-slate-900 mb-4">Your Impact</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">0</div>
-                                <div className="text-sm font-medium text-slate-700">Wishes Fulfilled</div>
-                            </div>
-                            <div className="bg-green-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-green-600">0</div>
-                                <div className="text-sm font-medium text-slate-700">Children Helped</div>
-                            </div>
-                            <div className="bg-yellow-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-yellow-600">{user.organizations?.length ?? 0}</div>
-                                <div className="text-sm font-medium text-slate-700">Organizations Supported</div>
-                            </div>
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">{donatedDonationCount}</div>
-                                <div className="text-sm font-medium text-slate-700">Items Donated</div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                { checkWisher(user.role) && (
-                    <div className="bg-white shadow rounded-lg p-6 mt-6">
-                        <h2 className="text-lg font-medium text-slate-900 mb-4">Your Wish History</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">{totalWishCount}</div>
-                                <div className="text-sm font-medium text-slate-700">Wishes Created</div>
-                            </div>
-                            <div className="bg-green-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-green-600">{fulfilledWishCount}</div>
-                                <div className="text-sm font-medium text-slate-700">Wishes Fulfilled</div>
-                            </div>
-                            <div className="bg-primary-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-primary-600">{activeWishCount}</div>
-                                <div className="text-sm font-medium text-slate-700">Active Wishes</div>
-                            </div>
-                            <div className="bg-yellow-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-yellow-600">0</div>
-                                <div className="text-sm font-medium text-slate-700">Contributor Connections</div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
+            </AppPage>
         </AuthenticatedLayout>
     );
 }

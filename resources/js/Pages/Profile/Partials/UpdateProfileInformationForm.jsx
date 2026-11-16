@@ -1,562 +1,196 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInputField';
-import {Button, Transition} from '@headlessui/react';
-import { Link, useForm, usePage } from '@inertiajs/react';
-import SelectInput from "@/Components/SelectInput.jsx";
-import React, {useRef, useState} from "react";
-import {getCommonOptions} from "@/utils.jsx";
-import DateInput from "@/Components/DateInput.jsx";
-import FileInput from "@/Components/FileInput.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faArrowLeft,
-    faClose,
-    faEdit,
-    faMapMarkerAlt,
-    faSave,
-    faSearch,
-    faSpinner
-} from "@fortawesome/free-solid-svg-icons";
-import TextareaInput from "@/Components/TextareaInput.jsx";
+import SelectInput from '@/Components/SelectInput.jsx';
+import DateInput from '@/Components/DateInput.jsx';
+import FileInput from '@/Components/FileInput.jsx';
+import TextareaInput from '@/Components/TextareaInput.jsx';
+import { Transition } from '@headlessui/react';
+import { Link, useForm } from '@inertiajs/react';
+import { faCheck, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Alert, Button, FormActions, FormSection, LocationSearch, SafeImage } from '@/Components/UI';
+import { getCommonOptions } from '@/utils.jsx';
 
-export default function UpdateProfileInformation({
-    mustVerifyEmail,
-    status,
-    className = '',
-    user,
-    guardianRelations,
-    genders
-}) {
+export default function UpdateProfileInformation({ mustVerifyEmail, status, user, guardianRelations, genders }) {
+    const isPerson = user.user_type === 'user';
+    const isOrg = user.user_type === 'organization';
 
-    const [searchQuery, setSearchQuery] = useState('');
-    const [searchSuggestions, setSearchSuggestions] = useState([]);
-    const [isSearching, setIsSearching] = useState(false);
-    const searchTimeoutRef = useRef(null);
-    const autocompleteService = useRef(null);
-    const placesService = useRef(null);
-
-    //const user = usePage().props.auth.user;
-    const { data, setData, post, errors, processing, recentlySuccessful, reset } =
-        useForm({
-            name: user.name,
-            email: user.email,
-            phone: user.phone,
-            guardian_name: user?.guardian_name,
-            guardian_phone: user?.guardian_phone,
-            relationship: user?.relationship,
-            gender: user?.gender,
-            address: user?.address,
-            dob: user?.dob,
-            description: user?.organization?.description,
-        });
+    const { data, setData, post, errors, processing, recentlySuccessful, reset } = useForm({
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        guardian_name: user?.guardian_name,
+        guardian_phone: user?.guardian_phone,
+        relationship: user?.relationship,
+        gender: user?.gender,
+        address: user?.address,
+        dob: user?.dob,
+        description: user?.organization?.description,
+    });
 
     const submit = (e) => {
         e.preventDefault();
-        post(route('user.profile.update'),{
+        post(route('user.profile.update'), {
             forceFormData: true,
-            onSuccess: () => {
-                    //reset();
-            },
             onFinish: () => reset('photo'),
-            onError: (submissionErrors) => {
-                console.error("Form submission errors:", submissionErrors);
-            },
             preserveScroll: true,
         });
     };
 
     const handleFileChange = (field, file) => {
         setData(field, file);
-        if (file !== null) {
-            setData(`${field}_removed`, false);
-        }
+        if (file !== null) setData(`${field}_removed`, false);
     };
-
-    // Initialize Google Maps services
-    React.useEffect(() => {
-        if (window.google) {
-            autocompleteService.current = new window.google.maps.places.AutocompleteService();
-            placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
-        } else {
-            // Load Google Maps JavaScript API
-            const script = document.createElement('script');
-            script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAiV7CEW81cpKDTZtZ_AR3hL1BcW4b6PzM&libraries=places`;
-            script.async = true;
-            script.defer = true;
-            script.onload = () => {
-                autocompleteService.current = new window.google.maps.places.AutocompleteService();
-                placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
-            };
-            document.head.appendChild(script);
-        }
-    }, []);
-
-    // Search for locations using Google Maps Places Autocomplete
-    const handleSearch = (query) => {
-        setSearchQuery(query);
-
-        if (query.length < 2) {
-            setSearchSuggestions([]);
-            return;
-        }
-
-        // Clear previous timeout
-        if (searchTimeoutRef.current) {
-            clearTimeout(searchTimeoutRef.current);
-        }
-
-        // Set new timeout for debouncing (300ms delay)
-        searchTimeoutRef.current = setTimeout(async () => {
-            if (!autocompleteService.current) {
-                console.error('Google Maps Autocomplete service not available');
-                return;
-            }
-
-            setIsSearching(true);
-            try {
-                // Use Google Maps Places Autocomplete
-                autocompleteService.current.getPlacePredictions(
-                    {
-                        input: query,
-                        componentRestrictions: { country: 'bd' }, // Restrict to Bangladesh
-                        types: ['geocode', 'establishment'], // Get addresses and places
-                    },
-                    (predictions, status) => {
-                        if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
-                            setSearchSuggestions(predictions);
-                        } else {
-                            setSearchSuggestions([]);
-                        }
-                        setIsSearching(false);
-                    }
-                );
-            } catch (error) {
-                console.error('Search error:', error);
-                setSearchSuggestions([]);
-                setIsSearching(false);
-            }
-        }, 300);
-    };
-
-    // Handle selection from search suggestions
-    const handleSuggestionSelect = (prediction) => {
-        if (!placesService.current) {
-            console.error('Google Maps Places service not available');
-            return;
-        }
-
-        setIsSearching(true);
-
-        // Get place details to get coordinates
-        placesService.current.getDetails(
-            {
-                placeId: prediction.place_id,
-                fields: ['geometry', 'formatted_address', 'name']
-            },
-            (place, status) => {
-                if (status === window.google.maps.places.PlacesServiceStatus.OK && place) {
-                    const location = {
-                        lat: place.geometry.location.lat(),
-                        lng: place.geometry.location.lng()
-                    };
-
-                    setData({
-                        ...data,
-                        latitude: location.lat,
-                        longitude: location.lng,
-                        address: place.formatted_address || prediction.description
-                    });
-
-                    setSearchQuery(place.formatted_address || prediction.description);
-                    setSearchSuggestions([]);
-                }
-                setIsSearching(false);
-            }
-        );
-    };
-    // Alternative: Use OpenStreetMap as fallback if Google Maps is not available
-    const handleSearchFallback = (query) => {
-        setSearchQuery(query);
-
-        if (query.length < 3) {
-            setSearchSuggestions([]);
-            return;
-        }
-
-        if (searchTimeoutRef.current) {
-            clearTimeout(searchTimeoutRef.current);
-        }
-
-        searchTimeoutRef.current = setTimeout(async () => {
-            setIsSearching(true);
-            try {
-                const response = await fetch(
-                    `https://nominatim.openstreetmap.org/search?` +
-                    `format=json&` +
-                    `q=${encodeURIComponent(query)}&` +
-                    `countrycodes=bd&` +
-                    `limit=8&` +
-                    `addressdetails=1`
-                );
-
-                const results = await response.json();
-                setSearchSuggestions(results);
-            } catch (error) {
-                console.error('Search error:', error);
-                setSearchSuggestions([]);
-            } finally {
-                setIsSearching(false);
-            }
-        }, 500);
-    };
-
-    // Handle selection from OpenStreetMap fallback
-    const handleSuggestionSelectFallback = (suggestion) => {
-        const location = {
-            lat: parseFloat(suggestion.lat),
-            lng: parseFloat(suggestion.lon)
-        };
-
-        setData({
-            ...data,
-            latitude: location.lat,
-            longitude: location.lng,
-            address: suggestion.display_name
-        });
-
-        setSearchQuery(suggestion.display_name);
-        setSearchSuggestions([]);
-    };
-
-    // Clear search input
-    const handleClearSearch = () => {
-        setSearchQuery('');
-        setSearchSuggestions([]);
-        setData({
-            ...data,
-            latitude: '',
-            longitude: ''
-        });
-
-        if (searchTimeoutRef.current) {
-            clearTimeout(searchTimeoutRef.current);
-        }
-    };
-
-    // Check if Google Maps is available
-    const isGoogleMapsAvailable = !!window.google;
-
-    const relationOptions = getCommonOptions(guardianRelations);
-    const genderOptions = getCommonOptions(genders);
 
     return (
-        <section>
-            <div className="flex flex-col sm:flex-row items-center border-b border-slate-200 pb-6 gap-6">
-                {/* User Image */}
-                <div
-                    className="h-24 w-24 rounded-full bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md flex-shrink-0 order-2 sm:order-1">
-                    {user.image ? (
-                        <img
-                            src={`/storage/${user.image}`}
-                            alt={user.name}
-                            className="w-full h-full object-cover"
-                        />
-                    ) : (
-                        <img
-                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                            alt={user.name}
-                            className="w-full h-full object-cover"
-                        />
-                    )}
-                </div>
+        <form onSubmit={submit} className="space-y-6">
+            {mustVerifyEmail && user.email_verified_at === null && (
+                <Alert tone="warning" title="Your email address is unverified.">
+                    <Link href={route('verification.send')} method="post" as="button" className="font-medium underline underline-offset-2">
+                        Re-send the verification email
+                    </Link>
+                    {status === 'verification-link-sent' && <p className="mt-1">A new verification link has been sent to your email address.</p>}
+                </Alert>
+            )}
 
-                {/* Text Content */}
-                <div className="text-center sm:text-left order-1 sm:order-2">
-                    <h2 className="text-2xl font-medium text-slate-900">
-                        Profile Information
-                    </h2>
-
-                    <p className="mt-1 text-md text-slate-600">
-                        Update your account's profile information and email address.
-                    </p>
-                </div>
-            </div>
-
-            <form onSubmit={submit} className="mt-6 space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <TextInput
-                        id="name"
-                        label={user.user_type === 'user' ? 'Full Name' : 'Organization Name'}
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
-                        error={errors.name}
-                        isFocused
-                        autoComplete="name"
-                        placeholder="Your name"
-                        required
+            <FormSection title={isPerson ? 'Personal details' : 'Organization details'}>
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center md:col-span-2">
+                    <SafeImage
+                        src={user.image ? `/storage/${user.image}` : null}
+                        alt=""
+                        className="h-20 w-20 shrink-0 rounded-full object-cover ring-1 ring-slate-200"
+                        fallback={<span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-primary-50 text-2xl font-semibold text-primary-700">{(user.name || '?').charAt(0).toUpperCase()}</span>}
                     />
-
-                    <TextInput
-                        id="email"
-                        label={user.user_type === 'user' ? 'Email' : 'Organization Email'}
-                        type="email"
-                        value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
-                        autoComplete="username"
-                        error={errors.email}
-                        placeholder="Your email"
-                        required={user.user_type === 'organization'}
-                    />
-
-                    <TextInput
-                        id="phone"
-                        label={user.user_type === 'user' ? 'Phone' : 'Organization Phone'}
-                        type="number"
-                        value={data.phone}
-                        onChange={(e) => setData('phone', e.target.value)}
-                        error={errors.phone}
-                        placeholder="Your phone"
-                        required
-                    />
-                    {user.user_type === 'user' && (
-                        <SelectInput
-                            id="gender"
-                            label="Select Gender"
-                            value={data.gender}
-                            onChange={(e) => setData('gender', e.target.value)}
-                            error={errors.gender}
-                            options={genderOptions}
-                            required
-                        />
-                    )}
-
-                    <DateInput
-                        id="dob"
-                        label={user.user_type === 'user' ? 'Date of Birth' : 'Organization Establishment Date'}
-                        value={data.dob}
-                        onChange={(value) => setData('dob', value)}
-                        error={errors.dob}
-                        placeholder="Select DOB"
-                        required
-                    />
-                    {user.user_type === 'user' && (
-                        <>
-                            <TextInput
-                                id="guardian_name"
-                                label="Guardian name"
-                                type="text"
-                                value={data.guardian_name}
-                                onChange={(e) => setData('guardian_name', e.target.value)}
-                                error={errors.guardian_name}
-                                placeholder="Your guardian name"
-                            />
-                            <TextInput
-                                id="guardian_phone"
-                                label="Guardian Phone"
-                                type="number"
-                                value={data.guardian_phone}
-                                onChange={(e) => setData('guardian_phone', e.target.value)}
-                                error={errors.guardian_phone}
-                                placeholder="Your guardian phone"
-                            />
-
-                            <SelectInput
-                                id="relationship"
-                                label="Relation with guardian"
-                                value={data.relationship}
-                                onChange={(e) => setData('relationship', e.target.value)}
-                                error={errors.relationship}
-                                options={relationOptions}
-                            />
-                        </>
-                    )}
-
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <FileInput
                         id="photo"
-                        helpText="Size: max 2 MB"
-                        label={data.user_type === 'user' ? '"Profile Photo(png,jpg,jpeg)' : 'Logo(png,jpg,jpeg)'}
+                        className="flex-1"
+                        label={isPerson ? 'Profile photo' : 'Logo'}
+                        helpText="PNG or JPG, up to 2 MB."
                         onFileChange={(file) => handleFileChange('photo', file)}
-                        currentFileUrl={data?.photo || null}
                         error={errors.photo}
                         accept="image/png, image/jpg, image/jpeg"
                     />
                 </div>
-
-                {user.user_type === 'organization' &&
-                    <div className="grid grid-cols-1 gap-6">
-                        <TextareaInput
-                            id="description"
-                            label="Description"
-                            value={data.description}
-                            onChange={(e) => setData('description', e.target.value)}
-                            error={errors.description}
-                            placeholder="Write about the organization"
-                            required
-                        />
-                    </div>
-                }
-                <div className="grid grid-cols-1 gap-6">
-                    {/* Location Search Section */}
-                    <div className="mt-1">
-                            <label className="block text-slate-700 font-semibold mb-2">
-                                Your Location (Search and select)
-                            </label>
-
-                            {/* Location Search */}
-                            <div className="mb-2 relative">
-                                <div className="relative">
-                                    <input
-                                        type="text"
-                                        value={searchQuery}
-                                        onChange={(e) =>
-                                            isGoogleMapsAvailable
-                                                ? handleSearch(e.target.value)
-                                                : handleSearchFallback(e.target.value)
-                                        }
-                                        placeholder="Search location (address, city, landmark...)"
-                                        className="w-full px-4 py-3 pl-11 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                                    />
-                                    <FontAwesomeIcon
-                                        icon={faSearch}
-                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"
-                                    />
-                                    {isSearching && (
-                                        <FontAwesomeIcon
-                                            icon={faSpinner}
-                                            spin
-                                            className="absolute right-12 top-1/2 transform -translate-y-1/2 text-slate-400"
-                                        />
-                                    )}
-
-                                    {searchQuery && (
-                                        <Button
-                                            onClick={handleClearSearch}
-                                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                                        >
-                                            <FontAwesomeIcon icon={faClose}/>
-                                        </Button>
-                                    )}
-                                </div>
-
-                                {/* Search Suggestions */}
-                                {searchSuggestions.length > 0 && (
-                                    <div
-                                        className="absolute z-[9999] w-full mt-1 bg-white border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                        {searchSuggestions.map((suggestion, index) => (
-                                            <div
-                                                key={isGoogleMapsAvailable ? suggestion.place_id : index}
-                                                onClick={() =>
-                                                    isGoogleMapsAvailable
-                                                        ? handleSuggestionSelect(suggestion)
-                                                        : handleSuggestionSelectFallback(suggestion)
-                                                }
-                                                className="px-4 py-3 hover:bg-primary-50 cursor-pointer border-b border-slate-100 last:border-b-0"
-                                            >
-                                                <div className="flex items-start">
-                                                    <FontAwesomeIcon
-                                                        icon={faMapMarkerAlt}
-                                                        className="text-primary-500 mt-1 mr-3 flex-shrink-0"
-                                                    />
-                                                    <div>
-                                                        <div className="font-medium text-slate-900">
-                                                            {isGoogleMapsAvailable
-                                                                ? suggestion.structured_formatting.main_text
-                                                                : suggestion.display_name.split(',').slice(0, 2).join(',')
-                                                            }
-                                                        </div>
-                                                        <div className="text-sm text-slate-500">
-                                                            {isGoogleMapsAvailable
-                                                                ? suggestion.structured_formatting.secondary_text
-                                                                : suggestion.display_name.split(',').slice(2).join(',')
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-
-                            {(errors.latitude || errors.longitude) && (
-                                <p className="mt-2 text-sm text-red-600">
-                                    Location is required. Please search and select your location.
-                                </p>
-                            )}
-
-                            {data.latitude && data.longitude && (
-                                <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
-                                    <p className="text-green-700 text-sm">
-                                        <strong>Location set successfully!</strong><br/>
-                                        Coordinates captured for better service matching.
-                                    </p>
-                                </div>
-                            )}
-                            {data.address &&
-                                <div className="text-slate-400 text-sm">Current address : {data.address}</div>
-                            }
-                        </div>
-                </div>
-
-                {mustVerifyEmail && user.email_verified_at === null && (
-                    <div>
-                        <p className="mt-2 text-sm text-slate-800">
-                            Your email address is unverified.
-                            <Link
-                                href={route('verification.send')}
-                                method="post"
-                                as="button"
-                                className="rounded-md text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
-                            >
-                                Click here to re-send the verification email.
-                            </Link>
-                        </p>
-
-                        {status === 'verification-link-sent' && (
-                            <div className="mt-2 text-sm font-medium text-green-600">
-                                A new verification link has been sent to your
-                                email address.
-                            </div>
-                        )}
-                    </div>
+                <TextInput
+                    id="name"
+                    label={isPerson ? 'Full name' : 'Organization name'}
+                    className="md:col-span-2"
+                    value={data.name}
+                    onChange={(e) => setData('name', e.target.value)}
+                    error={errors.name}
+                    autoComplete="name"
+                    required
+                />
+                {isPerson && (
+                    <SelectInput
+                        id="gender"
+                        label="Gender"
+                        value={data.gender}
+                        onChange={(e) => setData('gender', e.target.value)}
+                        error={errors.gender}
+                        options={getCommonOptions(genders)}
+                        placeholder="Select gender"
+                        required
+                    />
                 )}
+                <DateInput
+                    id="dob"
+                    label={isPerson ? 'Date of birth' : 'Established on'}
+                    value={data.dob}
+                    onChange={(value) => setData('dob', value)}
+                    error={errors.dob}
+                    placeholder="Select a date"
+                    required
+                />
+                {isOrg && (
+                    <TextareaInput
+                        id="description"
+                        label="About the organization"
+                        className="md:col-span-2"
+                        value={data.description ?? ''}
+                        onChange={(e) => setData('description', e.target.value)}
+                        error={errors.description}
+                        placeholder="What does your organization do?"
+                        required
+                    />
+                )}
+            </FormSection>
 
-                <div className="flex items-center gap-4">
-                    {/* Back Button */}
-                    <button
-                        type="button"
-                        onClick={() => window.history.back()}
-                        className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
-                    >
-                        <div className="flex items-center space-x-2">
-                            <FontAwesomeIcon icon={faArrowLeft}/>
-                            <span>Back</span>
-                        </div>
-                    </button>
-                    <PrimaryButton
-                        className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
-                        disabled={processing}>
-                        <FontAwesomeIcon icon={faSave}/> Update
-                    </PrimaryButton>
-
-                    <Transition
-                        show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
-                        leaveTo="opacity-0"
-                    >
-                        <p className="text-sm text-slate-600">
-                            Saved.
-                        </p>
-                    </Transition>
+            <FormSection title="Contact" description="Email or phone is used to sign in.">
+                <TextInput
+                    id="email"
+                    label={isPerson ? 'Email' : 'Organization email'}
+                    type="email"
+                    value={data.email}
+                    onChange={(e) => setData('email', e.target.value)}
+                    autoComplete="email"
+                    error={errors.email}
+                    required={isOrg}
+                />
+                <TextInput
+                    id="phone"
+                    label={isPerson ? 'Phone' : 'Organization phone'}
+                    type="tel"
+                    inputMode="numeric"
+                    value={data.phone}
+                    onChange={(e) => setData('phone', e.target.value)}
+                    error={errors.phone}
+                    placeholder="01XXXXXXXXX"
+                    required
+                />
+                <div className="md:col-span-2">
+                    <LocationSearch
+                        id="location"
+                        label="Location"
+                        address={data.address}
+                        hasCoordinates={!!((data.latitude && data.longitude) || (user.latitude && user.longitude))}
+                        error={(errors.latitude || errors.longitude) && 'Location is required. Search and select your address from the list.'}
+                        onSelect={(loc) => setData((d) => ({ ...d, ...loc }))}
+                        onClear={() => setData((d) => ({ ...d, latitude: '', longitude: '' }))}
+                        hint="Used to show you nearby wishes and gifts."
+                    />
                 </div>
-            </form>
-        </section>
+            </FormSection>
+
+            {isPerson && (
+                <FormSection title="Guardian" description="Optional. If you add a guardian, include their relationship and phone too.">
+                    <TextInput
+                        id="guardian_name"
+                        label="Guardian name"
+                        value={data.guardian_name}
+                        onChange={(e) => setData('guardian_name', e.target.value)}
+                        error={errors.guardian_name}
+                    />
+                    <SelectInput
+                        id="relationship"
+                        label="Relationship"
+                        value={data.relationship}
+                        onChange={(e) => setData('relationship', e.target.value)}
+                        error={errors.relationship}
+                        options={getCommonOptions(guardianRelations)}
+                        placeholder="Select relationship"
+                    />
+                    <TextInput
+                        id="guardian_phone"
+                        label="Guardian phone"
+                        type="tel"
+                        inputMode="numeric"
+                        value={data.guardian_phone}
+                        onChange={(e) => setData('guardian_phone', e.target.value)}
+                        error={errors.guardian_phone}
+                        placeholder="01XXXXXXXXX"
+                    />
+                </FormSection>
+            )}
+
+            <FormActions>
+                <Transition show={recentlySuccessful} enter="transition ease-in-out" enterFrom="opacity-0" leave="transition ease-in-out" leaveTo="opacity-0">
+                    <p className="mr-auto flex items-center gap-1.5 text-sm font-medium text-success-700" role="status">
+                        <FontAwesomeIcon icon={faCircleCheck} className="h-4 w-4" aria-hidden="true" /> Saved
+                    </p>
+                </Transition>
+                <Button variant="secondary" onClick={() => window.history.back()}>Cancel</Button>
+                <Button type="submit" icon={faCheck} loading={processing}>Save changes</Button>
+            </FormActions>
+        </form>
     );
 }

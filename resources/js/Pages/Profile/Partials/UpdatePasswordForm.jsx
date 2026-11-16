@@ -1,18 +1,13 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInputField';
 import { Transition } from '@headlessui/react';
-import {Head, Link, useForm, usePage} from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import React, { useRef } from 'react';
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import {format} from "date-fns";
-import {checkDonor} from "@/utils.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft, faSave} from "@fortawesome/free-solid-svg-icons";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { AppPage, Button, FormActions, FormSection, PageHeader } from '@/Components/UI';
 
 export default function UpdatePasswordForm({ className = '' }) {
-    const user = usePage().props.auth.user;
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
 
@@ -52,146 +47,60 @@ export default function UpdatePasswordForm({ className = '' }) {
 
     return (
         <AuthenticatedLayout>
-            <Head title="Gift Create"/>
-
-            <div className="px-10 py-8">
-                <h1 className="text-2xl font-bold text-slate-900 mb-6">Password Change</h1>
-
-                <div className="bg-white shadow rounded-lg p-6">
-                    <div className="flex items-center border-b border-slate-200 pb-6">
-                        <div
-                            className="h-24 w-24 rounded-full bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
-                            {user.image ? (
-                                <img
-                                    src={`/storage/${user.image}`}
-                                    alt={user.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            ) : (
-                                <img
-                                    src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                    alt={user.name}
-                                    className="w-full h-full object-cover"
-                                />
-                            )}
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold text-slate-900">{user.name}</h2>
-                            <p className="text-sm text-slate-500">Member
-                                Since {user.created_at}
+            <Head title="Change password" />
+            <AppPage width="narrow" className="space-y-6">
+                <PageHeader
+                    title="Change password"
+                    description="Use a long password you don't use anywhere else."
+                    breadcrumbs={[{ label: 'My profile', href: route('my.profile') }, { label: 'Password' }]}
+                />
+                <form onSubmit={updatePassword} className="space-y-6">
+                    <FormSection columns="">
+                        <TextInput
+                            id="current_password"
+                            ref={currentPasswordInput}
+                            label="Current password"
+                            type="password"
+                            value={data.current_password}
+                            onChange={(e) => setData('current_password', e.target.value)}
+                            error={errors.current_password}
+                            autoComplete="current-password"
+                            required
+                        />
+                        <TextInput
+                            id="password"
+                            ref={passwordInput}
+                            label="New password"
+                            type="password"
+                            value={data.password}
+                            onChange={(e) => setData('password', e.target.value)}
+                            error={errors.password}
+                            autoComplete="new-password"
+                            helpText="At least 8 characters."
+                            required
+                        />
+                        <TextInput
+                            id="password_confirmation"
+                            label="Confirm new password"
+                            type="password"
+                            value={data.password_confirmation}
+                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                            error={errors.password_confirmation}
+                            autoComplete="new-password"
+                            required
+                        />
+                    </FormSection>
+                    <FormActions>
+                        <Transition show={recentlySuccessful} enter="transition ease-in-out" enterFrom="opacity-0" leave="transition ease-in-out" leaveTo="opacity-0">
+                            <p className="mr-auto flex items-center gap-1.5 text-sm font-medium text-success-700" role="status">
+                                <FontAwesomeIcon icon={faCircleCheck} className="h-4 w-4" aria-hidden="true" /> Password updated
                             </p>
-                            <p className="text-sm text-primary-500 uppercase font-bold">{user.role}</p>
-                        </div>
-                    </div>
-
-                    <div className="mt-6 lg:mb-10 lg:mx-10 grid grid-cols-1 gap-6">
-                        <div className="w-2xs rounded p-10 shadow-md">
-                            <header>
-                                <h2 className="text-lg font-medium text-slate-900">
-                                    Update Password
-                                </h2>
-
-                                <p className="mt-1 text-sm text-slate-600">
-                                    Ensure your account is using a long, random password to stay
-                                    secure.
-                                </p>
-                            </header>
-                            <form onSubmit={updatePassword} className="mt-6 space-y-6">
-                                <div>
-                                    <TextInput
-                                        id="current_password"
-                                        label="Current Password"
-                                        ref={currentPasswordInput}
-                                        value={data.current_password}
-                                        onChange={(e) =>
-                                            setData('current_password', e.target.value)
-                                        }
-                                        type="password"
-                                        className="mt-1 block w-full"
-                                        autoComplete="current-password"
-                                        placeholder="Enter Current Password"
-                                        required
-                                    />
-
-                                    <InputError
-                                        message={errors.current_password}
-                                        className="mt-2"
-                                    />
-                                </div>
-
-                                <div>
-                                    <TextInput
-                                        id="password"
-                                        label="New Password"
-                                        ref={passwordInput}
-                                        value={data.password}
-                                        onChange={(e) => setData('password', e.target.value)}
-                                        type="password"
-                                        className="mt-1 block w-full"
-                                        autoComplete="new-password"
-                                        placeholder="Enter New Password"
-                                        required
-                                    />
-
-                                    <InputError message={errors.password} className="mt-2"/>
-                                </div>
-
-                                <div>
-                                    <TextInput
-                                        id="password_confirmation"
-                                        label="Confirm Password"
-                                        value={data.password_confirmation}
-                                        onChange={(e) =>
-                                            setData('password_confirmation', e.target.value)
-                                        }
-                                        type="password"
-                                        className="mt-1 block w-full"
-                                        autoComplete="new-password"
-                                        placeholder="Confirm New Password"
-                                        required
-                                    />
-
-                                    <InputError
-                                        message={errors.password_confirmation}
-                                        className="mt-2"
-                                    />
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                    {/* Back Button */}
-                                    <button
-                                        type="button"
-                                        onClick={() => window.history.back()}
-                                        className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
-                                    >
-                                        <div className="flex items-center space-x-2">
-                                            <FontAwesomeIcon icon={faArrowLeft}/>
-                                            <span>Back</span>
-                                        </div>
-                                    </button>
-                                    <PrimaryButton className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
-                                        disabled={processing}>
-                                        <FontAwesomeIcon icon={faSave}/> Update
-                                    </PrimaryButton>
-
-                                    <Transition
-                                        show={recentlySuccessful}
-                                        enter="transition ease-in-out"
-                                        enterFrom="opacity-0"
-                                        leave="transition ease-in-out"
-                                        leaveTo="opacity-0"
-                                    >
-                                        <p className="text-sm text-slate-600">
-                                            Saved.
-                                        </p>
-                                    </Transition>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        </Transition>
+                        <Button variant="secondary" onClick={() => window.history.back()}>Cancel</Button>
+                        <Button type="submit" icon={faCheck} loading={processing}>Update password</Button>
+                    </FormActions>
+                </form>
+            </AppPage>
         </AuthenticatedLayout>
-
     );
 }

@@ -214,6 +214,9 @@ class DonationService extends BaseService
                 }
             }
         }
+        if (isset($status)) {
+            $query->where('status', $status);
+        }
 
         if ($inRandom) {
             $query->inRandomOrder();
