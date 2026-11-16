@@ -95,9 +95,9 @@ export default function List({module, wishes, categories, filters, ageRanges, di
             case 'reserved':
                 return 'bg-yellow-100 text-yellow-800';
             case 'donated':
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
             default:
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
         }
     };
 
@@ -112,9 +112,9 @@ export default function List({module, wishes, categories, filters, ageRanges, di
         <AuthenticatedLayout>
             <Head title={`${module} List`}/>
             <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-700 px-2 py-2 sm:px-8 sm:py-5">
+                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-2 py-2 sm:px-8 sm:py-5">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
@@ -128,7 +128,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
                                         {module} Items
                                     </h1>
-                                    <p className="text-blue-100 text-sm mt-1">
+                                    <p className="text-primary-100 text-sm mt-1">
                                         Start making wishes and find the items you need
                                     </p>
                                 </div>
@@ -141,7 +141,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         onClick={() => setViewMode('table')}
                                         className={`p-2 rounded-md transition-all duration-200 ${
                                             viewMode === 'table'
-                                                ? 'bg-white text-blue-600 shadow-sm'
+                                                ? 'bg-white text-primary-600 shadow-sm'
                                                 : 'text-white hover:bg-white hover:bg-opacity-10'
                                         }`}
                                         title="Table View"
@@ -152,7 +152,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         onClick={() => setViewMode('grid')}
                                         className={`p-2 rounded-md transition-all duration-200 ${
                                             viewMode === 'grid'
-                                                ? 'bg-white text-blue-600 shadow-sm'
+                                                ? 'bg-white text-primary-600 shadow-sm'
                                                 : 'text-white hover:bg-white hover:bg-opacity-10'
                                         }`}
                                         title="Grid View"
@@ -164,9 +164,9 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                 {/* Action Button */}
                                 <Link
                                     href={route('wishes.create')}
-                                    className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
+                                    className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                                 >
-                                    <FontAwesomeIcon icon={faPlus} className="text-blue-600" />
+                                    <FontAwesomeIcon icon={faPlus} className="text-primary-600" />
                                     <span>Create New</span>
                                 </Link>
                             </div>
@@ -177,16 +177,16 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
                             {/* Enhanced Filter Section */}
-                            <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                            <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
                                 {/* Filter Header - Always visible */}
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                                     <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-                                        <div className="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                            <FontAwesomeIcon icon={faFilter} className="text-blue-600 text-lg" />
+                                        <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                            <FontAwesomeIcon icon={faFilter} className="text-primary-600 text-lg" />
                                         </div>
                                         <div>
-                                            <h2 className="text-lg font-semibold text-gray-900">Filter Wishes</h2>
-                                            <p className="text-sm text-gray-500">
+                                            <h2 className="text-lg font-semibold text-slate-900">Filter Wishes</h2>
+                                            <p className="text-sm text-slate-500">
                                                 Find specific wishes by organization, category, or age range
                                             </p>
                                         </div>
@@ -196,12 +196,12 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         {/* Mobile Filter Toggle */}
                                         <button
                                             onClick={() => setShowFilters(!showFilters)}
-                                            className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                            className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                                         >
                                             <FontAwesomeIcon icon={showFilters ? faTimes : faFilter} className="mr-2" />
                                             {showFilters ? 'Hide Filters' : 'Show Filters'}
                                             {activeFilterCount > 0 && (
-                                                <span className="ml-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                                <span className="ml-2 bg-primary-600 text-white text-xs px-2 py-0.5 rounded-full">
                                                     {activeFilterCount}
                                                 </span>
                                             )}
@@ -210,7 +210,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         {/* Active Filters Count - Desktop */}
                                         {activeFilterCount > 0 && (
                                             <div className="hidden md:flex items-center space-x-2">
-                                                <span className="text-sm text-gray-500">
+                                                <span className="text-sm text-slate-500">
                                                     {activeFilterCount} active filter{activeFilterCount !== 1 ? 's' : ''}
                                                 </span>
                                                 <button
@@ -230,12 +230,12 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                     <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                         {/* Search Input - Enhanced with icon */}
                                         <div className="relative">
-                                            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label htmlFor="search" className="block text-sm font-medium text-slate-700 mb-2">
                                                 Common Search
                                             </label>
                                             <div className="relative">
                                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                    <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                    <FontAwesomeIcon icon={faSearch} className="text-slate-400 w-4 h-4" />
                                                 </div>
                                                 <input
                                                     type="text"
@@ -243,26 +243,26 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                     value={searchCommon}
                                                     onChange={(e) => setSearchCommon(e.target.value)}
                                                     placeholder="Search by title, description..."
-                                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
                                                 />
                                                 {searchCommon && (
                                                     <button
                                                         onClick={() => setSearchCommon('')}
                                                         className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                     >
-                                                        <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                        <FontAwesomeIcon icon={faTimes} className="text-slate-400 hover:text-slate-600 w-4 h-4" />
                                                     </button>
                                                 )}
                                             </div>
                                         </div>
 
                                         <div className="relative">
-                                            <label htmlFor="wisher_name" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label htmlFor="wisher_name" className="block text-sm font-medium text-slate-700 mb-2">
                                                 Wisher name
                                             </label>
                                             <div className="relative">
                                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                    <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                    <FontAwesomeIcon icon={faSearch} className="text-slate-400 w-4 h-4" />
                                                 </div>
                                                 <input
                                                     type="text"
@@ -270,28 +270,28 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                     value={wisherName}
                                                     onChange={(e) => setWisherName(e.target.value)}
                                                     placeholder="Search by wisher name,phone,email,address,guardian name & phone"
-                                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
                                                 />
                                                 {wisherName && (
                                                     <button
                                                         onClick={() => setWisherName('')}
                                                         className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                     >
-                                                        <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                        <FontAwesomeIcon icon={faTimes} className="text-slate-400 hover:text-slate-600 w-4 h-4" />
                                                     </button>
                                                 )}
                                             </div>
                                         </div>
                                         {/* Organization Select */}
                                         <div>
-                                            <label htmlFor="organization_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label htmlFor="organization_id" className="block text-sm font-medium text-slate-700 mb-2">
                                                 Organization
                                             </label>
                                             <select
                                                 id="organization_id"
                                                 value={organizationId}
                                                 onChange={(e) => setOrganizationId(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                             >
                                                 <option value="">All Organizations</option>
                                                 {organizationOptions.map(option => (
@@ -303,14 +303,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         </div>
 
                                         <div>
-                                            <label htmlFor="organization_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label htmlFor="organization_id" className="block text-sm font-medium text-slate-700 mb-2">
                                                 Wish Type(Single/organization)
                                             </label>
                                             <select
                                                 id="type"
                                                 value={type}
                                                 onChange={(e) => setType(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                             >
                                                 <option value="">Select Type</option>
                                                 {wishAndDonationType().map(option => (
@@ -323,14 +323,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
 
                                         {/* Category Select */}
                                         <div>
-                                            <label htmlFor="category_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label htmlFor="category_id" className="block text-sm font-medium text-slate-700 mb-2">
                                                 Category
                                             </label>
                                             <select
                                                 id="category_id"
                                                 value={categoryId}
                                                 onChange={(e) => setCategoryId(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                             >
                                                 <option value="">All Categories</option>
                                                 {categoryOptions.map(option => (
@@ -343,14 +343,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
 
                                         {/* Age Range Select */}
                                         <div>
-                                            <label htmlFor="age_range" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label htmlFor="age_range" className="block text-sm font-medium text-slate-700 mb-2">
                                                 Age Range (Child)
                                             </label>
                                             <select
                                                 id="age_range"
                                                 value={ageRange}
                                                 onChange={(e) => setAgeRange(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                             >
                                                 <option value="">All Age Ranges</option>
                                                 {ageRangeOptions.map(option => (
@@ -362,14 +362,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         </div>
 
                                         <div>
-                                            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+                                            <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
                                                 Status
                                             </label>
                                             <select
                                                 id="status"
                                                 value={status}
                                                 onChange={(e) => setStatus(e.target.value)}
-                                                className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                             >
                                                 <option value="">All Status</option>
                                                 {wishStatusOptions.map(option => (
@@ -383,14 +383,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                         {/* Distance Range Select (Conditional) */}
                                         {/*{distanceRangeOptions.length > 0 && (*/}
                                         {/*    <div>*/}
-                                        {/*        <label htmlFor="distance_range" className="block text-sm font-medium text-gray-700 mb-2">*/}
+                                        {/*        <label htmlFor="distance_range" className="block text-sm font-medium text-slate-700 mb-2">*/}
                                         {/*            Distance from you*/}
                                         {/*        </label>*/}
                                         {/*        <select*/}
                                         {/*            id="distance_range"*/}
                                         {/*            value={distanceRange}*/}
                                         {/*            onChange={(e) => setDistanceRange(e.target.value)}*/}
-                                        {/*            className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"*/}
+                                        {/*            className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"*/}
                                         {/*        >*/}
                                         {/*            <option value="">Any Distance</option>*/}
                                         {/*            {distanceRangeOptions.map(option => (*/}
@@ -422,10 +422,10 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                             <div className="md:hidden space-y-4">
                                 {wishListData.length > 0 ? (
                                     wishListData.map((wish, index) => (
-                                        <div key={wish.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+                                        <div key={wish.id} className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                                             {/* Card Image */}
                                             <div className="relative">
-                                                <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                                <div className="h-[300px] w-full bg-slate-100 overflow-hidden">
                                                     {wish.featured_image?.file_path ? (
                                                         <img
                                                             src={`/storage/${wish.featured_image.file_path}`}
@@ -433,8 +433,8 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                             className="w-full h-full object-cover"
                                                         />
                                                     ) : (
-                                                        <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faStar} className="text-gray-400 text-4xl" />
+                                                        <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                                                            <FontAwesomeIcon icon={faStar} className="text-slate-400 text-4xl" />
                                                         </div>
                                                     )}
                                                 </div>
@@ -448,42 +448,42 @@ export default function List({module, wishes, categories, filters, ageRanges, di
 
                                             {/* Card Content */}
                                             <div className="p-4">
-                                                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                                                <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2">
                                                     {wish.title}
                                                 </h3>
 
                                                 <div className="space-y-2 mb-4">
-                                                    <div className="flex items-center text-sm text-gray-600">
+                                                    <div className="flex items-center text-sm text-slate-600">
                                                         <span className="font-medium mr-2">Age Range:</span>
                                                         <span className="capitalize">{wish.age_range}</span>
                                                     </div>
-                                                    <div className="flex items-center text-sm text-gray-600">
+                                                    <div className="flex items-center text-sm text-slate-600">
                                                         <span className="font-medium mr-2">Wisher:</span>
                                                         <span>{wish.user.name}</span>
                                                     </div>
-                                                    <div className="flex items-center text-sm text-gray-600">
+                                                    <div className="flex items-center text-sm text-slate-600">
                                                         <span className="font-medium mr-2">Created:</span>
                                                         <span>{wish.created_at}</span>
                                                     </div>
                                                 </div>
 
                                                 {/* Action Button */}
-                                                <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                                                    <span className="text-sm text-gray-500">
+                                                <div className="flex justify-between items-center pt-3 border-t border-slate-100">
+                                                    <span className="text-sm text-slate-500">
                                                         {wish.created_at}
                                                     </span>
                                                     {wish.latest_fulfillment ? (
-                                                        <span className="px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                        <span className="px-3 py-1 border border-primary-500 rounded-md text-sm font-medium text-white bg-primary-500">
                                                             {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                         </span>
                                                     ) : (
-                                                        <span className="px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                        <span className="px-3 py-1 border border-primary-500 rounded-md text-sm font-medium text-white bg-primary-500">
                                                             {wish.status}
                                                         </span>
                                                     )}
                                                     <Link
                                                         href={route('wishes.show', wish.id)}
-                                                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                        className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200"
                                                     >
                                                         Detail
                                                     </Link>
@@ -493,14 +493,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                     ))
                                 ) : (
                                     <div className="text-center py-12">
-                                        <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4"/>
-                                        <p className="text-gray-500 text-lg mb-2">No wishes found</p>
-                                        <p className="text-gray-400 text-sm mb-6">
+                                        <FontAwesomeIcon icon={faStar} className="text-slate-300 text-6xl mb-4"/>
+                                        <p className="text-slate-500 text-lg mb-2">No wishes found</p>
+                                        <p className="text-slate-400 text-sm mb-6">
                                             Start making wishes and find the items you need
                                         </p>
                                         <Link
                                             href={route('wishes.create')}
-                                            className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                            className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
                                         >
                                             <FontAwesomeIcon icon={faPlus}/>
                                             <span>Create First Gift</span>
@@ -513,23 +513,23 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                             <div className="hidden md:block">
                                 {viewMode === 'table' ? (
                                     /* Table View */
-                                    <div className="overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
-                                        <table className="min-w-full divide-y divide-gray-200">
-                                            <thead className="bg-gray-50">
+                                    <div className="overflow-x-auto bg-white shadow rounded-lg border border-slate-200">
+                                        <table className="min-w-full divide-y divide-slate-200">
+                                            <thead className="bg-slate-50">
                                             <tr>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Item Info.</th>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Wisher Name</th>
-                                                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Fulfilment status</th>
-                                                <th className="px-6 py-4 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Action</th>
+                                                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Item Info.</th>
+                                                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Wisher Name</th>
+                                                <th className="px-6 py-4 text-left text-xs font-semibold text-slate-700 uppercase tracking-wider">Fulfilment status</th>
+                                                <th className="px-6 py-4 text-right text-xs font-semibold text-slate-700 uppercase tracking-wider">Action</th>
                                             </tr>
                                             </thead>
-                                            <tbody className="bg-white divide-y divide-gray-200">
+                                            <tbody className="bg-white divide-y divide-slate-200">
                                             {wishListData.length > 0 ? (
                                                 wishListData.map((wish, index) => (
-                                                    <tr key={wish.id} className="hover:bg-gray-50 transition-colors">
+                                                    <tr key={wish.id} className="hover:bg-slate-50 transition-colors">
                                                         <td className="px-6 py-4">
                                                             <div className="flex items-center">
-                                                                <div className="h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100">
+                                                                <div className="h-16 w-16 flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-primary-100 to-primary-100">
                                                                     {wish.featured_image?.file_path ? (
                                                                         <img
                                                                             src={`/storage/${wish.featured_image.file_path}`}
@@ -538,23 +538,23 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                                         />
                                                                     ) : (
                                                                         <div className="w-full h-full flex items-center justify-center">
-                                                                            <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
+                                                                            <FontAwesomeIcon icon={faStar} className="text-slate-400"/>
                                                                         </div>
                                                                     )}
                                                                 </div>
                                                                 <div className="ml-4">
-                                                                    <h3 className="text-sm font-medium text-gray-900">{wish.title}</h3>
-                                                                    <p className="text-sm text-gray-500">Age range: {wish.age_range}yrs</p>
+                                                                    <h3 className="text-sm font-medium text-slate-900">{wish.title}</h3>
+                                                                    <p className="text-sm text-slate-500">Age range: {wish.age_range}yrs</p>
                                                                     <div className="mt-1 flex flex-wrap gap-1">
                                                                         <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded">
                                                                             {wish.status}
                                                                         </span>
-                                                                        <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-0.5 rounded">
+                                                                        <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2 py-0.5 rounded">
                                                                             {wish.created_at}
                                                                         </span>
                                                                         {wish.latest_fulfillment?.status === 'requested' && (
                                                                             <>
-                                                                                <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2 py-0.5 rounded">
+                                                                                <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2 py-0.5 rounded">
                                                                                     Contributor: {wish.latest_fulfillment?.donation?.user?.name}
                                                                                 </span>
                                                                             </>
@@ -563,16 +563,16 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                                 </div>
                                                             </div>
                                                         </td>
-                                                        <td className="px-6 py-4 text-sm text-gray-900">
+                                                        <td className="px-6 py-4 text-sm text-slate-900">
                                                             {wish.user.name}
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             {wish.latest_fulfillment ? (
-                                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
                                                                     {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                                 </span>
                                                             ) : (
-                                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
                                                                     {wish.status}
                                                                 </span>
                                                             )}
@@ -588,7 +588,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                             ) : (
                                                                 <Link
                                                                     href={route('wishes.show', wish.id)}
-                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                                                    className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors"
                                                                 >
                                                                     Detail
                                                                 </Link>
@@ -601,15 +601,15 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                     <td colSpan="4" className="px-6 py-12 text-center">
                                                         <div className="text-center">
                                                             <FontAwesomeIcon icon={faStar}
-                                                                             className="text-gray-300 text-5xl mb-4"/>
-                                                            <p className="text-gray-500 text-lg mb-2">No wishes
+                                                                             className="text-slate-300 text-5xl mb-4"/>
+                                                            <p className="text-slate-500 text-lg mb-2">No wishes
                                                                 found</p>
-                                                            <p className="text-gray-400 text-sm mb-6">
+                                                            <p className="text-slate-400 text-sm mb-6">
                                                                 Start by creating your first donation item
                                                             </p>
                                                             <Link
                                                                 href={route('wishes.create')}
-                                                                className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                                                className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
                                                             >
                                                                 <FontAwesomeIcon icon={faPlus} />
                                                                 <span>Create First Gift</span>
@@ -626,10 +626,10 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                         {wishListData.length > 0 ? (
                                             wishListData.map((wish, index) => (
-                                                <div key={wish.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                                                <div key={wish.id} className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
                                                     {/* Card Image */}
                                                     <div className="relative">
-                                                        <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                                        <div className="h-[300px] w-full bg-slate-100 overflow-hidden">
                                                             {wish.featured_image?.file_path ? (
                                                                 <img
                                                                     src={`/storage/${wish.featured_image.file_path}`}
@@ -637,8 +637,8 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                                 />
                                                             ) : (
-                                                                <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                                    <FontAwesomeIcon icon={faStar} className="text-gray-400 text-5xl" />
+                                                                <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                                                                    <FontAwesomeIcon icon={faStar} className="text-slate-400 text-5xl" />
                                                                 </div>
                                                             )}
                                                         </div>
@@ -652,22 +652,22 @@ export default function List({module, wishes, categories, filters, ageRanges, di
 
                                                     {/* Card Content */}
                                                     <div className="p-5">
-                                                        <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                                        <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
                                                             {wish.title}
                                                         </h3>
 
                                                         <div className="space-y-2 mb-4">
-                                                            <div className="flex items-center text-sm text-gray-600">
+                                                            <div className="flex items-center text-sm text-slate-600">
                                                                 <span className="font-medium mr-2">Age Range:</span>
                                                                 <span className="capitalize">{wish.age_range}</span>
                                                             </div>
-                                                            <div className="flex items-center text-sm text-gray-600">
+                                                            <div className="flex items-center text-sm text-slate-600">
                                                                 <span className="font-medium mr-2">Wisher:</span>
                                                                 <span>{wish.user.name}</span>
                                                             </div>
                                                             {wish.latest_fulfillment?.status === 'requested' && (
-                                                                <div className="mt-2 p-2 bg-purple-50 rounded-lg">
-                                                                    <p className="text-xs text-purple-800 font-medium">
+                                                                <div className="mt-2 p-2 bg-primary-50 rounded-lg">
+                                                                    <p className="text-xs text-primary-800 font-medium">
                                                                         Contributor: {wish.latest_fulfillment?.donation?.user?.name}
                                                                     </p>
                                                                 </div>
@@ -675,8 +675,8 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                         </div>
 
                                                         {/* Action Button */}
-                                                        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                                                            <span className="text-sm text-gray-500">
+                                                        <div className="flex justify-between items-center pt-4 border-t border-slate-100">
+                                                            <span className="text-sm text-slate-500">
                                                                 {wish.created_at}
                                                             </span>
                                                             {wish.latest_fulfillment?.status === 'requested' ? (
@@ -689,7 +689,7 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                                             ) : (
                                                                 <Link
                                                                     href={route('wishes.show', wish.id)}
-                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                                                                    className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors"
                                                                 >
                                                                     Detail
                                                                 </Link>
@@ -700,14 +700,14 @@ export default function List({module, wishes, categories, filters, ageRanges, di
                                             ))
                                         ) : (
                                             <div className="col-span-full text-center py-12">
-                                                <FontAwesomeIcon icon={faStar} className="text-gray-300 text-6xl mb-4" />
-                                                <p className="text-gray-500 text-lg mb-2">No wishes found</p>
-                                                <p className="text-gray-400 text-sm mb-6">
+                                                <FontAwesomeIcon icon={faStar} className="text-slate-300 text-6xl mb-4" />
+                                                <p className="text-slate-500 text-lg mb-2">No wishes found</p>
+                                                <p className="text-slate-400 text-sm mb-6">
                                                     Start sharing items and make wishes come true
                                                 </p>
                                                 <Link
                                                     href={route('wishes.create')}
-                                                    className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                                    className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
                                                 >
                                                     <FontAwesomeIcon icon={faPlus} />
                                                     <span>Create First Gift</span>

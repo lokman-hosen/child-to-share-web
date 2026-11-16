@@ -50,11 +50,12 @@ const MultiSelectTextField = ({
 
     return (
         <div className={className}>
-            <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+            <label htmlFor={id} className="block text-sm font-medium text-slate-800">
                 {label}
-                {required && <span className="text-red-500">*</span>}
+                {required && <span className="ml-0.5 text-danger-600" aria-hidden="true">*</span>}
             </label>
             <CreatableSelect
+                inputId={id}
                 components={components}
                 inputValue={inputValue}
                 isClearable
@@ -66,22 +67,24 @@ const MultiSelectTextField = ({
                 onKeyDown={handleKeyDown}
                 placeholder={placeholder}
                 value={value}
-                className={`mt-1 ${error ? 'border-red-500 rounded-md' : ''}`}
+                className="mt-1.5"
                 styles={{
                     control: (base, state) => ({
                         ...base,
-                        borderColor: error ? '#ef4444' : '#d1d5db',
+                        borderColor: error ? '#E11D48' : state.isFocused ? '#3D97BA' : '#CBD5E1',
                         '&:hover': {
-                            borderColor: error ? '#ef4444' : '#d1d5db',
+                            borderColor: error ? '#E11D48' : '#94A3B8',
                         },
-                        boxShadow: state.isFocused && !error ? '0 0 0 1px #6366f1' : 'none',
+                        boxShadow: state.isFocused ? `0 0 0 3px ${error ? 'rgb(225 29 72 / 0.2)' : 'rgb(61 151 186 / 0.25)'}` : '0 1px 2px 0 rgb(15 23 42 / 0.05)',
                         borderWidth: '1px',
-                        borderRadius: '0.375rem',
-                        padding: '2px',
+                        borderRadius: '0.5rem',
+                        minHeight: '2.75rem',
+                        fontSize: '0.875rem',
+                        padding: '0 4px',
                     })
                 }}
             />
-            {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+            {error && <p className="mt-1.5 text-xs font-medium text-danger-700">{error}</p>}
         </div>
     );
 };

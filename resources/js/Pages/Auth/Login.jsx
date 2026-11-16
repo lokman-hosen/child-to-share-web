@@ -1,7 +1,8 @@
 import Checkbox from '@/Components/Checkbox';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
+import AuthShell from '@/Components/UI/AuthShell';
+import Field from '@/Components/UI/Field';
+import Alert from '@/Components/UI/Alert';
+import UIButton from '@/Components/UI/Button';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -33,146 +34,96 @@ export default function Login({ status, canResetPassword }) {
     return (
         <GuestLayout>
             <Head title="Log in"/>
+            <AuthShell
+                title="Welcome Back"
+                subtitle="Sign in to your ThreeWish account"
+                footer={<>
+                    <span>Don't have an account? </span>
+                    <Link href={route('register')} className="font-semibold text-primary-700 hover:underline">Sign up</Link>
+                </>}
+            >
+                {status && <Alert tone="success" className="mb-6">{status}</Alert>}
 
-            <div className="text-center ">
-                {status && (
-                    <div className="mt-4 font-medium text-lg text-green-600">
-                        {status}
-                    </div>
-                )}
-            </div>
-
-            <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full">
-                    <div className="login-card bg-white rounded-lg shadow-lg overflow-hidden">
-                        <div className="bg-gradient-to-r from-primary to-secondary text-white py-8 px-6 text-center">
-                            <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-                            <p className="text-lg">Sign in to your ThreeWish account</p>
+                <form onSubmit={submit} className="space-y-5">
+                    <Field id="login" label="Email or Phone Number" required hint="Enter your registered email address or phone number" error={errors.login}>
+                        <div className="relative">
+                            <FontAwesomeIcon
+                                icon={data.login.includes('@') ? faUser : faPhone}
+                                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+                                aria-hidden="true"
+                            />
+                            <TextInput
+                                id="login"
+                                type="text"
+                                name="login"
+                                value={data.login}
+                                className={`form-control pl-10 ${errors.login ? 'form-control-error' : ''}`}
+                                autoComplete="username"
+                                isFocused={true}
+                                onChange={(e) => setData('login', e.target.value)}
+                                placeholder="Enter your email or phone number"
+                                aria-invalid={errors.login ? 'true' : undefined}
+                                aria-describedby="login-desc"
+                                required
+                            />
                         </div>
+                    </Field>
 
-                        <div className="px-8 py-8">
-                            <form onSubmit={submit} className="space-y-6">
-                                <div>
-                                    <label className="block text-accent font-medium mb-2">
-                                        Email or Phone Number
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <FontAwesomeIcon
-                                                icon={data.login.includes('@') ? faUser : faPhone}
-                                                className="text-neutral/60"
-                                            />
-                                        </div>
-
-                                        <TextInput
-                                            id="login"
-                                            type="text"
-                                            name="login"
-                                            value={data.login}
-                                            className="form-input w-full pl-10 pr-4 py-3 border border-neutral/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                                            autoComplete="username"
-                                            isFocused={true}
-                                            onChange={(e) => setData('login', e.target.value)}
-                                            placeholder="Enter your email or phone number"
-                                            required
-                                        />
-                                        <InputError message={errors.login} className="mt-2"/>
-                                    </div>
-                                    <p className="text-xs text-neutral/60 mt-1">
-                                        Enter your registered email address or phone number
-                                    </p>
-                                </div>
-
-                                <div>
-                                    <label className="block text-accent font-medium mb-2">
-                                        Password
-                                        <span className="text-red-500">*</span>
-                                    </label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <FontAwesomeIcon icon={faLock} className="text-neutral/60"/>
-                                        </div>
-                                        <TextInput
-                                            id="password"
-                                            type={showPassword ? "text" : "password"}
-                                            name="password"
-                                            value={data.password}
-                                            className="form-input w-full pl-10 pr-10 py-3 border border-neutral/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                                            autoComplete="current-password"
-                                            onChange={(e) => setData('password', e.target.value)}
-                                            placeholder="Enter your password"
-                                            required
-                                        />
-                                        <InputError message={errors.password} className="mt-2"/>
-                                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                            <button
-                                                type="button"
-                                                onClick={togglePasswordVisibility}
-                                                className="toggle-password text-neutral/60 hover:text-accent focus:outline-none transition-colors duration-200"
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={showPassword ? faEyeSlash : faEye}
-                                                    className="h-5 w-5"
-                                                />
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
-                                        <Checkbox
-                                            className="h-4 w-4 text-primary focus:ring-primary border-neutral/30 rounded transition-colors duration-200"
-                                            name="remember"
-                                            checked={data.remember}
-                                            onChange={(e) =>
-                                                setData('remember', e.target.checked)
-                                            }
-                                        />
-                                        <label htmlFor="remember-me" className="ml-2 block text-sm text-neutral">
-                                            Remember me
-                                        </label>
-                                    </div>
-
-                                    <div className="text-sm">
-                                        {canResetPassword && (
-                                            <Link
-                                                href={route('password.request')}
-                                                className="font-medium text-primary hover:text-primary/80 transition-colors duration-200"
-                                            >
-                                                Forgot password?
-                                            </Link>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <button
-                                    type="submit"
-                                    disabled={processing}
-                                    className={`w-full py-3 rounded-lg font-semibold text-lg transition-all duration-200 focus:ring-4 focus:ring-primary/30 ${
-                                        processing
-                                            ? 'bg-neutral/40 text-neutral/60 cursor-not-allowed'
-                                            : 'bg-gradient-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90 hover:shadow-lg transform hover:-translate-y-0.5'
-                                    }`}
-                                >
-                                    {processing ? 'Signing In...' : 'Sign In'}
-                                </button>
-                            </form>
-
-                            <p className="text-center mt-6 text-neutral">
-                                <span>Don't have an account? </span>
-                                <Link
-                                    href={route('register')}
-                                    className="font-medium text-primary hover:text-primary/80 transition-colors duration-200"
-                                >
-                                    Sign up
-                                </Link>
-                            </p>
+                    <Field
+                        id="password"
+                        label="Password"
+                        required
+                        error={errors.password}
+                        labelAction={canResetPassword && (
+                            <Link href={route('password.request')} className="text-sm font-medium text-primary-700 hover:underline">
+                                Forgot password?
+                            </Link>
+                        )}
+                    >
+                        <div className="relative">
+                            <FontAwesomeIcon icon={faLock} className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                            <TextInput
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                value={data.password}
+                                className={`form-control pl-10 pr-11 ${errors.password ? 'form-control-error' : ''}`}
+                                autoComplete="current-password"
+                                onChange={(e) => setData('password', e.target.value)}
+                                placeholder="Enter your password"
+                                aria-invalid={errors.password ? 'true' : undefined}
+                                aria-describedby={errors.password ? 'password-desc' : undefined}
+                                required
+                            />
+                            <button
+                                type="button"
+                                onClick={togglePasswordVisibility}
+                                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                aria-pressed={showPassword}
+                                className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-lg text-slate-400 hover:text-slate-700"
+                            >
+                                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="h-4 w-4" aria-hidden="true" />
+                            </button>
                         </div>
-                    </div>
-                </div>
-            </main>
+                    </Field>
+
+                    <label htmlFor="remember" className="flex items-center gap-2.5 text-sm text-slate-700">
+                        <Checkbox
+                            id="remember"
+                            name="remember"
+                            checked={data.remember}
+                            onChange={(e) =>
+                                setData('remember', e.target.checked)
+                            }
+                        />
+                        Remember me
+                    </label>
+
+                    <UIButton type="submit" size="lg" className="w-full" loading={processing} disabled={processing}>
+                        {processing ? 'Signing In...' : 'Sign In'}
+                    </UIButton>
+                </form>
+            </AuthShell>
         </GuestLayout>
     );
 }

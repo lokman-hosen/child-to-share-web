@@ -1,45 +1,51 @@
 import React from 'react';
-import Activity from "@/Components/Common/Admin/Donor/Activity.jsx";
-import Cards from "@/Components/Common/Admin/Donor/Cards.jsx";
-import WishList from "@/Components/Common/Admin/Donor/WishList.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import { Link } from '@inertiajs/react';
+import { faGift, faStar, faCircleCheck, faPlus, faHandHoldingHeart } from '@fortawesome/free-solid-svg-icons';
+import AppPage from '@/Components/UI/AppPage';
+import StatCard from '@/Components/UI/StatCard';
+import QuickAction from '@/Components/UI/QuickAction';
+import Button from '@/Components/UI/Button';
+import DashboardIntro from '@/Components/Common/Admin/DashboardIntro';
+import WishList from '@/Components/Common/Admin/Donor/WishList.jsx';
 
-const DonorWisherDashboard = ({availableDonationCount, donatedDonationCount,activeWishCount,fulfilledWishCount,wishRequests}) => {
+const DonorWisherDashboard = ({ availableDonationCount, donatedDonationCount, activeWishCount, fulfilledWishCount, wishRequests }) => {
     return (
-            <div className="page active-page">
-                <div className="bg-yellow-300 border border-yellow-500 rounded-lg p-4 m-6">
-                    <div className="flex items-center">
-                        <FontAwesomeIcon icon={faInfoCircle} className="h-5 w-5 text-blue-500 mr-3" />
-                        <div>
-                            <p className="text-blue-800 text-xl">
-                                ThreeWish is Under Development
-                            </p>
-                            <p className="text-blue-600 text-md mt-1">
-                                Some features are still being built. Thank you for your patience!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-               <div className="px-10 py-8">
-                   <div className="flex items-left mb-6">
-                       <h1 className="text-2xl font-bold text-gray-900 mt-1">Dashboard</h1>
-                   </div>
-                   <Cards
-                       userType = 'donor-wisher'
-                       availableDonationCount = {availableDonationCount}
-                       donatedDonationCount = {donatedDonationCount}
-                       activeWishCount = {activeWishCount}
-                       fulfilledWishCount = {fulfilledWishCount}
-                   />
-                   <Activity/>
-                   <WishList
-                       userType = 'donor-wisher'
-                       wishRequests = {wishRequests}
-                   />
-               </div>
+        <AppPage>
+            <DashboardIntro
+                title="Dashboard"
+                actions={<>
+                    <Button href={route('donations.create')} icon={faGift} variant="secondary">Create Gift</Button>
+                    <Button href={route('wishes.create')} icon={faStar}>Create Wish</Button>
+                </>}
+            />
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                <Link href={route('wishes.index')} className="rounded-card">
+                    <StatCard icon={faStar} label="Active Wishes" value={activeWishCount} tone="primary" className="h-full hover:border-primary-200" />
+                </Link>
+                <Link href={route('wishes.index')} className="rounded-card">
+                    <StatCard icon={faCircleCheck} label="Wishes Received" value={fulfilledWishCount} tone="success" className="h-full hover:border-primary-200" />
+                </Link>
+                <Link href={route('donations.index')} className="rounded-card">
+                    <StatCard icon={faGift} label="Active Gifts" value={availableDonationCount} tone="gold" className="h-full hover:border-primary-200" />
+                </Link>
+                <Link href={route('donations.index')} className="rounded-card">
+                    <StatCard icon={faHandHoldingHeart} label="Wishes Fulfilled" value={donatedDonationCount} tone="success" className="h-full hover:border-primary-200" />
+                </Link>
             </div>
+
+            <div className="mt-10">
+                <WishList userType="donor-wisher" wishRequests={wishRequests} />
+            </div>
+
+            <section aria-labelledby="quick-actions" className="mt-10">
+                <h2 id="quick-actions" className="text-base font-semibold text-slate-900">Quick Actions</h2>
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    <QuickAction href={route('wishes.create')} icon={faPlus} title="Create Wish" description="Tap to have items" />
+                    <QuickAction href={route('donations.create')} icon={faGift} title="Create Gift" description="Tap to share items" />
+                    <QuickAction href={route('wish.fulfill.list')} icon={faHandHoldingHeart} title="Fulfill Wishes" description="Find wishes your gifts can fulfil" />
+                </div>
+            </section>
+        </AppPage>
     );
 };
 

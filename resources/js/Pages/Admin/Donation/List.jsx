@@ -89,9 +89,9 @@ export default function List({module, filters, donations, organizations,categori
             case 'reserved':
                 return 'bg-yellow-100 text-yellow-800';
             case 'donated':
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
             default:
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
         }
     };
 
@@ -99,9 +99,9 @@ export default function List({module, filters, donations, organizations,categori
         <AuthenticatedLayout>
             <Head title={`${module} List`}/>
             <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 sm:px-8 sm:py-10">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
@@ -115,7 +115,7 @@ export default function List({module, filters, donations, organizations,categori
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
                                         {module} Items
                                     </h1>
-                                    <p className="text-blue-100 text-sm mt-1">
+                                    <p className="text-primary-100 text-sm mt-1">
                                         Share your items and make wishes come true
                                     </p>
                                 </div>
@@ -128,7 +128,7 @@ export default function List({module, filters, donations, organizations,categori
                                         onClick={() => setViewMode('table')}
                                         className={`p-2 rounded-md transition-all duration-200 ${
                                             viewMode === 'table'
-                                                ? 'bg-white text-blue-600 shadow-sm'
+                                                ? 'bg-white text-primary-600 shadow-sm'
                                                 : 'text-white hover:bg-white hover:bg-opacity-10'
                                         }`}
                                     >
@@ -138,7 +138,7 @@ export default function List({module, filters, donations, organizations,categori
                                         onClick={() => setViewMode('grid')}
                                         className={`p-2 rounded-md transition-all duration-200 ${
                                             viewMode === 'grid'
-                                                ? 'bg-white text-blue-600 shadow-sm'
+                                                ? 'bg-white text-primary-600 shadow-sm'
                                                 : 'text-white hover:bg-white hover:bg-opacity-10'
                                         }`}
                                     >
@@ -149,10 +149,10 @@ export default function List({module, filters, donations, organizations,categori
                                 {/* Action Button */}
                                 <Link
                                     href={route('donations.create')}
-                                    className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
+                                    className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                                 >
                                     <div className="animate-bounce">
-                                        <FontAwesomeIcon icon={faPlus} className="text-blue-600" />
+                                        <FontAwesomeIcon icon={faPlus} className="text-primary-600" />
                                     </div>
                                     <span>Create New</span>
                                 </Link>
@@ -166,16 +166,16 @@ export default function List({module, filters, donations, organizations,categori
                             <div className="w-2xl space-y-8">
 
                                 {/* Enhanced Filter Section */}
-                                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                                <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
                                     {/* Filter Header - Always visible */}
                                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                                         <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-                                            <div className="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                <FontAwesomeIcon icon={faFilter} className="text-blue-600 text-lg" />
+                                            <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                                <FontAwesomeIcon icon={faFilter} className="text-primary-600 text-lg" />
                                             </div>
                                             <div>
-                                                <h2 className="text-lg font-semibold text-gray-900">Filter Gifts</h2>
-                                                <p className="text-sm text-gray-500">
+                                                <h2 className="text-lg font-semibold text-slate-900">Filter Gifts</h2>
+                                                <p className="text-sm text-slate-500">
                                                     Find specific wishes by organization, category, or age range
                                                 </p>
                                             </div>
@@ -185,12 +185,12 @@ export default function List({module, filters, donations, organizations,categori
                                             {/* Mobile Filter Toggle */}
                                             <button
                                                 onClick={() => setShowFilters(!showFilters)}
-                                                className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                                className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                                             >
                                                 <FontAwesomeIcon icon={showFilters ? faTimes : faFilter} className="mr-2" />
                                                 {showFilters ? 'Hide Filters' : 'Show Filters'}
                                                 {activeFilterCount > 0 && (
-                                                    <span className="ml-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                                    <span className="ml-2 bg-primary-600 text-white text-xs px-2 py-0.5 rounded-full">
                                                     {activeFilterCount}
                                                 </span>
                                                 )}
@@ -199,7 +199,7 @@ export default function List({module, filters, donations, organizations,categori
                                             {/* Active Filters Count - Desktop */}
                                             {activeFilterCount > 0 && (
                                                 <div className="hidden md:flex items-center space-x-2">
-                                                <span className="text-sm text-gray-500">
+                                                <span className="text-sm text-slate-500">
                                                     {activeFilterCount} active filter{activeFilterCount !== 1 ? 's' : ''}
                                                 </span>
                                                     <button
@@ -220,14 +220,14 @@ export default function List({module, filters, donations, organizations,categori
                                             {/* Search Input - Enhanced with icon */}
                                             <div className="relative">
                                                 <label htmlFor="search"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Common Search
                                                 </label>
                                                 <div className="relative">
                                                     <div
                                                         className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                                         <FontAwesomeIcon icon={faSearch}
-                                                                         className="text-gray-400 w-4 h-4"/>
+                                                                         className="text-slate-400 w-4 h-4"/>
                                                     </div>
                                                     <input
                                                         type="text"
@@ -235,7 +235,7 @@ export default function List({module, filters, donations, organizations,categori
                                                         value={searchCommon}
                                                         onChange={(e) => setSearchCommon(e.target.value)}
                                                         placeholder="Search by title, description..."
-                                                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                        className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
                                                     />
                                                     {searchCommon && (
                                                         <button
@@ -243,19 +243,19 @@ export default function List({module, filters, donations, organizations,categori
                                                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                         >
                                                             <FontAwesomeIcon icon={faTimes}
-                                                                             className="text-gray-400 hover:text-gray-600 w-4 h-4"/>
+                                                                             className="text-slate-400 hover:text-slate-600 w-4 h-4"/>
                                                         </button>
                                                     )}
                                                 </div>
                                             </div>
 
                                             <div className="relative">
-                                                <label htmlFor="donor_name" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="donor_name" className="block text-sm font-medium text-slate-700 mb-2">
                                                     Donor name
                                                 </label>
                                                 <div className="relative">
                                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                        <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4" />
+                                                        <FontAwesomeIcon icon={faSearch} className="text-slate-400 w-4 h-4" />
                                                     </div>
                                                     <input
                                                         type="text"
@@ -263,14 +263,14 @@ export default function List({module, filters, donations, organizations,categori
                                                         value={donorName}
                                                         onChange={(e) => setDonorName(e.target.value)}
                                                         placeholder="Search by donor name,phone,email,address,guardian name & phone"
-                                                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                        className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
                                                     />
                                                     {donorName && (
                                                         <button
                                                             onClick={() => setDonorName('')}
                                                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                         >
-                                                            <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4" />
+                                                            <FontAwesomeIcon icon={faTimes} className="text-slate-400 hover:text-slate-600 w-4 h-4" />
                                                         </button>
                                                     )}
                                                 </div>
@@ -279,14 +279,14 @@ export default function List({module, filters, donations, organizations,categori
                                             {/* Organization Select */}
                                             <div>
                                                 <label htmlFor="organization_id"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Organization
                                                 </label>
                                                 <select
                                                     id="organization_id"
                                                     value={organizationId}
                                                     onChange={(e) => setOrganizationId(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                    className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                                 >
                                                     <option value="">All Organizations</option>
                                                     {organizationOptions.map(option => (
@@ -299,14 +299,14 @@ export default function List({module, filters, donations, organizations,categori
 
                                             <div>
                                                 <label htmlFor="organization_id"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Donation Type(Single/organization)
                                                 </label>
                                                 <select
                                                     id="type"
                                                     value={type}
                                                     onChange={(e) => setType(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                    className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                                 >
                                                     <option value="">Select Type</option>
                                                     {wishAndDonationType().map(option => (
@@ -320,14 +320,14 @@ export default function List({module, filters, donations, organizations,categori
                                             {/* Category Select */}
                                             <div>
                                                 <label htmlFor="category_id"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Category
                                                 </label>
                                                 <select
                                                     id="category_id"
                                                     value={categoryId}
                                                     onChange={(e) => setCategoryId(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                    className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                                 >
                                                     <option value="">All Categories</option>
                                                     {categoryOptions.map(option => (
@@ -339,14 +339,14 @@ export default function List({module, filters, donations, organizations,categori
                                             </div>
 
                                             <div>
-                                                <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+                                                <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
                                                     Status
                                                 </label>
                                                 <select
                                                     id="status"
                                                     value={status}
                                                     onChange={(e) => setStatus(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                    className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                                 >
                                                     <option value="">All Status</option>
                                                     {donationStatusOptions.map(option => (
@@ -377,10 +377,10 @@ export default function List({module, filters, donations, organizations,categori
                                 <div className="md:hidden space-y-4">
                                     {donationListData.length > 0 ? (
                                         donationListData.map((donation, index) => (
-                                            <div key={donation.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+                                            <div key={donation.id} className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                                                 {/* Card Image */}
                                                 <div className="relative">
-                                                    <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                                    <div className="h-[300px] w-full bg-slate-100 overflow-hidden">
                                                         {donation.featured_image?.file_path ? (
                                                             <img
                                                                 src={`/storage/${donation.featured_image.file_path}`}
@@ -388,8 +388,8 @@ export default function List({module, filters, donations, organizations,categori
                                                                 className="w-full h-full object-cover"
                                                             />
                                                         ) : (
-                                                            <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                                <FontAwesomeIcon icon={faGift} className="text-gray-400 text-4xl" />
+                                                            <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                                                                <FontAwesomeIcon icon={faGift} className="text-slate-400 text-4xl" />
                                                             </div>
                                                         )}
                                                     </div>
@@ -403,20 +403,20 @@ export default function List({module, filters, donations, organizations,categori
 
                                                 {/* Card Content */}
                                                 <div className="p-4">
-                                                    <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                                                    <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2">
                                                         {donation.title}
                                                     </h3>
 
                                                     <div className="space-y-2 mb-4">
-                                                        <div className="flex items-center text-sm text-gray-600">
+                                                        <div className="flex items-center text-sm text-slate-600">
                                                             <span className="font-medium mr-2">Condition:</span>
                                                             <span className="capitalize">{donation.item_condition}</span>
                                                         </div>
-                                                        <div className="flex items-center text-sm text-gray-600">
+                                                        <div className="flex items-center text-sm text-slate-600">
                                                             <span className="font-medium mr-2">Contributor:</span>
                                                             <span>{donation.user.name}</span>
                                                         </div>
-                                                        <div className="flex items-center text-sm text-gray-600">
+                                                        <div className="flex items-center text-sm text-slate-600">
                                                             <span className="font-medium mr-2">Created:</span>
                                                             <span>{donation.created_at}</span>
                                                         </div>
@@ -430,7 +430,7 @@ export default function List({module, filters, donations, organizations,categori
                                                                     ? donation.auto_tags.map((tag, tagIndex) => (
                                                                         <span
                                                                             key={tagIndex}
-                                                                            className="bg-blue-50 text-blue-700 text-xs font-medium px-2 py-1 rounded"
+                                                                            className="bg-primary-50 text-primary-700 text-xs font-medium px-2 py-1 rounded"
                                                                         >
                                                                             {tag}
                                                                         </span>
@@ -438,7 +438,7 @@ export default function List({module, filters, donations, organizations,categori
                                                                     : donation.auto_tags.split(',').map((tag, tagIndex) => (
                                                                         <span
                                                                             key={tagIndex}
-                                                                            className="bg-blue-50 text-blue-700 text-xs font-medium px-2 py-1 rounded"
+                                                                            className="bg-primary-50 text-primary-700 text-xs font-medium px-2 py-1 rounded"
                                                                         >
                                                                             {tag.trim()}
                                                                         </span>
@@ -449,13 +449,13 @@ export default function List({module, filters, donations, organizations,categori
                                                     )}
 
                                                     {/* Action Button */}
-                                                    <div className="flex justify-between items-center pt-3 border-t border-gray-100">
-                                                        <span className="text-sm text-gray-500">
+                                                    <div className="flex justify-between items-center pt-3 border-t border-slate-100">
+                                                        <span className="text-sm text-slate-500">
                                                             {donation.created_at}
                                                         </span>
                                                         <Link
                                                             href={route('donations.show', donation.id)}
-                                                            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                            className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200"
                                                         >
                                                             View Details
                                                         </Link>
@@ -465,14 +465,14 @@ export default function List({module, filters, donations, organizations,categori
                                         ))
                                     ) : (
                                         <div className="text-center py-12">
-                                            <FontAwesomeIcon icon={faGift} className="text-gray-300 text-6xl mb-4" />
-                                            <p className="text-gray-500 text-lg mb-2">No donations found</p>
-                                            <p className="text-gray-400 text-sm mb-6">
+                                            <FontAwesomeIcon icon={faGift} className="text-slate-300 text-6xl mb-4" />
+                                            <p className="text-slate-500 text-lg mb-2">No donations found</p>
+                                            <p className="text-slate-400 text-sm mb-6">
                                                 Start sharing items and make wishes come true
                                             </p>
                                             <Link
                                                 href={route('donations.create')}
-                                                className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                                className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
                                             >
                                                 <FontAwesomeIcon icon={faPlus} />
                                                 <span>Create First Gift</span>
@@ -487,21 +487,21 @@ export default function List({module, filters, donations, organizations,categori
                                         /* Table View */
                                         <div className="overflow-x-auto bg-white shadow rounded-lg px-1 py-2">
                                             <table className="wish-table w-full">
-                                                <thead className="bg-gray-50">
+                                                <thead className="bg-slate-50">
                                                 <tr>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item Info.</th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Contributor Name</th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Status</th>
-                                                    <th className="text-right px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Item Info.</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Contributor Name</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Status</th>
+                                                    <th className="text-right px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Action</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody className="divide-y divide-gray-200">
+                                                <tbody className="divide-y divide-slate-200">
                                                 {donationListData.length > 0 ? (
                                                     donationListData.map((donation, index) => (
-                                                        <tr key={donation.id} className="hover:bg-gray-50 transition-colors">
-                                                            <td className="p-6 border-b border-gray-100">
+                                                        <tr key={donation.id} className="hover:bg-slate-50 transition-colors">
+                                                            <td className="p-6 border-b border-slate-100">
                                                                 <div className="flex items-center">
-                                                                    <div className="h-20 w-20 bg-blue-100 rounded-lg flex items-center justify-center mr-4 overflow-hidden border border-gray-200 flex-shrink-0">
+                                                                    <div className="h-20 w-20 bg-primary-100 rounded-lg flex items-center justify-center mr-4 overflow-hidden border border-slate-200 flex-shrink-0">
                                                                         {donation.featured_image?.file_path ? (
                                                                             <img
                                                                                 src={`/storage/${donation.featured_image.file_path}`}
@@ -509,22 +509,22 @@ export default function List({module, filters, donations, organizations,categori
                                                                                 className="w-full h-full object-cover"
                                                                             />
                                                                         ) : (
-                                                                            <div className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                                                                                <FontAwesomeIcon icon={faGift} className="text-gray-400" />
+                                                                            <div className="w-full h-full bg-slate-200 flex items-center justify-center overflow-hidden">
+                                                                                <FontAwesomeIcon icon={faGift} className="text-slate-400" />
                                                                             </div>
                                                                         )}
                                                                     </div>
                                                                     <div className="min-w-0 flex-1">
-                                                                        <h3 className="text-lg font-semibold text-gray-900 truncate">{donation.title}</h3>
-                                                                        <p className="text-sm text-gray-500 mt-1">Condition: {donation.item_condition}</p>
+                                                                        <h3 className="text-lg font-semibold text-slate-900 truncate">{donation.title}</h3>
+                                                                        <p className="text-sm text-slate-500 mt-1">Condition: {donation.item_condition}</p>
                                                                         <div className="mt-2 flex items-center flex-wrap gap-1">
-                                                                            <span className="text-sm text-gray-500">Tags:</span>
+                                                                            <span className="text-sm text-slate-500">Tags:</span>
                                                                             {donation.auto_tags && (
                                                                                 Array.isArray(donation.auto_tags)
                                                                                     ? donation.auto_tags.slice(0, 3).map((tag, index) => (
                                                                                         <span
                                                                                             key={index}
-                                                                                            className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded"
+                                                                                            className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-1 rounded"
                                                                                         >
                                                                                             {tag}
                                                                                         </span>
@@ -532,14 +532,14 @@ export default function List({module, filters, donations, organizations,categori
                                                                                     : donation.auto_tags.split(',').slice(0, 3).map((tag, index) => (
                                                                                         <span
                                                                                             key={index}
-                                                                                            className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded"
+                                                                                            className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-1 rounded"
                                                                                         >
                                                                                             {tag.trim()}
                                                                                         </span>
                                                                                     ))
                                                                             )}
                                                                             {(donation.auto_tags && (Array.isArray(donation.auto_tags) ? donation.auto_tags.length > 3 : donation.auto_tags.split(',').length > 3)) && (
-                                                                                <span className="text-xs text-gray-400">+ more</span>
+                                                                                <span className="text-xs text-slate-400">+ more</span>
                                                                             )}
                                                                         </div>
                                                                         <div className="mt-2">
@@ -550,23 +550,23 @@ export default function List({module, filters, donations, organizations,categori
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
+                                                            <td className="p-6 border-b border-slate-100 text-slate-900 font-medium">
                                                                 {donation.user.name}
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
-                                                                <span className={`px-3 py-1 border rounded-md text-sm ${donation.status === 'donated' ?  'border-indigo-100 bg-indigo-600 text-white' : 'border-green-100 bg-green-600 text-white'}`}>
+                                                            <td className="p-6 border-b border-slate-100 text-slate-900 font-medium">
+                                                                <span className={`px-3 py-1 border rounded-md text-sm ${donation.status === 'donated' ?  'border-primary-100 bg-primary-600 text-white' : 'border-green-100 bg-green-600 text-white'}`}>
                                                                   {donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}
                                                                 </span>
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100">
+                                                            <td className="p-6 border-b border-slate-100">
                                                                 <div className="flex flex-col items-end space-y-2">
-                                                                    <p className="text-sm text-gray-500 whitespace-nowrap">
+                                                                    <p className="text-sm text-slate-500 whitespace-nowrap">
                                                                         {donation.created_at}
                                                                     </p>
                                                                     <div className="flex space-x-2">
                                                                         <Link
                                                                             href={route('donations.show', donation.id)}
-                                                                            className="ml-2 inline-flex items-center px-2 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
+                                                                            className="ml-2 inline-flex items-center px-2 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-500 transition-colors duration-200"
                                                                             title="View Details"
                                                                         >
                                                                             <FontAwesomeIcon icon={faEye} size="lg"/>
@@ -581,14 +581,14 @@ export default function List({module, filters, donations, organizations,categori
                                                     <tr>
                                                         <td colSpan="4" className="px-6 py-12 text-center">
                                                             <div className="text-center">
-                                                                <FontAwesomeIcon icon={faGift} className="text-gray-300 text-5xl mb-4" />
-                                                                <p className="text-gray-500 text-lg mb-2">No donations found</p>
-                                                                <p className="text-gray-400 text-sm mb-6">
+                                                                <FontAwesomeIcon icon={faGift} className="text-slate-300 text-5xl mb-4" />
+                                                                <p className="text-slate-500 text-lg mb-2">No donations found</p>
+                                                                <p className="text-slate-400 text-sm mb-6">
                                                                     Start by creating your first donation item
                                                                 </p>
                                                                 <Link
                                                                     href={route('donations.create')}
-                                                                    className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                                                    className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
                                                                 >
                                                                     <FontAwesomeIcon icon={faPlus} />
                                                                     <span>Create First Gift</span>
@@ -605,10 +605,10 @@ export default function List({module, filters, donations, organizations,categori
                                         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                                             {donationListData.length > 0 ? (
                                                 donationListData.map((donation, index) => (
-                                                    <div key={donation.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                                                    <div key={donation.id} className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
                                                         {/* Card Image */}
                                                         <div className="relative">
-                                                            <div className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                                            <div className="h-[300px] w-full bg-slate-100 overflow-hidden">
                                                                 {donation.featured_image?.file_path ? (
                                                                     <img
                                                                         src={`/storage/${donation.featured_image.file_path}`}
@@ -616,8 +616,8 @@ export default function List({module, filters, donations, organizations,categori
                                                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                                                     />
                                                                 ) : (
-                                                                    <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                                        <FontAwesomeIcon icon={faGift} className="text-gray-400 text-5xl" />
+                                                                    <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                                                                        <FontAwesomeIcon icon={faGift} className="text-slate-400 text-5xl" />
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -631,16 +631,16 @@ export default function List({module, filters, donations, organizations,categori
 
                                                         {/* Card Content */}
                                                         <div className="p-5">
-                                                            <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                                            <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
                                                                 {donation.title}
                                                             </h3>
 
                                                             <div className="space-y-2 mb-4">
-                                                                <div className="flex items-center text-sm text-gray-600">
+                                                                <div className="flex items-center text-sm text-slate-600">
                                                                     <span className="font-medium mr-2">Condition:</span>
                                                                     <span className="capitalize">{donation.item_condition}</span>
                                                                 </div>
-                                                                <div className="flex items-center text-sm text-gray-600">
+                                                                <div className="flex items-center text-sm text-slate-600">
                                                                     <span className="font-medium mr-2">Contributor:</span>
                                                                     <span>{donation.user.name}</span>
                                                                 </div>
@@ -654,7 +654,7 @@ export default function List({module, filters, donations, organizations,categori
                                                                             ? donation.auto_tags.slice(0, 3).map((tag, tagIndex) => (
                                                                                 <span
                                                                                     key={tagIndex}
-                                                                                    className="bg-blue-50 text-blue-700 text-xs font-medium px-2 py-1 rounded"
+                                                                                    className="bg-primary-50 text-primary-700 text-xs font-medium px-2 py-1 rounded"
                                                                                 >
                                                                                     {tag}
                                                                                 </span>
@@ -662,27 +662,27 @@ export default function List({module, filters, donations, organizations,categori
                                                                             : donation.auto_tags.split(',').slice(0, 3).map((tag, tagIndex) => (
                                                                                 <span
                                                                                     key={tagIndex}
-                                                                                    className="bg-blue-50 text-blue-700 text-xs font-medium px-2 py-1 rounded"
+                                                                                    className="bg-primary-50 text-primary-700 text-xs font-medium px-2 py-1 rounded"
                                                                                 >
                                                                                     {tag.trim()}
                                                                                 </span>
                                                                             ))
                                                                         }
                                                                         {(donation.auto_tags && (Array.isArray(donation.auto_tags) ? donation.auto_tags.length > 3 : donation.auto_tags.split(',').length > 3)) && (
-                                                                            <span className="text-xs text-gray-400">+ more</span>
+                                                                            <span className="text-xs text-slate-400">+ more</span>
                                                                         )}
                                                                     </div>
                                                                 </div>
                                                             )}
 
                                                             {/* Action Button */}
-                                                            <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                                                                <span className="text-sm text-gray-500">
+                                                            <div className="flex justify-between items-center pt-4 border-t border-slate-100">
+                                                                <span className="text-sm text-slate-500">
                                                                     {donation.created_at}
                                                                 </span>
                                                                 <Link
                                                                     href={route('donations.show', donation.id)}
-                                                                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                    className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200"
                                                                 >
                                                                     View Details
                                                                 </Link>
@@ -692,14 +692,14 @@ export default function List({module, filters, donations, organizations,categori
                                                 ))
                                             ) : (
                                                 <div className="col-span-full text-center py-12">
-                                                    <FontAwesomeIcon icon={faGift} className="text-gray-300 text-6xl mb-4" />
-                                                    <p className="text-gray-500 text-lg mb-2">No donations found</p>
-                                                    <p className="text-gray-400 text-sm mb-6">
+                                                    <FontAwesomeIcon icon={faGift} className="text-slate-300 text-6xl mb-4" />
+                                                    <p className="text-slate-500 text-lg mb-2">No donations found</p>
+                                                    <p className="text-slate-400 text-sm mb-6">
                                                         Start sharing items and make wishes come true
                                                     </p>
                                                     <Link
                                                         href={route('donations.create')}
-                                                        className="inline-flex items-center space-x-2 bg-blue-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors"
+                                                        className="inline-flex items-center space-x-2 bg-primary-600 text-white font-medium py-2 px-6 rounded-lg hover:bg-primary-700 transition-colors"
                                                     >
                                                         <FontAwesomeIcon icon={faPlus} />
                                                         <span>Create First Gift</span>

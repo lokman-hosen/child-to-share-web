@@ -1,16 +1,15 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Head, router} from "@inertiajs/react";
 import Hero from "@/Components/Donation/Hero.jsx";
-import List from "@/Components/Donation/List.jsx";
 import GuestLayout from "@/Layouts/GuestLayout.jsx";
-import CTA from "@/Components/Donation/CTA.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGift} from "@fortawesome/free-solid-svg-icons";
+import FilterBar from "@/Components/UI/FilterBar";
+import EmptyState from "@/Components/UI/EmptyState";
+import Button from "@/Components/UI/Button";
 import {getDropdownOptions, textLimit} from "@/utils.jsx";
 import SelectInput from "@/Components/SelectInput.jsx";
 import Pagination from "@/Components/Pagination.jsx";
 import SingleDonationItem from "@/Components/Common/SingleDonationIteam.jsx";
-import SingleDonationIteamMobile from "@/Components/Common/SingleDonationIteamMobile.jsx";
 
 const Index = ({donations, categories, filters, organizations, module}) => {
     const donationListData = donations?.data || [];
@@ -71,87 +70,66 @@ const Index = ({donations, categories, filters, organizations, module}) => {
     };
 
     const organizationOptions = getDropdownOptions(organizations, 'id', 'name');
-
+    const filtersActive = !!(categoryId || organizationId);
+    const clearFilters = () => {
+        setCategoryId('');
+        setOrganizationId('');
+    };
+    const total = donations?.total ?? donationListData.length;
 
     return (
         <GuestLayout>
             <Head title="Gifts"/>
             <Hero/>
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-                <div className="filter-section mb-8">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        {/* Left Title */}
-                        <div>
-                            <h2 className="text-2xl font-bold text-accent">Filter Gifts</h2>
-                            <p className="text-gray-600 text-sm mt-1">Find gifts that match your interests</p>
-                        </div>
-
-                        {/* Right Filters */}
-                        <div className="flex flex-col sm:flex-row gap-3">
-                            <SelectInput
-                                className="w-full"
-                                id="organization_id"
-                                label="Organization"
-                                value={organizationId}
-                                onChange={(e) => setOrganizationId(e.target.value)}
-                                options={organizationOptions}
-                            />
-                            <SelectInput
-                                className="w-full sm:w-auto md:w-[350px]"
-                                id="category_id"
-                                label="Select Category"
-                                value={categoryId}
-                                onChange={(e) => setCategoryId(e.target.value)}
-                                options={categoryOptions}
-                            />
-                        </div>
-                    </div>
-                </div>
+            <div className="container-page py-8 sm:py-12">
+                <FilterBar
+                    title="Filter Gifts"
+                    description="Find gifts that match your interests"
+                    active={filtersActive}
+                    onClear={clearFilters}
+                    columns="lg:grid-cols-2"
+                >
+                    <SelectInput
+                        className="w-full"
+                        id="organization_id"
+                        label="Organization"
+                        value={organizationId}
+                        onChange={(e) => setOrganizationId(e.target.value)}
+                        options={organizationOptions}
+                    />
+                    <SelectInput
+                        className="w-full"
+                        id="category_id"
+                        label="Select Category"
+                        value={categoryId}
+                        onChange={(e) => setCategoryId(e.target.value)}
+                        options={categoryOptions}
+                    />
+                </FilterBar>
 
                 {donationListData.length > 0 ? (
                     <>
-                        {/* Mobile View - 2 columns */}
-                        <div className="block md:hidden">
-                            <div className="grid grid-cols-1 gap-4 mb-6">
-                                {donationListData.map((donation, index) => (
-                                    <SingleDonationIteamMobile donation={donation} key={index} />
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Desktop View - Original layout */}
-                        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                            {donationListData.map((donation, index) => (
-                                <SingleDonationItem key={index} donation={donation}/>
+                        <p className="mb-5 mt-8 text-sm text-slate-600" aria-live="polite">
+                            Showing <span className="font-semibold text-slate-900">{total}</span> gifts
+                        </p>
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+                            {donationListData.map((donation) => (
+                                <SingleDonationItem key={donation.id} donation={donation}/>
                             ))}
                         </div>
                     </>
                 ) : (
-                    <div className="grid grid-cols-1 gap-6 mb-8">
-                        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-12 text-center">
-                            <div className="inline-flex items-center justify-center w-16 h-16 bg-secondary/10 rounded-full mb-4">
-                                <FontAwesomeIcon icon={faGift} className="text-secondary text-2xl"/>
-                            </div>
-                            <h3 className="text-xl font-semibold text-accent mb-2">No Gifts Found</h3>
-                            <p className="text-gray-600 mb-4">Check back later or try different filters</p>
-                            <button
-                                onClick={() => setCategoryId('')}
-                                className="inline-flex items-center text-primary hover:text-primary-dark font-medium group"
-                            >
-                                Clear Filters
-                                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                    <EmptyState
+                        className="mt-8"
+                        icon={faGift}
+                        title="No Gifts Found"
+                        description="Check back later or try different filters"
+                        action={filtersActive && <Button variant="secondary" size="sm" onClick={clearFilters}>Clear Filters</Button>}
+                    />
                 )}
-
                 {(donationsLinks.length > 1 && donationListData.length > 1) && <Pagination links={donationsLinks} />}
-            </main>
-            {/*<CTA/>*/}
+            </div>
         </GuestLayout>
     );
 };
-
 export default Index;

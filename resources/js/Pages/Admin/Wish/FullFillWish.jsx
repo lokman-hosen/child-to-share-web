@@ -85,9 +85,9 @@ export default function List({module, filters, wishes,organizations,categories,w
             case 'reserved':
                 return 'bg-yellow-100 text-yellow-800';
             case 'donated':
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
             default:
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
         }
     };
 
@@ -95,9 +95,9 @@ export default function List({module, filters, wishes,organizations,categories,w
         <AuthenticatedLayout>
             <Head title={`${module} List`}/>
             <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 sm:px-8 sm:py-10">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
@@ -111,7 +111,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
                                         {module}
                                     </h1>
-                                    <p className="text-blue-100 text-sm mt-1">
+                                    <p className="text-primary-100 text-sm mt-1">
                                         Choose the wishes you want to fulfill
                                     </p>
                                 </div>
@@ -124,7 +124,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                         onClick={() => setViewMode('table')}
                                         className={`p-2 rounded-md transition-all duration-200 ${
                                             viewMode === 'table'
-                                                ? 'bg-white text-blue-600 shadow-sm'
+                                                ? 'bg-white text-primary-600 shadow-sm'
                                                 : 'text-white hover:bg-white hover:bg-opacity-10'
                                         }`}
                                     >
@@ -134,7 +134,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                         onClick={() => setViewMode('grid')}
                                         className={`p-2 rounded-md transition-all duration-200 ${
                                             viewMode === 'grid'
-                                                ? 'bg-white text-blue-600 shadow-sm'
+                                                ? 'bg-white text-primary-600 shadow-sm'
                                                 : 'text-white hover:bg-white hover:bg-opacity-10'
                                         }`}
                                     >
@@ -150,16 +150,16 @@ export default function List({module, filters, wishes,organizations,categories,w
                         <div className="space-y-8">
                             <div className="w-2xl space-y-8">
                                 {/* Enhanced Filter Section */}
-                                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                                <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
                                     {/* Filter Header - Always visible */}
                                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                                         <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-                                            <div className="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                                <FontAwesomeIcon icon={faFilter} className="text-blue-600 text-lg" />
+                                            <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                                <FontAwesomeIcon icon={faFilter} className="text-primary-600 text-lg" />
                                             </div>
                                             <div>
-                                                <h2 className="text-lg font-semibold text-gray-900">Filter Wishes</h2>
-                                                <p className="text-sm text-gray-500">
+                                                <h2 className="text-lg font-semibold text-slate-900">Filter Wishes</h2>
+                                                <p className="text-sm text-slate-500">
                                                     Find specific wishes by organization, category etc.
                                                 </p>
                                             </div>
@@ -169,12 +169,12 @@ export default function List({module, filters, wishes,organizations,categories,w
                                             {/* Mobile Filter Toggle */}
                                             <button
                                                 onClick={() => setShowFilters(!showFilters)}
-                                                className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                                className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                                             >
                                                 <FontAwesomeIcon icon={showFilters ? faTimes : faFilter} className="mr-2" />
                                                 {showFilters ? 'Hide Filters' : 'Show Filters'}
                                                 {activeFilterCount > 0 && (
-                                                    <span className="ml-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                                    <span className="ml-2 bg-primary-600 text-white text-xs px-2 py-0.5 rounded-full">
                                                     {activeFilterCount}
                                                 </span>
                                                 )}
@@ -183,7 +183,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                             {/* Active Filters Count - Desktop */}
                                             {activeFilterCount > 0 && (
                                                 <div className="hidden md:flex items-center space-x-2">
-                                                <span className="text-sm text-gray-500">
+                                                <span className="text-sm text-slate-500">
                                                     {activeFilterCount} active filter{activeFilterCount !== 1 ? 's' : ''}
                                                 </span>
                                                     <button
@@ -205,14 +205,14 @@ export default function List({module, filters, wishes,organizations,categories,w
                                             {/* Search Input - Enhanced with icon */}
                                             <div className="relative">
                                                 <label htmlFor="search"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Common Search
                                                 </label>
                                                 <div className="relative">
                                                     <div
                                                         className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                                         <FontAwesomeIcon icon={faSearch}
-                                                                         className="text-gray-400 w-4 h-4"/>
+                                                                         className="text-slate-400 w-4 h-4"/>
                                                     </div>
                                                     <input
                                                         type="text"
@@ -220,7 +220,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                         value={searchCommon}
                                                         onChange={(e) => setSearchCommon(e.target.value)}
                                                         placeholder="Search by wish title, description..."
-                                                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                        className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
                                                     />
                                                     {searchCommon && (
                                                         <button
@@ -228,7 +228,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                         >
                                                             <FontAwesomeIcon icon={faTimes}
-                                                                             className="text-gray-400 hover:text-gray-600 w-4 h-4"/>
+                                                                             className="text-slate-400 hover:text-slate-600 w-4 h-4"/>
                                                         </button>
                                                     )}
                                                 </div>
@@ -236,14 +236,14 @@ export default function List({module, filters, wishes,organizations,categories,w
 
                                             <div className="relative">
                                                 <label htmlFor="search"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Wisher Info
                                                 </label>
                                                 <div className="relative">
                                                     <div
                                                         className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                                         <FontAwesomeIcon icon={faSearch}
-                                                                         className="text-gray-400 w-4 h-4"/>
+                                                                         className="text-slate-400 w-4 h-4"/>
                                                     </div>
                                                     <input
                                                         type="text"
@@ -251,7 +251,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                         value={wisherInfo}
                                                         onChange={(e) => setWisherInfo(e.target.value)}
                                                         placeholder="Search by wisher name, phone, email, address, guardin name & phone..."
-                                                        className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                        className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
                                                     />
                                                     {wisherInfo && (
                                                         <button
@@ -259,7 +259,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                         >
                                                             <FontAwesomeIcon icon={faTimes}
-                                                                             className="text-gray-400 hover:text-gray-600 w-4 h-4"/>
+                                                                             className="text-slate-400 hover:text-slate-600 w-4 h-4"/>
                                                         </button>
                                                     )}
                                                 </div>
@@ -267,14 +267,14 @@ export default function List({module, filters, wishes,organizations,categories,w
                                             {/* Organization Select */}
                                             <div>
                                                 <label htmlFor="organization_id"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Organization
                                                 </label>
                                                 <select
                                                     id="organization_id"
                                                     value={organizationId}
                                                     onChange={(e) => setOrganizationId(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                    className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                                 >
                                                     <option value="">All Organizations</option>
                                                     {organizationOptions.map(option => (
@@ -288,14 +288,14 @@ export default function List({module, filters, wishes,organizations,categories,w
                                             {/* Category Select */}
                                             <div>
                                                 <label htmlFor="category_id"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Category
                                                 </label>
                                                 <select
                                                     id="category_id"
                                                     value={categoryId}
                                                     onChange={(e) => setCategoryId(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                    className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                                 >
                                                     <option value="">All Categories</option>
                                                     {categoryOptions.map(option => (
@@ -307,14 +307,14 @@ export default function List({module, filters, wishes,organizations,categories,w
                                             </div>
                                             <div>
                                                 <label htmlFor="status"
-                                                       className="block text-sm font-medium text-gray-700 mb-2">
+                                                       className="block text-sm font-medium text-slate-700 mb-2">
                                                     Wish Status
                                                 </label>
                                                 <select
                                                     id="status"
                                                     value={status}
                                                     onChange={(e) => setStatus(e.target.value)}
-                                                    className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                                    className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                                 >
                                                     <option value="">All Status</option>
                                                     {wishStatusOptions.map(option => (
@@ -345,13 +345,13 @@ export default function List({module, filters, wishes,organizations,categories,w
                                 <div className="md:hidden space-y-4">
                                     {wishListData.length > 0 ? (
                                         wishListData.map((wish, index) => (
-                                            <div key={wish.id} className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+                                            <div key={wish.id} className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
                                                 {/* Card Header with Status */}
                                                 <div
-                                                    className="flex justify-between items-start p-4 border-b border-gray-100">
+                                                    className="flex justify-between items-start p-4 border-b border-slate-100">
                                                     <div className="flex items-center space-x-3">
                                                         <div
-                                                            className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center overflow-hidden">
+                                                            className="h-12 w-12 bg-primary-100 rounded-lg flex items-center justify-center overflow-hidden">
                                                             {wish.featured_image?.file_path ? (
                                                                 <img
                                                                     src={`/storage/${wish.featured_image.file_path}`}
@@ -360,22 +360,22 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                 />
                                                             ) : (
                                                                 <div
-                                                                    className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                                    className="w-full h-full bg-slate-200 flex items-center justify-center">
                                                                     <FontAwesomeIcon icon={faStar}
-                                                                                     className="text-gray-400"/>
+                                                                                     className="text-slate-400"/>
                                                                 </div>
                                                             )}
                                                         </div>
                                                         <div>
-                                                            <h3 className="text-base font-semibold text-gray-900 line-clamp-1">
+                                                            <h3 className="text-base font-semibold text-slate-900 line-clamp-1">
                                                                 {wish.title}
                                                             </h3>
-                                                            <p className="text-xs text-gray-500">
+                                                            <p className="text-xs text-slate-500">
                                                                 Age range: {wish.age_range}
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-primary-100 text-primary-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                                         {wish.status}
                                                     </span>
                                                 </div>
@@ -384,12 +384,12 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                 <div className="p-4">
                                                     {/* Item Information */}
                                                     <div className="mb-4">
-                                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Item
+                                                        <h4 className="text-sm font-medium text-slate-700 mb-2">Item
                                                             Information</h4>
-                                                        <p className="text-sm text-gray-600 line-clamp-2 mb-1">
+                                                        <p className="text-sm text-slate-600 line-clamp-2 mb-1">
                                                             {textLimit(wish.description, 30)}
                                                         </p>
-                                                        <div className="flex items-center text-xs text-gray-500">
+                                                        <div className="flex items-center text-xs text-slate-500">
                                                             <span className="mr-2">Created:</span>
                                                             <span>{wish.created_at}</span>
                                                         </div>
@@ -397,10 +397,10 @@ export default function List({module, filters, wishes,organizations,categories,w
 
                                                     {/* Wisher Information */}
                                                     <div className="mb-4">
-                                                        <h4 className="text-sm font-medium text-gray-700 mb-2">Wisher</h4>
+                                                        <h4 className="text-sm font-medium text-slate-700 mb-2">Wisher</h4>
                                                         <div className="flex items-center space-x-3">
                                                             <div
-                                                                className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center overflow-hidden border-2 border-white">
+                                                                className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-2 border-white">
                                                                 {wish.user.image ? (
                                                                     <img
                                                                         src={`/storage/${wish.user.image}`}
@@ -409,11 +409,11 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                     />
                                                                 ) : (
                                                                     <FontAwesomeIcon icon={faStar}
-                                                                                     className="text-purple-400 text-sm"/>
+                                                                                     className="text-primary-400 text-sm"/>
                                                                 )}
                                                             </div>
                                                             <div>
-                                                                <p className="text-sm font-medium text-gray-900">{wish.user.name}</p>
+                                                                <p className="text-sm font-medium text-slate-900">{wish.user.name}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -421,22 +421,22 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                     {/* Distance and Fulfillment Status in one row */}
                                                     <div className="grid grid-cols-2 gap-4 mb-4">
                                                         <div>
-                                                            <h4 className="text-sm font-medium text-gray-700 mb-1">Distance</h4>
-                                                            <p className="text-sm text-gray-900 font-medium">
+                                                            <h4 className="text-sm font-medium text-slate-700 mb-1">Distance</h4>
+                                                            <p className="text-sm text-slate-900 font-medium">
                                                                 {wish.distance ? `${wish.distance}km` : 'n/a'}
                                                             </p>
                                                         </div>
                                                         <div>
-                                                            {/*<h4 className="text-sm font-medium text-gray-700 mb-1">Fulfillment</h4>*/}
+                                                            {/*<h4 className="text-sm font-medium text-slate-700 mb-1">Fulfillment</h4>*/}
                                                             <div>
                                                                 {wish.latest_fulfillment ? (
                                                                     <span
-                                                                        className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                        className="inline-flex items-center px-3 py-1 border border-primary-500 rounded-md text-sm font-medium text-white bg-primary-500">
                                                                       {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                                     </span>
                                                                 ) : (
                                                                     <span
-                                                                        className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm font-medium text-white bg-blue-500">
+                                                                        className="inline-flex items-center px-3 py-1 border border-primary-500 rounded-md text-sm font-medium text-white bg-primary-500">
                                                                     {wish.status}
                                                                     </span>
                                                                 )}
@@ -445,13 +445,13 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                     </div>
 
                                                     {/* Action Buttons */}
-                                                    <div className="pt-3 border-t border-gray-100">
+                                                    <div className="pt-3 border-t border-slate-100">
                                                         <div className="grid grid-cols-2 gap-2">
                                                             {/* Fulfill Wish Button */}
                                                             {!wish.latest_fulfillment ? (
                                                                 <Link
                                                                     href={route('wish.fulfill.detail', wish.id)}
-                                                                    className="inline-flex items-center justify-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200 w-full"
+                                                                    className="inline-flex items-center justify-center px-4 py-2 bg-secondary-300 text-slate-900 text-sm font-semibold rounded-lg hover:bg-secondary-400 transition-colors duration-200 w-full"
                                                                     title="Fulfill Wish"
                                                                 >
                                                                     <FontAwesomeIcon icon={faGifts} size="md"/>
@@ -463,7 +463,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                     className="w-full"
                                                                 >
                                                                     <span
-                                                                        className="inline-flex items-center justify-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200 w-full"
+                                                                        className="inline-flex items-center justify-center px-4 py-2 bg-secondary-300 text-slate-900 text-sm font-semibold rounded-lg hover:bg-secondary-400 transition-colors duration-200 w-full"
                                                                         title="Fulfillment Detail"
                                                                     >
                                                                         <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
@@ -476,7 +476,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                             {/* View Detail Button */}
                                                             <Link
                                                                 href={route('wish.show', wish.id)}
-                                                                className="inline-flex items-center justify-center px-4 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-600 transition-colors duration-200 w-full"
+                                                                className="inline-flex items-center justify-center px-4 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-600 transition-colors duration-200 w-full"
                                                                 title="View Detail"
                                                             >
                                                                 <FontAwesomeIcon icon={faEye} size="md"/>
@@ -489,7 +489,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                         ))
                                     ) : (
                                         <div className="text-center py-12">
-                                            <p className="text-gray-500 text-lg mb-2">No wishes found</p>
+                                            <p className="text-slate-500 text-lg mb-2">No wishes found</p>
                                         </div>
                                     )}
                                 </div>
@@ -500,29 +500,29 @@ export default function List({module, filters, wishes,organizations,categories,w
                                         /* Table View */
                                         <div className="overflow-x-auto bg-white shadow rounded-lg px-1 py-2">
                                             <table className="wish-table w-full">
-                                                <thead className="bg-gray-50">
+                                                <thead className="bg-slate-50">
                                                 <tr>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Item
+                                                    <th className="text-left px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Item
                                                         Info.
                                                     </th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Wisher</th>
-                                                    <th className="text-left px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Distance</th>
-                                                    <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Fulfilment
+                                                    <th className="text-left px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Wisher</th>
+                                                    <th className="text-left px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Distance</th>
+                                                    <th className="text-center px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Fulfilment
                                                         status
                                                     </th>
-                                                    <th className="text-center px-6 py-4 border-b-2 border-gray-300 font-semibold text-gray-700">Action</th>
+                                                    <th className="text-center px-6 py-4 border-b-2 border-slate-300 font-semibold text-slate-700">Action</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody className="divide-y divide-gray-200">
+                                                <tbody className="divide-y divide-slate-200">
                                                 {wishListData.length > 0 ? (
                                                     wishListData.map((wish, index) => (
                                                         <tr key={wish.id}
-                                                            className="hover:bg-gray-50 transition-colors">
-                                                            <td className="p-6 border-b border-gray-100">
+                                                            className="hover:bg-slate-50 transition-colors">
+                                                            <td className="p-6 border-b border-slate-100">
                                                                 <div className="flex items-center justify-between">
                                                                     <div className="flex items-center">
                                                                         <div
-                                                                            className="h-16 w-16 bg-purple-100 rounded-md flex items-center justify-center mr-4">
+                                                                            className="h-16 w-16 bg-primary-100 rounded-md flex items-center justify-center mr-4">
                                                                             {wish.featured_image?.file_path ? (
                                                                                 <img
                                                                                     src={`/storage/${wish.featured_image.file_path}`}
@@ -531,22 +531,22 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                                 />
                                                                             ) : (
                                                                                 <div
-                                                                                    className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                                                                                    className="w-full h-full bg-slate-200 flex items-center justify-center overflow-hidden">
                                                                                     <FontAwesomeIcon icon={faStar}
-                                                                                                     className="text-gray-400"/>
+                                                                                                     className="text-slate-400"/>
                                                                                 </div>
                                                                             )}
                                                                         </div>
                                                                         <div>
-                                                                            <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
-                                                                            <p className="text-sm text-gray-500">Age
+                                                                            <h3 className="text-lg font-medium text-slate-900">{wish.title}</h3>
+                                                                            <p className="text-sm text-slate-500">Age
                                                                                 range: {wish.age_range}, {textLimit(wish.description, 10)}</p>
                                                                             <div className="mt-1 flex items-center">
-                                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-primary-100 text-primary-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                                                                 {wish.status}
                                                                             </span>
                                                                                 <span
-                                                                                    className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                                                    className="ml-2 bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                                                 {wish.created_at}
                                                                             </span>
                                                                             </div>
@@ -556,13 +556,13 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                 </div>
 
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100">
+                                                            <td className="p-6 border-b border-slate-100">
                                                                 <div className="flex items-center">
                                                                     {/* Avatar Container - More elegant design */}
                                                                     <div className="relative group">
                                                                         {/* Image Container with enhanced styling */}
                                                                         <div
-                                                                            className="h-20 w-20 rounded-2xl bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center mr-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-white group-hover:scale-105">
+                                                                            className="h-20 w-20 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center mr-5 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border-2 border-white group-hover:scale-105">
                                                                             {wish.user.image ? (
                                                                                 <img
                                                                                     src={`/storage/${wish.user.image}`}
@@ -571,10 +571,10 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                                 />
                                                                             ) : (
                                                                                 <div
-                                                                                    className="w-full h-full flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-50">
+                                                                                    className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-50">
                                                                                     <FontAwesomeIcon
                                                                                         icon={faStar}
-                                                                                        className="text-2xl text-gradient-to-r from-purple-400 to-pink-500"
+                                                                                        className="text-2xl text-gradient-to-r from-primary-400 to-primary-500"
                                                                                     />
                                                                                 </div>
                                                                             )}
@@ -582,42 +582,42 @@ export default function List({module, filters, wishes,organizations,categories,w
 
                                                                         {/* Optional subtle glow effect on hover */}
                                                                         <div
-                                                                            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-200 to-pink-200 opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10"></div>
+                                                                            className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary-200 to-primary-200 opacity-0 group-hover:opacity-20 transition-opacity duration-300 -z-10"></div>
                                                                     </div>
 
                                                                     {/* Name with enhanced typography */}
                                                                     <div>
-                                                                        <h3 className="text-xl font-semibold text-gray-800 tracking-tight">
+                                                                        <h3 className="text-xl font-semibold text-slate-800 tracking-tight">
                                                                             {wish.user.name}
                                                                         </h3>
                                                                         {/* Optional subtitle/tagline */}
-                                                                        <p className="text-sm text-gray-500 mt-1 flex items-center">
+                                                                        <p className="text-sm text-slate-500 mt-1 flex items-center">
                                                                             <FontAwesomeIcon icon={faStar} className="text-red-400 mr-2 text-xs"/>
                                                                             Wish Maker
                                                                         </p>
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100 text-gray-900 font-medium">
+                                                            <td className="p-6 border-b border-slate-100 text-slate-900 font-medium">
                                                                 {wish.distance ? `${wish.distance + 'km'}` : 'n/a'}
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100">
+                                                            <td className="p-6 border-b border-slate-100">
                                                                 <div className="flex flex-col items-center">
                                                                     <div className="mt-2">
                                                                         { wish.latest_fulfillment ? (
                                                                             <span
-                                                                                className="inline-flex items-center px-3 py-1 border border-blue-500 rounded-md text-sm text-white bg-blue-500">
+                                                                                className="inline-flex items-center px-3 py-1 border border-primary-500 rounded-md text-sm text-white bg-primary-500">
                                                                               {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                                             </span>
                                                                         ) : (
-                                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-indigo-100 text-indigo-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded ${wish.status === 'fulfilled' ? 'bg-primary-100 text-primary-800' : 'bg-yellow-100 text-yellow-800'}`}>
                                                                                 {wish.status}
                                                                             </span>
                                                                         )}
                                                                     </div>
                                                                 </div>
                                                             </td>
-                                                            <td className="p-6 border-b border-gray-100">
+                                                            <td className="p-6 border-b border-slate-100">
                                                                 <div className="flex flex-col items-end">
                                                                     <div className="mt-2">
                                                                         { wish.status == 'Fulfilled' ? (
@@ -625,7 +625,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                                     href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                                 >
                                                                                 <span
-                                                                                    className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                    className="inline-flex items-center px-4 py-2 bg-secondary-300 text-slate-900 text-sm font-semibold rounded-lg hover:bg-secondary-400 transition-colors duration-200"
                                                                                     title="Fulfillment Detail"
                                                                                 >
                                                                                     <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
@@ -634,7 +634,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                             ) : !wish.latest_fulfillment ? (
                                                                             <Link
                                                                                 href={route('wish.fulfill.detail', wish.id)}
-                                                                                className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                className="inline-flex items-center px-4 py-2 bg-secondary-300 text-slate-900 text-sm font-semibold rounded-lg hover:bg-secondary-400 transition-colors duration-200"
                                                                                 title="Fulfill Wish"
                                                                             >
                                                                                 <FontAwesomeIcon icon={faGifts} size="md"/>
@@ -644,7 +644,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                             href={route('wish.fulfill.status.change',{'fulfilment_id': wish.latest_fulfillment?.id})}
                                                                             >
                                                                                 <span
-                                                                                    className="inline-flex items-center px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 transition-colors duration-200"
+                                                                                    className="inline-flex items-center px-4 py-2 bg-secondary-300 text-slate-900 text-sm font-semibold rounded-lg hover:bg-secondary-400 transition-colors duration-200"
                                                                                     title="Fulfillment Detail"
                                                                                 >
                                                                                     <FontAwesomeIcon icon={faArrowRightArrowLeft} size="md"/>
@@ -655,7 +655,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                         }
                                                                         <Link
                                                                             href={route('wish.show', wish.id)}
-                                                                            className="ml-2 inline-flex items-center px-2 py-2 bg-purple-500 text-white text-sm font-medium rounded-lg hover:bg-purple-500 transition-colors duration-200"
+                                                                            className="ml-2 inline-flex items-center px-2 py-2 bg-primary-500 text-white text-sm font-medium rounded-lg hover:bg-primary-500 transition-colors duration-200"
                                                                             title="View Detail"
                                                                         >
                                                                             <FontAwesomeIcon icon={faEye} size="md"/>
@@ -669,7 +669,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                     <tr>
                                                         <td colSpan="5" className="px-6 py-12 text-center">
                                                             <div className="text-center">
-                                                                <p className="text-gray-500 text-lg mb-2">No wishes found</p>
+                                                                <p className="text-slate-500 text-lg mb-2">No wishes found</p>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -683,11 +683,11 @@ export default function List({module, filters, wishes,organizations,categories,w
                                             {wishListData.length > 0 ? (
                                                 wishListData.map((wish, index) => (
                                                     <div key={wish.id}
-                                                         className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
+                                                         className="bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group">
                                                         {/* Card Image */}
                                                         <div className="relative">
                                                             <div
-                                                                className="h-[300px] w-full bg-gray-100 overflow-hidden">
+                                                                className="h-[300px] w-full bg-slate-100 overflow-hidden">
                                                                 {wish.featured_image?.file_path ? (
                                                                     <img
                                                                         src={`/storage/${wish.featured_image.file_path}`}
@@ -696,8 +696,8 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                                     />
                                                                 ) : (
                                                                     <div
-                                                                        className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                                                                        <FontAwesomeIcon icon={faStar} className="text-gray-400 text-5xl" />
+                                                                        className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                                                                        <FontAwesomeIcon icon={faStar} className="text-slate-400 text-5xl" />
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -705,12 +705,12 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                             <div className="absolute top-3 right-3">
                                                                 { wish.latest_fulfillment ? (
                                                                     <span
-                                                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white bg-blue-500">
+                                                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white bg-primary-500">
                                                                       {getFulfilmentStatus(wish.latest_fulfillment.status)}
                                                                     </span>
                                                                 ) : (
                                                                     <span
-                                                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white bg-blue-500">
+                                                                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium text-white bg-primary-500">
                                                                     {wish.status}
                                                                     </span>
                                                                 )}
@@ -719,36 +719,36 @@ export default function List({module, filters, wishes,organizations,categories,w
 
                                                         {/* Card Content */}
                                                         <div className="p-5">
-                                                            <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                                            <h3 className="text-lg font-semibold text-slate-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
                                                                 {wish.title}
                                                             </h3>
 
                                                             <div className="space-y-2 mb-4">
-                                                                <div className="flex items-center text-sm text-gray-600">
+                                                                <div className="flex items-center text-sm text-slate-600">
                                                                     <span className="font-medium mr-2">Age Range:</span>
                                                                     <span className="capitalize">{wish.age_range}</span>
                                                                 </div>
-                                                                <div className="flex items-center text-sm text-gray-600">
+                                                                <div className="flex items-center text-sm text-slate-600">
                                                                     <span className="font-medium mr-2">Wisher:</span>
                                                                     <span>{wish.user.name}</span>
                                                                 </div>
                                                             </div>
 
                                                             {/* Action Button */}
-                                                            <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                                                                <span className="text-sm text-gray-500">
+                                                            <div className="flex justify-between items-center pt-4 border-t border-slate-100">
+                                                                <span className="text-sm text-slate-500">
                                                                     {wish.created_at}
                                                                 </span>
                                                                 { wish.latest_fulfillment?.status === 'requested' ? (
                                                                     <Link
                                                                         href={route('wish.fulfill.detail', wish.id)}
-                                                                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+                                                                        className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200"
                                                                     >
                                                                         Fulfill Wish
                                                                     </Link>
                                                                 ) : (
                                                                     <span
-                                                                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                                                                        className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 transition-colors duration-200">
                                                                     Fulfillment Detail
                                                                     </span>
                                                                 )}
@@ -758,7 +758,7 @@ export default function List({module, filters, wishes,organizations,categories,w
                                                 ))
                                             ) : (
                                                 <div className="col-span-full text-center py-12">
-                                                    <p className="text-gray-500 text-lg mb-2">No wishes found</p>
+                                                    <p className="text-slate-500 text-lg mb-2">No wishes found</p>
                                                 </div>
                                             )}
                                         </div>

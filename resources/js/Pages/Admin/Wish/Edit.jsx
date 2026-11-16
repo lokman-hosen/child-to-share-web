@@ -10,9 +10,9 @@ export default function Edit({module,categories,statuses,wish,ageRanges,wishers}
         <AuthenticatedLayout>
             <Head title={`Edit ${module}: ${wish.title}`} />
             <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-purple-700 px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 sm:px-8 sm:py-10">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
@@ -26,7 +26,7 @@ export default function Edit({module,categories,statuses,wish,ageRanges,wishers}
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
                                         Edit {module} Item
                                     </h1>
-                                    <p className="text-blue-100 text-sm mt-1">
+                                    <p className="text-primary-100 text-sm mt-1">
                                         Share your items and make wishes come true
                                     </p>
                                 </div>
@@ -35,9 +35,9 @@ export default function Edit({module,categories,statuses,wish,ageRanges,wishers}
                             {/* Action Button */}
                             <Link
                                 href={route('donations.index')}
-                                className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
+                                className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                             >
-                                <FontAwesomeIcon icon={faList} className="text-blue-600" />
+                                <FontAwesomeIcon icon={faList} className="text-primary-600" />
                                 <span>View {module} List</span>
                             </Link>
                         </div>

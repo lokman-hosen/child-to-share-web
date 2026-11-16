@@ -1,40 +1,35 @@
 import React from 'react';
-import Activity from "@/Components/Common/Admin/Donor/Activity.jsx";
-import Cards from "@/Components/Common/Admin/Donor/Cards.jsx";
-import WishList from "@/Components/Common/Admin/Donor/WishList.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import { Link } from '@inertiajs/react';
+import { faStar, faCircleCheck, faPlus, faUser, faGift } from '@fortawesome/free-solid-svg-icons';
+import AppPage from '@/Components/UI/AppPage';
+import StatCard from '@/Components/UI/StatCard';
+import QuickAction from '@/Components/UI/QuickAction';
+import DashboardIntro from '@/Components/Common/Admin/DashboardIntro';
 
-const WisherDashboard = ({activeWishCount,fulfilledWishCount}) => {
+const WisherDashboard = ({ activeWishCount, fulfilledWishCount }) => {
     return (
-            <div className="page active-page">
-                <div className="bg-yellow-300 border border-yellow-500 rounded-lg p-4 m-6">
-                    <div className="flex items-center">
-                        <FontAwesomeIcon icon={faInfoCircle} className="h-5 w-5 text-blue-500 mr-3" />
-                        <div>
-                            <p className="text-blue-800 text-xl">
-                                ThreeWish is Under Development
-                            </p>
-                            <p className="text-blue-600 text-md mt-1">
-                                Some features are still being built. Thank you for your patience!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-               <div className="px-10 py-8">
-                   <div className="flex items-left mb-6">
-                       <h1 className="text-2xl font-bold text-gray-900 mt-1">Wisher Dashboard</h1>
-                   </div>
-                   <Cards
-                       userType = 'wisher'
-                       activeWishCount = {activeWishCount}
-                       fulfilledWishCount = {fulfilledWishCount}
-                   />
-                   {/*<Activity/>*/}
-                   {/*<WishList userType = 'wisher'/>*/}
-               </div>
+        <AppPage>
+            <DashboardIntro
+                title="Wisher Dashboard"
+            />
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Link href={route('wishes.index')} className="rounded-card">
+                    <StatCard icon={faStar} label="Active Wishes" value={activeWishCount} tone="primary" className="h-full hover:border-primary-200" />
+                </Link>
+                <Link href={route('wishes.index')} className="rounded-card">
+                    <StatCard icon={faCircleCheck} label="Wishes Received" value={fulfilledWishCount} tone="success" className="h-full hover:border-primary-200" />
+                </Link>
             </div>
+            <section aria-labelledby="quick-actions" className="mt-10">
+                <h2 id="quick-actions" className="text-base font-semibold text-slate-900">Quick Actions</h2>
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    <QuickAction href={route('wishes.create')} icon={faPlus} title="Create Wish" description="Tap to have items" />
+                    <QuickAction href={route('wishes.index')} icon={faStar} title="My Wishes" description="Track the status of your wishes" />
+                    <QuickAction href={route('donation.index')} icon={faGift} title="Browse Gifts" description="See what contributors are sharing" />
+                    <QuickAction href={route('my.profile')} icon={faUser} title="Your Profile" description="Keep your details up to date" />
+                </div>
+            </section>
+        </AppPage>
     );
 };
 

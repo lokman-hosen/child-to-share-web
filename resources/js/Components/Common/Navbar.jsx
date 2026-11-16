@@ -1,505 +1,320 @@
-import {Link, usePage} from "@inertiajs/react";
-import React, { useState } from "react";
+import { Link, usePage } from "@inertiajs/react";
+import React, { useEffect, useState } from "react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBars, faXmark, faChevronDown, faUser, faGift, faStar, faPlus, faKey,
+    faRightFromBracket, faGauge, faHandHoldingHeart, faFaceSmile,
+} from '@fortawesome/free-solid-svg-icons';
+import Button from "@/Components/UI/Button";
+import cn from "@/Components/UI/cn";
+
+/** Primary public navigation. `match` = route names that mark the item active. */
+const NAV_ITEMS = [
+    { label: 'Home', route: 'home', match: ['home'] },
+    { label: 'About', route: 'about', match: ['about'] },
+    { label: 'Gifts', route: 'donation.index', match: ['donation.index', 'donation.show'] },
+    { label: 'Wishes', route: 'wish.index', match: ['wish.index', 'wish.show'] },
+    { label: 'Fulfilled Wishes', route: 'fulfillment.index', match: ['fulfillment.index'] },
+    { label: 'Partners', route: 'partner', match: ['partner'] },
+];
+
+const COMMUNITY_ITEMS = [
+    { label: 'Our Contributors', route: 'donor.list', icon: faHandHoldingHeart, desc: 'People and groups who give gifts' },
+    { label: 'Our Happy Wish Creators', route: 'wisher.list', icon: faFaceSmile, desc: 'Children whose wishes we support' },
+];
+
+const isCurrent = (names) => names.some((n) => route().current(n));
+
+export function Avatar({ user, size = 'h-9 w-9', className = '' }) {
+    const [failed, setFailed] = useState(false);
+    const initials = (user?.name || '?').split(' ').filter(Boolean).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
+    return (
+        <span className={cn('inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-100 text-sm font-semibold text-primary-800 ring-2 ring-white', size, className)}>
+            {user?.image && !failed ? (
+                <img src={`/storage/${user.image}`} alt="" className="h-full w-full object-cover" onError={() => setFailed(true)} />
+            ) : (
+                <span aria-hidden="true">{initials}</span>
+            )}
+        </span>
+    );
+}
+
+/** Account links shared by the desktop dropdown and the mobile panel (same routes as before). */
+export function accountLinks(user) {
+    const links = [
+        { label: 'Dashboard', href: route('dashboard'), icon: faGauge },
+        { label: 'Your Profile', href: route('my.profile'), icon: faUser },
+    ];
+    if (user.role === 'donor') {
+        links.push({ label: 'My Gifts', href: route('donations.index'), icon: faGift });
+        links.push({ label: 'Create Gift', href: route('donations.create'), icon: faPlus });
+    }
+    if (user.role === 'wisher') {
+        links.push({ label: 'My Wishes', href: route('wishes.index'), icon: faStar });
+        links.push({ label: 'Create Wish', href: route('wishes.create'), icon: faPlus });
+    }
+    links.push({ label: 'Change Password', href: route('user.password.form'), icon: faKey });
+    return links;
+}
+
+/** Role-aware primary call to action in the header. */
+function PrimaryCta({ user, className = '', size = 'sm' }) {
+    if (!user) {
+        return <Button href={route('register')} size={size} className={className}>Sign Up</Button>;
+    }
+    if (user.role === 'donor') {
+        return <Button href={route('donations.create')} size={size} icon={faGift} className={className}>Create Gift</Button>;
+    }
+    if (user.role === 'wisher') {
+        return <Button href={route('wishes.create')} size={size} icon={faStar} className={className}>Create Wish</Button>;
+    }
+    return <Button href={route('dashboard')} size={size} icon={faGauge} className={className}>Dashboard</Button>;
+}
 
 export default function Navbar() {
     const user = usePage().props.auth.user;
+    const { url } = usePage();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
-    const [isContributorDropdownOpen, setIsContributorDropdownOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
 
-    const toggleMobileMenu = () => {
-        setIsMobileMenuOpen(!isMobileMenuOpen);
-    };
+    // Close the mobile panel on navigation
+    useEffect(() => setIsMobileMenuOpen(false), [url]);
 
-    const toggleProfileVisibility = () => {
-        setIsProfileOpen(!isProfileOpen);
-    };
+    // Lock body scroll while the mobile panel is open
+    useEffect(() => {
+        document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+    }, [isMobileMenuOpen]);
 
-    const toggleContributorDropdown = () => {
-        setIsContributorDropdownOpen(!isContributorDropdownOpen);
-    };
+    useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 8);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+
+    const communityActive = route().current('*.list');
 
     return (
-        <nav className="bg-white shadow-md relative z-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex items-center">
-                        <Link href={route('home')}>
-                            <div className="flex-shrink-0 flex items-center space-x-2">
-                                <img
-                                    src="/images/3wish.png"
-                                    alt="ThreeWish Logo"
-                                    title="ThreeWish"
-                                    className="h-16 object-cover rounded"
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                    }}
-                                />
-                            </div>
-                        </Link>
-                        <div className="hidden md:ml-2 md:flex md:space-x-2">
-                            <Link
-                                href={route('home')}
-                                className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${
-                                    route().current('home') && window.location.hash !== '#how-it-works'
-                                        ? 'nav-item active text-primary'
-                                        : ''
-                                }`}
-                            >
-                                Home
-                            </Link>
-                            <Link
-                                href={route('about')}
-                                className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('about')) ? 'nav-item active text-primary' : ''}`}>
-                                About
-                            </Link>
+        <>
+            <a href="#main-content" className="skip-link">Skip to content</a>
+            <header
+                className={cn(
+                    'sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md transition-shadow duration-200 supports-[backdrop-filter]:bg-white/80',
+                    scrolled ? 'border-slate-200 shadow-card' : 'border-transparent',
+                )}
+            >
+                <nav aria-label="Main" className="container-page flex h-16 items-center justify-between gap-4 lg:h-[72px]">
+                    <Link href={route('home')} className="flex shrink-0 items-center rounded-md" aria-label="ThreeWish home">
+                        <img src="/images/3wish.png" alt="ThreeWish" width="781" height="312" className="h-10 w-auto lg:h-11" />
+                    </Link>
 
-                            <Link
-                                href={route('donation.index')}
-                                className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active text-primary' : ''}`}>
-                                Gifts
-                            </Link>
-
-                            <Link
-                                href={route('wish.index')}
-                                className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active text-primary' : ''}`}>
-                                Wishes
-                            </Link>
-
-                            <Link
-                                href={route('fulfillment.index')}
-                                className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${(route().current('fulfillment.index') || route().current('wish.show')) ? 'nav-item active text-primary' : ''}`}>
-                                Fulfilled Wishes
-                            </Link>
-
-                            <Link
-                                href={route('partner')}
-                                className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('partner') ? 'nav-item active text-primary' : ''}`}>
-                                Partners
-                            </Link>
-
-                            {/* Contributor & Wisher Dropdown - Fixed z-index */}
-                            <div className="relative group">
-                                <button
-                                    className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors duration-200 focus:outline-none ${route().current('*.list') ? 'nav-item active text-primary' : ''}`}
+                    {/* Desktop links */}
+                    <ul className="hidden items-center gap-1 lg:flex">
+                        {NAV_ITEMS.map((item) => {
+                            const active = isCurrent(item.match);
+                            return (
+                                <li key={item.route}>
+                                    <Link
+                                        href={route(item.route)}
+                                        aria-current={active ? 'page' : undefined}
+                                        className={cn(
+                                            'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                                            active ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                                        )}
+                                    >
+                                        {item.label}
+                                    </Link>
+                                </li>
+                            );
+                        })}
+                        <li>
+                            <Menu as="div" className="relative">
+                                <MenuButton
+                                    className={cn(
+                                        'inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                                        communityActive ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                                    )}
                                 >
-                                    Contributor & Wisher
-                                    <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </button>
-                                <div className="absolute left-0 mt-2 w-56 bg-white rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 border border-gray-100">
-                                    <div className="py-2">
-                                        <Link
-                                            href={route('donor.list')}
-                                            className={`block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200 ${route().current('donor.list') ? 'nav-item active text-primary' : ''}`}
-                                        >
-                                            <div className="flex items-center">
-                                                <svg className="w-4 h-4 mr-3 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                                                </svg>
-                                                Our Contributors
-                                            </div>
-                                        </Link>
-                                        <Link
-                                            href={route('wisher.list')}
-                                            className={`block px-4 py-2.5 text-sm text-gray-700 hover:bg-primary/10 hover:text-primary transition-colors duration-200 ${route().current('wisher.list') ? 'nav-item active text-primary' : ''}`}
-                                        >
-                                            <div className="flex items-center">
-                                                <svg className="w-4 h-4 mr-3 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                </svg>
-                                                Our Happy Wish Creators
-                                            </div>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-
+                                    Contributor &amp; Wisher
+                                    <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3" aria-hidden="true" />
+                                </MenuButton>
+                                <MenuItems
+                                    anchor={{ to: 'bottom start', gap: 8 }}
+                                    className="z-[60] w-72 rounded-xl border border-slate-200 bg-white p-2 shadow-pop focus:outline-none"
+                                >
+                                    {COMMUNITY_ITEMS.map((item) => (
+                                        <MenuItem key={item.route}>
+                                            <Link
+                                                href={route(item.route)}
+                                                className="flex items-start gap-3 rounded-lg p-3 data-[focus]:bg-slate-50"
+                                            >
+                                                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600">
+                                                    <FontAwesomeIcon icon={item.icon} className="h-4 w-4" aria-hidden="true" />
+                                                </span>
+                                                <span>
+                                                    <span className="block text-sm font-semibold text-slate-900">{item.label}</span>
+                                                    <span className="block text-xs text-slate-500">{item.desc}</span>
+                                                </span>
+                                            </Link>
+                                        </MenuItem>
+                                    ))}
+                                </MenuItems>
+                            </Menu>
+                        </li>
+                        <li>
                             <Link
                                 href={route('contact')}
-                                className={`text-gray-500 hover:text-primary inline-flex items-center px-1 pt-1 text-sm font-medium ${route().current('contact') ? 'nav-item active text-primary' : ''}`}>
+                                aria-current={route().current('contact') ? 'page' : undefined}
+                                className={cn(
+                                    'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                                    route().current('contact') ? 'bg-primary-50 text-primary-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+                                )}
+                            >
                                 Contact
                             </Link>
+                        </li>
+                    </ul>
 
-                        </div>
-                    </div>
-
-                    {/* Desktop Navigation - Show user profile if logged in, else show login/signup */}
-                    <div className="hidden md:flex items-center">
+                    {/* Right side */}
+                    <div className="flex items-center gap-2">
                         {user ? (
-                            // User Profile Dropdown for logged-in users
-                            <div className="relative">
-                                <button
-                                    className="flex items-center text-sm text-gray-700 focus:outline-none"
-                                    onClick={toggleProfileVisibility}
-                                >
-                                    <div
-                                        className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                                        {user.image ? (
-                                            <img
-                                                src={`/storage/${user.image}`}
-                                                alt={user.name}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        ) : (
-                                            <img
-                                                src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                                alt={user.name}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        )}
-                                    </div>
-                                    <span className="ml-2 font-bold text-primary hover:text-accent">{user.name}</span>
-                                    <FontAwesomeIcon icon={faChevronDown} className="ml-1 text-xs text-primary" />
-                                </button>
-                                {isProfileOpen && (
-                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
-                                        <Link
-                                            href={route('my.profile')}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                            onClick={() => setIsProfileOpen(false)}
-                                        >
-                                            Your Profile
-                                        </Link>
-                                        {user.role === 'donor' && (
-                                            <>
-                                                <Link
-                                                    href={route('donations.index')}
-                                                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                >
-                                                    My Gifts
-                                                </Link>
-                                                <Link
-                                                    href={route('donations.create')}
-                                                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                >
-                                                    Create Gift
-                                                </Link>
-                                            </>
-                                        )}
-                                        {user.role === 'wisher' && (
-                                            <>
-                                                <Link
-                                                    href={route('wishes.index')}
-                                                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                >
-                                                    My Wishes
-                                                </Link>
-                                                <Link
-                                                    href={route('wishes.create')}
-                                                    className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                >
-                                                    Create Wish
-                                                </Link>
-                                            </>
-                                        )}
-                                        <Link
-                                            href={route('user.password.form')}
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                            onClick={() => setIsProfileOpen(false)}
-                                        >
-                                            Change Password
-                                        </Link>
-                                        <Link
-                                            href={route('logout')}
-                                            method="post"
-                                            as="button"
-                                            className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                            onClick={() => setIsProfileOpen(false)}
-                                        >
-                                            Sign out
-                                        </Link>
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            // Login/Signup buttons for guests
                             <>
-                                <Link
-                                    href={route('register')}
-                                    className="bg-primary hover:bg-primary-dark ml-4 px-4 py-2 border border-transparent text-sm text-white font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                                >
-                                    Sign Up
-                                </Link>
-
-                                <Link
-                                    href={route('login')}
-                                    className="bg-secondary hover:bg-secondary-dark ml-4 px-4 py-2 border border-transparent text-sm text-accent font-medium rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary"
-                                >
-                                    Login
-                                </Link>
+                                <PrimaryCta user={user} className="hidden sm:inline-flex" />
+                                <Menu as="div" className="relative hidden lg:block">
+                                    <MenuButton className="flex items-center gap-2 rounded-full p-0.5 pr-2 text-sm font-medium text-slate-700 hover:bg-slate-100">
+                                        <Avatar user={user} />
+                                        <span className="max-w-[9rem] truncate">{user.name}</span>
+                                        <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3 text-slate-400" aria-hidden="true" />
+                                    </MenuButton>
+                                    <MenuItems
+                                        anchor={{ to: 'bottom end', gap: 8 }}
+                                        className="z-[60] w-60 rounded-xl border border-slate-200 bg-white p-1.5 shadow-pop focus:outline-none"
+                                    >
+                                        <div className="px-3 py-2.5">
+                                            <p className="truncate text-sm font-semibold text-slate-900">{user.name}</p>
+                                            {user.email && <p className="truncate text-xs text-slate-500">{user.email}</p>}
+                                        </div>
+                                        <div className="my-1 h-px bg-slate-100" />
+                                        {accountLinks(user).map((l) => (
+                                            <MenuItem key={l.label}>
+                                                <Link href={l.href} className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-700 data-[focus]:bg-slate-50 data-[focus]:text-slate-900">
+                                                    <FontAwesomeIcon icon={l.icon} className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                                    {l.label}
+                                                </Link>
+                                            </MenuItem>
+                                        ))}
+                                        <div className="my-1 h-px bg-slate-100" />
+                                        <MenuItem>
+                                            <Link href={route('logout')} method="post" as="button" className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-slate-700 data-[focus]:bg-danger-50 data-[focus]:text-danger-700">
+                                                <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                                Sign out
+                                            </Link>
+                                        </MenuItem>
+                                    </MenuItems>
+                                </Menu>
+                            </>
+                        ) : (
+                            <>
+                                <Button href={route('login')} variant="ghost" size="sm" className="hidden sm:inline-flex">Login</Button>
+                                <PrimaryCta user={user} />
                             </>
                         )}
-                    </div>
 
-                    <div className="md:hidden flex items-center">
                         <button
                             type="button"
-                            onClick={toggleMobileMenu}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-primary hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+                            onClick={() => setIsMobileMenuOpen((o) => !o)}
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 lg:hidden"
                             aria-expanded={isMobileMenuOpen}
+                            aria-controls="mobile-menu"
                         >
-                            <span className="sr-only">Open main menu</span>
-                            <svg
-                                className={`h-6 w-6 ${isMobileMenuOpen ? 'hidden' : 'block'}`}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                            <svg
-                                className={`h-6 w-6 ${isMobileMenuOpen ? 'block' : 'hidden'}`}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            <span className="sr-only">{isMobileMenuOpen ? 'Close main menu' : 'Open main menu'}</span>
+                            <FontAwesomeIcon icon={isMobileMenuOpen ? faXmark : faBars} className="h-5 w-5" aria-hidden="true" />
                         </button>
                     </div>
-                </div>
-            </div>
+                </nav>
 
-            {/* Mobile menu, show/hide based on menu state */}
-            <div className={`md:hidden ${isMobileMenuOpen ? 'block' : 'hidden'}`} id="mobile-menu">
-                <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                    <Link
-                        href={route('home')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${
-                            route().current('home') && window.location.hash !== '#how-it-works'
-                                ? 'nav-item active text-white bg-primary'
-                                : ''
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        href={route('about')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('about')) ? 'nav-item active text-white bg-primary' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        About
-                    </Link>
-                    <Link
-                        href={`${route('home')}#how-it-works`}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${
-                            route().current('home') && window.location.hash === '#how-it-works'
-                                ? 'nav-item active text-white bg-primary'
-                                : ''
-                        }`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        How It Works
-                    </Link>
-                    <Link
-                        href={route('donation.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('donation.index') || route().current('donation.show')) ? 'nav-item active text-white bg-primary' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Gifts
-                    </Link>
-
-                    <Link
-                        href={route('wish.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('wish.index') || route().current('wish.show')) ? 'nav-item active text-white bg-primary' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Wishes
-                    </Link>
-
-                    <Link
-                        href={route('fulfillment.index')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('fulfillment.index')) ? 'nav-item active text-white bg-primary' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Fulfilled Wishes
-                    </Link>
-
-                    <Link
-                        href={route('partner')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('partner')) ? 'nav-item active text-white bg-primary' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Partners
-                    </Link>
-
-                    {/* Mobile Contributor Dropdown */}
-                    <div className="relative">
-                        <button
-                            onClick={toggleContributorDropdown}
-                            className="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary transition-colors duration-200"
-                        >
-                            <span>Contributor & Wisher</span>
-                            <svg
-                                className={`w-4 h-4 transition-transform duration-200 ${isContributorDropdownOpen ? 'rotate-180' : ''}`}
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </button>
-                        {isContributorDropdownOpen && (
-                            <div className="pl-4 mt-1 space-y-1">
-                                <Link
-                                    href={route('donor.list')}
-                                    className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-white hover:bg-primary/80 transition-colors duration-200"
-                                    onClick={() => {
-                                        setIsMobileMenuOpen(false);
-                                        setIsContributorDropdownOpen(false);
-                                    }}
-                                >
-                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                    Our Contributors
+                {/* Mobile / tablet panel */}
+                <div
+                    id="mobile-menu"
+                    className={cn('border-t border-slate-200 bg-white lg:hidden', isMobileMenuOpen ? 'block' : 'hidden')}
+                >
+                    <div className="container-page max-h-[calc(100dvh-4rem)] overflow-y-auto py-4">
+                        <ul className="space-y-1">
+                            {NAV_ITEMS.map((item) => {
+                                const active = isCurrent(item.match);
+                                return (
+                                    <li key={item.route}>
+                                        <Link
+                                            href={route(item.route)}
+                                            aria-current={active ? 'page' : undefined}
+                                            className={cn('block rounded-lg px-3 py-2.5 text-base font-medium', active ? 'bg-primary-50 text-primary-700' : 'text-slate-700 hover:bg-slate-50')}
+                                        >
+                                            {item.label}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
+                            <li>
+                                <Link href={`${route('home')}#how-it-works`} className="block rounded-lg px-3 py-2.5 text-base font-medium text-slate-700 hover:bg-slate-50">
+                                    How It Works
                                 </Link>
+                            </li>
+                            <li className="pt-2">
+                                <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-slate-500">Contributor &amp; Wisher</p>
+                                {COMMUNITY_ITEMS.map((item) => (
+                                    <Link
+                                        key={item.route}
+                                        href={route(item.route)}
+                                        className={cn('flex items-center gap-3 rounded-lg px-3 py-2.5 text-base font-medium', route().current(item.route) ? 'bg-primary-50 text-primary-700' : 'text-slate-700 hover:bg-slate-50')}
+                                    >
+                                        <FontAwesomeIcon icon={item.icon} className="h-4 w-4 text-primary-600" aria-hidden="true" />
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </li>
+                            <li className="pt-2">
                                 <Link
-                                    href={route('wisher.list')}
-                                    className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-white hover:bg-primary/80 transition-colors duration-200"
-                                    onClick={() => {
-                                        setIsMobileMenuOpen(false);
-                                        setIsContributorDropdownOpen(false);
-                                    }}
+                                    href={route('contact')}
+                                    className={cn('block rounded-lg px-3 py-2.5 text-base font-medium', route().current('contact') ? 'bg-primary-50 text-primary-700' : 'text-slate-700 hover:bg-slate-50')}
                                 >
-                                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    Our Happy Wish Creators
+                                    Contact
                                 </Link>
-                            </div>
-                        )}
-                    </div>
+                            </li>
+                        </ul>
 
-                    <Link
-                        href={route('contact')}
-                        className={`block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary ${(route().current('contact')) ? 'nav-item active text-white bg-primary' : ''}`}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                        Contact
-                    </Link>
-
-                </div>
-
-                {/* Mobile Authentication Section */}
-                <div className="pt-4 pb-3 border-t border-gray-200">
-                    {user ? (
-                        // Mobile User Profile for logged-in users
-                        <div className="px-2 space-y-1">
-                            <div className="flex items-center px-3 py-2">
-                                <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
-                                    {user.image ? (
-                                        <img
-                                            src={`/storage/${user.image}`}
-                                            alt={user.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                            alt={user.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    )}
+                        <div className="mt-4 border-t border-slate-200 pt-4">
+                            {user ? (
+                                <div className="space-y-1">
+                                    <div className="flex items-center gap-3 px-3 pb-3">
+                                        <Avatar user={user} size="h-10 w-10" />
+                                        <div className="min-w-0">
+                                            <p className="truncate text-sm font-semibold text-slate-900">{user.name}</p>
+                                            {user.email && <p className="truncate text-xs text-slate-500">{user.email}</p>}
+                                        </div>
+                                    </div>
+                                    {accountLinks(user).map((l) => (
+                                        <Link key={l.label} href={l.href} className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-base font-medium text-slate-700 hover:bg-slate-50">
+                                            <FontAwesomeIcon icon={l.icon} className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                            {l.label}
+                                        </Link>
+                                    ))}
+                                    <Link href={route('logout')} method="post" as="button" className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-base font-medium text-slate-700 hover:bg-danger-50 hover:text-danger-700">
+                                        <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                        Sign out
+                                    </Link>
                                 </div>
-                                <span className="ml-3 text-base font-medium text-primary">{user.name}</span>
-                            </div>
-                            <Link
-                                href={route('my.profile')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Your Profile
-                            </Link>
-                            {user.role === 'donor' && (
-                                <>
-                                    <Link
-                                        href={route('donations.index')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        My Gifts
-                                    </Link>
-                                    <Link
-                                        href={route('donations.create')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        Create Gift
-                                    </Link>
-                                </>
+                            ) : (
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Button href={route('login')} variant="secondary">Login</Button>
+                                    <Button href={route('register')}>Sign Up</Button>
+                                </div>
                             )}
-
-                            {user.role === 'wisher' && (
-                                <>
-                                    <Link
-                                        href={route('wishes.index')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        My Wishes
-                                    </Link>
-                                    <Link
-                                        href={route('wishes.create')}
-                                        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        Create Wish
-                                    </Link>
-                                </>
-                            )}
-
-                            <Link
-                                href={route('user.password.form')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Change Password
-                            </Link>
-                            <Link
-                                href={route('logout')}
-                                method="post"
-                                as="button"
-                                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Sign out
-                            </Link>
                         </div>
-                    ) : (
-                        // Mobile Login/Signup for guests
-                        <div className="mt-3 px-2 space-y-1">
-                            <Link
-                                href={route('register')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-primary"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Sign Up
-                            </Link>
-                            <Link
-                                href={route('login')}
-                                className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-white hover:bg-secondary"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Login
-                            </Link>
-                        </div>
-                    )}
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </header>
+        </>
     );
 }

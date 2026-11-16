@@ -1,102 +1,72 @@
 import React from 'react';
-import {Link} from "@inertiajs/react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGift, faStar} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "@inertiajs/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGift, faStar, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Button from "@/Components/UI/Button";
 
-const RegistrationCTA = ({user}) => {
+const RegistrationCTA = ({ user }) => {
     return (
-        <section className="py-16 md:py-20 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12 max-w-4xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-accent mb-6">
-                        Ready to Make a <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Difference</span>?
-                    </h2>
-                    <p className="text-gray-700 text-lg mb-10 max-w-3xl mx-auto">
-                        Join ThreeWish today and become part of a community that believes in the power of sharing and caring. Whether you want to give or receive, there's a place for you here.
-                    </p>
+        <section className="section bg-white" aria-labelledby="cta-heading">
+            <div className="container-page">
+                <div className="relative overflow-hidden rounded-[1.75rem] bg-gradient-dark px-6 py-12 text-center shadow-pop sm:px-12 sm:py-16">
+                    <div aria-hidden="true" className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-secondary-300/20 blur-3xl" />
+                    <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-primary-400/30 blur-3xl" />
 
-                    {!user ? (
-                        <>
-                            <div className="flex flex-col lg:flex-row justify-center gap-6 mb-10">
-                                <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-6 flex-1 max-w-sm mx-auto lg:mx-0">
-                                    <div className="h-12 w-12 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center mb-4 mx-auto">
-                                        <FontAwesomeIcon icon={faGift} className="text-white text-3xl"/>
+                    <div className="relative">
+                        <h2 id="cta-heading" className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                            Ready to Make a <span className="text-secondary-200">Difference</span>?
+                        </h2>
+                        <p className="mx-auto mt-4 max-w-2xl text-lg text-primary-100">
+                            Join ThreeWish today and become part of a community that believes in the power of sharing and caring. Whether you want to give or receive, there's a place for you here.
+                        </p>
+
+                        {!user ? (
+                            <>
+                                <div className="mx-auto mt-10 grid max-w-3xl gap-4 text-left sm:grid-cols-2">
+                                    <div className="flex flex-col rounded-2xl bg-white p-6 shadow-card">
+                                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary-50 text-primary-600">
+                                            <FontAwesomeIcon icon={faGift} className="h-5 w-5" aria-hidden="true" />
+                                        </span>
+                                        <h3 className="mt-4 text-lg font-semibold text-slate-900">As a Contributor</h3>
+                                        <p className="mt-1 flex-1 text-sm text-slate-600">Share items you no longer need and bring joy to children in your community.</p>
+                                        <Button href={route('register', { role: 'donor' })} className="mt-5 w-full">Sign Up as Contributor</Button>
                                     </div>
-                                    <h3 className="font-bold text-accent text-lg mb-3">As a Contributor</h3>
-                                    <p className="text-gray-600 text-sm mb-4">Share items you no longer need and bring joy to children in your community.</p>
-                                    <Link
-                                        href={route('register', {role: 'donor'})}
-                                        className="inline-flex items-center justify-center w-full bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                                    >
-                                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                        </svg>
-                                        Sign Up as Contributor
-                                    </Link>
-                                </div>
-
-                                <div className="text-gray-300 flex items-center justify-center">
-                                    <div className="hidden lg:block text-xl font-bold text-gray-400">OR</div>
-                                    <div className="lg:hidden text-lg font-bold text-gray-400 my-4">Choose your role</div>
-                                </div>
-
-                                <div className="bg-gradient-to-br from-secondary/5 to-secondary/10 rounded-2xl p-6 flex-1 max-w-sm mx-auto lg:mx-0">
-                                    <div className="h-12 w-12 bg-gradient-to-br from-secondary to-secondary-dark rounded-xl flex items-center justify-center mb-4 mx-auto">
-                                        <FontAwesomeIcon icon={faStar} className="text-white text-3xl"/>
+                                    <div className="flex flex-col rounded-2xl bg-white p-6 shadow-card">
+                                        <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary-100 text-secondary-700">
+                                            <FontAwesomeIcon icon={faStar} className="h-5 w-5" aria-hidden="true" />
+                                        </span>
+                                        <h3 className="mt-4 text-lg font-semibold text-slate-900">As a Wisher</h3>
+                                        <p className="mt-1 flex-1 text-sm text-slate-600">Create wishes for items you need and connect with generous contributors.</p>
+                                        <Button href={route('register', { role: 'wisher' })} variant="accent" className="mt-5 w-full">Sign Up as Wisher</Button>
                                     </div>
-                                    <h3 className="font-bold text-accent text-lg mb-3">As a Wisher</h3>
-                                    <p className="text-gray-600 text-sm mb-4">Create wishes for items you need and connect with generous contributors.</p>
-                                    <Link
-                                        href={route('register', {role: 'wisher'})}
-                                        className="inline-flex items-center justify-center w-full bg-gradient-to-r from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary text-accent font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105"
-                                    >
-                                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z" />
-                                        </svg>
-                                        Sign Up as Wisher
-                                    </Link>
                                 </div>
-                            </div>
-
-                            <div className="border-t border-gray-200 pt-8">
-                                <p className="text-gray-600 mb-4">
-                                    <span className="text-accent font-medium">Already have an account?</span> Login to continue your journey
+                                <p className="mt-8 text-sm text-primary-100">
+                                    Already have an account?{' '}
+                                    <Link href={route('login')} className="font-semibold text-white underline underline-offset-4 hover:text-secondary-200">
+                                        Login to Your Account
+                                    </Link>
                                 </p>
-                                <Link
-                                    href={route('login')}
-                                    className="inline-flex items-center text-primary hover:text-primary-dark font-semibold group"
-                                >
-                                    <svg className="w-5 h-5 mr-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                                    </svg>
-                                    Login to Your Account
-                                </Link>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8 max-w-2xl mx-auto">
-                            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
-                                <div className="text-center md:text-left">
-                                    <h3 className="text-xl font-bold text-accent mb-2">Welcome back, {user.name}!</h3>
-                                    <p className="text-gray-700">Continue making a difference in our community.</p>
-                                </div>
-                                <div className="flex gap-4">
-                                    <Link
+                            </>
+                        ) : (
+                            <div className="mt-8">
+                                <p className="text-lg font-semibold text-white">Welcome back, {user.name}!</p>
+                                <p className="mt-1 text-primary-100">Continue making a difference in our community.</p>
+                                <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                                    <Button
                                         href={user.role === 'donor' ? route('donations.create') : route('wishes.create')}
-                                        className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-xl transition-all duration-300"
+                                        variant="inverse"
+                                        size="lg"
+                                        icon={user.role === 'donor' ? faGift : faStar}
                                     >
                                         Create {user.role === 'donor' ? 'Gift' : 'Wish'}
-                                    </Link>
-                                    <Link
-                                        href={route('home')}
-                                        className="bg-white border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-all duration-300"
-                                    >
+                                    </Button>
+                                    <Button href={route('home')} variant="outline-inverse" size="lg" iconRight={faArrowRight}>
                                         Browse Community
-                                    </Link>
+                                    </Button>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
                 </div>
             </div>
         </section>

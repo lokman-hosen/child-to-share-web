@@ -64,9 +64,9 @@ export default function Detail({module, wish, donations}) {
         <AuthenticatedLayout>
             <Head title="Wish Detail"/>
             <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-purple-600 to-blue-700 px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 sm:px-8 sm:py-10">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
@@ -80,7 +80,7 @@ export default function Detail({module, wish, donations}) {
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
                                         Fulfill Wish for "{wish.title}"
                                     </h1>
-                                    <p className="text-blue-100 text-sm mt-1">
+                                    <p className="text-primary-100 text-sm mt-1">
                                         <span
                                             className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mr-1">
                                             {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
@@ -92,9 +92,9 @@ export default function Detail({module, wish, donations}) {
                             {/* Action Button */}
                             <Link
                                 href={route('wish.fulfill.list')}
-                                className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
+                                className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                             >
-                                <FontAwesomeIcon icon={faList} className="text-blue-600" />
+                                <FontAwesomeIcon icon={faList} className="text-primary-600" />
                                 <span>View {module} List</span>
                             </Link>
                         </div>
@@ -103,7 +103,7 @@ export default function Detail({module, wish, donations}) {
                     {/* Card Body */}
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
-                            <div className="border-t border-gray-200">
+                            <div className="border-t border-slate-200">
                                 <form onSubmit={handleSubmit} className="space-y-1">
                                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
                                         <SelectInput
@@ -145,7 +145,7 @@ export default function Detail({module, wish, donations}) {
                                         <button
                                             type="button"
                                             onClick={() => window.history.back()}
-                                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                            className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                                         >
                                             <div className="flex items-center space-x-2">
                                                 <FontAwesomeIcon icon={faArrowLeft}/>
@@ -157,7 +157,7 @@ export default function Detail({module, wish, donations}) {
                                         <button
                                             type="submit"
                                             disabled={processing}
-                                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
+                                            className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
                                         >
                                             <div className="flex items-center space-x-2">
                                                 <FontAwesomeIcon icon={faStar}/>

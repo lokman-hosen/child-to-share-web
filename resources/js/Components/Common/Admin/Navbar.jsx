@@ -1,151 +1,96 @@
-import {Link, usePage} from "@inertiajs/react";
-import React, { useState } from "react";
+import { Link, usePage } from "@inertiajs/react";
+import React from "react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faBars, faBell, faChevronDown, faGift, faHome} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faChevronDown, faGift, faStar, faRightFromBracket, faAnglesLeft, faAnglesRight, faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { Avatar, accountLinks } from "@/Components/Common/Navbar.jsx";
+import Button from "@/Components/UI/Button";
 
-export default function Navbar({ onMenuClick }) {
+const roleLabel = (role) => ({
+    'super-admin': 'Super Admin', admin: 'Admin', donor: 'Contributor', wisher: 'Wisher', 'donor-wisher': 'Contributor & Wisher',
+}[role] || role);
+
+/** App top bar: menu toggles, role CTA, website link, account menu. */
+export default function Navbar({ onMenuClick, onCollapseToggle, collapsed = false }) {
     const user = usePage().props.auth.user;
-    const [isProfileOpen, setIsProfileOpen] = useState(false);
-
-    const toggleProfileVisibility = () => {
-        setIsProfileOpen(!isProfileOpen);
-    };
 
     return (
-        <nav className="bg-white shadow-md fixed w-full z-10">
-            <div className="mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
-                    <div className="flex items-center">
-                        {/* Mobile menu button */}
-                        <button
-                            onClick={onMenuClick}
-                            className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 mr-2"
-                        >
-                            <FontAwesomeIcon icon={faBars} className="h-5 w-5"/>
-                        </button>
+        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-3 border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-6">
+            <button
+                type="button"
+                onClick={onMenuClick}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-100 md:hidden"
+                aria-label="Open menu"
+            >
+                <FontAwesomeIcon icon={faBars} className="h-5 w-5" aria-hidden="true" />
+            </button>
+            {onCollapseToggle && (
+                <button
+                    type="button"
+                    onClick={onCollapseToggle}
+                    className="hidden h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-800 md:inline-flex"
+                    aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                    aria-pressed={collapsed}
+                >
+                    <FontAwesomeIcon icon={collapsed ? faAnglesRight : faAnglesLeft} className="h-4 w-4" aria-hidden="true" />
+                </button>
+            )}
+            <Link href={route('home')} className="md:hidden" aria-label="ThreeWish website">
+                <img src="/images/3wish.png" alt="ThreeWish" width="781" height="312" className="h-8 w-auto" />
+            </Link>
 
-                        <Link href={route('home')} >
-                            <div className="flex-shrink-0 flex items-center space-x-2">
-                                <img
-                                    src="/images/3wish.png"
-                                    alt="ThreeWish Logo"
-                                    className="h-12 object-cover rounded" // Better styling
-                                    onError={(e) => {
-                                        e.target.style.display = 'none'; // Hide broken images
-                                    }}
-                                />
-                                {/*<span className="font-bold text-xl text-blue-600 hidden sm:block">ThreeWish</span>*/}
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="flex items-center space-x-4">
-                        <div className="relative">
-                            <Link
-                                href={route('home')}
-                                title="Visit Website"
-                                className="p-1 rounded-full text-purple-500 hover:text-purple-700 focus:outline-none"
-                            >
-                                <FontAwesomeIcon icon={faHome} className="text-xl"/>
+            <div className="ml-auto flex items-center gap-2">
+                {user.role === 'donor' && (
+                    <Button href={route('donations.create')} size="sm" icon={faGift} className="hidden sm:inline-flex">Create Gift</Button>
+                )}
+                {user.role === 'wisher' && (
+                    <Button href={route('wishes.create')} size="sm" icon={faStar} className="hidden sm:inline-flex">Create Wish</Button>
+                )}
+                <Link
+                    href={route('home')}
+                    title="Visit Website"
+                    className="hidden h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-800 sm:inline-flex"
+                >
+                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-4 w-4" aria-hidden="true" />
+                    <span className="sr-only">Visit Website</span>
+                </Link>
+
+                <Menu as="div" className="relative">
+                    <MenuButton className="flex items-center gap-2.5 rounded-full p-0.5 pr-2 text-left hover:bg-slate-100">
+                        <Avatar user={user} />
+                        <span className="hidden min-w-0 sm:block">
+                            <span className="block max-w-[10rem] truncate text-sm font-semibold text-slate-900">{user.name}</span>
+                            <span className="block text-xs text-slate-500">{roleLabel(user.role)}</span>
+                        </span>
+                        <FontAwesomeIcon icon={faChevronDown} className="h-3 w-3 text-slate-400" aria-hidden="true" />
+                    </MenuButton>
+                    <MenuItems
+                        anchor={{ to: 'bottom end', gap: 8 }}
+                        className="z-[60] w-60 rounded-xl border border-slate-200 bg-white p-1.5 shadow-pop focus:outline-none"
+                    >
+                        <div className="px-3 py-2.5">
+                            <p className="truncate text-sm font-semibold text-slate-900">{user.name}</p>
+                            {user.email && <p className="truncate text-xs text-slate-500">{user.email}</p>}
+                        </div>
+                        <div className="my-1 h-px bg-slate-100" />
+                        {accountLinks(user).map((l) => (
+                            <MenuItem key={l.label}>
+                                <Link href={l.href} className="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-700 data-[focus]:bg-slate-50 data-[focus]:text-slate-900">
+                                    <FontAwesomeIcon icon={l.icon} className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                    {l.label}
+                                </Link>
+                            </MenuItem>
+                        ))}
+                        <div className="my-1 h-px bg-slate-100" />
+                        <MenuItem>
+                            <Link href={route('logout')} method="post" as="button" className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-slate-700 data-[focus]:bg-danger-50 data-[focus]:text-danger-700">
+                                <FontAwesomeIcon icon={faRightFromBracket} className="h-4 w-4 text-slate-400" aria-hidden="true" />
+                                Sign out
                             </Link>
-
-                        </div>
-                        {/*<div className="relative">*/}
-                        {/*    <button*/}
-                        {/*        className="p-1 rounded-full text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">*/}
-                        {/*        <FontAwesomeIcon icon={faBell} className="text-xl"/>*/}
-                        {/*        <span*/}
-                        {/*            className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">3</span>*/}
-                        {/*    </button>*/}
-                        {/*</div>*/}
-                        <div className="relative">
-                            <button className="flex items-center text-sm text-gray-700 focus:outline-none"
-                                    onClick={toggleProfileVisibility} >
-                                <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center overflow-hidden">
-                                    {user.image ? (
-                                        <img
-                                            src={`/storage/${user.image}`}
-                                            alt={user.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="https://themewagon.github.io/DattaAble/assets/images/user/avatar-2.jpg"
-                                            alt={user.name}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    )}
-                                </div>
-                                <span className="ml-2 font-bold text-purple-500">{user.name}</span>
-                                <FontAwesomeIcon icon={faChevronDown} className="ml-1 text-xs" />
-                            </button>
-                            { isProfileOpen && (
-                                <div
-                                    className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 border border-gray-200">
-                                    <Link
-                                        href={route('my.profile')}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        onClick={() => setIsProfileOpen(false)}
-                                    >
-                                        Your Profile
-                                    </Link>
-                                    {user.role === 'donor' && (
-                                        <>
-                                            <Link
-                                                href={route('donations.index')}
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => setIsProfileOpen(false)}
-                                            >
-                                                My Gifts
-                                            </Link>
-                                            <Link
-                                                href={route('donations.create')}
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => setIsProfileOpen(false)}
-                                            >
-                                                Create Gift
-                                            </Link>
-                                        </>
-                                    )}
-                                    {user.role === 'wisher' && (
-                                        <>
-                                            <Link
-                                                href={route('wishes.index')}
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => setIsProfileOpen(false)}
-                                            >
-                                                My Wishes
-                                            </Link>
-                                            <Link
-                                                href={route('wishes.create')}
-                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => setIsProfileOpen(false)}
-                                            >
-                                                Create Wish
-                                            </Link>
-                                        </>
-                                    )}
-                                    <Link
-                                        href={route('user.password.form')}
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        onClick={() => setIsProfileOpen(false)}
-                                    >
-                                        Change Password
-                                    </Link>
-                                    <Link
-                                        href={route('logout')}
-                                        method="post"
-                                        as="button"
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        onClick={() => setIsProfileOpen(false)}
-                                    >
-                                        Sign out
-                                    </Link>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                        </MenuItem>
+                    </MenuItems>
+                </Menu>
             </div>
-        </nav>
+        </header>
     );
 }

@@ -47,82 +47,54 @@ const Pagination = ({ links }) => {
         )?.url || "#";
     };
 
-    return (
-        <div className="pagination flex items-center justify-center space-x-2 mt-8">
-            {/* Previous */}
-            <Link
-                href={previousLink?.url || "#"}
-                preserveScroll
-                className={`flex items-center px-3 py-2 rounded-lg border transition-all ${
-                    previousLink?.url
-                        ? "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
-                        : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                }`}
-            >
-                <FontAwesomeIcon icon={faChevronLeft} className="w-3 h-3" />
-            </Link>
+    const base = 'inline-flex h-10 min-w-[2.5rem] items-center justify-center rounded-lg px-3 text-sm font-medium transition-colors';
+    const idle = 'bg-white text-slate-700 ring-1 ring-inset ring-slate-200 hover:bg-slate-50';
+    const disabled = 'bg-slate-50 text-slate-300 ring-1 ring-inset ring-slate-100 cursor-not-allowed';
 
-            {/* First Page */}
+    const Arrow = ({ link, icon, label }) => link?.url ? (
+        <Link href={link.url} preserveScroll className={`${base} ${idle}`} aria-label={label}>
+            <FontAwesomeIcon icon={icon} className="h-3 w-3" aria-hidden="true" />
+        </Link>
+    ) : (
+        <span className={`${base} ${disabled}`} aria-disabled="true" aria-label={label}>
+            <FontAwesomeIcon icon={icon} className="h-3 w-3" aria-hidden="true" />
+        </span>
+    );
+
+    const PageLink = ({ page }) => (
+        <Link
+            href={getPageUrl(page)}
+            preserveScroll
+            aria-label={`Page ${page}`}
+            aria-current={currentPage === page ? 'page' : undefined}
+            className={`${base} ${currentPage === page ? 'bg-primary-600 text-white shadow-xs hover:bg-primary-700' : idle}`}
+        >
+            {page}
+        </Link>
+    );
+
+    return (
+        <nav aria-label="Pagination" className="mt-10 flex flex-wrap items-center justify-center gap-1.5">
+            <Arrow link={previousLink} icon={faChevronLeft} label="Previous page" />
+
             {showFirstPage && (
                 <>
-                    <Link
-                        href={getPageUrl(1)}
-                        preserveScroll
-                        className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                    >
-                        1
-                    </Link>
-                    {currentPage > 3 && (
-                        <span className="px-2 text-gray-400">...</span>
-                    )}
+                    <PageLink page={1} />
+                    {currentPage > 3 && <span className="px-1 text-slate-400" aria-hidden="true">…</span>}
                 </>
             )}
 
-            {/* Visible Pages */}
-            {visiblePages.map(page => (
-                <Link
-                    key={page}
-                    href={getPageUrl(page)}
-                    preserveScroll
-                    className={`px-3 py-2 rounded-lg border transition-all ${
-                        currentPage === page
-                            ? "bg-primary hover:bg-primary-dark text-white"
-                            : "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
-                    }`}
-                >
-                    {page}
-                </Link>
-            ))}
+            {visiblePages.map((page) => <PageLink key={page} page={page} />)}
 
-            {/* Last Page */}
             {showLastPage && (
                 <>
-                    {currentPage < totalPages - 2 && (
-                        <span className="px-2 text-gray-400">...</span>
-                    )}
-                    <Link
-                        href={getPageUrl(totalPages)}
-                        preserveScroll
-                        className="px-3 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
-                    >
-                        {totalPages}
-                    </Link>
+                    {currentPage < totalPages - 2 && <span className="px-1 text-slate-400" aria-hidden="true">…</span>}
+                    <PageLink page={totalPages} />
                 </>
             )}
 
-            {/* Next */}
-            <Link
-                href={nextLink?.url || "#"}
-                preserveScroll
-                className={`flex items-center px-3 py-2 rounded-lg border transition-all ${
-                    nextLink?.url
-                        ? "bg-white text-gray-700 hover:bg-gray-50 border-gray-300"
-                        : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-                }`}
-            >
-                <FontAwesomeIcon icon={faChevronRight} className="w-3 h-3" />
-            </Link>
-        </div>
+            <Arrow link={nextLink} icon={faChevronRight} label="Next page" />
+        </nav>
     );
 }
 

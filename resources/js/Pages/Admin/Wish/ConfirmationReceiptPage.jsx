@@ -7,9 +7,10 @@ import {
     faMessage, faPaperPlane,
     faPhone, faSquarePlus,
     faStar, faTimesCircle,
-    faUser
+    faUser, faShieldHalved
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { confirmDialog } from '@/Components/UI/ConfirmDialog';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {format} from "date-fns";
 import {
@@ -168,7 +169,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
         <AuthenticatedLayout>
             <Head title="Confirmation Receipt" />
             <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* Left Column - User Information */}
                         <div className="lg:col-span-2 space-y-8">
@@ -192,9 +193,9 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                     {/* Donor Card */}
                                     <div className="bg-white shadow rounded-lg p-6">
-                                        <div className="border-b border-gray-200 pb-6">
-                                            <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
-                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                        <div className="border-b border-slate-200 pb-6">
+                                            <h3 className="text-lg font-semibold text-slate-800 flex items-center pb-3 border-b border-slate-200">
+                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-primary-500"/>
                                                 Contributor Info
                                             </h3>
                                             <div
@@ -202,7 +203,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 {/* Profile Image - First Column */}
                                                 <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
                                                     <div
-                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
                                                         {donor.image ? (
                                                             <img
                                                                 src={`/storage/${donor.image}`}
@@ -221,15 +222,15 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                 {/* User Info - Second Column */}
                                                 <div className="flex-1 text-center md:text-left w-full">
-                                                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{donor.name}</h2>
-                                                    <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">{donor.name}</h2>
+                                                    <p className="text-sm text-slate-500 mb-3 md:mb-4">
                                                         Member Since {donor.created_at}
                                                     </p>
 
                                                     <dl className="space-y-2">
                                                         {/* Email with Verification */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
                                                                 <span>Email : </span>
                                                                 <span>{donor.email}</span>
@@ -245,7 +246,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Email Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                             title="Email Not Verified"
                                                                         />
                                                                     </div>
@@ -255,7 +256,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                         {/* Phone with Verification - Conditional Display */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
                                                                 <span>Phone : </span>
                                                                 <span>{donor.phone}</span>
@@ -270,21 +271,21 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Phone Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                         />
                                                                     </div>
                                                                 )}
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
                                                                 <span>Location/Address : </span>
                                                                 <span>{donor.address ?? 'n/a'}</span>
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
                                                                 <span>Gender : </span>
                                                                 <span>{donor.gender ?? 'n/a'}</span>
@@ -298,9 +299,9 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                     {/* Wisher Card */}
                                     <div className="bg-white shadow rounded-lg p-6">
-                                        <div className="border-b border-gray-200 pb-6">
-                                            <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
-                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                        <div className="border-b border-slate-200 pb-6">
+                                            <h3 className="text-lg font-semibold text-slate-800 flex items-center pb-3 border-b border-slate-200">
+                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-primary-500"/>
                                                 Wisher Info
                                             </h3>
                                             <div
@@ -308,7 +309,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 {/* Profile Image - First Column */}
                                                 <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
                                                     <div
-                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
                                                         {wisher.image ? (
                                                             <img
                                                                 src={`/storage/${wisher.image}`}
@@ -327,15 +328,15 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                 {/* User Info - Second Column */}
                                                 <div className="flex-1 text-center md:text-left w-full">
-                                                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{wisher.name}</h2>
-                                                    <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">{wisher.name}</h2>
+                                                    <p className="text-sm text-slate-500 mb-3 md:mb-4">
                                                         Member Since {wisher.created_at}
                                                     </p>
 
                                                     <dl className="space-y-2">
                                                         {/* Email with Verification */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
                                                                 <span>Email : </span>
                                                                 <span>{wisher.email}</span>
@@ -351,7 +352,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Email Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                             title="Email Not Verified"
                                                                         />
                                                                     </div>
@@ -361,7 +362,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                         {/* Phone with Verification - Conditional Display */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
                                                                 <span>Phone : </span>
                                                                 <span>{wisher.phone}</span>
@@ -376,21 +377,21 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Phone Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                         />
                                                                     </div>
                                                                 )}
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
                                                                 <span>Location/Address : </span>
                                                                 <span>{wisher.address ?? 'n/a'}</span>
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
                                                                 <span>Gender : </span>
                                                                 <span>{wisher.gender ?? 'n/a'}</span>
@@ -409,9 +410,9 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             { !checkAdmin(userType) && (
                                 fulfillment.donation.user_id != currentUser.id ? (
                                     <div className="bg-white shadow rounded-lg p-6">
-                                        <div className="border-gray-200 pb-6">
-                                            <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
-                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                        <div className="border-slate-200 pb-6">
+                                            <h3 className="text-lg font-semibold text-slate-800 flex items-center pb-3 border-b border-slate-200">
+                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-primary-500"/>
                                                 Contributor Info
                                             </h3>
                                             <div
@@ -419,7 +420,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 {/* Profile Image - First Column */}
                                                 <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
                                                     <div
-                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
                                                         {donor.image ? (
                                                             <img
                                                                 src={`/storage/${donor.image}`}
@@ -438,15 +439,15 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                 {/* User Info - Second Column */}
                                                 <div className="flex-1 text-center md:text-left w-full">
-                                                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{donor.name}</h2>
-                                                    <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">{donor.name}</h2>
+                                                    <p className="text-sm text-slate-500 mb-3 md:mb-4">
                                                         Member Since {donor.created_at}
                                                     </p>
 
                                                     <dl className="space-y-2">
                                                         {/* Email with Verification */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
                                                                 <span>Email : </span>
                                                                 <span>{donor.email}</span>
@@ -462,7 +463,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Email Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                             title="Email Not Verified"
                                                                         />
                                                                     </div>
@@ -472,7 +473,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                         {/* Phone with Verification - Conditional Display */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
                                                                 <span>Phone : </span>
                                                                 <span>{donor.phone}</span>
@@ -487,21 +488,21 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Phone Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                         />
                                                                     </div>
                                                                 )}
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
                                                                 <span>Location/Address : </span>
                                                                 <span>{donor.address ?? 'n/a'}</span>
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
                                                                 <span>Gender : </span>
                                                                 <span>{donor.gender ?? 'n/a'}</span>
@@ -514,9 +515,9 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     </div>
                                 ): fulfillment.wish.user_id != currentUser.id && (
                                     <div className="bg-white shadow rounded-lg p-6">
-                                        <div className="border-gray-200 pb-6">
-                                            <h3 className="text-lg font-semibold text-gray-800 flex items-center pb-3 border-b border-gray-200">
-                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-blue-500"/>
+                                        <div className="border-slate-200 pb-6">
+                                            <h3 className="text-lg font-semibold text-slate-800 flex items-center pb-3 border-b border-slate-200">
+                                                <FontAwesomeIcon icon={faUser} className="w-5 h-5 mr-2 text-primary-500"/>
                                                 Wisher Info
                                             </h3>
                                             <div
@@ -524,7 +525,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 {/* Profile Image - First Column */}
                                                 <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
                                                     <div
-                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                                        className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
                                                         {wisher.image ? (
                                                             <img
                                                                 src={`/storage/${wisher.image}`}
@@ -543,15 +544,15 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                 {/* User Info - Second Column */}
                                                 <div className="flex-1 text-center md:text-left w-full">
-                                                    <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{wisher.name}</h2>
-                                                    <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                                    <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">{wisher.name}</h2>
+                                                    <p className="text-sm text-slate-500 mb-3 md:mb-4">
                                                         Member Since {wisher.created_at}
                                                     </p>
 
                                                     <dl className="space-y-2">
                                                         {/* Email with Verification */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
                                                                 <span>Email : </span>
                                                                 <span>{wisher.email}</span>
@@ -567,7 +568,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Email Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                             title="Email Not Verified"
                                                                         />
                                                                     </div>
@@ -577,7 +578,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                                         {/* Phone with Verification - Conditional Display */}
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
                                                                 <span>Phone : </span>
                                                                 <span>{wisher.phone}</span>
@@ -592,21 +593,21 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                                     <div title="Phone Not Verified">
                                                                         <FontAwesomeIcon
                                                                             icon={faTimesCircle}
-                                                                            className="w-4 h-4 text-gray-400"
+                                                                            className="w-4 h-4 text-slate-400"
                                                                         />
                                                                     </div>
                                                                 )}
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faLocation} className="w-3 h-3"/>
                                                                 <span>Location/Address : </span>
                                                                 <span>{wisher.address ?? 'n/a'}</span>
                                                             </dt>
                                                         </div>
                                                         <div>
-                                                            <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                                            <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                                                 <FontAwesomeIcon icon={faMars} className="w-3 h-3"/>
                                                                 <span>Gender : </span>
                                                                 <span>{wisher.gender ?? 'n/a'}</span>
@@ -623,16 +624,16 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                             {/* Wish/Donation Information */}
                             <div className="bg-white rounded-lg shadow-md p-6">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-6 flex items-center">
+                                <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center">
                                 {userType == 'wisher' ? (
                                         <FontAwesomeIcon
                                             icon={faStar}
-                                            className="w-4 h-4 mr-2 text-gray-400"
+                                            className="w-4 h-4 mr-2 text-slate-400"
                                         />
                                     ) : (
                                         <FontAwesomeIcon
                                             icon={faGift}
-                                            className="w-4 h-4 mr-2 text-gray-400"
+                                            className="w-4 h-4 mr-2 text-slate-400"
                                         />
                                     )}
                                     {userType == 'wisher' ? 'Gift Details' : 'Wish Details'}
@@ -642,7 +643,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center">
                                             <div
-                                                className="h-24 w-24 bg-purple-100 rounded-md flex items-center justify-center mr-4">
+                                                className="h-24 w-24 bg-primary-100 rounded-md flex items-center justify-center mr-4">
                                                 {wish.featured_image?.file_path ? (
                                                     <img
                                                         src={`/storage/${wish.featured_image.file_path}`}
@@ -651,14 +652,14 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                     />
                                                 ) : (
                                                     <div
-                                                        className="w-full h-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                                                        <FontAwesomeIcon icon={faStar} className="text-gray-400"/>
+                                                        className="w-full h-full bg-slate-200 flex items-center justify-center overflow-hidden">
+                                                        <FontAwesomeIcon icon={faStar} className="text-slate-400"/>
                                                     </div>
                                                 )}
                                             </div>
                                             <div>
-                                                <h3 className="text-lg font-medium text-gray-900">{wish.title}</h3>
-                                                <p className="text-sm text-gray-500">Age
+                                                <h3 className="text-lg font-medium text-slate-900">{wish.title}</h3>
+                                                <p className="text-sm text-slate-500">Age
                                                     range: {wish.age_range}yrs, {textLimit(wish.description, 10)}</p>
                                                 <div className="mt-1 flex items-center">
                                                     <div className="gap-1">
@@ -667,7 +668,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                             {wish.status}
                                                         </span>
                                                         <span
-                                                            className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                            className="ml-2 bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                         {wish.created_at}
                                                         </span>
                                                     </div>
@@ -689,9 +690,13 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                             })}
                                                             method="get"
                                                             as="button"
-                                                            onClick={(e) => {
-                                                                if (!confirm('Are you sure you want to mark this as delivered?')) {
-                                                                    e.preventDefault();
+                                                            onClick={async (e) => {
+                                                                e.preventDefault();
+                                                                if (await confirmDialog({ title: 'Mark as delivered', message: 'Are you sure you want to mark this as delivered?', confirmLabel: 'Mark As Delivered' })) {
+                                                                    router.get(route('wish.fulfill.status.change', {
+                                                                        fulfilment_id: wish.latest_fulfillment?.id,
+                                                                        status: 'delivered',
+                                                                    }));
                                                                 }
                                                             }}
                                                             className="inline-flex items-center px-3 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700"
@@ -699,11 +704,11 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                             Mark As Delivered
                                                         </Link>
                                                     ) : fulfillment.status == 'delivered' ? (
-                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
+                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-primary-600">
                                                             Waiting for wisher receipt confirmation
                                                         </span>
                                                     ) : fulfillment.status == 'completed' ? (
-                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
+                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-primary-600">
                                                             Fulfilled
                                                         </span>
                                                     ) : null
@@ -734,11 +739,11 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                             </button>
                                                         </div>
                                                     ) : fulfillment.status == 'completed' ?  (
-                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
+                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-primary-600">
                                                             Completed
                                                         </span>
                                                     ) : (
-                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-indigo-600">
+                                                        <span className="inline-flex items-center px-3 py-1 text-sm font-medium rounded-md text-white bg-primary-600">
                                                             {getFulfilmentStatus(fulfillment.status)}
                                                         </span>
                                                     )
@@ -749,7 +754,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         {wish.latest_fulfillment?.status && (
                                             <>
                                                 <span
-                                                    className="ml-2 bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                                                    className="ml-2 bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-0.5 rounded">
                                                     Contributor: {wish.latest_fulfillment?.donation?.user?.name}
                                                 </span>
                                                 <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">
@@ -763,16 +768,16 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                 {/* Admin Controls */}
                                 {checkAdmin(userType) && (
                                     <div className="mt-8 pt-6 border-t">
-                                        <h4 className="text-sm font-medium text-gray-900 mb-4 flex items-center">
+                                        <h4 className="text-sm font-medium text-slate-900 mb-4 flex items-center">
                                             <FontAwesomeIcon
                                                 icon={faUser}
-                                                className="w-4 h-4 mr-2 text-gray-400"
+                                                className="w-4 h-4 mr-2 text-slate-400"
                                             />
                                             Admin Actions
                                         </h4>
                                         <div className="flex space-x-3">
                                             <button
-                                                className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-md text-sm font-medium">
+                                                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-md text-sm font-medium">
                                                 Mark as Resolved
                                             </button>
                                             <button
@@ -781,7 +786,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                             </button>
                                             <Link
                                                 href={`/admin/transactions/${donationItem?.transaction_id}`}
-                                                className="px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-md text-sm font-medium"
+                                                className="px-4 py-2 bg-primary-50 hover:bg-primary-100 text-primary-700 rounded-md text-sm font-medium"
                                             >
                                                 View Transaction Logs
                                             </Link>
@@ -797,34 +802,34 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                     {/* Chat Header */}
                                     <div className="px-6 py-4 border-b">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-lg font-semibold text-gray-900 flex items-center">
+                                            <h3 className="text-lg font-semibold text-slate-900 flex items-center">
                                                 <FontAwesomeIcon
                                                     icon={faMessage}
-                                                    className="w-4 h-4 mr-2 text-gray-400"
+                                                    className="w-4 h-4 mr-2 text-slate-400"
                                                 />
                                                 Direct Chat
                                             </h3>
-                                            <p className="text-sm text-gray-600 mt-1 flex items-center">
+                                            <p className="text-sm text-slate-600 mt-1 flex items-center">
                                                 <span
                                                     className={`w-3 h-3 rounded-full mr-2 ${
-                                                        isUserOnline(otherUser.id) ? 'bg-green-500' : 'bg-gray-400'
+                                                        isUserOnline(otherUser.id) ? 'bg-green-500' : 'bg-slate-400'
                                                     }`}
                                                 />
                                                 {isUserOnline(otherUser.id) ? 'Online' : 'Offline'}
                                             </p>
-                                            <div className="text-sm text-gray-500">
+                                            <div className="text-sm text-slate-500">
                                                 {userType == 'admin' && (
                                                     <span className="flex items-center">
-                                              <Shield className="w-4 h-4 mr-1"/>
+                                              <FontAwesomeIcon icon={faShieldHalved} className="w-4 h-4 mr-1" aria-hidden="true"/>
                                               Admin View
                                             </span>
                                                 )}
                                             </div>
                                         </div>
-                                        <p className="text-sm text-gray-600 mt-1">
+                                        <p className="text-sm text-slate-600 mt-1">
                                             Chat between
-                                            <span className="text-blue-700 font-bold mx-1">{wisher.name}</span> and
-                                            <span className="text-purple-700 font-bold mx-1">{donor.name}</span>
+                                            <span className="text-primary-700 font-bold mx-1">{wisher.name}</span> and
+                                            <span className="text-primary-700 font-bold mx-1">{donor.name}</span>
                                         </p>
                                     </div>
 
@@ -834,10 +839,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         className="flex-1 overflow-y-auto p-4 space-y-4 max-h-[500px]"
                                     >
                                         {messages.length == 0 ? (
-                                            <div className="text-center py-8 text-gray-500">
+                                            <div className="text-center py-8 text-slate-500">
                                                 <FontAwesomeIcon
                                                     icon={faUser}
-                                                    className="w-4 h-4 mr-2 text-gray-400"
+                                                    className="w-4 h-4 mr-2 text-slate-400"
                                                 />
                                                 <p>No messages yet</p>
                                                 <p className="text-sm mt-1">Start the conversation!</p>
@@ -850,15 +855,15 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 >
                                                     <div
                                                         className={`max-w-[70%] rounded-lg px-4 py-2 ${message.sender_id == currentUser.id
-                                                            ? 'bg-blue-100 text-blue-900 rounded-br-none'
-                                                            : 'bg-gray-100 text-gray-900 rounded-bl-none'
+                                                            ? 'bg-primary-100 text-primary-900 rounded-br-none'
+                                                            : 'bg-slate-100 text-slate-900 rounded-bl-none'
                                                         }`}
                                                     >
                                                         <div className="flex items-center justify-between mb-1">
                                                     <span className="font-medium text-sm mr-2">
                                                       {message.sender_id == currentUser.id ? 'You' : message.sender.name}
                                                     </span>
-                                                            <span className="text-xs text-gray-500">
+                                                            <span className="text-xs text-slate-500">
                                                       {new Date(message.created_at).toLocaleTimeString([], {
                                                           hour: '2-digit',
                                                           minute: '2-digit'
@@ -873,21 +878,21 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         {message.file && (
                                                             <div
                                                                 className={`flex items-center p-2 rounded ${message.message.sender_id == currentUser.id
-                                                                    ? 'bg-blue-50'
-                                                                    : 'bg-gray-50'
+                                                                    ? 'bg-primary-50'
+                                                                    : 'bg-slate-50'
                                                                 }`}>
                                                                 <FontAwesomeIcon
                                                                     icon={faUser}
-                                                                    className="w-4 h-4 mr-2 text-gray-400"
+                                                                    className="w-4 h-4 mr-2 text-slate-400"
                                                                 />
                                                                 <span className="text-sm truncate flex-1">
                                                             {/*{message.file.name || message.file}*/}
                                                           </span>
                                                                 <button
-                                                                    className="ml-2 text-blue-600 hover:text-blue-800">
+                                                                    className="ml-2 text-primary-600 hover:text-primary-800">
                                                                     <FontAwesomeIcon
                                                                         icon={faUser}
-                                                                        className="w-4 h-4 mr-2 text-gray-400"
+                                                                        className="w-4 h-4 mr-2 text-slate-400"
                                                                     />
                                                                 </button>
                                                             </div>
@@ -904,11 +909,11 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                             {/* Selected File Preview */}
                                             {selectedFile && (
                                                 <div
-                                                    className="mb-3 p-3 bg-blue-50 rounded-lg flex items-center justify-between">
+                                                    className="mb-3 p-3 bg-primary-50 rounded-lg flex items-center justify-between">
                                                     <div className="flex items-center">
                                                         <FontAwesomeIcon
                                                             icon={faUser}
-                                                            className="w-4 h-4 mr-2 text-gray-400"
+                                                            className="w-4 h-4 mr-2 text-slate-400"
                                                         />
                                                         <span className="text-sm truncate flex-1">
                                                     {selectedFile.name}
@@ -916,11 +921,11 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                     </div>
                                                     <button
                                                         onClick={removeSelectedFile}
-                                                        className="ml-2 text-gray-500 hover:text-gray-700"
+                                                        className="ml-2 text-slate-500 hover:text-slate-700"
                                                     >
                                                         <FontAwesomeIcon
                                                             icon={faUser}
-                                                            className="w-4 h-4 mr-2 text-gray-400"
+                                                            className="w-4 h-4 mr-2 text-slate-400"
                                                         />
                                                     </button>
                                                 </div>
@@ -948,16 +953,16 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         {/*    />*/}
                                                         {/*    <label*/}
                                                         {/*        htmlFor="file-upload"*/}
-                                                        {/*        className="flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 cursor-pointer"*/}
+                                                        {/*        className="flex items-center px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"*/}
                                                         {/*    >*/}
                                                         {/*        <FontAwesomeIcon*/}
                                                         {/*            icon={faUser}*/}
-                                                        {/*            className="w-4 h-4 mr-2 text-gray-400"*/}
+                                                        {/*            className="w-4 h-4 mr-2 text-slate-400"*/}
                                                         {/*        />*/}
                                                         {/*        Attach*/}
                                                         {/*    </label>*/}
 
-                                                        {/*    <div className="text-xs text-gray-500">*/}
+                                                        {/*    <div className="text-xs text-slate-500">*/}
                                                         {/*        Max 10MB*/}
                                                         {/*    </div>*/}
                                                         {/*</div>*/}
@@ -965,7 +970,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                         <button
                                                             type="submit"
                                                             // disabled={(!newMessage.trim() && !selectedFile) || isUploading}
-                                                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                                                            className="bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
                                                         >
                                                             {isUploading ? (
                                                                 <>
@@ -992,10 +997,10 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
 
                                     {/* Admin Chat Note */}
                                     {userType == 'admin' && (
-                                        <div className="p-6 text-center text-gray-500 border-t">
+                                        <div className="p-6 text-center text-slate-500 border-t">
                                             <FontAwesomeIcon
                                                 icon={faUser}
-                                                className="w-4 h-4 mr-2 text-gray-400"
+                                                className="w-4 h-4 mr-2 text-slate-400"
                                             />
                                             <p className="text-sm">
                                                 As an admin, you can monitor the conversation.
@@ -1031,7 +1036,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         : 'Report Issue / Request Return'}
                                 </h2>
 
-                                <p className="text-sm text-gray-600 mb-4">
+                                <p className="text-sm text-slate-600 mb-4">
                                     {actionType == 'confirm'
                                         ? 'Please confirm that you received the donation successfully.'
                                         : 'Please describe the issue clearly so we can review it.'}
@@ -1089,7 +1094,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                             {/*            Array.from(e.target.files)*/}
                             {/*        )*/}
                             {/*    }*/}
-                            {/*    className="block w-full text-sm text-gray-600"*/}
+                            {/*    className="block w-full text-sm text-slate-600"*/}
                             {/*/>*/}
 
                             {/* Actions */}
@@ -1101,7 +1106,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                         setActionType(null);
                                         actionForm.reset();
                                     }}
-                                    className="px-4 py-2 text-white bg-gray-400 rounded"
+                                    className="px-4 py-2 text-white bg-slate-400 rounded"
                                 >
                                     Cancel
                                 </button>

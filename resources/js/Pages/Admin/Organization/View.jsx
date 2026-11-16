@@ -10,7 +10,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
         <AuthenticatedLayout>
             <Head title="Organization Detail"/>
             <div>
-                <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white py-8 px-6">
+                <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white py-8 px-6">
                     <div className="max-w-6xl mx-auto">
                         <div className="flex flex-col md:flex-row items-center">
                             <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
@@ -24,7 +24,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
-                                        <i className="fas fa-school text-blue-500 text-4xl"></i>
+                                        <i className="fas fa-school text-primary-500 text-4xl"></i>
                                     )}
 
 
@@ -47,7 +47,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                             </div>
                             <div className="ml-auto mt-4 md:mt-0">
                                 <button
-                                    className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+                                    className="bg-white text-primary-600 px-4 py-2 rounded-lg font-semibold hover:bg-primary-50 transition-colors">
                                     Join Organization
                                 </button>
                             </div>
@@ -61,17 +61,17 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                             'organization_id' : organization.id
                         })}>
                             <div
-                                className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-blue-500">
+                                className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-primary-500">
                                 <div className="px-4 py-5 sm:p-6">
                                     <div className="flex items-center">
-                                        <div className="flex-shrink-0 bg-blue-100 rounded-md p-3">
-                                            <i className="fas fa-users text-blue-600"></i>
+                                        <div className="flex-shrink-0 bg-primary-100 rounded-md p-3">
+                                            <i className="fas fa-users text-primary-600"></i>
                                         </div>
                                         <div className="ml-5 w-0 flex-1">
                                             <dl>
-                                                <dt className="text-sm font-medium text-gray-500 truncate">Total Members</dt>
+                                                <dt className="text-sm font-medium text-slate-500 truncate">Total Members</dt>
                                                 <dd className="flex items-baseline">
-                                                    <div className="text-2xl font-semibold text-gray-900">{totalMembers}</div>
+                                                    <div className="text-2xl font-semibold text-slate-900">{totalMembers}</div>
                                                 </dd>
                                             </dl>
                                         </div>
@@ -89,9 +89,9 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                     </div>
                                     <div className="ml-5 w-0 flex-1">
                                         <dl>
-                                            <dt className="text-sm font-medium text-gray-500 truncate">Wishes Fulfilled</dt>
+                                            <dt className="text-sm font-medium text-slate-500 truncate">Wishes Fulfilled</dt>
                                             <dd className="flex items-baseline">
-                                                <div className="text-2xl font-semibold text-gray-900">{fulfilledWishCount}</div>
+                                                <div className="text-2xl font-semibold text-slate-900">{fulfilledWishCount}</div>
                                             </dd>
                                         </dl>
                                     </div>
@@ -112,10 +112,10 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                         </div>
                                         <div className="ml-5 w-0 flex-1">
                                             <dl>
-                                                <dt className="text-sm font-medium text-gray-500 truncate">Total Wishes</dt>
+                                                <dt className="text-sm font-medium text-slate-500 truncate">Total Wishes</dt>
                                                 <dd className="flex items-baseline">
                                                     <div
-                                                        className="text-2xl font-semibold text-gray-900">{activeWishCount}</div>
+                                                        className="text-2xl font-semibold text-slate-900">{activeWishCount}</div>
                                                 </dd>
                                             </dl>
                                         </div>
@@ -125,7 +125,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                         </div>
 
                         <div
-                            className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-purple-500">
+                            className="stats-card bg-white overflow-hidden shadow rounded-lg border-l-4 border-primary-500">
 
                             <Link
                                 href={route('donations.index', {
@@ -133,16 +133,16 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                 })}>
                                 <div className="px-4 py-5 sm:p-6">
                                     <div className="flex items-center">
-                                        <div className="flex-shrink-0 bg-purple-100 rounded-md p-3">
-                                            <i className="fas fa-hand-holding-heart text-purple-600"></i>
+                                        <div className="flex-shrink-0 bg-primary-100 rounded-md p-3">
+                                            <i className="fas fa-hand-holding-heart text-primary-600"></i>
                                         </div>
                                         <div className="ml-5 w-0 flex-1">
                                             <dl>
-                                                <dt className="text-sm font-medium text-gray-500 truncate">Total Gifts
+                                                <dt className="text-sm font-medium text-slate-500 truncate">Total Gifts
                                                 </dt>
                                                 <dd className="flex items-baseline">
                                                     <div
-                                                        className="text-2xl font-semibold text-gray-900">{availableDonationCount}</div>
+                                                        className="text-2xl font-semibold text-slate-900">{availableDonationCount}</div>
                                                 </dd>
                                             </dl>
                                         </div>
@@ -155,9 +155,9 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div className="lg:col-span-2">
                             <div className="bg-white shadow rounded-lg p-6 mb-8">
-                                <h2 className="text-xl font-semibold text-gray-900 mb-4">About Our Organization</h2>
-                                <p className="text-gray-600 mb-4">{organization.description}</p>
-                                <div className="flex items-center text-sm text-gray-500">
+                                <h2 className="text-xl font-semibold text-slate-900 mb-4">About Our Organization</h2>
+                                <p className="text-slate-600 mb-4">{organization.description}</p>
+                                <div className="flex items-center text-sm text-slate-500">
                                     <i className="fas fa-clock mr-2"></i>
                                     <span>Joined ThreeWish: {organization.created_at}</span>
                                 </div>
@@ -165,17 +165,17 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
 
                             <div className="bg-white shadow rounded-lg p-6">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-xl font-semibold text-gray-900">Recent Gifts</h2>
+                                    <h2 className="text-xl font-semibold text-slate-900">Recent Gifts</h2>
                                     <Link
                                         href={route('donation.index', {
                                             'organization_id' : organization.id
                                         })}
-                                        className="text-sm text-blue-600 hover:text-blue-800">View All
+                                        className="text-sm text-primary-600 hover:text-primary-800">View All
                                     </Link>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <div className="donation-card bg-gray-50 p-4 rounded-lg">
+                                    <div className="donation-card bg-slate-50 p-4 rounded-lg">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0 mr-4">
                                                 <div
@@ -184,9 +184,9 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                                 </div>
                                             </div>
                                             <div className="flex-1">
-                                                <h3 className="font-medium text-gray-900">Children's Books
+                                                <h3 className="font-medium text-slate-900">Children's Books
                                                     Collection</h3>
-                                                <p className="text-sm text-gray-500">Donated by Sarah Johnson • 2 days
+                                                <p className="text-sm text-slate-500">Donated by Sarah Johnson • 2 days
                                                     ago</p>
                                             </div>
                                             <div className="text-right">
@@ -196,18 +196,18 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                         </div>
                                     </div>
 
-                                    <div className="donation-card bg-gray-50 p-4 rounded-lg">
+                                    <div className="donation-card bg-slate-50 p-4 rounded-lg">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0 mr-4">
                                                 <div
-                                                    className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                                    <i className="fas fa-tshirt text-blue-600"></i>
+                                                    className="h-12 w-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                                    <i className="fas fa-tshirt text-primary-600"></i>
                                                 </div>
                                             </div>
                                             <div className="flex-1">
-                                                <h3 className="font-medium text-gray-900">Winter Coats (Various
+                                                <h3 className="font-medium text-slate-900">Winter Coats (Various
                                                     Sizes)</h3>
-                                                <p className="text-sm text-gray-500">Donated by Robert Chen • 5 days
+                                                <p className="text-sm text-slate-500">Donated by Robert Chen • 5 days
                                                     ago</p>
                                             </div>
                                             <div className="text-right">
@@ -217,18 +217,18 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                         </div>
                                     </div>
 
-                                    <div className="donation-card bg-gray-50 p-4 rounded-lg">
+                                    <div className="donation-card bg-slate-50 p-4 rounded-lg">
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0 mr-4">
                                                 <div
-                                                    className="h-12 w-12 bg-purple-100 rounded-full flex items-center justify-center">
-                                                    <i className="fas fa-laptop text-purple-600"></i>
+                                                    className="h-12 w-12 bg-primary-100 rounded-full flex items-center justify-center">
+                                                    <i className="fas fa-laptop text-primary-600"></i>
                                                 </div>
                                             </div>
                                             <div className="flex-1">
-                                                <h3 className="font-medium text-gray-900">Laptops for Distance
+                                                <h3 className="font-medium text-slate-900">Laptops for Distance
                                                     Learning</h3>
-                                                <p className="text-sm text-gray-500">Donated by Tech4Good Foundation • 1
+                                                <p className="text-sm text-slate-500">Donated by Tech4Good Foundation • 1
                                                     week ago</p>
                                             </div>
                                             <div className="text-right">
@@ -244,7 +244,7 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                         href={route('donations.index',{
                                             'organization_id' : organization.id
                                         })}
-                                        className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                                        className="w-full mt-6 bg-slate-100 text-slate-700 py-2 rounded-lg font-medium hover:bg-slate-200 transition-colors">
                                         Load More Gifts
                                     </Link>
                                 </div>
@@ -254,24 +254,24 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                         <div>
                             <div className="bg-white shadow rounded-lg p-6 mb-8">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h2 className="text-xl font-semibold text-gray-900">Organization Members</h2>
+                                    <h2 className="text-xl font-semibold text-slate-900">Organization Members</h2>
                                     <span
-                                        className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">{totalMembers} Members</span>
+                                        className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-0.5 rounded">{totalMembers} Members</span>
                                 </div>
 
                                 <div className="space-y-4">
                                     {totalMembers > 0 ?
                                         (
-                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
+                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-slate-50">
                                                 <div className="flex-shrink-0 mr-4">
                                                     <div
-                                                        className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                                        <span className="font-medium text-blue-600">M</span>
+                                                        className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center">
+                                                        <span className="font-medium text-primary-600">M</span>
                                                     </div>
                                                 </div>
                                                 <div className="flex-1">
-                                                    <h3 className="font-medium text-gray-900">Maria Rodriguez</h3>
-                                                    <p className="text-sm text-gray-500">Principal</p>
+                                                    <h3 className="font-medium text-slate-900">Maria Rodriguez</h3>
+                                                    <p className="text-sm text-slate-500">Principal</p>
                                                 </div>
                                                 <div className="text-right">
                                             <span
@@ -280,9 +280,9 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                             </div>
                                         ) :
                                         (
-                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-gray-50">
+                                            <div className="member-card flex items-center p-3 rounded-lg hover:bg-slate-50">
                                                 <div className="flex-1 text-center">
-                                                    <p className="text-sm text-gray-500">No user</p>
+                                                    <p className="text-sm text-slate-500">No user</p>
                                                 </div>
                                             </div>
                                         )
@@ -294,13 +294,13 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                             href={route('users.index',{
                                                 'organization_id' : organization.id
                                             })}
-                                            className="w-full mt-6 bg-gray-100 text-gray-700 py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                                            className="w-full mt-6 bg-slate-100 text-slate-700 py-2 rounded-lg font-medium hover:bg-slate-200 transition-colors">
                                             View All Members
                                         </Link>
                                     ):(
                                         <button
                                             onClick={() => window.history.back()}
-                                            className="w-full mt-6 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                                            className="w-full mt-6 bg-primary-600 text-white py-2 rounded-lg font-medium hover:bg-slate-200 transition-colors">
                                             <FontAwesomeIcon icon={faArrowLeft}/>
                                             <span>Back</span>
                                         </button>
@@ -309,29 +309,29 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                             </div>
 
                             <div className="bg-white shadow rounded-lg p-6">
-                                <h2 className="text-xl font-semibold text-gray-900 mb-4">Organization Actions</h2>
+                                <h2 className="text-xl font-semibold text-slate-900 mb-4">Organization Actions</h2>
                                 <div className="space-y-3">
                                     <Link
                                         href={route('wishes.create')}
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                                        className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
                                         <FontAwesomeIcon icon={faPlusCircle}/> Create Wish for Organization
                                     </Link>
                                     <Link
                                         href={route('organizations.edit', organization.id)}
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                        className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">
                                         <FontAwesomeIcon icon={faEdit}/> Edit Organization
                                     </Link>
 
                                     <Link
                                         href={route('organizations.index')}
-                                        className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                        className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">
                                         <FontAwesomeIcon icon={faList}/> Organization List
                                     </Link>
 
                                     <button
                                         type="button"
                                         onClick={() => window.history.back()}
-                                        className="w-full flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                        className="w-full flex items-center justify-center bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                                     >
                                         <div className="flex items-center space-x-2">
                                             <FontAwesomeIcon icon={faArrowLeft}/>
@@ -339,11 +339,11 @@ const View = ({module,organization,availableDonationCount,activeWishCount,fulfil
                                         </div>
                                     </button>
                                     {/*<button*/}
-                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">*/}
+                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">*/}
                                     {/*    <i className="fas fa-envelope mr-2"></i> Message Organization*/}
                                     {/*</button>*/}
                                     {/*<button*/}
-                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">*/}
+                                    {/*    className="w-full flex items-center justify-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50">*/}
                                     {/*    <i className="fas fa-share-alt mr-2"></i> Share Organization*/}
                                     {/*</button>*/}
                                 </div>

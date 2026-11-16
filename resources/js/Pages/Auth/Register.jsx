@@ -11,11 +11,50 @@ import {
     faSpinner,
     faSearch,
     faMapMarkerAlt,
-    faClose, faUser, faBuilding,
+    faClose, faUser, faBuilding, faGift, faStar, faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import AuthShell from "@/Components/UI/AuthShell";
+import Alert from "@/Components/UI/Alert";
+import UIButton from "@/Components/UI/Button";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Button} from "@headlessui/react";
 import CustomCreatableSelect from "@/Components/CreatableSelect.jsx";
+
+function ChoiceCard({ selected, onSelect, icon, title, desc, tone = 'primary' }) {
+    return (
+    <button
+        type="button"
+        role="radio"
+        aria-checked={selected}
+        onClick={onSelect}
+        className={`flex flex-1 items-center gap-4 rounded-xl border-2 p-4 text-left transition ${
+            selected
+                ? (tone === 'primary' ? 'border-primary-500 bg-primary-50/60' : 'border-secondary-400 bg-secondary-50')
+                : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+        }`}
+    >
+        <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg ${
+            selected ? (tone === 'primary' ? 'bg-primary-600 text-white' : 'bg-secondary-300 text-slate-900') : 'bg-slate-100 text-slate-500'
+        }`}>
+            {icon}
+        </span>
+        <span className="min-w-0">
+            <span className="block font-semibold text-slate-900">{title}</span>
+            <span className="block text-sm text-slate-500">{desc}</span>
+        </span>
+        <FontAwesomeIcon icon={faCircleCheck} className={`ml-auto h-5 w-5 shrink-0 ${selected ? (tone === 'primary' ? 'text-primary-600' : 'text-secondary-600') : 'text-transparent'}`} aria-hidden="true" />
+    </button>
+    );
+}
+
+function SectionTitle({ step, children }) {
+    return (
+    <h2 className="flex items-center gap-3 text-base font-semibold text-slate-900">
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-primary-50 text-xs font-bold text-primary-700">{step}</span>
+        {children}
+    </h2>
+    );
+}
 
 export default function Register({guardianRelations,genders,organizations}) {
     // State to manage the selected role
@@ -25,6 +64,16 @@ export default function Register({guardianRelations,genders,organizations}) {
     const searchTimeoutRef = useRef(null);
     const autocompleteService = useRef(null);
     const placesService = useRef(null);
+
+    // Preselect the role passed by "Sign Up as Contributor / Wisher" links (?role=donor|wisher).
+    const initialRole = (() => {
+        try {
+            const r = new URLSearchParams(window.location.search).get('role');
+            return ['donor', 'wisher'].includes(r) ? r : 'donor';
+        } catch (e) {
+            return 'donor';
+        }
+    })();
 
     // State to manage all form data
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -39,7 +88,7 @@ export default function Register({guardianRelations,genders,organizations}) {
         longitude: '',
         password: '',
         user_type: 'person',
-        role: 'donor',
+        role: initialRole,
 
         organization: '',
         guardian_name: '',
@@ -253,428 +302,310 @@ export default function Register({guardianRelations,genders,organizations}) {
     // Check if Google Maps is available
     const isGoogleMapsAvailable = !!window.google;
 
+    const radioKeys = (field, values) => (e) => {
+        if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(e.key)) return;
+        e.preventDefault();
+        const idx = values.indexOf(data[field]);
+        const next = values[(idx + (['ArrowRight', 'ArrowDown'].includes(e.key) ? 1 : -1) + values.length) % values.length];
+        setData(field, next);
+    };
+
     return (
         <GuestLayout>
             <Head title="Register"/>
-            <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="card bg-white rounded-lg shadow-lg overflow-hidden">
-                    <div className="bg-gradient-to-r from-primary to-secondary text-white py-8 px-6 text-center">
-                        <h1 className="text-3xl font-bold mb-2">Join ThreeWish</h1>
-                        <p className="text-lg">Create an account to start sharing or making wishes</p>
-                    </div>
+            <AuthShell
+                wide
+                title="Join ThreeWish"
+                subtitle="Create an account to start sharing or making wishes"
+                footer={<>
+                    Already have an account?
+                    <Link href={route('login')} className="ml-1 font-semibold text-primary-700 hover:underline">Log In</Link>
+                </>}
+            >
+                <form onSubmit={submit} className="space-y-10">
+                    <section className="space-y-4">
+                        <SectionTitle step="1">Sign Up As:</SectionTitle>
+                        <div role="radiogroup" aria-label="Sign Up As" className="flex flex-col gap-3 sm:flex-row" onKeyDown={radioKeys('user_type', ['person', 'organization'])}>
+                            <ChoiceCard
+                                selected={data.user_type === 'person'}
+                                onSelect={() => setData('user_type', 'person')}
+                                icon={<FontAwesomeIcon icon={faUser} className="h-4 w-4" />}
+                                title="Person/Individual"
+                                desc="Register as an individual"
+                            />
+                            <ChoiceCard
+                                tone="gold"
+                                selected={data.user_type === 'organization'}
+                                onSelect={() => setData('user_type', 'organization')}
+                                icon={<FontAwesomeIcon icon={faBuilding} className="h-4 w-4" />}
+                                title="Organization"
+                                desc="Register as an organization"
+                            />
+                        </div>
 
-                    <form onSubmit={submit} className="space-y-6">
-                        <div className="px-6 pb-8 mt-5">
-                            <br/>
-                            <h2 className="text-xl font-semibold text-accent mb-4">Sign Up As:</h2>
-                            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                                <div
-                                    onClick={() => setData('user_type', 'person')}
-                                    className={`flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
-                                        data.user_type === 'person'
-                                            ? 'border-primary bg-primary/5 shadow-md'
-                                            : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
-                                    }`}
-                                    data-user-type="person"
-                                >
-                                    <div className="flex-shrink-0 mr-4">
-                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                            data.user_type === 'person'
-                                                ? 'bg-primary text-white'
-                                                : 'bg-gray-100 text-gray-600'
-                                        }`}>
-                                            <FontAwesomeIcon icon={faUser} className="w-5 h-5"/>
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        <h3 className="font-semibold text-accent">Person/Individual</h3>
-                                        <p className="text-sm text-neutral/70 mt-1">Register as an individual</p>
-                                    </div>
-                                    {/*{data.user_type === 'person' && (*/}
-                                    {/*    <div className="ml-auto">*/}
-                                    {/*        <svg className="w-5 h-5 text-primary" fill="currentColor"*/}
-                                    {/*             viewBox="0 0 20 20">*/}
-                                    {/*            <path fillRule="evenodd"*/}
-                                    {/*                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"*/}
-                                    {/*                  clipRule="evenodd"/>*/}
-                                    {/*        </svg>*/}
-                                    {/*    </div>*/}
-                                    {/*)}*/}
-                                </div>
+                        <h3 className="pt-2 text-sm font-semibold text-slate-800">I want to:</h3>
+                        <div role="radiogroup" aria-label="I want to" className="flex flex-col gap-3 sm:flex-row" onKeyDown={radioKeys('role', ['donor', 'wisher'])}>
+                            <ChoiceCard
+                                selected={data.role === 'donor'}
+                                onSelect={() => setData('role', 'donor')}
+                                icon={<FontAwesomeIcon icon={faGift} className="h-4 w-4" />}
+                                title="Donate Items"
+                                desc="Share items with children"
+                            />
+                            <ChoiceCard
+                                tone="gold"
+                                selected={data.role === 'wisher'}
+                                onSelect={() => setData('role', 'wisher')}
+                                icon={<FontAwesomeIcon icon={faStar} className="h-4 w-4" />}
+                                title="Make a Wish"
+                                desc="Request items you need"
+                            />
+                        </div>
+                    </section>
 
-                                <div
-                                    onClick={() => setData('user_type', 'organization')}
-                                    className={`flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
-                                        data.user_type === 'organization'
-                                            ? 'border-secondary bg-secondary/5 shadow-md'
-                                            : 'border-gray-200 hover:border-secondary/50 hover:bg-gray-50'
-                                    }`}
-                                    data-user-type="organization"
-                                >
-                                    <div className="flex-shrink-0 mr-4">
-                                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                                            data.user_type === 'organization'
-                                                ? 'bg-secondary text-white'
-                                                : 'bg-gray-100 text-gray-600'
-                                        }`}>
-                                            <FontAwesomeIcon icon={faBuilding} className="w-5 h-5"/>
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        <h3 className="font-semibold text-accent">Organization</h3>
-                                        <p className="text-sm text-neutral/70 mt-1">Register as an organization</p>
-                                    </div>
-                                    {/*{data.user_type === 'organization' && (*/}
-                                    {/*    <div className="ml-auto">*/}
-                                    {/*        <svg className="w-5 h-5 text-secondary" fill="currentColor"*/}
-                                    {/*             viewBox="0 0 20 20">*/}
-                                    {/*            <path fillRule="evenodd"*/}
-                                    {/*                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"*/}
-                                    {/*                  clipRule="evenodd"/>*/}
-                                    {/*        </svg>*/}
-                                    {/*    </div>*/}
-                                    {/*)}*/}
-                                </div>
-                            </div>
+                    <section className="space-y-5">
+                        <SectionTitle step="2">{data.user_type === 'person' ? 'Your details' : 'Organization details'}</SectionTitle>
+                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                            <TextInput
+                                id="name"
+                                label={data.user_type === 'person' ? 'Full Name' : 'Organization Name'}
+                                value={data.name}
+                                onChange={(e) => setData('name', e.target.value)}
+                                error={errors.name}
+                                placeholder={data.user_type === 'person' ? 'Enter Name' : 'Enter Organization Name'}
+                                autoComplete={data.user_type === 'person' ? 'name' : 'organization'}
+                                required
+                            />
 
-                            <h2 className="text-xl font-semibold text-accent mb-4">I want to:</h2>
-                            <div className="flex flex-col sm:flex-row gap-3 mb-6">
-                                <div
-                                    onClick={() => setData('role', 'donor')}
-                                    className={`role-option flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
-                                        data.role === 'donor'
-                                            ? 'border-primary bg-primary/5 shadow-md'
-                                            : 'border-gray-200 hover:border-primary/50 hover:bg-gray-50'
-                                    }`}
-                                    data-role="donor"
-                                >
-                                    <div className="flex-shrink-0 mr-4">
-                                        <div
-                                            className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
-                                                data.role === 'donor'
-                                                    ? 'bg-primary text-white'
-                                                    : 'bg-gray-100 text-gray-600'
-                                            }`}>
-                                            🎁
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        <h3 className="font-semibold text-accent">Donate Items</h3>
-                                        <p className="text-sm text-neutral/70 mt-1">Share items with children</p>
-                                    </div>
-                                    {data.role === 'donor' && (
-                                        <div className="ml-auto">
-                                            <svg className="w-5 h-5 text-primary" fill="currentColor"
-                                                 viewBox="0 0 20 20">
-                                                <path fillRule="evenodd"
-                                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                      clipRule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                    )}
-                                </div>
+                            <TextInput
+                                id="phone"
+                                label={data.user_type === 'person' ? 'Phone(11 digit)' : 'Organization Phone(11 digit)'}
+                                type="number"
+                                value={data.phone}
+                                onChange={(e) => setData('phone', e.target.value)}
+                                error={errors.phone}
+                                placeholder="Phone number: 017********"
+                                autoComplete="tel"
+                                required
+                            />
+                            <TextInput
+                                id="email"
+                                label={data.user_type === 'person' ? 'Email' : 'Organization Email'}
+                                value={data.email}
+                                type="email"
+                                onChange={(e) => setData('email', e.target.value)}
+                                error={errors.email}
+                                placeholder="Enter email address"
+                                autoComplete="email"
+                                {...(data.user_type === 'organization' ? {required: true} : {})}
+                            />
 
-                                <div
-                                    onClick={() => setData('role', 'wisher')}
-                                    className={`role-option flex items-center p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer flex-1 ${
-                                        data.role === 'wisher'
-                                            ? 'border-secondary bg-secondary/5 shadow-md'
-                                            : 'border-gray-200 hover:border-secondary/50 hover:bg-gray-50'
-                                    }`}
-                                    data-role="wisher"
-                                >
-                                    <div className="flex-shrink-0 mr-4">
-                                        <div
-                                            className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${
-                                                data.role === 'wisher'
-                                                    ? 'bg-secondary text-white'
-                                                    : 'bg-gray-100 text-gray-600'
-                                            }`}>
-                                            ✨
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        <h3 className="font-semibold text-accent">Make a Wish</h3>
-                                        <p className="text-sm text-neutral/70 mt-1">Request items you need</p>
-                                    </div>
-                                    {data.role === 'wisher' && (
-                                        <div className="ml-auto">
-                                            <svg className="w-5 h-5 text-secondary" fill="currentColor"
-                                                 viewBox="0 0 20 20">
-                                                <path fillRule="evenodd"
-                                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                                      clipRule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <TextInput
-                                    id="name"
-                                    label={data.user_type === 'person' ? 'Full Name' : 'Organization Name'}
-                                    value={data.name}
-                                    onChange={(e) => setData('name', e.target.value)}
-                                    error={errors.name}
-                                    placeholder={data.user_type === 'person' ? 'Enter Name' : 'Enter Organization Name'}
-                                    required
-                                />
+                            <DateInput
+                                id="dob"
+                                label={data.user_type === 'person' ? 'Date of Birth' : 'Establishment Date'}
+                                value={data.dob}
+                                onChange={(value) => setData('dob', value)}
+                                error={errors.dob}
+                                placeholder={data.user_type === 'person' ? 'Select DOB' : 'Select Establishment Date'}
+                                required
+                            />
 
-                                <TextInput
-                                    id="phone"
-                                    label={data.user_type === 'person' ? 'Phone(11 digit)' : 'Organization Phone(11 digit)'}
-                                    type="number"
-                                    value={data.phone}
-                                    onChange={(e) => setData('phone', e.target.value)}
-                                    error={errors.phone}
-                                    placeholder="Phone number: 017********"
-                                    required
-                                />
-                                <TextInput
-                                    id="email"
-                                    label={data.user_type === 'person' ? 'Email' : 'Organization Email'}
-                                    value={data.email}
-                                    type="email"
-                                    onChange={(e) => setData('email', e.target.value)}
-                                    error={errors.email}
-                                    placeholder="Enter email address"
-                                    {...(data.user_type === 'organization' ? {required: true} : {})}
-                                />
-
-                                <DateInput
-                                    id="dob"
-                                    label={data.user_type === 'person' ? 'Date of Birth' : 'Establishment Date'}
-                                    value={data.dob}
-                                    onChange={(value) => setData('dob', value)}
-                                    error={errors.dob}
-                                    placeholder={data.user_type === 'person' ? 'Select DOB' : 'Select Establishment Date'}
-                                    required
-                                />
-
-
-                                {data.user_type === 'person' && (
-                                    <>
-                                        <CustomCreatableSelect
-                                            id="organization"
-                                            label="Org/Institution/School(select or type to create new)"
-                                            value={data.organization}
-                                            onChange={(value) => setData('organization', value)}
-                                            options={organizations}
-                                            error={errors.organization}
-                                            placeholder="Select or type to create new organization"
-                                        />
-                                        <SelectInput
-                                            id="gender"
-                                            label="Select Gender"
-                                            value={data.gender}
-                                            onChange={(e) => setData('gender', e.target.value)}
-                                            error={errors.gender}
-                                            options={genderOptions}
-                                            required
-                                        />
-                                    </>
-                                )}
-
-                                <TextInput
-                                    id="password"
-                                    label="Password(min 8 character)"
-                                    value={data.password}
-                                    type="password"
-                                    onChange={(e) => setData('password', e.target.value)}
-                                    error={errors.password}
-                                    placeholder="Enter password. Min 8 character"
-                                    required
-                                />
-
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-6 mt-5">
-                                <FileInput
-                                    id="photo"
-                                    label={data.user_type === 'person' ? 'Profile Photo(png,jpg,jpeg)' : 'Logo(png,jpg,jpeg)'}
-                                    onFileChange={(file) => handleFileChange('photo', file)}
-                                    currentFileUrl={data?.photo || null}
-                                    error={errors.photo}
-                                    accept="image/png, image/jpg, image/jpeg"
-                                />
-                            </div>
-
-                            {/* Wisher-specific fields (Conditional Rendering) */}
-                            {(data.user_type === 'person' && calculateAge(data.dob) < 18 && data.role !== 'donor') && (
+                            {data.user_type === 'person' && (
                                 <>
-                                    <h3 className="text-lg font-semibold mt-4 mb-2 text-gray-800">Guardian
-                                        Information</h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <TextInput
-                                            id="guardian_name"
-                                            label="Guardian Name"
-                                            value={data.guardian_name}
-                                            onChange={(e) => setData('guardian_name', e.target.value)}
-                                            error={errors.guardian_name}
-                                            placeholder="Enter guardian name"
-                                        />
-                                        <TextInput
-                                            id="guardian_phone"
-                                            label="Guardian Phone"
-                                            value={data.guardian_phone}
-                                            onChange={(e) => setData('guardian_phone', e.target.value)}
-                                            error={errors.guardian_phone}
-                                            placeholder="Guardian phone: 017********"
-                                        />
-                                        <SelectInput
-                                            id="relationship"
-                                            label="Relation with guardian"
-                                            value={data.relationship}
-                                            onChange={(e) => setData('relationship', e.target.value)}
-                                            error={errors.relationship}
-                                            options={relationOptions}
-                                        />
-                                    </div>
+                                    <CustomCreatableSelect
+                                        id="organization"
+                                        label="Org/Institution/School(select or type to create new)"
+                                        value={data.organization}
+                                        onChange={(value) => setData('organization', value)}
+                                        options={organizations}
+                                        error={errors.organization}
+                                        placeholder="Select or type to create new organization"
+                                    />
+                                    <SelectInput
+                                        id="gender"
+                                        label="Select Gender"
+                                        value={data.gender}
+                                        onChange={(e) => setData('gender', e.target.value)}
+                                        error={errors.gender}
+                                        options={genderOptions}
+                                        required
+                                    />
                                 </>
                             )}
 
-                            {/* Location Search Section */}
-                            <div className="mt-6">
-                                <label className="block text-accent font-semibold mb-4">
-                                    {data.user_type === 'person' ? ' Your Location' : ' Organization Location'} (Search
-                                    and select)
-                                    <span className="text-red-600">*</span>
-                                </label>
+                            <TextInput
+                                id="password"
+                                label="Password(min 8 character)"
+                                value={data.password}
+                                type="password"
+                                onChange={(e) => setData('password', e.target.value)}
+                                error={errors.password}
+                                placeholder="Enter password. Min 8 character"
+                                autoComplete="new-password"
+                                required
+                            />
 
-                                {/* Location Search */}
-                                <div className="mb-4 relative">
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            value={searchQuery}
-                                            onChange={(e) =>
-                                                isGoogleMapsAvailable
-                                                    ? handleSearch(e.target.value)
-                                                    : handleSearchFallback(e.target.value)
-                                            }
-                                            placeholder="Search location (address, city, landmark...)"
-                                            className="w-full px-4 py-3 pl-11 border border-neutral/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-colors duration-200"
-                                        />
-                                        <FontAwesomeIcon
-                                            icon={faSearch}
-                                            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-neutral/60"
-                                        />
-                                        {isSearching && (
-                                            <FontAwesomeIcon
-                                                icon={faSpinner}
-                                                spin
-                                                className="absolute right-12 top-1/2 transform -translate-y-1/2 text-neutral/60"
-                                            />
-                                        )}
+                            <FileInput
+                                id="photo"
+                                label={data.user_type === 'person' ? 'Profile Photo(png,jpg,jpeg)' : 'Logo(png,jpg,jpeg)'}
+                                onFileChange={(file) => handleFileChange('photo', file)}
+                                currentFileUrl={data?.photo || null}
+                                error={errors.photo}
+                                accept="image/png, image/jpg, image/jpeg"
+                            />
+                        </div>
+                    </section>
 
-                                        {searchQuery && (
-                                            <Button
-                                                onClick={handleClearSearch}
-                                                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-neutral/60 hover:text-accent transition-colors duration-200"
-                                            >
-                                                <FontAwesomeIcon icon={faClose}/>
-                                            </Button>
-                                        )}
-                                    </div>
-
-                                    {/* Search Suggestions */}
-                                    {searchSuggestions.length > 0 && (
-                                        <div
-                                            className="absolute z-[9999] w-full mt-1 bg-white border border-neutral/20 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                                            {searchSuggestions.map((suggestion, index) => (
-                                                <div
-                                                    key={isGoogleMapsAvailable ? suggestion.place_id : index}
-                                                    onClick={() =>
-                                                        isGoogleMapsAvailable
-                                                            ? handleSuggestionSelect(suggestion)
-                                                            : handleSuggestionSelectFallback(suggestion)
-                                                    }
-                                                    className="px-4 py-3 hover:bg-primary/5 cursor-pointer border-b border-neutral/10 last:border-b-0 transition-colors duration-200"
-                                                >
-                                                    <div className="flex items-start">
-                                                        <FontAwesomeIcon
-                                                            icon={faMapMarkerAlt}
-                                                            className="text-primary mt-1 mr-3 flex-shrink-0"
-                                                        />
-                                                        <div>
-                                                            <div className="font-medium text-accent">
-                                                                {isGoogleMapsAvailable
-                                                                    ? suggestion.structured_formatting.main_text
-                                                                    : suggestion.display_name.split(',').slice(0, 2).join(',')
-                                                                }
-                                                            </div>
-                                                            <div className="text-sm text-neutral">
-                                                                {isGoogleMapsAvailable
-                                                                    ? suggestion.structured_formatting.secondary_text
-                                                                    : suggestion.display_name.split(',').slice(2).join(',')
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-
-                                {(errors.latitude || errors.longitude) && (
-                                    <p className="mt-2 text-sm text-red-600">
-                                        Location is required. Please search and select your location.
-                                    </p>
-                                )}
-
-                                {data.latitude && data.longitude && (
-                                    <div className="mt-3 p-3 bg-primary/10 border border-primary/30 rounded-lg">
-                                        <p className="text-primary text-sm">
-                                            <strong>Location set successfully!</strong><br/>
-                                            Coordinates captured for better service matching.
-                                        </p>
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="grid grid-cols-1 gap-6 mt-5 hidden">
-                                <TextareaInput
-                                    id="address"
-                                    label="Present Address"
-                                    value={data.address}
-                                    onChange={(e) => setData('address', e.target.value)}
-                                    error={errors.address}
-                                    placeholder="Enter your Address"
-                                    required
+                    {/* Wisher-specific fields (Conditional Rendering) */}
+                    {(data.user_type === 'person' && calculateAge(data.dob) < 18 && data.role !== 'donor') && (
+                        <section className="space-y-5 rounded-xl border border-secondary-200 bg-secondary-50/60 p-5">
+                            <h2 className="text-base font-semibold text-slate-900">Guardian Information</h2>
+                            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                                <TextInput
+                                    id="guardian_name"
+                                    label="Guardian Name"
+                                    value={data.guardian_name}
+                                    onChange={(e) => setData('guardian_name', e.target.value)}
+                                    error={errors.guardian_name}
+                                    placeholder="Enter guardian name"
+                                />
+                                <TextInput
+                                    id="guardian_phone"
+                                    label="Guardian Phone"
+                                    value={data.guardian_phone}
+                                    onChange={(e) => setData('guardian_phone', e.target.value)}
+                                    error={errors.guardian_phone}
+                                    placeholder="Guardian phone: 017********"
+                                />
+                                <SelectInput
+                                    id="relationship"
+                                    label="Relation with guardian"
+                                    value={data.relationship}
+                                    onChange={(e) => setData('relationship', e.target.value)}
+                                    error={errors.relationship}
+                                    options={relationOptions}
                                 />
                             </div>
-                            <button
-                                type="submit"
-                                disabled={processing}
-                                className={`w-full mt-5 py-3 rounded-lg font-semibold text-lg transition-all duration-200 focus:ring-4 focus:ring-primary/30 ${
-                                    processing
-                                        ? 'bg-neutral/40 text-neutral/60 cursor-not-allowed'
-                                        : 'bg-gradient-to-r from-primary to-secondary text-white hover:from-primary/90 hover:to-secondary/90 hover:shadow-lg transform hover:-translate-y-0.5'
-                                }`}
-                            >
-                                {processing ? (
-                                    <>
-                                        <FontAwesomeIcon icon={faSpinner} spin className="mr-2"/>
-                                        Creating Account...
-                                    </>
-                                ) : (
-                                    'Create Account'
+                        </section>
+                    )}
+
+                    {/* Location Search Section */}
+                    <section className="space-y-4">
+                        <SectionTitle step="3">
+                            <label htmlFor="location-search">
+                                {data.user_type === 'person' ? 'Your Location' : 'Organization Location'} (Search and select)
+                                <span className="ml-0.5 text-danger-600" aria-hidden="true">*</span>
+                            </label>
+                        </SectionTitle>
+
+                        <div className="relative">
+                            <div className="relative">
+                                <input
+                                    id="location-search"
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) =>
+                                        isGoogleMapsAvailable
+                                            ? handleSearch(e.target.value)
+                                            : handleSearchFallback(e.target.value)
+                                    }
+                                    placeholder="Search location (address, city, landmark...)"
+                                    autoComplete="off"
+                                    role="combobox"
+                                    aria-expanded={searchSuggestions.length > 0}
+                                    aria-controls="location-suggestions"
+                                    aria-autocomplete="list"
+                                    className={`form-control pl-10 pr-16 ${(errors.latitude || errors.longitude) ? 'form-control-error' : ''}`}
+                                />
+                                <FontAwesomeIcon icon={faSearch} className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+                                {isSearching && (
+                                    <FontAwesomeIcon icon={faSpinner} spin className="absolute right-11 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" aria-label="Searching" />
                                 )}
-                            </button>
-                            <p className="text-center mt-6 text-neutral">
-                                Already have an account?
-                                <Link
-                                    href={route('login')}
-                                    className="text-primary font-semibold hover:underline ml-1 transition-colors duration-200"
-                                >
-                                    Log In
-                                </Link>
-                            </p>
+                                {searchQuery && (
+                                    <Button
+                                        onClick={handleClearSearch}
+                                        aria-label="Clear location search"
+                                        className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-md text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+                                    >
+                                        <FontAwesomeIcon icon={faClose} className="h-4 w-4" aria-hidden="true"/>
+                                    </Button>
+                                )}
+                            </div>
+
+                            {/* Search Suggestions */}
+                            {searchSuggestions.length > 0 && (
+                                <ul id="location-suggestions" role="listbox" className="absolute z-[9999] mt-1 max-h-64 w-full overflow-y-auto rounded-xl border border-slate-200 bg-white py-1 shadow-pop">
+                                    {searchSuggestions.map((suggestion, index) => {
+                                        // Decide per suggestion: Google predictions have place_id/structured_formatting,
+                                        // OpenStreetMap results have display_name. (A global flag could flip mid-search
+                                        // when the Google script finished loading, which crashed the page.)
+                                        const isGoogle = !!suggestion?.structured_formatting;
+                                        const select = () => isGoogle
+                                            ? handleSuggestionSelect(suggestion)
+                                            : handleSuggestionSelectFallback(suggestion);
+                                        const main = isGoogle
+                                            ? suggestion.structured_formatting.main_text
+                                            : (suggestion?.display_name || '').split(',').slice(0, 2).join(',');
+                                        const secondary = isGoogle
+                                            ? suggestion.structured_formatting.secondary_text
+                                            : (suggestion?.display_name || '').split(',').slice(2).join(',');
+                                        return (
+                                            <li
+                                                key={suggestion?.place_id || index}
+                                                role="option"
+                                                aria-selected="false"
+                                                tabIndex={0}
+                                                onClick={select}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter' || e.key === ' ') {
+                                                        e.preventDefault();
+                                                        select();
+                                                    }
+                                                }}
+                                                className="flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-primary-50 focus:bg-primary-50 focus:outline-none"
+                                            >
+                                                <FontAwesomeIcon icon={faMapMarkerAlt} className="mt-1 h-3.5 w-3.5 shrink-0 text-primary-600" aria-hidden="true" />
+                                                <span>
+                                                    <span className="block text-sm font-medium text-slate-900">{main}</span>
+                                                    <span className="block text-xs text-slate-500">{secondary}</span>
+                                                </span>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            )}
                         </div>
-                    </form>
-                </div>
-            </main>
+
+                        {(errors.latitude || errors.longitude) && (
+                            <p className="text-xs font-medium text-danger-700" role="alert">
+                                Location is required. Please search and select your location.
+                            </p>
+                        )}
+
+                        {data.latitude && data.longitude && (
+                            <Alert tone="success" title="Location set successfully!">
+                                Coordinates captured for better service matching.
+                            </Alert>
+                        )}
+
+                        <div className="hidden">
+                            <TextareaInput
+                                id="address"
+                                label="Present Address"
+                                value={data.address}
+                                onChange={(e) => setData('address', e.target.value)}
+                                error={errors.address}
+                                placeholder="Enter your Address"
+                                required
+                            />
+                        </div>
+                    </section>
+
+                    <UIButton type="submit" size="lg" className="w-full" disabled={processing} loading={processing}>
+                        {processing ? 'Creating Account...' : 'Create Account'}
+                    </UIButton>
+                </form>
+            </AuthShell>
         </GuestLayout>
     );
 }

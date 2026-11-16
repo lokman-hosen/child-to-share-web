@@ -13,15 +13,15 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
         <AuthenticatedLayout>
             <Head title="Gift Create"/>
             <div className="px-10 py-8">
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Your Profile</h1>
+                <h1 className="text-2xl font-bold text-slate-900 mb-6">Your Profile</h1>
 
                 <div className="bg-white shadow rounded-lg p-6">
-                    <div className="border-b border-gray-200 pb-6">
+                    <div className="border-b border-slate-200 pb-6">
                         <div className="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0">
                             {/* Profile Image - First Column */}
                             <div className="flex-shrink-0 w-full md:w-48 mb-4 md:mb-0 md:mr-6">
                                 <div
-                                    className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
+                                    className="mx-auto md:mx-0 w-48 h-48 bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md rounded-lg">
                                     {user?.image ? (
                                         <img
                                             src={`/storage/${user?.image}`}
@@ -40,8 +40,8 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                             {/* User Info - Second Column */}
                             <div className="flex-1 text-center md:text-left w-full">
-                                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-1">{user.name}</h2>
-                                <p className="text-sm text-gray-500 mb-3 md:mb-4">
+                                <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-1">{user.name}</h2>
+                                <p className="text-sm text-slate-500 mb-3 md:mb-4">
                                     {/*Member Since {format(new Date(user.created_at), 'MMMM do, yyyy')}*/}
                                     Member Since {user.created_at}
                                 </p>
@@ -50,11 +50,11 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                 <div className="flex flex-wrap justify-center md:justify-start gap-2">
                                     {checkDonorWisher(user.role) && (
                                         <>
-                                            <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                            <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
                                                 {totalWishCount} Wishes Created
                                             </span>
                                             <span
-                                                className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                                className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
                                                 0 Wishes Fulfilled
                                             </span>
                                             <span
@@ -66,7 +66,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                                     {checkDonor(user.role) && (
                                         <>
-                                            <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                            <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
                                                 0 Wishes Fulfilled
                                             </span>
                                             <span
@@ -78,7 +78,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                                     {checkWisher(user.role) && (
                                         <>
-                                            <span className="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-1 rounded">
+                                            <span className="bg-primary-100 text-primary-800 text-xs font-semibold px-2.5 py-1 rounded">
                                                 {totalWishCount} Wishes Created
                                             </span>
                                             <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded">
@@ -93,15 +93,15 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                     <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">Contact Information</h3>
+                            <h3 className="text-lg font-medium text-slate-900 mb-2">Contact Information</h3>
                             <dl className="space-y-2">
                                 {/* Email with Verification */}
                                 <div>
-                                    <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                    <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                         <FontAwesomeIcon icon={faEnvelope} className="w-3 h-3"/>
                                         <span>Email</span>
                                     </dt>
-                                    <dd className="text-sm text-gray-900 flex items-center space-x-2 mt-1">
+                                    <dd className="text-sm text-slate-900 flex items-center space-x-2 mt-1">
                                         <span>{user.email}</span>
                                         {user.email_verified_at ? (
                                             <div title="Email Verified">
@@ -116,7 +116,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                             <div title="Email Not Verified">
                                                 <FontAwesomeIcon
                                                     icon={faTimesCircle}
-                                                    className="w-4 h-4 text-gray-400"
+                                                    className="w-4 h-4 text-slate-400"
                                                     title="Email Not Verified"
                                                 />
                                             </div>
@@ -127,11 +127,11 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                 {/* Phone with Verification - Conditional Display */}
                                 {(authUser.role === 'super_admin' || authUser.role === 'admin' || authUser.id === user.id) && (
                                     <div>
-                                        <dt className="text-sm font-medium text-gray-500 flex items-center space-x-1">
+                                        <dt className="text-sm font-medium text-slate-500 flex items-center space-x-1">
                                             <FontAwesomeIcon icon={faPhone} className="w-3 h-3"/>
                                             <span>Phone</span>
                                         </dt>
-                                        <dd className="text-sm text-gray-900 flex items-center space-x-2 mt-1">
+                                        <dd className="text-sm text-slate-900 flex items-center space-x-2 mt-1">
                                             <span>{user.phone}</span>
                                             {user.phone_verified_at ? (
                                                 <div title="Phone Verified">
@@ -144,7 +144,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                                                 <div title="Phone Not Verified">
                                                     <FontAwesomeIcon
                                                         icon={faTimesCircle}
-                                                        className="w-4 h-4 text-gray-400"
+                                                        className="w-4 h-4 text-slate-400"
                                                     />
                                                 </div>
 
@@ -155,18 +155,18 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                                 {/* Other fields */}
                                 <div>
-                                    <dt className="text-sm font-medium text-gray-500">Location/Address</dt>
-                                    <dd className="text-sm text-gray-900">{user.address ?? 'n/a'}</dd>
+                                    <dt className="text-sm font-medium text-slate-500">Location/Address</dt>
+                                    <dd className="text-sm text-slate-900">{user.address ?? 'n/a'}</dd>
                                 </div>
                                 <div>
-                                    <dt className="text-sm font-medium text-gray-500">Gender</dt>
-                                    <dd className="text-sm text-gray-900 uppercase">{user.gender ?? 'n/a'}</dd>
+                                    <dt className="text-sm font-medium text-slate-500">Gender</dt>
+                                    <dd className="text-sm text-slate-900 uppercase">{user.gender ?? 'n/a'}</dd>
                                 </div>
                             </dl>
                             <button
                                 type="button"
                                 onClick={() => window.history.back()}
-                                className="mt-5 w-100 bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                className="mt-5 w-100 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                             >
                                 <div className="flex items-center space-x-2">
                                     <FontAwesomeIcon icon={faArrowLeft}/>
@@ -176,19 +176,19 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                         </div>
 
                         {/*<div>*/}
-                        {/*    <h3 className="text-lg font-medium text-gray-900 mb-2">Preferences</h3>*/}
+                        {/*    <h3 className="text-lg font-medium text-slate-900 mb-2">Preferences</h3>*/}
                         {/*    <dl className="space-y-2">*/}
                         {/*        <div>*/}
-                        {/*            <dt className="text-sm font-medium text-gray-500">Default Search Radius</dt>*/}
-                        {/*            <dd className="text-sm text-gray-900">10 km</dd>*/}
+                        {/*            <dt className="text-sm font-medium text-slate-500">Default Search Radius</dt>*/}
+                        {/*            <dd className="text-sm text-slate-900">10 km</dd>*/}
                         {/*        </div>*/}
                         {/*        <div>*/}
-                        {/*            <dt className="text-sm font-medium text-gray-500">Notification Settings</dt>*/}
-                        {/*            <dd className="text-sm text-gray-900">Email & In-App</dd>*/}
+                        {/*            <dt className="text-sm font-medium text-slate-500">Notification Settings</dt>*/}
+                        {/*            <dd className="text-sm text-slate-900">Email & In-App</dd>*/}
                         {/*        </div>*/}
                         {/*        <div>*/}
-                        {/*            <dt className="text-sm font-medium text-gray-500">Admin Assistance</dt>*/}
-                        {/*            <dd className="text-sm text-gray-900">Enabled by default</dd>*/}
+                        {/*            <dt className="text-sm font-medium text-slate-500">Admin Assistance</dt>*/}
+                        {/*            <dd className="text-sm text-slate-900">Enabled by default</dd>*/}
                         {/*        </div>*/}
                         {/*    </dl>*/}
                         {/*</div>*/}
@@ -196,28 +196,28 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                     {/*{user.organizations.length > 0 && (*/}
                     {/*    <div className="mt-6">*/}
-                    {/*        <h3 className="text-lg font-medium text-gray-900 mb-2">Your Organizations</h3>*/}
+                    {/*        <h3 className="text-lg font-medium text-slate-900 mb-2">Your Organizations</h3>*/}
                     {/*        <ul className="space-y-2">*/}
                     {/*            <li className="flex items-center">*/}
                     {/*                <div*/}
-                    {/*                    className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center mr-2">*/}
-                    {/*                    <i className="fas fa-building text-blue-500 text-sm"></i>*/}
+                    {/*                    className="h-8 w-8 bg-primary-100 rounded-full flex items-center justify-center mr-2">*/}
+                    {/*                    <i className="fas fa-building text-primary-500 text-sm"></i>*/}
                     {/*                </div>*/}
-                    {/*                <span className="text-sm text-gray-900">Community Center A</span>*/}
+                    {/*                <span className="text-sm text-slate-900">Community Center A</span>*/}
                     {/*            </li>*/}
                     {/*            <li className="flex items-center">*/}
                     {/*                <div*/}
                     {/*                    className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center mr-2">*/}
                     {/*                    <i className="fas fa-school text-green-500 text-sm"></i>*/}
                     {/*                </div>*/}
-                    {/*                <span className="text-sm text-gray-900">School B</span>*/}
+                    {/*                <span className="text-sm text-slate-900">School B</span>*/}
                     {/*            </li>*/}
                     {/*            <li className="flex items-center">*/}
                     {/*                <div*/}
-                    {/*                    className="h-8 w-8 bg-purple-100 rounded-full flex items-center justify-center mr-2">*/}
-                    {/*                    <i className="fas fa-child text-purple-500 text-sm"></i>*/}
+                    {/*                    className="h-8 w-8 bg-primary-100 rounded-full flex items-center justify-center mr-2">*/}
+                    {/*                    <i className="fas fa-child text-primary-500 text-sm"></i>*/}
                     {/*                </div>*/}
-                    {/*                <span className="text-sm text-gray-900">Youth Program C</span>*/}
+                    {/*                <span className="text-sm text-slate-900">Youth Program C</span>*/}
                     {/*            </li>*/}
                     {/*        </ul>*/}
                     {/*    </div>*/}
@@ -232,7 +232,7 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
                             </Link>
                             <Link
                                 href={route('user.password.form')}
-                                className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                                className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700">
                                 <i className="fas fa-lock mr-2"></i> Change Password
                             </Link>
                         </div>
@@ -241,37 +241,37 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                 {checkDonorWisher(user.role) && (
                     <div className="bg-white shadow rounded-lg p-6 mt-6">
-                        <h2 className="text-lg font-medium text-gray-900 mb-4">Your Impact</h2>
+                        <h2 className="text-lg font-medium text-slate-900 mb-4">Your Impact</h2>
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-blue-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-blue-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Wishes Fulfilled</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">0</div>
+                                <div className="text-sm font-medium text-slate-700">Wishes Fulfilled</div>
                             </div>
                             <div className="bg-green-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-green-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Children Helped</div>
+                                <div className="text-sm font-medium text-slate-700">Children Helped</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
                                 <div
                                     className="text-3xl font-bold text-yellow-600">{user?.organizations?.length ?? 0}</div>
-                                <div className="text-sm font-medium text-gray-700">Organizations Supported</div>
+                                <div className="text-sm font-medium text-slate-700">Organizations Supported</div>
                             </div>
-                            <div className="bg-purple-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-purple-600">{donatedDonationCount}</div>
-                                <div className="text-sm font-medium text-gray-700">Items Donated</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">{donatedDonationCount}</div>
+                                <div className="text-sm font-medium text-slate-700">Items Donated</div>
                             </div>
 
-                            <div className="bg-purple-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-purple-600">{totalWishCount}</div>
-                                <div className="text-sm font-medium text-gray-700">Wishes Created</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">{totalWishCount}</div>
+                                <div className="text-sm font-medium text-slate-700">Wishes Created</div>
                             </div>
-                            <div className="blue-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-blue-600">{activeWishCount}</div>
-                                <div className="text-sm font-medium text-gray-700">Active Wishes</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">{activeWishCount}</div>
+                                <div className="text-sm font-medium text-slate-700">Active Wishes</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-yellow-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Contributor Connections</div>
+                                <div className="text-sm font-medium text-slate-700">Contributor Connections</div>
                             </div>
                         </div>
                     </div>
@@ -279,23 +279,23 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                 {checkDonor(user.role) && (
                     <div className="bg-white shadow rounded-lg p-6 mt-6">
-                        <h2 className="text-lg font-medium text-gray-900 mb-4">Your Impact</h2>
+                        <h2 className="text-lg font-medium text-slate-900 mb-4">Your Impact</h2>
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-blue-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-blue-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Wishes Fulfilled</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">0</div>
+                                <div className="text-sm font-medium text-slate-700">Wishes Fulfilled</div>
                             </div>
                             <div className="bg-green-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-green-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Children Helped</div>
+                                <div className="text-sm font-medium text-slate-700">Children Helped</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-yellow-600">{user.organizations?.length ?? 0}</div>
-                                <div className="text-sm font-medium text-gray-700">Organizations Supported</div>
+                                <div className="text-sm font-medium text-slate-700">Organizations Supported</div>
                             </div>
-                            <div className="bg-purple-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-purple-600">{donatedDonationCount}</div>
-                                <div className="text-sm font-medium text-gray-700">Items Donated</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">{donatedDonationCount}</div>
+                                <div className="text-sm font-medium text-slate-700">Items Donated</div>
                             </div>
                         </div>
                     </div>
@@ -303,23 +303,23 @@ export default function Profile({ user,availableDonationCount,donatedDonationCou
 
                 { checkWisher(user.role) && (
                     <div className="bg-white shadow rounded-lg p-6 mt-6">
-                        <h2 className="text-lg font-medium text-gray-900 mb-4">Your Wish History</h2>
+                        <h2 className="text-lg font-medium text-slate-900 mb-4">Your Wish History</h2>
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-purple-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-purple-600">{totalWishCount}</div>
-                                <div className="text-sm font-medium text-gray-700">Wishes Created</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">{totalWishCount}</div>
+                                <div className="text-sm font-medium text-slate-700">Wishes Created</div>
                             </div>
                             <div className="bg-green-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-green-600">{fulfilledWishCount}</div>
-                                <div className="text-sm font-medium text-gray-700">Wishes Fulfilled</div>
+                                <div className="text-sm font-medium text-slate-700">Wishes Fulfilled</div>
                             </div>
-                            <div className="blue-50 p-4 rounded-lg">
-                                <div className="text-3xl font-bold text-blue-600">{activeWishCount}</div>
-                                <div className="text-sm font-medium text-gray-700">Active Wishes</div>
+                            <div className="bg-primary-50 p-4 rounded-lg">
+                                <div className="text-3xl font-bold text-primary-600">{activeWishCount}</div>
+                                <div className="text-sm font-medium text-slate-700">Active Wishes</div>
                             </div>
                             <div className="bg-yellow-50 p-4 rounded-lg">
                                 <div className="text-3xl font-bold text-yellow-600">0</div>
-                                <div className="text-sm font-medium text-gray-700">Contributor Connections</div>
+                                <div className="text-sm font-medium text-slate-700">Contributor Connections</div>
                             </div>
                         </div>
                     </div>

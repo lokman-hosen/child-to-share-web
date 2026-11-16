@@ -1,5 +1,7 @@
 ----USER TABLE PASSWORD Table-----
 Use NVM version: nvm use 22
+
+DB Import:  mysql -h 127.0.0.1 -P 3306 -u laravel -p three_wish </home/lokman-hosen/Downloads/threewis_db.sql
 UPDATE ALL USER PASSWORD TO 1-8
 1. UPDATE users SET users.password = '$2y$10$r59CptWXU.RaQvBiQv9/COzIZLJCFh3DLX7qnOGynJ7jZ/kQrawJq';
 

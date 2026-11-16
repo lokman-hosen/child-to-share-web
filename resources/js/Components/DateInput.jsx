@@ -3,20 +3,26 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // Import the default CSS
 
 const DateInput = ({ id, label, value, onChange, error, placeholder, required, className = '' }) => {
-    // Determine the selected date for the DatePicker (expects a Date object or null)
-    const selectedDate = value ? new Date(value) : null;
+    // Parse 'YYYY-MM-DD' (optionally followed by a time) as a LOCAL date.
+    // `new Date('YYYY-MM-DD')` is UTC midnight, which shows the previous day west of UTC.
+    const parseLocal = (v) => {
+        const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(v));
+        return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(v);
+    };
+    const selectedDate = value ? parseLocal(value) : null;
 
-    // Handle date change from DatePicker, converting it to YYYY-MM-DD string for your form data
+    // Format the picked date as 'YYYY-MM-DD' in LOCAL time.
+    // (toISOString() converts to UTC, which saved the previous day for users east of UTC, e.g. UTC+6.)
+    const pad = (n) => String(n).padStart(2, '0');
     const handleDateChange = (date) => {
-        // date will be a Date object or null. Convert it to 'YYYY-MM-DD' string.
-        onChange(date ? date.toISOString().split('T')[0] : '');
+        onChange(date ? `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}` : '');
     };
 
     return (
         <div className={className}>
-            <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+            <label htmlFor={id} className="block text-sm font-medium text-slate-800">
                 {label}
-                {required && <span className="text-red-500 ml-1">*</span>}
+                {required && <span className="ml-0.5 text-danger-600" aria-hidden="true">*</span>}
             </label>
             <DatePicker
                 id={id}
@@ -24,9 +30,7 @@ const DateInput = ({ id, label, value, onChange, error, placeholder, required, c
                 onChange={handleDateChange} // Handle date changes
                 dateFormat="yyyy-MM-dd" // Format the date displayed in the input
                 // Apply Tailwind CSS classes directly to the DatePicker's input field
-                className={`mt-1 block w-full rounded-md text-dark border p-2 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
-                    error ? 'border-red-500' : ''
-                }`}
+                className={`form-control mt-1.5 ${error ? 'form-control-error' : ''}`}
                 // This ensures the DatePicker wrapper takes full width
                 wrapperClassName="w-full"
                 placeholderText={placeholder}
@@ -35,7 +39,7 @@ const DateInput = ({ id, label, value, onChange, error, placeholder, required, c
                 showMonthDropdown // Show dropdown for month selection
                 dropdownMode="select" // Use select dropdowns for year/month
             />
-            {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+            {error && <p className="mt-1.5 text-xs font-medium text-danger-700">{error}</p>}
         </div>
     );
 };

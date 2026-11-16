@@ -15,46 +15,17 @@ import {
     faCalendarAlt,
     faTag, faInfoCircle, faBuilding, faSync
 } from "@fortawesome/free-solid-svg-icons";
-import Hero from "@/Components/Donation/Hero.jsx";
 import UserProfileModal from '@/Components/Common/UserProfileModal.jsx';
-import {Button} from "@headlessui/react";
+import UIButton from "@/Components/UI/Button";
+import Badge, { statusTone } from "@/Components/UI/Badge";
+import MediaGallery from "@/Components/UI/MediaGallery";
+import { Avatar } from "@/Components/Common/Navbar.jsx";
 
 const Show = ({wish, module}) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
 
     const user = usePage().props.auth.user;
-    const getStatusColor = (status) => {
-        switch (status) {
-            case 'available':
-                return 'bg-green-100 text-green-800';
-            case 'reserved':
-                return 'bg-primary/10 text-primary';
-            case 'donated':
-                return 'bg-gray-100 text-gray-800';
-            default:
-                return 'bg-gray-100 text-gray-800';
-        }
-    };
-
-    // Carousel navigation functions
-    const nextSlide = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === wish.files.length - 1 ? 0 : prevIndex + 1
-        );
-    };
-
-    const prevSlide = () => {
-        setCurrentIndex((prevIndex) =>
-            prevIndex === 0 ? wish.files.length - 1 : prevIndex - 1
-        );
-    };
-
-    const goToSlide = (index) => {
-        setCurrentIndex(index);
-    };
-
     // Function to open modal
     const openModal = (user) => {
         setSelectedUser(user);
@@ -74,318 +45,119 @@ const Show = ({wish, module}) => {
         })
     };
 
+    const goBack = (e) => {
+        e.preventDefault();
+        if (window.history.length > 1) window.history.back();
+        else router.visit(route('wish.index'));
+    };
+
+    const details = [
+        wish?.distance && { icon: faMapMarkerAlt, label: 'Distance', value: `${wish.distance} km away from you` },
+        wish.user.organization && { icon: faBuilding, label: 'Organization', value: wish.user.organization?.name || 'N/A' },
+        { icon: faTag, label: 'Category', value: wish.category?.name || 'N/A' },
+        { icon: faUserCircle, label: 'Age Range', value: `${wish.age_range} years` },
+        { icon: faCalendarAlt, label: 'Created', value: wish.created_at },
+    ].filter(Boolean);
+
     return (
         <GuestLayout>
             <Head title="Item Detail"/>
-            {/*<Hero*/}
-            {/*    title = {wish.title}*/}
-            {/*    subTitle = {wish.description}*/}
-            {/*/>*/}
-            <main className="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 py-8 sm:py-12">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
-                    {/* Card Body */}
-                    <div className="px-1 py-8 sm:px-8 sm:py-10">
-                        <div className="space-y-8">
-                            <div className="border-t border-gray-200">
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 px-2 sm:p-6">
-                                    {/* Left Column - Media Carousel */}
-                                    <div className="lg:col-span-2">
-                                        {/* Main Carousel */}
-                                        {wish.files && wish.files.length > 0 && (
-                                            <div className="relative">
-                                                <h3 className="text-lg font-medium text-accent mb-4">Item: {wish.title}</h3>
+            <div className="container-page py-6 sm:py-10">
+                <nav aria-label="Breadcrumb" className="mb-6 text-sm">
+                    <ol className="flex flex-wrap items-center gap-1.5 text-slate-500">
+                        <li><Link href={route('home')} className="hover:text-slate-800">Home</Link></li>
+                        <li aria-hidden="true">/</li>
+                        <li><Link href={route('wish.index')} className="hover:text-slate-800">Wishes</Link></li>
+                        <li aria-hidden="true">/</li>
+                        <li className="max-w-[16rem] truncate font-medium text-slate-800" aria-current="page">{wish.title}</li>
+                    </ol>
+                </nav>
 
-                                                {/* Main Carousel Container */}
-                                                <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl overflow-hidden border border-gray-200">
-                                                    {/* Navigation Arrows */}
-                                                    {wish.files.length > 1 && (
-                                                        <>
-                                                            <button
-                                                                onClick={prevSlide}
-                                                                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-primary/90 text-white p-3 rounded-full hover:bg-primary shadow-lg hover:shadow-xl transition-all z-10"
-                                                            >
-                                                                <FontAwesomeIcon icon={faChevronLeft} className="w-4 h-4" />
-                                                            </button>
-                                                            <button
-                                                                onClick={nextSlide}
-                                                                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary/90 text-white p-3 rounded-full hover:bg-primary shadow-lg hover:shadow-xl transition-all z-10"
-                                                            >
-                                                                <FontAwesomeIcon icon={faChevronRight} className="w-4 h-4" />
-                                                            </button>
-                                                        </>
-                                                    )}
+                <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+                    {/* Media */}
+                    <div className="lg:col-span-7">
+                        <MediaGallery files={wish.files} title={wish.title} />
+                    </div>
 
-                                                    {/* Current Slide Indicator */}
-                                                    {wish.files.length > 1 && (
-                                                        <div className="absolute top-4 left-4 bg-primary/90 text-white px-3 py-1.5 rounded-lg text-sm z-10 font-medium shadow-md">
-                                                            {currentIndex + 1} / {wish.files.length}
-                                                        </div>
-                                                    )}
-
-                                                    {/* Featured Badge */}
-                                                    {wish.files[currentIndex]?.is_featured === 1 && (
-                                                        <span className="absolute top-4 right-4 bg-secondary text-accent text-xs px-3 py-1.5 rounded-lg z-10 font-bold shadow-md">
-                                                            Featured
-                                                        </span>
-                                                    )}
-
-                                                    {/* Action Buttons Container */}
-                                                    <div className="absolute bottom-4 right-4 flex space-x-2 z-10">
-                                                        <a
-                                                            href={`/storage/${wish.files[currentIndex].file_path}`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center justify-center w-10 h-10 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium transition-colors shadow-md border border-primary/20"
-                                                            title={wish.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
-                                                        >
-                                                            <FontAwesomeIcon icon={faEye} className="w-4 h-4"/>
-                                                        </a>
-                                                    </div>
-
-                                                    {/* Main Media Display */}
-                                                    <div className="aspect-video flex items-center justify-center">
-                                                        {wish.files[currentIndex]?.file_type === 'image' ? (
-                                                            <img
-                                                                src={`/storage/${wish.files[currentIndex].file_path}`}
-                                                                alt={`${wish.title} - Image ${currentIndex + 1}`}
-                                                                className="w-full h-full object-contain max-h-96"
-                                                            />
-                                                        ) : (
-                                                            <video
-                                                                controls
-                                                                className="w-full h-full max-h-96 rounded-lg"
-                                                            >
-                                                                <source
-                                                                    src={`/storage/${wish.files[currentIndex].file_path}`}
-                                                                    type={wish.files[currentIndex].mime_type}
-                                                                />
-                                                                Your browser does not support the video tag.
-                                                            </video>
-                                                        )}
-                                                    </div>
-                                                </div>
-
-                                                {/* Thumbnail Navigation */}
-                                                {wish.files.length > 1 && (
-                                                    <div className="mt-4 hidden lg:block">
-                                                        <div className="flex justify-center space-x-2 overflow-x-auto pb-2">
-                                                            {wish.files.map((file, index) => (
-                                                                <button
-                                                                    key={file.id}
-                                                                    onClick={() => goToSlide(index)}
-                                                                    className={`flex-shrink-0 w-20 h-20 border-2 rounded-lg overflow-hidden transition-all duration-200 ${
-                                                                        index === currentIndex
-                                                                            ? 'border-primary ring-2 ring-primary/20 shadow-md'
-                                                                            : 'border-gray-300 hover:border-primary/50 hover:shadow-sm'
-                                                                    }`}
-                                                                >
-                                                                    {file.file_type === 'image' ? (
-                                                                        <img
-                                                                            src={`/storage/${file.file_path}`}
-                                                                            alt={`Thumbnail ${index + 1}`}
-                                                                            className="w-full h-full object-cover"
-                                                                        />
-                                                                    ) : (
-                                                                        <div className="w-full h-full bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center">
-                                                                            <div className="text-center">
-                                                                                <div className="text-lg text-primary">🎥</div>
-                                                                                <span className="text-xs text-gray-600">Video</span>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-
-                                        {/* Fallback if no files */}
-                                        {(!wish.files || wish.files.length === 0) && (
-                                            <div className="aspect-video bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl flex items-center justify-center border border-gray-200">
-                                                <div className="text-center text-gray-500">
-                                                    <div className="text-4xl mb-2">📷</div>
-                                                    <p className="text-gray-600">No media available</p>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-
-                                    {/* Right Column - Wish Details */}
-                                    <div className="space-y-6">
-                                        {/* Basic Information */}
-                                        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200">
-                                            <h3 className="text-lg font-medium text-accent mb-4 flex items-center">
-                                                <FontAwesomeIcon icon={faInfoCircle} className="text-primary mr-2" />
-                                                Basic Information
-                                            </h3>
-                                            <dl className="space-y-4">
-                                                {wish?.distance &&
-                                                    <div className="flex items-start space-x-3">
-                                                        <FontAwesomeIcon icon={faMapMarkerAlt} className="text-primary mt-1" />
-                                                        <div>
-                                                            <dt className="text-sm font-medium text-gray-500">Distance:</dt>
-                                                            <dd className="text-sm text-accent font-medium">
-                                                                {wish.distance} km away from you
-                                                            </dd>
-                                                        </div>
-                                                    </div>
-                                                }
-                                                {wish.user.organization &&
-                                                    <div className="flex items-start space-x-3">
-                                                        <FontAwesomeIcon icon={faBuilding} className="text-primary mt-1"/>
-                                                        <div>
-                                                            <dt className="text-sm font-medium text-gray-500">Organization:</dt>
-                                                            <dd className="text-sm text-accent font-medium">
-                                                                {wish.user.organization?.name || 'N/A'}
-                                                            </dd>
-                                                        </div>
-                                                    </div>
-                                                }
-
-                                                <div className="flex items-start space-x-3">
-                                                    <FontAwesomeIcon icon={faTag} className="text-primary mt-1"/>
-                                                    <div>
-                                                        <dt className="text-sm font-medium text-gray-500">Category:</dt>
-                                                        <dd className="text-sm text-accent font-medium">
-                                                            {wish.category?.name || 'N/A'}
-                                                        </dd>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-start space-x-3">
-                                                    <FontAwesomeIcon icon={faUserCircle} className="text-secondary mt-1" />
-                                                    <div>
-                                                        <dt className="text-sm font-medium text-gray-500">Age Range:</dt>
-                                                        <dd className="text-sm text-accent font-medium capitalize">
-                                                            {wish.age_range} years
-                                                        </dd>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-start space-x-3">
-                                                    <FontAwesomeIcon icon={faSync} className="text-primary mt-1" />
-                                                    <div>
-                                                        <dt className="text-sm font-medium text-gray-500">Status:</dt>
-                                                        <dd className="text-sm">
-                                                            <span
-                                                                className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${getStatusColor(wish.status)}`}>
-                                                                {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
-                                                            </span>
-                                                        </dd>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-start space-x-3">
-                                                    <FontAwesomeIcon icon={faCalendarAlt} className="text-secondary mt-1" />
-                                                    <div>
-                                                        <dt className="text-sm font-medium text-gray-500">Created:</dt>
-                                                        <dd className="text-sm text-accent font-medium">
-                                                            {wish.created_at}
-                                                        </dd>
-                                                    </div>
-                                                </div>
-                                            </dl>
-                                        </div>
-
-                                        {/* Wisher Info */}
-                                        <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-xl p-6 border border-primary/20 shadow-sm">
-                                            <p className="text-xs font-medium text-primary uppercase tracking-wide mb-3">Wish Creator</p>
-                                            <div className="flex items-center space-x-4 group cursor-pointer" onClick={() => openModal(wish.user)}>
-                                                {/* User Avatar - Clickable */}
-                                                <div className="relative flex-shrink-0">
-                                                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-dark p-0.5 group-hover:from-primary-dark group-hover:to-primary transition-all duration-200">
-                                                        <div className="w-full h-full bg-white rounded-full p-1">
-                                                            {wish.user.image ? (
-                                                                <img
-                                                                    src={`/storage/${wish.user.image}`}
-                                                                    alt={wish.user.name}
-                                                                    className="w-full h-full object-cover rounded-full"
-                                                                />
-                                                            ) : (
-                                                                <div className="w-full h-full bg-gradient-to-br from-secondary/20 to-secondary/40 rounded-full flex items-center justify-center">
-                                                                    <span className="text-primary font-bold text-xl">
-                                                                        {wish.user.name.charAt(0).toUpperCase()}
-                                                                    </span>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    {/* Online indicator */}
-                                                    <div className="absolute bottom-1 right-1 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></div>
-                                                </div>
-
-                                                {/* User Info */}
-                                                <div className="flex-1 min-w-0">
-                                                    <h3 className="text-lg font-semibold text-accent group-hover:text-primary transition-colors duration-200 truncate">
-                                                        {wish.user.name}
-                                                    </h3>
-                                                    <div className="flex items-center space-x-2 mt-1">
-                                                        {wish?.distance ? (
-                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
-                                                                📍 {wish.distance} km away
-                                                            </span>
-                                                        ) : (
-                                                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary/10 text-secondary">
-                                                                👶 Age: {wish.age_range} yrs
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-
-                                                {/* Chevron Icon */}
-                                                <div className="text-gray-400 group-hover:text-primary transition-colors duration-200">
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Description */}
-                                        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-6 border border-gray-200">
-                                            <h3 className="text-lg font-medium text-accent mb-3">Description</h3>
-                                            <p className="text-sm text-gray-700 whitespace-pre-line leading-relaxed">
-                                                {wish.description || 'No description provided.'}
-                                            </p>
-                                        </div>
-
-                                        {/* Action Buttons */}
-                                        <div className="space-y-3">
-                                            <Link
-                                                href="#"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    window.history.back();
-                                                }}
-                                                className="w-full inline-flex justify-center items-center bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-medium py-3 px-4 rounded-xl text-sm transition-all duration-300 hover:shadow-lg"
-                                            >
-                                                <FontAwesomeIcon icon={faBackward} className="mr-2"/> Back to Wishes
-                                            </Link>
-
-                                            {wish.user_id === user?.id && (
-                                                wish.latest_fulfillment?.status === 'requested' ? (
-                                                    <Button
-                                                        onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)}
-                                                        className="w-full inline-flex justify-center items-center px-4 py-3 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-secondary to-secondary-dark hover:from-secondary-dark hover:to-secondary shadow-lg hover:shadow-xl transition-all duration-300"
-                                                    >
-                                                        <FontAwesomeIcon icon={faHandHoldingHand} className="mr-2" /> Accept Contributor Fulfilment Request
-                                                    </Button>
-                                                ) : (
-                                                    <Link
-                                                        href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfillment?.id})}
-                                                        className="w-full inline-flex justify-center items-center px-4 py-3 bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white font-medium rounded-xl text-sm shadow-lg hover:shadow-xl transition-all duration-300"
-                                                    >
-                                                        <FontAwesomeIcon icon={faStar} className="mr-2" /> Fulfilment Detail
-                                                    </Link>
-                                                )
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
+                    {/* Details */}
+                    <div className="space-y-5 lg:col-span-5">
+                        <div>
+                            <div className="flex flex-wrap items-center gap-2">
+                                <Badge tone="primary" icon={faStar}>Wish</Badge>
+                                <Badge tone={statusTone(wish.status)} dot>
+                                    {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
+                                </Badge>
                             </div>
+                            <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                                <span className="sr-only">Item: </span>{wish.title}
+                            </h1>
+                        </div>
+
+                        {/* Wisher */}
+                        <button
+                            type="button"
+                            onClick={() => openModal(wish.user)}
+                            className="group flex w-full items-center gap-4 rounded-card border border-slate-200/80 bg-white p-4 text-left shadow-card transition hover:border-primary-200"
+                        >
+                            <Avatar user={wish.user} size="h-14 w-14" className="text-lg" />
+                            <span className="min-w-0 flex-1">
+                                <span className="block text-xs font-semibold uppercase tracking-wide text-primary-600">Wish Creator</span>
+                                <span className="block truncate text-base font-semibold text-slate-900 group-hover:text-primary-700">{wish.user.name}</span>
+                                <span className="block text-sm text-slate-500">
+                                    {wish?.distance ? `${wish.distance} km away` : `Age: ${wish.age_range} yrs`}
+                                </span>
+                            </span>
+                            <FontAwesomeIcon icon={faChevronRight} className="h-4 w-4 text-slate-400 group-hover:text-primary-600" aria-hidden="true" />
+                            <span className="sr-only">View profile</span>
+                        </button>
+
+                        {/* Basic Information */}
+                        <section className="rounded-card border border-slate-200/80 bg-white p-5 shadow-card">
+                            <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                                <FontAwesomeIcon icon={faInfoCircle} className="h-4 w-4 text-primary-600" aria-hidden="true" />
+                                Basic Information
+                            </h2>
+                            <dl className="mt-4 divide-y divide-slate-100">
+                                {details.map((d) => (
+                                    <div key={d.label} className="flex items-center justify-between gap-4 py-2.5 text-sm">
+                                        <dt className="flex items-center gap-2 text-slate-500">
+                                            <FontAwesomeIcon icon={d.icon} className="h-3.5 w-3.5 text-slate-400" aria-hidden="true" />
+                                            {d.label}
+                                        </dt>
+                                        <dd className="text-right font-medium text-slate-900">{d.value}</dd>
+                                    </div>
+                                ))}
+                            </dl>
+                        </section>
+
+                        {/* Description */}
+                        <section className="rounded-card border border-slate-200/80 bg-white p-5 shadow-card">
+                            <h2 className="text-sm font-semibold text-slate-900">Description</h2>
+                            <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700">
+                                {wish.description || 'No description provided.'}
+                            </p>
+                        </section>
+
+                        {/* Actions */}
+                        <div className="flex flex-col gap-3">
+                            {wish.user_id === user?.id && (
+                                wish.latest_fulfillment?.status === 'requested' ? (
+                                    <UIButton onClick={() => handleFulfilStatus(wish.latest_fulfillment.id)} variant="accent" size="lg" icon={faHandHoldingHand}>
+                                        Accept Contributor Fulfilment Request
+                                    </UIButton>
+                                ) : (
+                                    <UIButton href={route('wish.fulfill.status.change', {'fulfilment_id': wish.latest_fulfillment?.id})} size="lg" icon={faStar}>
+                                        Fulfilment Detail
+                                    </UIButton>
+                                )
+                            )}
+                            <UIButton href={route('wish.index')} onClick={goBack} variant="secondary" size="lg" icon={faChevronLeft}>
+                                Back to Wishes
+                            </UIButton>
                         </div>
                     </div>
                 </div>
-            </main>
+            </div>
 
             {/* User Profile Modal */}
             <UserProfileModal

@@ -3,3 +3,90 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ------------------------------------------------------------------
+ * ThreeWish design system — base layer
+ * Tokens live in tailwind.config.js; reusable React components in
+ * resources/js/Components/UI. Keep this file small.
+ * ------------------------------------------------------------------ */
+@layer base {
+    html {
+        -webkit-text-size-adjust: 100%;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-canvas font-sans text-slate-700 antialiased;
+        font-feature-settings: 'cv11', 'ss01';
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply text-slate-900;
+    }
+
+    /* Visible, consistent keyboard focus everywhere */
+    :focus-visible {
+        outline: 2px solid theme('colors.primary.500');
+        outline-offset: 2px;
+    }
+
+    ::selection {
+        @apply bg-primary-100 text-primary-900;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+}
+
+@layer components {
+    /* Page width container with 16px mobile gutter */
+    .container-page {
+        @apply mx-auto w-full max-w-content px-4 sm:px-6 lg:px-8;
+    }
+
+    /* Vertical rhythm for marketing sections */
+    .section {
+        @apply py-16 sm:py-20 lg:py-24;
+    }
+
+    .eyebrow {
+        @apply text-xs font-semibold uppercase tracking-[0.14em] text-primary-600;
+    }
+
+    /* Shared form control look (used by Breeze inputs + UI/Field) */
+    .form-control {
+        @apply block w-full rounded-lg border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-xs
+               placeholder:text-slate-400
+               focus:border-primary-500 focus:ring-2 focus:ring-primary-500/25
+               disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-500;
+    }
+
+    .form-control-error {
+        @apply border-danger-600 focus:border-danger-600 focus:ring-danger-600/20;
+    }
+
+    .skip-link {
+        @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-primary-700 focus:shadow-pop;
+    }
+}
+
+/* Logo marquee (pauses on hover/focus; disabled for reduced motion via base layer) */
+@keyframes tw-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+@layer components {
+    .marquee-track {
+        animation: tw-marquee var(--marquee-duration, 40s) linear infinite;
+    }
+    .marquee:hover .marquee-track,
+    .marquee:focus-within .marquee-track {
+        animation-play-state: paused;
+    }
+}

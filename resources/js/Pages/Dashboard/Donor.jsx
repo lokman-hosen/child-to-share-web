@@ -1,39 +1,34 @@
 import React from 'react';
-import Activity from "@/Components/Common/Admin/Donor/Activity.jsx";
-import Cards from "@/Components/Common/Admin/Donor/Cards.jsx";
-import WishList from "@/Components/Common/Admin/Donor/WishList.jsx";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import { faGift, faStar, faHandHoldingHeart, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import AppPage from '@/Components/UI/AppPage';
+import StatCard from '@/Components/UI/StatCard';
+import QuickAction from '@/Components/UI/QuickAction';
+import DashboardIntro from '@/Components/Common/Admin/DashboardIntro';
+import { Link } from '@inertiajs/react';
 
-const DonorDashboard = ({availableDonationCount, donatedDonationCount}) => {
+const DonorDashboard = ({ availableDonationCount, donatedDonationCount }) => {
     return (
-        <div id="dashboard-page" className="page active-page">
-            <div className="bg-yellow-300 border border-yellow-500 rounded-lg p-4 m-6">
-                <div className="flex items-center">
-                    <FontAwesomeIcon icon={faInfoCircle} className="h-5 w-5 text-blue-500 mr-3" />
-                    <div>
-                        <p className="text-blue-800 text-xl">
-                            ThreeWish is Under Development
-                        </p>
-                        <p className="text-blue-600 text-md mt-1">
-                            Some features are still being built. Thank you for your patience!
-                        </p>
-                    </div>
-                </div>
+        <AppPage>
+            <DashboardIntro
+                title="Contributor Dashboard"
+            />
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Link href={route('donations.index')} className="rounded-card focus-visible:outline-none">
+                    <StatCard icon={faGift} label="Active Gifts" value={availableDonationCount} tone="primary" className="h-full hover:border-primary-200" />
+                </Link>
+                <Link href={route('donations.index')} className="rounded-card">
+                    <StatCard icon={faStar} label="Wishes Fulfilled" value={donatedDonationCount} tone="success" className="h-full hover:border-primary-200" />
+                </Link>
             </div>
-            <div className="px-10 py-8">
-                <div className="flex items-left mb-6">
-                    <h1 className="text-2xl font-bold text-gray-900 mt-1">Contributor Dashboard</h1>
+            <section aria-labelledby="quick-actions" className="mt-10">
+                <h2 id="quick-actions" className="text-base font-semibold text-slate-900">Quick Actions</h2>
+                <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                    <QuickAction href={route('donations.create')} icon={faPlus} title="Create Gift" description="Tap to share items" />
+                    <QuickAction href={route('wish.fulfill.list')} icon={faHandHoldingHeart} title="Fulfill Wishes" description="Find wishes your gifts can fulfil" />
+                    <QuickAction href={route('my.profile')} icon={faUser} title="Your Profile" description="Keep your details up to date" />
                 </div>
-                <Cards
-                    userType = 'donor'
-                    availableDonationCount = {availableDonationCount}
-                    donatedDonationCount = {donatedDonationCount}
-                />
-                <Activity/>
-                {/*<WishList userType = 'donor'/>*/}
-            </div>
-        </div>
+            </section>
+        </AppPage>
     );
 };
 

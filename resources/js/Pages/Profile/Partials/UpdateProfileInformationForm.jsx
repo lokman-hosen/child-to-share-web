@@ -38,7 +38,7 @@ export default function UpdateProfileInformation({
     const placesService = useRef(null);
 
     //const user = usePage().props.auth.user;
-    const { data, setData, post, errors, processing, recentlySuccessful } =
+    const { data, setData, post, errors, processing, recentlySuccessful, reset } =
         useForm({
             name: user.name,
             email: user.email,
@@ -253,10 +253,10 @@ export default function UpdateProfileInformation({
 
     return (
         <section>
-            <div className="flex flex-col sm:flex-row items-center border-b border-gray-200 pb-6 gap-6">
+            <div className="flex flex-col sm:flex-row items-center border-b border-slate-200 pb-6 gap-6">
                 {/* User Image */}
                 <div
-                    className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md flex-shrink-0 order-2 sm:order-1">
+                    className="h-24 w-24 rounded-full bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-md flex-shrink-0 order-2 sm:order-1">
                     {user.image ? (
                         <img
                             src={`/storage/${user.image}`}
@@ -274,11 +274,11 @@ export default function UpdateProfileInformation({
 
                 {/* Text Content */}
                 <div className="text-center sm:text-left order-1 sm:order-2">
-                    <h2 className="text-2xl font-medium text-gray-900">
+                    <h2 className="text-2xl font-medium text-slate-900">
                         Profile Information
                     </h2>
 
-                    <p className="mt-1 text-md text-gray-600">
+                    <p className="mt-1 text-md text-slate-600">
                         Update your account's profile information and email address.
                     </p>
                 </div>
@@ -403,7 +403,7 @@ export default function UpdateProfileInformation({
                 <div className="grid grid-cols-1 gap-6">
                     {/* Location Search Section */}
                     <div className="mt-1">
-                            <label className="block text-gray-700 font-semibold mb-2">
+                            <label className="block text-slate-700 font-semibold mb-2">
                                 Your Location (Search and select)
                             </label>
 
@@ -419,24 +419,24 @@ export default function UpdateProfileInformation({
                                                 : handleSearchFallback(e.target.value)
                                         }
                                         placeholder="Search location (address, city, landmark...)"
-                                        className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full px-4 py-3 pl-11 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                                     />
                                     <FontAwesomeIcon
                                         icon={faSearch}
-                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"
                                     />
                                     {isSearching && (
                                         <FontAwesomeIcon
                                             icon={faSpinner}
                                             spin
-                                            className="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-400"
+                                            className="absolute right-12 top-1/2 transform -translate-y-1/2 text-slate-400"
                                         />
                                     )}
 
                                     {searchQuery && (
                                         <Button
                                             onClick={handleClearSearch}
-                                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
                                         >
                                             <FontAwesomeIcon icon={faClose}/>
                                         </Button>
@@ -446,7 +446,7 @@ export default function UpdateProfileInformation({
                                 {/* Search Suggestions */}
                                 {searchSuggestions.length > 0 && (
                                     <div
-                                        className="absolute z-[9999] w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                                        className="absolute z-[9999] w-full mt-1 bg-white border border-slate-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
                                         {searchSuggestions.map((suggestion, index) => (
                                             <div
                                                 key={isGoogleMapsAvailable ? suggestion.place_id : index}
@@ -455,21 +455,21 @@ export default function UpdateProfileInformation({
                                                         ? handleSuggestionSelect(suggestion)
                                                         : handleSuggestionSelectFallback(suggestion)
                                                 }
-                                                className="px-4 py-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                                                className="px-4 py-3 hover:bg-primary-50 cursor-pointer border-b border-slate-100 last:border-b-0"
                                             >
                                                 <div className="flex items-start">
                                                     <FontAwesomeIcon
                                                         icon={faMapMarkerAlt}
-                                                        className="text-blue-500 mt-1 mr-3 flex-shrink-0"
+                                                        className="text-primary-500 mt-1 mr-3 flex-shrink-0"
                                                     />
                                                     <div>
-                                                        <div className="font-medium text-gray-900">
+                                                        <div className="font-medium text-slate-900">
                                                             {isGoogleMapsAvailable
                                                                 ? suggestion.structured_formatting.main_text
                                                                 : suggestion.display_name.split(',').slice(0, 2).join(',')
                                                             }
                                                         </div>
-                                                        <div className="text-sm text-gray-500">
+                                                        <div className="text-sm text-slate-500">
                                                             {isGoogleMapsAvailable
                                                                 ? suggestion.structured_formatting.secondary_text
                                                                 : suggestion.display_name.split(',').slice(2).join(',')
@@ -498,20 +498,20 @@ export default function UpdateProfileInformation({
                                 </div>
                             )}
                             {data.address &&
-                                <div className="text-gray-400 text-sm">Current address : {data.address}</div>
+                                <div className="text-slate-400 text-sm">Current address : {data.address}</div>
                             }
                         </div>
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>
-                        <p className="mt-2 text-sm text-gray-800">
+                        <p className="mt-2 text-sm text-slate-800">
                             Your email address is unverified.
                             <Link
                                 href={route('verification.send')}
                                 method="post"
                                 as="button"
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                className="rounded-md text-sm text-slate-600 underline hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                             >
                                 Click here to re-send the verification email.
                             </Link>
@@ -531,7 +531,7 @@ export default function UpdateProfileInformation({
                     <button
                         type="button"
                         onClick={() => window.history.back()}
-                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                        className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                     >
                         <div className="flex items-center space-x-2">
                             <FontAwesomeIcon icon={faArrowLeft}/>
@@ -539,7 +539,7 @@ export default function UpdateProfileInformation({
                         </div>
                     </button>
                     <PrimaryButton
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                        className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
                         disabled={processing}>
                         <FontAwesomeIcon icon={faSave}/> Update
                     </PrimaryButton>
@@ -551,7 +551,7 @@ export default function UpdateProfileInformation({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-slate-600">
                             Saved.
                         </p>
                     </Transition>

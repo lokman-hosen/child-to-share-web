@@ -7,7 +7,7 @@ const Pagination = ({ links, data }) => {
     }
     return (
         <div className="mt-4 flex justify-between items-center">
-            <p className="hidden sm:block text-sm text-gray-600">
+            <p className="hidden sm:block text-sm text-slate-600">
                 Showing {data.from} to {data.to} of {data.total} entries
             </p>
             <div className="flex space-x-1">
@@ -18,8 +18,8 @@ const Pagination = ({ links, data }) => {
                             href={link.url || "#"}
                             className={`px-3 py-1 rounded text-sm ${
                                 link.active
-                                    ? "bg-indigo-600 text-white"
-                                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                                    ? "bg-primary-600 text-white"
+                                    : "bg-slate-200 text-slate-700 hover:bg-slate-300"
                             } ${!link.url ? "cursor-not-allowed opacity-50" : ""}`}
                             dangerouslySetInnerHTML={{ __html: link.label }}
                         />

@@ -222,7 +222,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
 
                 {/* File Upload Section */}
                 <div className="space-y-4">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-slate-700">
                         Attachment images(png,jpg,jpeg. Min size: 800x500)
                         {!donation && (
                             <span className="text-red-500">*</span>
@@ -231,7 +231,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                     </label>
 
                     {/* Main File Input */}
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
                         <input
                             type="file"
                             ref={fileInputRef}
@@ -244,12 +244,12 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                         <button
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
-                            className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md shadow-sm"
+                            className="bg-secondary-300 hover:bg-secondary-400 text-slate-900 font-semibold py-2 px-4 rounded-md shadow-sm"
                         >
                             <FontAwesomeIcon icon={faUpload} className="mr-2" />
                             {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
                         </button>
-                        <p className="mt-2 text-sm text-gray-500">
+                        <p className="mt-2 text-sm text-slate-500">
                             {/*Upload images(min size: 800x500) and videos(max length: 30s). Images will be automatically optimized.*/}
                             Upload images(min size: 800x500). Images will be automatically optimized.
                         </p>
@@ -269,7 +269,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                             <button
                                 type="button"
                                 onClick={() => document.getElementById('add-more-files')?.click()}
-                                className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                                className="text-primary-600 hover:text-primary-800 text-sm font-medium"
                             >
                                 <FontAwesomeIcon icon={faSquarePlus} className="mr-1" />
                                 Add More Files
@@ -280,12 +280,12 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                     {/* Selected Files Preview */}
                     {data.attachments.length > 0 && (
                         <div className="mt-4">
-                            <h4 className="text-sm font-medium text-gray-700 mb-2">Selected Files:</h4>
+                            <h4 className="text-sm font-medium text-slate-700 mb-2">Selected Files:</h4>
                             <div className="space-y-2">
                                 {data.attachments.map((file, index) => (
-                                    <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                    <div key={index} className="flex items-center justify-between bg-slate-50 p-3 rounded">
                                         <div className="flex items-center">
-                                            <span className="text-sm text-gray-700">
+                                            <span className="text-sm text-slate-700">
                                                 {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
                                             </span>
                                         </div>
@@ -309,14 +309,14 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
 
                 <div className="flex items-center">
                     <Checkbox
-                        className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-slate-300 rounded"
                         name="remember"
                         checked={data.remember}
                         onChange={(e) =>
                             setData('remember', e.target.checked)
                         }
                     />
-                    <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">Request admin assistance for pickup/delivery</label>
+                    <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-700">Request admin assistance for pickup/delivery</label>
                 </div>
             </div>
 
@@ -325,7 +325,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                 <button
                     type="button"
                     onClick={() => window.history.back()}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                    className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                 >
                     <div className="flex items-center space-x-2">
                         <FontAwesomeIcon icon={faArrowLeft}/>
@@ -335,7 +335,7 @@ const Form = ({categories, donation, statuses, module, itemConditions, donors}) 
                 <button
                     type="submit"
                     disabled={processing}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                    className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
                 >
                     {donation ? (
                         // Button content for Update User

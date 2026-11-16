@@ -55,12 +55,12 @@ export default function UpdatePasswordForm({ className = '' }) {
             <Head title="Gift Create"/>
 
             <div className="px-10 py-8">
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Password Change</h1>
+                <h1 className="text-2xl font-bold text-slate-900 mb-6">Password Change</h1>
 
                 <div className="bg-white shadow rounded-lg p-6">
-                    <div className="flex items-center border-b border-gray-200 pb-6">
+                    <div className="flex items-center border-b border-slate-200 pb-6">
                         <div
-                            className="h-24 w-24 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
+                            className="h-24 w-24 rounded-full bg-gradient-to-br from-primary-100 to-primary-100 flex items-center justify-center mr-6 overflow-hidden border-4 border-white shadow-md">
                             {user.image ? (
                                 <img
                                     src={`/storage/${user.image}`}
@@ -76,22 +76,22 @@ export default function UpdatePasswordForm({ className = '' }) {
                             )}
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
-                            <p className="text-sm text-gray-500">Member
+                            <h2 className="text-2xl font-bold text-slate-900">{user.name}</h2>
+                            <p className="text-sm text-slate-500">Member
                                 Since {user.created_at}
                             </p>
-                            <p className="text-sm text-indigo-500 uppercase font-bold">{user.role}</p>
+                            <p className="text-sm text-primary-500 uppercase font-bold">{user.role}</p>
                         </div>
                     </div>
 
                     <div className="mt-6 lg:mb-10 lg:mx-10 grid grid-cols-1 gap-6">
                         <div className="w-2xs rounded p-10 shadow-md">
                             <header>
-                                <h2 className="text-lg font-medium text-gray-900">
+                                <h2 className="text-lg font-medium text-slate-900">
                                     Update Password
                                 </h2>
 
-                                <p className="mt-1 text-sm text-gray-600">
+                                <p className="mt-1 text-sm text-slate-600">
                                     Ensure your account is using a long, random password to stay
                                     secure.
                                 </p>
@@ -162,14 +162,14 @@ export default function UpdatePasswordForm({ className = '' }) {
                                     <button
                                         type="button"
                                         onClick={() => window.history.back()}
-                                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                        className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                                     >
                                         <div className="flex items-center space-x-2">
                                             <FontAwesomeIcon icon={faArrowLeft}/>
                                             <span>Back</span>
                                         </div>
                                     </button>
-                                    <PrimaryButton className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                                    <PrimaryButton className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
                                         disabled={processing}>
                                         <FontAwesomeIcon icon={faSave}/> Update
                                     </PrimaryButton>
@@ -181,7 +181,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                                         leave="transition ease-in-out"
                                         leaveTo="opacity-0"
                                     >
-                                        <p className="text-sm text-gray-600">
+                                        <p className="text-sm text-slate-600">
                                             Saved.
                                         </p>
                                     </Transition>

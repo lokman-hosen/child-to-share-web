@@ -1,4 +1,7 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import SectionHeader from '@/Components/UI/SectionHeader';
 
 const SDG = () => {
     const sdgGoals = [
@@ -44,116 +47,59 @@ const SDG = () => {
         }
     ];
 
+    const commitments = [
+        { title: 'Quality Education', text: 'Providing learning resources and educational materials' },
+        { title: 'Reduced Inequality', text: 'Bridging gaps between different communities' },
+        { title: 'Climate Action', text: 'Promoting reuse and reducing waste' },
+    ];
+
     return (
-        <section className="py-16 md:py-20 bg-gradient-to-b from-white to-gray-50">
-            <div className="container-fluid px-4 sm:px-6 lg:px-8 mx-auto">
-                <div className="text-center mb-12 md:mb-16">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-accent mb-4">
-                        Aligned with UN <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">SDGs</span>
-                    </h2>
-                    <p className="text-lg md:text-xl text-neutral max-w-3xl mx-auto">
-                        Our mission supports 5 key Sustainable Development Goals
+        <section className="section bg-white" aria-labelledby="sdg-heading">
+            <div className="container-page">
+                <SectionHeader
+                    align="center"
+                    eyebrow="Global goals"
+                    title={<span id="sdg-heading">Aligned with UN SDGs</span>}
+                    description="Our mission supports 5 key Sustainable Development Goals"
+                />
+
+                <ul className="mx-auto mt-10 grid max-w-4xl grid-cols-3 gap-3 sm:grid-cols-5 sm:gap-4">
+                    {sdgGoals.map((goal) => (
+                        <li key={goal.id} className="text-center">
+                            <img
+                                src={`/${goal.imageUrl}`}
+                                alt={`SDG ${goal.goal_no}: ${goal.name}`}
+                                loading="lazy"
+                                className="aspect-square w-full rounded-xl object-cover shadow-card"
+                            />
+                            <p className="mt-2 text-xs font-medium text-slate-600">Goal {goal.goal_no}</p>
+                        </li>
+                    ))}
+                </ul>
+
+                <div className="mx-auto mt-12 max-w-4xl rounded-card border border-slate-200/80 bg-white p-6 shadow-card sm:p-8">
+                    <h3 className="text-lg font-semibold text-slate-900">Our Commitment to Sustainable Development</h3>
+                    <p className="mt-2 text-slate-600">
+                        ThreeWish actively contributes to the United Nations Sustainable Development Goals through our platform that promotes:
                     </p>
-                </div>
-
-                <div className="max-w-6xl mx-auto">
-                    {/* SDG Goals Grid - Images Only */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 mb-8">
-                        {sdgGoals.map((goal) => (
-                            <div
-                                key={goal.id}
-                                className="relative group"
-                            >
-                                {/* SDG Card with Image */}
-                                <div
-                                    className="aspect-square rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105 bg-white p-3 flex items-center justify-center"
-                                >
-                                    {/* SDG Image */}
-                                    <div className="relative w-full h-full flex items-center justify-center">
-                                        <img
-                                            src={goal.imageUrl}
-                                            alt={`SDG Goal: ${goal.name}`}
-                                            className="w-full h-full object-contain rounded-lg"
-                                        />
-                                    </div>
-
-                                    {/* Hover Overlay with Goal Info */}
-                                    <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-4">
-                                        <div className="text-white text-center">
-                                            <div
-                                                className="text-xs md:text-sm font-bold mb-2 px-3 py-1 rounded-full"
-                                                style={{ backgroundColor: goal.color }}
-                                            >
-                                                GOAL {goal.goal_no}
-                                            </div>
-                                            <div className="text-lg font-bold mb-1">{goal.name}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                    <ul className="mt-6 grid gap-4 sm:grid-cols-3">
+                        {commitments.map((c) => (
+                            <li key={c.title} className="rounded-xl bg-primary-50/60 p-4">
+                                <p className="font-semibold text-primary-800">{c.title}</p>
+                                <p className="mt-1 text-sm text-slate-600">{c.text}</p>
+                            </li>
                         ))}
-                    </div>
-
-                    {/* SDG Goals with Numbers */}
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-12">
-                        {sdgGoals.map((goal) => (
-                            <div
-                                key={goal.id}
-                                className="md:flex flex-col items-center hidden md:block"
-                            >
-                                <div
-                                    className="w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center text-white font-bold text-lg md:text-xl mb-2"
-                                    style={{ backgroundColor: goal.color }}
-                                >
-                                    {goal.goal_no}
-                                </div>
-                                <div className="text-center">
-                                    <div className="text-xs md:text-sm font-semibold text-accent">
-                                        Goal {goal.goal_no}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Legend/Explanation */}
-                    <div className="mt-8 text-center max-w-3xl mx-auto">
-                        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 md:p-8">
-                            <h3 className="text-xl md:text-2xl font-bold text-accent mb-4">Our Commitment to Sustainable Development</h3>
-                            <p className="text-neutral text-lg mb-6">
-                                ThreeWish actively contributes to the United Nations Sustainable Development Goals through our platform that promotes:
-                            </p>
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                <div className="bg-white rounded-lg p-4 shadow-sm">
-                                    <div className="font-semibold text-primary mb-2">Quality Education</div>
-                                    <p className="text-sm text-neutral">Providing learning resources and educational materials</p>
-                                </div>
-                                <div className="bg-white rounded-lg p-4 shadow-sm">
-                                    <div className="font-semibold text-secondary mb-2">Reduced Inequality</div>
-                                    <p className="text-sm text-neutral">Bridging gaps between different communities</p>
-                                </div>
-                                <div className="bg-white rounded-lg p-4 shadow-sm">
-                                    <div className="font-semibold text-primary mb-2">Climate Action</div>
-                                    <p className="text-sm text-neutral">Promoting reuse and reducing waste</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* SDG Information Link */}
-                    <div className="mt-12 text-center">
-                        <a
-                            href="https://sdgs.un.org/goals"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center text-primary hover:text-primary/80 transition-colors duration-200 font-medium"
-                        >
-                            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                            Learn more about all 17 Sustainable Development Goals
-                        </a>
-                    </div>
+                    </ul>
+                    <a
+                        href="https://sdgs.un.org/goals"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary-700 hover:underline"
+                    >
+                        Learn more about all 17 Sustainable Development Goals
+                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-3 w-3" aria-hidden="true" />
+                        <span className="sr-only">(opens in a new tab)</span>
+                    </a>
                 </div>
             </div>
         </section>

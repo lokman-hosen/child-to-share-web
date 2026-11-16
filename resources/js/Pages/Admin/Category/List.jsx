@@ -71,7 +71,7 @@ export default function List({ module, filters, categories }) {
             case '0':
                 return 'bg-rose-100 text-rose-800 border-rose-200';
             default:
-                return 'bg-gray-100 text-gray-800 border-gray-200';
+                return 'bg-slate-100 text-slate-800 border-slate-200';
         }
     };
 
@@ -80,9 +80,9 @@ export default function List({ module, filters, categories }) {
             <Head title={`${module} List`} />
             <div className="px-4 sm:px-6 lg:px-8 py-8">
                 {/* Main Card Container */}
-                <div className="bg-gradient-to-br from-white to-gray-50 shadow-2xl rounded-3xl overflow-hidden border border-gray-100">
+                <div className="bg-gradient-to-br from-white to-slate-50 shadow-2xl rounded-3xl overflow-hidden border border-slate-100">
                     {/* Card Header with Gradient */}
-                    <div className="relative bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-6 py-10 sm:px-10 sm:py-12 overflow-hidden">
+                    <div className="relative bg-gradient-to-r from-primary-600 via-primary-600 to-primary-600 px-6 py-10 sm:px-10 sm:py-12 overflow-hidden">
                         {/* Background Pattern */}
                         <div className="absolute inset-0 opacity-10">
                             <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full -translate-x-32 -translate-y-32"></div>
@@ -102,7 +102,7 @@ export default function List({ module, filters, categories }) {
                                     <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
                                         {module} Management
                                     </h1>
-                                    <p className="text-blue-100 text-lg opacity-90">
+                                    <p className="text-primary-100 text-lg opacity-90">
                                         Manage categories for wishes and gifts
                                     </p>
                                 </div>
@@ -115,7 +115,7 @@ export default function List({ module, filters, categories }) {
                                 {/* Create Button */}
                                 <Link
                                     href={route('categories.create')}
-                                    className="group inline-flex items-center justify-center space-x-3 bg-white text-indigo-600 hover:bg-indigo-50 font-semibold py-3.5 px-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-white/50"
+                                    className="group inline-flex items-center justify-center space-x-3 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3.5 px-7 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-white/50"
                                 >
                                     <div className="relative">
                                         <div className="absolute -inset-1 bg-white/30 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -131,16 +131,16 @@ export default function List({ module, filters, categories }) {
                     <div className="px-4 sm:px-8 py-8">
 
                         {/* Enhanced Filter Section */}
-                        <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 mb-6">
+                        <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 mb-6">
                             {/* Filter Header - Always visible */}
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
                                 <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-                                    <div className="h-10 w-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faFilter} className="text-blue-600 text-lg" />
+                                    <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <FontAwesomeIcon icon={faFilter} className="text-primary-600 text-lg" />
                                     </div>
                                     <div>
-                                        <h2 className="text-lg font-semibold text-gray-900">Filter Category</h2>
-                                        <p className="text-sm text-gray-500">
+                                        <h2 className="text-lg font-semibold text-slate-900">Filter Category</h2>
+                                        <p className="text-sm text-slate-500">
                                             Find specific name, status
                                         </p>
                                     </div>
@@ -150,12 +150,12 @@ export default function List({ module, filters, categories }) {
                                     {/* Mobile Filter Toggle */}
                                     <button
                                         onClick={() => setShowFilters(!showFilters)}
-                                        className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                                        className="md:hidden inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
                                     >
                                         <FontAwesomeIcon icon={showFilters ? faTimes : faFilter} className="mr-2" />
                                         {showFilters ? 'Hide Filters' : 'Show Filters'}
                                         {activeFilterCount > 0 && (
-                                            <span className="ml-2 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                            <span className="ml-2 bg-primary-600 text-white text-xs px-2 py-0.5 rounded-full">
                                                     {activeFilterCount}
                                                 </span>
                                         )}
@@ -164,7 +164,7 @@ export default function List({ module, filters, categories }) {
                                     {/* Active Filters Count - Desktop */}
                                     {activeFilterCount > 0 && (
                                         <div className="hidden md:flex items-center space-x-2">
-                                                <span className="text-sm text-gray-500">
+                                                <span className="text-sm text-slate-500">
                                                     {activeFilterCount} active filter{activeFilterCount !== 1 ? 's' : ''}
                                                 </span>
                                             <button
@@ -186,12 +186,12 @@ export default function List({ module, filters, categories }) {
                                     {/* Search Input - Enhanced with icon */}
                                     <div className="relative">
                                         <label htmlFor="search"
-                                               className="block text-sm font-medium text-gray-700 mb-2">
+                                               className="block text-sm font-medium text-slate-700 mb-2">
                                             Common Search
                                         </label>
                                         <div className="relative">
                                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                                <FontAwesomeIcon icon={faSearch} className="text-gray-400 w-4 h-4"/>
+                                                <FontAwesomeIcon icon={faSearch} className="text-slate-400 w-4 h-4"/>
                                             </div>
                                             <input
                                                 type="text"
@@ -199,14 +199,14 @@ export default function List({ module, filters, categories }) {
                                                 value={searchCommon}
                                                 onChange={(e) => setSearchCommon(e.target.value)}
                                                 placeholder="Search by name.."
-                                                className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm"
+                                                className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm"
                                             />
                                             {searchCommon && (
                                                 <button
                                                     onClick={() => setSearchCommon('')}
                                                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                                                 >
-                                                    <FontAwesomeIcon icon={faTimes} className="text-gray-400 hover:text-gray-600 w-4 h-4"/>
+                                                    <FontAwesomeIcon icon={faTimes} className="text-slate-400 hover:text-slate-600 w-4 h-4"/>
                                                 </button>
                                             )}
                                         </div>
@@ -214,14 +214,14 @@ export default function List({ module, filters, categories }) {
 
 
                                     <div>
-                                        <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+                                        <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-2">
                                             Status
                                         </label>
                                         <select
                                             id="status"
                                             value={status}
                                             onChange={(e) => setStatus(e.target.value)}
-                                            className="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-sm bg-white"
+                                            className="block w-full px-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all text-sm bg-white"
                                         >
                                             <option value="">All Status</option>
                                             {getStatusOptions().map(option => (
@@ -249,41 +249,41 @@ export default function List({ module, filters, categories }) {
                         </div>
 
                         {/* Content Area */}
-                        <div className="overflow-x-auto bg-white shadow rounded-lg border border-gray-200">
+                        <div className="overflow-x-auto bg-white shadow rounded-lg border border-slate-200">
                             {/* Desktop View */}
                             <div className="hidden md:block">
                                 <div className="overflow-x-auto">
-                                    <table className="min-w-full divide-y divide-gray-200">
-                                        <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
+                                    <table className="min-w-full divide-y divide-slate-200">
+                                        <thead className="bg-gradient-to-r from-slate-50 to-slate-100">
                                         <tr>
-                                            <th className="px-8 py-5 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                            <th className="px-8 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
                                                 Title
                                             </th>
-                                            <th className="px-6 py-5 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                            <th className="px-6 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
                                                 Total Wish
                                             </th>
-                                            <th className="px-6 py-5 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                            <th className="px-6 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
                                                 Total Gift
                                             </th>
-                                            <th className="px-6 py-5 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                            <th className="px-6 py-5 text-left text-sm font-semibold text-slate-700 uppercase tracking-wider">
                                                 Status
                                             </th>
-                                            <th className="px-6 py-5 text-right text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                                            <th className="px-6 py-5 text-right text-sm font-semibold text-slate-700 uppercase tracking-wider">
                                                 Actions
                                             </th>
                                         </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-gray-100">
+                                        <tbody className="divide-y divide-slate-100">
                                         {categoryListData.length > 0 ? (
                                             categoryListData.map((category) => (
                                                 <tr key={category.id}
-                                                    className="hover:bg-gray-50 transition-colors duration-200 group">
+                                                    className="hover:bg-slate-50 transition-colors duration-200 group">
 
                                                     <td className="px-6 py-6">
                                                         {category.name}
                                                     </td>
                                                     <td className="px-6 py-6" title="Click to see wishes">
-                                                       <div className="text-blue-700" >
+                                                       <div className="text-primary-700" >
                                                            <Link href={route('wishes.index',{
                                                                'category_id': category.id
                                                            })}>
@@ -292,7 +292,7 @@ export default function List({ module, filters, categories }) {
                                                        </div>
                                                     </td>
                                                     <td className="px-6 py-6" title="Click to see donations">
-                                                        <div className="text-blue-800">
+                                                        <div className="text-primary-800">
                                                             <Link href={route('donations.index',{
                                                                 'category_id': category.id
                                                             })}>
@@ -322,19 +322,19 @@ export default function List({ module, filters, categories }) {
                                                 <td colSpan="5" className="px-8 py-16 text-center">
                                                     <div className="max-w-md mx-auto">
                                                         <div
-                                                            className="h-24 w-24 mx-auto bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mb-6">
+                                                            className="h-24 w-24 mx-auto bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl flex items-center justify-center mb-6">
                                                             <FontAwesomeIcon icon={faBuilding}
-                                                                             className="text-gray-300 text-4xl"/>
+                                                                             className="text-slate-300 text-4xl"/>
                                                         </div>
-                                                        <h3 className="text-2xl font-semibold text-gray-700 mb-3">No
+                                                        <h3 className="text-2xl font-semibold text-slate-700 mb-3">No
                                                             Category Found</h3>
-                                                        <p className="text-gray-500 mb-8">
+                                                        <p className="text-slate-500 mb-8">
                                                             Start by adding your first organization to manage
                                                             partnerships and collaborations.
                                                         </p>
                                                         <Link
                                                             href={route('categories.create')}
-                                                            className="inline-flex items-center space-x-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold py-3.5 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                                                            className="inline-flex items-center space-x-3 bg-gradient-to-r from-primary-600 to-primary-600 text-white font-semibold py-3.5 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                                                         >
                                                             <FontAwesomeIcon icon={faPlus}/>
                                                             <span>Create First Categories</span>
@@ -353,7 +353,7 @@ export default function List({ module, filters, categories }) {
                         {/* Pagination */}
                         {categoryLinks.length > 1 && (
                             <div className="mt-8 px-6">
-                                <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+                                <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
                                     <Pagination data={categories} links={categoryLinks}/>
                                 </div>
                             </div>

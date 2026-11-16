@@ -1,66 +1,54 @@
 import React from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowRight, faGift} from "@fortawesome/free-solid-svg-icons";
-import {textLimit} from "@/utils.jsx";
-import {Link} from "@inertiajs/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faGift } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "@inertiajs/react";
+import { textLimit } from "@/utils.jsx";
+import SafeImage from "@/Components/UI/SafeImage";
+import { Avatar } from "@/Components/Common/Navbar.jsx";
 
-const SingleDonationItem = ({donation}) => {
+/** Gift card (responsive; used on Home and /donation). */
+const SingleDonationItem = ({ donation }) => {
     return (
-        <Link href={route('donation.show', {id: donation.id})}>
-            <div className="bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group">
-                <div className="relative">
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
-                        {donation.featured_image?.file_path ? (
-                            <img
-                                src={`/storage/${donation.featured_image.file_path}`}
-                                alt={donation.title}
-                                className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
-                        ) : (
-                            <div
-                                className="w-full h-56 bg-gradient-to-br from-secondary/10 to-secondary/20 flex items-center justify-center">
-                                <FontAwesomeIcon icon={faGift} className="text-secondary text-6xl"/>
-                            </div>
-                        )}
+        <Link
+            href={route('donation.show', { id: donation.id })}
+            className="group flex h-full flex-col overflow-hidden rounded-card border border-slate-200/80 bg-white shadow-card transition duration-200 hover:-translate-y-0.5 hover:shadow-card-hover"
+        >
+            <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+                <SafeImage
+                    src={donation.featured_image?.file_path ? `/storage/${donation.featured_image.file_path}` : null}
+                    alt={donation.title}
+                    fallbackIcon={faGift}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-secondary-100/95 px-2.5 py-1 text-xs font-semibold text-secondary-800 shadow-xs backdrop-blur">
+                    <FontAwesomeIcon icon={faGift} className="h-3 w-3" aria-hidden="true" />
+                    Contribution
+                </span>
+            </div>
+
+            <div className="flex flex-1 flex-col p-4 sm:p-5">
+                {donation.category?.name && (
+                    <p className="text-xs font-semibold uppercase tracking-wide text-secondary-600">{donation.category.name}</p>
+                )}
+                <h3 className="mt-1 text-base font-semibold leading-snug text-slate-900 group-hover:text-primary-700">
+                    {textLimit(donation.title || '', 40)}
+                </h3>
+                {donation.description && (
+                    <p className="mt-1.5 line-clamp-2 text-sm text-slate-600">{textLimit(donation.description, 90)}</p>
+                )}
+
+                <div className="min-h-4 flex-1" />
+                <div className="flex items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                    <div className="flex min-w-0 items-center gap-2.5">
+                        <Avatar user={donation.user} size="h-8 w-8" className="ring-0 text-xs" />
+                        <p className="truncate text-sm font-medium text-slate-700">
+                            <span className="sr-only">Gifted by </span>{donation.user?.name}
+                        </p>
                     </div>
-                    <div className="absolute top-3 left-3 bg-secondary text-accent px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                        CONTRIBUTION
-                    </div>
-                </div>
-                <div className="p-6">
-                    <h3 className="font-bold text-accent text-lg mb-2 group-hover:text-primary transition-colors duration-200">
-                        {textLimit(donation.title, 18)}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-4">
-                        {donation.description && textLimit(donation.description, 20)}
-                    </p>
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <div className="bg-primary/10 rounded-full h-10 w-10 flex items-center justify-center overflow-hidden border border-primary/20">
-                                {donation.user.image ? (
-                                    <img
-                                        src={`/storage/${donation.user.image}`}
-                                        alt={donation.user.name}
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center">
-                                        <span className="text-primary text-xs font-bold">
-                                            {donation.user.name.charAt(0).toUpperCase()}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="ml-3">
-                                <p className="text-sm font-medium text-accent">
-                                    {textLimit(donation.user.name, 15)}
-                                </p>
-                            </div>
-                        </div>
-                        <button className="bg-gradient-to-r from-primary to-primary-dark text-white hover:from-primary-dark hover:to-primary px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 group-hover:scale-105">
-                            <FontAwesomeIcon icon={faArrowRight}/>
-                        </button>
-                    </div>
+                    <span className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-primary-700">
+                        View
+                        <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+                    </span>
                 </div>
             </div>
         </Link>

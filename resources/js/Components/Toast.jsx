@@ -39,30 +39,21 @@ const Toast = () => {
 
     return (
         <Toaster
+            position="top-right"
+            containerStyle={{ top: 76 }}
             toastOptions={{
-                className: 'text-sm font-medium py-10',
-                success: {
-                    className: 'border border-green-200 bg-green-50 text-green-800',
-                    iconTheme: {
-                        primary: '#10B981',
-                        secondary: '#fff',
-                    },
-                    style: {
-                        background: 'green',
-                        color: 'white',
-                    },
+                className: 'text-sm font-medium',
+                style: {
+                    borderRadius: '0.75rem',
+                    background: '#ffffff',
+                    color: '#0f172a',
+                    border: '1px solid #e2e8f0',
+                    boxShadow: '0 12px 32px -8px rgb(15 23 42 / 0.18)',
+                    padding: '12px 14px',
+                    maxWidth: '420px',
                 },
-                error: {
-                    className: 'border border-red-200 bg-red-50 text-red-800',
-                    iconTheme: {
-                        primary: '#EF4444',
-                        secondary: '#fff',
-                    },
-                    style: {
-                        background: 'red',
-                        color: 'white',
-                    },
-                },
+                success: { iconTheme: { primary: '#059669', secondary: '#fff' }, style: { borderLeft: '4px solid #059669' } },
+                error: { iconTheme: { primary: '#E11D48', secondary: '#fff' }, style: { borderLeft: '4px solid #E11D48' } },
             }}
         />
     );

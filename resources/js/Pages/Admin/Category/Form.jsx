@@ -105,7 +105,7 @@ const Form = ({category, statuses}) => {
                 <button
                     type="button"
                     onClick={() => window.history.back()}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                    className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                 >
                     <div className="flex items-center space-x-2">
                         <FontAwesomeIcon icon={faArrowLeft}/>
@@ -115,7 +115,7 @@ const Form = ({category, statuses}) => {
                 <button
                     type="submit"
                     disabled={processing}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
+                    className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50"
                 >
                     {category ? (
                         // Button content for Update User

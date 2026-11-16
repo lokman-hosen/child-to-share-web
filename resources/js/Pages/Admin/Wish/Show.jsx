@@ -1,3 +1,4 @@
+import { confirmDialog } from '@/Components/UI/ConfirmDialog';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.jsx';
 import {Head, Link, router} from '@inertiajs/react';
 import React, { useState } from "react";
@@ -25,9 +26,9 @@ export default function Show({module, wish}) {
             case 'reserved':
                 return 'bg-yellow-100 text-yellow-800';
             case 'donated':
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
             default:
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
         }
     };
 
@@ -35,7 +36,7 @@ export default function Show({module, wish}) {
     const getConditionColor = (condition) => {
         switch (condition?.toLowerCase()) {
             case 'new':
-                return 'bg-blue-100 text-blue-800';
+                return 'bg-primary-100 text-primary-800';
             case 'like new':
                 return 'bg-green-100 text-green-800';
             case 'good':
@@ -43,7 +44,7 @@ export default function Show({module, wish}) {
             case 'fair':
                 return 'bg-orange-100 text-orange-800';
             default:
-                return 'bg-gray-100 text-gray-800';
+                return 'bg-slate-100 text-slate-800';
         }
     };
 
@@ -64,24 +65,24 @@ export default function Show({module, wish}) {
         setCurrentIndex(index);
     };
 
-    const handleDelete = (fileId) => {
-        if (confirm('Are you sure want to delete?')) {
+    const handleDelete = async (fileId) => {
+        if (await confirmDialog({ title: 'Delete file', message: 'Are you sure want to delete?', tone: 'danger', confirmLabel: 'Delete' })) {
             router.delete(route('wishes.file.delete', fileId), {
                 preserveScroll: true,
             });
         }
     };
 
-    const handleFeatureImage = (fileId) => {
-        if (confirm('Are you sure want to make feature file?')) {
+    const handleFeatureImage = async (fileId) => {
+        if (await confirmDialog({ title: 'Feature file', message: 'Are you sure want to make feature file?', confirmLabel: 'Make featured' })) {
             router.get(route('wishes.file.feature', fileId), {
                 preserveScroll: true,
             });
         }
     };
 
-    const handleItemDelete = (itemId) => {
-        if (confirm('Are you sure want to delete?')) {
+    const handleItemDelete = async (itemId) => {
+        if (await confirmDialog({ title: 'Delete item', message: 'Are you sure want to delete?', tone: 'danger', confirmLabel: 'Delete' })) {
             router.delete(route('wishes.destroy', itemId), {
                 preserveScroll: true,
             });
@@ -92,9 +93,9 @@ export default function Show({module, wish}) {
         <AuthenticatedLayout>
             <Head title="Gift List"/>
             <div className="px-4 sm:px-6 lg:px-8 py-6">
-                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100">
+                <div className="bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
                     {/* Beautiful Card Header */}
-                    <div className="bg-gradient-to-r from-purple-600 to-blue-700 px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-8 sm:px-8 sm:py-10">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
                             {/* Title Section */}
                             <div className="flex items-center space-x-4 mb-4 sm:mb-0">
@@ -108,7 +109,7 @@ export default function Show({module, wish}) {
                                     <h1 className="text-2xl sm:text-3xl font-bold text-white">
                                         Item: {wish.title}
                                     </h1>
-                                    <p className="text-blue-100 text-sm mt-1">
+                                    <p className="text-primary-100 text-sm mt-1">
                                         <span
                                             className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium mr-1 ${getStatusColor(wish.status)}`}>
                                             {wish.status.charAt(0).toUpperCase() + wish.status.slice(1)}
@@ -120,9 +121,9 @@ export default function Show({module, wish}) {
                             {/* Action Button */}
                             <Link
                                 href={route('wishes.index')}
-                                className="inline-flex items-center justify-center space-x-2 bg-white text-blue-600 hover:bg-blue-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
+                                className="inline-flex items-center justify-center space-x-2 bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-white border-opacity-30"
                             >
-                                <FontAwesomeIcon icon={faList} className="text-blue-600" />
+                                <FontAwesomeIcon icon={faList} className="text-primary-600" />
                                 <span>View {module} List</span>
                             </Link>
                         </div>
@@ -131,17 +132,17 @@ export default function Show({module, wish}) {
                     {/* Card Body */}
                     <div className="px-6 py-8 sm:px-8 sm:py-10">
                         <div className="space-y-8">
-                            <div className="border-t border-gray-200">
+                            <div className="border-t border-slate-200">
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
                                     {/* Left Column - Media Carousel */}
                                     <div className="lg:col-span-2">
                                         {/* Main Carousel */}
                                         {wish.files && wish.files.length > 0 && (
                                             <div className="relative">
-                                                <h3 className="text-lg font-medium text-gray-900 mb-4">Media Gallery</h3>
+                                                <h3 className="text-lg font-medium text-slate-900 mb-4">Media Gallery</h3>
 
                                                 {/* Main Carousel Container */}
-                                                <div className="relative bg-gray-100 rounded-lg overflow-hidden">
+                                                <div className="relative bg-slate-100 rounded-lg overflow-hidden">
                                                     {/* Navigation Arrows */}
                                                     {wish.files.length > 1 && (
                                                         <>
@@ -169,7 +170,7 @@ export default function Show({module, wish}) {
 
                                                     {/* Featured Badge */}
                                                     {wish.files[currentIndex]?.is_featured == 1 && (
-                                                        <span className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded z-10">
+                                                        <span className="absolute top-2 left-2 bg-primary-500 text-white text-xs px-2 py-1 rounded z-10">
                                                     Featured
                                                 </span>
                                                     )}
@@ -182,7 +183,7 @@ export default function Show({module, wish}) {
                                                                 <button
                                                                     title={wish.files[currentIndex].file_type === 'image' ? 'Make Feature Image' : 'Make Feature Video'}
                                                                     onClick={() => handleFeatureImage(wish.files[currentIndex].id)}
-                                                                    className="inline-flex items-center justify-center w-10 h-10 bg-yellow-200 hover:bg-yellow-300 text-yellow-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                                    className="inline-flex items-center justify-center w-10 h-10 bg-secondary-100 hover:bg-secondary-200 text-secondary-800 rounded-full text-sm font-medium transition-colors shadow-md"
                                                                 >
                                                                     <FontAwesomeIcon icon={faCheck}
                                                                                      className="w-4 h-4"/>
@@ -202,7 +203,7 @@ export default function Show({module, wish}) {
                                                             href={`/storage/${wish.files[currentIndex].file_path}`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="inline-flex items-center justify-center w-10 h-10 bg-indigo-200 hover:bg-indigo-300 text-indigo-800 rounded-full text-sm font-medium transition-colors shadow-md"
+                                                            className="inline-flex items-center justify-center w-10 h-10 bg-primary-200 hover:bg-primary-300 text-primary-800 rounded-full text-sm font-medium transition-colors shadow-md"
                                                             title={wish.files[currentIndex].file_type === 'image' ? 'View Full Image' : 'Download Video'}
                                                         >
                                                             <FontAwesomeIcon icon={faEye} className="w-4 h-4"/>
@@ -243,8 +244,8 @@ export default function Show({module, wish}) {
                                                                     onClick={() => goToSlide(index)}
                                                                     className={`flex-shrink-0 w-20 h-20 border-2 rounded-lg overflow-hidden ${
                                                                         index === currentIndex
-                                                                            ? 'border-blue-500 ring-2 ring-blue-200'
-                                                                            : 'border-gray-300 hover:border-gray-400'
+                                                                            ? 'border-primary-500 ring-2 ring-primary-200'
+                                                                            : 'border-slate-300 hover:border-slate-400'
                                                                     }`}
                                                                 >
                                                                     {file.file_type === 'image' ? (
@@ -254,10 +255,10 @@ export default function Show({module, wish}) {
                                                                             className="w-full h-full object-cover"
                                                                         />
                                                                     ) : (
-                                                                        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                                                        <div className="w-full h-full bg-slate-200 flex items-center justify-center">
                                                                             <div className="text-center">
                                                                                 <div className="text-lg">🎥</div>
-                                                                                <span className="text-xs text-gray-600">Video</span>
+                                                                                <span className="text-xs text-slate-600">Video</span>
                                                                             </div>
                                                                         </div>
                                                                     )}
@@ -271,8 +272,8 @@ export default function Show({module, wish}) {
 
                                         {/* Fallback if no files */}
                                         {(!wish.files || wish.files.length === 0) && (
-                                            <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
-                                                <div className="text-center text-gray-500">
+                                            <div className="aspect-video bg-slate-100 rounded-lg flex items-center justify-center">
+                                                <div className="text-center text-slate-500">
                                                     <div className="text-4xl mb-2">📷</div>
                                                     <p>No media available</p>
                                                 </div>
@@ -283,17 +284,17 @@ export default function Show({module, wish}) {
                                     {/* Right Column - Donation Details */}
                                     <div className="space-y-6">
                                         {/* Basic Information */}
-                                        <div className="bg-gray-50 rounded-lg p-4">
-                                            <h3 className="text-lg font-medium text-gray-900 mb-4">Basic Information</h3>
+                                        <div className="bg-slate-50 rounded-lg p-4">
+                                            <h3 className="text-lg font-medium text-slate-900 mb-4">Basic Information</h3>
                                             <dl className="space-y-3">
                                                 <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Category:</dt>
-                                                    <dd className="text-sm text-gray-900">
+                                                    <dt className="text-sm font-medium text-slate-500">Category:</dt>
+                                                    <dd className="text-sm text-slate-900">
                                                         {wish.category?.name || 'N/A'}
                                                     </dd>
                                                 </div>
                                                 <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Status:</dt>
+                                                    <dt className="text-sm font-medium text-slate-500">Status:</dt>
                                                     <dd className="text-sm">
                                                 <span
                                                     className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getStatusColor(wish.status)}`}>
@@ -302,28 +303,28 @@ export default function Show({module, wish}) {
                                                     </dd>
                                                 </div>
                                                 <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Posted By:</dt>
-                                                    <dd className="text-sm text-gray-900">
+                                                    <dt className="text-sm font-medium text-slate-500">Posted By:</dt>
+                                                    <dd className="text-sm text-slate-900">
                                                         {wish.user?.name || 'Anonymous'}
                                                     </dd>
                                                 </div>
                                                 {wish?.create_by && (
                                                     <div>
-                                                        <dt className="text-sm font-medium text-gray-500">Organization:</dt>
-                                                        <dd className="text-sm text-gray-900">
+                                                        <dt className="text-sm font-medium text-slate-500">Organization:</dt>
+                                                        <dd className="text-sm text-slate-900">
                                                             {wish?.create_by?.name}
                                                         </dd>
                                                     </div>
                                                 )}
                                                 <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Wisher Age Range:</dt>
-                                                    <dd className="text-sm text-gray-900">
+                                                    <dt className="text-sm font-medium text-slate-500">Wisher Age Range:</dt>
+                                                    <dd className="text-sm text-slate-900">
                                                         {wish.age_range} Years
                                                     </dd>
                                                 </div>
                                                 <div>
-                                                    <dt className="text-sm font-medium text-gray-500">Created:</dt>
-                                                    <dd className="text-sm text-gray-900">
+                                                    <dt className="text-sm font-medium text-slate-500">Created:</dt>
+                                                    <dd className="text-sm text-slate-900">
                                                         {wish.created_at}
                                                     </dd>
                                                 </div>
@@ -331,9 +332,9 @@ export default function Show({module, wish}) {
                                         </div>
 
                                         {/* Description */}
-                                        <div className="bg-gray-50 rounded-lg p-4">
-                                            <h3 className="text-lg font-medium text-gray-900 mb-3">Description</h3>
-                                            <p className="text-sm text-gray-700 whitespace-pre-line">
+                                        <div className="bg-slate-50 rounded-lg p-4">
+                                            <h3 className="text-lg font-medium text-slate-900 mb-3">Description</h3>
+                                            <p className="text-sm text-slate-700 whitespace-pre-line">
                                                 {wish.description || 'No description provided.'}
                                             </p>
                                         </div>
@@ -344,7 +345,7 @@ export default function Show({module, wish}) {
                                             <button
                                                 type="button"
                                                 onClick={() => window.history.back()}
-                                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                                                className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                                             >
                                                 <div className="flex items-center space-x-2">
                                                     <FontAwesomeIcon icon={faArrowLeft}/>
@@ -360,7 +361,7 @@ export default function Show({module, wish}) {
                                                     </Button>
                                                     <Link
                                                         href={route('wishes.edit',wish.id)}
-                                                        className="flex-1 bg-yellow-400 hover:bg-yellow-300 text-yellow-800 font-medium py-2 px-4 rounded-md text-sm transition-colors">
+                                                        className="flex-1 bg-secondary-300 hover:bg-secondary-400 text-slate-900 font-medium py-2 px-4 rounded-md text-sm transition-colors">
                                                         <FontAwesomeIcon icon={faEdit}/> Edit
                                                     </Link>
                                                 </>

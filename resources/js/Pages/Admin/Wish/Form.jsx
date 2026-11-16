@@ -206,17 +206,17 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
             {data.category && (
                 <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? '' : 'hidden'}`}>
                     <div className="space-y-4">
-                        <label className="block text-sm font-medium text-gray-700">
+                        <label className="block text-sm font-medium text-slate-700">
                             Choose one image from existing donation images
                         </label>
 
                         {isLoadingImages ? (
                             <div className="text-center py-4">
-                                <p className="text-gray-500">Loading donation images...</p>
+                                <p className="text-slate-500">Loading donation images...</p>
                             </div>
                         ) : donationImages.length > 0 ? (
-                            <div className="border border-gray-200 rounded-lg p-4">
-                                <p className="text-sm text-gray-600 mb-3">
+                            <div className="border border-slate-200 rounded-lg p-4">
+                                <p className="text-sm text-slate-600 mb-3">
                                     Select one image from previous donations in this category:
                                 </p>
 
@@ -261,7 +261,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                                                 className={`relative border-2 rounded-lg cursor-pointer transition-all ${
                                                     isSelected
                                                         ? 'border-green-500 ring-2 ring-green-200'
-                                                        : 'border-gray-200 hover:border-gray-400'
+                                                        : 'border-slate-200 hover:border-slate-400'
                                                 }`}
                                                 onClick={() => handleExistingImageSelect(image)}
                                             >
@@ -283,13 +283,13 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                                 {errors.attachments &&
                                     <p className="text-red-500">{errors.attachments}</p>
                                 }
-                                <p className="text-xs text-gray-500 mt-2">
+                                <p className="text-xs text-slate-500 mt-2">
                                     {selectedExistingImage ? '1 image selected' : 'Click to select one image'}
                                 </p>
                             </div>
                         ) : (
-                            <div className="border border-gray-200 rounded-lg p-4 text-center">
-                                <p className="text-gray-500">
+                            <div className="border border-slate-200 rounded-lg p-4 text-center">
+                                <p className="text-slate-500">
                                     No donation images found for this category. Please upload new images below.
                                 </p>
                             </div>
@@ -301,7 +301,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
             {/* File Upload Section for new files - Show when no existing images or user wants to upload */}
             <div className={`grid grid-cols-1 gap-6 ${donationImages.length > 0 ? 'hidden' : ''}`}>
                 <div className="space-y-4">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-slate-700">
                         {donationImages.length > 0
                             ? "Or upload new images (png,jpg,jpeg. Min size: 800x500)"
                             : "Upload new images (png,jpg,jpeg. Min size: 800x500)"
@@ -312,7 +312,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                     </label>
 
                     {/* Main File Input */}
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center">
                         <input
                             type="file"
                             ref={fileInputRef}
@@ -324,12 +324,12 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                         <button
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
-                            className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md shadow-sm"
+                            className="bg-secondary-300 hover:bg-secondary-400 text-slate-900 font-semibold py-2 px-4 rounded-md shadow-sm"
                         >
                             <FontAwesomeIcon icon={faUpload} className="mr-2"/>
                             {data.attachments.length > 0 ? 'Replace All Files' : 'Choose Files'}
                         </button>
-                        <p className="mt-2 text-sm text-gray-500">
+                        <p className="mt-2 text-sm text-slate-500">
                             Upload images(min size: 800x500). Images will be automatically optimized.
                         </p>
                     </div>
@@ -348,7 +348,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                             <button
                                 type="button"
                                 onClick={() => document.getElementById('add-more-files')?.click()}
-                                className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                                className="text-primary-600 hover:text-primary-800 text-sm font-medium"
                             >
                                 <FontAwesomeIcon icon={faSquarePlus} className="mr-1"/>
                                 Add More Files
@@ -359,13 +359,13 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                     {/* Selected Files Preview */}
                     {data.attachments.length > 0 && (
                         <div className="mt-4">
-                            <h4 className="text-sm font-medium text-gray-700 mb-2">New Files to Upload:</h4>
+                            <h4 className="text-sm font-medium text-slate-700 mb-2">New Files to Upload:</h4>
                             <div className="space-y-2">
                                 {data.attachments.map((file, index) => (
                                     <div key={index}
-                                         className="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                         className="flex items-center justify-between bg-slate-50 p-3 rounded">
                                         <div className="flex items-center">
-                                            <span className="text-sm text-gray-700">
+                                            <span className="text-sm text-slate-700">
                                                 {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
                                             </span>
                                         </div>
@@ -393,7 +393,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                 <button
                     type="button"
                     onClick={() => window.history.back()}
-                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
+                    className="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200"
                 >
                     <div className="flex items-center space-x-2">
                         <FontAwesomeIcon icon={faArrowLeft}/>
@@ -405,7 +405,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                 <button
                     type="submit"
                     disabled={processing}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
+                    className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-2 px-4 rounded-md shadow-sm disabled:opacity-50 transition-colors duration-200"
                 >
                     {wish ? (
                         <div className="flex items-center space-x-2">
