@@ -367,7 +367,7 @@ class WishService extends BaseService
 
         $query = $this->wish->query()
             ->with(['user', 'category', 'files', 'featuredImage', 'latestFulfillment'])
-            ->join('users', 'wishes.user_id', '=', 'users.id')
+            ->leftJoin('users', 'wishes.user_id', '=', 'users.id')
             ->select('wishes.*')
             ->selectRaw(
                 "ROUND(? * ACOS(COS(RADIANS(?)) * COS(RADIANS(users.latitude)) *
@@ -509,8 +509,6 @@ class WishService extends BaseService
                 [$earthRadius, $user->latitude, $user->longitude, $user->latitude]
             )
             ->where('wishes.id', $id)
-            ->whereNotNull('users.latitude')
-            ->whereNotNull('users.longitude')
             ->firstOrFail();
     }
 

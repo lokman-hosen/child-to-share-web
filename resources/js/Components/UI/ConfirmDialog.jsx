@@ -51,8 +51,9 @@ export function ConfirmHost() {
                         </div>
                     </div>
                     <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                        <Button variant="secondary" onClick={() => close(false)}>{state?.cancelLabel}</Button>
-                        <Button variant={danger ? 'danger' : 'primary'} onClick={() => close(true)} autoFocus>{state?.confirmLabel}</Button>
+                        {/* Destructive dialogs focus Cancel so a stray Enter can't delete (APG alertdialog guidance) */}
+                        <Button variant="secondary" onClick={() => close(false)} autoFocus={danger}>{state?.cancelLabel}</Button>
+                        <Button variant={danger ? 'danger' : 'primary'} onClick={() => close(true)} autoFocus={!danger}>{state?.confirmLabel}</Button>
                     </div>
                 </DialogPanel>
             </div>

@@ -70,9 +70,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(User $user): RedirectResponse
     {
-        //
+        // The profile view lives at my.profile; keep users.show working as an alias.
+        return redirect()->route('my.profile', $user->id);
     }
 
     /**
