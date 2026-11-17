@@ -234,7 +234,7 @@ const Form = ({categories, wish, statuses, module, ageRanges, wishers}) => {
                         ) : (
                             <p className="mt-1 text-sm text-slate-500">No gift photos in this category yet. Upload your own below.</p>
                         )}
-                        <div className="my-5 flex items-center gap-3 text-xs font-medium uppercase tracking-wide text-slate-400">
+                        <div className="my-5 flex items-center gap-3 text-xs font-medium uppercase tracking-wide text-slate-500">
                             <span className="h-px flex-1 bg-slate-200" />or<span className="h-px flex-1 bg-slate-200" />
                         </div>
                     </div>

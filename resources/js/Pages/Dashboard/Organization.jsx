@@ -4,6 +4,7 @@ import { faUsers, faGift, faStar, faCircleCheck, faLocationDot, faBuilding, faPl
 import AppPage from '@/Components/UI/AppPage';
 import StatCard from '@/Components/UI/StatCard';
 import QuickAction from '@/Components/UI/QuickAction';
+import { canCreateGift, canCreateWish } from '@/utils.jsx';
 import SafeImage from '@/Components/UI/SafeImage';
 
 const OrganizationDashboard = ({ availableDonationCount, donatedDonationCount, activeWishCount, fulfilledWishCount, user, totalMembers }) => {
@@ -56,8 +57,8 @@ const OrganizationDashboard = ({ availableDonationCount, donatedDonationCount, a
                 </section>
                 <section aria-labelledby="quick-actions" className="space-y-3">
                     <h2 id="quick-actions" className="text-base font-semibold text-slate-900">Quick Actions</h2>
-                    <QuickAction href={route('wishes.create')} icon={faPlus} title="Create Wish" description="Tap to have items" />
-                    <QuickAction href={route('donations.create')} icon={faGift} title="Create Gift" description="Tap to share items" />
+                    {canCreateWish(user?.role) && <QuickAction href={route('wishes.create')} icon={faPlus} title="Create Wish" description="Tap to have items" />}
+                    {canCreateGift(user?.role) && <QuickAction href={route('donations.create')} icon={faGift} title="Create Gift" description="Tap to share items" />}
                     <QuickAction href={route('wish.fulfill.list')} icon={faHandHoldingHeart} title="Fulfill Wishes" description="Find wishes your gifts can fulfil" />
                 </section>
             </div>

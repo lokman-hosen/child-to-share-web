@@ -56,7 +56,7 @@ export default function Navbar({ onMenuClick, onCollapseToggle, collapsed = fals
                 </Link>
 
                 <Menu as="div" className="relative">
-                    <MenuButton className="flex items-center gap-2.5 rounded-full p-0.5 pr-2 text-left hover:bg-slate-100">
+                    <MenuButton aria-label={`${user.name}, account menu`} className="flex items-center gap-2.5 rounded-full p-0.5 pr-2 text-left hover:bg-slate-100">
                         <Avatar user={user} />
                         <span className="hidden min-w-0 sm:block">
                             <span className="block max-w-[10rem] truncate text-sm font-semibold text-slate-900">{user.name}</span>

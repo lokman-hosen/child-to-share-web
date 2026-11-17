@@ -27,7 +27,7 @@ function LogoMarquee({ title, description, items, countKey, countLabel, tone }) 
                         >
                             <SafeImage
                                 src={org.user?.image ? `/storage/${org.user.image}` : null}
-                                alt={org.name}
+                                alt=""
                                 fallbackIcon={faBuilding}
                                 className="max-h-14 w-auto max-w-[9rem] object-contain"
                                 fallbackClassName="h-12 w-12 rounded-xl"

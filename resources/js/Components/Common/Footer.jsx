@@ -99,7 +99,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="mt-12 border-t border-white/10 pt-8 text-xs text-slate-400">
+                <div className="mt-12 border-t border-white/10 pt-8 text-xs text-slate-300">
                     <p>&copy; {new Date().getFullYear()} ThreeWish. All rights reserved.</p>
                 </div>
             </div>

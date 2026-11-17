@@ -89,12 +89,12 @@ const ContributorsPage = ({ users, type, title, subTitle, module }) => {
                                         <li key={user.id} className="flex flex-col items-center rounded-card border border-slate-200/80 bg-white p-5 text-center shadow-card">
                                             <SafeImage
                                                 src={user.image ? `/storage/${user.image}` : null}
-                                                alt={name}
+                                                alt=""
                                                 fallbackIcon={isOrg ? faBuilding : faUser}
                                                 className={cn('h-24 w-24 ring-4 ring-primary-50', isOrg ? 'rounded-2xl object-contain bg-white' : 'rounded-full object-cover')}
                                                 fallbackClassName={isOrg ? 'rounded-2xl' : 'rounded-full'}
                                             />
-                                            <h3 className="mt-4 line-clamp-2 text-sm font-semibold text-slate-900">{name}</h3>
+                                            <h2 className="mt-4 line-clamp-2 text-sm font-semibold text-slate-900">{name}</h2>
                                         </li>
                                     );
                                 })}

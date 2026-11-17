@@ -114,12 +114,12 @@ const View = ({ organization, availableDonationCount, activeWishCount, fulfilled
                             </div>
                             <ul className="mt-4 space-y-3">
                                 <ContactRow icon={faEnvelope}>
-                                    {organization.contact_email ? <a href={`mailto:${organization.contact_email}`} className="hover:text-primary-700">{organization.contact_email}</a> : <span className="text-slate-400">No email</span>}
+                                    {organization.contact_email ? <a href={`mailto:${organization.contact_email}`} className="hover:text-primary-700">{organization.contact_email}</a> : <span className="text-slate-500">No email</span>}
                                 </ContactRow>
                                 <ContactRow icon={faPhone}>
-                                    {organization.contact_phone ? <a href={`tel:${organization.contact_phone}`} className="hover:text-primary-700">{organization.contact_phone}</a> : <span className="text-slate-400">No phone</span>}
+                                    {organization.contact_phone ? <a href={`tel:${organization.contact_phone}`} className="hover:text-primary-700">{organization.contact_phone}</a> : <span className="text-slate-500">No phone</span>}
                                 </ContactRow>
-                                <ContactRow icon={faLocationDot}>{organization.address || <span className="text-slate-400">No address</span>}</ContactRow>
+                                <ContactRow icon={faLocationDot}>{organization.address || <span className="text-slate-500">No address</span>}</ContactRow>
                                 {organization.created_at && <ContactRow icon={faCalendar}>Joined {organization.created_at}</ContactRow>}
                             </ul>
                         </Card>

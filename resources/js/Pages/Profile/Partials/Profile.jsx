@@ -8,7 +8,7 @@ import { checkAdmin, checkDonor, checkDonorWisher, checkWisher, getLoginUser } f
 const ROLE_LABEL = { donor: 'Contributor', wisher: 'Wisher', 'donor-wisher': 'Contributor & Wisher', admin: 'Admin', 'super-admin': 'Super admin' };
 
 const Verified = ({ ok, label }) => (
-    <span className={`inline-flex items-center gap-1 text-xs font-medium ${ok ? 'text-success-700' : 'text-slate-400'}`}>
+    <span className={`inline-flex items-center gap-1 text-xs font-medium ${ok ? 'text-success-700' : 'text-slate-500'}`}>
         <FontAwesomeIcon icon={ok ? faCircleCheck : faCircleXmark} className="h-3 w-3" aria-hidden="true" />
         {ok ? 'Verified' : 'Not verified'}
         <span className="sr-only">{label}</span>
@@ -16,12 +16,13 @@ const Verified = ({ ok, label }) => (
 );
 
 const Row = ({ icon, label, children }) => (
-    <div className="flex items-start gap-3 py-3">
-        <FontAwesomeIcon icon={icon} className="mt-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
-        <div className="min-w-0 flex-1">
-            <dt className="text-xs text-slate-500">{label}</dt>
-            <dd className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 break-words text-sm text-slate-900">{children}</dd>
-        </div>
+    // dt/dd must be direct children of the group div, so the icon sits inside the dt, absolutely positioned
+    <div className="relative min-w-0 py-3 pl-7">
+        <dt className="text-xs text-slate-500">
+            <FontAwesomeIcon icon={icon} className="absolute left-0 top-3.5 h-4 w-4 text-slate-400" aria-hidden="true" />
+            {label}
+        </dt>
+        <dd className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 break-words text-sm text-slate-900">{children}</dd>
     </div>
 );
 
@@ -83,16 +84,16 @@ export default function Profile({ user, availableDonationCount, donatedDonationC
                         <h2 className="text-base font-semibold text-slate-900">Contact information</h2>
                         <dl className="mt-1 divide-y divide-slate-100">
                             <Row icon={faEnvelope} label="Email">
-                                {user.email ? <span className="break-all">{user.email}</span> : <span className="text-slate-400">Not provided</span>}
+                                {user.email ? <span className="break-all">{user.email}</span> : <span className="text-slate-500">Not provided</span>}
                                 {user.email && <Verified ok={!!user.email_verified_at} label="email" />}
                             </Row>
                             {canSeePhone && (
                                 <Row icon={faPhone} label="Phone">
-                                    {user.phone || <span className="text-slate-400">Not provided</span>}
+                                    {user.phone || <span className="text-slate-500">Not provided</span>}
                                     {user.phone && <Verified ok={!!user.phone_verified_at} label="phone" />}
                                 </Row>
                             )}
-                            <Row icon={faLocationDot} label="Address">{user.address ?? <span className="text-slate-400">n/a</span>}</Row>
+                            <Row icon={faLocationDot} label="Address">{user.address ?? <span className="text-slate-500">n/a</span>}</Row>
                             <Row icon={faVenusMars} label="Gender"><span className="capitalize">{user.gender ?? 'n/a'}</span></Row>
                             {user.dob && <Row icon={faCalendar} label="Date of birth">{user.dob}</Row>}
                         </dl>

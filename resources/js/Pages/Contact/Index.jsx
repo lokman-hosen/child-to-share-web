@@ -89,32 +89,32 @@ const ContactPage = () => {
                                 />
                             </div>
                             <dl className="divide-y divide-slate-100 p-5">
-                                <div className="flex gap-3 pb-4">
-                                    <FontAwesomeIcon icon={faLocationDot} className="mt-1 h-4 w-4 text-primary-600" aria-hidden="true" />
-                                    <div>
-                                        <dt className="font-semibold text-slate-900">Address</dt>
-                                        <dd className="text-sm text-slate-600">101, Central Road, Dhanmondi, Dhaka, Bangladesh</dd>
-                                    </div>
+                                <div className="relative pb-4 pl-7">
+                                    <dt className="font-semibold text-slate-900">
+                                        <FontAwesomeIcon icon={faLocationDot} className="absolute left-0 top-1 h-4 w-4 text-primary-600" aria-hidden="true" />
+                                        Address
+                                    </dt>
+                                    <dd className="text-sm text-slate-600">101, Central Road, Dhanmondi, Dhaka, Bangladesh</dd>
                                 </div>
-                                <div className="flex gap-3 py-4">
-                                    <FontAwesomeIcon icon={faClock} className="mt-1 h-4 w-4 text-primary-600" aria-hidden="true" />
-                                    <div>
-                                        <dt className="font-semibold text-slate-900">Contact Hours</dt>
-                                        <dd className="text-sm text-slate-600">
-                                            Sunday - Thursday: 9:00 AM - 6:00 PM PST<br/>
-                                            Friday and Sunday: Closed
-                                        </dd>
-                                    </div>
+                                <div className="relative py-4 pl-7">
+                                    <dt className="font-semibold text-slate-900">
+                                        <FontAwesomeIcon icon={faClock} className="absolute left-0 top-5 h-4 w-4 text-primary-600" aria-hidden="true" />
+                                        Contact Hours
+                                    </dt>
+                                    <dd className="text-sm text-slate-600">
+                                        Sunday - Thursday: 9:00 AM - 6:00 PM PST<br/>
+                                        Friday and Sunday: Closed
+                                    </dd>
                                 </div>
-                                <div className="flex gap-3 pt-4">
-                                    <FontAwesomeIcon icon={faCircleInfo} className="mt-1 h-4 w-4 text-primary-600" aria-hidden="true" />
-                                    <div>
-                                        <dt className="font-semibold text-slate-900">Note</dt>
-                                        <dd className="text-sm text-slate-600">
-                                            Appointments are recommended for in-person visits.
-                                            Please contact us in advance to ensure availability.
-                                        </dd>
-                                    </div>
+                                <div className="relative pt-4 pl-7">
+                                    <dt className="font-semibold text-slate-900">
+                                        <FontAwesomeIcon icon={faCircleInfo} className="absolute left-0 top-5 h-4 w-4 text-primary-600" aria-hidden="true" />
+                                        Note
+                                    </dt>
+                                    <dd className="text-sm text-slate-600">
+                                        Appointments are recommended for in-person visits.
+                                        Please contact us in advance to ensure availability.
+                                    </dd>
                                 </div>
                             </dl>
                         </div>

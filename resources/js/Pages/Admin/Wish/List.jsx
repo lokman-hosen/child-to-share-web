@@ -43,7 +43,7 @@ export default function List({ module, wishes, categories, filters, ageRanges, o
         { key: 'status', header: 'Status', aside: true, render: (w) => <Badge tone={statusTone(w.status)} dot>{cap(w.status)}</Badge> },
         { key: 'fulfilment', header: 'Fulfillment', render: (w) => w.latest_fulfillment
             ? <Badge tone={statusTone(w.latest_fulfillment.status)}>{getFulfilmentStatus(w.latest_fulfillment.status)}</Badge>
-            : <span className="text-sm text-slate-400">Not started</span> },
+            : <span className="text-sm text-slate-500">Not started</span> },
         { key: 'actions', align: 'right', render: (w) => (
             <RowActions>
                 {w.latest_fulfillment?.status === 'requested' ? (

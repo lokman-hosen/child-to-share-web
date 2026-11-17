@@ -13,6 +13,7 @@ export default function LocationSearch({ id = 'location', label = 'Location', re
     const [query, setQuery] = useState('');
     const [suggestions, setSuggestions] = useState([]);
     const [searching, setSearching] = useState(false);
+    const [active, setActive] = useState(-1);
     const timer = useRef(null);
     const autocomplete = useRef(null);
     const places = useRef(null);
@@ -91,6 +92,17 @@ export default function LocationSearch({ id = 'location', label = 'Location', re
         });
     };
 
+    // Combobox keyboard support (WAI-ARIA APG): arrows move the active option, Enter picks, Escape closes
+    const onKeyDown = (e) => {
+        if (!suggestions.length) return;
+        if (e.key === 'ArrowDown') { e.preventDefault(); setActive((i) => (i + 1) % suggestions.length); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); setActive((i) => (i <= 0 ? suggestions.length - 1 : i - 1)); }
+        else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); pick(suggestions[active]); }
+        else if (e.key === 'Escape') { e.preventDefault(); setSuggestions([]); }
+    };
+    useEffect(() => setActive(-1), [suggestions]);
+    const optionId = (i) => `${id}-opt-${i}`;
+
     const clear = () => {
         setQuery('');
         setSuggestions([]);
@@ -113,9 +125,12 @@ export default function LocationSearch({ id = 'location', label = 'Location', re
                     aria-expanded={suggestions.length > 0}
                     aria-controls={`${id}-list`}
                     aria-autocomplete="list"
+                    aria-activedescendant={active >= 0 ? optionId(active) : undefined}
                     autoComplete="off"
                     value={query}
                     onChange={(e) => search(e.target.value)}
+                    onKeyDown={onKeyDown}
+                    onBlur={() => setSuggestions([])}
                     placeholder="Search address, area or landmark…"
                     className={cn('form-control !pl-9 !pr-16', error && 'form-control-error')}
                 />
@@ -129,19 +144,31 @@ export default function LocationSearch({ id = 'location', label = 'Location', re
                 </span>
                 {suggestions.length > 0 && (
                     <ul id={`${id}-list`} role="listbox" className="absolute z-50 mt-1 max-h-64 w-full overflow-y-auto rounded-lg border border-slate-200 bg-white py-1 shadow-lg">
-                        {suggestions.map((s) => (
-                            <li key={s.key} role="option" aria-selected="false">
-                                <button type="button" onClick={() => pick(s)} className="flex w-full items-start gap-3 px-3 py-2.5 text-left hover:bg-primary-50 focus:bg-primary-50 focus:outline-none">
-                                    <FontAwesomeIcon icon={faLocationDot} className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary-500" aria-hidden="true" />
-                                    <span className="min-w-0">
-                                        <span className="block text-sm font-medium text-slate-900">{s.main}</span>
-                                        {s.sub && <span className="block truncate text-xs text-slate-500">{s.sub}</span>}
-                                    </span>
-                                </button>
+                        {suggestions.map((s, i) => (
+                            // Options are not focusable: focus stays in the input (aria-activedescendant).
+                            // mousedown is prevented so the input's blur doesn't close the list before the click lands.
+                            <li
+                                key={s.key}
+                                id={optionId(i)}
+                                role="option"
+                                aria-selected={i === active}
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={() => pick(s)}
+                                onMouseEnter={() => setActive(i)}
+                                className={cn('flex w-full cursor-pointer items-start gap-3 px-3 py-2.5 text-left', i === active && 'bg-primary-50')}
+                            >
+                                <FontAwesomeIcon icon={faLocationDot} className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary-500" aria-hidden="true" />
+                                <span className="min-w-0">
+                                    <span className="block text-sm font-medium text-slate-900">{s.main}</span>
+                                    {s.sub && <span className="block truncate text-xs text-slate-500">{s.sub}</span>}
+                                </span>
                             </li>
                         ))}
                     </ul>
                 )}
+                <span className="sr-only" aria-live="polite">
+                    {suggestions.length ? `${suggestions.length} suggestion${suggestions.length === 1 ? '' : 's'}, use up and down arrows to choose` : ''}
+                </span>
             </div>
             {error ? (
                 <p className="mt-1.5 text-xs font-medium text-danger-700">{error}</p>

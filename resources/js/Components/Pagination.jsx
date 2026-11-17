@@ -56,8 +56,9 @@ const Pagination = ({ links }) => {
             <FontAwesomeIcon icon={icon} className="h-3 w-3" aria-hidden="true" />
         </Link>
     ) : (
-        <span className={`${base} ${disabled}`} aria-disabled="true" aria-label={label}>
+        <span className={`${base} ${disabled}`} aria-disabled="true">
             <FontAwesomeIcon icon={icon} className="h-3 w-3" aria-hidden="true" />
+            <span className="sr-only">{label}</span>
         </span>
     );
 

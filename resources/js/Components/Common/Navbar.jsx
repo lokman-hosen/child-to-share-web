@@ -84,7 +84,15 @@ export default function Navbar() {
     // Lock body scroll while the mobile panel is open
     useEffect(() => {
         document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
-        return () => { document.body.style.overflow = ''; };
+        if (!isMobileMenuOpen) return () => { document.body.style.overflow = ''; };
+        // Escape closes the panel and puts focus back on the toggle
+        const onKey = (e) => {
+            if (e.key !== 'Escape') return;
+            setIsMobileMenuOpen(false);
+            document.querySelector('button[aria-controls="mobile-menu"]')?.focus();
+        };
+        document.addEventListener('keydown', onKey);
+        return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
     }, [isMobileMenuOpen]);
 
     useEffect(() => {

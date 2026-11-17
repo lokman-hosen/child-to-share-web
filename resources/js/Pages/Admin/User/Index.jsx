@@ -20,7 +20,7 @@ const calculateAge = (dob) => {
 };
 
 const Check = ({ ok, label }) => (
-    <span className={`inline-flex items-center gap-1 text-xs ${ok ? 'text-success-700' : 'text-slate-400'}`}>
+    <span className={`inline-flex items-center gap-1 text-xs ${ok ? 'text-success-700' : 'text-slate-500'}`}>
         <FontAwesomeIcon icon={ok ? faCircleCheck : faCircleXmark} className="h-3 w-3" aria-hidden="true" />
         {label}
         <span className="sr-only">{ok ? 'verified' : 'not verified'}</span>
@@ -55,7 +55,7 @@ export default function Index({ module, filters, roles, users, organizations, ge
             const age = calculateAge(u.dob);
             return (
                 <div className="text-sm">
-                    <span className="block">{u.phone || <span className="text-slate-400">No phone</span>}</span>
+                    <span className="block">{u.phone || <span className="text-slate-500">No phone</span>}</span>
                     <span className="block text-xs capitalize text-slate-500">{[u.gender, age !== null && `${age} yrs`].filter(Boolean).join(' · ') || '—'}</span>
                 </div>
             );
@@ -66,7 +66,7 @@ export default function Index({ module, filters, roles, users, organizations, ge
                     <span className="block truncate">{u.guardian_name}{u.relationship && <span className="text-slate-500"> ({u.relationship})</span>}</span>
                 ) : null}
                 {u.organization?.name ? <span className="block truncate text-xs text-slate-500">{u.organization.name}</span> : null}
-                {!u.guardian_name && !u.organization?.name && <span className="text-slate-400">—</span>}
+                {!u.guardian_name && !u.organization?.name && <span className="text-slate-500">—</span>}
             </div>
         ) },
         { key: 'verified', header: 'Verified', wide: true, render: (u) => (

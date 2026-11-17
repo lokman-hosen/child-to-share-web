@@ -104,7 +104,7 @@ export default function LeftSidebar({ onClose, collapsed = false }) {
                 {groups.map((g, gi) => (
                     <div key={gi} className={gi > 0 ? 'mt-6' : ''}>
                         {g.title && !collapsed && (
-                            <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">{g.title}</p>
+                            <p className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-wider text-slate-500">{g.title}</p>
                         )}
                         {g.title && collapsed && <div className="mx-3 mb-2 h-px bg-slate-100" aria-hidden="true" />}
                         <ul className="space-y-1">

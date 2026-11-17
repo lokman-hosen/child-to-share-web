@@ -71,6 +71,9 @@ export default {
                     light: '#3A5A6F',
                     dark: '#1C3A4A',
                 },
+                // Stock slate-500 (#64748B) is 4.49:1 on canvas, just under AA. This is a hair darker
+                // (4.89 on canvas, 4.73 on slate-100) and keeps every other slate step stock.
+                slate: { 500: '#5F6E84' },
                 // Page background (warm off-white) and surfaces
                 canvas: '#FAF8F5',
                 success: { 50: '#ECFDF5', 100: '#D1FAE5', 600: '#059669', 700: '#047857' },

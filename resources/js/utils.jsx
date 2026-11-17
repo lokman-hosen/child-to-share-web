@@ -43,6 +43,9 @@ export const checkWisher = (role) =>{
 export const checkDonorWisher = (role) =>{
     return role === 'donor-wisher';
 }
+// Mirror WishPolicy::create / DonationPolicy::create so we never link a role to a page that 403s
+export const canCreateWish = (role) => checkAdmin(role) || checkWisher(role) || checkDonorWisher(role);
+export const canCreateGift = (role) => checkAdmin(role) || checkDonor(role) || checkDonorWisher(role);
 export const wordLimit = ($text, $wordLimit) =>{
     return $text.split(" ").slice(0, $wordLimit).join(" ") +
         ($text.split(" ").length > $wordLimit ? ".." : "")
@@ -74,7 +77,7 @@ export const getFulfilmentStatus = (status) => {
 export const getStatus = (status) => {
     if (status == 1) return <Badge tone="success" dot>Active</Badge>;
     if (status == 0 && status !== null && status !== '') return <Badge tone="neutral" dot>Inactive</Badge>;
-    return <span className="text-slate-400">n/a</span>;
+    return <span className="text-slate-500">n/a</span>;
 };
 
 export const searchReplace = (text, searchChars = '_', replaceWith = ' ') => {

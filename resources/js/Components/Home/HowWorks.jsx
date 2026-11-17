@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faLocationDot, faHandshake, faStar, faGift } from '@fortawesome/free-solid-svg-icons';
 import SectionHeader from '@/Components/UI/SectionHeader';
 import Button from '@/Components/UI/Button';
+import { usePage } from '@inertiajs/react';
+import { canCreateGift, canCreateWish } from '@/utils.jsx';
 
 const steps = [
     {
@@ -26,6 +28,10 @@ const steps = [
 ];
 
 const HowWorks = () => {
+    const user = usePage().props.auth?.user;
+    // Guests see both (they're sent to login); signed-in users only see what their role can do
+    const showWish = !user || canCreateWish(user.role);
+    const showGift = !user || canCreateGift(user.role);
     return (
         <section id="how-it-works" className="section scroll-mt-20 bg-white" aria-labelledby="how-heading">
             <div className="container-page">
@@ -56,8 +62,8 @@ const HowWorks = () => {
                 <div className="mt-14 flex flex-col items-center gap-4 rounded-card bg-gradient-to-r from-primary-50 to-secondary-50 px-6 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
                     <p className="text-base font-semibold text-slate-900">Start making wishes come true today</p>
                     <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                        <Button href={route('wishes.create')} icon={faStar}>Create a Wish</Button>
-                        <Button href={route('donations.create')} variant="accent" icon={faGift}>Make a Gift</Button>
+                        {showWish && <Button href={route('wishes.create')} icon={faStar}>Create a Wish</Button>}
+                        {showGift && <Button href={route('donations.create')} variant="accent" icon={faGift}>Make a Gift</Button>}
                     </div>
                 </div>
             </div>

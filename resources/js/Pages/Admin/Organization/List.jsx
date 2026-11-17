@@ -35,13 +35,13 @@ export default function List({ module, filters, organizations }) {
         ) },
         { key: 'contact', header: 'Contact', render: (o) => (
             <div className="min-w-0 text-sm">
-                {o.contact_email ? <a href={`mailto:${o.contact_email}`} className="block max-w-[220px] truncate text-slate-700 hover:text-primary-700">{o.contact_email}</a> : <span className="text-slate-400">No email</span>}
+                {o.contact_email ? <a href={`mailto:${o.contact_email}`} className="block max-w-[220px] truncate text-slate-700 hover:text-primary-700">{o.contact_email}</a> : <span className="text-slate-500">No email</span>}
                 <span className="block text-slate-500">{o.contact_phone || 'No phone'}</span>
             </div>
         ) },
         { key: 'address', header: 'Location', wide: true, render: (o) => o.address
             ? <span className="line-clamp-2 max-w-[240px] text-sm">{o.address}</span>
-            : <span className="text-slate-400">Not provided</span> },
+            : <span className="text-slate-500">Not provided</span> },
         { key: 'status', header: 'Status', aside: true, render: (o) => getStatus(o.is_active) },
         { key: 'actions', align: 'right', render: (o) => (
             <RowActions>

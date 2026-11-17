@@ -55,11 +55,11 @@ const PersonCard = ({ title, person, online }) => (
         </div>
         <dl className="mt-3 divide-y divide-slate-100 border-t border-slate-100">
             <InfoRow icon={faEnvelope} label="Email">
-                {person.email ? <a href={`mailto:${person.email}`} className="min-w-0 break-all hover:text-primary-700">{person.email}</a> : <span className="text-slate-400">No email</span>}
+                {person.email ? <a href={`mailto:${person.email}`} className="min-w-0 break-all hover:text-primary-700">{person.email}</a> : <span className="text-slate-500">No email</span>}
                 {person.email && <Verified ok={!!person.email_verified_at} label="Email" />}
             </InfoRow>
             <InfoRow icon={faPhone} label="Phone">
-                {person.phone ? <a href={`tel:${person.phone}`} className="hover:text-primary-700">{person.phone}</a> : <span className="text-slate-400">No phone</span>}
+                {person.phone ? <a href={`tel:${person.phone}`} className="hover:text-primary-700">{person.phone}</a> : <span className="text-slate-500">No phone</span>}
                 {person.phone && <Verified ok={!!person.phone_verified_at} label="Phone" />}
             </InfoRow>
             <InfoRow icon={faLocationDot} label="Address">{person.address ?? 'n/a'}</InfoRow>
@@ -350,7 +350,7 @@ const ConfirmationReceiptPage = ({fulfillment, wisher, donor, wish, donation, us
                                                 {!processing && <FontAwesomeIcon icon={faPaperPlane} className="h-4 w-4" aria-hidden="true" />}
                                             </Button>
                                         </div>
-                                        <p className="mt-1.5 text-[11px] text-slate-400">Enter to send · Shift+Enter for a new line</p>
+                                        <p className="mt-1.5 text-[11px] text-slate-500">Enter to send · Shift+Enter for a new line</p>
                                     </form>
                                 ) : (
                                     <p className="border-t border-slate-100 bg-white p-4 text-center text-sm text-slate-500">Chat is closed because the fulfillment is complete.</p>

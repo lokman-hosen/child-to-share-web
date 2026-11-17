@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Navbar from "@/Components/Common/Admin/Navbar.jsx";
 import LeftSidebar from "@/Components/Common/LeftSidebar.jsx";
 import Toast from "@/Components/Toast.jsx";
@@ -27,12 +27,30 @@ export default function AuthenticatedLayout({ header, children }) {
 
     // Close the mobile drawer on navigation and on Escape
     useEffect(() => setSidebarOpen(false), [url]);
+    // While open: move focus into the drawer, keep Tab inside it, and hand focus back to the opener on close
+    const drawerRef = useRef(null);
     useEffect(() => {
         if (!sidebarOpen) return;
-        const onKey = (e) => e.key === 'Escape' && setSidebarOpen(false);
+        const opener = document.activeElement;
+        const focusables = () => [...(drawerRef.current?.querySelectorAll('a[href], button:not([disabled])') || [])];
+        requestAnimationFrame(() => focusables()[0]?.focus());
+        const onKey = (e) => {
+            if (e.key === 'Escape') { setSidebarOpen(false); return; }
+            if (e.key !== 'Tab') return;
+            const els = focusables();
+            if (!els.length) return;
+            const first = els[0], last = els[els.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+            else if (!drawerRef.current.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+        };
         document.addEventListener('keydown', onKey);
         document.body.style.overflow = 'hidden';
-        return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+        return () => {
+            document.removeEventListener('keydown', onKey);
+            document.body.style.overflow = '';
+            if (opener && document.contains(opener)) opener.focus();
+        };
     }, [sidebarOpen]);
 
     // Show bottom nav only for donor and wisher roles, not admin (unchanged)
@@ -66,6 +84,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     onClick={() => setSidebarOpen(false)}
                 />
                 <aside
+                    ref={drawerRef}
                     role="dialog"
                     aria-modal="true"
                     aria-label="Menu"
