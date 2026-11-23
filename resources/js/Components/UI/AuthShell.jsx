@@ -3,12 +3,12 @@ import cn from './cn';
 /**
  * Split-screen auth container used inside GuestLayout.
  * Left: brand photo + mission line (lg+ only). Right: the form card.
- * `wide` gives the form more room (Register).
+ * `wide` uses the full page container width, matching marketing pages (Register).
  */
 export default function AuthShell({ title, subtitle, children, footer, wide = false }) {
     return (
         <div className="relative bg-gradient-to-b from-primary-50 via-canvas to-canvas">
-            <div className={cn('container-page py-10 sm:py-14', wide ? 'max-w-6xl' : 'max-w-5xl')}>
+            <div className={cn('container-page py-10 sm:py-14', !wide && 'max-w-5xl')}>
                 <div className={cn(
                     'grid overflow-hidden rounded-[1.5rem] border border-slate-200/80 bg-white shadow-pop',
                     wide ? 'lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]' : 'lg:grid-cols-2',
